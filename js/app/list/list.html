@@ -1,0 +1,15 @@
+<div class="wrapper-md">
+  <div class="posts" id="posts" ng-repeat="comic in vm.comics">
+    <a ui-sref="comic({id: comic.stub})" 
+        class="post type-post status-publish format-standard has-post-thumbnail hentry" 
+        style="background-image: url({{comic.fullsized_thumb_url}});">
+      <div class="post-overlay">
+        <div class="archive-post-header">
+            <p class="archive-post-date" ng-hide="comic.author === comic.artist">{{comic.author}} & {{comic.artist}}</p>
+            <p class="archive-post-date" ng-show="comic.author === comic.artist">{{comic.author}}</p>
+            <h2 class="archive-post-title">{{comic.name}}</h2>
+        </div>
+      </div>
+    </a>
+  </div>
+</div> 

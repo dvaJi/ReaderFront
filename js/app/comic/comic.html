@@ -1,0 +1,54 @@
+<div class="wrapper-md">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="panel wrapper" style="height: 100%;">
+        <img src="{{vm.comic.fullsized_thumb_url}}" style="max-height: 430px;"/>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="panel wrapper">
+        <h4 class="font-thin m-t-none m-b text-muted">Description</h4>
+        {{vm.comic.description}}
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="panel wrapper">
+        <h4 class="font-thin m-t-none m-b text-muted">Info</h4>
+        Author: {{vm.comic.author}} <br>
+        Artist: {{vm.comic.artist}}
+      </div>
+    </div>
+    <div class="col-sm-7">
+      <div class="panel panel-default">
+        <div class="panel-heading">Chapters</div>
+        <table class="table table-striped m-b-none">
+          <thead>
+            <tr>
+              <!--<th style="width:90px;" class="text-center">ch</th>-->
+              <th></th>                    
+              <th style="width:70px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="chapter in vm.chapters | orderBy:'-chapter'">                    
+              <!--<td><a href="{{chapter.chapter.href}}">Chapter{{chapter.chapter.chapter}}</a></td>-->
+              <td>
+                <a href="{{chapter.chapter.href}}">
+                  <span ng-show="!chapter.chapter.name">Chapter</span> 
+                  <span ng-show="chapter.chapter.name">#</span> 
+                  {{chapter.chapter.chapter}}
+                  <span ng-show="chapter.chapter.name">:</span> {{chapter.chapter.name}}
+                </a>
+              </td>
+              <td>
+                <a href="{{chapter.chapter.download_href}}"><i class="fa fa-cloud-download"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+  </div>
+</div>
