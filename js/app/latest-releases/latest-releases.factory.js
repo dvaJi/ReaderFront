@@ -11,7 +11,7 @@
 			getReleasesBySerie: getReleasesBySerie
     	};
     	function getReleases() {
-        return $http.get('reader/api/reader/chaptersp/per_page/6/orderby/desc_created')
+        return $http.get('reader/api/reader/chaptersp/per_page/9/orderby/desc_created')
             .then(getReleasesComplete)
             .catch(getReleasesFailed);
 
