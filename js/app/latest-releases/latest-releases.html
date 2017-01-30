@@ -1,7 +1,12 @@
 <div class="wrapper-md">
-  <div class="posts" id="posts" ng-repeat="release in vm.releases">
+  <center id="md-spinner" ng-show="vm.loading">
+  <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+    <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+  </svg>
+  </center>
+  <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
     <a href="{{release.chapter.href}}" 
-        class="post type-post status-publish format-standard has-post-thumbnail hentry" 
+        class="post type-post status-publish format-standard has-post-thumbnail hentry animated fadeIn" 
         ng-style="release.comic.adult != '1' && {'background-image': 'url({{release.pages[2].url}})' }
         || release.comic.adult == '1' && {'background-image': 'linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.78)),url({{release.pages[2].url}})' }"
         ng-class="{adultcover: release.comic.adult == '1'}">

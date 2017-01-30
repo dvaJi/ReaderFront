@@ -3,17 +3,21 @@
 /* Controllers */
 
 angular.module('app')
-  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$log', '$state',
-    function(              $scope,   $translate,   $localStorage,   $window,  $log,     $state) {
+  .controller('AppCtrl', ['$scope', '$translate', '$localStorage', '$window', '$log', '$state', 'metaService','$rootScope','RSVERSION',
+    function(              $scope,   $translate,   $localStorage,   $window,  $log,     $state, metaService,  $rootScope, RSVERSION) {
       // add 'ie' classes to html
       var isIE = !!navigator.userAgent.match(/MSIE/i);
       if(isIE){ angular.element($window.document.body).addClass('ie');}
       if(isSmartDevice( $window ) ){ angular.element($window.document.body).addClass('smart')};
 
+      $rootScope.metaservice = metaService;
+      $scope.loading = true;
+      $scope.firstLoading = true;
+
       // config
       $scope.app = {
         name: 'Ravens Scans',
-        version: '0.1',
+        version: RSVERSION.v,
         title: 'Ravens Scans',
         subtitle: '',
         // for chart colors
@@ -41,6 +45,7 @@ angular.module('app')
       }
 
       function changeState($state, $param) {
+        
           switch ($state) {
               case "index":
                   $scope.app.subtitle = "";
@@ -55,6 +60,23 @@ angular.module('app')
                   break;
           }
       };
+
+      if ($scope.firstLoading === true) {
+        $rootScope.$on('$stateChangeStart',
+            function (event, toState, toParams, fromState, fromParams) {
+                if($scope.firstLoading === true) {
+                    $scope.loading = true;
+                }
+            }
+        );
+
+        $rootScope.$on('$stateChangeSuccess',
+            function (event, toState, toParams, fromState, fromParams) {
+                $scope.loading = false;
+                $scope.firstLoading = false;                               
+            }
+        );
+    }
 
       $scope.$watch(function () {
         var param;

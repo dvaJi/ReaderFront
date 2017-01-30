@@ -5,48 +5,49 @@
  */
 angular.module('app')
   .run(
-    [          '$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
+    [          '$rootScope', '$state', '$stateParams', 'RSVERSION',
+      function ($rootScope,   $state,   $stateParams,   RSVERSION) {
           $rootScope.$state = $state;
-          $rootScope.$stateParams = $stateParams;        
+          $rootScope.$stateParams = $stateParams;   
+          $rootScope.appVersion = RSVERSION.v;     
       }
     ]
   )
   .config(
-    [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', 
-      function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG) {
+    [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG', 'MODULE_CONFIG', 'RSVERSION',
+      function ($stateProvider,   $urlRouterProvider, JQ_CONFIG, MODULE_CONFIG, RSVERSION) {
             $urlRouterProvider
               .otherwise('/index');
           
           $stateProvider
               .state('index', {
                   url: '/index',
-                  templateUrl: 'js/app/latest-releases/latest-releases.html',
+                  templateUrl: 'js/app/latest-releases/latest-releases.html?v=' + RSVERSION.v,
                   controller: 'LatestReleasesController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/latest-releases/latest-releases.factory.js', 
-                      'js/app/latest-releases/latest-releases.controller.js'
+                      'js/app/latest-releases/latest-releases.factory.js?v=' + RSVERSION.v, 
+                      'js/app/latest-releases/latest-releases.controller.js?v=' + RSVERSION.v
                       ])
               })
               .state('list', {
                   url: '/list',
-                  templateUrl: 'js/app/list/list.html',
+                  templateUrl: 'js/app/list/list.html?v=' + RSVERSION.v,
                   controller: 'ListSeriesController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/list/list.factory.js', 
-                      'js/app/list/list.controller.js'
+                      'js/app/list/list.factory.js?v=' + RSVERSION.v, 
+                      'js/app/list/list.controller.js?v=' + RSVERSION.v
                       ])
               })
               .state('comic', {
                   url: '/comic/:id',
-                  templateUrl: 'js/app/comic/comic.html',
+                  templateUrl: 'js/app/comic/comic.html?v=' + RSVERSION.v,
                   controller: 'ComicController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/comic/comic.factory.js', 
-                      'js/app/comic/comic.controller.js'
+                      'js/app/comic/comic.factory.js?v=' + RSVERSION.v, 
+                      'js/app/comic/comic.controller.js?v=' + RSVERSION.v
                       ])
               });
 

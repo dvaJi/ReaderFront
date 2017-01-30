@@ -2,9 +2,13 @@
 <html lang="en" data-ng-app="app" ng-controller="AppCtrl">
 <head>
   <meta charset="utf-8" />
-  <title>{{app.title}} {{app.subtitle | ucfirst}}</title>
-  <meta name="description" content="Angularjs, Html5, Music, Landing, 4 in 1 ui kits package" />
-  <meta name="keywords" content="AngularJS, angular, bootstrap, admin, dashboard, panel, app, charts, components,flat, responsive, layout, kit, ui, route, web, app, widgets" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ metaservice.metaDescription() }}" />
+  <meta name="keywords" content="{{ metaservice.metaKeywords() }}" />
+  <meta name="author" content="{{ metaservice.metaAuthors() }}">
+  <meta name="fragment" content="!">
+  <title ng-bind="metaservice.metaTitle()">Ravens Scans English</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <link rel="stylesheet" href="libs/assets/animate.css/animate.css" type="text/css" />
   <link rel="stylesheet" href="libs/assets/font-awesome/css/font-awesome.min.css" type="text/css" />
@@ -14,13 +18,19 @@
   <!-- build:css css/app.min.css -->
   <link rel="stylesheet" href="css/font.css" type="text/css" />
   <link rel="stylesheet" href="css/app.css" type="text/css" />
+  <link rel="stylesheet" href="css/md-load-spinner.css" type="text/css" />
   <link rel="stylesheet" href="css/custom.css" type="text/css" />
   <!-- endbuild -->
 </head>
 <body>
-  <div class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}">
+  <center id="md-spinner" ng-show="loading">
+  <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+    <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+  </svg>
+  </center>
+  <div ng-hide="loading" class="app" id="app" ng-class="{'app-header-fixed':app.settings.headerFixed, 'app-aside-fixed':app.settings.asideFixed, 'app-aside-folded':app.settings.asideFolded, 'app-aside-dock':app.settings.asideDock, 'container':app.settings.container}">
       <!-- navbar -->
-  <div data-ng-include=" 'tpl/blocks/header.html' " class="app-header navbar">
+  <div data-ng-include=" 'tpl/blocks/header.html?=v' + appVersion " class="app-header navbar">
   </div>
   <!-- / navbar -->
 
@@ -32,12 +42,12 @@
   </div>
   <!-- /content -->
   <br>
-  <!-- footer -->
-  <div class="app-footer wrapper bg-black">
+  <!-- footer
+  <div class="app-footer wrapper bg-black" ng-hide="loading">
     <span class="pull-right">{{app.version}} <a href ui-scroll-to="app" class="m-l-sm text-muted"><i class="fa fa-long-arrow-up"></i></a></span>
     {{app.name}} &copy; 2016 Copyright.
   </div>
-  <!-- / footer -->
+  / footer -->
 
   </div>
 
@@ -76,8 +86,9 @@
   <script src="js/app.js"></script>
   <script src="js/config.js"></script>
   <script src="js/config.lazyload.js"></script>
-  <script src="js/config.router.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/config.router.js?v=0.2"></script>
+  <script src="js/main.js?v=0.2"></script>
+  <script src="js/services/meta.service.js"></script>
   <script src="js/services/ui-load.js"></script>
   <script src="js/filters/fromNow.js"></script>
   <script src="js/filters/angular-filter.min.js"></script>
@@ -91,7 +102,6 @@
   <script src="js/directives/ui-scroll.js"></script>
   <script src="js/directives/ui-shift.js"></script>
   <script src="js/directives/ui-toggleclass.js"></script>
-  <script src="js/controllers/bootstrap.js"></script>
 <!-- endbuild -->
   <!-- Lazy loading -->
 </body>

@@ -2,6 +2,9 @@
 
 var app =  
 angular.module('app')
+    .constant("RSVERSION", {
+        "v": "0.2"
+    })
   .config(
     [        '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
     function ($controllerProvider,   $compileProvider,   $filterProvider,   $provide) {
