@@ -3,7 +3,7 @@
 	angular
     .module('app')
     .controller('RecruitmentController', RecruitmentController);
-    ComicControRecruitmentControllerller.$inject = ['Api', '$scope', '$log', '$stateParams','metaService', '$rootScope'];
+    RecruitmentController.$inject = ['Api', '$scope', '$log', '$stateParams','metaService', '$rootScope'];
 	
 	function RecruitmentController(Api, $scope, $log, $stateParams, metaService, $rootScope){
 		var vm = this;

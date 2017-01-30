@@ -11,7 +11,7 @@ angular.module('app')
       if(isSmartDevice( $window ) ){ angular.element($window.document.body).addClass('smart')};
 
       $rootScope.metaservice = metaService;
-      $scope.loading = true;
+      $rootScope.loading = true;
       $scope.firstLoading = true;
 
       // config
@@ -49,6 +49,7 @@ angular.module('app')
             function (event, toState, toParams, fromState, fromParams) {
                 if($scope.firstLoading === true) {
                     $scope.loading = true;
+                    localStorage.clear();
                 }
             }
         );
