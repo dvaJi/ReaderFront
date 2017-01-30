@@ -17,5 +17,6 @@ angular.module('app', [
     'ui.jq',
     'oc.lazyLoad',
     'pascalprecht.translate',
-    'angular.filter'
+    'angular.filter',
+    'restangular'
 ]);
