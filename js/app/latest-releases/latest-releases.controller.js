@@ -17,7 +17,7 @@
 
 		function getReleases() {
 			vm.loading = true;
-	        return Api.latestChapters({per_page:9,orderby:"desc_created"})
+	        return Api.latestChapters({per_page:8,orderby:"desc_created"})
 	            .then(function(data) {
 					vm.releases = data[0].chapters;
 					vm.loading = false;

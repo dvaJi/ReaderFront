@@ -1,7 +1,4 @@
 <!-- settings -->
-  <button class="btn btn-default no-shadow pos-abt" ui-toggle-class="active" target=".settings">
-    <i class="fa fa-spin fa-gear"></i>
-  </button>
   <div class="panel-heading">
     Settings
   </div>
@@ -12,27 +9,6 @@
         <i></i>
       </label>
       Fixed header 
-    </div>
-    <div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="app.settings.asideFixed">
-        <i></i>
-      </label>
-      Fixed aside 
-    </div>
-    <div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="app.settings.asideFolded">
-        <i></i>
-      </label>
-      Folded aside 
-    </div>
-    <div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="app.settings.asideDock">
-        <i></i>
-      </label>
-      Dock aside
     </div>
     <div>
       <label class="i-switch bg-info pull-right">
@@ -271,5 +247,6 @@
         </label>
       </div>
     </div>
+    <span class="pull-right">v.{{appVersion}}</span>
   </div>
 <!-- /settings -->
