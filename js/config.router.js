@@ -26,7 +26,6 @@ angular.module('app')
                   controller: 'LatestReleasesController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/latest-releases/latest-releases.factory.js?v=' + RSVERSION.v, 
                       'js/app/latest-releases/latest-releases.controller.js?v=' + RSVERSION.v
                       ])
               })
@@ -36,7 +35,6 @@ angular.module('app')
                   controller: 'ListSeriesController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/list/list.factory.js?v=' + RSVERSION.v, 
                       'js/app/list/list.controller.js?v=' + RSVERSION.v
                       ])
               })
@@ -46,7 +44,6 @@ angular.module('app')
                   controller: 'ComicController',
                   controllerAs: 'vm',
                   resolve: load([
-                      'js/app/comic/comic.factory.js?v=' + RSVERSION.v, 
                       'js/app/comic/comic.controller.js?v=' + RSVERSION.v
                       ])
               });

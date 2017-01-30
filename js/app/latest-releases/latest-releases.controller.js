@@ -3,9 +3,9 @@
 	angular
     .module('app')
     .controller('LatestReleasesController', LatestReleasesController);
-    LatestReleasesController.$inject = ['releasesFac', '$scope', '$log', 'metaService', '$rootScope'];
+    LatestReleasesController.$inject = ['Api', '$scope', '$log', 'metaService', '$rootScope'];
 	
-	function LatestReleasesController(releasesFac, $scope, $log, metaService, $rootScope){
+	function LatestReleasesController(Api, $scope, $log, metaService, $rootScope){
 		var vm = this;
 		vm.releases = [];
 		vm.getReleases = getReleases;
@@ -17,9 +17,9 @@
 
 		function getReleases() {
 			vm.loading = true;
-	        return releasesFac.getReleases()
+	        return Api.latestChapters({per_page:9,orderby:"desc_created"})
 	            .then(function(data) {
-	                vm.releases = data.chapters;
+					vm.releases = data[0].chapters;
 					vm.loading = false;
 	                //$log.error(vm.releases);
 	                return vm.releases;
