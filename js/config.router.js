@@ -46,6 +46,15 @@ angular.module('app')
                   resolve: load([
                       'js/app/comic/comic.controller.js?v=' + RSVERSION.v
                       ])
+              })
+              .state('recruitment', {
+                  url: '/apply',
+                  templateUrl: 'js/app/custom/recruitment.html?v=' + RSVERSION.v,
+                  controller: 'RecruitmentController',
+                  controllerAs: 'vm',
+                  resolve: load([
+                      'js/app/custom/recruitment.controller.js?v=' + RSVERSION.v
+                      ])
               });
 
           function load(srcs, callback) {

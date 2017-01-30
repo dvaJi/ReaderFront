@@ -43,14 +43,21 @@
     <div class="app-content-body fade-in-up" ui-view></div>
   </div>
   <!-- /content -->
-  <br>
+  
   <!-- footer
   <div class="app-footer wrapper bg-black" ng-hide="loading">
     <span class="pull-right">{{app.version}} <a href ui-scroll-to="app" class="m-l-sm text-muted"><i class="fa fa-long-arrow-up"></i></a></span>
     {{app.name}} &copy; 2016 Copyright.
   </div>
   / footer -->
-
+    <div ng-hide="loading" class="row">
+      <div class="pull-right">
+        <button class="btn btn-default no-shadow" ui-toggle-class="active" target=".settings">
+          <i class="fa fa-spin fa-gear"></i>
+        </button>
+        <div data-ng-include=" 'tpl/blocks/settings.html?=v' + appVersion " class="settings panel panel-default"></div>
+      </div>
+    </div>
   </div>
 
 <!-- build:js js/app.angular.js -->

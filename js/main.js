@@ -39,27 +39,10 @@ angular.module('app')
           headerFixed: true,
           asideFixed: false,
           asideFolded: true,
-          asideDock: false,
+          asideDock: true,
           container: true
         }
       }
-
-      function changeState($state, $param) {
-        
-          switch ($state) {
-              case "index":
-                  $scope.app.subtitle = "";
-                  break;
-              case "list":
-                  $scope.app.subtitle = "- All series";
-                  break;
-              case "comic":
-                  $scope.app.subtitle = "- " + $param;
-                  break;
-              default:
-                  break;
-          }
-      };
 
       if ($scope.firstLoading === true) {
         $rootScope.$on('$stateChangeStart',
@@ -77,17 +60,6 @@ angular.module('app')
             }
         );
     }
-
-      $scope.$watch(function () {
-        var param;
-        if($state.params.id != null && $state.params.id != undefined){
-          param = $state.params.id.replace(/_/g, ' ');
-        } else {
-          param = "";
-        }
-        return changeState($state.$current.name, param);
-      }, true);
-    
 
       // save settingsRs to local storage
       if ( angular.isDefined($localStorage.settingsRs) ) {

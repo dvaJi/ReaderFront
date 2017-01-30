@@ -117,17 +117,11 @@ input[type="button"],
 	 transition: all 0.3s ease-in-out;
 }
 
-
-/* -------------------------------------------------------------------------------- */
-/*	5. Blog
-/* -------------------------------------------------------------------------------- */
-
-
 .posts { margin-top: -3.95%; }
 
 .posts .post {
 	display: block;
-	width: 30.7%;
+	width: 24.4%;
 	margin-top: 3.95%;
     margin-right: 5px;
 	padding-bottom: 30.7%;
@@ -135,6 +129,15 @@ input[type="button"],
 	position: relative;
 	background-size: cover;
 	background-position: center;
+}
+
+@media (max-width: 767px) {
+	.posts .post {
+		width: 100%;
+		margin-top: 3.95%;
+		margin-right: 0px;
+		padding-bottom: 50.7%;
+	}
 }
 
 .posts .post + .post { margin-left: 3.95%; }
