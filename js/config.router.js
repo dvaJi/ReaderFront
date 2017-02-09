@@ -5,11 +5,15 @@
  */
 angular.module('app')
   .run(
-    [          '$rootScope', '$state', '$stateParams', 'RSVERSION',
-      function ($rootScope,   $state,   $stateParams,   RSVERSION) {
+    [          '$rootScope', '$state', '$stateParams', '$window', '$location', 'RSVERSION',
+      function ($rootScope,   $state,   $stateParams,   $window,   $location,   RSVERSION) {
           $rootScope.$state = $state;
           $rootScope.$stateParams = $stateParams;   
-          $rootScope.appVersion = RSVERSION.v;     
+          $rootScope.appVersion = RSVERSION.v;    
+          $window.ga('create', 'UA-91092454-1', 'auto'); 
+          $rootScope.$on('$stateChangeSuccess', function (event) {
+            $window.ga('send', 'pageview', $location.path());
+        });
       }
     ]
   )
