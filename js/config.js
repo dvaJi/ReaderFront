@@ -5,7 +5,7 @@ angular.module('app')
     .constant("RSVERSION", {
         "v": "0.3",
         "READER_PATH": "reader/",
-        "API_URL": "api/reader/"
+        "API_URL": "api/v1/"
     })
   .config(
     [        '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',

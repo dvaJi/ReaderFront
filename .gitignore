@@ -1,1 +1,6 @@
-reader/
+# But not these files...
+reader/*
+# But not these files...
+!reader/application/controllers/api/v1.php
+node_modules/
+
