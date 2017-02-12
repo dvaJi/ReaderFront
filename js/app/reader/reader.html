@@ -1,0 +1,66 @@
+<div class="wrapper-md">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-label">{{vm.comic.name}}</span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="comic in vm.comics">
+                                    <a ui-sref="comic({id: comic.stub})">{{comic.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-label">Chapter {{vm.chapterSelected}}</span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="chapter in vm.chapters">
+                                    <a ui-sref="reader({stub: vm.comic.stub,chapter: chapter})">Chapter {{chapter}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-label">Page {{vm.pageSelected}}</span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="page in vm.pagesList">
+                                    <a ng-click="vm.changePageSelected(page)">Page {{page}}</a>
+                                </li>
+                                <li>
+                                    <a ng-click="vm.changePageSelected('END')">Comments</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pull-right">
+                            <h1 class="m-n font-thin h3">
+                                {{vm.chapter.name}} 
+                                <a popover="Download chapter!" popover-trigger="mouseenter" popover-placement="bottom" ng-show="vm.chapter.download_href" href="{{vm.chapter.download_href}}">
+                                    <span class="badge"><i class="fa fa-cloud-download"></i></span>
+                                </a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center" ng-hide="vm.pageSelected === 'END'" ng-repeat="page in vm.pages track by $index">
+                            <div ng-show="(vm.pageSelected-1) === $index" ng-click="vm.changePageClick($index)" afkl-lazy-image="{{page.url}}" class="afkl-lazy-wrapper"></div>
+                        </div>
+                        <div ng-show="vm.pageSelected === 'END'" ng-include="'js/app/reader/reader.end.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="vm.pageSelected === 'END'" class="panel wrapper" ng-include="'js/app/reader/reader.comments.html'"></div>
+        </div>
+    </div>
+</div>

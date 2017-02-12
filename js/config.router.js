@@ -51,6 +51,15 @@ angular.module('app')
                       'js/app/comic/comic.controller.js?v=' + RSVERSION.v
                       ])
               })
+              .state('reader', {
+                  url: '/read/:id/chapter/:chapter.:subchapter',
+                  templateUrl: 'js/app/reader/reader.html',
+                  controller: 'ReaderController',
+                  controllerAs: 'vm',
+                  resolve: load([
+                      'js/app/reader/reader.controller.js'
+                  ])
+              })
               .state('recruitment', {
                   url: '/apply',
                   templateUrl: 'js/app/custom/recruitment.html?v=' + RSVERSION.v,
