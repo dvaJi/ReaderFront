@@ -4,8 +4,14 @@ var app =
 angular.module('app')
     .constant("RSVERSION", {
         "v": "0.3",
+        "SITE_NAME": "Ravens Scans English",
         "READER_PATH": "reader/",
-        "API_URL": "api/v1/"
+        "API_URL": "api/v1/",
+        "DISQUS_CONFIG": {
+          "disqus_shortname": 'ravens-scans-english',
+          "disqus_identifier": "RS_home",
+          "disqus_url": 'http://localhost/readerfront/#!/index'
+        }
     })
   .config(
     [        '$controllerProvider', '$compileProvider', '$filterProvider', '$provide',
@@ -55,7 +61,7 @@ angular.module('app')
           }
           return extractedData;
       }
-
+      $locationProvider.hashPrefix('!')
       //$locationProvider.hashPrefix('!');
       //$locationProvider.html5Mode(true);
     }

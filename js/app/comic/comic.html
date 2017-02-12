@@ -2,23 +2,23 @@
   <div class="row">
     <div class="col-md-4">
       <div class="panel wrapper" style="height: 100%;">
-        <img src="{{vm.comic.fullsized_thumb_url}}" style="max-height: 430px;"/>
+        <div afkl-lazy-image="{{vm.comic.fullsized_thumb_url}}" class="afkl-lazy-wrapper"></div>
       </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <div class="panel wrapper">
         <h4 class="font-thin m-t-none m-b text-muted">Description</h4>
         {{vm.comic.description}}
       </div>
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <div class="panel wrapper">
         <h4 class="font-thin m-t-none m-b text-muted">Info</h4>
         Author: {{vm.comic.author}} <br>
         Artist: {{vm.comic.artist}}
       </div>
     </div>
-    <div class="col-sm-7">
+    <div class="col-sm-8">
       <div class="panel panel-default">
         <div class="panel-heading">Chapters</div>
         <table class="table table-striped m-b-none">
@@ -33,7 +33,7 @@
             <tr ng-repeat="chapter in vm.chapters | orderBy:'-chapter'">                    
               <!--<td><a href="{{chapter.chapter.href}}">Chapter{{chapter.chapter.chapter}}</a></td>-->
               <td>
-                <a href="{{chapter.chapter.href}}">
+                <a ui-sref="reader({id: vm.comic.stub, chapter: chapter.chapter.chapter, subchapter: chapter.chapter.subchapter })">
                   <span ng-show="!chapter.chapter.name">Chapter</span> 
                   <span ng-show="chapter.chapter.name">#</span> 
                   {{chapter.chapter.chapter}}

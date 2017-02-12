@@ -18,5 +18,7 @@ angular.module('app', [
     'oc.lazyLoad',
     'pascalprecht.translate',
     'angular.filter',
-    'restangular'
+    'restangular',
+    'afkl.lazyImage',
+    'cfp.hotkeys'
 ]);

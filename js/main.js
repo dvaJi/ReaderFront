@@ -13,6 +13,8 @@ angular.module('app')
       $rootScope.metaservice = metaService;
       $rootScope.loading = true;
       $scope.firstLoading = true;
+      $scope.disqusConfig = RSVERSION.DISQUS_CONFIG;
+      $scope.siteName = RSVERSION.SITE_NAME;
 
       // config
       $scope.app = {

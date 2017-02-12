@@ -15,6 +15,12 @@
             },
             getComic: function(query){
                 return Restangular.one("comic").get(query);
+            },
+            getChapter: function(query){
+                return Restangular.one("chapter").get(query);
+            },
+            getComicFull: function(query){
+                return Restangular.all("comics_full").getList(query);
             }
         }
     }
