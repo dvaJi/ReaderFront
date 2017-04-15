@@ -1,0 +1,16 @@
+<div class="app app-header-fixed app-aside-folded app-aside-dock container" id="app"  ng-controller="ShellController as vm">
+  <header>
+    <ht-top-nav navline="vm.navline"></ht-top-nav>
+  </header>
+  <section id="content" class="content">
+    <!--<div ng-include="'app/layout/sidebar.html'"></div>-->
+
+    <div ui-view class="shuffle-animation"></div>
+
+    <!--<center id="md-spinner" ng-show="showSplash" ngplus-overlay ngplus-overlay-delay-in="50" ngplus-overlay-delay-out="700" ngplus-overlay-animation="dissolve-animation">
+      <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
+    </center>-->
+  </section>
+</div>

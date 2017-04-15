@@ -1,0 +1,12 @@
+{
+  "name": "readerfront",
+  "navtitle": "Reader Front",
+  "meta":{
+    "title": "RavensScans",
+    "description": "Ayyyy",
+    "keywords": "scan,manga,english,free"
+  },
+  "api": {
+    "foolslideUrl": "reader/api/v1/" 
+  }
+}

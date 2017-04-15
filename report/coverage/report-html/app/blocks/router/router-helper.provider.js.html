@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/blocks/router/router-helper.provider.js</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../../prettify.css">
+    <link rel="stylesheet" href="../../../base.css">
+    <style type='text/css'>
+        div.coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">app/blocks/router/router-helper.provider.js</span></h1>
+    <h2>
+        Statements: <span class="metric">80.85% <small>(38 / 47)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">40% <small>(10 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">91.67% <small>(11 / 12)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">80.43% <small>(37 / 46)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../../../index.html">All files</a> &#187; <a href="index.html">app/blocks/router/</a> &#187; router-helper.provider.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-yes">20</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* Help configure the state-base ui.router */
+(function() {
+  'use strict';
+&nbsp;
+  angular
+    .module('blocks.router')
+    .provider('routerHelper', routerHelperProvider);
+&nbsp;
+  routerHelperProvider.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
+  /* @ngInject */
+  function routerHelperProvider($locationProvider, $stateProvider, $urlRouterProvider) {
+    /* jshint validthis:true */
+    var config = {
+      docTitle: undefined,
+      resolveAlways: {}
+    };
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!(window.history &amp;&amp; window.history.pushState)) {
+<span class="cstat-no" title="statement not covered" >      window.location.hash = '/';</span>
+    }
+&nbsp;
+    $locationProvider.html5Mode(true);
+&nbsp;
+    this.configure = function(cfg) {
+      angular.extend(config, cfg);
+    };
+&nbsp;
+    this.$get = RouterHelper;
+    RouterHelper.$inject = ['$location', '$rootScope', '$state', 'logger'];
+    /* @ngInject */
+    function RouterHelper($location, $rootScope, $state, logger) {
+      var handlingStateChangeError = false;
+      var hasOtherwise = false;
+      var stateCounts = {
+        errors: 0,
+        changes: 0
+      };
+&nbsp;
+      var service = {
+        configureStates: configureStates,
+        getStates: getStates,
+        stateCounts: stateCounts
+      };
+&nbsp;
+      init();
+&nbsp;
+      return service;
+&nbsp;
+      ///////////////
+&nbsp;
+      function configureStates(states, otherwisePath) {
+        states.forEach(function(state) {
+          state.config.resolve =
+            angular.extend(state.config.resolve || {}, config.resolveAlways);
+          $stateProvider.state(state.state, state.config);
+        });
+        if (otherwisePath &amp;&amp; !hasOtherwise) {
+          hasOtherwise = true;
+          $urlRouterProvider.otherwise(otherwisePath);
+        }
+      }
+&nbsp;
+      function handleRoutingErrors() {
+        // Route cancellation:
+        // On routing error, go to the dashboard.
+        // Provide an exit clause if it tries to do it twice.
+        $rootScope.$on('$stateChangeError',
+<span class="fstat-no" title="function not covered" >          function(event, toState, toParams, fromState, fromParams, error) {</span>
+<span class="cstat-no" title="statement not covered" >            if (handlingStateChangeError) {</span>
+<span class="cstat-no" title="statement not covered" >              return;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            stateCounts.errors++;</span>
+<span class="cstat-no" title="statement not covered" >            handlingStateChangeError = true;</span>
+<span class="cstat-no" title="statement not covered" >            var destination = (toState &amp;&amp;</span>
+              (toState.title || toState.name || toState.loadedTemplateUrl)) ||
+              'unknown target';
+<span class="cstat-no" title="statement not covered" >            var msg = 'Error routing to ' + destination + '. ' +</span>
+              (error.data || '') + '. &lt;br/&gt;' + (error.statusText || '') +
+              ': ' + (error.status || '');
+<span class="cstat-no" title="statement not covered" >            logger.warning(msg, [toState]);</span>
+<span class="cstat-no" title="statement not covered" >            $location.path('/');</span>
+          }
+        );
+      }
+&nbsp;
+      function init() {
+        handleRoutingErrors();
+        updateDocTitle();
+      }
+&nbsp;
+      function getStates() { return $state.get(); }
+&nbsp;
+      function updateDocTitle() {
+        $rootScope.$on('$stateChangeSuccess',
+          function(event, toState, toParams, fromState, fromParams) {
+            stateCounts.changes++;
+            handlingStateChangeError = false;
+            var title = config.docTitle + ' ' + (toState.title || <span class="branch-1 cbranch-no" title="branch not covered" >'')</span>;
+            $rootScope.title = title; // data bind to &lt;title&gt;
+          }
+        );
+      }
+    }
+  }
+})();
+&nbsp;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 14:06:26 GMT-0300 (CLST)</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

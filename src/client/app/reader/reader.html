@@ -1,0 +1,82 @@
+<div class="wrapper-md">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel wrapper">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-label">{{vm.comic.name}}</span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="comic in vm.comics">
+                                    <a ui-sref="comic({id: comic.stub})">{{comic.name}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="dropdown-label">
+                                <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{vm.chapterSelected}}</span>
+                                <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chapter.name}}</span>
+                            </span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="chapter in vm.chapters track by $index">
+                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter})">
+                                        <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{chapter}}</span>
+                                        <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chaptersOneshots[$index]}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="btn-group dropdown">
+                            <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="dropdown-label">
+                                    <span ng-if="vm.pageSelected !== 'END'">Page {{vm.pageSelected}}</span>
+                                    <span ng-if="vm.pageSelected === 'END'">Comments</span>
+                                </span>                    
+                            <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                                <li ng-repeat="page in vm.pagesList">
+                                    <a ng-click="vm.changePageSelected(page)">Page {{page}}</a>
+                                </li>
+                                <li>
+                                    <a ng-click="vm.changePageSelected('END')">Comments</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pull-right">
+                            <h1 class="m-n font-thin h3">
+                                {{vm.chapter.name}} 
+                                <a popover="Download chapter!" popover-trigger="mouseenter" popover-placement="bottom" ng-show="vm.chapter.download_href" href="{{vm.chapter.download_href}}">
+                                    <span class="badge"><i class="fa fa-cloud-download"></i></span>
+                                </a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center" ng-hide="vm.pageSelected === 'END'" ng-repeat="page in vm.pages track by $index">
+                            <img ng-show="(vm.pageSelected-1) === $index" ng-click="vm.changePageClick($index)" src="{{page.url}}" style="max-width:100%"/>
+                        </div>
+                        <div ng-show="vm.pageSelected === 'END'">
+                            <div class="col-md-12">
+                                <h2 class="m-t-none">Thanks for Reading!</h2>
+                                You've reached the end of the current {{vm.comic.name}} chapters we have available for you here at Ravens Scans. Don't worry though, as long as the series hasn't ended we will have the next chapter up as soon as we can.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div ng-show="vm.pageSelected === 'END'" class="panel wrapper">
+                <dir-disqus config="disqusConfig"></dir-disqus>
+            </div>-->
+        </div>
+    </div>
+</div>
