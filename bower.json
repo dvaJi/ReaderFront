@@ -1,8 +1,10 @@
 {
   "name": "readerfront",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "readerFront its a FrontEnd app using FoolSlide as BackEnd",
-  "authors": ["dvaJi"],
+  "authors": [
+    "dvaJi"
+  ],
   "license": "MIT",
   "ignore": [
     "**/.*",
