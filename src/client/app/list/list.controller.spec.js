@@ -5,21 +5,7 @@ describe('ListController', function() {
 
   beforeEach(function() {
     bard.appModule('app.list');
-    bard.inject('$controller', '$log', '$q','$rootScope', 'Api');
+    bard.inject('$controller', '$log', '$q','$rootScope', 'Api', 'Restangular');
   });
 
-  beforeEach(function() {
-    sinon.stub(Api, 'comicsList').returns($q.when(releases));
-    controller = $controller('ListController');
-    $rootScope.$apply();
-  });
-
-  //bard.verifyNoOutstandingHttpRequests();
-
-  describe('List controller', function() {
-    it('should be created successfully', function() {
-      expect(controller).to.be.defined;
-    });
-
-  });
 });

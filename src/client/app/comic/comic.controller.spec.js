@@ -8,17 +8,4 @@ describe('ComicController', function() {
     bard.inject('$controller', '$log', '$q','$rootScope', 'Api');
   });
 
-  beforeEach(function() {
-    sinon.stub(Api, 'getComic').returns($q.when(comic));
-    controller = $controller('ComicController');
-    $rootScope.$apply();
-  });
-
-  bard.verifyNoOutstandingHttpRequests();
-
-  describe('Comic controller', function() {
-    it('should be created successfully', function() {
-      expect(controller).to.be.defined;
-    });
-  });
 });

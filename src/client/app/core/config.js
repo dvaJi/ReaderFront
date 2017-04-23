@@ -13,8 +13,8 @@
   }
 
   var config = {
-    appErrorPrefix: '[readerFront Error] ',
-    appTitle: 'readerFront'
+    appErrorPrefix: '[App Error] ',
+    appTitle: '<%= name %>'
   };
 
   core.value('config', config);

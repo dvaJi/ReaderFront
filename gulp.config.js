@@ -25,6 +25,8 @@ module.exports = function() {
       './*.js'
     ],
     build: './build/',
+    manifest: client + './manifest.json',
+    customConfig: './rf.config.json',
     client: client,
     css: temp + 'styles.css',
     fonts: [

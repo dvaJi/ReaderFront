@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header high">
+<div class="header low">
     <h1>Code coverage report for <span class="entity">app/releases/releases.controller.js</span></h1>
     <h2>
-        Statements: <span class="metric">94.12% <small>(16 / 17)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">35.29% <small>(6 / 17)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">100% <small>(0 / 0)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">85.71% <small>(6 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">94.12% <small>(16 / 17)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">14.29% <small>(1 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">35.29% <small>(6 / 17)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/releases/</a> &#187; releases.controller.js</div>
@@ -72,25 +72,25 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -108,26 +108,26 @@
 &nbsp;
   ReleasesController.$inject = ['$q','Api', 'logger'];
   /* @ngInject */
-  function ReleasesController($q, Api, logger) {
-    var vm = this;
-    vm.releases = [];
-    vm.getReleases = getReleases;
-    vm.loadChapters = loadChapters;
+<span class="fstat-no" title="function not covered" >  function ReleasesController($q, Api, logger) {</span>
+<span class="cstat-no" title="statement not covered" >    var vm = this;</span>
+<span class="cstat-no" title="statement not covered" >    vm.releases = [];</span>
+<span class="cstat-no" title="statement not covered" >    vm.getReleases = getReleases;</span>
+<span class="cstat-no" title="statement not covered" >    vm.loadChapters = loadChapters;</span>
 &nbsp;
-    loadChapters();
+<span class="cstat-no" title="statement not covered" >    loadChapters();</span>
 &nbsp;
-    function loadChapters() {
-      var promises = [getReleases()];
-      return $q.all(promises).then(function() {
+<span class="fstat-no" title="function not covered" >    function loadChapters() {</span>
+<span class="cstat-no" title="statement not covered" >      var promises = [getReleases()];</span>
+<span class="cstat-no" title="statement not covered" >      return $q.all(promises).then(<span class="fstat-no" title="function not covered" >function() {</span></span>
         //logger.info('Activated Releases View');
       });
     }
 &nbsp;
-    function getReleases() {
-      return Api.latestChapters({per_page:8,orderby:'desc_created'})
-        .then(function(data) {
-          vm.releases = data[0].chapters;
-          return vm.releases;
+<span class="fstat-no" title="function not covered" >    function getReleases() {</span>
+<span class="cstat-no" title="statement not covered" >      return Api.latestChapters({per_page:8,orderby:'desc_created'})</span>
+        .then(<span class="fstat-no" title="function not covered" >function(data) {</span>
+<span class="cstat-no" title="statement not covered" >          vm.releases = data[0].chapters;</span>
+<span class="cstat-no" title="statement not covered" >          return vm.releases;</span>
         })
         .catch(<span class="fstat-no" title="function not covered" >function(data) {</span>
 <span class="cstat-no" title="statement not covered" >          logger.error(data);</span>
@@ -141,7 +141,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 14:06:26 GMT-0300 (CLST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 23 2017 14:50:24 GMT-0300 (CLST)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

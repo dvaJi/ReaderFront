@@ -8,17 +8,4 @@ describe('AdminController', function() {
     bard.inject('$controller', '$log', '$q','$rootScope', 'Api');
   });
 
-  beforeEach(function() {
-    sinon.stub(Api, 'latestChapters').returns($q.when(releases));
-    controller = $controller('ReleasesController');
-    $rootScope.$apply();
-  });
-
-  bard.verifyNoOutstandingHttpRequests();
-
-  describe('Releases controller', function() {
-    it('should be created successfully', function() {
-      expect(controller).to.be.defined;
-    });
-  });
 });

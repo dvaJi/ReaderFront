@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header high">
+<div class="header low">
     <h1>Code coverage report for <span class="entity">app/core/config.js</span></h1>
     <h2>
-        Statements: <span class="metric">80.77% <small>(21 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">25% <small>(1 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">75% <small>(3 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">80.77% <small>(21 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">42.31% <small>(11 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">25% <small>(1 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">42.31% <small>(11 / 26)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/core/</a> &#187; config.js</div>
@@ -87,8 +87,8 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -103,17 +103,17 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
-<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,14 +138,14 @@
 &nbsp;
   toastrConfig.$inject = ['toastr'];
   /* @ngInject */
-  function toastrConfig(toastr) {
-    toastr.options.timeOut = 4000;
-    toastr.options.positionClass = 'toast-bottom-right';
+<span class="fstat-no" title="function not covered" >  function toastrConfig(toastr) {</span>
+<span class="cstat-no" title="statement not covered" >    toastr.options.timeOut = 4000;</span>
+<span class="cstat-no" title="statement not covered" >    toastr.options.positionClass = 'toast-bottom-right';</span>
   }
 &nbsp;
   var config = {
-    appErrorPrefix: '[readerFront Error] ',
-    appTitle: 'readerFront'
+    appErrorPrefix: '[App Error] ',
+    appTitle: '&lt;%= name %&gt;'
   };
 &nbsp;
   core.value('config', config);
@@ -154,18 +154,18 @@
 &nbsp;
   configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', 'RestangularProvider', '$locationProvider'];
   /* @ngInject */
-  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if ($logProvider.debugEnabled) {
-      $logProvider.debugEnabled(true);
+<span class="fstat-no" title="function not covered" >  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider) {</span>
+<span class="cstat-no" title="statement not covered" >    if ($logProvider.debugEnabled) {</span>
+<span class="cstat-no" title="statement not covered" >      $logProvider.debugEnabled(true);</span>
     }
-    exceptionHandlerProvider.configure(config.appErrorPrefix);
-    routerHelperProvider.configure({ docTitle: config.appTitle + ': ' });
+<span class="cstat-no" title="statement not covered" >    exceptionHandlerProvider.configure(config.appErrorPrefix);</span>
+<span class="cstat-no" title="statement not covered" >    routerHelperProvider.configure({ docTitle: config.appTitle + ': ' });</span>
 &nbsp;
     //Configure REST
-    RestangularProvider.setBaseUrl('http://localhost/FoOlSlide/api/v1/');
-    RestangularProvider.addResponseInterceptor(parseApiResponse);
-    RestangularProvider.setDefaultHttpFields({ AcceptuseXDomain: true, withCredentials: true });
-    RestangularProvider.setDefaultHeaders({
+<span class="cstat-no" title="statement not covered" >    RestangularProvider.setBaseUrl('http://localhost/FoOlSlide/api/v1/');</span>
+<span class="cstat-no" title="statement not covered" >    RestangularProvider.addResponseInterceptor(parseApiResponse);</span>
+<span class="cstat-no" title="statement not covered" >    RestangularProvider.setDefaultHttpFields({ AcceptuseXDomain: true, withCredentials: true });</span>
+<span class="cstat-no" title="statement not covered" >    RestangularProvider.setDefaultHeaders({</span>
       'X-Requested-With': 'XMLHttpRequest'
     });
 &nbsp;
@@ -186,7 +186,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 14:06:26 GMT-0300 (CLST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 23 2017 14:50:24 GMT-0300 (CLST)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

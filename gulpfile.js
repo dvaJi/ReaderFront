@@ -193,7 +193,7 @@ gulp.task('build-specs', ['templatecache'], function(done) {
  * This is separate so we can run tests on
  * optimize before handling image or fonts
  */
-gulp.task('build', ['optimize', 'images', 'fonts'], function() {
+gulp.task('build', ['optimize', 'images', 'fonts', 'manifest'], function() {
   log('Building everything');
 
   var msg = {
@@ -207,6 +207,30 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
 });
 
 /**
+ * Copy manifest
+ * @return {Stream}
+ */
+gulp.task('manifest', ['custom-config'], function() {
+  log('Copying manifest file');
+
+  return gulp
+    .src(config.manifest)
+    .pipe(gulp.dest(config.build));
+});
+
+/**
+ * Copy custom config
+ * @return {Stream}
+ */
+gulp.task('custom-config', [], function() {
+  log('Copying custom config file');
+
+  return gulp
+    .src(config.customConfig)
+    .pipe(gulp.dest(config.build));
+});
+
+/**
  * Optimize all files, move to a build folder,
  * and inject them into the new index.html
  * @return {Stream}
@@ -214,9 +238,11 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
 gulp.task('optimize', ['inject', 'test'], function() {
   log('Optimizing the js, css, and html');
 
+  var customConfig = require(config.customConfig);
   var assets = $.useref.assets({ searchPath: './' });
   // Filters are named for the gulp-useref path
   var cssFilter = $.filter('**/*.css');
+  var configFile = $.filter('src/client/app/core/config.js');
   var jsAppFilter = $.filter('**/' + config.optimized.app);
   var jslibFilter = $.filter('**/' + config.optimized.lib);
 
@@ -224,6 +250,11 @@ gulp.task('optimize', ['inject', 'test'], function() {
 
   return gulp
     .src(config.index)
+    .pipe(template({
+      title: customConfig.meta.title,
+      description: customConfig.meta.description,
+      keywords: customConfig.meta.keywords
+    }))
     .pipe($.plumber())
     .pipe(inject(templateCache, 'templates'))
     .pipe(assets) // Gather all assets from the html with useref
@@ -249,23 +280,6 @@ gulp.task('optimize', ['inject', 'test'], function() {
     // Replace the file names in the html with rev numbers
     .pipe($.revReplace())
     .pipe(gulp.dest(config.build));
-});
-
-/**
- * Inject our custom config
- * @return {Stream}
- */
-gulp.task('templateHtml', ['optimize'], function() {
-  log('Injecting custom config to index html');
-  var customConfig = require('./rf.config.json');
-  return gulp
-    .src(config.index)
-    .pipe(template({
-      title: customConfig.meta.title,
-      description: customConfig.meta.description,
-      keywords: customConfig.meta.keywords
-    }))
-		.pipe(gulp.dest(config.build));
 });
 
 /**
@@ -396,7 +410,7 @@ gulp.task('bump', function() {
 /**
  * Optimize the code and re-load browserSync
  */
-gulp.task('browserSyncReload', ['optimize', 'templateHtml'], browserSync.reload);
+gulp.task('browserSyncReload', ['optimize'], browserSync.reload);
 
 ////////////////
 

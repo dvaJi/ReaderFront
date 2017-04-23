@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header high">
+<div class="header low">
     <h1>Code coverage report for <span class="entity">app/layout/ht-sidebar.directive.js</span></h1>
     <h2>
-        Statements: <span class="metric">100% <small>(19 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">75% <small>(3 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">100% <small>(19 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">26.32% <small>(5 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">25% <small>(1 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">26.32% <small>(5 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/layout/</a> &#187; ht-sidebar.directive.js</div>
@@ -84,30 +84,30 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">7</span>
-<span class="cline-any cline-yes">7</span>
-<span class="cline-any cline-yes">7</span>
-<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,37 +121,37 @@
     .directive('htSidebar', htSidebar);
 &nbsp;
   /* @ngInject */
-  function htSidebar() {
+<span class="fstat-no" title="function not covered" >  function htSidebar() {</span>
     // Opens and closes the sidebar menu.
     // Usage:
     //  &lt;div ht-sidebar"&gt;
     //  &lt;div ht-sidebar whenDoneAnimating="vm.sidebarReady()"&gt;
     // Creates:
     //  &lt;div ht-sidebar class="sidebar"&gt;
-    var directive = {
+<span class="cstat-no" title="statement not covered" >    var directive = {</span>
       link: link,
       restrict: 'EA',
       scope: {
         whenDoneAnimating: '&amp;?'
       }
     };
-    return directive;
+<span class="cstat-no" title="statement not covered" >    return directive;</span>
 &nbsp;
-    function link(scope, element, attrs) {
-      var $sidebarInner = element.find('.sidebar-inner');
-      var $dropdownElement = element.find('.sidebar-dropdown a');
-      element.addClass('sidebar');
-      $dropdownElement.click(dropdown);
+<span class="fstat-no" title="function not covered" >    function link(scope, element, attrs) {</span>
+<span class="cstat-no" title="statement not covered" >      var $sidebarInner = element.find('.sidebar-inner');</span>
+<span class="cstat-no" title="statement not covered" >      var $dropdownElement = element.find('.sidebar-dropdown a');</span>
+<span class="cstat-no" title="statement not covered" >      element.addClass('sidebar');</span>
+<span class="cstat-no" title="statement not covered" >      $dropdownElement.click(dropdown);</span>
 &nbsp;
-      function dropdown(e) {
-        var dropClass = 'dropy';
-        e.preventDefault();
-        if (!$dropdownElement.hasClass(dropClass)) {
-          $sidebarInner.slideDown(350, scope.whenDoneAnimating);
-          $dropdownElement.addClass(dropClass);
-        } else <span class="missing-if-branch" title="else path not taken" >E</span>if ($dropdownElement.hasClass(dropClass)) {
-          $dropdownElement.removeClass(dropClass);
-          $sidebarInner.slideUp(350, scope.whenDoneAnimating);
+<span class="fstat-no" title="function not covered" >      function dropdown(e) {</span>
+<span class="cstat-no" title="statement not covered" >        var dropClass = 'dropy';</span>
+<span class="cstat-no" title="statement not covered" >        e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >        if (!$dropdownElement.hasClass(dropClass)) {</span>
+<span class="cstat-no" title="statement not covered" >          $sidebarInner.slideDown(350, scope.whenDoneAnimating);</span>
+<span class="cstat-no" title="statement not covered" >          $dropdownElement.addClass(dropClass);</span>
+        } else <span class="cstat-no" title="statement not covered" >if ($dropdownElement.hasClass(dropClass)) {</span>
+<span class="cstat-no" title="statement not covered" >          $dropdownElement.removeClass(dropClass);</span>
+<span class="cstat-no" title="statement not covered" >          $sidebarInner.slideUp(350, scope.whenDoneAnimating);</span>
         }
       }
     }
@@ -162,7 +162,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 14:06:26 GMT-0300 (CLST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 23 2017 14:50:24 GMT-0300 (CLST)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

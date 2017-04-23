@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header high">
+<div class="header low">
     <h1>Code coverage report for <span class="entity">app/layout/sidebar.controller.js</span></h1>
     <h2>
-        Statements: <span class="metric">89.47% <small>(17 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">88.89% <small>(8 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">85.71% <small>(6 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">88.89% <small>(16 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">36.84% <small>(7 / 19)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">14.29% <small>(1 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">38.89% <small>(7 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/layout/</a> &#187; sidebar.controller.js</div>
@@ -70,28 +70,28 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3</span>
-<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -104,29 +104,29 @@
 &nbsp;
   SidebarController.$inject = ['$state', 'routerHelper'];
   /* @ngInject */
-  function SidebarController($state, routerHelper) {
-    var vm = this;
-    var states = routerHelper.getStates();
-    vm.isCurrent = isCurrent;
+<span class="fstat-no" title="function not covered" >  function SidebarController($state, routerHelper) {</span>
+<span class="cstat-no" title="statement not covered" >    var vm = this;</span>
+<span class="cstat-no" title="statement not covered" >    var states = routerHelper.getStates();</span>
+<span class="cstat-no" title="statement not covered" >    vm.isCurrent = isCurrent;</span>
 &nbsp;
-    activate();
+<span class="cstat-no" title="statement not covered" >    activate();</span>
 &nbsp;
-    function activate() { getNavRoutes(); }
+<span class="fstat-no" title="function not covered" >    function activate() {</span> <span class="cstat-no" title="statement not covered" >getNavRoutes(); </span>}
 &nbsp;
-    function getNavRoutes() {
-      vm.navRoutes = states.filter(function(r) {
-        return r.settings &amp;&amp; r.settings.nav;
+<span class="fstat-no" title="function not covered" >    function getNavRoutes() {</span>
+<span class="cstat-no" title="statement not covered" >      vm.navRoutes = states.filter(<span class="fstat-no" title="function not covered" >function(r) {</span></span>
+<span class="cstat-no" title="statement not covered" >        return r.settings &amp;&amp; r.settings.nav;</span>
       }).sort(<span class="fstat-no" title="function not covered" >function(r1, r2) {</span>
 <span class="cstat-no" title="statement not covered" >        return r1.settings.nav - r2.settings.nav;</span>
       });
     }
 &nbsp;
-    function isCurrent(route) {
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!route.title || !$state.current || !$state.current.title) {
+<span class="fstat-no" title="function not covered" >    function isCurrent(route) {</span>
+<span class="cstat-no" title="statement not covered" >      if (!route.title || !$state.current || !$state.current.title) {</span>
 <span class="cstat-no" title="statement not covered" >        return '';</span>
       }
-      var menuName = route.title;
-      return $state.current.title.substr(0, menuName.length) === menuName ? 'current' : '';
+<span class="cstat-no" title="statement not covered" >      var menuName = route.title;</span>
+<span class="cstat-no" title="statement not covered" >      return $state.current.title.substr(0, menuName.length) === menuName ? 'current' : '';</span>
     }
   }
 })();
@@ -135,7 +135,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Apr 15 2017 14:06:26 GMT-0300 (CLST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Apr 23 2017 14:50:24 GMT-0300 (CLST)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
