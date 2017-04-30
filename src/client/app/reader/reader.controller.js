@@ -5,9 +5,9 @@
     .module('app.reader')
     .controller('ReaderController', ReaderController);
 
-  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll'];
+  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window'];
   /* @ngInject */
-  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll) {
+  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window) {
     var vm = this;
     vm.comic = [];
     vm.comics = [];
@@ -17,6 +17,7 @@
     vm.pages = [];
     vm.pagesList = [];
     vm.pageSelected = 1;
+    vm.lastestChapter = 0;
     vm.params = $stateParams;
     vm.chapterSelected = vm.params.chapter;
     vm.lastPage = 0;
@@ -25,10 +26,14 @@
     vm.changePageSelected = changePageSelected;
     vm.changePageClick = changePageClick;
     vm.setDisqusConfig = setDisqusConfig;
+    vm.downloadChapter = downloadChapter;
+    vm.changeWebtoonMode = changeWebtoonMode;
+    vm.showImages = showImages;
 
     loadReader();
 
     function loadReader() {
+      vm.webtoonMode = false;
       var promises = [getComic(), getComics()];
       return $q.all(promises).then(function() {
         logger.info('Use W-A-S-D or the arrow keys to navigate');
@@ -73,6 +78,9 @@
             } else {
               vm.chapters.push(value.chapter.chapter);
             }
+            if (parseInt(value.chapter.chapter) >= parseInt(vm.lastestChapter)) {
+              vm.lastestChapter = parseInt(value.chapter.chapter);
+            }
           });
           vm.pages = vm.chapter.pages;
           angular.forEach(vm.pages, function (value, key) {
@@ -100,18 +108,46 @@
       } else {
         vm.pageSelected = page;
       }
-      $location.hash('top');
+      $location.hash('topRead');
       $anchorScroll();
     }
 
     function changePageClick(page) {
       if (vm.pageSelected === vm.lastPage) {
-        vm.pageSelected = 'END';
+        if (vm.lastestChapter !== parseInt(vm.chapter.chapter)) {
+          $state.go('read', {id: vm.comic.stub, chapter: parseInt(vm.chapter.chapter) + 1, subchapter: 0});
+        } else {
+          vm.pageSelected = 'END';
+        }
       } else {
         vm.pageSelected = page + 2;
       }
       $location.hash('topRead');
       $anchorScroll();
+    }
+
+    function downloadChapter() {
+      $window.open(vm.chapter.download_href, '_blank');
+    }
+
+    function changeWebtoonMode() {
+      if (vm.webtoonMode === true) {
+        vm.webtoonMode = false;
+      } else {
+        vm.webtoonMode = true;
+        $location.hash('page_' + (vm.pageSelected - 1));
+        $anchorScroll();
+      }
+    }
+
+    function showImages(value) {
+      if (vm.webtoonMode) {
+        return true;
+      } else if ((vm.pageSelected - 1) === value) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // Hotkeys config

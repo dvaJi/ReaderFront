@@ -52,10 +52,13 @@
                         <div class="pull-right">
                             <h1 class="m-n font-thin h3">
                                 {{vm.chapter.name}} 
-                                <a popover="Download chapter!" popover-trigger="mouseenter" popover-placement="bottom" ng-show="vm.chapter.download_href" href="{{vm.chapter.download_href}}">
+                                <a popover="Download chapter!" popover-trigger="mouseenter" popover-placement="bottom" ng-show="vm.chapter.download_href" ng-click="vm.downloadChapter()">
                                     <span class="badge"><i class="fa fa-cloud-download"></i></span>
                                 </a>
                             </h1>
+                        </div>
+                        <div class="pull-right" style="padding-right:15px;">
+                            <button class="btn btn-default btn-xs" ng-class="{active: vm.webtoonMode === true}" ng-click="vm.changeWebtoonMode()">Webtoon Mode</button>
                         </div>
                     </div>
                 </div>
@@ -66,7 +69,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="text-center" ng-hide="vm.pageSelected === 'END'" ng-repeat="page in vm.pages track by $index">
-            <img ng-show="(vm.pageSelected-1) === $index" ng-click="vm.changePageClick($index)" src="{{page.url}}" style="max-width:100%"
+            <img id="page_{{$index}}" ng-show="vm.showImages($index)" ng-click="vm.changePageClick($index)" src="{{page.url}}" style="max-width:100%;margin-bottom:5px;"
             />
         </div>
         <div ng-show="vm.pageSelected === 'END'">

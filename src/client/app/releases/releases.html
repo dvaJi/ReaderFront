@@ -5,20 +5,6 @@
   </svg>
   </center>
   <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
-    <a 
-      ui-sref="read({id: release.comic.stub, chapter: release.chapter.chapter, subchapter: release.chapter.subchapter })"
-        class="post type-post status-publish format-standard has-post-thumbnail hentry animated fadeIn" 
-        ng-style="release.comic.adult != '1' && {'background-image': 'url({{release.pages[2].url}})' }
-        || release.comic.adult == '1' && {'background-image': 'linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.78)),url({{release.pages[2].url}})' }"
-        ng-class="{adultcover: release.comic.adult == '1'}">
-      <div class="post-overlay">
-        <p class="post-comic-name" style="margin-top: 6px; margin-left: 8px;">{{release.comic.name}}</p>
-        <div class="archive-post-header">
-            <p class="archive-post-date" ng-hide="release.comic.name == 'Oneshots'">{{release.chapter.name}}</p>
-            <h2 class="archive-post-title" ng-show="release.comic.name == 'Oneshots'">{{release.chapter.name}}</h2>
-            <h2 class="archive-post-title" ng-hide="release.comic.name == 'Oneshots'">Chapter {{release.chapter.chapter}}</h2>
-        </div>
-      </div>
-    </a>
+    <card release="release"></card>
   </div>
 </div> 

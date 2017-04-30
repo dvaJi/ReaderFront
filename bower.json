@@ -19,6 +19,7 @@
     "bardjs": "~0.1.8"
   },
   "dependencies": {
+    "animate.css": "~3.5.2",
     "jquery": "~2.2.2",
     "angular": "~1.5",
     "lodash": "~4.15.0",

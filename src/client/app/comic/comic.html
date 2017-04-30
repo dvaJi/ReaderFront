@@ -34,10 +34,8 @@
               <!--<td><a href="{{chapter.chapter.href}}">Chapter{{chapter.chapter.chapter}}</a></td>-->
               <td>
                 <a ui-sref="read({id: vm.comic.stub, chapter: chapter.chapter.chapter, subchapter: chapter.chapter.subchapter })">
-                  <span ng-show="!chapter.chapter.name">Chapter</span> 
-                  <span ng-show="chapter.chapter.name">#</span> 
-                  {{chapter.chapter.chapter}}
-                  <span ng-show="chapter.chapter.name">:</span> {{chapter.chapter.name}}
+                  <span ng-show="!chapter.chapter.name">#{{chapter.chapter.chapter}}: Chapter {{chapter.chapter.chapter}}</span> 
+                  <span ng-show="chapter.chapter.name">#{{chapter.chapter.chapter}}: {{chapter.chapter.name}}</span> 
                 </a>
               </td>
               <td>
