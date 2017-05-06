@@ -8,7 +8,8 @@
     'app.list',
     'app.layout',
     'app.releases',
-    'app.reader'
+    'app.reader',
+    'app.blog'
   ]);
 
 })();
