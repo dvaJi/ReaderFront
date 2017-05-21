@@ -21,9 +21,10 @@
 
   core.config(configure);
 
-  configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', 'RestangularProvider', '$locationProvider'];
+  configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', 'RestangularProvider', '$locationProvider', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider) {
+  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider, CUSTOM_CONFIG) {
+    config.appTitle = CUSTOM_CONFIG.NAVTITLE;
     if ($logProvider.debugEnabled) {
       $logProvider.debugEnabled(true);
     }
@@ -31,7 +32,7 @@
     routerHelperProvider.configure({ docTitle: config.appTitle + ': ' });
 
     //Configure REST
-    RestangularProvider.setBaseUrl('http://localhost/FoOlSlide/api/v1/');
+    RestangularProvider.setBaseUrl(CUSTOM_CONFIG.API.foolslideUrl);
     RestangularProvider.addResponseInterceptor(parseApiResponse);
     RestangularProvider.setDefaultHttpFields({ AcceptuseXDomain: true, withCredentials: true });
     RestangularProvider.setDefaultHeaders({

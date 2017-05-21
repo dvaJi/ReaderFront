@@ -8,6 +8,7 @@ var path = require('path');
 var template = require('gulp-template');
 var _ = require('lodash');
 var $ = require('gulp-load-plugins')({ lazy: true });
+var gulpNgConfig = require('gulp-ng-config');
 var protractor = $.protractor.protractor;
 
 var colors = $.util.colors;
@@ -45,6 +46,24 @@ gulp.task('vet', function() {
     .pipe($.jshint.reporter('jshint-stylish', { verbose: true }))
     .pipe($.jshint.reporter('fail'))
     .pipe($.jscs());
+});
+
+/**
+ * Create a custom config file
+ * JSHINT and JSCS rules doesn't work here
+ * It has API url and nav title
+ * TODO: replace json double quote marks for single ones
+ */
+gulp.task('configit', function() {
+  log('Set custom configs...');
+  return gulp.src(config.customConfig)
+  .pipe(gulpNgConfig('app.core', {
+    createModule: false,
+    pretty: true,
+    templateFilePath: path.normalize(path.join(__dirname, 'customConfigTemplate.html')),
+    wrap: '// jshint ignore: start\n// jscs:disable\n(function () {\n\'use strict\';\n<%= module %>})();',
+  }))
+  .pipe(gulp.dest(config.customConfigDest));
 });
 
 /**
@@ -210,7 +229,7 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
  * Copy manifest
  * @return {Stream}
  */
-gulp.task('manifest', ['custom-config'], function() {
+gulp.task('manifest', function() {
   log('Copying manifest file');
 
   return gulp
@@ -219,23 +238,11 @@ gulp.task('manifest', ['custom-config'], function() {
 });
 
 /**
- * Copy custom config
- * @return {Stream}
- */
-gulp.task('custom-config', [], function() {
-  log('Copying custom config file');
-
-  return gulp
-    .src(config.customConfig)
-    .pipe(gulp.dest(config.build));
-});
-
-/**
  * Optimize all files, move to a build folder,
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('optimize', ['inject', 'test'], function() {
+gulp.task('optimize', ['configit', 'inject', 'test'], function() {
   log('Optimizing the js, css, and html');
 
   var customConfig = require(config.customConfig);
@@ -251,9 +258,9 @@ gulp.task('optimize', ['inject', 'test'], function() {
   return gulp
     .src(config.index)
     .pipe(template({
-      title: customConfig.meta.title,
-      description: customConfig.meta.description,
-      keywords: customConfig.meta.keywords
+      title: customConfig.CUSTOM_CONFIG.META.title,
+      description: customConfig.CUSTOM_CONFIG.META.description,
+      keywords: customConfig.CUSTOM_CONFIG.META.keywords
     }))
     .pipe($.plumber())
     .pipe(inject(templateCache, 'templates'))
