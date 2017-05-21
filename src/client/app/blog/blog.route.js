@@ -21,7 +21,7 @@
           title: 'Blog',
           settings: {
             nav: 0,
-            content: '<i class="fa fa-lock"></i> Blog'
+            content: '<i class="fa fa-newspaper-o></i> Blog'
           }
         }
       },
@@ -35,7 +35,7 @@
           title: 'Blog',
           settings: {
             nav: 3,
-            content: '<i class="fa fa-lock"></i> Blog'
+            content: '<i class="fa fa-newspaper-o"></i> Blog'
           }
         }
       },
@@ -49,7 +49,7 @@
           title: 'Blog',
           settings: {
             nav: 0,
-            content: '<i class="fa fa-lock"></i> Blog'
+            content: '<i class="fa fa-newspaper-o"></i> Blog'
           }
         }
       }

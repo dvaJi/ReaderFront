@@ -2,14 +2,12 @@
 <div class="panel" ng-repeat="post in vm.posts">
   <div class="wrapper-lg">
     <h2 class="m-t-none"><a ui-sref="blog.posts({stub: post.stub})">{{post.name}}</a></h2>
-    <div>
-      {{post.description}}
-    </div>
+    <div>{{post.description}}</div>
     <div class="line line-lg b-b b-light"></div>
     <div class="text-muted">
       <i class="fa fa-user text-muted"></i> by <a href="" class="m-r-sm">{{post.creator}}</a>
-      <i class="fa fa-clock-o text-muted"></i> {{post.updated | date }}
-      <a href="" class="m-l-sm"><i class="fa fa-comment-o text-muted"></i> 4 comments</a>
+      <i class="fa fa-clock-o text-muted"></i> {{post.updated}}
+      <!--<a href="" class="m-l-sm"><i class="fa fa-comment-o text-muted"></i> 4 comments</a>-->
     </div>
   </div>
 </div>

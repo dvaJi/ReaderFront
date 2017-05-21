@@ -27,18 +27,18 @@
       var query = {};
       return Api.getPosts(query)
        .then(function(data) {
-         vm.posts = data;
-         return vm.posts;
-       });
+          vm.posts = data;
+          return vm.posts;
+        });
     }
 
     function getPost() {
       var query = {stub: $stateParams.stub};
       return Api.getPost(query)
        .then(function(data) {
-         vm.post = data.data.post;
-         return vm.post;
-       });
+          vm.post = data.data.post;
+          return vm.post;
+        });
     }
   }
 })();

@@ -5,13 +5,14 @@
     .module('app.comic')
     .controller('ComicController', ComicController);
 
-  ComicController.$inject = ['$q','logger', 'Api', '$stateParams'];
+  ComicController.$inject = ['$q','logger', 'Api', '$stateParams', '$window'];
   /* @ngInject */
-  function ComicController($q, logger, Api, $stateParams) {
+  function ComicController($q, logger, Api, $stateParams, $window) {
     var vm = this;
     vm.getComic = getComic;
     vm.comic = [];
     vm.chapters = [];
+    vm.downloadChapter = downloadChapter;
 
     loadComic();
 
@@ -20,6 +21,10 @@
       return $q.all(promises).then(function() {
         //logger.info('Activated Comic View');
       });
+    }
+
+    function downloadChapter(url) {
+      $window.open(url, '_blank');
     }
 
     function getComic() {

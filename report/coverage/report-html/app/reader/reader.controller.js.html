@@ -15,10 +15,10 @@
 <div class="header low">
     <h1>Code coverage report for <span class="entity">app/reader/reader.controller.js</span></h1>
     <h2>
-        Statements: <span class="metric">12.87% <small>(13 / 101)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">0% <small>(0 / 46)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">5% <small>(1 / 20)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">12.87% <small>(13 / 101)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">13.08% <small>(14 / 107)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">0% <small>(0 / 56)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">4.76% <small>(1 / 21)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">13.08% <small>(14 / 107)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/reader/</a> &#187; reader.controller.js</div>
@@ -208,7 +208,20 @@
 181
 182
 183
-184</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -321,6 +334,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -335,6 +352,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -353,8 +374,6 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -386,6 +405,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -398,9 +424,9 @@
     .module('app.reader')
     .controller('ReaderController', ReaderController);
 &nbsp;
-  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window'];
+  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window', '$localStorage'];
   /* @ngInject */
-<span class="fstat-no" title="function not covered" >  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window) {</span>
+<span class="fstat-no" title="function not covered" >  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window, $localStorage) {</span>
 <span class="cstat-no" title="statement not covered" >    var vm = this;</span>
 <span class="cstat-no" title="statement not covered" >    vm.comic = [];</span>
 <span class="cstat-no" title="statement not covered" >    vm.comics = [];</span>
@@ -429,7 +455,7 @@
 <span class="cstat-no" title="statement not covered" >      vm.webtoonMode = false;</span>
 <span class="cstat-no" title="statement not covered" >      var promises = [getComic(), getComics()];</span>
 <span class="cstat-no" title="statement not covered" >      return $q.all(promises).then(<span class="fstat-no" title="function not covered" >function() {</span></span>
-<span class="cstat-no" title="statement not covered" >        logger.info('Use W-A-S-D or the arrow keys to navigate');</span>
+<span class="cstat-no" title="statement not covered" >        showNavInfo();</span>
       });
     }
 &nbsp;
@@ -488,9 +514,9 @@
 <span class="fstat-no" title="function not covered" >    function getComics() {</span>
 <span class="cstat-no" title="statement not covered" >      return Api.comicsList()</span>
        .then(<span class="fstat-no" title="function not covered" >function(data) {</span>
-<span class="cstat-no" title="statement not covered" >         vm.comics = data[0].comics;</span>
-<span class="cstat-no" title="statement not covered" >         return vm.comics;</span>
-       });
+<span class="cstat-no" title="statement not covered" >          vm.comics = data[0].comics;</span>
+<span class="cstat-no" title="statement not covered" >          return vm.comics;</span>
+        });
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    function changePageSelected(page) {</span>
@@ -501,7 +527,11 @@
       } else {
 <span class="cstat-no" title="statement not covered" >        vm.pageSelected = page;</span>
       }
-<span class="cstat-no" title="statement not covered" >      $location.hash('topRead');</span>
+<span class="cstat-no" title="statement not covered" >      if (vm.webtoonMode &amp;&amp; vm.pageSelected !== 'END') {</span>
+<span class="cstat-no" title="statement not covered" >        $location.hash('page_' + (vm.pageSelected - 2));</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        $location.hash('topRead');</span>
+      }
 <span class="cstat-no" title="statement not covered" >      $anchorScroll();</span>
     }
 &nbsp;
@@ -515,7 +545,11 @@
       } else {
 <span class="cstat-no" title="statement not covered" >        vm.pageSelected = page + 2;</span>
       }
-<span class="cstat-no" title="statement not covered" >      $location.hash('topRead');</span>
+<span class="cstat-no" title="statement not covered" >      if (vm.webtoonMode) {</span>
+<span class="cstat-no" title="statement not covered" >        $location.hash('page_' + (vm.pageSelected - 2));</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        $location.hash('topRead');</span>
+      }
 <span class="cstat-no" title="statement not covered" >      $anchorScroll();</span>
     }
 &nbsp;
@@ -534,9 +568,7 @@
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    function showImages(value) {</span>
-<span class="cstat-no" title="statement not covered" >      if (vm.webtoonMode) {</span>
-<span class="cstat-no" title="statement not covered" >        return true;</span>
-      } else <span class="cstat-no" title="statement not covered" >if ((vm.pageSelected - 1) === value) {</span>
+<span class="cstat-no" title="statement not covered" >      if (vm.webtoonMode || ((vm.pageSelected - 1) === value)) {</span>
 <span class="cstat-no" title="statement not covered" >        return true;</span>
       } else {
 <span class="cstat-no" title="statement not covered" >        return false;</span>
@@ -572,6 +604,13 @@
 <span class="cstat-no" title="statement not covered" >        changePageSelected(vm.pageSelected !== 'END' ? (vm.pageSelected - 1) : null);</span>
       }
     });
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function showNavInfo() {</span>
+<span class="cstat-no" title="statement not covered" >      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {</span>
+<span class="cstat-no" title="statement not covered" >        logger.info('Use W-A-S-D or the arrow keys to navigate');</span>
+<span class="cstat-no" title="statement not covered" >        $localStorage.navInfo = true;</span>
+      }
+    }
   }
 })();
 &nbsp;</pre></td></tr>
@@ -579,7 +618,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat May 06 2017 20:17:28 GMT-0300 (CLST)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun May 21 2017 12:22:55 GMT-0400 (CLT)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
