@@ -5,5 +5,4 @@ bower_components/
 
 # other
 .tmp
-report/plato
-report/coverage/
+report/*/*

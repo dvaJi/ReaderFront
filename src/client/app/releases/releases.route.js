@@ -23,7 +23,7 @@
           title: 'Releases',
           settings: {
             nav: 1,
-            content: '<i class="fa fa-newspaper-o"></i> Releases'
+            content: '<i class="fa fa-archive"></i> Releases'
           }
         }
       }

@@ -23,6 +23,12 @@
       },
       getComicFull: function (query) {
         return Restangular.all('comics_full').getList(query);
+      },
+      getPosts: function(query) {
+        return Restangular.all('blog').getList(query);
+      },
+      getPost: function(query) {
+        return Restangular.one('blog').get(query);
       }
     };
   }

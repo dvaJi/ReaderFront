@@ -5,9 +5,9 @@
     .module('app.reader')
     .controller('ReaderController', ReaderController);
 
-  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window'];
+  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window', '$localStorage'];
   /* @ngInject */
-  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window) {
+  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window, $localStorage) {
     var vm = this;
     vm.comic = [];
     vm.comics = [];
@@ -36,7 +36,7 @@
       vm.webtoonMode = false;
       var promises = [getComic(), getComics()];
       return $q.all(promises).then(function() {
-        logger.info('Use W-A-S-D or the arrow keys to navigate');
+        showNavInfo();
       });
     }
 
@@ -95,9 +95,9 @@
     function getComics() {
       return Api.comicsList()
        .then(function(data) {
-         vm.comics = data[0].comics;
-         return vm.comics;
-       });
+          vm.comics = data[0].comics;
+          return vm.comics;
+        });
     }
 
     function changePageSelected(page) {
@@ -108,7 +108,11 @@
       } else {
         vm.pageSelected = page;
       }
-      $location.hash('topRead');
+      if (vm.webtoonMode && vm.pageSelected !== 'END') {
+        $location.hash('page_' + (vm.pageSelected - 2));
+      } else {
+        $location.hash('topRead');
+      }
       $anchorScroll();
     }
 
@@ -122,7 +126,11 @@
       } else {
         vm.pageSelected = page + 2;
       }
-      $location.hash('topRead');
+      if (vm.webtoonMode) {
+        $location.hash('page_' + (vm.pageSelected - 2));
+      } else {
+        $location.hash('topRead');
+      }
       $anchorScroll();
     }
 
@@ -141,9 +149,7 @@
     }
 
     function showImages(value) {
-      if (vm.webtoonMode) {
-        return true;
-      } else if ((vm.pageSelected - 1) === value) {
+      if (vm.webtoonMode || ((vm.pageSelected - 1) === value)) {
         return true;
       } else {
         return false;
@@ -179,5 +185,12 @@
         changePageSelected(vm.pageSelected !== 'END' ? (vm.pageSelected - 1) : null);
       }
     });
+
+    function showNavInfo() {
+      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {
+        logger.info('Use W-A-S-D or the arrow keys to navigate');
+        $localStorage.navInfo = true;
+      }
+    }
   }
 })();
