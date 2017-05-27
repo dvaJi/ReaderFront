@@ -11,12 +11,14 @@
     var vm = this;
     vm.getComics = getComics;
     vm.comics = [];
+    vm.loading = true;
 
     loadChapters();
 
     function loadChapters() {
       var promises = [getComics()];
       return $q.all(promises).then(function() {
+        vm.loading = false;
         //logger.info('Activated List View');
       });
     }

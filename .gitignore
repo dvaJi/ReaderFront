@@ -6,3 +6,9 @@ bower_components/
 # other
 .tmp
 report/*/*
+report/coverage
+report/coverage/report-html
+report/coverage/report-lcov
+report/coverage/report-html/app
+report/coverage/report-lcov/lcov-report
+report/coverage/report-lcov/lcov.info

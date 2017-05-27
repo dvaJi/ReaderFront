@@ -18,7 +18,7 @@
 
     function activate() {
       //logger.success(config.appTitle + ' loaded!', null);
-      hideSplash();
+      //hideSplash();
     }
 
     function hideSplash() {
