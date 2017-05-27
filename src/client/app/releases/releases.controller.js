@@ -12,18 +12,21 @@
     vm.releases = [];
     vm.getReleases = getReleases;
     vm.loadChapters = loadChapters;
+    vm.loading = true;
+    var itemsPerPage = 8;
 
     loadChapters();
 
     function loadChapters() {
       var promises = [getReleases()];
       return $q.all(promises).then(function() {
+        vm.loading = false;
         //logger.info('Activated Releases View');
       });
     }
 
     function getReleases() {
-      return Api.latestChapters({per_page:8,orderby:'desc_created'})
+      return Api.latestChapters({per_page:itemsPerPage,orderby:'desc_created'})
         .then(function(data) {
           vm.releases = data[0].chapters;
           return vm.releases;
