@@ -5,9 +5,9 @@
     .module('app.reader')
     .controller('ReaderController', ReaderController);
 
-  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window', '$localStorage'];
+  ReaderController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'hotkeys', '$location', '$anchorScroll', '$state', '$window', '$localStorage', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window, $localStorage) {
+  function ReaderController($scope, $q, logger, Api, $stateParams, hotkeys, $location, $anchorScroll, $state, $window, $localStorage, CUSTOM_CONFIG) {
     var vm = this;
     vm.comic = [];
     vm.comics = [];
@@ -40,12 +40,12 @@
       });
     }
 
-    function setDisqusConfig() {
+    function setDisqusConfig(name, chapter, subchapter) {
       $scope.disqusConfig = {
-        disqus_shortname: 'ravens-scans-english',
-        disqus_identifier: 'RS_' + vm.params.id + '_' + vm.params.chapter,
+        disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
+        disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub + chapter + subchapter,
         disqus_url: window.location.href,
-        disqus_title: vm.comic.name + ' chapter ' + vm.chapter.chapter + ' - ' + $scope.siteName,
+        disqus_title: 'Reader - ' + name + 'chapter ' + chapter + subchapter,
         disqus_disable_mobile: 'false'
       };
     }
@@ -87,7 +87,7 @@
             vm.pagesList.push(key + 1);
           });
           vm.lastPage = vm.pages.length;
-          setDisqusConfig();
+          setDisqusConfig(vm.comic.name, vm.params.chapter.split('.')[0], vm.params.chapter.split('.')[1]);
           return vm.comic;
         });
     }

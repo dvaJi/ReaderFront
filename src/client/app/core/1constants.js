@@ -13,5 +13,9 @@ angular.module('app.core')
   },
   "API": {
     "foolslideUrl": "http://localhost/FoOlSlide/api/v1/"
+  },
+  "DISQUS": {
+    "disqus_shortname": "readerfront",
+    "disqus_identifier": "ReaderFront_"
   }
 });})();

@@ -5,14 +5,21 @@
     .module('app.layout')
     .controller('ShellController', ShellController);
 
-  ShellController.$inject = ['$rootScope', '$timeout', 'config', 'logger'];
+  ShellController.$inject = ['$scope','$rootScope', '$timeout', 'config', 'logger', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function ShellController($rootScope, $timeout, config, logger) {
+  function ShellController($scope, $rootScope, $timeout, config, logger, CUSTOM_CONFIG) {
     var vm = this;
     vm.busyMessage = 'Please wait ...';
     vm.isBusy = true;
     $rootScope.showSplash = true;
     vm.navline = { title: config.appTitle};
+
+    // Disqus initial config
+    $scope.disqusConfig = {
+      disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
+      disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + 'home',
+      disqus_url: location.href
+    };
 
     activate();
 
