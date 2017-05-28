@@ -1,10 +1,13 @@
 <div class="wrapper-md">
+  <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
+    <card release="release"></card>
+  </div>
   <center id="md-spinner" ng-show="vm.loading">
   <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
     <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
   </svg>
   </center>
-  <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
-    <card release="release"></card>
-  </div>
-</div> 
+</div>
+<div class="text-center" ng-hide="vm.loading">
+  <button class="btn btn-default btn-lg" style="margin-top:20px;" ng-click="vm.loadMore()"><i class="fa fa-plus" aria-hidden="true"></i> Load More</button>
+</div>

@@ -13,7 +13,10 @@
     vm.getReleases = getReleases;
     vm.loadChapters = loadChapters;
     vm.loading = true;
+    vm.loadMore = loadMore;
     var itemsPerPage = 8;
+    var currentPage = 1;
+    vm.chaptersLimit = false;
 
     loadChapters();
 
@@ -25,15 +28,25 @@
       });
     }
 
-    function getReleases() {
-      return Api.latestChapters({per_page:itemsPerPage,orderby:'desc_created'})
+    function getReleases(page) {
+      return Api.latestChapters({per_page:itemsPerPage,page:page,orderby:'desc_created'})
         .then(function(data) {
-          vm.releases = data[0].chapters;
+          if (data[0].chapters.length < 0) {
+            vm.chaptersLimit = true;
+          }
+          vm.releases = vm.releases.concat(data[0].chapters);
           return vm.releases;
         })
         .catch(function(data) {
           logger.error(data);
         });
+    }
+
+    function loadMore() {
+      if (!vm.chaptersLimit) {
+        currentPage = currentPage + 1;
+        getReleases(currentPage);
+      }
     }
   }
 })();

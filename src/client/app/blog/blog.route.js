@@ -34,7 +34,7 @@
           controllerAs: 'vm',
           title: 'Blog',
           settings: {
-            nav: 0,
+            nav: 3,
             content: '<i class="fa fa-newspaper-o"></i> Blog'
           }
         }
