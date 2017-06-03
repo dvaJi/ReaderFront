@@ -12,7 +12,10 @@ angular.module('app.core')
     "keywords": "scan,manga,english,free"
   },
   "API": {
-    "foolslideUrl": "http://localhost/FoOlSlide/api/v1/"
+    "foolslideUrl": "api/v1/"
+  },
+  "DEV": {
+    "foolslideUrl": "http://localhost:80/FoOlSlide/"
   },
   "DISQUS": {
     "disqus_shortname": "readerfront",

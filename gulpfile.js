@@ -113,7 +113,7 @@ gulp.task('images', ['clean-images'], function() {
 
   return gulp
     .src(config.images)
-    .pipe($.imagemin({ optimizationLevel: 4 }))
+    .pipe($.imagemin([$.imagemin.optipng({optimizationLevel: 4})]))
     .pipe(gulp.dest(config.build + 'images'));
 });
 
@@ -131,7 +131,7 @@ gulp.task('templatecache', ['clean-code'], function() {
   return gulp
     .src(config.htmltemplates)
     .pipe($.if(args.verbose, $.bytediff.start()))
-    .pipe($.minifyHtml({ empty: true }))
+    .pipe($.htmlmin({ empty: true }))
     .pipe($.if(args.verbose, $.bytediff.stop(bytediffFormatter)))
     .pipe($.angularTemplatecache(
       config.templateCache.file,
@@ -248,10 +248,10 @@ gulp.task('optimize', ['configit', 'inject', 'test'], function() {
   var customConfig = require(config.customConfig);
   var assets = $.useref.assets({ searchPath: './' });
   // Filters are named for the gulp-useref path
-  var cssFilter = $.filter('**/*.css');
-  var configFile = $.filter('src/client/app/core/config.js');
-  var jsAppFilter = $.filter('**/' + config.optimized.app);
-  var jslibFilter = $.filter('**/' + config.optimized.lib);
+  var cssFilter = $.filter('**/*.css', {restore: true});
+  var configFile = $.filter('src/client/app/core/config.js', {restore: true});
+  var jsAppFilter = $.filter('**/' + config.optimized.app, {restore: true});
+  var jslibFilter = $.filter('**/' + config.optimized.lib, {restore: true});
 
   var templateCache = config.temp + config.templateCache.file;
 
@@ -267,18 +267,18 @@ gulp.task('optimize', ['configit', 'inject', 'test'], function() {
     .pipe(assets) // Gather all assets from the html with useref
     // Get the css
     .pipe(cssFilter)
-    .pipe($.minifyCss())
-    .pipe(cssFilter.restore())
+    .pipe($.cleanCss())
+    .pipe(cssFilter.restore)
     // Get the custom javascript
     .pipe(jsAppFilter)
     .pipe($.ngAnnotate({ add: true }))
     .pipe($.uglify())
     .pipe(getHeader())
-    .pipe(jsAppFilter.restore())
+    .pipe(jsAppFilter.restore)
     // Get the vendor javascript
     .pipe(jslibFilter)
     .pipe($.uglify()) // another option is to override wiredep to use min files
-    .pipe(jslibFilter.restore())
+    .pipe(jslibFilter.restore)
     // Take inventory of the file names for future rev numbers
     .pipe($.rev())
     // Apply the concat and file replacement with useref
@@ -450,10 +450,11 @@ function clean(path, done) {
 function inject(src, label, order) {
   var options = { read: false };
   if (label) {
-    options.name = 'inject:' + label;
+    return $.inject(orderSrc(src, order,options),{name:'inject:' + label});
   }
-
-  return $.inject(orderSrc(src, order), options);
+  else {
+    return $.inject(orderSrc(src, order,options));
+  }
 }
 
 /**
@@ -462,11 +463,11 @@ function inject(src, label, order) {
  * @param   {Array} order Glob array pattern
  * @returns {Stream} The ordered stream
  */
-function orderSrc(src, order) {
+function orderSrc(src, order, options) {
   //order = order || ['**/*'];
   return gulp
-    .src(src)
-    .pipe($.if(order, $.order(order)));
+  .src(src,options)
+  .pipe($.if(order, $.order(order)));
 }
 
 /**

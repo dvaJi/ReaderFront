@@ -2,13 +2,14 @@
 'use strict';
 
 var express = require('express');
+var proxy = require('http-proxy-middleware');
 var app = express();
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var port = process.env.PORT || 8001;
 var four0four = require('./utils/404')();
-
+var config = require('../../1constants.json');
 var environment = process.env.NODE_ENV;
 
 app.use(favicon(__dirname + '/favicon.ico'));
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
-app.use('/api', require('./routes'));
+app.use('/api', proxy({target: config.CUSTOM_CONFIG.DEV.foolslideUrl, changeOrigin:true}));
 
 console.log('About to crank up node');
 console.log('PORT=' + port);
