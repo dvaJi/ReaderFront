@@ -9,7 +9,8 @@
     'app.layout',
     'app.releases',
     'app.reader',
-    'app.blog'
+    'app.blog',
+    'app.pages'
   ]);
 
 })();
