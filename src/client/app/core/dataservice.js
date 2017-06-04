@@ -29,6 +29,9 @@
       },
       getPost: function(query) {
         return Restangular.one('blog').get(query);
+      },
+      getPage: function(query) {
+        return Restangular.one('pages').get(query);
       }
     };
   }

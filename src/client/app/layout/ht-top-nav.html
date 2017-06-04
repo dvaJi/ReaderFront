@@ -8,7 +8,7 @@
           <i class="glyphicon glyphicon-align-justify"></i>
         </button>
         <!-- brand -->
-        <a href="#/" class="navbar-brand text-lt">
+        <a href="/" class="navbar-brand text-lt">
           <img src="img/logors.png" alt="." class="hide">
           <span class=" m-l-xs">{{vm.navline.title}}</span>
         </a>
@@ -19,51 +19,22 @@
       <!-- navbar collapse -->
       <div class="collapse pos-rlt navbar-collapse {{app.settings.navbarCollapseColor}}">
 
-        <!-- link and dropdown -->
-        <ul class="nav navbar-nav hidden-sm">
-          <!--<li class="dropdown" dropdown>
-            <a href class="dropdown-toggle" dropdown-toggle>
-              <i class="fa fa-fw fa-plus visible-xs-inline-block"></i>
-              <span>New</span> <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#" translate="header.navbar.new.PROJECT">Projects</a></li>
-              <li>
-                <a href>
-                  <span class="badge bg-info pull-right">5</span>
-                  <span translate="header.navbar.new.TASK">Task</span>
-                </a>
-              </li>
-              <li><a href translate="header.navbar.new.USER">User</a></li>
-              <li class="divider"></li>
-              <li>
-                <a href>
-                  <span class="badge bg-danger pull-right">4</span>
-                  <span translate="header.navbar.new.EMAIL">Email</span>
-                </a>
-              </li>
-            </ul>
-          </li>-->
-        </ul>
-        <!-- / link and dropdown -->
-
-        <!-- search form
-        <form class="navbar-form navbar-form-sm navbar-left shift" ui-shift="prependTo" target=".navbar-collapse" role="search" ng-controller="TypeaheadDemoCtrl">
-          <div class="form-group">
-            <div class="input-group">
-              <input type="text" ng-model="selected" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control input-sm bg-light no-border rounded padder" placeholder="Search projects...">
-              <span class="input-group-btn">
-                <button type="submit" class="btn btn-sm bg-light rounded"><i class="fa fa-search"></i></button>
-              </span>
-            </div>
-          </div>
-        </form>
-        / search form -->
-
         <!-- nabar right -->
         <ul class="nav navbar-nav navbar-right"  ng-controller="SidebarController as vm">
           <li ng-class="vm.isCurrent(r)" ng-repeat="r in vm.navRoutes">
             <a ui-sref="{{r.name}}" ng-bind-html="r.settings.content"><span></span></a>
+          </li>
+          <li ng-hide="vm.disablePageNav" class="dropdown hidden-sm" dropdown="">
+            <a href="" class="dropdown-toggle ng-binding" dropdown-toggle="" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
+              More <b class="caret"></b>
+            </a>
+            <!-- dropdown -->
+            <ul class="dropdown-menu dropdown-filter" data-pjax="">
+              <li class="cat-item"  ng-repeat="r in vm.pageNavRoutes">
+                <a ui-sref="pages({stub: r.stub})" ng-bind-html="r.title"><span></span></a>
+              </li>
+            </ul>
+            <!-- / dropdown -->
           </li>
         </ul>
         <!-- / navbar right -->
