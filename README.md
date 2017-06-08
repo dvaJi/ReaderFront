@@ -16,7 +16,7 @@
 
 ## Installation
 1. Install or update to [FoOlSlide (by dvaJi fork)](https://github.com/dvaJi/FoOlSlide)
-2. Edit 1constant.json with your site config
+2. Edit config.custom.json file and add your site config
 3. Install dependencies 
 ```bash
 npm install
@@ -28,4 +28,4 @@ Compile it
 ```bash
 gulp build
 ```
-Upload **dist** folder in your server
+Upload **build** folder in your server

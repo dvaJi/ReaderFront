@@ -18,15 +18,15 @@
                         <div class="btn-group dropdown">
                             <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="dropdown-label">
-                                <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{vm.chapterSelected}}</span>
+                                <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{vm.chapterSelected.chapter}}<span ng-if="vm.chapterSelected.subchapter !== '0'">.{{vm.chapterSelected.subchapter}}</span></span>
                                 <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chapter.name}}</span>
                             </span>                    
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
                                 <li ng-repeat="chapter in vm.chapters track by $index">
-                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter})">
-                                        <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{chapter}}</span>
+                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter.chapter,subchapter:chapter.subchapter})">
+                                        <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{chapter.chapter}} <span ng-if="chapter.subchapter !== '0'">.{{chapter.subchapter}}</span></span>
                                         <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chaptersOneshots[$index]}}</span>
                                     </a>
                                 </li>

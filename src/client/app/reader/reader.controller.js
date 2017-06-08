@@ -19,7 +19,7 @@
     vm.pageSelected = 1;
     vm.lastestChapter = 0;
     vm.params = $stateParams;
-    vm.chapterSelected = vm.params.chapter;
+    vm.chapterSelected = {chapter:vm.params.chapter, subchapter:vm.params.subchapter};
     vm.lastPage = 0;
     vm.getComic = getComic;
     vm.getComics = getComics;
@@ -41,19 +41,20 @@
     }
 
     function setDisqusConfig(name, chapter, subchapter) {
+      var chapterObj = ((subchapter !== '0') ? chapter + '.' + subchapter : chapter);
       $scope.disqusConfig = {
         disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
         disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub + chapter + subchapter,
         disqus_url: window.location.href,
-        disqus_title: 'Reader - ' + name + 'chapter ' + chapter + subchapter,
+        disqus_title: name + ' chapter ' + chapterObj  + ' - ' + CUSTOM_CONFIG.NAVTITLE,
         disqus_disable_mobile: 'false'
       };
     }
 
     function getComic() {
       var query = {};
-      if (typeof(vm.params.chapter) !== 'undefined' && vm.params.chapter.indexOf('.') !== -1) {
-        query = { stub: vm.params.id, chapter: vm.params.chapter.split('.')[0], subchapter: vm.params.chapter.split('.')[1] };
+      if (typeof(vm.params.chapter) !== 'undefined' && vm.params.chapter !== -1) {
+        query = { stub: vm.params.id, chapter: vm.params.chapter, subchapter: vm.params.subchapter };
       } else {
         query = { stub: vm.params.id, chapter: vm.params.chapter };
       }
@@ -61,10 +62,8 @@
         .then(function (data) {
           vm.comic = data.comic;
           angular.forEach(data.chapters, function (value, key) {
-            if (vm.params.chapter.indexOf('.') !== -1) {
-              if (value.chapter.chapter === vm.params.chapter.split('.')[0] && value.chapter.subchapter === vm.params.chapter.split('.')[1]) {
-                vm.chapter = value.chapter;
-              }
+            if (value.chapter.chapter === vm.params.chapter && value.chapter.subchapter === vm.params.subchapter) {
+              vm.chapter = value.chapter;
             } else {
               if (value.chapter.chapter === vm.chapterSelected && value.chapter.subchapter === '0') {
                 vm.chapter = value.chapter;
@@ -74,9 +73,11 @@
               vm.chaptersOneshots.push(value.chapter.name);
             }
             if (value.chapter.subchapter !== null && value.chapter.subchapter !== '0') {
-              vm.chapters.push(value.chapter.chapter + '.' + value.chapter.subchapter);
+              var chapterObj = {chapter: value.chapter.chapter, subchapter:value.chapter.subchapter};
+              vm.chapters.push(chapterObj);
             } else {
-              vm.chapters.push(value.chapter.chapter);
+              var chapterWithoutSubchapterObj = {chapter: value.chapter.chapter, subchapter: '0'};
+              vm.chapters.push(chapterWithoutSubchapterObj);
             }
             if (parseInt(value.chapter.chapter) >= parseInt(vm.lastestChapter)) {
               vm.lastestChapter = parseInt(value.chapter.chapter);
@@ -87,7 +88,7 @@
             vm.pagesList.push(key + 1);
           });
           vm.lastPage = vm.pages.length;
-          setDisqusConfig(vm.comic.name, vm.params.chapter.split('.')[0], vm.params.chapter.split('.')[1]);
+          setDisqusConfig(vm.comic.name, vm.params.chapter, vm.params.subchapter);
           return vm.comic;
         });
     }

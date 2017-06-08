@@ -26,8 +26,8 @@ module.exports = function() {
     ],
     build: './build/',
     manifest: client + './manifest.json',
-    customConfig: './1constants.json',
-    customConfigDest: clientApp + 'core/',
+    customConfig: './config.custom.json',
+    customConfigDest: clientApp,
     client: client,
     css: temp + 'styles.css',
     fonts: [

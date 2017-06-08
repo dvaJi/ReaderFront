@@ -9,7 +9,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var port = process.env.PORT || 8001;
 var four0four = require('./utils/404')();
-var config = require('../../1constants.json');
+var config = require('../../config.custom.json');
 var environment = process.env.NODE_ENV;
 
 app.use(favicon(__dirname + '/favicon.ico'));
