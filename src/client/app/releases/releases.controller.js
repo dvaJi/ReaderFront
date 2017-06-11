@@ -10,13 +10,11 @@
   function ReleasesController($q, Api, logger) {
     var vm = this;
     vm.releases = [];
-    vm.getReleases = getReleases;
-    vm.loadChapters = loadChapters;
     vm.loading = true;
     vm.loadMore = loadMore;
     var itemsPerPage = 8;
     var currentPage = 1;
-    vm.chaptersLimit = false;
+    var chaptersLimit = false;
 
     loadChapters();
 
@@ -32,7 +30,7 @@
       return Api.latestChapters({per_page:itemsPerPage,page:page,orderby:'desc_created'})
         .then(function(data) {
           if (data[0].chapters.length < 0) {
-            vm.chaptersLimit = true;
+            chaptersLimit = true;
           }
           vm.releases = vm.releases.concat(data[0].chapters);
           return vm.releases;
@@ -43,7 +41,7 @@
     }
 
     function loadMore() {
-      if (!vm.chaptersLimit) {
+      if (!chaptersLimit) {
         currentPage = currentPage + 1;
         getReleases(currentPage);
       }

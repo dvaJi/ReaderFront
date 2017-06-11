@@ -7,20 +7,20 @@
     </div>
     <div class="col-md-8">
       <div class="panel wrapper">
-        <h4 class="font-thin m-t-none m-b text-muted">Description</h4>
+        <h4 class="font-thin m-t-none m-b text-muted" translate="module.comic.DESCRIPTION">Description</h4>
         {{vm.comic.description}}
       </div>
     </div>
     <div class="col-md-8">
       <div class="panel wrapper">
-        <h4 class="font-thin m-t-none m-b text-muted">Info</h4>
-        Author: {{vm.comic.author}} <br>
-        Artist: {{vm.comic.artist}}
+        <h4 class="font-thin m-t-none m-b text-muted" translate="module.comic.INFORMATION">Info</h4>
+        {{'module.comic.AUTHOR' | translate}}: {{vm.comic.author}} <br>
+        {{'module.comic.ARTIST' | translate}}: {{vm.comic.artist}}
       </div>
     </div>
     <div class="col-sm-8">
       <div class="panel panel-default">
-        <div class="panel-heading">Chapters</div>
+        <div class="panel-heading" translate="module.comic.CHAPTERS">Chapters</div>
         <table class="table table-striped m-b-none">
           <thead>
             <tr>
@@ -34,7 +34,7 @@
               <!--<td><a href="{{chapter.chapter.href}}">Chapter{{chapter.chapter.chapter}}</a></td>-->
               <td>
                 <a ui-sref="read({id: vm.comic.stub, chapter: chapter.chapter.chapter, subchapter: chapter.chapter.subchapter })">
-                  <span ng-show="!chapter.chapter.name">#{{chapter.chapter.chapter}}: Chapter {{chapter.chapter.chapter}}</span> 
+                  <span ng-show="!chapter.chapter.name">#{{chapter.chapter.chapter}}: <span translate="global.CHAPTER" translate-value-chapter="{{chapter.chapter.chapter}}"></span></span> 
                   <span ng-show="chapter.chapter.name">#{{chapter.chapter.chapter}}: {{chapter.chapter.name}}</span> 
                 </a>
               </td>

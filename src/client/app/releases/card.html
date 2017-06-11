@@ -7,7 +7,7 @@
     <div class="archive-post-header">
       <p class="archive-post-date" ng-hide="release.comic.name == 'Oneshots'">{{release.chapter.name}}</p>
       <h2 class="archive-post-title" ng-show="release.comic.name == 'Oneshots'">{{release.chapter.name}}</h2>
-      <h2 class="archive-post-title" ng-hide="release.comic.name == 'Oneshots'">Chapter {{release.chapter.chapter}}</h2>
+      <h2 class="archive-post-title" ng-hide="release.comic.name == 'Oneshots'" translate="global.CHAPTER" translate-value-chapter="{{release.chapter.chapter }}"></h2>
     </div>
   </div>
 </a>

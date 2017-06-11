@@ -13,3 +13,4 @@ report/coverage/report-html/app
 report/coverage/report-lcov/lcov-report
 report/coverage/report-lcov/lcov.info
 build/*
+npm-debug.log

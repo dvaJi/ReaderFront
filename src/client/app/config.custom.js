@@ -12,7 +12,8 @@ angular.module('app.core')
     "keywords": "scan,manga,english,free"
   },
   "API": {
-    "foolslideUrl": "api/v1/"
+    "foolslideUrl": "api/v1/",
+    "trelloBoard": "https://trello.com/b/UleeTPT2.json"
   },
   "DEV": {
     "foolslideUrl": "http://localhost:80/FoOlSlide/"

@@ -5,9 +5,9 @@
         .module('app.core')
         .factory('Api', Api);
 
-  Api.$inject = ['Restangular', 'logger'];
+  Api.$inject = ['Restangular', 'logger', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function Api(Restangular, logger) {
+  function Api(Restangular, logger, CUSTOM_CONFIG) {
     return {
       latestChapters: function (query) {
         return Restangular.all('chaptersp').getList(query);
@@ -32,6 +32,9 @@
       },
       getPage: function(query) {
         return Restangular.one('pages').get(query);
+      },
+      getProjectsBoard: function (query) {
+        return Restangular.allUrl('projects', CUSTOM_CONFIG.API.trelloBoard).getList(query);
       }
     };
   }

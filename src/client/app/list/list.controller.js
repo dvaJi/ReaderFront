@@ -9,7 +9,6 @@
   /* @ngInject */
   function ListController($q, Api, logger) {
     var vm = this;
-    vm.getComics = getComics;
     vm.comics = [];
     vm.loading = true;
 

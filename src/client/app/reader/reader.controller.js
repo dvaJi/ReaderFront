@@ -17,18 +17,15 @@
     vm.pages = [];
     vm.pagesList = [];
     vm.pageSelected = 1;
-    vm.lastestChapter = 0;
-    vm.params = $stateParams;
-    vm.chapterSelected = {chapter:vm.params.chapter, subchapter:vm.params.subchapter};
-    vm.lastPage = 0;
-    vm.getComic = getComic;
-    vm.getComics = getComics;
+    var params = $stateParams;
+    vm.chapterSelected = {chapter:params.chapter, subchapter:params.subchapter};
     vm.changePageSelected = changePageSelected;
     vm.changePageClick = changePageClick;
-    vm.setDisqusConfig = setDisqusConfig;
     vm.downloadChapter = downloadChapter;
     vm.changeWebtoonMode = changeWebtoonMode;
     vm.showImages = showImages;
+    var lastPage = 0;
+    var lastestChapter = 0;
 
     loadReader();
 
@@ -53,16 +50,16 @@
 
     function getComic() {
       var query = {};
-      if (typeof(vm.params.chapter) !== 'undefined' && vm.params.chapter !== -1) {
-        query = { stub: vm.params.id, chapter: vm.params.chapter, subchapter: vm.params.subchapter };
+      if (typeof(params.chapter) !== 'undefined' && params.chapter !== -1) {
+        query = { stub: params.id, chapter: params.chapter, subchapter: params.subchapter };
       } else {
-        query = { stub: vm.params.id, chapter: vm.params.chapter };
+        query = { stub: params.id, chapter: params.chapter };
       }
       return Api.getComic(query)
         .then(function (data) {
           vm.comic = data.comic;
           angular.forEach(data.chapters, function (value, key) {
-            if (value.chapter.chapter === vm.params.chapter && value.chapter.subchapter === vm.params.subchapter) {
+            if (value.chapter.chapter === params.chapter && value.chapter.subchapter === params.subchapter) {
               vm.chapter = value.chapter;
             } else {
               if (value.chapter.chapter === vm.chapterSelected && value.chapter.subchapter === '0') {
@@ -79,16 +76,16 @@
               var chapterWithoutSubchapterObj = {chapter: value.chapter.chapter, subchapter: '0'};
               vm.chapters.push(chapterWithoutSubchapterObj);
             }
-            if (parseInt(value.chapter.chapter) >= parseInt(vm.lastestChapter)) {
-              vm.lastestChapter = parseInt(value.chapter.chapter);
+            if (parseInt(value.chapter.chapter) >= parseInt(lastestChapter)) {
+              lastestChapter = parseInt(value.chapter.chapter);
             }
           });
           vm.pages = vm.chapter.pages;
           angular.forEach(vm.pages, function (value, key) {
             vm.pagesList.push(key + 1);
           });
-          vm.lastPage = vm.pages.length;
-          setDisqusConfig(vm.comic.name, vm.params.chapter, vm.params.subchapter);
+          lastPage = vm.pages.length;
+          setDisqusConfig(vm.comic.name, params.chapter, params.subchapter);
           return vm.comic;
         });
     }
@@ -102,7 +99,7 @@
     }
 
     function changePageSelected(page) {
-      if (page === null || vm.pageSelected === vm.lastPage) {
+      if (page === null || vm.pageSelected === lastPage) {
         vm.pageSelected = 'END';
       } else if (page <= 0) {
         vm.pageSelected = 1;
@@ -118,8 +115,8 @@
     }
 
     function changePageClick(page) {
-      if (vm.pageSelected === vm.lastPage) {
-        if (vm.lastestChapter !== parseInt(vm.chapter.chapter)) {
+      if (vm.pageSelected === lastPage) {
+        if (lastestChapter !== parseInt(vm.chapter.chapter)) {
           $state.go('read', {id: vm.comic.stub, chapter: parseInt(vm.chapter.chapter) + 1, subchapter: 0});
         } else {
           vm.pageSelected = 'END';

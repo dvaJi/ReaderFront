@@ -11,8 +11,6 @@
     var vm = this;
     vm.post = {};
     vm.posts = [];
-    vm.getPosts = getPosts;
-    vm.getPost = getPost;
 
     loadBlog();
 

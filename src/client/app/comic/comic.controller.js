@@ -9,7 +9,6 @@
   /* @ngInject */
   function ComicController($q, logger, Api, $stateParams, $window) {
     var vm = this;
-    vm.getComic = getComic;
     vm.comic = [];
     vm.chapters = [];
     vm.downloadChapter = downloadChapter;

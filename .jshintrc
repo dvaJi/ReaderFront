@@ -50,6 +50,7 @@
     "supernew": false,
     "validthis": false,
     "noyield": false,
+    "esversion": 6,
 
     "browser": true,
     "node": true,
