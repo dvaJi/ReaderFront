@@ -2,8 +2,21 @@
   "global": {
     "CHAPTER": "Chapter {{chapter}}",
     "PAGE": "Page {{page}}",
-    "COMMENTS": "Comments"
-  },
+    "COMMENTS": "Comments",
+    "MORE": "More",
+    "FILTERBY": "Language filter: ",
+    "settings": {
+      "TITLE": "Settings",
+      "LANGUAGE": "Language",
+      "FIX_HEADER": "Fixed header",
+      "SHOW_RELEASES": "Show {{lang}} Releases",
+      "languages": {
+        "all": "All",
+        "en": "English",
+        "es": "Spanish"
+      }
+    }
+  }, 
   "module": {
     "blog": {
       "TITLE": "Blog"
@@ -14,7 +27,8 @@
       "INFORMATION": "Info",
       "ARTIST": "Artist",
       "AUTHOR": "Author",
-      "CHAPTERS": "Chapters"
+      "CHAPTERS": "Chapters",
+      "NO_TRANSLATED": "This series is not available in {{lang}}"
     },
     "list": {
       "TITLE": "List"

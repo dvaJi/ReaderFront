@@ -5,16 +5,24 @@
     .module('app.list')
     .controller('ListController', ListController);
 
-  ListController.$inject = ['$q','Api','logger'];
+  ListController.$inject = ['$q','Api','logger', '$timeout', '$localStorage'];
   /* @ngInject */
-  function ListController($q, Api, logger) {
+  function ListController($q, Api, logger, $timeout, $localStorage) {
     var vm = this;
     vm.comics = [];
     vm.loading = true;
+    vm.currentLang = 'all';
+    vm.changeLanguage = changeLanguage;
+    var comicsList = [];
 
     loadChapters();
 
     function loadChapters() {
+      if ($localStorage.filterLang !== undefined && vm.currentLang !== $localStorage.filterLang) {
+        vm.currentLang = $localStorage.filterLang;
+      } else if ($localStorage.filterLang === undefined) {
+        $localStorage.filterLang = 'all';
+      }
       var promises = [getComics()];
       return $q.all(promises).then(function() {
         vm.loading = false;
@@ -25,12 +33,36 @@
     function getComics() {
       return Api.comicsList({orderby:'asc_name'})
         .then(function(data) {
-          vm.comics = data[0].comics;
+          comicsList = data[0];
+          vm.comics = comicsFilter(comicsList.comics);
           return vm.comics;
         })
         .catch(function(data) {
           logger.error(data);
         });
+    }
+
+    function changeLanguage(lang) {
+      vm.currentLang = lang;
+      $localStorage.filterLang = lang;
+      var promise = $timeout();
+      promise = promise.then(function() {
+        vm.comics = comicsFilter(comicsList.comics);
+        return $timeout(1);
+      });
+    }
+
+    function comicsFilter(comics) {
+      var newComics = [];
+      if (vm.currentLang === 'all') {
+        return comicsList.comics;
+      }
+      _.forEach(comics, function(comic) {
+        if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
+          newComics.push(comic);
+        }
+      });
+      return newComics;
     }
   }
 })();

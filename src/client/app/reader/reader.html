@@ -10,7 +10,7 @@
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
-                                <li ng-repeat="comic in vm.comics">
+                                <li ng-repeat="comic in vm.comics | orderBy: '+name'">
                                     <a ui-sref="comic({id: comic.stub})">{{comic.name}}</a>
                                 </li>
                             </ul>
@@ -25,7 +25,8 @@
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
                                 <li ng-repeat="chapter in vm.chapters track by $index">
-                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter.chapter,subchapter:chapter.subchapter})">
+                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter.chapter,subchapter:chapter.subchapter, lang: chapter.lang})">
+                                        <i class="flag flag-{{chapter.lang}}"></i>
                                         <span ng-if="vm.comic.name !== 'Oneshots'" translate="global.CHAPTER" translate-value-chapter="{{chapter.chapter}}"><span ng-if="chapter.subchapter !== '0'">.{{chapter.subchapter}}</span></span>
                                         <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chaptersOneshots[$index]}}</span>
                                     </a>
@@ -36,16 +37,12 @@
                             <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span class="dropdown-label">
                                     <span ng-if="vm.pageSelected !== 'END'" translate="global.PAGE" translate-value-page="{{vm.pageSelected}}"></span>
-                                    <span ng-if="vm.pageSelected === 'END'" translate="global.COMMENTS">Comments</span>
                                 </span>                    
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
                                 <li ng-repeat="page in vm.pagesList">
                                     <a ng-click="vm.changePageSelected(page)" translate="global.PAGE" translate-value-page="{{page}}">Page</a>
-                                </li>
-                                <li>
-                                    <a ng-click="vm.changePageSelected('END')" translate="global.COMMENTS">Comments</a>
                                 </li>
                             </ul>
                         </div>

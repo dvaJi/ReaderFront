@@ -16,7 +16,7 @@
       {
         state: 'read',
         config: {
-          url: '/read/:id/chapter/:chapter.:subchapter',
+          url: '/read/:id/:lang/:volume/:chapter.:subchapter',
           templateUrl: 'app/reader/reader.html',
           controller: 'ReaderController',
           controllerAs: 'vm',

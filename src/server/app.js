@@ -39,6 +39,9 @@ switch (environment) {
     app.use('/images/*', function (req, res, next) {
       four0four.send404(req, res);
     });
+    app.use('/flags/*', function (req, res, next) {
+      four0four.send404(req, res);
+    });
     app.use('/styles/*', function (req, res, next) {
       four0four.send404(req, res);
     });

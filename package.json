@@ -10,12 +10,12 @@
     "test": "gulp test"
   },
   "license": "MIT",
-  "config":{
-    "unsafe-perm":true
+  "config": {
+    "unsafe-perm": true
   },
-  "repository" : { 
-    "type" : "git", 
-    "url" : "https://github.com/dvaJi/ReaderFront.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dvaJi/ReaderFront.git"
   },
   "dependencies": {
     "body-parser": "~1.17.2",

@@ -1,4 +1,4 @@
-<a ui-sref="read({id: release.comic.stub, chapter: release.chapter.chapter, subchapter: release.chapter.subchapter })" class="post type-post status-publish format-standard has-post-thumbnail hentry animated fadeIn"
+<a ui-sref="read({id: release.comic.stub, lang: release.chapter.language, volume: release.chapter.volume, chapter: release.chapter.chapter, subchapter: release.chapter.subchapter })" class="post type-post status-publish format-standard has-post-thumbnail hentry animated fadeIn"
   ng-style="release.comic.adult != '1' && {'background-image': 'url({{release.pages[2].url}})' }
         || release.comic.adult == '1' && {'background-image': 'linear-gradient(rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.78)),url({{release.pages[2].url}})' }"
   ng-class="{adultcover: release.comic.adult == '1'}">

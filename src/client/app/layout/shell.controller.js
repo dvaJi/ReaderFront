@@ -15,7 +15,7 @@
     vm.navline = { title: config.appTitle};
     var isIE = !!navigator.userAgent.match(/MSIE/i);
     if (isIE) { angular.element($window.document.body).addClass('ie');}
-    if (isSmartDevice($window)) { angular.element($window.document.body).addClass('smart')};
+    if (isSmartDevice($window)) { angular.element($window.document.body).addClass('smart');}
     function isSmartDevice($window) {
       // Adapted from http://www.detectmobilebrowsers.com
       var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];
@@ -27,19 +27,8 @@
     $scope.disqusConfig = {
       disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
       disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + 'home',
-      disqus_url: location.href
-    };
-
-    // angular translate
-    $scope.lang = { isopen: false };
-    $scope.langs = { en: 'English', es: 'Spanish' };
-    $scope.selectLang = $scope.langs[$translate.proposedLanguage()] || 'English';
-    $scope.setLang = function (langKey, $event) {
-      // set the current lang
-      $scope.selectLang = $scope.langs[langKey];
-      // You can change the language during runtime
-      $translate.use(langKey);
-      $scope.lang.isopen = !$scope.lang.isopen;
+      disqus_url: location.href,
+      disqus_config_language: CUSTOM_CONFIG.LANG
     };
 
     activate();

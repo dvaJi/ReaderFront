@@ -2,7 +2,20 @@
   "global": {
     "CHAPTER": "Capítulo {{chapter}}",
     "PAGE": "Página {{page}}",
-    "COMMENTS": "Comentarios"
+    "COMMENTS": "Comentarios",
+    "MORE": "Más",
+    "FILTERBY": "Filtrar: ",
+    "settings": {
+      "TITLE": "Configuración",
+      "LANGUAGE": "Idioma",
+      "FIX_HEADER": "Nav fijo",
+      "SHOW_RELEASES": "Contenido en {{lang}}",
+      "languages": {
+        "all": "Todos",
+        "en": "Ingles",
+        "es": "Español"
+      }
+    }
   },
   "module": {
     "blog": {
@@ -14,7 +27,8 @@
       "INFORMATION": "Información",
       "ARTIST": "Artista",
       "AUTHOR": "Guión",
-      "CHAPTERS": "Capítulos"
+      "CHAPTERS": "Capítulos",
+      "NO_TRANSLATED": "Esta serie no se encuentra disponible en {{lang}}"
     },
     "list": {
       "TITLE": "Lista de Series"

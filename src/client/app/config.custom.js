@@ -6,6 +6,7 @@ angular.module('app.core')
 .constant('CUSTOM_CONFIG', {
   "NAME": "readerfront",
   "NAVTITLE": "Reader Front",
+  "LANG": "en",
   "META": {
     "title": "ReaderFront",
     "description": "Ayyyy",

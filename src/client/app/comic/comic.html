@@ -1,5 +1,11 @@
-<div class="wrapper-md">
-  <div class="row">
+<div class="wrapper-md" ng-cloak>
+  <div ng-if="!vm.isTranslated"  class="row">
+    <div class="panel wrapper" >
+      <h3 class="font-thin m-t-none m-b text-muted">Ups!</h3>
+      <span translate="module.comic.NO_TRANSLATED" translate-value-lang="{{vm.selectLang}}"></span>
+    </div>
+  </div>
+  <div ng-if="vm.isTranslated"  class="row">
     <div class="col-md-4">
       <div class="panel wrapper" style="height: 100%;">
         <img src="{{vm.comic.fullsized_thumb_url}}" style="width: 100%;"/>
@@ -33,7 +39,7 @@
             <tr ng-repeat="chapter in vm.chapters | orderBy:'-chapter'">                    
               <!--<td><a href="{{chapter.chapter.href}}">Chapter{{chapter.chapter.chapter}}</a></td>-->
               <td>
-                <a ui-sref="read({id: vm.comic.stub, chapter: chapter.chapter.chapter, subchapter: chapter.chapter.subchapter })">
+                <a ui-sref="read({id: vm.comic.stub, lang: chapter.chapter.language, volume: chapter.chapter.volume, chapter: chapter.chapter.chapter, subchapter: chapter.chapter.subchapter })">
                   <span ng-show="!chapter.chapter.name">#{{chapter.chapter.chapter}}: <span translate="global.CHAPTER" translate-value-chapter="{{chapter.chapter.chapter}}"></span></span> 
                   <span ng-show="chapter.chapter.name">#{{chapter.chapter.chapter}}: {{chapter.chapter.name}}</span> 
                 </a>

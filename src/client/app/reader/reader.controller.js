@@ -49,37 +49,28 @@
     }
 
     function getComic() {
-      var query = {};
-      if (typeof(params.chapter) !== 'undefined' && params.chapter !== -1) {
-        query = { stub: params.id, chapter: params.chapter, subchapter: params.subchapter };
-      } else {
-        query = { stub: params.id, chapter: params.chapter };
-      }
+      var query = { stub: params.id, chapter: params.chapter, subchapter: params.subchapter, lang: params.lang };
       return Api.getComic(query)
         .then(function (data) {
           vm.comic = data.comic;
           angular.forEach(data.chapters, function (value, key) {
-            if (value.chapter.chapter === params.chapter && value.chapter.subchapter === params.subchapter) {
+            //Grab actual chapter
+            if (value.chapter.chapter === params.chapter && value.chapter.subchapter === params.subchapter && value.chapter.language === params.lang) {
               vm.chapter = value.chapter;
-            } else {
-              if (value.chapter.chapter === vm.chapterSelected && value.chapter.subchapter === '0') {
-                vm.chapter = value.chapter;
-              }
             }
+
+            // Check if its a Oneshot
             if (vm.comic.name === 'Oneshots') {
               vm.chaptersOneshots.push(value.chapter.name);
             }
-            if (value.chapter.subchapter !== null && value.chapter.subchapter !== '0') {
-              var chapterObj = {chapter: value.chapter.chapter, subchapter:value.chapter.subchapter};
-              vm.chapters.push(chapterObj);
-            } else {
-              var chapterWithoutSubchapterObj = {chapter: value.chapter.chapter, subchapter: '0'};
-              vm.chapters.push(chapterWithoutSubchapterObj);
-            }
+
+            var chapterObj = {chapter: value.chapter.chapter, subchapter:value.chapter.subchapter, lang: value.chapter.language};
+            vm.chapters.push(chapterObj);
             if (parseInt(value.chapter.chapter) >= parseInt(lastestChapter)) {
               lastestChapter = parseInt(value.chapter.chapter);
             }
           });
+
           vm.pages = vm.chapter.pages;
           angular.forEach(vm.pages, function (value, key) {
             vm.pagesList.push(key + 1);
@@ -154,6 +145,13 @@
       }
     }
 
+    function showNavInfo() {
+      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {
+        logger.info('Use W-A-S-D or the arrow keys to navigate');
+        $localStorage.navInfo = true;
+      }
+    }
+
     // Hotkeys config
     hotkeys.add({
       combo: 'right',
@@ -183,12 +181,5 @@
         changePageSelected(vm.pageSelected !== 'END' ? (vm.pageSelected - 1) : null);
       }
     });
-
-    function showNavInfo() {
-      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {
-        logger.info('Use W-A-S-D or the arrow keys to navigate');
-        $localStorage.navInfo = true;
-      }
-    }
   }
 })();

@@ -5,9 +5,9 @@
     .module('app.layout')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = ['$state', 'routerHelper', 'Api'];
+  SidebarController.$inject = ['$state', 'routerHelper', 'Api', '$scope'];
   /* @ngInject */
-  function SidebarController($state, routerHelper, Api) {
+  function SidebarController($state, routerHelper, Api, $scope) {
     var vm = this;
     var states = routerHelper.getStates();
     vm.isCurrent = isCurrent;
@@ -29,7 +29,7 @@
     }
 
     function getPages() {
-      var query = {};
+      var query = {lang: $scope.selectLang};
       return Api.getPage(query)
        .then(function(data) {
           vm.pageNavRoutes = data.data;

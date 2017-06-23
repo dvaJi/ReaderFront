@@ -31,7 +31,7 @@
     }
 
     function getPage() {
-      var query = {stub: $stateParams.stub};
+      var query = {stub: $stateParams.stub, lang: $scope.selectLang};
       return Api.getPage(query)
        .then(function(data) {
           vm.page = data.data.custompage;
