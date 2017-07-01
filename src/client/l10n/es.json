@@ -5,6 +5,12 @@
     "COMMENTS": "Comentarios",
     "MORE": "Más",
     "FILTERBY": "Filtrar: ",
+    "NO_MORE_CHAPTERS": "¡No hay más capítulos!",
+    "modal": {
+      "TITLE": "¡Bienvenido!",
+      "MESSAGE": "Por favor confirma tu idioma.",
+      "ACCEPT": "Aceptar"
+    },
     "settings": {
       "TITLE": "Configuración",
       "LANGUAGE": "Idioma",

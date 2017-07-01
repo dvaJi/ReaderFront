@@ -34,6 +34,9 @@
   <div id="mocha"></div>
 
   <!-- inject:testlibraries:js -->
+  <script src="/node_modules/mocha/mocha.js"></script>
+  <script src="/node_modules/chai/chai.js"></script>
+  <script src="/node_modules/sinon-chai/lib/sinon-chai.js"></script>
   <!-- endinject -->
 
   <script>
@@ -44,18 +47,112 @@
   </script>
 
   <!-- bower:js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/lodash/lodash.js"></script>
+  <script src="/bower_components/angular-animate/angular-animate.js"></script>
+  <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="/bower_components/angular-touch/angular-touch.js"></script>
+  <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="/bower_components/extras.angular.plus/ngplus-overlay.js"></script>
+  <script src="/bower_components/moment/moment.js"></script>
+  <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="/bower_components/toastr/toastr.js"></script>
+  <script src="/bower_components/ngstorage/ngStorage.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="/bower_components/angular-translate/angular-translate.js"></script>
+  <script src="/bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+  <script src="/bower_components/messageformat/messageformat.js"></script>
+  <script src="/bower_components/angular-translate-interpolation-messageformat/angular-translate-interpolation-messageformat.js"></script>
+  <script src="/bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+  <script src="/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script src="/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+  <script src="/bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+  <script src="/bower_components/restangular/dist/restangular.js"></script>
+  <script src="/bower_components/angular-cfp-hotkeys/build/hotkeys.js"></script>
+  <script src="/bower_components/angular-mocks/angular-mocks.js"></script>
+  <script src="/bower_components/bardjs/dist/bard.js"></script>
+  <script src="/bower_components/bardjs/dist/bard-ngRouteTester.js"></script>
   <!-- endbower -->
 
   <!-- inject:js -->
+  <script src="/src/client/app/app.module.js"></script>
+  <script src="/src/client/app/blocks/exception/exception.module.js"></script>
+  <script src="/src/client/app/blocks/logger/logger.module.js"></script>
+  <script src="/src/client/app/blocks/router/router.module.js"></script>
+  <script src="/src/client/app/blog/blog.module.js"></script>
+  <script src="/src/client/app/comic/comic.module.js"></script>
+  <script src="/src/client/app/core/core.module.js"></script>
+  <script src="/src/client/app/layout/layout.module.js"></script>
+  <script src="/src/client/app/list/list.module.js"></script>
+  <script src="/src/client/app/pages/pages.module.js"></script>
+  <script src="/src/client/app/projects/projects.module.js"></script>
+  <script src="/src/client/app/reader/reader.module.js"></script>
+  <script src="/src/client/app/releases/releases.module.js"></script>
+  <script src="/src/client/app/widgets/widgets.module.js"></script>
+  <script src="/src/client/app/blocks/exception/exception-handler.provider.js"></script>
+  <script src="/src/client/app/blocks/exception/exception.js"></script>
+  <script src="/src/client/app/blocks/logger/logger.js"></script>
+  <script src="/src/client/app/blocks/router/router-helper.provider.js"></script>
+  <script src="/src/client/app/blog/blog.controller.js"></script>
+  <script src="/src/client/app/blog/blog.route.js"></script>
+  <script src="/src/client/app/comic/comic.controller.js"></script>
+  <script src="/src/client/app/comic/comic.route.js"></script>
+  <script src="/src/client/app/config.custom.js"></script>
+  <script src="/src/client/app/core/config.js"></script>
+  <script src="/src/client/app/core/constants.js"></script>
+  <script src="/src/client/app/core/core.route.js"></script>
+  <script src="/src/client/app/core/dataservice.js"></script>
+  <script src="/src/client/app/layout/ht-sidebar.directive.js"></script>
+  <script src="/src/client/app/layout/ht-top-nav.directive.js"></script>
+  <script src="/src/client/app/layout/shell.controller.js"></script>
+  <script src="/src/client/app/layout/sidebar.controller.js"></script>
+  <script src="/src/client/app/list/list.controller.js"></script>
+  <script src="/src/client/app/list/list.route.js"></script>
+  <script src="/src/client/app/pages/pages.controller.js"></script>
+  <script src="/src/client/app/pages/pages.route.js"></script>
+  <script src="/src/client/app/projects/projects.controller.js"></script>
+  <script src="/src/client/app/projects/projects.route.js"></script>
+  <script src="/src/client/app/reader/reader.controller.js"></script>
+  <script src="/src/client/app/reader/reader.route.js"></script>
+  <script src="/src/client/app/releases/card.directive.js"></script>
+  <script src="/src/client/app/releases/releases.controller.js"></script>
+  <script src="/src/client/app/releases/releases.route.js"></script>
+  <script src="/src/client/app/widgets/disqus.directive.js"></script>
+  <script src="/src/client/app/widgets/moment-format.filter.js"></script>
+  <script src="/src/client/app/widgets/rf-settings.directive.js"></script>
+  <script src="/src/client/app/widgets/ui-toggleclass.directive.js"></script>
   <!-- endinject -->
 
   <!-- inject:spechelpers:js -->
+  <script src="/src/client/test-helpers/mock-data.js"></script>
   <!-- endinject -->
 
   <!-- inject:specs:js -->
+  <script src="/src/client/app/blocks/exception/exception-handler.provider.spec.js"></script>
+  <script src="/src/client/app/blog/blog.controller.spec.js"></script>
+  <script src="/src/client/app/blog/blog.route.spec.js"></script>
+  <script src="/src/client/app/comic/comic.controller.spec.js"></script>
+  <script src="/src/client/app/comic/comic.route.spec.js"></script>
+  <script src="/src/client/app/core/core.route.spec.js"></script>
+  <script src="/src/client/app/layout/ht-sidebar.directive.spec.js"></script>
+  <script src="/src/client/app/layout/shell.controller.spec.js"></script>
+  <script src="/src/client/app/layout/sidebar.controller.spec.js"></script>
+  <script src="/src/client/app/list/list.controller.spec.js"></script>
+  <script src="/src/client/app/list/list.route.spec.js"></script>
+  <script src="/src/client/app/pages/pages.controller.spec.js"></script>
+  <script src="/src/client/app/pages/pages.route.spec.js"></script>
+  <script src="/src/client/app/projects/projects.controller.spec.js"></script>
+  <script src="/src/client/app/projects/projects.route.spec.js"></script>
+  <script src="/src/client/app/reader/reader.controller.spec.js"></script>
+  <script src="/src/client/app/reader/reader.route.spec.js"></script>
+  <script src="/src/client/app/releases/releases.controller.spec.js"></script>
+  <script src="/src/client/app/releases/releases.route.spec.js"></script>
   <!-- endinject -->
 
   <!-- inject:templates:js -->
+  <script src="/.tmp/templates.js"></script>
   <!-- endinject -->
 
   <script>

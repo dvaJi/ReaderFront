@@ -5,9 +5,9 @@
     .module('app.releases')
     .controller('ReleasesController', ReleasesController);
 
-  ReleasesController.$inject = ['$q','Api', 'logger', '$localStorage'];
+  ReleasesController.$inject = ['$q','Api', 'logger', '$localStorage', '$scope', '$translate'];
   /* @ngInject */
-  function ReleasesController($q, Api, logger, $localStorage) {
+  function ReleasesController($q, Api, logger, $localStorage, $scope, $translate) {
     var vm = this;
     vm.releases = [];
     vm.loading = true;
@@ -41,7 +41,12 @@
           return vm.releases;
         })
         .catch(function(data) {
-          logger.error(data);
+          if (data.status === 404) {
+            vm.releases = null;
+            logger.warning($translate.instant('global.NO_MORE_CHAPTERS'));
+          } else {
+            logger.error(data);
+          }
         });
     }
 
@@ -62,6 +67,12 @@
           }
         });
     }
+
+    $scope.$watch(function() {
+      if (!vm.loading && vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        changeLanguage(window.localStorage.getItem('NG_TRANSLATE_LANG_KEY'));
+      }
+    });
 
     function changeLanguage(lang) {
       vm.currentLang = lang;

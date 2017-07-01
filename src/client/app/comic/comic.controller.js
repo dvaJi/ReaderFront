@@ -9,6 +9,7 @@
   /* @ngInject */
   function ComicController($q, logger, Api, $stateParams, $window, $scope, $translate) {
     var vm = this;
+    vm.loading = true;
     vm.comic = [];
     vm.chapters = [];
     vm.downloadChapter = downloadChapter;
@@ -19,6 +20,7 @@
     function loadComic() {
       var promises = [getComic()];
       return $q.all(promises).then(function() {
+        vm.loading = false;
         //logger.info('Activated Comic View');
       });
     }
@@ -38,7 +40,7 @@
           else {
             vm.comic.description = translated;
             vm.isTranslated = true;
-            vm.chapters = _.filter(data.chapters, function(o) { return o.chapter.language === $scope.selectLang;});
+            vm.chapters = _.filter(data.chapters, function(o) { return o.chapter.language === window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');});
           }
           return vm.comic;
         })
@@ -48,22 +50,24 @@
     }
 
     function isTranslated() {
-      if (vm.comic.descriptions !== undefined && _.find(vm.comic.descriptions, { 'language': $scope.selectLang}) !== undefined) {
-        return _.find(vm.comic.descriptions, { 'language': $scope.selectLang}).description;
+      if (vm.comic.descriptions !== undefined && _.find(vm.comic.descriptions, { 'language': window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')}) !== undefined) {
+        return _.find(vm.comic.descriptions, { 'language': window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')}).description;
       } else {
         return null;
       }
     }
 
-    $scope.$watch('selectLang', function() {
-      vm.selectLang = $translate.instant('global.settings.languages.' + $scope.selectLang);
-      var translated = isTranslated();
-      if (!translated) {
-        vm.isTranslated = false;
-      }
-      else {
-        vm.comic.description = translated;
-        vm.isTranslated = true;
+    $scope.$watch(function() {
+      if (!vm.loading) {
+        vm.selectLang = $translate.instant('global.settings.languages.' + window.localStorage.getItem('NG_TRANSLATE_LANG_KEY'));
+        var translated = isTranslated();
+        if (!translated) {
+          vm.isTranslated = false;
+        }
+        else {
+          vm.comic.description = translated;
+          vm.isTranslated = true;
+        }
       }
     });
   }

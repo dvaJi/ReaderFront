@@ -11,6 +11,7 @@
     var vm = this;
     vm.post = {};
     vm.posts = [];
+    vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
     loadBlog();
 
@@ -29,8 +30,15 @@
       });
     }
 
+    $scope.$watch(function() {
+      if (vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        getPosts();
+      }
+    });
+
     function getPosts() {
-      var query = {};
+      var query = {lang: vm.currentLang};
       return Api.getPosts(query)
        .then(function(data) {
           vm.posts = data;

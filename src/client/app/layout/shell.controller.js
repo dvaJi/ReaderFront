@@ -5,9 +5,9 @@
     .module('app.layout')
     .controller('ShellController', ShellController);
 
-  ShellController.$inject = ['$scope','$rootScope', '$timeout', 'config', 'logger', '$translate', '$localStorage', '$window', 'CUSTOM_CONFIG'];
+  ShellController.$inject = ['$scope','$rootScope', '$timeout', 'config', 'logger', '$translate', '$localStorage', '$window', 'CUSTOM_CONFIG', '$uibModal'];
   /* @ngInject */
-  function ShellController($scope, $rootScope, $timeout, config, logger, $translate,   $localStorage,   $window, CUSTOM_CONFIG) {
+  function ShellController($scope, $rootScope, $timeout, config, logger, $translate, $localStorage,   $window, CUSTOM_CONFIG, $uibModal) {
     var vm = this;
     vm.busyMessage = 'Please wait ...';
     vm.isBusy = true;
@@ -21,6 +21,23 @@
       var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];
       // Checks for iOs, Android, Blackberry, Opera Mini, and Windows mobile devices
       return (/iPhone|iPod|iPad|Silk|Android|BlackBerry|Opera Mini|IEMobile/).test(ua);
+    }
+
+    if ($localStorage.filterLang === undefined) {
+      var modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        templateUrl: 'welcomeModal.html',
+        size: 'md',
+        appendTo: undefined,
+        controller: function ($scope) {
+            $scope.accept = function() {
+              console.log('sdasd');
+              modalInstance.close();
+            };
+          }
+      });
     }
 
     // Disqus initial config

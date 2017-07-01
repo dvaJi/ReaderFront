@@ -1,58 +1,6 @@
 <!-- settings -->
-<div class="settings panel panel-default">
-  <button class="btn btn-default no-shadow pos-abt" ui-toggle-class="active" target=".settings">
-    <i class="fa fa-spin fa-gear"></i>
-  </button>
-  <div class="panel-heading">
-    <span translate="global.settings.TITLE">Settings</span>
-  </div>
-  <div class="panel-body"> 
-    <div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="app.settings.headerFixed">
-        <i></i>
-      </label>
-      {{'global.settings.FIX_HEADER' | translate}}
-    </div>
-    <div class="m-b-sm">
-      <li class="dropdown pull-right" style="list-style-type: none;" is-open="lang.isopen" dropdown>
-        <a class="dropdown-toggle ng-binding" dropdown-toggle="" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
-              <span translate="global.settings.languages.{{selectLang}}"></span> <b class="caret"></b>
-            </a>
-        <!-- dropdown -->
-        <ul class="dropdown-menu animated-x5 fadeInUp w">
-          <li ng-repeat="(langKey, label) in langs">
-            <a ng-click="setLang(langKey, $event)" href><span translate="global.settings.languages.{{langKey}}"></span></a>
-          </li>
-        </ul>
-        <!-- / dropdown -->
-      </li>
-      {{'global.settings.LANGUAGE' | translate}}
-    </div>
-    <!--<div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="setEnContent" ng-click="setContentLang()">
-        <i></i>
-      </label>
-      <span translate="global.settings.SHOW_RELEASES" translate-value-lang="English"></span>
-    </div>
-    <div class="m-b-sm">
-      <label class="i-switch bg-info pull-right">
-        <input type="checkbox" ng-model="setEsContent" ng-click="setContentLang()">
-        <i></i>
-      </label>
-      <span translate="global.settings.SHOW_RELEASES" translate-value-lang="Spanish"></span>
-    </div>-->
-  </div>
-</div>
-<!-- /settings -->
-<!--<div class="set-languages panel panel-default">
-  <button ng-click="setContentLang('es')" class="btn btn-default no-shadow pos-abt" ng-class="{active: setEsContent}">
-    <i class="flag flag-es"></i>
-  </button>
-</div>
-<div class="set-languages panel panel-default" style="top:204px">
-  <button ng-class="{active: setEnContent}" ng-click="setContentLang('en')" class="btn btn-default no-shadow pos-abt">
-    <i class="flag flag-en"></i>
-  </button>
-</div>-->
+<ul class="nav navbar-nav ">
+  <li ng-repeat="(langKey, label) in langs" ng-class="{active: selectLang === langKey}">
+    <a ng-click="setLang(langKey, $event)" href><span class="text-uppercase">{{langKey}}</span></a>
+  </li>
+</ul>

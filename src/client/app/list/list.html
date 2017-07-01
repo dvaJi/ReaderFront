@@ -1,19 +1,18 @@
 <div class="wrapper-md">
-  <div class="row">
+  <div class="row hidden-lg hidden-md">
     <div class="col-md-12">
       <div class="panel wrapper" style="padding: 7px 10px;">
         <div class="row">
           <div class="col-md-12">
-            <label translate="global.FILTERBY">Language filter:</label>
+            <label>{{'global.FILTERBY' | translate}}</label>
             <div class="btn-group dropdown">
               <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 <span class="dropdown-label" translate="global.settings.languages.{{vm.currentLang}}"></span>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
-                <li><a ng-click="vm.changeLanguage('all')" translate="global.settings.languages.all">All</a></li>
-                <li><a ng-click="vm.changeLanguage('es')" translate="global.settings.languages.es">Spanish</a></li>
-                <li><a ng-click="vm.changeLanguage('en')" translate="global.settings.languages.en">English</a></li>
+                <li><a ng-click="vm.changeLanguage('es')">{{'global.settings.languages.es' | translate}}</a></li>
+                <li><a ng-click="vm.changeLanguage('en')">{{'global.settings.languages.en' | translate}}</a></li>
               </ul>
             </div>
           </div>

@@ -19,6 +19,8 @@
       <!-- navbar collapse -->
       <div class="collapse pos-rlt navbar-collapse {{app.settings.navbarCollapseColor}}">
 
+        <rf-settings></rf-settings>
+
         <!-- nabar right -->
         <ul class="nav navbar-nav navbar-right"  ng-controller="SidebarController as vm">
           <li ng-class="vm.isCurrent(r)" ng-repeat="r in vm.navRoutes">

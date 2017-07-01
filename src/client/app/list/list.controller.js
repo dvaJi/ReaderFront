@@ -5,9 +5,9 @@
     .module('app.list')
     .controller('ListController', ListController);
 
-  ListController.$inject = ['$q','Api','logger', '$timeout', '$localStorage'];
+  ListController.$inject = ['$q','Api','logger', '$timeout', '$localStorage', '$scope'];
   /* @ngInject */
-  function ListController($q, Api, logger, $timeout, $localStorage) {
+  function ListController($q, Api, logger, $timeout, $localStorage, $scope) {
     var vm = this;
     vm.comics = [];
     vm.loading = true;
@@ -41,6 +41,12 @@
           logger.error(data);
         });
     }
+
+    $scope.$watch(function() {
+      if (!vm.loading && vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        changeLanguage(window.localStorage.getItem('NG_TRANSLATE_LANG_KEY'));
+      }
+    });
 
     function changeLanguage(lang) {
       vm.currentLang = lang;
