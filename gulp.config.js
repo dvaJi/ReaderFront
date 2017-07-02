@@ -35,6 +35,7 @@ module.exports = function() {
       client + 'fonts/*.*',
       client + 'fonts/sourcesanspro/*.*'
     ],
+    l10n: client + 'l10n/*.json',
     html: client + '**/*.html',
     htmltemplates: clientApp + '**/*.html',
     images: client + 'images/**/*.*',

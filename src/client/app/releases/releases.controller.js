@@ -77,6 +77,7 @@
     function changeLanguage(lang) {
       vm.currentLang = lang;
       $localStorage.filterLang = lang;
+      currentPage = 1;
       var query = getQuery(itemsPerPage, currentPage);
       getReleases(query);
     }

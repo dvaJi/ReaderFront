@@ -105,6 +105,18 @@ gulp.task('fonts', ['clean-fonts'], function() {
 });
 
 /**
+ * Copy l10n
+ * @return {Stream}
+ */
+gulp.task('l10n', ['clean-l10n'], function() {
+  log('Copying l10n');
+
+  return gulp
+    .src(config.l10n)
+    .pipe(gulp.dest(config.build + 'l10n'));
+});
+
+/**
  * Compress images
  * @return {Stream}
  */
@@ -229,7 +241,7 @@ gulp.task('build', ['optimize', 'images', 'fonts'], function() {
  * Copy manifest
  * @return {Stream}
  */
-gulp.task('manifest', function() {
+gulp.task('manifest', ['clean-manifest'], function() {
   log('Copying manifest file');
 
   return gulp
@@ -242,7 +254,7 @@ gulp.task('manifest', function() {
  * and inject them into the new index.html
  * @return {Stream}
  */
-gulp.task('optimize', ['configit', 'inject', 'test'], function() {
+gulp.task('optimize', ['manifest', 'l10n', 'configit', 'inject', 'test'], function() {
   log('Optimizing the js, css, and html');
 
   var customConfig = require(config.customConfig);
@@ -305,6 +317,22 @@ gulp.task('clean', function(done) {
  */
 gulp.task('clean-fonts', function(done) {
   clean(config.build + 'fonts/**/*.*', done);
+});
+
+/**
+ * Remove all l10n from the build folder
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-l10n', function(done) {
+  clean(config.build + 'l10n/*.json', done);
+});
+
+/**
+ * Remove manifest from the build folder
+ * @param  {Function} done - callback when complete
+ */
+gulp.task('clean-manifest', function(done) {
+  clean(config.build + 'manifest.json', done);
 });
 
 /**

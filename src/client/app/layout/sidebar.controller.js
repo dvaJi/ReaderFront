@@ -39,7 +39,7 @@
     function getPages() {
       var query = {lang: vm.currentLang};
       return Api.getPage(query)
-       .then(function(data) {
+        .then(function(data) {
           vm.pageNavRoutes = data.data;
           if (vm.pageNavRoutes.length > 0) {
             vm.disablePageNav = false;
@@ -47,6 +47,7 @@
           return vm.pageNavRoutes;
         })
         .catch(function(error) {
+          vm.disablePageNav = true;
           if (error.status !== 404) {
             console.log(error);
           }

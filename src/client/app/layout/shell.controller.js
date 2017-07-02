@@ -31,12 +31,11 @@
         templateUrl: 'welcomeModal.html',
         size: 'md',
         appendTo: undefined,
-        controller: function ($scope) {
+        controller: ['$scope', function ($scope) {
             $scope.accept = function() {
-              console.log('sdasd');
               modalInstance.close();
             };
-          }
+          }]
       });
     }
 

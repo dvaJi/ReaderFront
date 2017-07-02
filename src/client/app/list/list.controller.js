@@ -31,7 +31,7 @@
     }
 
     function getComics() {
-      return Api.comicsList({orderby:'asc_name'})
+      return Api.comicsList({orderby:'asc_name', per_page: 100})
         .then(function(data) {
           comicsList = data[0];
           vm.comics = comicsFilter(comicsList.comics);

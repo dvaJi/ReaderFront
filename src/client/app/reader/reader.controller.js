@@ -26,24 +26,34 @@
     vm.showImages = showImages;
     var lastPage = 0;
     var lastestChapter = 0;
+    var chaptersList = [];
+    var comicsList = [];
+    vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
     loadReader();
 
     function loadReader() {
       vm.webtoonMode = false;
+      if ($localStorage.filterLang !== undefined && vm.currentLang !== $localStorage.filterLang) {
+        vm.currentLang = $localStorage.filterLang;
+      } else if ($localStorage.filterLang === undefined) {
+        $localStorage.filterLang = 'all';
+      }
       var promises = [getComic(), getComics()];
       return $q.all(promises).then(function() {
         showNavInfo();
       });
     }
 
-    function setDisqusConfig(name, chapter, subchapter) {
+    function setDisqusConfig(name, chapter, subchapter, lang) {
+      lang = (lang === 'es') ? 'es_ES' : lang;
       var chapterObj = ((subchapter !== '0') ? chapter + '.' + subchapter : chapter);
       $scope.disqusConfig = {
         disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
         disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub + chapter + subchapter,
         disqus_url: window.location.href,
-        disqus_title: name + ' chapter ' + chapterObj  + ' - ' + CUSTOM_CONFIG.NAVTITLE,
+        disqus_title: name + ' chapter ' + chapterObj  + ' ' + lang.toUpperCase() + ' - ' + CUSTOM_CONFIG.NAVTITLE,
+        disqus_config_language: lang,
         disqus_disable_mobile: 'false'
       };
     }
@@ -70,21 +80,46 @@
               lastestChapter = parseInt(value.chapter.chapter);
             }
           });
+          chaptersList = vm.chapters;
+          vm.chapters = _.filter(vm.chapters, function(o) { return o.lang === window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');});
 
           vm.pages = vm.chapter.pages;
           angular.forEach(vm.pages, function (value, key) {
             vm.pagesList.push(key + 1);
           });
           lastPage = vm.pages.length;
-          setDisqusConfig(vm.comic.name, params.chapter, params.subchapter);
+          setDisqusConfig(vm.comic.name, params.chapter, params.subchapter, vm.currentLang);
           return vm.comic;
         });
     }
 
+    $scope.$watch(function() {
+      if (vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        vm.chapters = _.filter(chaptersList, function(o) { return o.lang === vm.currentLang;});
+        var newComics = [];
+        _.forEach(comicsList, function(comic) {
+          console.log(comic);
+          if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
+            newComics.push(comic);
+          }
+        });
+        vm.comics = newComics;
+      }
+    });
+
     function getComics() {
-      return Api.comicsList()
+      return Api.comicsList({per_page: 100})
        .then(function(data) {
+          var newComics = [];
           vm.comics = data[0].comics;
+          comicsList = vm.comics;
+          _.forEach(comicsList, function(comic) {
+            if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
+              newComics.push(comic);
+            }
+          });
+          vm.comics = newComics;
           return vm.comics;
         });
     }
