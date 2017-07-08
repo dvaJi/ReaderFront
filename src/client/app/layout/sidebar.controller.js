@@ -5,12 +5,13 @@
     .module('app.layout')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = ['$state', 'routerHelper', 'Api'];
+  SidebarController.$inject = ['$state', 'routerHelper', 'Api', '$scope'];
   /* @ngInject */
-  function SidebarController($state, routerHelper, Api) {
+  function SidebarController($state, routerHelper, Api, $scope) {
     var vm = this;
     var states = routerHelper.getStates();
     vm.isCurrent = isCurrent;
+    vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
     vm.disablePageNav = true;
 
     activate();
@@ -28,15 +29,28 @@
       });
     }
 
+    $scope.$watch(function() {
+      if (vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        getPages();
+      }
+    });
+
     function getPages() {
-      var query = {};
+      var query = {lang: vm.currentLang};
       return Api.getPage(query)
-       .then(function(data) {
+        .then(function(data) {
           vm.pageNavRoutes = data.data;
           if (vm.pageNavRoutes.length > 0) {
             vm.disablePageNav = false;
           }
           return vm.pageNavRoutes;
+        })
+        .catch(function(error) {
+          vm.disablePageNav = true;
+          if (error.status !== 404) {
+            console.log(error);
+          }
         });
     }
 

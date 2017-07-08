@@ -1,6 +1,31 @@
 <div class="wrapper-md">
-  <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
-    <card release="release"></card>
+  <div class="row hidden-lg hidden-md">
+    <div class="col-md-12">
+      <div class="panel wrapper" style="padding: 7px 10px;">
+        <div class="row">
+          <div class="col-md-12">
+            <label>{{'global.FILTERBY' | translate}}</label>
+            <div class="btn-group dropdown">
+              <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="dropdown-label" translate="global.settings.languages.{{vm.currentLang}}"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
+                <li><a ng-click="vm.changeLanguage('es')">{{'global.settings.languages.es' | translate}}</a></li>
+                <li><a ng-click="vm.changeLanguage('en')">{{'global.settings.languages.en' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-hide="vm.loading">
+        <card release="release" class="posts" id="posts" ng-repeat="release in vm.releases"></card>
+      </div>
+    </div>
   </div>
   <center id="md-spinner" ng-show="vm.loading">
   <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
@@ -8,6 +33,6 @@
   </svg>
   </center>
 </div>
-<div class="text-center" ng-hide="vm.loading">
-  <button class="btn btn-default btn-lg" style="margin-top:20px;" ng-click="vm.loadMore()"><i class="fa fa-plus" aria-hidden="true"></i> Load More</button>
+<div class="text-center" ng-hide="vm.loading" style="clear: both">
+  <button class="btn btn-default btn-lg" style="margin-top:20px;" ng-click="vm.loadMore()"><i class="fa fa-plus" aria-hidden="true"></i> {{'module.releases.LOAD_MORE' | translate}}</button>
 </div>

@@ -17,91 +17,115 @@
     vm.pages = [];
     vm.pagesList = [];
     vm.pageSelected = 1;
-    vm.lastestChapter = 0;
-    vm.params = $stateParams;
-    vm.chapterSelected = vm.params.chapter;
-    vm.lastPage = 0;
-    vm.getComic = getComic;
-    vm.getComics = getComics;
+    var params = $stateParams;
+    vm.chapterSelected = {chapter:params.chapter, subchapter:params.subchapter};
     vm.changePageSelected = changePageSelected;
     vm.changePageClick = changePageClick;
-    vm.setDisqusConfig = setDisqusConfig;
     vm.downloadChapter = downloadChapter;
     vm.changeWebtoonMode = changeWebtoonMode;
     vm.showImages = showImages;
+    var lastPage = 0;
+    var lastestChapter = 0;
+    var chaptersList = [];
+    var comicsList = [];
+    vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
     loadReader();
 
     function loadReader() {
       vm.webtoonMode = false;
+      if ($localStorage.filterLang !== undefined && vm.currentLang !== $localStorage.filterLang) {
+        vm.currentLang = $localStorage.filterLang;
+      } else if ($localStorage.filterLang === undefined) {
+        $localStorage.filterLang = 'all';
+      }
       var promises = [getComic(), getComics()];
       return $q.all(promises).then(function() {
         showNavInfo();
       });
     }
 
-    function setDisqusConfig(name, chapter, subchapter) {
+    function setDisqusConfig(name, chapter, subchapter, lang) {
+      lang = (lang === 'es') ? 'es_ES' : lang;
+      var chapterObj = ((subchapter !== '0') ? chapter + '.' + subchapter : chapter);
       $scope.disqusConfig = {
         disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
         disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub + chapter + subchapter,
         disqus_url: window.location.href,
-        disqus_title: 'Reader - ' + name + 'chapter ' + chapter + subchapter,
+        disqus_title: name + ' chapter ' + chapterObj  + ' ' + lang.toUpperCase() + ' - ' + CUSTOM_CONFIG.NAVTITLE,
+        disqus_config_language: lang,
         disqus_disable_mobile: 'false'
       };
     }
 
     function getComic() {
-      var query = {};
-      if (typeof(vm.params.chapter) !== 'undefined' && vm.params.chapter.indexOf('.') !== -1) {
-        query = { stub: vm.params.id, chapter: vm.params.chapter.split('.')[0], subchapter: vm.params.chapter.split('.')[1] };
-      } else {
-        query = { stub: vm.params.id, chapter: vm.params.chapter };
-      }
+      var query = { stub: params.id, chapter: params.chapter, subchapter: params.subchapter, lang: params.lang };
       return Api.getComic(query)
         .then(function (data) {
           vm.comic = data.comic;
           angular.forEach(data.chapters, function (value, key) {
-            if (vm.params.chapter.indexOf('.') !== -1) {
-              if (value.chapter.chapter === vm.params.chapter.split('.')[0] && value.chapter.subchapter === vm.params.chapter.split('.')[1]) {
-                vm.chapter = value.chapter;
-              }
-            } else {
-              if (value.chapter.chapter === vm.chapterSelected && value.chapter.subchapter === '0') {
-                vm.chapter = value.chapter;
-              }
+            //Grab actual chapter
+            if (value.chapter.chapter === params.chapter && value.chapter.subchapter === params.subchapter && value.chapter.language === params.lang) {
+              vm.chapter = value.chapter;
             }
+
+            // Check if its a Oneshot
             if (vm.comic.name === 'Oneshots') {
               vm.chaptersOneshots.push(value.chapter.name);
             }
-            if (value.chapter.subchapter !== null && value.chapter.subchapter !== '0') {
-              vm.chapters.push(value.chapter.chapter + '.' + value.chapter.subchapter);
-            } else {
-              vm.chapters.push(value.chapter.chapter);
-            }
-            if (parseInt(value.chapter.chapter) >= parseInt(vm.lastestChapter)) {
-              vm.lastestChapter = parseInt(value.chapter.chapter);
+
+            var chapterObj = {chapter: value.chapter.chapter, subchapter:value.chapter.subchapter, lang: value.chapter.language};
+            vm.chapters.push(chapterObj);
+            if (parseInt(value.chapter.chapter) >= parseInt(lastestChapter)) {
+              lastestChapter = parseInt(value.chapter.chapter);
             }
           });
+          chaptersList = vm.chapters;
+          vm.chapters = _.filter(vm.chapters, function(o) { return o.lang === window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');});
+
           vm.pages = vm.chapter.pages;
           angular.forEach(vm.pages, function (value, key) {
             vm.pagesList.push(key + 1);
           });
-          vm.lastPage = vm.pages.length;
-          setDisqusConfig(vm.comic.name, vm.params.chapter.split('.')[0], vm.params.chapter.split('.')[1]);
+          lastPage = vm.pages.length;
+          setDisqusConfig(vm.comic.name, params.chapter, params.subchapter, vm.currentLang);
           return vm.comic;
         });
     }
 
+    $scope.$watch(function() {
+      if (vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        vm.chapters = _.filter(chaptersList, function(o) { return o.lang === vm.currentLang;});
+        var newComics = [];
+        _.forEach(comicsList, function(comic) {
+          console.log(comic);
+          if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
+            newComics.push(comic);
+          }
+        });
+        vm.comics = newComics;
+      }
+    });
+
     function getComics() {
-      return Api.comicsList()
+      return Api.comicsList({per_page: 100})
        .then(function(data) {
+          var newComics = [];
           vm.comics = data[0].comics;
+          comicsList = vm.comics;
+          _.forEach(comicsList, function(comic) {
+            if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
+              newComics.push(comic);
+            }
+          });
+          vm.comics = newComics;
           return vm.comics;
         });
     }
 
     function changePageSelected(page) {
-      if (page === null || vm.pageSelected === vm.lastPage) {
+      if (page === null || vm.pageSelected === lastPage) {
         vm.pageSelected = 'END';
       } else if (page <= 0) {
         vm.pageSelected = 1;
@@ -117,8 +141,8 @@
     }
 
     function changePageClick(page) {
-      if (vm.pageSelected === vm.lastPage) {
-        if (vm.lastestChapter !== parseInt(vm.chapter.chapter)) {
+      if (vm.pageSelected === lastPage) {
+        if (lastestChapter !== parseInt(vm.chapter.chapter)) {
           $state.go('read', {id: vm.comic.stub, chapter: parseInt(vm.chapter.chapter) + 1, subchapter: 0});
         } else {
           vm.pageSelected = 'END';
@@ -156,6 +180,13 @@
       }
     }
 
+    function showNavInfo() {
+      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {
+        logger.info('Use W-A-S-D or the arrow keys to navigate');
+        $localStorage.navInfo = true;
+      }
+    }
+
     // Hotkeys config
     hotkeys.add({
       combo: 'right',
@@ -185,12 +216,5 @@
         changePageSelected(vm.pageSelected !== 'END' ? (vm.pageSelected - 1) : null);
       }
     });
-
-    function showNavInfo() {
-      if ($localStorage.navInfo === undefined || $localStorage.navInfo === null) {
-        logger.info('Use W-A-S-D or the arrow keys to navigate');
-        $localStorage.navInfo = true;
-      }
-    }
   }
 })();

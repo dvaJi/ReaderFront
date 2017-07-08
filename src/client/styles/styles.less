@@ -358,6 +358,32 @@ a.list-group-item.hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.nav .active > a,
+.nav .active > a:hover,
+.nav .active > a:focus {
+  background-color: rgba(255,255,255, 0.05);
+  color: #fff;
+}
+
+.welcomemodal {
+  margin-left: 5px;
+  position: absolute;
+  padding-top: 5px;
+}
+.welcomemodal > .nav > li > a:hover,
+.welcomemodal > .nav > li > a:focus {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+.welcomemodal > .nav .active > a,
+.welcomemodal > .nav .active > a:hover,
+.welcomemodal > .nav .active > a:focus {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 4px;
+}
+
 .nav-tabs {
   border-color: #dee5e7;
 }
@@ -916,6 +942,15 @@ body {
   max-height: 20px;
   margin-top: -4px;
   vertical-align: middle;
+}
+
+.navbar-brand span {
+  -webkit-transition: all 0.2s ease-in-out 0s;
+          transition: all 0.2s ease-in-out 0s;
+}
+
+.navbar-brand:hover span {
+  color: #fff;
 }
 
 @media (min-width: 768px) {
@@ -2264,6 +2299,32 @@ fieldset[disabled] .btn-black.active {
   font-size: 26px;
 }
 
+.set-languages {
+  position: fixed;
+  top: 162px;
+  right: -240px;
+  z-index: 1050;
+  width: 240px;
+  -webkit-transition: all 0.2s;
+          transition: all 0.2s;
+}
+
+.set-languages > .btn {
+  position: absolute;
+  top: -1px;
+  left: -42px;
+  padding: 10px 15px;
+  background: #f6f8f8;
+  border-color: #dee5e7;
+  border-right-width: 0;
+}
+
+.set-languages > .active {
+  color: #58666e !important;
+  background-color: #cfdadd;
+  border-color: #c7d3d6;
+}
+
 .settings {
   position: fixed;
   top: 120px;
@@ -2858,6 +2919,34 @@ fieldset[disabled] .i-checks input + i:before {
 
 [ui-view].ng-leave.smooth {
   display: block;
+}
+
+.animated-x2 {
+    -webkit-animation-duration: 0.8s;
+    animation-duration: 0.8s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animated-x3 {
+    -webkit-animation-duration: 0.6s;
+    animation-duration: 0.6s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animated-x4 {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.animated-x5 {
+    -webkit-animation-duration: 0.2s;
+    animation-duration: 0.2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 
 .smooth.ng-animate {
@@ -5595,4 +5684,24 @@ input[type="button"],
         opacity: 1;
     }
 }
+
+/*!
+ * Generated with CSS Flag Sprite generator (https://www.flag-sprites.com/)
+ */
+
+.flag {
+    display: inline-block;
+    width: 16px;
+    height: 11px;
+    background: url('../images/flags.png') no-repeat;
+}
+
+.flag.flag-en-au, .flag.flag-en-bz,.flag.flag-en-ca,.flag.flag-en-ie,.flag.flag-en-jm,.flag.flag-en-nz,.flag.flag-en-ph,.flag.flag-en-za,.flag.flag-en-tt,.flag.flag-en-gb,.flag.flag-en-us,.flag.flag-en-zw,.flag.flag-en,.flag.flag-us {
+    background-position: 0 -154px;
+}
+
+.flag.flag-es-ar,.flag.flag-es-bo,.flag.flag-es-cl,.flag.flag-es-co,.flag.flag-es-cr,.flag.flag-es-do,.flag.flag-es-ec,.flag.flag-es-sv,.flag.flag-es-gt,.flag.flag-es-hn,.flag.flag-es-mx,.flag.flag-es-ni,.flag.flag-es-pa,.flag.flag-es-py,.flag.flag-es-pe,.flag.flag-es-pr,.flag.flag-es-us,.flag.flag-es-uy,.flag.flag-es-ve,.flag.flag-es {
+    background-position: -224px -33px;
+}
+
 /*#endregion */

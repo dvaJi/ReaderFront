@@ -1,0 +1,62 @@
+{
+  "global": {
+    "CHAPTER": "Chapter {{chapter}}",
+    "PAGE": "Page {{page}}",
+    "COMMENTS": "Comments",
+    "MORE": "More",
+    "FILTERBY": "Language filter: ",
+    "NO_MORE_CHAPTERS": "No more chapters!",
+    "SEARCH": "Search...",
+    "modal": {
+      "TITLE": "Welcome!",
+      "MESSAGE": "Please confirm your language.",
+      "ACCEPT": "Accept"
+    },
+    "settings": {
+      "TITLE": "Settings",
+      "LANGUAGE": "Language",
+      "FIX_HEADER": "Fixed header",
+      "SHOW_RELEASES": "Show {{lang}} Releases",
+      "languages": {
+        "all": "All",
+        "en": "English",
+        "es": "Spanish"
+      }
+    }
+  }, 
+  "module": {
+    "blog": {
+      "TITLE": "Blog",
+      "all": {
+        "TITLE": "Blog"
+      }
+    },
+    "comic": {
+      "TITLE": "Comic",
+      "DESCRIPTION": "Description",
+      "INFORMATION": "Info",
+      "ARTIST": "Artist",
+      "AUTHOR": "Author",
+      "CHAPTERS": "Chapters",
+      "NO_TRANSLATED": "This series is not available in {{lang}}"
+    },
+    "list": {
+      "TITLE": "List"
+    },
+    "pages": {
+      "TITLE": "Pages"
+    },
+    "reader": {
+      "TITLE": "Reader",
+      "WEBTOONMODE": "Webtoon Mode",
+      "endPage": {
+        "TITLE": "Thanks for Reading!",
+        "DESC": "You've reached the end of the current {{name}} chapters we have available for you here at Ravens Scans. Don't worry though, as long as the series hasn't ended we will have the next chapter up as soon as we can."
+      }
+    },
+    "releases": {
+      "TITLE": "Releases",
+      "LOAD_MORE": "Load More"
+    }
+  }
+}

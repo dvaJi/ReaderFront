@@ -11,8 +11,7 @@
     var vm = this;
     vm.post = {};
     vm.posts = [];
-    vm.getPosts = getPosts;
-    vm.getPost = getPost;
+    vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
 
     loadBlog();
 
@@ -31,8 +30,15 @@
       });
     }
 
+    $scope.$watch(function() {
+      if (vm.currentLang !== window.localStorage.getItem('NG_TRANSLATE_LANG_KEY')) {
+        vm.currentLang = window.localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        getPosts();
+      }
+    });
+
     function getPosts() {
-      var query = {};
+      var query = {lang: vm.currentLang};
       return Api.getPosts(query)
        .then(function(data) {
           vm.posts = data;
@@ -41,7 +47,11 @@
             post.description = post.description.substring(0,350) + ellipsis;
           }, this);
           return vm.posts;
-        });
+        })
+        .catch(function(error) {
+          vm.posts = [];
+          console.log(error);
+        })
     }
 
     function getPost() {

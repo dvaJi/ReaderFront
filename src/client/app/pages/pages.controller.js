@@ -9,7 +9,6 @@
   /* @ngInject */
   function PagesController($scope, $q, Api, logger, $stateParams, CUSTOM_CONFIG) {
     var vm = this;
-    vm.getPage = getPage;
     vm.page = [];
     vm.loading = true;
 

@@ -10,7 +10,8 @@
     'app.releases',
     'app.reader',
     'app.blog',
-    'app.pages'
+    'app.pages',
+    'app.projects'
   ]);
 
 })();

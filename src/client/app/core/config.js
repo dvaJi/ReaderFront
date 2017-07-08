@@ -21,9 +21,17 @@
 
   core.config(configure);
 
-  configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', 'RestangularProvider', '$locationProvider', 'CUSTOM_CONFIG'];
+  configure.$inject = ['$logProvider', 'routerHelperProvider', 'exceptionHandlerProvider', 'RestangularProvider', '$locationProvider', '$translateProvider', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider, CUSTOM_CONFIG) {
+  function configure($logProvider, routerHelperProvider, exceptionHandlerProvider, RestangularProvider, $locationProvider, $translateProvider, CUSTOM_CONFIG) {
+    $translateProvider.useStaticFilesLoader({
+      prefix: 'l10n/',
+      suffix: '.json'
+    });
+    $translateProvider.preferredLanguage(CUSTOM_CONFIG.LANG);
+    $translateProvider.useSanitizeValueStrategy('escape');
+    $translateProvider.useLocalStorage();
+
     config.appTitle = CUSTOM_CONFIG.NAVTITLE;
     if ($logProvider.debugEnabled) {
       $logProvider.debugEnabled(true);

@@ -10,7 +10,7 @@
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
-                                <li ng-repeat="comic in vm.comics">
+                                <li ng-repeat="comic in vm.comics | orderBy: '+name'">
                                     <a ui-sref="comic({id: comic.stub})">{{comic.name}}</a>
                                 </li>
                             </ul>
@@ -18,15 +18,16 @@
                         <div class="btn-group dropdown">
                             <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="dropdown-label">
-                                <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{vm.chapterSelected}}</span>
+                                <span ng-if="vm.comic.name !== 'Oneshots'" translate="global.CHAPTER" translate-value-chapter="{{vm.chapterSelected.chapter}}"><span ng-if="vm.chapterSelected.subchapter !== '0'">.{{vm.chapterSelected.subchapter}}</span></span>
                                 <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chapter.name}}</span>
                             </span>                    
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
                                 <li ng-repeat="chapter in vm.chapters track by $index">
-                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter})">
-                                        <span ng-if="vm.comic.name !== 'Oneshots'">Chapter {{chapter}}</span>
+                                    <a ui-sref="read({stub: vm.comic.stub,chapter: chapter.chapter,subchapter:chapter.subchapter, lang: chapter.lang})">
+                                        <i class="flag flag-{{chapter.lang}}"></i>
+                                        <span ng-if="vm.comic.name !== 'Oneshots'" translate="global.CHAPTER" translate-value-chapter="{{chapter.chapter}}"><span ng-if="chapter.subchapter !== '0'">.{{chapter.subchapter}}</span></span>
                                         <span ng-if="vm.comic.name === 'Oneshots'">{{vm.chaptersOneshots[$index]}}</span>
                                     </a>
                                 </li>
@@ -35,17 +36,13 @@
                         <div class="btn-group dropdown">
                             <button class="btn btn-default btn-sm btn-bg dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span class="dropdown-label">
-                                    <span ng-if="vm.pageSelected !== 'END'">Page {{vm.pageSelected}}</span>
-                                    <span ng-if="vm.pageSelected === 'END'">Comments</span>
+                                    <span ng-if="vm.pageSelected !== 'END'" translate="global.PAGE" translate-value-page="{{vm.pageSelected}}"></span>
                                 </span>                    
                             <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu text-left text-sm scrollable" style="max-height:270px">
                                 <li ng-repeat="page in vm.pagesList">
-                                    <a ng-click="vm.changePageSelected(page)">Page {{page}}</a>
-                                </li>
-                                <li>
-                                    <a ng-click="vm.changePageSelected('END')">Comments</a>
+                                    <a ng-click="vm.changePageSelected(page)" translate="global.PAGE" translate-value-page="{{page}}">Page</a>
                                 </li>
                             </ul>
                         </div>
@@ -58,7 +55,7 @@
                             </h1>
                         </div>
                         <div class="pull-right" style="padding-right:15px;">
-                            <button class="btn btn-default btn-xs" ng-class="{active: vm.webtoonMode === true}" ng-click="vm.changeWebtoonMode()">Webtoon Mode</button>
+                            <button class="btn btn-default btn-xs" ng-class="{active: vm.webtoonMode === true}" ng-click="vm.changeWebtoonMode()" translate="module.reader.WEBTOONMODE">Webtoon Mode</button>
                         </div>
                     </div>
                 </div>
@@ -76,9 +73,8 @@
             <div class="panel wrapper">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="m-t-none">Thanks for Reading!</h2>
-                        You've reached the end of the current {{vm.comic.name}} chapters we have available for you here at Ravens Scans. Don't worry
-                        though, as long as the series hasn't ended we will have the next chapter up as soon as we can.
+                        <h2 class="m-t-none" translate="module.reader.endPage.TITLE">Thanks for Reading!</h2>
+                        <p translate="module.reader.endPage.DESC" translate-value-name="{{vm.comic.name}}"></p>
                     </div>
                 </div>
             </div>
