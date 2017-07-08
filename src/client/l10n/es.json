@@ -6,6 +6,7 @@
     "MORE": "Más",
     "FILTERBY": "Filtrar: ",
     "NO_MORE_CHAPTERS": "¡No hay más capítulos!",
+    "SEARCH": "Buscar...",
     "modal": {
       "TITLE": "¡Bienvenido!",
       "MESSAGE": "Por favor confirma tu idioma.",
@@ -25,7 +26,10 @@
   },
   "module": {
     "blog": {
-      "TITLE": "Blog"
+      "TITLE": "Blog",
+      "all": {
+        "TITLE": "Blog"
+      }
     },
     "comic": {
       "TITLE": "Comic",

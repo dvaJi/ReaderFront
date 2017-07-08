@@ -23,15 +23,15 @@
       } else if ($localStorage.filterLang === undefined) {
         $localStorage.filterLang = 'all';
       }
-      var promises = [getComics()];
+      var promises = [getComics({orderby:'asc_name', per_page: 100})];
       return $q.all(promises).then(function() {
         vm.loading = false;
         //logger.info('Activated List View');
       });
     }
 
-    function getComics() {
-      return Api.comicsList({orderby:'asc_name', per_page: 100})
+    function getComics(query) {
+      return Api.comicsList(query)
         .then(function(data) {
           comicsList = data[0];
           vm.comics = comicsFilter(comicsList.comics);

@@ -47,7 +47,11 @@
             post.description = post.description.substring(0,350) + ellipsis;
           }, this);
           return vm.posts;
-        });
+        })
+        .catch(function(error) {
+          vm.posts = [];
+          console.log(error);
+        })
     }
 
     function getPost() {
