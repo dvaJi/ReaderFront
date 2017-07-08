@@ -20,8 +20,12 @@
       </div>
     </div>
   </div>
-  <div ng-hide="vm.loading" class="posts" id="posts" ng-repeat="release in vm.releases">
-    <card release="release"></card>
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-hide="vm.loading">
+        <card release="release" class="posts" id="posts" ng-repeat="release in vm.releases"></card>
+      </div>
+    </div>
   </div>
   <center id="md-spinner" ng-show="vm.loading">
   <svg class="spinner" width="100px" height="100px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
