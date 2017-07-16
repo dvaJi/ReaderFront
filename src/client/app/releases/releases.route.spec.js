@@ -8,5 +8,24 @@ describe('releases routes', function() {
       bard.inject('$httpBackend', '$location', '$rootScope', '$state', '$templateCache');
     });
 
+    beforeEach(function() {
+      $templateCache.put(view, '');
+    });
+
+    bard.verifyNoOutstandingHttpRequests();
+
+    it('should map state releases to url / ', function() {
+      expect($state.href('releases', {})).to.equal('/');
+    });
+
+    it('should map /releases route to releases View template', function() {
+      expect($state.get('releases').templateUrl).to.equal(view);
+    });
+
+    it('of releases should work with $state.go', function() {
+      $state.go('releases');
+      $rootScope.$apply();
+      expect($state.is('releases'));
+    });
   });
 });
