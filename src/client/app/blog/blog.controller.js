@@ -51,7 +51,7 @@
         .catch(function(error) {
           vm.posts = [];
           console.log(error);
-        })
+        });
     }
 
     function getPost() {

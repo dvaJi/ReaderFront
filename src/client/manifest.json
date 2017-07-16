@@ -2,6 +2,9 @@
 	"name": "ReaderFront",
 	"background_color": "#7793a7",
 	"theme_color": "#7793a7",
+	"display": "standalone",
+	"orientation": "portrait",
+	"start_url": "/index.html",
 	"icons": [
 	{
 		"src": "\/images\/favicon\/android-icon-36x36.png",

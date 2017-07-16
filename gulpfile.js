@@ -8,7 +8,7 @@ var path = require('path');
 var template = require('gulp-template');
 var _ = require('lodash');
 var $ = require('gulp-load-plugins')({ lazy: true });
-var gulpNgConfig = require('gulp-ng-config');
+var ngConstant = require('gulp-ng-constant');
 var protractor = $.protractor.protractor;
 
 var colors = $.util.colors;
@@ -56,14 +56,14 @@ gulp.task('vet', function() {
  */
 gulp.task('configit', function() {
   log('Set custom configs...');
-  return gulp.src(config.customConfig)
-  .pipe(gulpNgConfig('app.core', {
-    createModule: false,
-    pretty: true,
-    templateFilePath: path.normalize(path.join(__dirname, 'customConfigTemplate.html')),
-    wrap: '// jshint ignore: start\n// jscs:disable\n(function () {\n\'use strict\';\n<%= module %>})();',
-  }))
-  .pipe(gulp.dest(config.customConfigDest));
+  gulp.src(config.customConfig)
+    .pipe(ngConstant({
+      name: 'app.core',
+      template: config.constantTemplate,
+    }))
+    // Writes config.js to dist/ folder
+    .pipe($.rename('config.custom.js'))
+    .pipe(gulp.dest(config.customConfigDest));
 });
 
 /**
@@ -274,6 +274,7 @@ gulp.task('optimize', ['manifest', 'l10n', 'configit', 'inject', 'test'], functi
       description: customConfig.CUSTOM_CONFIG.META.description,
       keywords: customConfig.CUSTOM_CONFIG.META.keywords
     }))
+    .pipe($.ga({url: customConfig.CUSTOM_CONFIG.URL, uid: customConfig.CUSTOM_CONFIG.API.gakey}))
     .pipe($.plumber())
     .pipe(inject(templateCache, 'templates'))
     .pipe(assets) // Gather all assets from the html with useref

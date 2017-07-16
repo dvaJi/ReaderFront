@@ -159,7 +159,11 @@
     }
 
     function downloadChapter() {
-      $window.open(vm.chapter.download_href, '_blank');
+      var url = vm.chapter.download_href;
+      if (CUSTOM_CONFIG.API.adfly !== undefined) {
+        url = CUSTOM_CONFIG.API.adfly + vm.chapter.download_href.replace(/^https?\:\/\//i, 'www.');
+      }
+      $window.open(url, '_blank');
     }
 
     function changeWebtoonMode() {
