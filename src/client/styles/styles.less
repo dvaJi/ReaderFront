@@ -19,7 +19,7 @@ body {
 }
 
 *:focus {
-  outline: 0 !important;
+  outline: 0 !important; 
 }
 
 .h1,
@@ -877,10 +877,16 @@ body {
 
 .navbar {
   color: #7793a7;
-  background-color: #1c2b36;
+  background-color: rgba(28, 43, 54, 0.8);
   margin: 0;
   border-width: 0;
   border-radius: 0;
+   -webkit-transition: all 0.2s ease-in-out 0s;
+          transition: all 0.2s ease-in-out 0s;
+}
+
+.navbar:hover {
+  background-color: rgba(28, 43, 54, 1);
 }
 
 .navbar-nav > li > a:hover {
@@ -1157,7 +1163,13 @@ body {
 }
 
 html {
-  background: url('../images/bg.jpg');
+  background: -moz-linear-gradient(45deg, rgba(88,102,110,1) 0%, rgba(110,118,138,1) 100%) fixed; /* ff3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(88,102,110,1)), color-stop(100%, rgba(110,118,138,1))) fixed; /* safari4+,chrome */
+  background: -webkit-linear-gradient(45deg, rgba(88,102,110,1) 0%, rgba(110,118,138,1) 100%) fixed; /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(45deg, rgba(88,102,110,1) 0%, rgba(110,118,138,1) 100%) fixed; /* opera 11.10+ */
+  background: -ms-linear-gradient(45deg, rgba(88,102,110,1) 0%, rgba(110,118,138,1) 100%) fixed; /* ie10+ */
+  background: linear-gradient(45deg, rgba(88,102,110,1) 0%, rgba(110,118,138,1) 100%) fixed; /* w3c */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6E768A', endColorstr='#58666e',GradientType=1 ); /* ie6-9 */
   background-attachment: fixed;
   background-size: cover;
 }

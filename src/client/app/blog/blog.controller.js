@@ -5,9 +5,9 @@
     .module('app.blog')
     .controller('BlogController', BlogController);
 
-  BlogController.$inject = ['$scope','$q','logger', 'Api', '$stateParams', 'CUSTOM_CONFIG'];
+  BlogController.$inject = ['$scope', '$sce','$q','logger', 'Api', '$stateParams', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function BlogController($scope, $q, logger, Api, $stateParams, CUSTOM_CONFIG) {
+  function BlogController($scope, $sce, $q, logger, Api, $stateParams, CUSTOM_CONFIG) {
     var vm = this;
     vm.post = {};
     vm.posts = [];
@@ -44,7 +44,7 @@
           vm.posts = data;
           angular.forEach(vm.posts, function(post) {
             var ellipsis = (post.description.length >= 350) ? '...' : '';
-            post.description = post.description.substring(0,350) + ellipsis;
+            post.description = $sce.trustAsHtml(post.description.substring(0,350) + ellipsis);
           }, this);
           return vm.posts;
         })

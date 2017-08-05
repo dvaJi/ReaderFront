@@ -5,9 +5,9 @@
     .module('app.pages')
     .controller('PagesController', PagesController);
 
-  PagesController.$inject = ['$scope','$q','Api','logger', '$stateParams', 'CUSTOM_CONFIG'];
+  PagesController.$inject = ['$scope','$sce','$q','Api','logger', '$stateParams', 'CUSTOM_CONFIG'];
   /* @ngInject */
-  function PagesController($scope, $q, Api, logger, $stateParams, CUSTOM_CONFIG) {
+  function PagesController($scope, $sce, $q, Api, logger, $stateParams, CUSTOM_CONFIG) {
     var vm = this;
     vm.page = [];
     vm.loading = true;
@@ -18,7 +18,7 @@
       disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
       disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub,
       disqus_url: window.location.href,
-      disqus_title: 'Blog',
+      disqus_title: 'Page',
       disqus_disable_mobile: 'false'
     };
 
@@ -35,6 +35,7 @@
       return Api.getPage(query)
        .then(function(data) {
           vm.page = data.data.custompage;
+          vm.page.description = $sce.trustAsHtml(vm.page.description);
           return vm.page;
         });
     }
