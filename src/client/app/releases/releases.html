@@ -1,4 +1,4 @@
-<div class="wrapper-md">
+<div class="wrapper-md" style="padding-top: 0;">
   <div class="row hidden-lg hidden-md">
     <div class="col-md-12">
       <div class="panel wrapper" style="padding: 7px 10px;">
@@ -21,7 +21,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-1 hidden-xs"></div>
+    <div class="col-md-10 col-xs-12">
       <div ng-hide="vm.loading">
         <card release="release" class="posts" id="posts" ng-repeat="release in vm.releases"></card>
       </div>
