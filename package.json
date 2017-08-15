@@ -1,7 +1,7 @@
 {
   "name": "readerfront",
   "description": "readerFront its a FrontEnd app using FoolSlide as BackEnd",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "scripts": {
     "init": "npm install --unsafe-perm",
     "install": "bower install",
