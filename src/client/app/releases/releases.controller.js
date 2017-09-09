@@ -13,7 +13,7 @@
     vm.loading = true;
     vm.loadMore = loadMore;
     vm.changeLanguage = changeLanguage;
-    var itemsPerPage = 8;
+    var itemsPerPage = 20;
     vm.currentLang = 'all';
     var currentPage = 1;
     var chaptersLimit = false;

@@ -32,7 +32,7 @@
   <div ng-hide="vm.loading" class="posts animated-x4 fadeIn" id="posts" ng-repeat="comic in vm.comics | filter:{name:search}">
     <a ui-sref="comic({id: comic.stub})" 
         class="post type-post status-publish format-standard has-post-thumbnail hentry animated fadeIn" 
-        style="background-image: url({{comic.fullsized_thumb_url}});">
+        style="background-image: url({{comic.thumb2}}); width: 16.3%; padding-bottom: 27%;">
       <div class="post-overlay">
         <div class="archive-post-header">
             <p class="archive-post-date" ng-hide="comic.author === comic.artist">{{comic.author}} & {{comic.artist}}</p>

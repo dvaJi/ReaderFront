@@ -46,14 +46,14 @@
     }
 
     function setDisqusConfig(name, chapter, subchapter, lang) {
-      lang = (lang === 'es') ? 'es_ES' : lang;
+      var langSub =  (lang === 'es') ? 'es_ES' : lang;
       var chapterObj = ((subchapter !== '0') ? chapter + '.' + subchapter : chapter);
       $scope.disqusConfig = {
         disqus_shortname: CUSTOM_CONFIG.DISQUS.disqus_shortname,
-        disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + $stateParams.stub + chapter + subchapter,
+        disqus_identifier: CUSTOM_CONFIG.DISQUS.disqus_identifier + params.id + chapter + subchapter + lang.toUpperCase(),
         disqus_url: window.location.href,
         disqus_title: name + ' chapter ' + chapterObj  + ' ' + lang.toUpperCase() + ' - ' + CUSTOM_CONFIG.NAVTITLE,
-        disqus_config_language: lang,
+        disqus_config_language: langSub,
         disqus_disable_mobile: 'false'
       };
     }
@@ -64,12 +64,11 @@
         .then(function (data) {
           vm.comic = data.comic;
           angular.forEach(data.chapters, function (value, key) {
-            //Grab actual chapter
+
             if (value.chapter.chapter === params.chapter && value.chapter.subchapter === params.subchapter && value.chapter.language === params.lang) {
               vm.chapter = value.chapter;
             }
 
-            // Check if its a Oneshot
             if (vm.comic.name === 'Oneshots') {
               vm.chaptersOneshots.push(value.chapter.name);
             }
@@ -99,7 +98,6 @@
         vm.chapters = _.filter(chaptersList, function(o) { return o.lang === vm.currentLang;});
         var newComics = [];
         _.forEach(comicsList, function(comic) {
-          console.log(comic);
           if (_.find(comic.languages, function(o) { return o === vm.currentLang; }) !== undefined) {
             newComics.push(comic);
           }

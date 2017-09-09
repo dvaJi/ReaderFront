@@ -48,7 +48,7 @@
     },
     "reader": {
       "TITLE": "Lector",
-      "WEBTOONMODE": "Modo Webtoon",
+      "WEBTOONMODE": "Modo Cascada",
       "endPage": {
         "TITLE": "¡Gracias por leer!",
         "DESC": "Has llegado al último capítulo de {{name}} que tenemos disponible hasta el momento. Pero no te preocupes, mientras la serie no haya terminado tendremos el próximo capítulo tan pronto como podemos."
