@@ -1,0 +1,17 @@
+{
+  "generator-ngx-rocket": {
+    "version": "2.3.0",
+    "props": {
+      "appName": "ReaderFront",
+      "target": [
+        "web"
+      ],
+      "pwa": true,
+      "ui": "bootstrap",
+      "auth": false,
+      "projectName": "reader-front",
+      "mobile": [],
+      "webview": []
+    }
+  }
+}

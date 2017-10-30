@@ -1,59 +1,44 @@
+// Karma configuration file, see link for more information
+// https://karma-runner.github.io/1.0/config/configuration-file.html
+
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+
 module.exports = function(config) {
-  var gulpConfig = require('./gulp.config')();
-
   config.set({
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './',
-
-    // frameworks to use
-    // some available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon', 'chai-sinon'],
-
-    // list of files / patterns to load in the browser
-    files: gulpConfig.karma.files,
-
-    // list of files to exclude
-    exclude: gulpConfig.karma.exclude,
-
-    proxies: {
-      '/': 'http://localhost:8888/'
+    basePath: '',
+    frameworks: ['jasmine', '@angular/cli'],
+    plugins: [
+      require('karma-jasmine'),
+      require('karma-chrome-launcher'),
+      require('karma-junit-reporter'),
+      require('karma-coverage-istanbul-reporter'),
+      require('@angular/cli/plugins/karma')
+    ],
+    client: {
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      captureConsole: false
     },
-
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: gulpConfig.karma.preprocessors,
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress', 'coverage'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
-
-    coverageReporter: {
-      dir: gulpConfig.karma.coverage.dir,
-      reporters: gulpConfig.karma.coverage.reporters
+    junitReporter: {
+      outputDir: 'reports/junit/',
+      outputFile: 'TESTS-xunit.xml',
+      useBrowserName: false,
+      suite: '' // Will become the package name attribute in xml testsuite element
     },
-
-    // web server port
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'text-summary'],
+      dir: './reports/coverage',
+      fixWebpackSourcePaths: true
+    },
+    angularCli: {
+      environment: 'dev'
+    },
+    reporters: ['progress', 'junit'],
     port: 9876,
-
-    // enable / disable colors in the output (reporters and logs)
     colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR ||
-    // config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    // Level of logging, can be: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
     logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    //        browsers: ['Chrome', 'ChromeCanary', 'FirefoxAurora', 'Safari', 'PhantomJS'],
-    browsers: ['PhantomJS'],
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
+    browsers: ['ChromeHeadless'],
     singleRun: false
   });
 };
