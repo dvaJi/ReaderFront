@@ -1,110 +1,57 @@
-######################
-# Project Specific
-######################
-# other
-bower_components/
-.tmp
-report/*/*
-report/coverage
-report/coverage/report-html
-report/coverage/report-lcov
-report/coverage/report-html/app
-report/coverage/report-lcov/lcov-report
-report/coverage/report-lcov/lcov.info
-build/*
-npm-debug.log
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-######################
-# Node
-######################
-/node/
-node_tmp/
-node_modules/
-npm-debug.log.*
+# Compiled output
+/dist
+/tmp
+/out-tsc
 
-######################
-# SASS
-######################
-.sass-cache/
+# Dependencies
+/node_modules
 
-######################
-# Eclipse
-######################
-*.pydevproject
+# Cordova
+/www
+/plugins
+/platforms
+
+# IDEs and editors
+.idea/*
+!.idea/runConfigurations/
+!.idea/codeStyleSettings.xml
 .project
-.metadata
-tmp/
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
 .classpath
-.settings/
-.loadpath
-.factorypath
-/src/main/resources/rebel.xml
-
-# External tool builders
-.externalToolBuilders/**
-
-# Locally stored "Eclipse launch configurations"
+.c9/
 *.launch
+.settings/
+xcuserdata/
+*.sublime-workspace
 
-# CDT-specific
-.cproject
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# PDT-specific
-.buildpath
+# Maven
+/target
+/log
 
-######################
-# Intellij
-######################
-.idea/
-*.iml
-*.iws
-*.ipr
-*.ids
-*.orig
-classes/
+# Misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+/reports
+/src/translations/template.*
+/src/environments/.env.json
 
-######################
-# Visual Studio Code
-######################
-.vscode/
+# E2E
+/e2e/*.js
+/e2e/*.map
 
-######################
-# Windows
-######################
-# Windows image file caches
-Thumbs.db
-
-# Folder config file
-Desktop.ini
-
-######################
-# Mac OSX
-######################
+# System Files
 .DS_Store
-.svn
-
-# Thumbnails
-._*
-
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
-
-######################
-# Logs
-######################
-*.log
-
-######################
-# Others
-######################
-*.class
-*.*~
-*~
-.merge_file*
+Thumbs.db

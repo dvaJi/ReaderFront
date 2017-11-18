@@ -1,0 +1,11 @@
+<div *ngIf="!isLoading">
+  <a class="cover-img" [routerLink]="['/reader', release.chapter?.id, release.chapter?.language, release.chapter?.volume, release.chapter?.chapter, release.chapter?.subchapter]"
+    [ngStyle]="{'background-image': 'url(' + release.chapter?.thumbnail + ')'}">
+  </a>
+  <div class="cover-data" [routerLink]="['/reader', release.chapter?.id, release.chapter?.language, release.chapter?.volume, release.chapter?.chapter, release.chapter?.subchapter]">
+    <a>{{release.comic?.name}}</a>
+    <span>
+      <div title="Capítulo">Capítulo {{release.chapter?.chapter}}</div>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="container-fluid" *ngIf="releases$ | async as releases">
+  <div>
+    <app-release-card class="cover-card skeleton-loader-background" *ngFor="let release of releases" [release]="release" [isLoading]="isLoading" [ngClass]="{'skeleton-loader-background': isLoading}">
+    </app-release-card>
+  </div>
+  <div class="text-center">
+    <button *ngIf="!isLoading" type="button" (click)="load()" class="btn btn-primary">Primary</button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+
+.cover-img {
+  background-position: 50% 50%;
+  background-size: cover;
+  border-radius: 3px;
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.cover-data {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.01) 100%);
+  border-radius: 0 0 3px 3px;
+  bottom: 0;
+  color: #fff;
+  padding: 10px;
+  padding-top: 40px;
+  position: absolute;
+  text-align: left;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.59);
+  width: 100%;
+}
+
+.cover-data a {
+  display: inline-block;
+  font-size: 0.9em;
+  color: #fff;
+  line-height: 1.3;
+  padding: 0 3px;
+  width: 100%;
+  word-wrap: break-word;
+}
+
+.cover-data div {
+  color: #53c4ff;
+  display: inline-block;
+  font-size: 0.7em;
+  margin-top: 10px;
+}

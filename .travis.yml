@@ -1,0 +1,24 @@
+sudo: required
+dist: trusty
+git:
+  depth: 1
+
+language: node_js
+node_js:
+  - '6'
+  - '7'
+  - stable
+
+cache:
+  directories:
+  - $HOME/.npm
+
+addons:
+  chrome: stable
+
+before_script:
+  - npm install -g @angular/cli
+  - npm install
+
+script:
+  - npm run test:ci
