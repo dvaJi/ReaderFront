@@ -1,6 +1,6 @@
 {
   "generator-ngx-rocket": {
-    "version": "2.3.0",
+    "version": "2.4.0",
     "props": {
       "appName": "ReaderFront",
       "target": [
@@ -11,7 +11,8 @@
       "auth": false,
       "projectName": "reader-front",
       "mobile": [],
-      "webview": []
+      "webview": [],
+      "packageManager": "npm"
     }
   }
 }
