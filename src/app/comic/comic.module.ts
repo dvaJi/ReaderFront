@@ -4,9 +4,9 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
-import { HomeRoutingModule } from './home-routing.module';
-import { HomeComponent } from './home.component';
-import { ReleasesService } from './../services/releases.service';
+import { ComicRoutingModule } from './comic-routing.module';
+import { ComicComponent } from './comic.component';
+import { ComicService } from '../services/comic.service';
 
 @NgModule({
   imports: [
@@ -14,13 +14,13 @@ import { ReleasesService } from './../services/releases.service';
     TranslateModule,
     CoreModule,
     SharedModule,
-    HomeRoutingModule
+    ComicRoutingModule
   ],
   declarations: [
-    HomeComponent
+    ComicComponent
   ],
   providers: [
-    ReleasesService
+    ComicService
   ]
 })
-export class HomeModule { }
+export class ComicModule { }

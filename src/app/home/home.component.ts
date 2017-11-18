@@ -1,8 +1,11 @@
 import 'rxjs/add/operator/finally';
+import { Observable } from 'rxjs/Observable';
 
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import { QuoteService } from './quote.service';
+import { HomeState, ChapterState } from './home.state';
+import * as HomeAction from './home.action';
 
 @Component({
   selector: 'app-home',
@@ -11,16 +14,31 @@ import { QuoteService } from './quote.service';
 })
 export class HomeComponent implements OnInit {
 
-  quote: string;
+  releases$: Observable<HomeState>;
   isLoading: boolean;
 
-  constructor(private quoteService: QuoteService) {}
+  constructor(private store: Store<HomeState>) { }
 
   ngOnInit() {
     this.isLoading = true;
-    this.quoteService.getRandomQuote({ category: 'dev' })
-      .finally(() => { this.isLoading = false; })
-      .subscribe((quote: string) => { this.quote = quote; });
+    this.releases$ = this.store.select(state => state);
+    this.store.dispatch(new HomeAction.GetLatestReleases());
+  }
+
+  /**
+   * @author dvaJi
+   * @param chapterDate
+   * @returns boolean
+   */
+  public isNew(chapterDate: Date) {
+    const now = new Date();
+    now.setDate(now.getDate() - 5);
+
+    return (chapterDate > now);
+  }
+
+  onScroll() {
+    console.log('??????????????');
   }
 
 }

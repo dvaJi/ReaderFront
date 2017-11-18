@@ -2,16 +2,16 @@ import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions, Http, Response, ResponseOptions } from '@angular/http';
 
-import { QuoteService } from './quote.service';
+import { ReleasesService } from './releases.service';
 
-describe('QuoteService', () => {
-  let quoteService: QuoteService;
+describe('ReleasesService', () => {
+  let quoteService: ReleasesService;
   let mockBackend: MockBackend;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        QuoteService,
+        ReleasesService,
         MockBackend,
         BaseRequestOptions,
         {
@@ -26,9 +26,9 @@ describe('QuoteService', () => {
   });
 
   beforeEach(inject([
-    QuoteService,
+    ReleasesService,
     MockBackend
-  ], (_quoteService: QuoteService,
+  ], (_quoteService: ReleasesService,
       _mockBackend: MockBackend) => {
 
     quoteService = _quoteService;
@@ -39,22 +39,22 @@ describe('QuoteService', () => {
     mockBackend.verifyNoPendingRequests();
   });
 
-  describe('getRandomQuote', () => {
+  describe('getRandomReleases', () => {
     it('should return a random Chuck Norris quote', fakeAsync(() => {
       // Arrange
-      const mockQuote = 'a random quote';
+      const mockReleases = 'a random quote';
       const response = new Response(new ResponseOptions({
-        body: { value: mockQuote }
+        body: { value: mockReleases }
       }));
       mockBackend.connections.subscribe((connection: MockConnection) => connection.mockRespond(response));
 
       // Act
-      const randomQuoteSubscription = quoteService.getRandomQuote({ category: 'toto' });
+      const randomReleasesSubscription = quoteService.getRandomReleases({ category: 'toto' });
       tick();
 
       // Assert
-      randomQuoteSubscription.subscribe((quote: string) => {
-        expect(quote).toEqual(mockQuote);
+      randomReleasesSubscription.subscribe((quote: string) => {
+        expect(quote).toEqual(mockReleases);
       });
     }));
 
@@ -64,11 +64,11 @@ describe('QuoteService', () => {
       mockBackend.connections.subscribe((connection: MockConnection) => connection.mockError(response as any));
 
       // Act
-      const randomQuoteSubscription = quoteService.getRandomQuote({ category: 'toto' });
+      const randomReleasesSubscription = quoteService.getRandomReleases({ category: 'toto' });
       tick();
 
       // Assert
-      randomQuoteSubscription.subscribe((quote: string) => {
+      randomReleasesSubscription.subscribe((quote: string) => {
         expect(typeof quote).toEqual('string');
         expect(quote).toContain('Error');
       });

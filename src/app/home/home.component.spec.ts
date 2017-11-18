@@ -4,7 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
+import { ReleasesService } from './releases.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -17,7 +17,7 @@ describe('HomeComponent', () => {
         ],
         declarations: [HomeComponent],
         providers: [
-          QuoteService,
+          ReleasesService,
           MockBackend,
           BaseRequestOptions,
           {
