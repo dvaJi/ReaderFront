@@ -9,6 +9,8 @@ export const GET_LATEST_RELEASES_ERROR = '[Serie] GET_LATEST_RELEASES_ERROR';
 // Actions
 export class GetLatestReleases implements Action {
     readonly type = GET_LATEST_RELEASES;
+
+    constructor(public id: number) { }
 }
 
 export class GetLatestReleasesSuccess implements Action {

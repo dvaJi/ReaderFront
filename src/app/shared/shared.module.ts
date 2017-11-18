@@ -1,19 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Routes, RouterModule } from '@angular/router';
 
 import { LoaderComponent } from './loader/loader.component';
-import { InfiniteScrollerDirective } from './infinite-scroll.directive';
+import { ReleaseCardComponent } from './release-card/release-card.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   declarations: [
     LoaderComponent,
-    InfiniteScrollerDirective
+    ReleaseCardComponent
   ],
   exports: [
-    LoaderComponent
+    LoaderComponent,
+    ReleaseCardComponent
   ]
 })
 export class SharedModule { }

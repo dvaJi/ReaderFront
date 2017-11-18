@@ -20,9 +20,9 @@ export class HomeEffects {
     GetLatestReleases$: Observable<Action> = this.actions$.
         ofType<HomeActions.GetLatestReleases>(HomeActions.GET_LATEST_RELEASES)
         .mergeMap(action =>
-            this.releasesService.getReleases()
-                .map(series => {
-                    return new HomeActions.GetLatestReleasesSuccess(series as ChapterState[]);
+            this.releasesService.getReleases(action.id)
+                .map(releases => {
+                    return new HomeActions.GetLatestReleasesSuccess(releases as ChapterState[]);
                 })
                 .catch(() => of(new HomeActions.GetLatestReleasesError()))
         );

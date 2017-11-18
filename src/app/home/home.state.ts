@@ -1,6 +1,7 @@
 import Release from './../models/release';
+import Chapter from '../models/chapter';
 
-export interface ChapterState extends Release {
+export interface ChapterState extends Chapter {
     loading: boolean;
 }
 

@@ -1,19 +1,9 @@
-<app-loader [isLoading]="isLoading"></app-loader>
-<div class="container-fluid">
-
-  <div  id="infinite-scroller" appInfiniteScroller scrollPerecnt="70" immediateCallback="true" scrollCallback="scrollCallback">
-  <div class="cover-card" *ngFor="let release of releases">
-    <a class="cover__img" [routerLink]="['/reader', release.chapter.id, release.chapter.language, release.chapter.volume, release.chapter.chapter, release.chapter.subchapter]"
-      [ngStyle]="{'background-image': 'url(' + release.chapter.thumbnail + ')'}">
-    </a>
-    <div class="cover__data" [routerLink]="['/reader', release.chapter.id, release.chapter.language, release.chapter.volume, release.chapter.chapter, release.chapter.subchapter]">
-      <a >{{release.comic.name}}</a>
-      <span>
-        <div title="Type">Movie</div>
-        <div title="Average Score" ng-show="b.average_score != 0">65.2%</div>
-        <div title="Popularity" ng-show="b.popularity != 0">3370</div>
-      </span>
-    </div>
+<div class="container-fluid" *ngIf="releases$ | async as releases">
+  <div>
+    <app-release-card class="cover-card skeleton-loader-background" *ngFor="let release of releases" [release]="release" [isLoading]="isLoading" [ngClass]="{'skeleton-loader-background': isLoading}">
+    </app-release-card>
   </div>
-</div>
+  <div class="text-center">
+    <button *ngIf="!isLoading" type="button" (click)="load()" class="btn btn-primary">Primary</button>
+  </div>
 </div>

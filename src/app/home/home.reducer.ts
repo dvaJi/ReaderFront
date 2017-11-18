@@ -1,50 +1,40 @@
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
 import Chapter from '../models/chapter';
 import { ChapterMock } from '../../testing/mock/chapter-mock';
 import { HomeState, ChapterState, initializeChapterState } from './home.state';
-import * as HomeActions from './home.action';
+import * as actions from './home.action';
+import { createFeatureSelector } from '@ngrx/store';
 
-export type Action = HomeActions.All;
+export const chapterAdapter = createEntityAdapter<Chapter>();
+export interface State extends EntityState<Chapter> {
+    loading: boolean;
+}
 
-const defaultReleasesStates: ChapterState[] = [
-    { ...ChapterMock.generateEmptyMockChapter(), ...initializeChapterState() },
-    { ...ChapterMock.generateEmptyMockChapter(), ...initializeChapterState() },
-    { ...ChapterMock.generateEmptyMockChapter(), ...initializeChapterState() },
-    { ...ChapterMock.generateEmptyMockChapter(), ...initializeChapterState() },
-    { ...ChapterMock.generateEmptyMockChapter(), ...initializeChapterState() }
-];
+export const initialState: State = chapterAdapter.getInitialState(ChapterMock.generateEmptyMockChapter());
 
-const initialState: HomeState = {
-    releases: defaultReleasesStates,
-    loading: false,
-    error: false
-};
 
-export function HomeReducer(state: HomeState = initialState, action: Action): HomeState {
-
+export function HomeReducer(state: State = initialState, action: actions.All) {
+    console.log(state, action);
     switch (action.type) {
-        case HomeActions.GET_LATEST_RELEASES: {
+        case actions.GET_LATEST_RELEASES:
             return { ...state, loading: true };
-        }
-        case HomeActions.GET_LATEST_RELEASES_SUCCESS: {
-            return {
-                ...state,
-                releases: [
-                    ...action.payload
-                ],
-                loading: false
-            };
-        }
-        case HomeActions.GET_LATEST_RELEASES_ERROR: {
-            return {
-                ...state,
-                releases: [
-                    ...state.releases
-                ]
-            };
-        }
-        default: {
-
+        case actions.GET_LATEST_RELEASES_SUCCESS:
+            if (state.entities.toString() === 'loading') {
+                return chapterAdapter.addAll(action.payload, state);
+            } else {
+                return chapterAdapter.addMany(action.payload, state);
+            }
+        case actions.GET_LATEST_RELEASES_ERROR:
+            return { ...state };
+        default:
             return state;
-        }
     }
 }
+
+export const getChapterState = createFeatureSelector<State>('home');
+export const {
+    selectIds,
+    selectEntities,
+    selectAll,
+    selectTotal,
+  } = chapterAdapter.getSelectors(getChapterState);

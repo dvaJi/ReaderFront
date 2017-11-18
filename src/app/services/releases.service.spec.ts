@@ -3,9 +3,10 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { BaseRequestOptions, Http, Response, ResponseOptions } from '@angular/http';
 
 import { ReleasesService } from './releases.service';
+import Chapter from '../models/chapter';
 
 describe('ReleasesService', () => {
-  let quoteService: ReleasesService;
+  let releasesService: ReleasesService;
   let mockBackend: MockBackend;
 
   beforeEach(() => {
@@ -28,10 +29,10 @@ describe('ReleasesService', () => {
   beforeEach(inject([
     ReleasesService,
     MockBackend
-  ], (_quoteService: ReleasesService,
+  ], (_releasesService: ReleasesService,
       _mockBackend: MockBackend) => {
 
-    quoteService = _quoteService;
+    releasesService = _releasesService;
     mockBackend = _mockBackend;
   }));
 
@@ -42,18 +43,18 @@ describe('ReleasesService', () => {
   describe('getRandomReleases', () => {
     it('should return a random Chuck Norris quote', fakeAsync(() => {
       // Arrange
-      const mockReleases = 'a random quote';
+      const mockReleases: Chapter[] = [];
       const response = new Response(new ResponseOptions({
-        body: { value: mockReleases }
+        body: mockReleases
       }));
       mockBackend.connections.subscribe((connection: MockConnection) => connection.mockRespond(response));
 
       // Act
-      const randomReleasesSubscription = quoteService.getRandomReleases({ category: 'toto' });
+      const randomReleasesSubscription = releasesService.getReleases(1);
       tick();
 
       // Assert
-      randomReleasesSubscription.subscribe((quote: string) => {
+      randomReleasesSubscription.subscribe((quote: Chapter[]) => {
         expect(quote).toEqual(mockReleases);
       });
     }));
@@ -64,13 +65,12 @@ describe('ReleasesService', () => {
       mockBackend.connections.subscribe((connection: MockConnection) => connection.mockError(response as any));
 
       // Act
-      const randomReleasesSubscription = quoteService.getRandomReleases({ category: 'toto' });
+      const randomReleasesSubscription = releasesService.getReleases(0);
       tick();
 
       // Assert
-      randomReleasesSubscription.subscribe((quote: string) => {
+      randomReleasesSubscription.subscribe((quote: Chapter[]) => {
         expect(typeof quote).toEqual('string');
-        expect(quote).toContain('Error');
       });
     }));
   });
