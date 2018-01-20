@@ -1,5 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 
-export default ({ cover, name } = this.props) => (
-  <img className="Cover" src={cover} alt={name} />
-);
+export default class Cover extends Component {
+  render() {
+    const { cover, name } = this.props;
+    return <img className="Cover" src={cover} alt={name} />;
+  }
+}

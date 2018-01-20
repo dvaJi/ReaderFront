@@ -1,5 +1,6 @@
 import React from "react";
-import { render, shallow } from "enzyme";
+import { render, mount } from "enzyme";
+import { MemoryRouter } from "react-router-dom";
 import SerieList from "./SerieList";
 import SerieItem from "./SerieItem";
 import SerieItemEmpty from "./SerieItemEmpty";
@@ -12,26 +13,49 @@ it("renders without crashing", () => {
 
 it("should displays SerieItemEmpty", () => {
   let filterText = "";
-  let series = [];
-  for (let index = 0; index < 10; index++) {
-    series.push({ id: index });
-  }
+  let series = generateSeries();
 
-  const wrapper = shallow(
-    <SerieList loading="true" series={series} filterText={filterText} />
+  const wrapper = mount(
+    <SerieList loading={true} series={series} filterText={filterText} />
   );
-  expect(wrapper.find(SerieItemEmpty)).toBeTruthy();
+  expect(wrapper.contains(SerieItemEmpty)).toBeTruthy();
 });
 
 it("should displays SerieItem", () => {
   let filterText = "";
-  let series = [];
-  for (let index = 0; index < 10; index++) {
-    series.push({ id: index });
-  }
+  let series = generateSeries();
 
-  const wrapper = shallow(
-    <SerieList loading="false" series={series} filterText={filterText} />
+  const wrapper = mount(
+    <MemoryRouter>
+      <SerieList loading={false} series={series} filterText={filterText} />
+    </MemoryRouter>
   );
-  expect(wrapper.find(SerieItem)).toHaveLength(0);
+  expect(wrapper.contains(SerieItem)).toBeTruthy();
 });
+
+it("should filter series", () => {
+  let filterText = "";
+  let series = generateSeries();
+
+  const wrapper = mount(
+    <MemoryRouter>
+      <SerieList loading={false} series={series} filterText={filterText} />
+    </MemoryRouter>
+  );
+  wrapper.setProps({ filterText: "aka" });
+  expect(wrapper.contains(SerieItem)).toBeTruthy();
+});
+
+function generateSeries() {
+  let series = [];
+  series.push({
+    id: 1,
+    name: "Aka Akatoshitachi no Monogatari",
+    stub: "aka_akatoshitachi_no_monogatari"
+  });
+  series.push({ id: 2, name: "Deathtopia", stub: "deathtopia" });
+  series.push({ id: 3, name: "Gion no Tsugai", stub: "gion_no_tsugai" });
+  series.push({ id: 4, name: "Infection", stub: "infection" });
+
+  return series;
+}

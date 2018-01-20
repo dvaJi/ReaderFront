@@ -5,12 +5,22 @@ import registerServiceWorker from "./registerServiceWorker";
 // import './i18n';
 import "./index.css";
 
-import { hydrate, render } from 'react-dom';
+import { hydrate, render } from "react-dom";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
-  hydrate(<Router><App /></Router>, rootElement);
+  hydrate(
+    <Router>
+      <App />
+    </Router>,
+    rootElement
+  );
 } else {
-  render(<Router><App /></Router>, rootElement);
+  render(
+    <Router>
+      <App />
+    </Router>,
+    rootElement
+  );
 }
 registerServiceWorker();

@@ -13,8 +13,6 @@ export default class Reader extends Component {
 
     this.state = {
       isLoading: true,
-      pageSelected: 0,
-      cascade: true,
       nextChapter: 0,
       prevChapter: 0,
       chapter: {
@@ -33,8 +31,6 @@ export default class Reader extends Component {
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-    this.handlePageSelectedChange = this.handlePageSelectedChange.bind(this);
-    this.handleCascadeModeChange = this.handleCascadeModeChange.bind(this);
     this.handleChapterChange = this.handleChapterChange.bind(this);
     this.handleDisqusChange = this.handleDisqusChange.bind(this);
   }
@@ -48,12 +44,6 @@ export default class Reader extends Component {
         }/${chapter.chapter}.${chapter.subchapter}`,
         title: `${chapter.comic.name} - Capítulo ${chapter.chapter}`
       }
-    });
-  }
-
-  handlePageSelectedChange(page) {
-    this.setState({
-      pageSelected: page
     });
   }
 
@@ -71,12 +61,6 @@ export default class Reader extends Component {
     this.setState({ prevChapter: prevChapter });
   }
 
-  handleCascadeModeChange(mode) {
-    this.setState({
-      cascade: mode
-    });
-  }
-
   componentWillReceiveProps(newProps) {
     let newChapter = this.state.chapters.find(
       chapter =>
@@ -89,9 +73,7 @@ export default class Reader extends Component {
   async componentDidMount() {
     try {
       const results = await this.getChapters();
-      this.setState({
-        chapters: results
-      });
+      this.setState({ chapters: results });
 
       let chapter = results.find((chapter, index) => {
         return (
@@ -99,21 +81,18 @@ export default class Reader extends Component {
           chapter.subchapter === this.props.match.params.subchapter
         );
       });
-      this.setState({ chapter: chapter });
-      this.setState({ pages: chapter.pages });
+      this.setState({ chapter: chapter, pages: chapter.pages });
       let nextChapter =
         results.indexOf(chapter) !== 0 ? results.indexOf(chapter) - 1 : -1;
       let prevChapter =
         results.indexOf(chapter) + 1 !== results.length
           ? results.indexOf(chapter) + 1
           : -1;
-      this.setState({ nextChapter: nextChapter });
-      this.setState({ prevChapter: prevChapter });
+      this.setState({ nextChapter: nextChapter, prevChapter: prevChapter });
       this.handleDisqusChange(chapter);
+      this.setState({ isLoading: false });
     } catch (e) {
       console.error(e);
-    } finally {
-      this.setState({ isLoading: false });
     }
   }
 
@@ -170,9 +149,6 @@ export default class Reader extends Component {
         <ImagesList
           id={this.state.chapter.id}
           loading={this.state.isLoading}
-          cascade={this.state.cascade}
-          pageSelected={this.state.pageSelected}
-          onPageSelected={this.handlePageSelectedChange}
           onChapterChange={this.handleChapterChange}
           pages={this.state.pages}
         />

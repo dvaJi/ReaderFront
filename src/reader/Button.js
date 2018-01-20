@@ -15,6 +15,7 @@ export default class Button extends Component {
       className="btn btn-default"
       to={this.props.url}
       role="button"
+      disabled={this.props.chapter === -1}
     >
       {this.props.text}
     </Button>

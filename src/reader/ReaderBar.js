@@ -29,12 +29,11 @@ export default class ReaderBar extends Component {
   }
 
   chapterUrl(chapter) {
-    if (
-      chapter === -1 ||
-      this.props.serie.stub === undefined ||
-      this.props.chapters === undefined
-    ) {
+    if (this.props.serie.stub === undefined) {
       return "";
+    }
+    if (chapter === -1) {
+      return `/serie/${this.props.serie.stub}`;
     }
 
     return `/read/${this.props.serie.stub}/${

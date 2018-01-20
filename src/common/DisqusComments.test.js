@@ -1,0 +1,27 @@
+import React from "react";
+import { mount } from "enzyme";
+import DisqusComments from "./DisqusComments";
+
+it("should render without throwing an error", () => {
+  const wrapper = mount(
+    <DisqusComments
+      id="01901-2302"
+      title="Infection - Capítulo 40"
+      path="/read/infection/es/6/40.0"
+    />
+  );
+});
+
+it("should be updated when receive new props", () => {
+  const wrapper = mount(
+    <DisqusComments
+      id="01901-2302"
+      title="Infection - Capítulo 40"
+      path="/read/infection/es/6/40.0"
+    />
+  );
+
+  wrapper.setProps({ id: "020202-01011" });
+  wrapper.setProps({ title: "Infection - Capítulo 41" });
+  wrapper.setProps({ path: "/read/infection/es/6/41.0" });
+});

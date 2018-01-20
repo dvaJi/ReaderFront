@@ -8,6 +8,9 @@ export default class SerieList extends Component {
     let isLoading = this.props.loading;
     let rows = [];
     let truncate = text => {
+      if (text === undefined) {
+        return "";
+      }
       return text.length > 120 ? text.substr(0, 120 - 1) + "..." : text;
     };
 
@@ -19,7 +22,10 @@ export default class SerieList extends Component {
       if (isLoading) {
         rows.push(<SerieItemEmpty key={serie.id} serie={serie} />);
       } else {
-        if (serie.name.toUpperCase().indexOf(filterText.toUpperCase()) === -1) {
+        if (
+          serie.name !== undefined &&
+          serie.name.toUpperCase().indexOf(filterText.toUpperCase()) === -1
+        ) {
           return;
         }
         rows.push(

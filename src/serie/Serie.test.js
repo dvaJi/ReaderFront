@@ -1,7 +1,12 @@
 import React from "react";
-import { render, shallow } from "enzyme";
+import { mount } from "enzyme";
 import Serie from "./Serie";
 
 it("renders without crashing", () => {
-  render(<Serie />);
+  let props = {
+    params: {
+      stub: "infection"
+    }
+  };
+  mount(<Serie match={props} />);
 });

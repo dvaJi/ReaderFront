@@ -31,12 +31,10 @@ export default class Serie extends Component {
   async componentDidMount() {
     try {
       const results = await this.getSerie();
-      this.setState({ serie: results });
+      this.setState({ serie: results, isLoading: false });
     } catch (e) {
       console.error(e);
     }
-
-    this.setState({ isLoading: false });
   }
 
   getSerie() {
@@ -81,13 +79,11 @@ export default class Serie extends Component {
             {this.state.serie.chapters
               .sort((a, b) => b.chapter - a.chapter)
               .map(chapter => (
-                <li key={chapter.id}>
-                  <Chapter
-                    key={chapter.id}
-                    serie={this.state.serie}
-                    chapter={chapter}
-                  />
-                </li>
+                <Chapter
+                  key={chapter.id}
+                  serie={this.state.serie}
+                  chapter={chapter}
+                />
               ))}
           </ul>
         </div>

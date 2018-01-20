@@ -13,7 +13,10 @@ export default class Series extends Component {
       isLoading: true,
       filterText: "",
       language: "es",
-      series: []
+      series: [{
+        id: 1,
+        name: ""
+      }]
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -36,12 +39,10 @@ export default class Series extends Component {
 
     try {
       const results = await this.getSeries();
-      this.setState({ series: results });
+      this.setState({ series: results, isLoading: false });
     } catch (e) {
       console.error(e);
     }
-
-    this.setState({ isLoading: false });
   }
 
   getSeries() {

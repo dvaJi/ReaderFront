@@ -17,31 +17,19 @@ export default class Releases extends Component {
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.addReleases = this.addReleases.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.getReleases = this.getReleases.bind(this);
     this.handleOnScroll = this.handleOnScroll.bind(this);
   }
 
   async componentDidMount() {
-    window.addEventListener("scroll", this.handleOnScroll);
-    this.setState({ isLoading: true });
-    this.setState({ isFetchingData: true });
-
-    const results = await this.getReleases();
-    this.setState({ isFetchingData: false });
-
-    await this.addReleases(results);
-
-    this.setState({ isLoading: false });
-    this.setState({ isInitialLoading: false });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleOnScroll);
-  }
-
-  async addReleases(results) {
     try {
+      window.addEventListener("scroll", this.handleOnScroll);
+      this.setState({ isLoading: true, isFetchingData: true });
+
+      const results = await this.getReleases();
+      this.setState({ isFetchingData: false });
+
       results.map(
         rel =>
           (rel.style = {
@@ -49,35 +37,61 @@ export default class Releases extends Component {
           })
       );
       if (!this.state.isInitialLoading) {
-        this.setState({ releases: this.state.releases.concat(results) });
+        this.setState({
+          releases: this.state.releases.concat(results),
+          isLoading: false
+        });
       } else {
-        this.setState({ releases: results });
+        this.setState({ releases: results, isLoading: false, isInitialLoading: false });
       }
     } catch (e) {
       console.error(e);
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleOnScroll);
+  }
+
   async handleOnScroll() {
     // http://stackoverflow.com/questions/9439725/javascript-how-to-detect-if-browser-window-is-scrolled-to-bottom
-    var scrollTop =
-      (document.documentElement && document.documentElement.scrollTop) ||
-      document.body.scrollTop;
-    var scrollHeight =
-      (document.documentElement && document.documentElement.scrollHeight) ||
-      document.body.scrollHeight;
-    var clientHeight =
-      document.documentElement.clientHeight || window.innerHeight;
-    var scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+    if (!this.state.isLoading) {
+      var scrollTop =
+        (document.documentElement && document.documentElement.scrollTop) ||
+        document.body.scrollTop;
+      var scrollHeight =
+        (document.documentElement && document.documentElement.scrollHeight) ||
+        document.body.scrollHeight;
+      var clientHeight =
+        document.documentElement.clientHeight || window.innerHeight;
+      var scrolledToBottom =
+        Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
-    if (scrolledToBottom && !this.state.isFetchingData) {
-      this.setState({ isFetchingData: true });
-      this.setState({ page: this.state.page + 1 });
+      if (scrolledToBottom && !this.state.isFetchingData) {
+        this.setState({ isFetchingData: true });
+        this.setState({ page: this.state.page + 1 });
 
-      const results = await this.getReleases();
-      await this.addReleases(results);
-
-      this.setState({ isFetchingData: false });
+        const results = await this.getReleases();
+        results.map(
+          rel =>
+            (rel.style = {
+              backgroundImage: "url(" + rel.chapter.thumbnail + ")"
+            })
+        );
+        if (!this.state.isInitialLoading) {
+          this.setState({
+            releases: this.state.releases.concat(results),
+            isLoading: false,
+            isFetchingData: false
+          });
+        } else {
+          this.setState({
+            releases: results,
+            isInitialLoading: false,
+            isFetchingData: false
+          });
+        }
+      }
     }
   }
 

@@ -10,14 +10,17 @@
     "postbuild": "react-snap",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --env=jsdom --coverage",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.1",
     "@fortawesome/fontawesome-free-solid": "^5.0.3",
     "@fortawesome/react-fontawesome": "^0.0.17",
+    "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.0",
     "js-cookie": "^2.2.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
@@ -28,7 +31,9 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "react-test-renderer": "^16.2.0",
-    "styled-components": "^2.4.0"
+    "sinon": "^4.1.6",
+    "styled-components": "^2.4.0",
+    "w3c-xmlhttprequest": "^2.1.2"
   },
   "devDependencies": {
     "jest-styled-components": "^4.10.0",
@@ -47,11 +52,15 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!<rootDir>/node_modules/"
+      "!<rootDir>/node_modules/",
+      "!src/index.js",
+      "!src/Routes.js",
+      "!src/registerServiceWorker.js",
+      "!src/common/WithTracker.js"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 60,
+        "branches": 45,
         "functions": 60,
         "lines": 60,
         "statements": 60

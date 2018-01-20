@@ -23,7 +23,8 @@ export default class ReleasesList extends Component {
       });
 
       if (isFetchingData) {
-        for (let index = 0; index < 15; index++) {
+        let releasesIndex = this.props.releases.length;
+        for (let index = releasesIndex; index < (releasesIndex + 15); index++) {
           rows.push(<ReleaseCardEmpty key={index} release={{ id: index }} />);
         }
       }
