@@ -24,7 +24,7 @@ it("renders without crashing", () => {
         chapters={chapters}
         serie={serie}
         prevChapter={1}
-        nextChapter={2}
+        nextChapter={-1}
       />
     </MemoryRouter>
   );
