@@ -25,6 +25,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
+    "react-cookie": "^2.1.2",
     "react-dom": "^16.2.0",
     "react-ga": "^2.4.1",
     "react-meta-tags": "^0.3.0",
@@ -56,7 +57,9 @@
       "!src/index.js",
       "!src/Routes.js",
       "!src/registerServiceWorker.js",
-      "!src/common/WithTracker.js"
+      "!src/common/WithTracker.js",
+      "!src/App.js",
+      "!src/services/api.js"
     ],
     "coverageThreshold": {
       "global": {

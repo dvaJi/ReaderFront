@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
+import API from "../services/api";
 import * as config from "../config";
 import DisqusThread from "../common/DisqusComments";
 import ReaderBar from "./ReaderBar";
@@ -72,7 +73,7 @@ export default class Reader extends Component {
 
   async componentDidMount() {
     try {
-      const results = await this.getChapters();
+      const results = await API.getChapters(this.props.match.params.stub);
       this.setState({ chapters: results });
 
       let chapter = results.find((chapter, index) => {
@@ -94,18 +95,6 @@ export default class Reader extends Component {
     } catch (e) {
       console.error(e);
     }
-  }
-
-  getChapters() {
-    return fetch(
-      config.READER_PATH + "v1/chapters?stub=" + this.props.match.params.stub
-    )
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(chapters) {
-        return chapters.sort((a, b) => b.chapter - a.chapter);
-      });
   }
 
   renderChapter() {

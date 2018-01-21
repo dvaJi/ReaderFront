@@ -9,6 +9,7 @@
 
 .Serie .Info,
 .SerieEmpty .Info {
+  width: 100%;
   text-align: left;
   background-color: #fff;
   border-radius: 2px;

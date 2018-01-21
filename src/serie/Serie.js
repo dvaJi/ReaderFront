@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
+import API from "../services/api";
 import * as config from "../config";
 import Cover from "./Cover";
 import Info from "./Info";
@@ -30,23 +32,12 @@ export default class Serie extends Component {
 
   async componentDidMount() {
     try {
-      const results = await this.getSerie();
+      const lang = Cookies.get("language") || "es";
+      const results = await API.getSerie(lang, this.props.match.params.stub);
       this.setState({ serie: results, isLoading: false });
     } catch (e) {
       console.error(e);
     }
-  }
-
-  getSerie() {
-    return fetch(
-      `${config.READER_PATH}v1/comic?stub=${this.props.match.params.stub}`
-    )
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(serie) {
-        return serie;
-      });
   }
 
   renderSerie() {

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
+import API from "../services/api";
 import * as config from "../config";
 import SerieList from "./SerieList";
 import FilterCard from "./FilterCard";
@@ -38,21 +40,12 @@ export default class Series extends Component {
     this.setState({ series: series });
 
     try {
-      const results = await this.getSeries();
+      const lang = Cookies.get("language") || "es";
+      const results = await API.getSeries(lang);
       this.setState({ series: results, isLoading: false });
     } catch (e) {
       console.error(e);
     }
-  }
-
-  getSeries() {
-    return fetch(config.READER_PATH + "v1/comics?orderby=asc_name&per_page=120")
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(series) {
-        return series;
-      });
   }
 
   render() {

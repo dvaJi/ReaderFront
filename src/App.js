@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
 import { Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
@@ -9,9 +11,28 @@ import Routes from "./Routes";
 import RouteNavItem from "./common/RouteNavItem";
 import faBook from "@fortawesome/fontawesome-free-solid/faBook";
 import faThList from "@fortawesome/fontawesome-free-solid/faThList";
+import rss from "@fortawesome/fontawesome-free-solid/faRss";
 import "./App.css";
 
 class App extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    const { cookies } = this.props;
+    this.state = {
+      language: cookies.get("language") || "es"
+    };
+  }
+
+  changeLanguage(lang) {
+    const { cookies } = this.props;
+    cookies.set("language", lang, { path: "/" });
+    this.setState({ language: lang });
+  }
+
   render() {
     ReactGA.initialize(config.GA_ID);
     ReactGA.pageview(window.location.pathname + window.location.search);
@@ -28,12 +49,27 @@ class App extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav pullRight>
+                <RouteNavItem
+                  href="#ES"
+                  onClick={e => this.changeLanguage("es")}
+                >
+                  ES
+                </RouteNavItem>
+                <RouteNavItem
+                  href="#EN"
+                  onClick={e => this.changeLanguage("en")}
+                >
+                  EN
+                </RouteNavItem>
                 <RouteNavItem href="/">
                   <FontAwesomeIcon icon={faThList} />
                   Releases
                 </RouteNavItem>
                 <RouteNavItem href="/series">
                   <FontAwesomeIcon icon={faBook} />Series
+                </RouteNavItem>
+                <RouteNavItem href="/blog">
+                  <FontAwesomeIcon icon={rss} />Blog
                 </RouteNavItem>
               </Nav>
             </Navbar.Collapse>
@@ -47,4 +83,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withCookies(App);

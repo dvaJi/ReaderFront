@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faDownload from "@fortawesome/fontawesome-free-solid/faDownload";
 import Button from "./Button";
@@ -20,6 +21,13 @@ export default class ReaderBar extends Component {
   }
 
   downloadChapter() {
+    ReactGA.event({
+      category: "Reader",
+      action: "Downloaded a chapter",
+      value: `${this.props.serie.name} capítulo ${this.props.chapter.chapter}.${
+        this.props.chapter.subchapter
+      }`
+    });
     let url = `${this.props.chapter.download_href}`;
     return (
       <Link className="Download" to={url}>

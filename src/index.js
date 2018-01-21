@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
-// import './i18n';
+import { CookiesProvider } from "react-cookie";
 import "./index.css";
 
 import { hydrate, render } from "react-dom";
@@ -10,16 +10,20 @@ import { hydrate, render } from "react-dom";
 const rootElement = document.getElementById("root");
 if (rootElement.hasChildNodes()) {
   hydrate(
-    <Router>
-      <App />
-    </Router>,
+    <CookiesProvider>
+      <Router>
+        <App />
+      </Router>
+    </CookiesProvider>,
     rootElement
   );
 } else {
   render(
-    <Router>
-      <App />
-    </Router>,
+    <CookiesProvider>
+      <Router>
+        <App />
+      </Router>
+    </CookiesProvider>,
     rootElement
   );
 }
