@@ -7,14 +7,15 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:lang": "babel scripts/translate.js | node",
-    "postbuild": "react-snap",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --env=jsdom --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
+    "release": "standard-version",
     "eject": "react-scripts eject"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.1",
+    "@fortawesome/fontawesome-free-brands": "^5.0.4",
     "@fortawesome/fontawesome-free-solid": "^5.0.3",
     "@fortawesome/react-fontawesome": "^0.0.17",
     "chai": "^4.1.2",
@@ -33,6 +34,7 @@
     "react-scripts": "1.1.0",
     "react-test-renderer": "^16.2.0",
     "sinon": "^4.1.6",
+    "standard-version": "^4.3.0",
     "styled-components": "^2.4.0",
     "w3c-xmlhttprequest": "^2.1.2"
   },

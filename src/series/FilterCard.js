@@ -12,7 +12,7 @@ export default class FilterCard extends Component {
 
   render() {
     return (
-      <div className="search-card">
+      <div className="FilterCard search-card">
         <input
           type="text"
           name="q"

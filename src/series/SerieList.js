@@ -15,7 +15,7 @@ export default class SerieList extends Component {
     };
 
     let redirectTo = serie => {
-      return `serie/${serie.stub}`;
+      return `/serie/${serie.stub}`;
     };
 
     this.props.series.forEach(serie => {

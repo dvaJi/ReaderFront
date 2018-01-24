@@ -12,6 +12,7 @@ import RouteNavItem from "./common/RouteNavItem";
 import faBook from "@fortawesome/fontawesome-free-solid/faBook";
 import faThList from "@fortawesome/fontawesome-free-solid/faThList";
 import rss from "@fortawesome/fontawesome-free-solid/faRss";
+import discord from "@fortawesome/fontawesome-free-brands/faDiscord";
 import "./App.css";
 
 class App extends Component {
@@ -70,6 +71,9 @@ class App extends Component {
                 </RouteNavItem>
                 <RouteNavItem href="/blog">
                   <FontAwesomeIcon icon={rss} />Blog
+                </RouteNavItem>
+                <RouteNavItem href="https://discord.gg/2mARvkx">
+                <FontAwesomeIcon icon={discord} />Discord
                 </RouteNavItem>
               </Nav>
             </Navbar.Collapse>

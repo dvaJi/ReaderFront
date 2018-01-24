@@ -1,7 +1,7 @@
 import * as config from "../config";
 
 function getSerie(lang, stub) {
-  return fetch(`${config.READER_PATH}v1/comic?lang=${lang}&stub=${stub}`)
+  return fetch(`${config.READER_PATH}v2/comic?lang=${lang}&stub=${stub}`)
     .then(function(response) {
       return response.json();
     })
@@ -12,7 +12,7 @@ function getSerie(lang, stub) {
 
 function getSeries(lang) {
   return fetch(
-    `${config.READER_PATH}v1/comics?lang=${lang}&orderby=asc_name&per_page=120`
+    `${config.READER_PATH}v2/comics?lang=${lang}&orderby=asc_name&per_page=120`
   )
     .then(function(response) {
       return response.json();
@@ -26,7 +26,7 @@ function getReleases(lang, page) {
   return fetch(
     `${
       config.READER_PATH
-    }v1/releases?lang=${lang}&orderby=desc_created&page=${page}`
+    }v2/releases?lang=${lang}&orderby=desc_created&page=${page}`
   )
     .then(function(response) {
       return response.json();
@@ -37,7 +37,7 @@ function getReleases(lang, page) {
 }
 
 function getChapters(stub) {
-  return fetch(`${config.READER_PATH}v1/chapters?stub=${stub}`)
+  return fetch(`${config.READER_PATH}v2/chapters?stub=${stub}`)
     .then(function(response) {
       return response.json();
     })

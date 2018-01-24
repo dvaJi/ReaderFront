@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
 import API from "../services/api";
 import * as config from "../config";
@@ -37,13 +38,14 @@ export default class Reader extends Component {
   }
 
   handleDisqusChange(chapter) {
+    const lang = Cookies.get("language") || "es";
     this.setState({
       disqusConfig: {
         id: `${chapter.comic.uniqid}-${chapter.uniqid}`,
         path: `/read/${chapter.comic.stub}/${chapter.language}/${
           chapter.volume
         }/${chapter.chapter}.${chapter.subchapter}`,
-        title: `${chapter.comic.name} - Capítulo ${chapter.chapter}`
+        title: `${chapter.comic.name} - Capítulo ${chapter.chapter} | ${lang} `
       }
     });
   }

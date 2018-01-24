@@ -19,9 +19,13 @@ export default class Chapter extends Component {
           {chapter.name !== "" ? `: ${chapter.name}` : ""}
         </Link>
         <div className="pull-right">
-          <Link className="Download" to={chapter.download_href}>
+          <a
+            className="Download"
+            href={chapter.download_href.replace("https://", "http://")}
+            target="_blank"
+          >
             <FontAwesomeIcon icon={faDownload} />
-          </Link>
+          </a>
         </div>
       </li>
     );

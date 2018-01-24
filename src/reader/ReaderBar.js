@@ -28,11 +28,11 @@ export default class ReaderBar extends Component {
         this.props.chapter.subchapter
       }`
     });
-    let url = `${this.props.chapter.download_href}`;
+    let url = `${this.props.chapter.download_href}`.replace("https://", "http://");
     return (
-      <Link className="Download" to={url}>
+      <a className="Download" href={url} target="_blank">
         <FontAwesomeIcon icon={faDownload} />
-      </Link>
+      </a>
     );
   }
 
