@@ -1,0 +1,38 @@
+.App {
+  text-align: center;
+}
+
+.navbar-default {
+  box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  background-color: rgba(255, 255, 255, 0.98);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 9999;
+  padding: 0px 0px 0px 24px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.navbar-nav li a svg {
+  margin-right: 5px;
+}
+
+.container {
+  margin-top: 90px;
+}
+
+.show-loading-animation {
+  animation: react-placeholder-pulse 1.5s infinite;
+}
+
+@keyframes react-placeholder-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
