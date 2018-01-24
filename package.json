@@ -1,6 +1,6 @@
 {
   "name": "ravens-scans-frontend",
-  "version": "4.0.0",
+  "version": "2.1.2",
   "homepage": "https://ravens-scans.com/",
   "private": true,
   "scripts": {
