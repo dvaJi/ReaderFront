@@ -20,7 +20,8 @@ it("should render 15 posts while is loading", async () => {
   expect(wrapper.find(PostCardEmpty).length).toBe(15);
 });
 
-it("should render 15 releases while is loading", async () => {
+it("should render 15 posts while is loading", async () => {
+  global.scrollTop = jest.fn();
   const wrapper = mount(
     <MemoryRouter>
       <Blog />
@@ -29,26 +30,21 @@ it("should render 15 releases while is loading", async () => {
   wrapper.setState({ isLoading: false });
   wrapper.setState({ isFetchingData: false });
   wrapper.setState({ isInitialLoading: false });
-  wrapper.setState({ releases: generateReleases() });
+  wrapper.setState({ posts: generatePosts() });
   await wrapper.update();
+  document.body.scrollTop = 1400;
+  await window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
 });
 
 /**
- * Genera mock de releases
+ * Genera mock de publicaciones
  *
- * @returns lista de releases
+ * @returns lista de publicaciones
  */
-function generateReleases() {
-  let releases = [];
+function generatePosts() {
+  let posts = [];
   for (let index = 0; index < 10; index++) {
-    let comic = { stub: "" };
-    let chapter = {
-      language: "",
-      volume: 0,
-      chapter: 0,
-      subchapter: index % 2 === 0 ? 0 : 1
-    };
-    releases.push({ id: index, comic: comic, chapter: chapter });
+    posts.push({ id: index, date: "2017-01-01", slug: "aa_a", title: {rendered: "aaa"} });
   }
-  return releases;
+  return posts;
 }

@@ -31,6 +31,8 @@ it("should render 15 releases while is loading", async () => {
   wrapper.setState({ isInitialLoading: false });
   wrapper.setState({ releases: generateReleases() });
   await wrapper.update();
+  document.body.scrollTop = 1400;
+  window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
 });
 
 /**
