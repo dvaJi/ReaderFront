@@ -37,7 +37,7 @@ function getReleases(lang, page) {
 }
 
 function getChapters(stub) {
-  return fetch(`${config.READER_PATH}v2/chapters?stub=${stub}`)
+  return fetch(`${config.READER_PATH}v2/chapters?stub=${stub}&per_page=100`)
     .then(function(response) {
       return response.json();
     })
