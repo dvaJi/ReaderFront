@@ -1,4 +1,4 @@
-export const READER_PATH = "http://ravens-scans.com/lector/api/"; // /lector/api/
+export const READER_PATH = "/lector/api/"; // /lector/api/
 export const BLOG_PATH = "/rs-blog/wp-json/wp/v2";
 export const APP_PATH = "/"; // /multi2
 export const APP_TITLE = "Ravens Scans";
