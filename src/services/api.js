@@ -36,8 +36,10 @@ function getReleases(lang, page) {
     });
 }
 
-function getChapters(stub) {
-  return fetch(`${config.READER_PATH}v2/chapters?stub=${stub}&per_page=100`)
+function getChapters(stub, lang) {
+  return fetch(
+    `${config.READER_PATH}v2/chapters?stub=${stub}&lang=${lang}&per_page=100`
+  )
     .then(function(response) {
       return response.json();
     })

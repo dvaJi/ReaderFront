@@ -72,7 +72,7 @@ export default class ReleaseCard extends Component {
         transform: scale(1.2);
       }
 
-      &hover: ${CardData} {
+      &:hover ${CardData} {
         padding-top: 90px;
         background: linear-gradient(
           to top,

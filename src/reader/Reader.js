@@ -75,7 +75,8 @@ export default class Reader extends Component {
 
   async componentDidMount() {
     try {
-      const results = await API.getChapters(this.props.match.params.stub);
+      const lang = Cookies.get("language") || "es";
+      const results = await API.getChapters(this.props.match.params.stub, lang);
       this.setState({ chapters: results });
 
       let chapter = results.find((chapter, index) => {
