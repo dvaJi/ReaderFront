@@ -3,6 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { CookiesProvider } from "react-cookie";
+import 'bootstrap/dist/css/bootstrap.css';
 import "./index.css";
 
 import { hydrate, render } from "react-dom";

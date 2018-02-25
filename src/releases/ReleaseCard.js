@@ -84,7 +84,7 @@ export default class ReleaseCard extends Component {
 
     return (
       <Link to={chapterUrl}>
-        <Card className="col-md-2 col-xs-12">
+        <Card className="col-lg-2 col-md-3 col-sm-4 col-xs-12">
           <CardCoverBackground>{""}</CardCoverBackground>
           <CardData>
             <h5>{release.comic.name}</h5>

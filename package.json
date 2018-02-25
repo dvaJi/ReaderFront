@@ -6,6 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "react-snap",
     "build:lang": "babel scripts/translate.js | node",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --env=jsdom --coverage",
@@ -15,32 +16,33 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.1",
-    "@fortawesome/fontawesome-free-brands": "^5.0.4",
-    "@fortawesome/fontawesome-free-solid": "^5.0.3",
+    "@fortawesome/fontawesome-free-brands": "^5.0.6",
+    "@fortawesome/fontawesome-free-solid": "^5.0.6",
     "@fortawesome/react-fontawesome": "^0.0.17",
+    "bootstrap": "^4.0.0",
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.0",
+    "enzyme-to-json": "^3.3.1",
     "js-cookie": "^2.2.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.32.0",
     "react-cookie": "^2.1.2",
     "react-dom": "^16.2.0",
     "react-ga": "^2.4.1",
     "react-meta-tags": "^0.3.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.0",
+    "react-scripts": "1.1.1",
     "react-test-renderer": "^16.2.0",
-    "sinon": "^4.1.6",
+    "reactstrap": "^5.0.0-beta",
+    "sinon": "^4.3.0",
     "standard-version": "^4.3.0",
-    "styled-components": "^2.4.0",
+    "styled-components": "^3.1.6",
     "w3c-xmlhttprequest": "^2.1.2"
   },
   "devDependencies": {
     "jest-styled-components": "^4.10.0",
-    "react-snap": "^1.9.1"
+    "react-snap": "^1.11.4"
   },
   "proxy": {
     "/api": {
