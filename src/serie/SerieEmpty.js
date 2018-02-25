@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class SerieEmpty extends Component {
   render() {
     return (
-      <div className="SerieEmpty shimme-serie">
+      <div className="SerieEmpty shimme-serie row">
         <div className="col-md-3">
           <div className="shimme-cover show-loading-animation">{"\u00A0"}</div>
         </div>

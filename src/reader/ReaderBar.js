@@ -53,20 +53,19 @@ export default class ReaderBar extends Component {
 
   render() {
     return (
-      <div className="ReaderBar">
-        <div className="col-md-9 title">
-          <div className="col-md-9 truncate">{this.serieLink()}</div>
-          <div className="col-md-3">
-            Capítulo {this.props.chapter.chapter}
+      <div className="ReaderBar clearfix">
+        <div className="float-left title">
+          <span className="truncate">{this.serieLink()}</span>
+            : Capítulo {this.props.chapter.chapter}
             {this.downloadChapter()}
-          </div>
         </div>
-        <div className="col-md-3">
+        <div className="float-right">
           <Button
             text="Cap Anterior"
             url={this.chapterUrl(this.props.prevChapter)}
             chapter={this.props.prevChapter}
           />
+          {' '}
           <Button
             text="Cap Siguiente"
             url={this.chapterUrl(this.props.nextChapter)}

@@ -3,10 +3,10 @@ import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
 import API from "../services/api";
 import * as config from "../config";
-import DisqusThread from "../common/DisqusComments";
 import ReaderBar from "./ReaderBar";
 import ImagesList from "./ImagesList";
 import ReaderEmpty from "./ReaderEmpty";
+import Comments from "./Comments";
 import "./Reader.css";
 
 export default class Reader extends Component {
@@ -144,7 +144,7 @@ export default class Reader extends Component {
           onChapterChange={this.handleChapterChange}
           pages={this.state.pages}
         />
-        <DisqusThread
+        <Comments
           id={this.state.disqusConfig.id}
           title={this.state.disqusConfig.title}
           path={this.state.disqusConfig.path}

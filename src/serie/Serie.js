@@ -57,26 +57,31 @@ export default class Serie extends Component {
           />
         </MetaTags>
         <h1>{this.state.serie.name}</h1>
-        <div className="col-md-3">
-          <Cover cover={this.state.serie.thumb2} name={this.state.serie.name} />
-        </div>
+        <div className="row">
+          <div className="col-md-3">
+            <Cover
+              cover={this.state.serie.thumb2}
+              name={this.state.serie.name}
+            />
+          </div>
 
-        <div className="col-md-8 col-md-offset-1">
-          <Info serie={this.state.serie} />
-        </div>
-        <div className="ChaptersList col-md-12">
-          <h2>Capítulos</h2>
-          <ul className="Chapters">
-            {this.state.serie.chapters
-              .sort((a, b) => b.chapter - a.chapter)
-              .map(chapter => (
-                <Chapter
-                  key={chapter.id}
-                  serie={this.state.serie}
-                  chapter={chapter}
-                />
-              ))}
-          </ul>
+          <div className="col-md-8 col-md-offset-1">
+            <Info serie={this.state.serie} />
+          </div>
+          <div className="ChaptersList col-md-12">
+            <h2>Capítulos</h2>
+            <ul className="Chapters">
+              {this.state.serie.chapters
+                .sort((a, b) => b.chapter - a.chapter)
+                .map(chapter => (
+                  <Chapter
+                    key={chapter.id}
+                    serie={this.state.serie}
+                    chapter={chapter}
+                  />
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
     );

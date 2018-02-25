@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
-import { Link } from "react-router-dom";
-import { Nav, Navbar } from "react-bootstrap";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import ReactGA from "react-ga";
 import * as config from "./config";
 import Routes from "./Routes";
 import RouteNavItem from "./common/RouteNavItem";
+import LangNavItem from "./common/LangNavItem";
 import faBook from "@fortawesome/fontawesome-free-solid/faBook";
 import faThList from "@fortawesome/fontawesome-free-solid/faThList";
 import rss from "@fortawesome/fontawesome-free-solid/faRss";
@@ -23,9 +23,20 @@ class App extends Component {
   constructor(props) {
     super(props);
     const { cookies } = this.props;
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    if (cookies.get("language") === undefined) {
+      cookies.set("language", "es", { path: "/" });
+    }
     this.state = {
-      language: cookies.get("language") || "es"
+      language: cookies.get("language") || "es",
+      isOpen: false
     };
+  }
+
+  toggleNavbar() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
   }
 
   changeLanguage(lang) {
@@ -41,27 +52,25 @@ class App extends Component {
     return (
       <Router basename={config.APP_PATH}>
         <div className="App">
-          <Navbar fluid collapseOnSelect>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <Link to="/">Ravens Scans</Link>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav pullRight>
-                <RouteNavItem
-                  href="#ES"
+          <Navbar color="white" fixed="true" light expand="md">
+            <NavbarBrand to="/">Ravens Scans</NavbarBrand>
+            <NavbarToggler onClick={this.toggleNavbar} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <LangNavItem
+                  cookielang={this.state.language}
+                  language="es"
                   onClick={e => this.changeLanguage("es")}
                 >
                   ES
-                </RouteNavItem>
-                <RouteNavItem
-                  href="#EN"
+                </LangNavItem>
+                <LangNavItem
+                  cookielang={this.state.language}
+                  language="en"
                   onClick={e => this.changeLanguage("en")}
                 >
                   EN
-                </RouteNavItem>
+                </LangNavItem>
                 <RouteNavItem href="/">
                   <FontAwesomeIcon icon={faThList} />
                   Releases
@@ -73,10 +82,10 @@ class App extends Component {
                   <FontAwesomeIcon icon={rss} />Blog
                 </RouteNavItem>
                 <RouteNavItem href="https://discord.gg/2mARvkx">
-                <FontAwesomeIcon icon={discord} />Discord
+                  <FontAwesomeIcon icon={discord} />Discord
                 </RouteNavItem>
               </Nav>
-            </Navbar.Collapse>
+            </Collapse>
           </Navbar>
           <div className="container">
             <Routes />
