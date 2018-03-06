@@ -9,6 +9,12 @@ export default class ImagesList extends Component {
     const ImageList = styled.div`
       text-align: center;
     `;
+    const Image = styled.img`
+      vertical-align: middle;
+      margin: 0% auto;
+      max-width: 100%;
+      margin-bottom: 10px;
+    `;
 
     window.scrollTo(0, 0);
 
@@ -17,7 +23,7 @@ export default class ImagesList extends Component {
     }
 
     pages.forEach(page => {
-      rows.push(<img key={page.id} alt={page.filename} src={page.thumb_url} />);
+      rows.push(<Image key={page.id} alt={page.filename} src={page.thumb_url} />);
     });
 
     return <ImageList>{rows}</ImageList>;
