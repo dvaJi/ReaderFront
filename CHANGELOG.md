@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/dvaJi/ReaderFront/compare/v3.0.1...v3.1.0) (2018-03-06)
+
+
+### Bug Fixes
+
+* **Blog:** Corrección de estilos del módulo Blog ([#31](https://github.com/dvaJi/ReaderFront/issues/31)) ([f2b9db6](https://github.com/dvaJi/ReaderFront/commit/f2b9db6))
+* **Reader:** Se añade salto de línea para cada imágen ([#32](https://github.com/dvaJi/ReaderFront/issues/32)) ([cb5dc2a](https://github.com/dvaJi/ReaderFront/commit/cb5dc2a))
+
+
+### Features
+
+* Actualizar a Bootstrap 4 con la lib reactstrap ([#26](https://github.com/dvaJi/ReaderFront/issues/26)) ([51c932e](https://github.com/dvaJi/ReaderFront/commit/51c932e)), closes [#17](https://github.com/dvaJi/ReaderFront/issues/17)
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/dvaJi/ReaderFront/compare/v3.0.0...v3.0.1) (2018-02-15)
 
