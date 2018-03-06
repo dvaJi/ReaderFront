@@ -33,9 +33,7 @@ export default class Blog extends Component {
       results.map(rel => {
         const imgUrl = /src="([^"]+)"/.exec(rel.content.rendered);
         if (imgUrl !== null) {
-          return (rel.style = {
-            backgroundImage: "url(" + imgUrl[1] + ")"
-          });
+          return (rel.thumb_blog = imgUrl[1]);
         } else {
           return rel;
         }
@@ -83,9 +81,7 @@ export default class Blog extends Component {
         results.map(rel => {
           const imgUrl = /src="([^"]+)"/.exec(rel.content.rendered);
           if (imgUrl !== null) {
-            return (rel.style = {
-              backgroundImage: "url(" + imgUrl[1] + ")"
-            });
+            return (rel.thumb_blog = imgUrl[1]);
           } else {
             return rel;
           }
