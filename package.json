@@ -6,7 +6,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "react-snap",
     "build:lang": "babel scripts/translate.js | node",
     "test": "react-scripts test --env=jsdom",
     "test:ci": "react-scripts test --env=jsdom --coverage",
@@ -41,8 +40,7 @@
     "w3c-xmlhttprequest": "^2.1.2"
   },
   "devDependencies": {
-    "jest-styled-components": "^4.10.0",
-    "react-snap": "^1.11.4"
+    "jest-styled-components": "^4.10.0"
   },
   "proxy": {
     "/api": {
