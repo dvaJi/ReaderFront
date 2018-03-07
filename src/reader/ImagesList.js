@@ -10,6 +10,7 @@ export default class ImagesList extends Component {
       text-align: center;
     `;
     const Image = styled.img`
+      display: block;
       vertical-align: middle;
       margin: 0% auto;
       max-width: 100%;
