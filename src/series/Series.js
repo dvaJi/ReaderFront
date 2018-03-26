@@ -26,6 +26,7 @@ export default class Series extends Component {
   }
 
   handleFilterTextChange(filterText) {
+    console.log(filterText);
     this.setState({
       filterText: filterText
     });
