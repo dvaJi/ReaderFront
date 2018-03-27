@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/dvaJi/ReaderFront/compare/v3.1.0...v3.2.0) (2018-03-27)
+
+
+### Bug Fixes
+
+* **Reader:** Corrección de estilos de imágenes ([f6202d3](https://github.com/dvaJi/ReaderFront/commit/f6202d3))
+* **Series:** Se corrige error en los estilos que no permitía buscar series. ([#38](https://github.com/dvaJi/ReaderFront/issues/38)) ([17e6871](https://github.com/dvaJi/ReaderFront/commit/17e6871))
+
+
+### Features
+
+* Portada por defecto para las series ([#41](https://github.com/dvaJi/ReaderFront/issues/41)) ([6c93d7e](https://github.com/dvaJi/ReaderFront/commit/6c93d7e))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/dvaJi/ReaderFront/compare/v3.0.1...v3.1.0) (2018-03-06)
 
