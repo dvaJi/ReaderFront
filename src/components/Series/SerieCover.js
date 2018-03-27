@@ -16,8 +16,11 @@ const CardMedia = styled.div`
 
 export default class SerieCover extends Component {
   render() {
+    const coverUrl = this.props.cover
+      ? this.props.cover
+      : "/static/images/default-cover.png";
     const Cover = styled.div`
-      background-image: url(${this.props.cover});
+      background-image: url(${coverUrl});
       background-position: 50% 50%;
       background-size: cover;
       height: 212px;
