@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import DisqusThread from "../common/DisqusComments";
+import DisqusThread from "../Common/DisqusComments";
 
 const Comments = styled.div`
   background-color: #fff;
