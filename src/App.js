@@ -53,7 +53,7 @@ class App extends Component {
       <Router basename={config.APP_PATH}>
         <div className="App">
           <Navbar color="white" fixed="true" light expand="md">
-            <NavbarBrand to="/">Ravens Scans</NavbarBrand>
+            <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>

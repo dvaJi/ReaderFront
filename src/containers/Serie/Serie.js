@@ -60,7 +60,11 @@ export default class Serie extends Component {
         <div className="row">
           <div className="col-md-3">
             <Cover
-              cover={this.state.serie.thumb2}
+              cover={
+                this.state.serie.thumb2
+                  ? this.state.serie.thumb2
+                  : "/static/images/default-cover.png"
+              }
               name={this.state.serie.name}
             />
           </div>
