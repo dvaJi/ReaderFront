@@ -3,7 +3,7 @@ import { mount, shallow } from "enzyme";
 import { spy } from "sinon";
 import { MemoryRouter } from "react-router-dom";
 import Releases from "./Releases";
-import ReleaseCardEmpty from "./ReleaseCardEmpty";
+import ReleaseCardEmpty from "../../components/Releases/ReleaseCardEmpty";
 
 it("renders without crashing", () => {
   mount(<Releases />);

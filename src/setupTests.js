@@ -13,5 +13,6 @@ const localStorageMock = {
   setItem: jest.fn(),
   clear: jest.fn()
 };
+global.scrollTo = jest.fn();
 global.localStorage = localStorageMock;
 global.XMLHttpRequest = XMLHttpRequest.XMLHttpRequest;

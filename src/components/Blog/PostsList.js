@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PostCard from "./PostCard";
+import ReleaseCard from "../Releases/ReleaseCard";
 import PostCardEmpty from "./PostCardEmpty";
 
 export default class PostsList extends Component {
@@ -16,10 +16,19 @@ export default class PostsList extends Component {
     } else {
       posts.forEach(post => {
         const date = new Date(post.date);
-        const url = `/blog/post/${post.id}/${date.getFullYear()}/${date.getMonth()}/${
-          post.slug
-        }`;
-        rows.push(<PostCard key={post.id} postUrl={url} post={post} />);
+        const url = `/blog/post/${
+          post.id
+        }/${date.getFullYear()}/${date.getMonth()}/${post.slug}`;
+        rows.push(
+          <ReleaseCard
+            key={post.id}
+            url={url}
+            name={post.title.rendered}
+            thumb={post.thumb_blog}
+            chapter={null}
+            subchapter={null}
+          />
+        );
       });
 
       if (isFetchingData) {

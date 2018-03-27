@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MetaTags from "react-meta-tags";
-import API from "../services/api";
-import * as config from "../config";
+import API from "../../services/api";
+import * as config from "../../config";
 import "./Post.css";
 
 export default class Post extends Component {

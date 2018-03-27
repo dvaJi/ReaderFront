@@ -67,6 +67,7 @@ function generateReleases() {
       language: "",
       volume: 0,
       chapter: 0,
+      thumbnail: "thumb.png",
       subchapter: index % 2 === 0 ? 0 : 1
     };
     releases.push({ id: index, comic: comic, chapter: chapter });
@@ -81,10 +82,8 @@ function generateReleases() {
  */
 function generateReleaseCardEmpty() {
   let listReleaseCardEmpty = [];
-  for (let index = 0; index < 15; index++) {
-    listReleaseCardEmpty.push(
-      <ReleaseCardEmpty key={index} release={{ id: index }} />
-    );
+  for (let index = 1; index <= 15; index++) {
+    listReleaseCardEmpty.push(<ReleaseCardEmpty key={index} />);
   }
 
   return listReleaseCardEmpty;
@@ -98,9 +97,16 @@ function generateReleaseCardEmpty() {
  */
 function generateReleaseCard(releases) {
   let listReleaseCard = [];
-  releases.map(release => {
+  releases.forEach(release => {
     listReleaseCard.push(
-      <ReleaseCard key={release.id} release={release} chapterUrl={""} />
+      <ReleaseCard
+        key={release.id}
+        url={""}
+        name={release.chapter.name}
+        thumb={release.chapter.thumbnail}
+        chapter={release.chapter.chapter}
+        subchapter={release.chapter.subchapter}
+      />
     );
   });
 

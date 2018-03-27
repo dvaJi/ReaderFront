@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
-import API from "../services/api";
-import * as config from "../config";
-import ReaderBar from "./ReaderBar";
-import ImagesList from "./ImagesList";
-import ReaderEmpty from "./ReaderEmpty";
-import Comments from "./Comments";
+import API from "../../services/api";
+import * as config from "../../config";
+import ReaderBar from "../../components/Reader/ReaderBar";
+import ImagesList from "../../components/Reader/ImagesList";
+import ReaderEmpty from "../../components/Reader/ReaderEmpty";
+import Comments from "../../components/Reader/Comments";
 import "./Reader.css";
 
 export default class Reader extends Component {

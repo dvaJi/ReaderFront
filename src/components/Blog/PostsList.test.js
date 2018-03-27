@@ -1,7 +1,7 @@
 import React from "react";
 import { render, mount } from "enzyme";
 import PostsList from "./PostsList";
-import PostCard from "./PostCard";
+import ReleaseCard from "../Releases/ReleaseCard";
 import PostCardEmpty from "./PostCardEmpty";
 import { BrowserRouter } from "react-router-dom";
 
@@ -26,9 +26,7 @@ it("renders PostCard without crashing", () => {
       <PostsList loading={false} posts={posts} />
     </BrowserRouter>
   );
-  expect(
-    wrapper.children().containsMatchingElement(listPostCard)
-  ).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
 });
 
 it("renders PostCard and fetching data without crashing", () => {
@@ -39,9 +37,7 @@ it("renders PostCard and fetching data without crashing", () => {
       <PostsList loading={false} posts={posts} isFetchingData={true} />
     </BrowserRouter>
   );
-  expect(
-    wrapper.children().containsMatchingElement(listPostCard)
-  ).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
 });
 
 it("renders PostCardEmpty without crashing", () => {
@@ -61,7 +57,12 @@ it("renders PostCardEmpty without crashing", () => {
 function generatePosts() {
   let posts = [];
   for (let index = 0; index < 10; index++) {
-    posts.push({ id: index, date: "2017-01-01", slug: "aa_a", title: {rendered: "aaa"} });
+    posts.push({
+      id: index,
+      date: "2017-01-01",
+      slug: "aa_a",
+      title: { rendered: "aaa" }
+    });
   }
   return posts;
 }
@@ -72,11 +73,18 @@ function generatePosts() {
  * @param {any} releases
  * @returns lista de ReleaseCard
  */
-function generatePostCard(releases) {
+function generatePostCard(posts) {
   let listPostCard = [];
-  releases.map(release => {
+  posts.map(post => {
     listPostCard.push(
-      <PostCard key={release.id} post={release} postUrl={""} />
+      <ReleaseCard
+        key={post.id}
+        url={""}
+        name={post.title.rendered}
+        thumb={post.thumb_blog}
+        chapter={null}
+        subchapter={null}
+      />
     );
   });
 

@@ -6,6 +6,19 @@ function handleChapterChange(chapter) {
   //
 }
 
+const pages = [
+  {
+    id: 1,
+    filename: 1 + "l.png",
+    thumb_url: "/root/" + 1 + "l.png"
+  },
+  {
+    id: 2,
+    filename: 2 + "l.png",
+    thumb_url: "/root/" + 2 + "l.png"
+  }
+];
+
 it("should render while loading and cascade mode without throwing an error", () => {
   const wrapper = shallow(
     <ImagesList
@@ -14,7 +27,7 @@ it("should render while loading and cascade mode without throwing an error", () 
       pageSelected={1}
       onPageSelected={2}
       onChapterChange={handleChapterChange}
-      pages={[1, 2, 3, 4, 5, 6]}
+      pages={pages}
     />
   );
 });
@@ -27,7 +40,7 @@ it("should render loaded with cascade mode without throwing an error", () => {
       pageSelected={1}
       onPageSelected={2}
       onChapterChange={handleChapterChange}
-      pages={[1, 2, 3, 4, 5, 6]}
+      pages={pages}
     />
   );
 });
@@ -40,7 +53,7 @@ it("should render loaded without cascade mode without throwing an error", () => 
         pageSelected={1}
         onPageSelected={2}
         onChapterChange={handleChapterChange}
-        pages={[1, 2, 3, 4, 5, 6]}
+        pages={pages}
       />
     );
   });

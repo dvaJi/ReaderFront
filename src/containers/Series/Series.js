@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
-import API from "../services/api";
-import * as config from "../config";
-import SerieList from "./SerieList";
-import FilterCard from "./FilterCard";
+import API from "../../services/api";
+import * as config from "../../config";
+import SerieList from "../../components/Series/SerieList";
+import FilterCard from "../../components/Series/FilterCard";
 import "./Series.css";
 
 export default class Series extends Component {

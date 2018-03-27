@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import withTracker from "./common/WithTracker";
-import Releases from "./releases/Releases";
-import Series from "./series/Series";
-import Serie from "./serie/Serie.js";
-import Reader from "./reader/Reader.js";
-import Blog from "./blog/Blog";
-import Post from "./post/Post";
+import withTracker from "./components/Common/WithTracker";
+import Releases from "./containers/Releases/Releases";
+import Series from "./containers/Series/Series";
+import Serie from "./containers/Serie/Serie.js";
+import Reader from "./containers/Reader/Reader.js";
+import Blog from "./containers/Blog/Blog";
+import Post from "./containers/Blog/Post";
 
 export default () => (
   <Switch>

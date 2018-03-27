@@ -25,3 +25,19 @@ it("should be updated when receive new props", () => {
   wrapper.setProps({ title: "Infection - Capítulo 41" });
   wrapper.setProps({ path: "/read/infection/es/6/41.0" });
 });
+
+it("should reset (set to undefined) window.DISQUS if it is not undefined", () => {
+  window.DISQUS = {
+    id: 1,
+    reset: a => {
+      window.DISQUS = undefined;
+    }
+  };
+  const wrapper = mount(
+    <DisqusComments
+      id="01901-2302"
+      title="Infection - Capítulo 40"
+      path="/read/infection/es/6/40.0"
+    />
+  );
+});

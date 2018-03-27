@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
-import API from "../services/api";
-import * as config from "../config";
-import Cover from "./Cover";
-import Info from "./Info";
-import Chapter from "./Chapter";
-import SerieEmpty from "./SerieEmpty";
+import API from "../../services/api";
+import * as config from "../../config";
+import Cover from "../../components/Serie/Cover";
+import Info from "../../components/Serie/Info";
+import Chapter from "../../components/Serie/Chapter";
+import SerieEmpty from "../../components/Serie/SerieEmpty";
 import "./Serie.css";
 
 export default class Serie extends Component {
