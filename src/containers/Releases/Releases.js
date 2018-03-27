@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import Cookies from "js-cookie";
 import MetaTags from "react-meta-tags";
-import PostsList from "./PostsList";
-import API from "../services/api";
-import * as config from "../config";
-import "./Blog.css";
+import ReleasesList from "../../components/Releases/ReleasesList";
+import API from "../../services/api";
+import * as config from "../../config";
+import "./Releases.css";
 
-export default class Blog extends Component {
+export default class Releases extends Component {
   constructor(props) {
     super(props);
 
@@ -14,7 +15,7 @@ export default class Blog extends Component {
       isInitialLoading: true,
       isFetchingData: false,
       page: 1,
-      posts: []
+      releases: []
     };
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -26,26 +27,24 @@ export default class Blog extends Component {
     try {
       window.addEventListener("scroll", this.handleOnScroll);
       this.setState({ isLoading: true, isFetchingData: true });
-
-      const results = await API.getPosts(this.state.page);
+      const lang = Cookies.get("language") || "es";
+      const results = await API.getReleases(lang, this.state.page);
       this.setState({ isFetchingData: false });
 
-      results.map(rel => {
-        const imgUrl = /src="([^"]+)"/.exec(rel.content.rendered);
-        if (imgUrl !== null) {
-          return (rel.thumb_blog = imgUrl[1]);
-        } else {
-          return rel;
-        }
-      });
+      results.map(
+        rel =>
+          (rel.style = {
+            backgroundImage: "url(" + rel.chapter.thumbnail + ")"
+          })
+      );
       if (!this.state.isInitialLoading) {
         this.setState({
-          posts: this.state.posts.concat(results),
+          releases: this.state.releases.concat(results),
           isLoading: false
         });
       } else {
         this.setState({
-          posts: results,
+          releases: results,
           isLoading: false,
           isInitialLoading: false
         });
@@ -77,24 +76,23 @@ export default class Blog extends Component {
         this.setState({ isFetchingData: true });
         this.setState({ page: this.state.page + 1 });
 
-        const results = await API.getPosts(this.state.page);
-        results.map(rel => {
-          const imgUrl = /src="([^"]+)"/.exec(rel.content.rendered);
-          if (imgUrl !== null) {
-            return (rel.thumb_blog = imgUrl[1]);
-          } else {
-            return rel;
-          }
-        });
+        const lang = Cookies.get("language") || "es";
+        const results = await API.getReleases(lang, this.state.page);
+        results.map(
+          rel =>
+            (rel.style = {
+              backgroundImage: "url(" + rel.chapter.thumbnail + ")"
+            })
+        );
         if (!this.state.isInitialLoading) {
           this.setState({
-            posts: this.state.posts.concat(results),
+            releases: this.state.releases.concat(results),
             isLoading: false,
             isFetchingData: false
           });
         } else {
           this.setState({
-            posts: results,
+            releases: results,
             isInitialLoading: false,
             isFetchingData: false
           });
@@ -105,16 +103,19 @@ export default class Blog extends Component {
 
   render() {
     return (
-      <div className="Blog">
+      <div className="Releases">
         <MetaTags>
-          <title>{config.APP_TITLE + " - Blog"}</title>
-          <meta name="description" content={"Blog de " + config.APP_TITLE} />
-          <meta property="og:title" content={config.APP_TITLE + " - Blog"} />
+          <title>{config.APP_TITLE + " - Capítulos Recientes"}</title>
+          <meta name="description" content="Capítulos más recientes." />
+          <meta
+            property="og:title"
+            content={config.APP_TITLE + " - Capítulos Recientes"}
+          />
         </MetaTags>
-        <PostsList
+        <ReleasesList
           loading={this.state.isLoading}
           isFetchingData={this.state.isFetchingData}
-          posts={this.state.posts}
+          releases={this.state.releases}
         />
       </div>
     );

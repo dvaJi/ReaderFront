@@ -1,9 +1,10 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
+import renderer from "react-test-renderer";
 import { spy } from "sinon";
 import { MemoryRouter } from "react-router-dom";
 import Blog from "./Blog";
-import PostCardEmpty from "./PostCardEmpty";
+import PostCardEmpty from "../../components/Blog/PostCardEmpty";
 
 it("renders without crashing", () => {
   mount(<Blog />);
@@ -21,7 +22,6 @@ it("should render 15 posts while is loading", async () => {
 });
 
 it("should render 15 posts while is loading", async () => {
-  global.scrollTop = jest.fn();
   const wrapper = mount(
     <MemoryRouter>
       <Blog />
@@ -33,7 +33,7 @@ it("should render 15 posts while is loading", async () => {
   wrapper.setState({ posts: generatePosts() });
   await wrapper.update();
   document.body.scrollTop = 1400;
-  await window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
+  window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
 });
 
 /**
@@ -41,10 +41,15 @@ it("should render 15 posts while is loading", async () => {
  *
  * @returns lista de publicaciones
  */
-function generatePosts() {
+const generatePosts = () => {
   let posts = [];
   for (let index = 0; index < 10; index++) {
-    posts.push({ id: index, date: "2017-01-01", slug: "aa_a", title: {rendered: "aaa"} });
+    posts.push({
+      id: index,
+      date: "2017-01-01",
+      slug: "aa_a",
+      title: { rendered: "aaa" }
+    });
   }
   return posts;
-}
+};

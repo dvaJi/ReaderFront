@@ -38,11 +38,11 @@ const CardData = styled.div`
   }
 `;
 
-export default class PostCard extends Component {
+export default class ReleaseCard extends Component {
   render() {
-    const { post, postUrl } = this.props;
+    const { url, name, thumb, chapter, subchapter } = this.props;
     const CardCoverBackground = styled.div`
-      background-image: url('${post.thumb_blog}');
+      background-image: url('${thumb}');
       background-position: 50% 50%;
       background-size: cover;
       border-radius: 3px;
@@ -83,13 +83,20 @@ export default class PostCard extends Component {
       }
     `;
     return (
-      <Link to={postUrl}>
+      <Link to={url}>
         <Card className="col-lg-2 col-md-3 col-sm-4 col-xs-12">
           <CardCoverBackground>{""}</CardCoverBackground>
           <CardData>
-            <h5>{post.title.rendered}</h5>
+            <h5>{name}</h5>
             <span>
-              <div title="Capítulo" />
+              {chapter !== null ? (
+                <div title="Capítulo">
+                  Capítulo {chapter}
+                  {Number(subchapter) !== 0 ? "." + subchapter : ""}
+                </div>
+              ) : (
+                ""
+              )}
             </span>
           </CardData>
         </Card>

@@ -2,8 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
-import Releases from "../releases/Releases";
-import Series from "../series/Series";
+import Releases from "../../containers/Releases/Releases";
+import Series from "../../containers/Series/Series";
 import withTracker from "./WithTracker";
 
 it("should render without throwing an error", () => {

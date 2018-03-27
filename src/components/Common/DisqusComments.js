@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import * as config from "../config";
+import * as config from "../../config";
 
 const SHORTNAME = config.DISQUS_SHORTNAME;
 const WEBSITE_URL = config.APP_URL;
