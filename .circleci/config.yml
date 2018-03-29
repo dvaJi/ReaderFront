@@ -33,6 +33,11 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn build
       - run:
           name: Deploy to ravens-scans.com
           command: |
