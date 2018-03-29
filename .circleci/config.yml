@@ -30,8 +30,6 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:8.6.0
-    machine:
-        enabled: true
     working_directory: ~/repo
     steps:
       - checkout
