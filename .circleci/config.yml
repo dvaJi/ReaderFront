@@ -37,9 +37,9 @@ jobs:
           name: Deploy to ravens-scans.com
           command: |
             sudo apt-get update
-            sudo apt-get -qq install git-ftp
             echo "Initiating Push site ravens-scans.com"
-            git ftp init --user $FTP_USER --passwd $FTP_PASSWORD ftp://ravens-scans.com/test_ci
+            ls
+            curl -T build/ ftp://$FTP_USER:$FTP_PASSWORD@ravens-scans.com/test_ci/
 workflows:
   version: 2
   test-build-and-deploy:
