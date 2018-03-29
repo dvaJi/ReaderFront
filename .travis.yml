@@ -2,10 +2,6 @@ language: node_js
 node_js:
   - 8.6.0
 
-env:
-  - FTP_USER=ftpuser
-  - FTP_PW=ftppw
-
 cache:
   yarn: true
   directories:
@@ -17,8 +13,3 @@ jobs:
       script: yarn test:ci
     - stage: build project
       script: yarn build
-    - stage: deploy
-      if: branch = ravens
-      deploy:
-        provider: script
-        script: curl --ftp-create-dirs -T uploadfilename -u $FTP_USER:$FTP_PW ftp://ravens-scans.com/test_ci/

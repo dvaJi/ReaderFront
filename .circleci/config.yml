@@ -18,3 +18,17 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test:ci
+      - run: yarn build
+  deploy:
+      name: Deploy to host if branch is ravens
+      command: |
+      if [ "${CIRCLE_BRANCH}" == "ravens" ]; then
+        apt-get update
+        apt-get -qq install git-ftp
+        echo "'_$(git status -uno --porcelain | wc -l)_'"
+        git status -uno --porcelain
+        echo "Initiating Push site ravens-scans.com"
+        git ftp init --user $FTP_USER --passwd $FTP_PASSWORD ftp://ravens-scans.com/test_ci
+      else
+        echo "Not ravens branch so not deploying"
+      fi
