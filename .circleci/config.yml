@@ -43,10 +43,8 @@ jobs:
           command: |
             sudo apt-get update
             echo "Initiating Push site ravens-scans.com"
-            for file in build/*
-              do
-                curl -u $FTP_USER:$FTP_PASSWORD -T ${file} ftp://ravens-scans.com/httpdocs/test_ci/${file}
-              done
+            cd build/
+            find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/httpdocs/test_ci/{} \;
 
 workflows:
   version: 2
