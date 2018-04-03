@@ -1,11 +1,9 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/node:8.6.0
-
     working_directory: ~/repo
-
     steps:
       - checkout
       - restore_cache:
@@ -18,3 +16,47 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test:ci
+  build:
+    docker:
+      - image: circleci/node:8.6.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn build
+  deploy:
+    docker:
+      - image: circleci/node:8.6.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn build
+      - run:
+          name: Deploy to ravens-scans.com
+          command: |
+            sudo apt-get update
+            echo "Initiating Push site ravens-scans.com"
+            cd build/
+            find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/httpdocs/{} \;
+
+workflows:
+  version: 2
+  test-build-and-deploy:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: ravens
