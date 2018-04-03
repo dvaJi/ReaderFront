@@ -23,7 +23,7 @@ export default class ReleasesList extends Component {
           <ReleaseCard
             key={release.id}
             url={chapterUrl}
-            name={chapter.name}
+            name={comic.name}
             thumb={chapter.thumbnail}
             chapter={chapter.chapter}
             subchapter={chapter.subchapter}
