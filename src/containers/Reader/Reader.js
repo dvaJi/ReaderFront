@@ -38,7 +38,7 @@ export default class Reader extends Component {
   }
 
   handleDisqusChange(chapter) {
-    const lang = Cookies.get("language") || "es";
+    const lang = this.props.match.params.lang || Cookies.get("language") || "es";
     this.setState({
       disqusConfig: {
         id: `${chapter.comic.uniqid}-${chapter.uniqid}`,
@@ -75,7 +75,7 @@ export default class Reader extends Component {
 
   async componentDidMount() {
     try {
-      const lang = Cookies.get("language") || "es";
+      const lang = this.props.match.params.lang || Cookies.get("language") || "es";
       const results = await API.getChapters(this.props.match.params.stub, lang);
       this.setState({ chapters: results });
 
