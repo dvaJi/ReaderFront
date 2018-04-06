@@ -1,4 +1,4 @@
-export const READER_PATH = "/lector/api/";
+export const READER_PATH = "/api/";
 export const BLOG_PATH = "/wp-json/wp/v2";
 export const APP_PATH = "/";
 export const APP_TITLE = "Reader Front";
