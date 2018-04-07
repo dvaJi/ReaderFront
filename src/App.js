@@ -11,8 +11,9 @@ import RouteNavItem from "./components/Common/RouteNavItem";
 import LangNavItem from "./components/Common/LangNavItem";
 import faBook from "@fortawesome/fontawesome-free-solid/faBook";
 import faThList from "@fortawesome/fontawesome-free-solid/faThList";
-import rss from "@fortawesome/fontawesome-free-solid/faRss";
-import discord from "@fortawesome/fontawesome-free-brands/faDiscord";
+import faRss from "@fortawesome/fontawesome-free-solid/faRss";
+import faDiscord from "@fortawesome/fontawesome-free-brands/faDiscord";
+import faPatreon from "@fortawesome/fontawesome-free-brands/faPatreon";
 import "./App.css";
 
 class App extends Component {
@@ -79,10 +80,13 @@ class App extends Component {
                   <FontAwesomeIcon icon={faBook} />Series
                 </RouteNavItem>
                 <RouteNavItem href="/blog">
-                  <FontAwesomeIcon icon={rss} />Blog
+                  <FontAwesomeIcon icon={faRss} />Blog
                 </RouteNavItem>
-                <RouteNavItem href="https://discord.gg/2mARvkx">
-                  <FontAwesomeIcon icon={discord} />Discord
+                <RouteNavItem href={config.DISCORD_URL} target="_blank">
+                  <FontAwesomeIcon icon={faDiscord} />Discord
+                </RouteNavItem>
+                <RouteNavItem href={config.PATREON_URL} target="_blank">
+                  <FontAwesomeIcon icon={faPatreon} />Patreon
                 </RouteNavItem>
               </Nav>
             </Collapse>
