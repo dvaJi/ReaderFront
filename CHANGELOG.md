@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/dvaJi/ReaderFront/compare/v3.2.0...v3.3.0) (2018-04-07)
+
+
+### Bug Fixes
+
+* **Reader:** Corrección que casuaba que los link directos en otro idioma no funcionaban ([#49](https://github.com/dvaJi/ReaderFront/issues/49)) ([3a5821b](https://github.com/dvaJi/ReaderFront/commit/3a5821b))
+* **Releases:** Ahora muestra el nombre de la serie en vez del nombre del capítulo ([#47](https://github.com/dvaJi/ReaderFront/issues/47)) ([e7c6b7d](https://github.com/dvaJi/ReaderFront/commit/e7c6b7d))
+
+
+### Features
+
+* Integración de CD para la rama 'ravens' ([#46](https://github.com/dvaJi/ReaderFront/issues/46)) ([f747dce](https://github.com/dvaJi/ReaderFront/commit/f747dce))
+* Links de Discord y Patreon ahora son configurables ([#55](https://github.com/dvaJi/ReaderFront/issues/55)) ([7f3c43e](https://github.com/dvaJi/ReaderFront/commit/7f3c43e))
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/dvaJi/ReaderFront/compare/v3.1.0...v3.2.0) (2018-03-27)
 
