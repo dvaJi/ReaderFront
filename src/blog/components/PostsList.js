@@ -35,8 +35,6 @@ export default class PostsList extends PureComponent {
             url={url}
             name={post.title.rendered}
             thumb={post.thumb_blog}
-            chapter={null}
-            subchapter={null}
             post={post}
           />
         );

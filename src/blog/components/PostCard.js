@@ -90,7 +90,7 @@ export default class PostCard extends Component {
   }
 
   render() {
-    const { name, thumb, chapter, subchapter } = this.props;
+    const { name, thumb } = this.props;
 
     return (
       <Card
