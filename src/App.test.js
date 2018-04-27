@@ -1,12 +1,9 @@
 import React from "react";
-import { shallow, render } from "enzyme";
-import { CookiesProvider } from "react-cookie";
+import ReactDOM from "react-dom";
 import App from "./App";
 
 it("renders without crashing", () => {
-  shallow(
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
-  );
+  const div = document.createElement("div");
+  ReactDOM.render(<App />, div);
+  ReactDOM.unmountComponentAtNode(div);
 });

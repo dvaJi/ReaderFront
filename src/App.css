@@ -3,6 +3,7 @@
   position: fixed;
   background-color: rgba(255, 255, 255, 0.98);
   -webkit-backdrop-filter: blur(20px);
+  position: relative;
 }
 .navbar-nav li a svg {
   margin-right: 5px;
