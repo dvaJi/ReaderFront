@@ -1,9 +1,22 @@
 {
   "name": "ravens-scans-frontend",
   "version": "3.3.0",
-  "homepage": "https://ravens-scans.com/",
-  "private": true,
+  "homepage": "https://github.com/dvaJi/ReaderFront/",
+  "keywords": [
+    "react",
+    "styled-components",
+    "standard-version",
+    "manga",
+    "manga-reader",
+    "progressive-web-app"
+  ],
+  "author": "dvaJi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvaJi/ReaderFront/issues"
+  },
   "scripts": {
+    "analyze": "yarn build && source-map-explorer build/static/js/main.*",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:lang": "babel scripts/translate.js | node",
@@ -18,29 +31,36 @@
     "@fortawesome/fontawesome-free-brands": "^5.0.9",
     "@fortawesome/fontawesome-free-solid": "^5.0.9",
     "@fortawesome/react-fontawesome": "^0.0.18",
-    "bootstrap": "^4.0.0",
+    "babel-eslint": "^8.2.3",
+    "bootstrap": "^4.1.0",
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
-    "js-cookie": "^2.2.0",
-    "prop-types": "^15.6.1",
-    "react": "^16.3.1",
-    "react-cookie": "^2.1.4",
-    "react-dom": "^16.3.1",
+    "history": "^4.7.2",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
     "react-ga": "^2.4.1",
+    "react-loadable": "^5.3.1",
     "react-meta-tags": "^0.3.0",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
+    "react-router-redux": "next",
     "react-scripts": "1.1.4",
     "react-test-renderer": "^16.3.1",
     "reactstrap": "^5.0.0",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "sinon": "^4.5.0",
     "standard-version": "^4.3.0",
-    "styled-components": "^3.2.5",
+    "styled-components": "^3.2.6",
     "w3c-xmlhttprequest": "^2.1.2"
   },
   "devDependencies": {
-    "jest-styled-components": "^5.0.1"
+    "jest-styled-components": "^5.0.1",
+    "redux-devtools": "^3.4.1",
+    "redux-devtools-extension": "~2.13.2",
+    "source-map-explorer": "^1.5.0"
   },
   "proxy": {
     "/api": {
@@ -65,7 +85,7 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 45,
+        "branches": 60,
         "functions": 60,
         "lines": 60,
         "statements": 60

@@ -1,0 +1,43 @@
+a {
+    color: #4b4f56;
+  }
+  
+  .card-media-tag {
+    border-radius: 2px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.22);
+    display: inline-block;
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    padding: 5px 8px;
+    position: absolute;
+    left: 110px;
+    text-transform: uppercase;
+    top: -10px;
+    width: 63px;
+  }
+  
+  .card-media-tag-orange {
+    background-color: #ff982c;
+    color: #ffe111;
+  }
+  
+  @media screen and (max-width: 1200px) {
+    .card-body {
+      width: 65%;
+    }
+  }
+  
+  @media screen and (max-width: 992px) {
+    .card {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  
+  @media screen and (max-width: 700px) {
+    .card-body {
+      width: 55%;
+    }
+  }
+  
