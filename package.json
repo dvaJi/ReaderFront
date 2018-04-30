@@ -38,6 +38,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
     "history": "^4.7.2",
+    "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-ga": "^2.4.1",
@@ -50,6 +51,7 @@
     "react-test-renderer": "^16.3.1",
     "reactstrap": "^5.0.0",
     "redux": "^3.7.2",
+    "redux-i18n": "^1.5.13",
     "redux-thunk": "^2.2.0",
     "sinon": "^4.5.0",
     "standard-version": "^4.3.0",
@@ -80,8 +82,7 @@
       "!src/Routes.js",
       "!src/registerServiceWorker.js",
       "!src/common/WithTracker.js",
-      "!src/App.js",
-      "!src/services/api.js"
+      "!src/App.js"
     ],
     "coverageThreshold": {
       "global": {

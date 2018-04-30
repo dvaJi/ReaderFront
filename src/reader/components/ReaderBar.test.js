@@ -1,7 +1,12 @@
 import React from "react";
+import I18n from "redux-i18n";
+import { Provider } from "react-redux";
+import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
 import ReaderBar from "./ReaderBar";
+import { translations } from "../../translations";
+import store from "../../store";
 
 it("renders without crashing", () => {
   let chapter = {
@@ -18,28 +23,36 @@ it("renders without crashing", () => {
   };
 
   mount(
-    <MemoryRouter>
-      <ReaderBar
-        chapter={chapter}
-        chapters={chapters}
-        serie={serie}
-        prevChapter={1}
-        nextChapter={-1}
-      />
-    </MemoryRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <MemoryRouter>
+          <ReaderBar
+            chapter={chapter}
+            chapters={chapters}
+            serie={serie}
+            prevChapter={1}
+            nextChapter={-1}
+          />
+        </MemoryRouter>
+      </I18n>
+    </Provider>
   );
 });
 
 it("renders without any serie or chapter", () => {
   mount(
-    <MemoryRouter>
-      <ReaderBar
-        chapter={{}}
-        chapters={{}}
-        serie={{}}
-        prevChapter={-1}
-        nextChapter={-1}
-      />
-    </MemoryRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <MemoryRouter>
+          <ReaderBar
+            chapter={{}}
+            chapters={{}}
+            serie={{}}
+            prevChapter={-1}
+            nextChapter={-1}
+          />
+        </MemoryRouter>
+      </I18n>
+    </Provider>
   );
 });

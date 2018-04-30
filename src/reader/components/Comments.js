@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import DisqusThread from "../../common/DisqusComments";
 
@@ -17,11 +18,11 @@ const Comments = styled.div`
   white-space: normal;
 `;
 
-export default class Button extends PureComponent {
+class Comment extends PureComponent {
   render() {
     return (
       <Comments>
-        <h4>Comentarios</h4>
+        <h4>{this.context.t("Comentarios")}</h4>
         <DisqusThread
           id={this.props.id}
           title={this.props.title}
@@ -31,3 +32,9 @@ export default class Button extends PureComponent {
     );
   }
 }
+
+Comment.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
+export default Comment;

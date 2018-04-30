@@ -1,20 +1,35 @@
 import React from "react";
+import I18n from "redux-i18n";
+import { Provider } from "react-redux";
+import PropTypes from "prop-types";
 import { render, mount } from "enzyme";
 import ReleasesList from "./ReleasesList";
 import ReleaseCard from "./ReleaseCard";
 import ReleaseCardEmpty from "./ReleaseCardEmpty";
 import { BrowserRouter } from "react-router-dom";
+import { translations } from "../../translations";
+import store from "../../store";
 
 it("renders without crashing", () => {
-  render(<ReleasesList loading={true} releases={[]} />);
+  render(
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <ReleasesList loading={true} releases={[]} />
+      </I18n>
+    </Provider>
+  );
 });
 
 it("should render releases without crashing", () => {
   const releases = generateReleases();
   mount(
-    <BrowserRouter>
-      <ReleasesList loading={false} releases={releases} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <ReleasesList loading={false} releases={releases} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
 });
 
@@ -22,9 +37,13 @@ it("renders RealeaseCard without crashing", () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
-    <BrowserRouter>
-      <ReleasesList loading={false} releases={releases} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <ReleasesList loading={false} releases={releases} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)
@@ -35,9 +54,13 @@ it("renders RealeaseCard and fetching data without crashing", () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
-    <BrowserRouter>
-      <ReleasesList loading={false} releases={releases} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <ReleasesList loading={false} releases={releases} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)
@@ -48,9 +71,13 @@ it("renders RealeaseCard and add RealeaseCardEmpty while is loading", () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
-    <BrowserRouter>
-      <ReleasesList loading={true} releases={releases} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <ReleasesList loading={true} releases={releases} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)

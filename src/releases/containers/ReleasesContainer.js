@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
 import { connect } from "react-redux";
 import { fetchReleases, releasesPage } from "../actions/doReleases";
@@ -26,7 +27,7 @@ class ReleasesContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.language !== nextProps.language) {
       this.props.changePage(1);
-      this.props.loadChapters(this.props.language, this.props.page);
+      this.props.loadChapters(nextProps.language, this.props.page);
     }
   }
 
@@ -68,11 +69,11 @@ class ReleasesContainer extends Component {
     return (
       <div className="Releases">
         <MetaTags>
-          <title>{config.APP_TITLE + " - Capítulos Recientes"}</title>
-          <meta name="description" content="Capítulos más recientes." />
+          <title>{config.APP_TITLE + " - " + this.context.t("Capítulos más recientes")}</title>
+          <meta name="description" content={this.context.t("Capítulos más recientes")} />
           <meta
             property="og:title"
-            content={config.APP_TITLE + " - Capítulos Recientes"}
+            content={config.APP_TITLE + " - " + this.context.t("Capítulos más recientes")}
           />
         </MetaTags>
         <ReleasesList loading={isLoading} releases={chapters} page={page} />
@@ -81,13 +82,17 @@ class ReleasesContainer extends Component {
   }
 }
 
+ReleasesContainer.contextTypes = {
+  t: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => {
   return {
     chapters: state.releases.chapters,
     page: state.releases.releasesPage,
     isLoading: state.releases.releasesIsLoading,
     hasErrored: state.releases.releasesHasErrored,
-    language: state.layout.language
+    language: state.i18nState.lang
   };
 };
 
