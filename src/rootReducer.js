@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
+import { i18nState } from "redux-i18n";
 
 import releases from "./releases/reducers";
 import series from "./series/reducers";
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   reader,
   blog,
   layout,
-  router: routerReducer
+  router: routerReducer,
+  i18nState
 });
 
 export default rootReducer;

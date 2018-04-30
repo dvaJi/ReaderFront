@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -80,7 +81,7 @@ const Card = styled.div`
   }
 `;
 
-export default class ReleaseCard extends PureComponent {
+class ReleaseCard extends PureComponent {
   render() {
     const { url, name, thumb, chapter, subchapter } = this.props;
 
@@ -92,7 +93,7 @@ export default class ReleaseCard extends PureComponent {
             <h5>{name}</h5>
             <span>
               <div title="Capítulo">
-                Capítulo {chapter}
+              {this.context.t("Capítulo")} {chapter}
                 {Number(subchapter) !== 0 ? "." + subchapter : ""}
               </div>
             </span>
@@ -102,3 +103,9 @@ export default class ReleaseCard extends PureComponent {
     );
   }
 }
+
+ReleaseCard.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
+export default ReleaseCard;

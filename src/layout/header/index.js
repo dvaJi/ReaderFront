@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
 import RouteNavItem from "./RouteNavItem";
 import LangNavItem from "./LangNavItem";
 import { connect } from "react-redux";
 import { doChangeLanguage } from "../actions/doChangeLanguage";
+import { setLanguage } from "redux-i18n";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faBook from "@fortawesome/fontawesome-free-solid/faBook";
 import faThList from "@fortawesome/fontawesome-free-solid/faThList";
@@ -21,10 +23,16 @@ class Header extends Component {
       isOpen: false
     };
   }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
+  }
+
+  handleChangeLanguage(lang) {
+    this.props.doChangeLanguage(lang);
+    this.props.setLanguage(lang);
   }
 
   render() {
@@ -37,14 +45,14 @@ class Header extends Component {
             <LangNavItem
               cookielang={this.props.language}
               language="es"
-              onClick={e => this.props.doChangeLanguage("es")}
+              onClick={e => this.handleChangeLanguage("es")}
             >
               ES
             </LangNavItem>
             <LangNavItem
               cookielang={this.props.language}
               language="en"
-              onClick={e => this.props.doChangeLanguage("en")}
+              onClick={e => this.handleChangeLanguage("en")}
             >
               EN
             </LangNavItem>
@@ -71,15 +79,20 @@ class Header extends Component {
   }
 }
 
+Header.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => {
   return {
-    language: state.layout.language
+    language: state.i18nState.lang
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    doChangeLanguage: lang => dispatch(doChangeLanguage(lang))
+    doChangeLanguage: lang => dispatch(doChangeLanguage(lang)),
+    setLanguage: lang => dispatch(setLanguage(lang))
   };
 };
 

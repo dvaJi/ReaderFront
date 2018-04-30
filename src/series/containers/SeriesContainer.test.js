@@ -1,4 +1,6 @@
 import React from "react";
+import I18n from "redux-i18n";
+import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -7,6 +9,7 @@ import App from "../../App";
 import thunk from "redux-thunk";
 import rootReducer from "../../rootReducer";
 import store from "../../store";
+import { translations } from "../../translations";
 import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
 
 it("should render without throwing an error", () => {
@@ -22,7 +25,9 @@ it("should render without throwing an error", () => {
 it("should filter series", () => {
   const wrapper = mount(
     <Provider store={store}>
-      <SeriesContainer />
+      <I18n translations={translations}>
+        <SeriesContainer />
+      </I18n>
     </Provider>
   );
 

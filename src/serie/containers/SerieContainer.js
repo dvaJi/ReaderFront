@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import MetaTags from "react-meta-tags";
 import { connect } from "react-redux";
 import { fetchSerie } from "../actions/doSerie";
@@ -22,7 +23,6 @@ class SerieContainer extends Component {
 
   componentDidMount() {
     try {
-      console.log(this.props);
       this.props.getSerie(this.props.params.stub);
     } catch (e) {
       console.error(e);
@@ -64,7 +64,7 @@ class SerieContainer extends Component {
             )}
           />
           <div className="ChaptersList col-md-12">
-            <h2>Capítulos</h2>
+            <h2>{this.context.t("Lista de capítulos")}</h2>
             <ul className="Chapters">
               {this.props.serie.chapters
                 .filter(c => c.language === this.props.language)
@@ -92,9 +92,11 @@ class SerieContainer extends Component {
   }
 }
 
+SerieContainer.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
-  console.log(ownProps);
   return {
     serie: state.serie.serie,
     params: ownProps.match.params,

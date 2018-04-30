@@ -31,7 +31,7 @@ export function releasesPage(state = 1, action) {
 export function chapters(state = [], action) {
   switch (action.type) {
     case "RELEASES_FETCH_DATA_SUCCESS":
-      return state.page === 1 ? action.chapters : state.concat(action.chapters);
+      return action.page === 1 ? action.chapters : state.concat(action.chapters);
 
     default:
       return state;

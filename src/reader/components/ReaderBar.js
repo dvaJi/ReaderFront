@@ -1,11 +1,12 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import ReactGA from "react-ga";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faDownload from "@fortawesome/fontawesome-free-solid/faDownload";
 import Button from "./Button";
 
-export default class ReaderBar extends PureComponent {
+class ReaderBar extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -56,18 +57,18 @@ export default class ReaderBar extends PureComponent {
       <div className="ReaderBar clearfix">
         <div className="float-left title">
           <span className="truncate">{this.serieLink()}</span>
-            : Capítulo {this.props.chapter.chapter}
+            : {this.context.t("Capítulo")} {this.props.chapter.chapter}
             {this.downloadChapter()}
         </div>
         <div className="float-right">
           <Button
-            text="Cap Anterior"
+            text={this.context.t("Cap Anterior")}
             url={this.chapterUrl(this.props.prevChapter)}
             chapter={this.props.prevChapter}
           />
           {' '}
           <Button
-            text="Cap Siguiente"
+            text={this.context.t("Cap Siguiente")}
             url={this.chapterUrl(this.props.nextChapter)}
             chapter={this.props.nextChapter}
           />
@@ -76,3 +77,9 @@ export default class ReaderBar extends PureComponent {
     );
   }
 }
+
+ReaderBar.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
+export default ReaderBar;

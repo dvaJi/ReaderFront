@@ -35,7 +35,7 @@ export default class ReleasesList extends PureComponent {
       });
     }
 
-    if (isLoading && this.props.releases.length !== 0) {
+    if (isLoading && this.props.releases.length !== 0 && page !== 1) {
       for (let index = 0; index < 15; index++) {
         rows.push(<ReleaseCardEmpty key={index} />);
       }

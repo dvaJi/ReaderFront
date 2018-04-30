@@ -1,4 +1,6 @@
 import React from "react";
+import I18n from "redux-i18n";
+import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -7,6 +9,7 @@ import App from "../../App";
 import thunk from "redux-thunk";
 import rootReducer from "../../rootReducer";
 import store from "../../store";
+import { translations } from "../../translations";
 import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
 import { releasesIsLoading, fetchReleases } from "../actions/doReleases";
 
@@ -14,7 +17,9 @@ it("should render without throwing an error", () => {
   const props = {};
   const wrapper = mount(
     <Provider store={store} {...props}>
-      <ReleasesContainer />
+      <I18n translations={translations}>
+        <ReleasesContainer />
+      </I18n>
     </Provider>
   );
 });

@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const FilterCardComp = styled.div`
@@ -11,7 +12,7 @@ const FilterCardComp = styled.div`
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
 `;
 
-export default class FilterCard extends PureComponent {
+class FilterCard extends PureComponent {
   constructor(props) {
     super(props);
     this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
@@ -28,7 +29,7 @@ export default class FilterCard extends PureComponent {
           type="text"
           name="q"
           className="form-control"
-          placeholder="Buscar serie..."
+          placeholder={this.context.t("Buscar serie...")}
           id="q"
           value={this.props.filterText}
           onChange={this.handleFilterTextChange}
@@ -37,3 +38,9 @@ export default class FilterCard extends PureComponent {
     );
   }
 }
+
+FilterCard.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
+export default FilterCard;

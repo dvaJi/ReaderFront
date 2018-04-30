@@ -1,4 +1,5 @@
 import React from "react";
+import I18n from "redux-i18n";
 import { mount, shallow } from "enzyme";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, combineReducers } from "redux";
@@ -10,6 +11,7 @@ import rootReducer from "../../rootReducer";
 import store, { history } from "../../store";
 import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
 import { fetchSerie } from "../actions/doSerie";
+import { translations } from "../../translations";
 
 it("should render without throwing an error", () => {
   const wrapper = shallow(
@@ -25,9 +27,11 @@ it("should render without throwing an error when it receive a new language props
   const wrapper = mount(
     <App>
       <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <SerieContainer />
-        </ConnectedRouter>
+        <I18n translations={translations} initialLang={"es"}>
+          <ConnectedRouter history={history}>
+            <SerieContainer />
+          </ConnectedRouter>
+        </I18n>
       </Provider>
     </App>
   );
