@@ -26,7 +26,7 @@ export default class ImagesList extends PureComponent {
 
     pages.forEach(page => {
       rows.push(
-        <Image key={page.id} alt={page.filename} src={page.thumb_url} height={page.height} width={page.width} />
+        <Image key={page.id} alt={page.filename} src={page.thumb_url} />
       );
     });
 
