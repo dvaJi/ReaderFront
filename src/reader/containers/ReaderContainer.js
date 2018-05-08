@@ -37,13 +37,14 @@ class ReaderContainer extends Component {
         path: `/read/${chapter.comic.stub}/${chapter.language}/${
           chapter.volume
         }/${chapter.chapter}.${chapter.subchapter}`,
-        title: `${chapter.comic.name} - Capítulo ${chapter.chapter} | ${lang} `
+        title: `${chapter.comic.name} - Capítulo ${chapter.chapter} | ${lang.toUpperCase()} `
       }
     });
   }
 
   handleChapterChange(chapter) {
     this.props.selectChapter(chapter);
+    this.handleDisqusChange(chapter);
     let chapters = this.props.chapters;
     let prevChapter =
       chapters.indexOf(chapter) !== 0 ? chapters.indexOf(chapter) - 1 : -1;
@@ -72,7 +73,7 @@ class ReaderContainer extends Component {
           chapter.chapter === newProps.params.chapter &&
           chapter.subchapter === newProps.params.subchapter
       );
-
+      
       this.handleChapterChange(newChapter);
     }
   }
