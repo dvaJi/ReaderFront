@@ -18,13 +18,13 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
+    this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       isOpen: false
     };
   }
 
-  toggle() {
+  toggleNavbar() {
     this.setState({
       isOpen: !this.state.isOpen
     });
