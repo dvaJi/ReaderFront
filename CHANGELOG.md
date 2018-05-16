@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.2"></a>
+## [3.4.2](https://github.com/dvaJi/ReaderFront/compare/v3.4.1...v3.4.2) (2018-05-16)
+
+
+### Bug Fixes
+
+* **Header:** Toggle nav didn't work ([#64](https://github.com/dvaJi/ReaderFront/issues/64)) ([8db5b93](https://github.com/dvaJi/ReaderFront/commit/8db5b93))
+* **Reader:** Disqus comments were not updated correctly ([#63](https://github.com/dvaJi/ReaderFront/issues/63)) ([9843294](https://github.com/dvaJi/ReaderFront/commit/9843294))
+
+
+
 <a name="3.4.1"></a>
 ## [3.4.1](https://github.com/dvaJi/ReaderFront/compare/v3.4.0...v3.4.1) (2018-05-01)
 
