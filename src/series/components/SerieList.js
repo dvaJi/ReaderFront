@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import SerieItem from "./SerieItem";
 import SerieItemEmpty from "./SerieItemEmpty";
+import Lazyload from "react-lazyload";
 
 export default class SerieList extends PureComponent {
   render() {
@@ -29,12 +30,14 @@ export default class SerieList extends PureComponent {
         )
         .forEach(serie => {
           rows.push(
-            <SerieItem
-              key={serie.id}
-              truncate={truncate}
-              redirectTo={redirectTo}
-              serie={serie}
-            />
+            <Lazyload key={serie.id} height={10} once={true} throttle={100}>
+              <SerieItem
+                key={serie.id}
+                truncate={truncate}
+                redirectTo={redirectTo}
+                serie={serie}
+              />
+            </Lazyload>
           );
         });
     }

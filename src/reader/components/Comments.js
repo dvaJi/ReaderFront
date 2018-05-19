@@ -2,6 +2,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import DisqusThread from "../../common/DisqusComments";
+import Lazyload from "react-lazyload";
 
 const Comments = styled.div`
   background-color: #fff;
@@ -21,14 +22,16 @@ const Comments = styled.div`
 class Comment extends PureComponent {
   render() {
     return (
-      <Comments>
-        <h4>{this.context.t("Comentarios")}</h4>
-        <DisqusThread
-          id={this.props.id}
-          title={this.props.title}
-          path={this.props.path}
-        />
-      </Comments>
+      <Lazyload throttle={200} height={300}>
+        <Comments>
+          <h4>{this.context.t("Comentarios")}</h4>
+          <DisqusThread
+            id={this.props.id}
+            title={this.props.title}
+            path={this.props.path}
+          />
+        </Comments>
+      </Lazyload>
     );
   }
 }

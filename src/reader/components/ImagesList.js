@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
+import Lazyload from "react-lazyload";
 
 const ImageList = styled.div`
   text-align: center;
@@ -26,7 +27,13 @@ export default class ImagesList extends PureComponent {
 
     pages.forEach(page => {
       rows.push(
-        <Image key={page.id} alt={page.filename} src={page.thumb_url} />
+        <Lazyload key={page.id} height={200} once={true} throttle={200}>
+          <Image
+            src={page.thumb_url}
+            alt={page.filename}
+            title={page.filename}
+          />
+        </Lazyload>
       );
     });
 
