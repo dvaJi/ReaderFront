@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { forceCheck } from 'react-lazyload';
 
 const FilterCardComp = styled.div`
   background-color: #fff;
@@ -20,6 +21,7 @@ class FilterCard extends PureComponent {
 
   handleFilterTextChange(e) {
     this.props.onFilterTextChange(e.target.value);
+    forceCheck();
   }
 
   render() {
