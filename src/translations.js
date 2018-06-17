@@ -12,7 +12,10 @@ export const translations = {
     "Cap Siguiente": "Cap Siguiente",
     "Comentarios": "Comentarios",
     "Cambiar idioma a Inglés": "Cambiar idioma a Inglés",
-    "Cambiar idioma a Español": "Cambiar idioma a Español"
+    "Cambiar idioma a Español": "Cambiar idioma a Español",
+    "Añadidos recientemente": "Añadidos recientemente",
+    "Inicio": "Inicio",
+    "Recomendación": "Manga recomendado"
   },
   en: {
     "Capítulos más recientes": "Latest Releases",
@@ -27,6 +30,9 @@ export const translations = {
     "Cap Siguiente": "Next chapter",
     "Comentarios": "Comments",
     "Cambiar idioma a Inglés": "Change language to English",
-    "Cambiar idioma a Español": "Change language to Spanish"
+    "Cambiar idioma a Español": "Change language to Spanish",
+    "Añadidos recientemente": "Recently added",
+    "Inicio": "Home",
+    "Recomendación": "Random manga"
   }
 };

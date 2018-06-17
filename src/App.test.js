@@ -1,9 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
+import { mount } from "enzyme";
 
-it("renders without crashing", () => {
-  const div = document.createElement("div");
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+it("renders without crashing", async () => {
+  const wrapper = mount(<App />);
+  await wrapper.unmount();
 });

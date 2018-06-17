@@ -29,11 +29,17 @@ const Card = styled.div`
     transform: translate(0, -10px);
     transition-delay: 0s !important;
   }
+
+  &:active {
+    box-shadow: 0 40px 40px 5px rgba(0, 0, 0, 0.36);
+    transform: translate(0, -5px);
+    transition-delay: 0s !important;
+  }
 `;
 const CardBody = styled.div`
   float: left;
   padding: 15px 25px 25px 20px;
-  width: 70%;
+  width: ${props => (props.size === "small" ? "100%" : "70%")};
 
   @media (max-width: 1200px) {
     width: 60%;
@@ -49,6 +55,7 @@ const CardBody = styled.div`
     font-size: 22px;
     margin-bottom: 15px;
     padding-left: 15%;
+
     @media (max-width: 990px) {
       padding-left: 0%;
       padding-right: 40%;
@@ -56,21 +63,24 @@ const CardBody = styled.div`
   }
 
   .card-body-description {
+    ${props => (props.size === "small" ? "padding-left: 0;font-size: 0.9rem;color: #8a8e94;" : "")}
     @media (max-width: 990px) {
       padding-left: 0;
+      font-size: 0.9rem;
+      color: #8a8e94;
     }
   }
 `;
 
 export default class SerieItem extends PureComponent {
   render() {
-    const { serie, truncate, redirectTo } = this.props;
+    const { serie, truncate, redirectTo, size } = this.props;
     return (
       <Link to={redirectTo(serie)}>
         <Card>
-          <SerieCover cover={serie.thumb2} name={serie.name} />
-          <CardBody>
-            <h2 className="card-body-heading">{serie.name}</h2>
+          <SerieCover cover={serie.thumb2} name={serie.name} size={size}/>
+          <CardBody size={size}>
+            {size !== 'small' && <h2 className="card-body-heading">{serie.name}</h2>}
             <ul className="card-body-description">
               {truncate(serie.description)}
             </ul>

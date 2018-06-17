@@ -1,12 +1,9 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, combineReducers } from "redux";
 import { ConnectedRouter } from "react-router-redux";
 import ReaderContainer from "./ReaderContainer";
 import App from "../../App";
-import thunk from "redux-thunk";
-import rootReducer from "../../rootReducer";
 import store, { history } from "../../store";
 import { readerSelectChapter, fetchChapters } from "../actions/doReader";
 import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";

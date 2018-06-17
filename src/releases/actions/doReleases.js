@@ -51,12 +51,11 @@ export function fetchReleases(lang, page) {
           throw Error(response.statusText);
         }
 
-        dispatch(releasesIsLoading(false));
-
         return response;
       })
       .then(response => response.json())
       .then(chapters => dispatch(releasesFetchDataSuccess(chapters, page)))
+      .then(() => dispatch(releasesIsLoading(false)))
       .catch(() => dispatch(releasesHasErrored(true)));
   };
 }
