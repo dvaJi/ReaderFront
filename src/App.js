@@ -28,11 +28,11 @@ class App extends Component {
 
   defaultLanguage = () => {
     return localStorage.getItem("rf_language") || "en";
-  }
+  };
 
   render() {
     ReactGA.initialize(config.GA_ID, {
-      debug: true,
+      debug: process.env.NODE_ENV === "development"
     });
     ReactGA.pageview(window.location.pathname + window.location.search);
 

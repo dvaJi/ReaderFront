@@ -49,7 +49,7 @@ class SeriesContainer extends Component {
           onFilterTextChange={this.handleFilterTextChange}
         />
         <SerieList
-          loading={this.props.isLoading}
+          isLoading={this.props.isLoading}
           series={this.props.series}
           filterText={this.props.filterText}
           doSelectSerie={this.props.doSelectSerie}
