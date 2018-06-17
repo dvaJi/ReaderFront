@@ -1,16 +1,14 @@
 import React from "react";
 import I18n from "redux-i18n";
-import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware, combineReducers } from "redux";
 import SeriesContainer from "./SeriesContainer";
 import App from "../../App";
-import thunk from "redux-thunk";
-import rootReducer from "../../rootReducer";
 import store from "../../store";
 import { translations } from "../../translations";
 import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
+import { seriesFetchDataSuccess } from "../actions/doSeries";
+import ErrorBoundary from "../../utils/ErrorBoundary";
 
 it("should render without throwing an error", () => {
   const wrapper = mount(
@@ -20,13 +18,17 @@ it("should render without throwing an error", () => {
       </Provider>
     </App>
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
 it("should filter series", () => {
   const wrapper = mount(
     <Provider store={store}>
       <I18n translations={translations}>
-        <SeriesContainer />
+        <ErrorBoundary>
+          <SeriesContainer />
+        </ErrorBoundary>
       </I18n>
     </Provider>
   );
@@ -47,10 +49,6 @@ it("should render without throwing an error when it receive a new language props
 
   store.dispatch(doChangeLanguage("en"));
   wrapper.update();
-});
-
-it("should throw if it receive a null language props", () => {
-  expect(() => {
-    store.dispatch(doChangeLanguage(null));
-  }).toThrow();
+  store.dispatch(doChangeLanguage("es"));
+  wrapper.update();
 });

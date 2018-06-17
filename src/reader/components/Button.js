@@ -8,6 +8,9 @@ export default class Button extends PureComponent {
       <RButton
         tag={Link}
         color="primary"
+        onClick={e =>
+          this.props.gaEvent(`Press ${this.props.text}`, this.props.url)
+        }
         to={this.props.url}
         disabled={this.props.chapter === -1}
       >

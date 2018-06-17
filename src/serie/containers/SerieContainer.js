@@ -14,10 +14,6 @@ class SerieContainer extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      notAvailable: false
-    };
-
     this.componentDidMount = this.componentDidMount.bind(this);
   }
 
@@ -29,22 +25,28 @@ class SerieContainer extends Component {
     }
   }
 
+  renderMetaTags() {
+    return (
+      <MetaTags>
+        <title>{this.props.serie.name + " - " + config.APP_TITLE}</title>
+        <meta
+          name="description"
+          content={
+            "Todos los capítulos y más recientes de " + this.props.serie.name
+          }
+        />
+        <meta
+          property="og:title"
+          content={this.props.serie.name + " - " + config.APP_TITLE}
+        />
+      </MetaTags>
+    );
+  }
+
   renderSerie() {
     return (
       <div className="Serie">
-        <MetaTags>
-          <title>{this.props.serie.name + " - " + config.APP_TITLE}</title>
-          <meta
-            name="description"
-            content={
-              "Todos los capítulos y más recientes de " + this.props.serie.name
-            }
-          />
-          <meta
-            property="og:title"
-            content={this.props.serie.name + " - " + config.APP_TITLE}
-          />
-        </MetaTags>
+        {this.renderMetaTags()}
         <h1>{this.props.serie.name}</h1>
         <div className="row">
           <div className="col-md-3">
@@ -113,5 +115,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SerieContainer)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SerieContainer)
 );
