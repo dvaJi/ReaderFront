@@ -18,6 +18,16 @@ export function seriesIsLoading(state = true, action) {
   }
 }
 
+export function latestSeriesIsLoading(state = true, action) {
+  switch (action.type) {
+    case "LATEST_SERIES_IS_LOADING":
+      return action.isLoading;
+
+    default:
+      return state;
+  }
+}
+
 export function seriesFilterText(state = "", action) {
   switch (action.type) {
     case "SERIES_FILTER_TEXT":
@@ -31,6 +41,16 @@ export function seriesFilterText(state = "", action) {
 export function series(state = [], action) {
   switch (action.type) {
     case "SERIES_FETCH_DATA_SUCCESS":
+      return action.series;
+
+    default:
+      return state;
+  }
+}
+
+export function latestSeries(state = [], action) {
+  switch (action.type) {
+    case "SERIES_CUSTOM_FETCH_DATA_SUCCESS":
       return action.series;
 
     default:

@@ -27,7 +27,13 @@ export default class ImagesList extends PureComponent {
 
     pages.forEach(page => {
       rows.push(
-        <Lazyload key={page.id} height={200} once={true} throttle={200}>
+        <Lazyload
+          key={page.id}
+          height={page.height / 2}
+          once={true}
+          throttle={200}
+          offset={page.height / 2}
+        >
           <Image
             src={page.thumb_url}
             alt={page.filename}

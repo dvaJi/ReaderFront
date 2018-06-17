@@ -5,8 +5,7 @@ import Lazyload from "react-lazyload";
 
 export default class SerieList extends PureComponent {
   render() {
-    let filterText = this.props.filterText;
-    let isLoading = this.props.loading;
+    let { series, filterText, isLoading } = this.props;
     let rows = [];
     let truncate = text => {
       if (text === undefined) {
@@ -19,27 +18,55 @@ export default class SerieList extends PureComponent {
       return `/serie/${serie.stub}`;
     };
 
-    if (isLoading || (!isLoading && this.props.series.length === 0)) {
+    if (isLoading || (!isLoading && series.length === 0)) {
       for (let index = 0; index < 15; index++) {
-        rows.push(<SerieItemEmpty key={index} serie={{}} />);
+        rows.push(<SerieItemEmpty key={index} serie={{}} size={"normal"} />);
       }
     } else {
-      this.props.series
+      let mapList = [],
+        count = 0;
+      series
         .filter(serie =>
           serie.name.toUpperCase().startsWith(filterText.toUpperCase())
         )
-        .forEach(serie => {
-          rows.push(
-            <Lazyload key={serie.id} height={10} once={true} throttle={100}>
+        .forEach((serie, index) => {
+          const isEven = index % 2 === 0;
+          if (isEven) {
+            mapList[count] = [
               <SerieItem
                 key={serie.id}
                 truncate={truncate}
                 redirectTo={redirectTo}
                 serie={serie}
+                size={"normal"}
               />
-            </Lazyload>
-          );
+            ];
+          } else {
+            mapList[count].push(
+              <SerieItem
+                key={serie.id}
+                truncate={truncate}
+                redirectTo={redirectTo}
+                serie={serie}
+                size={"normal"}
+              />
+            );
+            count++;
+          }
         });
+      mapList.forEach((serieList, index) => {
+        rows.push(
+          <Lazyload
+            key={index}
+            height={220}
+            once={true}
+            throttle={200}
+            offset={100}
+          >
+            {serieList.map(serie => serie)}
+          </Lazyload>
+        );
+      });
     }
     return rows;
   }

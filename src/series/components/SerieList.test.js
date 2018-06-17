@@ -4,7 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 import SerieList from "./SerieList";
 import SerieItem from "./SerieItem";
 import SerieItemEmpty from "./SerieItemEmpty";
-import Lazyload from "react-lazyload";
 
 it("renders without crashing", () => {
   let series = [];

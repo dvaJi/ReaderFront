@@ -12,6 +12,7 @@ import faThList from "@fortawesome/fontawesome-free-solid/faThList";
 import faRss from "@fortawesome/fontawesome-free-solid/faRss";
 import faDiscord from "@fortawesome/fontawesome-free-brands/faDiscord";
 import faPatreon from "@fortawesome/fontawesome-free-brands/faPatreon";
+import faHome from "@fortawesome/fontawesome-free-solid/faHome";
 import * as config from "../../config";
 
 class Header extends Component {
@@ -37,7 +38,13 @@ class Header extends Component {
 
   render() {
     return (
-      <Navbar color="white" fixed="true" light expand="md">
+      <Navbar
+        color="white"
+        fixed="true"
+        light
+        expand="md"
+        style={{ padding: "0.1rem 1rem 0 1rem" }}
+      >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
         <Collapse isOpen={this.state.isOpen} navbar>
@@ -56,20 +63,32 @@ class Header extends Component {
             >
               EN
             </LangNavItem>
-            <RouteNavItem href="/">
+            <RouteNavItem to="/" exact>
+              <FontAwesomeIcon icon={faHome} />
+              {this.context.t("Inicio")}
+            </RouteNavItem>
+            <RouteNavItem to="/releases">
               <FontAwesomeIcon icon={faThList} />
               Releases
             </RouteNavItem>
-            <RouteNavItem href="/series">
+            <RouteNavItem to="/series">
               <FontAwesomeIcon icon={faBook} />Series
             </RouteNavItem>
-            <RouteNavItem href="/blog">
+            <RouteNavItem to="/blog">
               <FontAwesomeIcon icon={faRss} />Blog
             </RouteNavItem>
-            <RouteNavItem href={config.DISCORD_URL} target="_blank">
+            <RouteNavItem
+              to={config.DISCORD_URL}
+              target="_blank"
+              rel="noopener"
+            >
               <FontAwesomeIcon icon={faDiscord} />Discord
             </RouteNavItem>
-            <RouteNavItem href={config.PATREON_URL} target="_blank">
+            <RouteNavItem
+              to={config.PATREON_URL}
+              target="_blank"
+              rel="noopener"
+            >
               <FontAwesomeIcon icon={faPatreon} />Patreon
             </RouteNavItem>
           </Nav>
@@ -96,4 +115,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  {
+    pure: false
+  }
+)(Header);
