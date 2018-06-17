@@ -45,6 +45,24 @@ jobs:
             echo "Initiating Push site ravens-scans.com"
             cd build/
             find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/httpdocs/{} \;
+  beta:
+    docker:
+      - image: circleci/node:8.6.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn build
+      - run:
+          name: Deploy to beta.ravens-scans.com
+          command: |
+            sudo apt-get update
+            echo "Initiating Push site beta.ravens-scans.com"
+            cd build/
+            find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/beta.ravens-scans.com/{} \;
 
 workflows:
   version: 2
@@ -54,6 +72,12 @@ workflows:
       - build:
           requires:
             - test
+      - beta:
+          requires:
+            - build
+          filters:
+            branches:
+              only: beta-ravens
       - deploy:
           requires:
             - build
