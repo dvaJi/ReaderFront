@@ -6,5 +6,5 @@ export const APP_URL = "https://example.com";
 export const DISQUS_SHORTNAME = "your_disqus_shortname_id";
 export const GA_ID = "UA-XXXXXXXXX-X";
 export const DISCORD_URL = "https://discord.gg/YOUR_CODE";
-export const DISCORD_ID = "334173015887839233";
+export const DISCORD_ID = "YOUR_DISCORD_ID";
 export const PATREON_URL = "https://www.patreon.com/YOUR_URL";
