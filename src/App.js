@@ -31,7 +31,9 @@ class App extends Component {
   }
 
   render() {
-    ReactGA.initialize(config.GA_ID);
+    ReactGA.initialize(config.GA_ID, {
+      debug: true,
+    });
     ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (

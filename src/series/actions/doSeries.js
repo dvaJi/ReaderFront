@@ -14,6 +14,13 @@ export function seriesIsLoading(bool) {
   };
 }
 
+export function latestSeriesIsLoading(bool) {
+  return {
+    type: "LATEST_SERIES_IS_LOADING",
+    isLoading: bool
+  };
+}
+
 export function seriesFilterText(text) {
   return {
     type: "SERIES_FILTER_TEXT",
@@ -28,9 +35,18 @@ export function seriesFetchDataSuccess(series) {
   };
 }
 
-export function fetchSeries(lang) {
+export function seriesCustomDataSuccess(series) {
+  return {
+    type: "SERIES_CUSTOM_FETCH_DATA_SUCCESS",
+    series
+  };
+}
+
+export function fetchSeries(lang, sort = "asc_name", perPage = 120) {
   return dispatch => {
-    dispatch(seriesIsLoading(true));
+    sort !== "asc_name"
+      ? dispatch(latestSeriesIsLoading(true))
+      : dispatch(seriesIsLoading(true));
 
     if (lang === undefined || lang === null) {
       dispatch(seriesHasErrored(true));
@@ -38,21 +54,30 @@ export function fetchSeries(lang) {
     }
 
     fetch(
-      `${config.READER_PATH}v2/comics?lang=${
-        lang
-      }&orderby=asc_name&per_page=120`
+      `${
+        config.READER_PATH
+      }v2/comics?lang=${lang}&orderby=${sort}&per_page=${perPage}`
     )
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
         }
 
-        dispatch(seriesIsLoading(false));
-
         return response;
       })
       .then(response => response.json())
-      .then(series => dispatch(seriesFetchDataSuccess(series)))
+      .then(
+        series =>
+          sort !== "asc_name"
+            ? dispatch(seriesCustomDataSuccess(series))
+            : dispatch(seriesFetchDataSuccess(series))
+      )
+      .then(
+        () =>
+          sort !== "asc_name"
+            ? dispatch(latestSeriesIsLoading(false))
+            : dispatch(seriesIsLoading(false))
+      )
       .catch(() => dispatch(seriesHasErrored(true)));
   };
 }

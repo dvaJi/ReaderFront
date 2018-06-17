@@ -6,7 +6,7 @@ import Lazyload from "react-lazyload";
 export default class SerieList extends PureComponent {
   render() {
     let filterText = this.props.filterText;
-    let isLoading = this.props.loading;
+    let isLoading = true;
     let rows = [];
     let truncate = text => {
       if (text === undefined) {
@@ -21,7 +21,7 @@ export default class SerieList extends PureComponent {
 
     if (isLoading || (!isLoading && this.props.series.length === 0)) {
       for (let index = 0; index < 15; index++) {
-        rows.push(<SerieItemEmpty key={index} serie={{}} />);
+        rows.push(<SerieItemEmpty key={index} serie={{}} size={"normal"} />);
       }
     } else {
       this.props.series

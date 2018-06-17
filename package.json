@@ -62,11 +62,11 @@
   },
   "proxy": {
     "/api": {
-      "target": "http://localhost/FoOlSlide",
+      "target": "http://localhost/ReaderFront-API",
       "ws": true
     },
     "/content": {
-      "target": "http://localhost/FoOlSlide",
+      "target": "http://localhost/ReaderFront-API",
       "ws": true
     }
   },

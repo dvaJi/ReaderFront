@@ -9,7 +9,6 @@ const Card = styled.div`
   margin-right: 1.5%;
   margin-left: 1.5%;
   display: inline-block;
-  cursor: pointer;
   position: relative;
   vertical-align: top;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
@@ -21,17 +20,11 @@ const Card = styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
-
-  &:hover {
-    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.16);
-    transform: translate(0, -10px);
-    transition-delay: 0s !important;
-  }
 `;
 const CardBody = styled.div`
   float: left;
   padding: 15px 25px 25px 20px;
-  width: 70%;
+  width: ${props => (props.size === "small" ? "100%" : "70%")};
 
   @media (max-width: 1200px) {
     width: 60%;
@@ -55,18 +48,25 @@ const CardBody = styled.div`
   }
 
   .card-body-description {
-    @media (max-width: 990px) {
+    ${props =>
+      props.size === "small"
+        ? "padding-left: 0;font-size: 0.9rem;color: #8a8e94;"
+        : ""} @media (max-width: 990px) {
       padding-left: 0;
+      font-size: 0.9rem;
+      color: #8a8e94;
     }
   }
 `;
 const Cover = styled.div`
   float: left;
-  padding: 0 0 25px 25px;
+  padding: ${props => (props.size === "small" ? "0" : "0 0 25px 25px")};
   position: relative;
-  width: 145px;
-
-  @media (max-width: 990px) {
+  width: ${props => (props.size === "small" ? "100%" : "145px")};
+  ${props =>
+    props.size === "small"
+      ? "height: 180px; margin-bottom: -20px;"
+      : ""} @media (max-width: 990px) {
     width: 100%;
     height: 180px;
     padding: 0;
@@ -74,13 +74,20 @@ const Cover = styled.div`
 
   .card-media-img {
     background-color: #ddd;
-    height: 212px;
-    width: 150px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    height: ${props => (props.size === "small" ? "100%" : "212px")};
+    width: ${props => (props.size === "small" ? "100%" : "150px")};
+    box-shadow: ${props =>
+      props.size === "small"
+        ? "2px 2px 0px 0px rgba(0, 0, 0, 0.02)"
+        : "0 3px 6px rgba(0, 0, 0, 0.2)"};
     float: left;
     margin-top: -25px;
     position: relative;
-    border-radius: 2px;
+    border-radius: ${props =>
+      props.size === "small" ? "2px 2px 0px 0px" : "2px"};
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 
     @media (max-width: 990px) {
       width: 100%;
@@ -97,16 +104,18 @@ export default class SerieItemEmpty extends PureComponent {
     return (
       <a>
         <Card className="shimme-card">
-          <Cover>
+          <Cover size={this.props.size}>
             <div className="card-media-img show-loading-animation" />
           </Cover>
-          <CardBody>
-            <h2 className="card-body-heading shimme-title">
-              <div className="shimme-text show-loading-animation">
-                {"\u00A0"}
-              </div>
-            </h2>
-            <ul className="card-body-description u-clearfix">
+          <CardBody size={this.props.size}>
+            {this.props.size !== "small" && (
+              <h2 className="card-body-heading shimme-title">
+                <div className="shimme-text show-loading-animation">
+                  {"\u00A0"}
+                </div>
+              </h2>
+            )}
+            <ul className="card-body-description">
               <div className="shimme-text shimme-desc show-loading-animation">
                 {"\u00A0"}
               </div>

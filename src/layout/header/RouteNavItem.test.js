@@ -7,7 +7,7 @@ import { Nav } from "reactstrap";
 it("should render without throwing an error", () => {
   const wrapper = mount(
     <MemoryRouter>
-      <RouteNavItem href="/">Releases</RouteNavItem>
+      <RouteNavItem to="/">Releases</RouteNavItem>
     </MemoryRouter>
   );
 });
@@ -16,8 +16,8 @@ it("should render without throwing an error", () => {
   const wrapper = mount(
     <MemoryRouter>
       <Nav className="ml-auto" navbar>
-        <RouteNavItem href="#/">Releases</RouteNavItem>
-        <RouteNavItem href="#/series">Series</RouteNavItem>
+        <RouteNavItem to="/" exact>Releases</RouteNavItem>
+        <RouteNavItem to="/series">Series</RouteNavItem>
       </Nav>
     </MemoryRouter>
   );

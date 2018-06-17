@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import { serie, serieHasErrored, serieIsLoading } from "./applySerie";
+import { serie, randomSerie, serieHasErrored, serieIsLoading, serieRandomIsLoading } from "./applySerie";
 
 export default combineReducers({
     serie,
+    randomSerie,
     serieHasErrored,
-    serieIsLoading
+    serieIsLoading,
+    serieRandomIsLoading
 });
