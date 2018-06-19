@@ -12,20 +12,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.toggleNavbar = this.toggleNavbar.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-
-  toggleNavbar() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
   defaultLanguage = () => {
     return localStorage.getItem("rf_language") || "en";
   };

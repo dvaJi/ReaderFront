@@ -53,13 +53,6 @@ class ReaderContainer extends Component {
       chapters.indexOf(chapter) + 1 !== chapters.length
         ? chapters.indexOf(chapter) + 1
         : -1;
-    console.log(
-      chapters,
-      chapter,
-      chapters.indexOf(chapter),
-      prevChapter,
-      nextChapter
-    );
     this.setState({ nextChapter: nextChapter });
     this.setState({ prevChapter: prevChapter });
   }
