@@ -54,6 +54,6 @@ export function fetchChapters(lang, stub) {
       })
       .then(response => response.json())
       .then(chapters => dispatch(readerFetchDataSuccess(chapters)))
-      .catch((err) => dispatch(readerHasErrored(true)));
+      .catch(err => dispatch(readerHasErrored(true)));
   };
 }

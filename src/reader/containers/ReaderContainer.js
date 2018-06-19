@@ -37,44 +37,64 @@ class ReaderContainer extends Component {
         path: `/read/${chapter.comic.stub}/${chapter.language}/${
           chapter.volume
         }/${chapter.chapter}.${chapter.subchapter}`,
-        title: `${chapter.comic.name} - Capítulo ${chapter.chapter} | ${lang.toUpperCase()} `
+        title: `${chapter.comic.name} - Capítulo ${
+          chapter.chapter
+        } | ${lang.toUpperCase()} `
       }
     });
   }
 
-  handleChapterChange(chapter) {
+  handleChapterChange(chapter, chapters) {
     this.props.selectChapter(chapter);
     this.handleDisqusChange(chapter);
-    let chapters = this.props.chapters;
     let prevChapter =
       chapters.indexOf(chapter) !== 0 ? chapters.indexOf(chapter) - 1 : -1;
     let nextChapter =
       chapters.indexOf(chapter) + 1 !== chapters.length
         ? chapters.indexOf(chapter) + 1
         : -1;
+    console.log(
+      chapters,
+      chapter,
+      chapters.indexOf(chapter),
+      prevChapter,
+      nextChapter
+    );
     this.setState({ nextChapter: nextChapter });
     this.setState({ prevChapter: prevChapter });
   }
 
   // New props validations
-  isChapterEmpty  = newProps => this.props.chapter === null && newProps.chapters.length > 0;
+  isChapterEmpty = newProps =>
+    this.props.chapter === null && newProps.chapters.length > 0;
   isNewSerie = newProps => this.props.params.stub !== newProps.params.stub;
   isNewChapter = newProps =>
     this.props.params.chapter !== newProps.params.chapter ||
     this.props.params.subchapter !== newProps.params.subchapter;
+  serieHasChanged = newProps =>
+    newProps.chapter &&
+    newProps.chapters.length > 0 &&
+    newProps.chapters[0].language === this.props.params.lang &&
+    newProps.chapters[0].comic.stub === this.props.params.stub &&
+    (newProps.chapter.chapter !== this.props.params.chapter ||
+      newProps.chapter.subchapter !== this.props.params.subchapter);
 
   componentWillReceiveProps(newProps) {
     if (this.isNewSerie(newProps)) {
       const lang = this.props.params.lang || "es";
       this.props.getChapters(lang, this.props.params.stub);
-    } else if (this.isChapterEmpty(newProps) || this.isNewChapter(newProps)) {
+    } else if (
+      this.isChapterEmpty(newProps) ||
+      this.isNewChapter(newProps) ||
+      this.serieHasChanged(newProps)
+    ) {
       let newChapter = newProps.chapters.find(
         chapter =>
           chapter.chapter === newProps.params.chapter &&
           chapter.subchapter === newProps.params.subchapter
       );
-      
-      this.handleChapterChange(newChapter);
+
+      this.handleChapterChange(newChapter, newProps.chapters);
     }
   }
 
@@ -168,5 +188,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ReaderContainer)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ReaderContainer)
 );

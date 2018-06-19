@@ -23,7 +23,10 @@ class ReaderBar extends PureComponent {
 
   downloadChapter() {
     const { chapter, subchapter } = this.props.chapter;
-    let url = `${this.props.chapter.download_href}`.replace("https://", "http://");
+    let url = `${this.props.chapter.download_href}`.replace(
+      "https://",
+      "http://"
+    );
     return (
       <a
         className="Download"
@@ -42,7 +45,10 @@ class ReaderBar extends PureComponent {
   }
 
   chapterUrl(chapter) {
-    if (this.props.serie.stub === undefined) {
+    if (
+      this.props.serie.stub === undefined ||
+      this.props.chapters[chapter] === undefined
+    ) {
       return "";
     }
     if (chapter === -1) {
