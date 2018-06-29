@@ -6,13 +6,14 @@ import LangNavItem from "./LangNavItem";
 import { connect } from "react-redux";
 import { doChangeLanguage } from "../actions/doChangeLanguage";
 import { setLanguage } from "redux-i18n";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faBook from "@fortawesome/fontawesome-free-solid/faBook";
-import faThList from "@fortawesome/fontawesome-free-solid/faThList";
-import faRss from "@fortawesome/fontawesome-free-solid/faRss";
-import faDiscord from "@fortawesome/fontawesome-free-brands/faDiscord";
-import faPatreon from "@fortawesome/fontawesome-free-brands/faPatreon";
-import faHome from "@fortawesome/fontawesome-free-solid/faHome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDiscord, faPatreon } from "@fortawesome/free-brands-svg-icons";
+import {
+  faBook,
+  faThList,
+  faRss,
+  faHome
+} from "@fortawesome/free-solid-svg-icons";
 import * as config from "../../config";
 
 class Header extends Component {
