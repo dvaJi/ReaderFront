@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import arrowNext from "@fortawesome/fontawesome-free-solid/faAngleRight";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const Content = styled.span`
   color: #fff;
@@ -65,7 +65,7 @@ export default class NextButton extends PureComponent {
         type="button"
       >
         <Content>
-          <NextIcon icon={arrowNext} />
+          <NextIcon icon={faArrowRight} />
         </Content>
       </Button>
     );

@@ -1,8 +1,8 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faDownload from "@fortawesome/fontawesome-free-solid/faDownload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 class Chapter extends PureComponent {
   render() {
