@@ -1,4 +1,6 @@
+import axios from 'axios';
 import * as config from '../../config';
+import { queryBuilder } from '../../utils/helpers';
 
 export function readerSelectChapter(chapter) {
   return {
@@ -40,23 +42,41 @@ export function fetchChapters(lang, stub) {
       throw Error('Stub is undefined');
     }
 
-    fetch(
-      `${config.READER_PATH}v2/chapters?stub=${stub}&lang=${lang}&per_page=100`
-    )
+    axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'chaptersByWork',
+          data: { language: lang, workStub: stub },
+          fields: [
+            'id',
+            'work {id, stub, name}',
+            'chapter',
+            'subchapter',
+            'volume',
+            'pages {id, filename, height, width},',
+            'language',
+            'name',
+            'stub',
+            'uniqid',
+            'description',
+            'createdAt'
+          ]
+        })
+      )
       .then(response => {
-        if (!response.ok) {
+        if (response.statusText !== 'OK') {
           throw Error(response.statusText);
         }
 
-        dispatch(readerIsLoading(false));
-
-        return response;
+        return response.data.data.chaptersByWork;
       })
-      .then(response => response.json())
       .then(chapters =>
         chapters.sort((a, b) => Number(a.chapter) - Number(b.chapter))
       )
       .then(chapters => dispatch(readerFetchDataSuccess(chapters)))
+      .then(() => dispatch(readerIsLoading(false)))
       .catch(err => dispatch(readerHasErrored(true)));
   };
 }

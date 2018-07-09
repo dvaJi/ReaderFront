@@ -1,25 +1,25 @@
-import React from "react";
-import I18n from "redux-i18n";
-import { Provider } from "react-redux";
-import PropTypes from "prop-types";
-import { mount } from "enzyme";
-import { MemoryRouter } from "react-router-dom";
-import ReaderBar from "./ReaderBar";
-import { translations } from "../../translations";
-import store from "../../store";
+import React from 'react';
+import I18n from 'redux-i18n';
+import { Provider } from 'react-redux';
+import PropTypes from 'prop-types';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import ReaderBar from './ReaderBar';
+import { translations } from '../../translations';
+import store from '../../store';
 
-it("renders without crashing", () => {
+it('renders without crashing', () => {
   let chapter = {
     chapter: 20,
     volume: 2,
     subchapter: 0,
-    language: "es"
+    language: 'es'
   };
 
   let chapters = [chapter, chapter, chapter];
 
-  let serie = {
-    stub: "infection"
+  let work = {
+    stub: 'infection'
   };
 
   mount(
@@ -29,7 +29,7 @@ it("renders without crashing", () => {
           <ReaderBar
             chapter={chapter}
             chapters={chapters}
-            serie={serie}
+            work={work}
             prevChapter={1}
             nextChapter={-1}
           />
@@ -39,7 +39,7 @@ it("renders without crashing", () => {
   );
 });
 
-it("renders without any serie or chapter", () => {
+it('renders without any work or chapter', () => {
   mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -47,7 +47,7 @@ it("renders without any serie or chapter", () => {
           <ReaderBar
             chapter={{}}
             chapters={{}}
-            serie={{}}
+            work={{}}
             prevChapter={-1}
             nextChapter={-1}
           />

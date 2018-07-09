@@ -1,0 +1,220 @@
+{
+  "user": {
+    "roles": {
+      "admin": "ADMIN",
+      "user": "UsER"
+    },
+    "gender": {
+      "male": {
+        "id": 1,
+        "name": "Male"
+      },
+      "female": {
+        "id": 2,
+        "name": "Female"
+      }
+    }
+  },
+  "works": {
+    "cover_type": {
+      "small_thumb": {
+        "id": 1,
+        "name": "small_thumb",
+        "width": 170,
+        "height": 240
+      },
+      "medium_thumb": {
+        "id": 2,
+        "name": "medium_thumb",
+        "width": 340,
+        "height": 500
+      },
+      "large_thumb": {
+        "id": 3,
+        "name": "large_thumb",
+        "width": 442,
+        "height": 640
+      },
+      "portrait": {
+        "id": 4,
+        "name": "portrait",
+        "width": 1900,
+        "height": 1080
+      }
+    },
+    "status": {
+      "onGoing": {
+        "id": 1,
+        "name": "on_going"
+      },
+      "completed": {
+        "id": 2,
+        "name": "completed"
+      },
+      "dropped": {
+        "id": 3,
+        "name": "dropped"
+      }
+    },
+    "roles": {
+      "author": {
+        "id": 1,
+        "name": "author"
+      },
+      "artist": {
+        "id": 2,
+        "name": "artist"
+      }
+    }
+  },
+  "genres": {
+    "demographic": {
+      "josei": {
+        "id": 1,
+        "name": "josei"
+      },
+      "lolicon": {
+        "id": 2,
+        "name": "lolicon"
+      },
+      "seinen": {
+        "id": 3,
+        "name": "seinen"
+      },
+      "shotacon": {
+        "id": 4,
+        "name": "shotacon"
+      },
+      "shoujo": {
+        "id": 5,
+        "name": "shoujo"
+      },
+      "shoujo_ai": {
+        "id": 6,
+        "name": "shoujo_ai"
+      },
+      "shounen": {
+        "id": 7,
+        "name": "shounen"
+      },
+      "shounen_ai": {
+        "id": 8,
+        "name": "shounen_ai"
+      },
+      "yaoi": {
+        "id": 9,
+        "name": "yaoi"
+      },
+      "yuri": {
+        "id": 10,
+        "name": "yuri"
+      }
+    },
+    "types": {
+      "action": {
+        "id": 1,
+        "name": "action"
+      },
+      "adult": {
+        "id": 2,
+        "name": "adult"
+      },
+      "adventure": {
+        "id": 3,
+        "name": "adventure"
+      },
+      "comedy": {
+        "id": 4,
+        "name": "comedy"
+      },
+      "doujinshi": {
+        "id": 5,
+        "name": "doujinshi"
+      },
+      "drama": {
+        "id": 6,
+        "name": "drama"
+      },
+      "ecchi": {
+        "id": 7,
+        "name": "ecchi"
+      },
+      "fantasy": {
+        "id": 8,
+        "name": "fantasy"
+      },
+      "gender_bender": {
+        "id": 9,
+        "name": "gender_bender"
+      },
+      "harem": {
+        "id": 10,
+        "name": "harem"
+      },
+      "hentai": {
+        "id": 11,
+        "name": "hentai"
+      },
+      "historical": {
+        "id": 12,
+        "name": "historical"
+      },
+      "horror": {
+        "id": 13,
+        "name": "horror"
+      },
+      "martial_arts": {
+        "id": 14,
+        "name": "martial_arts"
+      },
+      "mature": {
+        "id": 15,
+        "name": "mature"
+      },
+      "mecha": {
+        "id": 16,
+        "name": "mecha"
+      },
+      "mystery": {
+        "id": 17,
+        "name": "mystery"
+      },
+      "psychological": {
+        "id": 18,
+        "name": "psychological"
+      },
+      "romance": {
+        "id": 19,
+        "name": "romance"
+      },
+      "school_life": {
+        "id": 20,
+        "name": "school_life"
+      },
+      "sci_fi": {
+        "id": 21,
+        "name": "sci_fi"
+      },
+      "slice_of_life": {
+        "id": 22,
+        "name": "slice_of_life"
+      },
+      "smut": {
+        "id": 23,
+        "name": "smut"
+      },
+      "sports": {
+        "id": 24,
+        "name": "sports"
+      },
+      "supernatural": {
+        "id": 25,
+        "name": "supernatural"
+      },
+      "tragedy": {
+        "id": 26,
+        "name": "tragedy"
+      }
+    }
+  }
+}

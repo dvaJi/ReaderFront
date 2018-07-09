@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Image = styled(Link)`
   background-image: url('${props => props.image}');
@@ -13,10 +13,9 @@ const Image = styled(Link)`
 
 export default class Block extends PureComponent {
   chapterUrl(block) {
-    const { chapter, comic } = block;
-    return `read/${comic.stub}/${chapter.language}/${chapter.volume}/${
-      chapter.chapter
-    }.${chapter.subchapter}`;
+    return `read/${block.work.stub}/${block.language}/${block.volume}/${
+      block.chapter
+    }.${block.subchapter}`;
   }
 
   imageToDisplay(blockId, index, chapter) {
@@ -50,10 +49,10 @@ export default class Block extends PureComponent {
               tabIndex="-1"
             >
               <span>
-                {chapter.comic.name} - Cap. {chapter.chapter.chapter}
-                {Number(chapter.chapter.subchapter) !== 0
-                  ? "." + chapter.chapter.subchapter
-                  : ""}
+                {chapter.work.name} - Cap. {chapter.chapter}
+                {Number(chapter.subchapter) !== 0
+                  ? '.' + chapter.subchapter
+                  : ''}
               </span>
             </Image>
           </li>

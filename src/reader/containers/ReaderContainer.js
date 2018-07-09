@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { fetchChapters, readerSelectChapter } from "../actions/doReader";
-import * as config from "../../config";
-import ReaderBar from "../components/ReaderBar";
-import ImagesList from "../components/ImagesList";
-import ReaderEmpty from "../components/ReaderEmpty";
-import Comments from "../components/Comments";
+import React, { Component } from 'react';
+import MetaTags from 'react-meta-tags';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { fetchChapters, readerSelectChapter } from '../actions/doReader';
+import * as config from '../../config';
+import ReaderBar from '../components/ReaderBar';
+import ImagesList from '../components/ImagesList';
+import ReaderEmpty from '../components/ReaderEmpty';
+import Comments from '../components/Comments';
 
 class ReaderContainer extends Component {
   constructor(props) {
@@ -17,9 +17,9 @@ class ReaderContainer extends Component {
       nextChapter: 0,
       prevChapter: 0,
       disqusConfig: {
-        id: "",
-        path: "",
-        title: ""
+        id: '',
+        path: '',
+        title: ''
       }
     };
 
@@ -30,14 +30,14 @@ class ReaderContainer extends Component {
   }
 
   handleDisqusChange(chapter) {
-    const lang = this.props.params.lang || "es";
+    const lang = this.props.params.lang || 'es';
     this.setState({
       disqusConfig: {
-        id: `${chapter.comic.uniqid}-${chapter.uniqid}`,
-        path: `/read/${chapter.comic.stub}/${chapter.language}/${
+        id: `${chapter.work.uniqid}-${chapter.uniqid}`,
+        path: `/read/${chapter.work.stub}/${chapter.language}/${
           chapter.volume
         }/${chapter.chapter}.${chapter.subchapter}`,
-        title: `${chapter.comic.name} - Capítulo ${
+        title: `${chapter.work.name} - Capítulo ${
           chapter.chapter
         } | ${lang.toUpperCase()} `
       }
@@ -68,13 +68,13 @@ class ReaderContainer extends Component {
     newProps.chapter &&
     newProps.chapters.length > 0 &&
     newProps.chapters[0].language === this.props.params.lang &&
-    newProps.chapters[0].comic.stub === this.props.params.stub &&
+    newProps.chapters[0].work.stub === this.props.params.stub &&
     (newProps.chapter.chapter !== this.props.params.chapter ||
       newProps.chapter.subchapter !== this.props.params.subchapter);
 
   componentWillReceiveProps(newProps) {
     if (this.isNewSerie(newProps)) {
-      const lang = this.props.params.lang || "es";
+      const lang = this.props.params.lang || 'es';
       this.props.getChapters(lang, this.props.params.stub);
     } else if (
       this.isChapterEmpty(newProps) ||
@@ -83,9 +83,13 @@ class ReaderContainer extends Component {
     ) {
       let newChapter = newProps.chapters.find(
         chapter =>
-          chapter.chapter === newProps.params.chapter &&
-          chapter.subchapter === newProps.params.subchapter
+          chapter.chapter === Number(newProps.params.chapter) &&
+          chapter.subchapter === Number(newProps.params.subchapter)
       );
+
+      if (newChapter === undefined) {
+        throw Error('Capítulo no encontrado');
+      }
 
       this.handleChapterChange(newChapter, newProps.chapters);
     }
@@ -93,7 +97,7 @@ class ReaderContainer extends Component {
 
   componentDidMount() {
     try {
-      const lang = this.props.params.lang || "es";
+      const lang = this.props.params.lang || 'es';
       this.props.getChapters(lang, this.props.params.stub);
     } catch (e) {
       console.error(e);
@@ -101,48 +105,33 @@ class ReaderContainer extends Component {
   }
 
   renderChapter() {
+    const { chapter, chapters, isLoading } = this.props;
+    const title = `${chapter.work.name} Capítulo ${chapter.chapter}`;
     return (
       <div className="Read">
         <MetaTags>
-          <title>
-            {this.props.chapter.comic.name +
-              " Capítulo " +
-              this.props.chapter.chapter +
-              " - " +
-              config.APP_TITLE}
-          </title>
+          <title>{`${title} - ${config.APP_TITLE}`}</title>
           <meta
             name="description"
-            content={
-              "Capítulo " +
-              this.props.chapter.chapter +
-              " de " +
-              this.props.chapter.comic.name
-            }
+            content={`${title} de ${chapter.work.name}`}
           />
           <meta
             property="og:title"
-            content={
-              this.props.chapter.comic.name +
-              " Capítulo " +
-              this.props.chapter.chapter +
-              " - " +
-              config.APP_TITLE
-            }
+            content={`${title} - ${config.APP_TITLE}`}
           />
         </MetaTags>
         <ReaderBar
-          chapter={this.props.chapter}
-          chapters={this.props.chapters}
-          serie={this.props.chapter.comic}
+          chapter={chapter}
+          chapters={chapters}
+          work={chapter.work}
           prevChapter={this.state.prevChapter}
           nextChapter={this.state.nextChapter}
         />
         <ImagesList
-          id={this.props.chapter.id}
-          loading={this.props.isLoading}
+          id={chapter.id}
+          loading={isLoading}
           onChapterChange={this.handleChapterChange}
-          pages={this.props.chapter.pages}
+          pages={chapter.pages}
         />
         <Comments
           id={this.state.disqusConfig.id}

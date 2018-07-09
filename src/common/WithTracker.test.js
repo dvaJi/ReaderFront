@@ -3,23 +3,23 @@ import { shallow } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
 import { Route } from "react-router-dom";
 import Releases from "../releases";
-import Series from "../series";
+import Works from "../works";
 import withTracker from "./WithTracker";
 
 it("should render without throwing an error", () => {
   const wrapper = shallow(
-    <MemoryRouter initialEntries={["/", "/series"]} initialIndex={1}>
+    <MemoryRouter initialEntries={["/", "/work/all"]} initialIndex={1}>
       <Route path="/" exact component={withTracker(Releases)} />
-      <Route path="/series" exact component={withTracker(Series)} />
+      <Route path="/work/all" exact component={withTracker(Works)} />
     </MemoryRouter>
   );
 });
 
 it("should be update when receive new props", () => {
   const wrapper = shallow(
-    <MemoryRouter initialEntries={["/", "/series"]} initialIndex={1}>
+    <MemoryRouter initialEntries={["/", "/work/all"]} initialIndex={1}>
       <Route path="/" exact component={withTracker(Releases)} />
-      <Route path="/series" exact component={withTracker(Series)} />
+      <Route path="/work/all" exact component={withTracker(Works)} />
     </MemoryRouter>
   );
   const newProp = wrapper.props().history;

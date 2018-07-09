@@ -1,14 +1,14 @@
-import React from "react";
-import I18n from "redux-i18n";
-import { Provider } from "react-redux";
-import { mount } from "enzyme";
-import { MemoryRouter } from "react-router-dom";
-import ComicSlide from "./ComicSlide";
-import NextButton from "./NextButton";
-import { translations } from "../../translations";
-import store from "../../store";
+import React from 'react';
+import I18n from 'redux-i18n';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import ComicSlide from './ComicSlide';
+import NextButton from './NextButton';
+import { translations } from '../../translations';
+import store from '../../store';
 
-it("renders while loading without crashing", async () => {
+it('renders while loading without crashing', async () => {
   const wrapper = await mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -23,7 +23,7 @@ it("renders while loading without crashing", async () => {
   wrapper.unmount();
 });
 
-it("renders without crashing", async () => {
+it('renders without crashing', async () => {
   const blocks = createBlocks(generateReleases());
   const wrapper = mount(
     <Provider store={store}>
@@ -38,7 +38,7 @@ it("renders without crashing", async () => {
   wrapper.unmount();
 });
 
-it("should update state when NextButton is clicked", async () => {
+it('should update state when NextButton is clicked', async () => {
   const blocks = createBlocks(generateReleases());
   const wrapper = mount(
     <MemoryRouter>
@@ -50,7 +50,7 @@ it("should update state when NextButton is clicked", async () => {
   wrapper
     .find(NextButton)
     .first()
-    .simulate("click");
+    .simulate('click');
   wrapper.update();
   const newState = wrapper.find(ComicSlide).instance().state._transform;
   expect(oldState).toBeGreaterThan(newState);
@@ -60,15 +60,17 @@ it("should update state when NextButton is clicked", async () => {
 function generateReleases() {
   let releases = [];
   for (let index = 30; index < 40; index++) {
-    let comic = { stub: "" };
+    let work = { stub: '' };
     let chapter = {
-      language: "",
+      id: index,
+      language: '',
       volume: 0,
       chapter: 0,
-      thumbnail: "thumb.png",
-      subchapter: index % 2 === 0 ? 0 : 1
+      thumbnail: 'thumb.png',
+      subchapter: index % 2 === 0 ? 0 : 1,
+      work: work
     };
-    releases.push({ id: index, comic: comic, chapter: chapter });
+    releases.push(chapter);
   }
   return releases;
 }

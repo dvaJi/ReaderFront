@@ -18,7 +18,7 @@ export function releasesIsLoading(state = false, action) {
   }
 }
 
-export function releasesPage(state = 1, action) {
+export function releasesPage(state = 0, action) {
   switch (action.type) {
     case "RELEASES_PAGE":
       return action.page;

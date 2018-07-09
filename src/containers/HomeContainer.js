@@ -1,16 +1,17 @@
-import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { fetchReleases } from "../releases/actions/doReleases";
-import { fetchRandomSerie } from "../serie/actions/doSerie";
-import { fetchSeries } from "../series/actions/doSeries";
-import * as config from "../config";
-import ComicSlide from "../components/ComicSlide";
-import DiscordWidget from "../components/DiscordWidget";
-import RecommendedComic from "../components/RecommendedComic";
-import LatestSeries from "../components/LatestSeries";
+import React, { Component } from 'react';
+import MetaTags from 'react-meta-tags';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { fetchReleases } from '../releases/actions/doReleases';
+import { fetchRandomWork } from '../work/actions/doWork';
+import { fetchWorks } from '../works/actions/doWorks';
+import * as config from '../config';
+import { subString } from '../utils/helpers';
+import ComicSlide from '../components/ComicSlide';
+import DiscordWidget from '../components/DiscordWidget';
+import RecommendedWork from '../components/RecommendedWork';
+import LatestWorks from '../components/LatestWorks';
 
 class HomeContainer extends Component {
   constructor(props) {
@@ -19,9 +20,9 @@ class HomeContainer extends Component {
     this.state = {
       blocks: [],
       disqusConfig: {
-        id: "",
-        path: "",
-        title: ""
+        id: '',
+        path: '',
+        title: ''
       }
     };
 
@@ -31,9 +32,9 @@ class HomeContainer extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.language !== this.props.language) {
-      this.props.loadChapters(newProps.language, 1);
-      this.props.recommendedSerie(newProps.language);
-      this.props.getLatestSeries(newProps.language, "desc_created", 10);
+      this.props.loadChapters(newProps.language, 0);
+      this.props.recommendedWork(newProps.language);
+      this.props.getLatestWorks(newProps.language, 'DESC', 10);
     }
 
     if (
@@ -57,7 +58,9 @@ class HomeContainer extends Component {
     let blockNumber = this.generateRandomBlock();
 
     chapters.forEach((chapter, index) => {
-      if (blocks.length === 0) {
+      if (chapters.length <= 5 && chapters.length !== 4) {
+        blocks.push({ chapters: [chapter], block: chapters.length });
+      } else if (blocks.length === 0) {
         blocks.push({ chapters: [chapter], block: blockNumber });
       } else if (
         blocks[blocks.length - 1].chapters.length <
@@ -77,15 +80,15 @@ class HomeContainer extends Component {
 
   componentDidMount() {
     if (this.props.chapters.length === 0) {
-      this.props.loadChapters(this.props.language, 1);
+      this.props.loadChapters(this.props.language, 0);
     }
 
-    if (this.props.randomSerie === null) {
-      this.props.recommendedSerie(this.props.language);
+    if (this.props.randomWork === null) {
+      this.props.recommendedWork(this.props.language);
     }
 
-    if (this.props.latestSeries.length === 0) {
-      this.props.getLatestSeries(this.props.language, "desc_created", 10);
+    if (this.props.latestWorks.length === 0) {
+      this.props.getLatestWorks(this.props.language, 'DESC', 10);
     }
 
     if (this.props.chapters.length > 0 && this.state.blocks.length === 0) {
@@ -96,15 +99,15 @@ class HomeContainer extends Component {
   renderMetatags() {
     return (
       <MetaTags>
-        <title>{config.APP_TITLE + " - " + this.context.t("Inicio")}</title>
+        <title>{config.APP_TITLE + ' - ' + this.context.t('Inicio')}</title>
         <meta
           name="description"
-          content={this.context.t("Capítulos más recientes")}
+          content={this.context.t('Capítulos más recientes')}
         />
         <meta
           property="og:title"
           content={
-            config.APP_TITLE + " - " + this.context.t("Capítulos más recientes")
+            config.APP_TITLE + ' - ' + this.context.t('Capítulos más recientes')
           }
         />
       </MetaTags>
@@ -122,17 +125,22 @@ class HomeContainer extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8">
-              <LatestSeries
-                title={this.context.t("Añadidos recientemente")}
-                series={this.props.latestSeries}
-                isLoading={this.props.latestSeriesIsLoading}
+              <LatestWorks
+                title={this.context.t('Añadidos recientemente')}
+                works={this.props.latestWorks}
+                isLoading={this.props.latestWorksIsLoading}
               />
             </div>
             <div className="col-md-4">
-              <RecommendedComic
-                isLoading={this.props.serieRandomIsLoading}
-                title={this.context.t("Recomendación")}
-                serie={this.props.randomSerie}
+              <RecommendedWork
+                isLoading={this.props.workRandomIsLoading}
+                title={this.context.t('Recomendación')}
+                work={this.props.randomWork}
+                description={
+                  this.props.randomWork !== null
+                    ? subString(this.props.randomWork.description, 175)
+                    : ''
+                }
               />
               <DiscordWidget discordId={config.DISCORD_ID} />
             </div>
@@ -151,10 +159,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     chapters: state.releases.chapters,
     page: state.releases.releasesPage,
-    randomSerie: state.serie.randomSerie,
-    serieRandomIsLoading: state.serie.serieRandomIsLoading,
-    latestSeries: state.series.latestSeries,
-    latestSeriesIsLoading: state.series.latestSeriesIsLoading,
+    randomWork: state.work.randomWork,
+    workRandomIsLoading: state.work.workRandomIsLoading,
+    latestWorks: state.works.latestWorks,
+    latestWorksIsLoading: state.works.latestWorksIsLoading,
     isLoadingChapters: state.releases.releasesIsLoading,
     hasErrored: state.releases.releasesHasErrored,
     language: state.i18nState.lang
@@ -164,9 +172,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     loadChapters: (lang, page) => dispatch(fetchReleases(lang, page)),
-    recommendedSerie: lang => dispatch(fetchRandomSerie(lang)),
-    getLatestSeries: (lang, sort, perPage) =>
-      dispatch(fetchSeries(lang, sort, perPage))
+    recommendedWork: lang => dispatch(fetchRandomWork(lang)),
+    getLatestWorks: (lang, sort, perPage) =>
+      dispatch(fetchWorks(lang, sort, perPage))
   };
 };
 
