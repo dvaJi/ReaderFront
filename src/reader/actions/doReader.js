@@ -1,29 +1,29 @@
-import * as config from "../../config";
+import * as config from '../../config';
 
 export function readerSelectChapter(chapter) {
   return {
-    type: "READER_SELECT_CHAPTER",
+    type: 'READER_SELECT_CHAPTER',
     chapter: chapter
   };
 }
 
 export function readerHasErrored(bool) {
   return {
-    type: "READER_HAS_ERRORED",
+    type: 'READER_HAS_ERRORED',
     hasErrored: bool
   };
 }
 
 export function readerIsLoading(bool) {
   return {
-    type: "READER_IS_LOADING",
+    type: 'READER_IS_LOADING',
     isLoading: bool
   };
 }
 
 export function readerFetchDataSuccess(chapters) {
   return {
-    type: "READER_FETCH_DATA_SUCCESS",
+    type: 'READER_FETCH_DATA_SUCCESS',
     chapters
   };
 }
@@ -34,10 +34,10 @@ export function fetchChapters(lang, stub) {
 
     if (lang === undefined || lang === null) {
       dispatch(readerHasErrored(true));
-      throw Error("Lang is undefined");
+      throw Error('Lang is undefined');
     } else if (stub === undefined || stub === null) {
       dispatch(readerHasErrored(true));
-      throw Error("Stub is undefined");
+      throw Error('Stub is undefined');
     }
 
     fetch(
@@ -53,6 +53,9 @@ export function fetchChapters(lang, stub) {
         return response;
       })
       .then(response => response.json())
+      .then(chapters =>
+        chapters.sort((a, b) => Number(a.chapter) - Number(b.chapter))
+      )
       .then(chapters => dispatch(readerFetchDataSuccess(chapters)))
       .catch(err => dispatch(readerHasErrored(true)));
   };
