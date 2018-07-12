@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import withTracker from './common/WithTracker';
 
-import Home from './pages/HomePage';
+import Home from './home';
 import Releases from './releases';
 import Works from './works';
 import Work from './work';

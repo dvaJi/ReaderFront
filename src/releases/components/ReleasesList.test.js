@@ -1,7 +1,6 @@
 import React from 'react';
 import I18n from 'redux-i18n';
 import { Provider } from 'react-redux';
-import PropTypes from 'prop-types';
 import { render, mount } from 'enzyme';
 import ReleasesList from './ReleasesList';
 import ReleaseCard from './ReleaseCard';

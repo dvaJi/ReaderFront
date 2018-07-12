@@ -5,8 +5,8 @@ import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
 import NextButton from './NextButton';
-import { translations } from '../../translations';
-import store from '../../store';
+import { translations } from '../../../translations';
+import store from '../../../store';
 
 it('renders while loading without crashing', async () => {
   const wrapper = await mount(
@@ -20,7 +20,7 @@ it('renders while loading without crashing', async () => {
   );
 
   expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await wrapper.unmount();
 });
 
 it('renders without crashing', async () => {
@@ -35,7 +35,7 @@ it('renders without crashing', async () => {
     </Provider>
   );
   expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await wrapper.unmount();
 });
 
 it('should update state when NextButton is clicked', async () => {
@@ -54,7 +54,7 @@ it('should update state when NextButton is clicked', async () => {
   wrapper.update();
   const newState = wrapper.find(ComicSlide).instance().state._transform;
   expect(oldState).toBeGreaterThan(newState);
-  wrapper.unmount();
+  await wrapper.unmount();
 });
 
 function generateReleases() {

@@ -2,10 +2,10 @@ import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import HomeContainer from "./HomeContainer";
-import App from "../App";
-import store from "../store";
+import App from "../../App";
+import store from "../../store";
 import { setLanguage } from "redux-i18n";
-import { releasesFetchDataSuccess } from "../releases/actions/doReleases";
+import { releasesFetchDataSuccess } from "../../releases/actions/doReleases";
 
 it("should render without throwing an error", async () => {
   const wrapper = mount(

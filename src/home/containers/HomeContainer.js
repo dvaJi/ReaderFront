@@ -3,11 +3,14 @@ import MetaTags from 'react-meta-tags';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { fetchReleases } from '../releases/actions/doReleases';
-import { fetchRandomWork } from '../work/actions/doWork';
-import { fetchWorks } from '../works/actions/doWorks';
-import * as config from '../config';
-import { subString } from '../utils/helpers';
+
+import { fetchReleases } from '../../releases/actions/doReleases';
+import { fetchRandomWork } from '../../work/actions/doWork';
+import { fetchWorks } from '../../works/actions/doWorks';
+import * as config from '../../config';
+import { subString } from '../../utils/helpers';
+
+// UI
 import ComicSlide from '../components/ComicSlide';
 import DiscordWidget from '../components/DiscordWidget';
 import RecommendedWork from '../components/RecommendedWork';

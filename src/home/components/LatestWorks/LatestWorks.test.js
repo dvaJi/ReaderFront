@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import LatestWorks from './LatestWorks';
-import { translations } from '../../translations';
-import store from '../../store';
+import { translations } from '../../../translations';
+import store from '../../../store';
 
 it('renders while loading without crashing', () => {
   const wrapper = mount(

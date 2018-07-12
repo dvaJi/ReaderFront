@@ -1,7 +1,6 @@
 import React from "react";
 import I18n from "redux-i18n";
 import { Provider } from "react-redux";
-import PropTypes from "prop-types";
 import { mount } from "enzyme";
 import Info from "./Info";
 import { translations } from "../../translations";
