@@ -9,7 +9,7 @@ const Content = styled.span`
   z-index: 200;
   transition: all 0.2s ease;
   border-radius: 5px;
-  padding: 10px 13px;
+  padding: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
