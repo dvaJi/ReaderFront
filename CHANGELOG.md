@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.5.0"></a>
+# [3.5.0](https://github.com/dvaJi/ReaderFront/compare/v3.4.2...v3.5.0) (2018-07-15)
+
+
+### Bug Fixes
+
+* **Home:** carousel button is not symmetrical ([#75](https://github.com/dvaJi/ReaderFront/issues/75)) ([412685c](https://github.com/dvaJi/ReaderFront/commit/412685c))
+* **Reader:** chapters weren't sorted and caused that next and previous buttons doesn't work properly ([#74](https://github.com/dvaJi/ReaderFront/issues/74)) ([0b46091](https://github.com/dvaJi/ReaderFront/commit/0b46091))
+* **Reader:** Reader did not update itself correctly when changing from one series to another ([#71](https://github.com/dvaJi/ReaderFront/issues/71)) ([97d02d6](https://github.com/dvaJi/ReaderFront/commit/97d02d6))
+
+
+### Features
+
+* **Home:** New module, it will display the latest releases, recently added series, a random series and a discord widget ([#69](https://github.com/dvaJi/ReaderFront/issues/69)) ([9488597](https://github.com/dvaJi/ReaderFront/commit/9488597))
+* **Reader:** Lazy loading images ([#67](https://github.com/dvaJi/ReaderFront/issues/67)) ([360c93c](https://github.com/dvaJi/ReaderFront/commit/360c93c))
+
+
+
 <a name="3.4.2"></a>
 ## [3.4.2](https://github.com/dvaJi/ReaderFront/compare/v3.4.1...v3.4.2) (2018-05-16)
 
