@@ -1,85 +1,125 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const CardData = styled.div`
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.01) 100%
-  );
-  border-radius: 0 0 3px 3px;
-  bottom: 0;
-  color: #fff;
-  padding: 10px;
-  padding-top: 40px;
+const CardOverlay = styled.div`
   position: absolute;
-  text-align: left;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.59);
-  width: 100%;
-  transition: all 200ms;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
 
-  h5 {
-    display: inline-block;
-    font-size: 1.2em;
-    line-height: 1.3;
-    padding: 0 3px;
-    width: 100%;
-    word-wrap: break-word;
-  }
-
-  div {
-    color: #53c4ff;
-    display: inline-block;
-    font-size: 1em;
-    margin-top: 10px;
-    margin-left: 4px;
-    width: 100%;
+  h3 {
+    padding: 130px 0;
   }
 `;
 
-const CardCoverBackground = styled.div`
-      background-image: url('${props => props.thumb}');
-      background-position: 50% 50%;
-      background-size: cover;
-      border-radius: 3px;
-      display: block;
-      height: 100%;
-      position: absolute;
-      width: 100%;
-      transition: 0.15s;
-    `;
 const Card = styled.div`
-  background-color: #ddd;
-  font-size: 0.87em;
-  height: 275px;
-  margin-right: 30px;
-  margin-top: 20px;
-  padding-left: 0px !important;
-  overflow: hidden;
-  position: relative;
-  display: inline-block;
+  color: #4b4f56;
   cursor: pointer;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+  display: inline-block;
+  position: relative;
+  width: 355px;
+  background-color: white;
+  vertical-align: top;
+  text-align: left;
+  height: 480px;
+  margin: 20px;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  white-space: normal;
+  transition: all 250ms cubic-bezier(0.02, 0.01, 0.47, 1);
 
   &:hover {
-    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2);
-  }
+    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.16);
+    transform: translate(0, -20px);
+    transition-delay: 0s !important;
 
-  &:hover ${CardCoverBackground} {
-    transform: scale(1.2);
-  }
-
-  &:hover ${CardData} {
-    padding-top: 90px;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.02) 100%
-    );
+    ${CardOverlay} {
+      opacity: 1;
+    }
   }
 `;
 
-export default class PostCard extends Component {
+const CardHero = styled.div`
+  background-image: url('${props => props.thumb}');
+  background-color: white;
+  background-size: cover;
+  background-position: top;
+  background-repeat: no-repeat;
+  position: relative;
+  clear: both;
+  float: left;
+  overflow: auto;
+  width: 100%;
+  height: 296px;
+  padding: 20px;
+`;
+
+const CardBody = styled.div`
+  position: relative;
+  clear: both;
+  float: left;
+  width: 100%;
+  overflow: visible;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  z-index: 2;
+`;
+
+const CardBodyTitle = styled.div`
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  margin-bottom: 12px;
+  color: #1d2129;
+`;
+
+const CardBodyDescription = styled.div`
+  color: #4b4f56;
+  display: block;
+  display: -webkit-box;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: left;
+  line-height: 20px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+`;
+
+const CardFooter = styled.div`
+  font-size: 11px;
+  text-transform: uppercase;
+  position: absolute;
+  padding-left: 20px;
+  padding-right: 20px;
+  bottom: 0px;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+const CardFooterWrapper = styled.div`
+  height: 46px;
+  line-height: 46px;
+  border-top: 1px solid #e9ebee;
+`;
+
+const CardFooterTag = styled.div`
+  color: #90949c;
+  display: inline-block;
+`;
+
+class PostCard extends Component {
   constructor(props) {
     super(props);
     this.doSelect = this.doSelect.bind(this);
@@ -90,21 +130,31 @@ export default class PostCard extends Component {
   }
 
   render() {
-    const { name, thumb } = this.props;
+    const { title, categoryLabel } = this.props.post;
 
     return (
-      <Card
-        onClick={this.doSelect}
-        className="col-lg-2 col-md-3 col-sm-4 col-xs-12"
-      >
-        <CardCoverBackground thumb={thumb}>{""}</CardCoverBackground>
-        <CardData>
-          <h5>{name}</h5>
-          <span>
-            {""}
-          </span>
-        </CardData>
+      <Card onClick={e => this.doSelect(e)}>
+        <CardHero thumb={this.props.thumbnail}>
+          <CardOverlay>
+            <h3>{this.context.t('Leer Más')}</h3>
+          </CardOverlay>
+        </CardHero>
+        <CardBody>
+          <CardBodyTitle>{title}</CardBodyTitle>
+          <CardBodyDescription>{this.props.children}</CardBodyDescription>
+        </CardBody>
+        <CardFooter>
+          <CardFooterWrapper layout="row bottom-left">
+            <CardFooterTag>{this.context.t(categoryLabel)}</CardFooterTag>
+          </CardFooterWrapper>
+        </CardFooter>
       </Card>
     );
   }
 }
+
+PostCard.contextTypes = {
+  t: PropTypes.func.isRequired
+};
+
+export default PostCard;

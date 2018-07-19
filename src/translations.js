@@ -44,6 +44,13 @@ export const translations = {
     "sports": "Derportes",
     "supernatural": "Sobrenatural",
     "tragedy": "Tragédia",
+    "news": "Noticias",
+    "chapter": "Capítulo",
+    "tutorials": "Tutoriales",
+    "other": "Otro",
+    "publish": "Publicar",
+    "draft": "Borrador",
+    "trash": "Papelera"
   },
   en: {
     "Capítulos más recientes": "Latest Releases",
@@ -90,5 +97,12 @@ export const translations = {
     "sports": "Sports",
     "supernatural": "Supernatural",
     "tragedy": "Tragedy",
+    "news": "News",
+    "chapter": "Chapter",
+    "tutorials": "Turorials",
+    "other": "Others",
+    "publish": "Publish",
+    "draft": "Draft",
+    "trash": "Trash"
   }
 };

@@ -1,6 +1,13 @@
-import React, { PureComponent } from "react";
-import PostCard from "./PostCard";
-import PostCardEmpty from "./PostCardEmpty";
+import React, { PureComponent } from 'react';
+import PostCard from './PostCard';
+import PostCardEmpty from './PostCardEmpty';
+import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
+import { getPostThumb } from '../../utils/common';
+
+const CardWrapper = styled.div`
+  display: inline-block;
+`;
 
 export default class PostsList extends PureComponent {
   constructor(props) {
@@ -12,31 +19,30 @@ export default class PostsList extends PureComponent {
     this.props.doSelect(e);
   }
 
+  thumbUrl(post) {
+    const dir = post.stub + '_' + post.uniqid;
+    return getPostThumb(dir, post.thumbnail);
+  }
+
   render() {
-    let isLoading = this.props.loading;
-    let page = this.props.page;
-    let posts = this.props.posts;
+    const { isLoading, page, posts, subString } = this.props;
     let rows = [];
 
-    if ((isLoading && posts.length === 0) || (isLoading && page === 1)) {
-      for (let index = 0; index < 15; index++) {
+    if ((isLoading && posts.length === 0) || (isLoading && page === 0)) {
+      for (let index = 0; index < 6; index++) {
         rows.push(<PostCardEmpty key={index} />);
       }
     } else {
       posts.forEach(post => {
-        const date = new Date(post.date);
-        const url = `/blog/post/${
-          post.id
-        }/${date.getFullYear()}/${date.getMonth()}/${post.slug}`;
         rows.push(
-          <PostCard
-            onClick={this.doSelect}
-            key={post.id}
-            url={url}
-            name={post.title.rendered}
-            thumb={post.thumb_blog}
-            post={post}
-          />
+          <CardWrapper key={post.uniqid}>
+            <PostCard onClick={this.doSelect} post={post} thumbnail={this.thumbUrl(post)}>
+              <ReactMarkdown
+                source={subString(post.content, 150)}
+                escapeHtml={true}
+              />
+            </PostCard>
+          </CardWrapper>
         );
       });
 
@@ -48,6 +54,12 @@ export default class PostsList extends PureComponent {
       }
     }
 
-    return rows;
+    return (
+      <div class="container--grid">
+        <ul layout="rows top-left" id="MixItUp376FFC">
+          {rows}
+        </ul>
+      </div>
+    );
   }
 }

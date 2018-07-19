@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
-import { Button } from "reactstrap";
-import { connect } from "react-redux";
-import { fetchPosts, blogSelectPost, blogPage } from "../actions/doBlog";
-import PostsList from "../components/PostsList";
-import * as config from "../../config";
+import React, { Component } from 'react';
+import MetaTags from 'react-meta-tags';
+import { connect } from 'react-redux';
+import { fetchPosts, blogSelectPost, blogPage } from '../actions/doBlog';
+import PostsList from '../components/PostsList';
+import PostView from '../components/PostView';
+import * as config from '../../config';
+import { subString } from "../../utils/helpers";
 
 class BlogContainer extends Component {
   constructor(props) {
@@ -16,7 +17,7 @@ class BlogContainer extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.handleOnScroll);
+    window.addEventListener('scroll', this.handleOnScroll);
     if (this.props.posts.length === 0) {
       try {
         this.props.getPosts(this.props.language, this.props.page);
@@ -29,12 +30,12 @@ class BlogContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.language !== nextProps.language) {
       this.props.changePage(0);
-      this.props.getPosts(this.props.language, this.props.page);
+      this.props.getPosts(nextProps.language, 0);
     }
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleOnScroll);
+    window.removeEventListener('scroll', this.handleOnScroll);
   }
 
   handleSelectPost(e) {
@@ -58,7 +59,7 @@ class BlogContainer extends Component {
 
     var perScroll =
       scrollHeight > 0
-        ? Math.ceil(scrollTop + clientHeight) * 100 / scrollHeight
+        ? (Math.ceil(scrollTop + clientHeight) * 100) / scrollHeight
         : 0;
 
     return perScroll >= 85;
@@ -76,29 +77,20 @@ class BlogContainer extends Component {
   renderPost() {
     return (
       <div className="Post">
-        <Button color="primary" size="sm" onClick={this.handleDeselectPost}>
-          Volver
-        </Button>
         <MetaTags>
-          <title>
-            {this.props.post.title.rendered + " - " + config.APP_TITLE}
-          </title>
+          <title>{this.props.post.title + ' - ' + config.APP_TITLE}</title>
           <meta
             name="description"
             content={
-              "Todos los capítulos y más recientes de " +
-              this.props.post.title.rendered
+              'Todos los capítulos y más recientes de ' + this.props.post.title
             }
           />
           <meta
             property="og:title"
-            content={this.props.post.title.rendered + " - " + config.APP_TITLE}
+            content={this.props.post.title + ' - ' + config.APP_TITLE}
           />
         </MetaTags>
-        <h1>{this.props.post.title.rendered}</h1>
-        <div
-          dangerouslySetInnerHTML={{ __html: this.props.post.content.rendered }}
-        />
+        <PostView post={this.props.post} onClickBack={this.handleDeselectPost} />
       </div>
     );
   }
@@ -107,15 +99,16 @@ class BlogContainer extends Component {
     return (
       <div className="Blog">
         <MetaTags>
-          <title>{config.APP_TITLE + " - Blog"}</title>
-          <meta name="description" content={"Blog de " + config.APP_TITLE} />
-          <meta property="og:title" content={config.APP_TITLE + " - Blog"} />
+          <title>{config.APP_TITLE + ' - Blog'}</title>
+          <meta name="description" content={'Blog de ' + config.APP_TITLE} />
+          <meta property="og:title" content={config.APP_TITLE + ' - Blog'} />
         </MetaTags>
         <PostsList
           isLoading={this.props.isLoading}
           posts={this.props.posts}
           page={this.props.page}
           doSelect={this.handleSelectPost}
+          subString={subString}
         />
       </div>
     );
@@ -141,8 +134,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getPosts: (lang, page) => dispatch(fetchPosts(lang, page)),
     changePage: page => dispatch(blogPage(page)),
-    selectPost: (post) => dispatch(blogSelectPost(post))
+    selectPost: post => dispatch(blogSelectPost(post))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BlogContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BlogContainer);

@@ -53,7 +53,7 @@ export function fetchWork(lang, stub) {
         queryBuilder({
           type: 'query',
           operation: 'work',
-          data: { language: lang, stub },
+          data: { language: params.global.languages[lang].id, stub },
           fields: [
             'id',
             'name',
@@ -161,7 +161,7 @@ export function fetchRandomWork(lang) {
         queryBuilder({
           type: 'query',
           operation: 'workRandom',
-          data: { language: lang },
+          data: { language: params.global.languages[lang].id },
           fields: [
             'id',
             'name',

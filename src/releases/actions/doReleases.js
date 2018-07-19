@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as config from '../../config';
+import params from '../../params.json';
 import { queryBuilder } from '../../utils/helpers';
 
 export function releasesPage(page) {
@@ -49,7 +50,12 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
         queryBuilder({
           type: 'query',
           operation: 'chapters',
-          data: { language: lang, orderBy: sort, first: perPage, offset: page },
+          data: {
+            language: params.global.languages[lang].id,
+            orderBy: sort,
+            first: perPage,
+            offset: page
+          },
           fields: [
             'id',
             'work {id, stub, name}',

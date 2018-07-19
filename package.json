@@ -1,5 +1,5 @@
 {
-  "name": "ravens-scans-frontend",
+  "name": "readerfront",
   "version": "3.5.0",
   "homepage": "https://github.com/dvaJi/ReaderFront/",
   "keywords": [
@@ -36,11 +36,13 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "history": "^4.7.2",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-ga": "^2.5.3",
     "react-lazyload": "^2.3.0",
+    "react-markdown": "^3.3.4",
     "react-meta-tags": "^0.4.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
@@ -56,10 +58,10 @@
     "styled-components": "^3.3.3"
   },
   "devDependencies": {
-    "standard-version": "^4.4.0",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "~2.13.5",
-    "source-map-explorer": "^1.5.0"
+    "source-map-explorer": "^1.5.0",
+    "standard-version": "^4.4.0"
   },
   "proxy": {
     "/api": {
@@ -67,6 +69,10 @@
       "ws": true
     },
     "/works": {
+      "target": "http://localhost:8000",
+      "ws": true
+    },
+    "/images": {
       "target": "http://localhost:8000",
       "ws": true
     }

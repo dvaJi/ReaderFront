@@ -1,6 +1,6 @@
 export function post(state = null, action) {
   switch (action.type) {
-    case "BLOG_SELECT_POST":
+    case 'BLOG_SELECT_POST':
       return action.post;
 
     default:
@@ -10,7 +10,7 @@ export function post(state = null, action) {
 
 export function blogHasErrored(state = false, action) {
   switch (action.type) {
-    case "BLOG_HAS_ERRORED":
+    case 'BLOG_HAS_ERRORED':
       return action.hasErrored;
 
     default:
@@ -20,7 +20,7 @@ export function blogHasErrored(state = false, action) {
 
 export function blogIsLoading(state = true, action) {
   switch (action.type) {
-    case "BLOG_IS_LOADING":
+    case 'BLOG_IS_LOADING':
       return action.isLoading;
 
     default:
@@ -28,9 +28,9 @@ export function blogIsLoading(state = true, action) {
   }
 }
 
-export function blogPage(state = 1, action) {
+export function blogPage(state = 0, action) {
   switch (action.type) {
-    case "BLOG_PAGE":
+    case 'BLOG_PAGE':
       return action.page;
 
     default:
@@ -40,8 +40,11 @@ export function blogPage(state = 1, action) {
 
 export function posts(state = [], action) {
   switch (action.type) {
-    case "BLOG_FETCH_DATA_SUCCESS":
-      return state.page === 1 ? action.posts : state.concat(action.posts);
+    case 'BLOG_FETCH_DATA_SUCCESS':
+      if (action.posts.length === 0) {
+        return state;
+      }
+      return state.page === 0 ? action.posts : state.concat(action.posts);
 
     default:
       return state;

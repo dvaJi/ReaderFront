@@ -1,4 +1,16 @@
 {
+  "global": {
+    "languages": {
+      "es": {
+        "id": 1,
+        "name": "es"
+      },
+      "en": {
+        "id": 2,
+        "name": "en"
+      }
+    }
+  },
   "user": {
     "roles": {
       "admin": "ADMIN",
@@ -12,6 +24,40 @@
       "female": {
         "id": 2,
         "name": "Female"
+      }
+    }
+  },
+  "blog": {
+    "categories": {
+      "chapter": {
+        "id": 1,
+        "name": "chapter"
+      },
+      "news": {
+        "id": 2,
+        "name": "news"
+      },
+      "tutorials": {
+        "id": 3,
+        "name": "tutorials"
+      },
+      "other": {
+        "id": 4,
+        "name": "other"
+      }
+    },
+    "status": {
+      "publish": {
+        "id": 1,
+        "name": "publish"
+      },
+      "draft": {
+        "id": 2,
+        "name": "draft"
+      },
+      "trash": {
+        "id": 3,
+        "name": "trash"
       }
     }
   },

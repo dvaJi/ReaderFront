@@ -12,10 +12,17 @@ export function getStatusTagStyle(statusId) {
   }
 }
 
-// Get the thumbnail url
+// Get the work thumbnail url
 export function getWorkThumb(dir, covers) {
   return covers
     ? `/works/${dir}/${covers.medium_thumb.filename}`
+    : '/static/images/default-cover.png';
+}
+
+// Get the post thumbnail url
+export function getPostThumb(dir, filename) {
+  return filename
+    ? `/images/blog/${dir}/${filename}`
     : '/static/images/default-cover.png';
 }
 

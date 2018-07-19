@@ -63,7 +63,11 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
         queryBuilder({
           type: 'query',
           operation: 'works',
-          data: { language: lang, orderBy: sort, first: perPage },
+          data: {
+            language: params.global.languages[lang].id,
+            orderBy: sort,
+            first: perPage
+          },
           fields: [
             'id',
             'name',
