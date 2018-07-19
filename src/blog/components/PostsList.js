@@ -4,6 +4,7 @@ import PostCardEmpty from './PostCardEmpty';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import { getPostThumb } from '../../utils/common';
+import { subString } from '../../utils/helpers';
 
 const CardWrapper = styled.div`
   display: inline-block;
@@ -25,7 +26,7 @@ export default class PostsList extends PureComponent {
   }
 
   render() {
-    const { isLoading, page, posts, subString } = this.props;
+    const { isLoading, page, posts } = this.props;
     let rows = [];
 
     if ((isLoading && posts.length === 0) || (isLoading && page === 0)) {
@@ -55,8 +56,8 @@ export default class PostsList extends PureComponent {
     }
 
     return (
-      <div class="container--grid">
-        <ul layout="rows top-left" id="MixItUp376FFC">
+      <div className="container--grid">
+        <ul layout="rows top-left">
           {rows}
         </ul>
       </div>

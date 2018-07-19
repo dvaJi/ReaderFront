@@ -1,61 +1,92 @@
-import React from "react";
-import { render, mount } from "enzyme";
-import PostsList from "./PostsList";
-import ReleaseCard from "../../releases/components/ReleaseCard";
-import PostCardEmpty from "./PostCardEmpty";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import I18n from 'redux-i18n';
+import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
+import { render, mount } from 'enzyme';
+import PostsList from './PostsList';
+import PostCard from './PostCard';
+import PostCardEmpty from './PostCardEmpty';
+import { BrowserRouter } from 'react-router-dom';
+import { translations } from '../../translations';
+import store from '../../store';
 
-it("renders without crashing", () => {
-  render(<PostsList loading={true} posts={[]} />);
+it('renders without crashing', () => {
+  render(
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <PostsList loading={true} posts={[]} />
+      </I18n>
+    </Provider>
+  );
 });
 
-it("should render posts without crashing", () => {
+it('should render posts without crashing', () => {
   const posts = generatePosts();
   mount(
-    <BrowserRouter>
-      <PostsList loading={false} posts={posts} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <PostsList loading={false} posts={posts} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
 });
 
-it("renders PostCard without crashing", () => {
+it('renders PostCard without crashing', () => {
   const posts = generatePosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
-    <BrowserRouter>
-      <PostsList loading={false} posts={posts} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <PostsList loading={false} posts={posts} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
 });
 
-it("renders PostCard and fetching data without crashing", () => {
+it('renders PostCard and fetching data without crashing', () => {
   const posts = generatePosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
-    <BrowserRouter>
-      <PostsList loading={false} posts={posts} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <PostsList loading={false} posts={posts} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
 });
 
-it("renders PostCard and add PostCardEmpty while is loading without crashing", () => {
+it('renders PostCard and add PostCardEmpty while is loading without crashing', () => {
   const posts = generatePosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
-    <BrowserRouter>
-      <PostsList loading={true} posts={posts} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <PostsList loading={true} posts={posts} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
 });
 
-it("renders PostCardEmpty without crashing", () => {
+it('renders PostCardEmpty without crashing', () => {
   const wrapper = mount(
-    <BrowserRouter>
-      <PostsList loading={true} posts={[]} />
-    </BrowserRouter>
+    <Provider store={store}>
+      <I18n translations={translations}>
+        <BrowserRouter>
+          <PostsList loading={true} posts={[]} />
+        </BrowserRouter>
+      </I18n>
+    </Provider>
   );
   expect(wrapper.find(PostCardEmpty)).toBeTruthy();
 });
@@ -70,31 +101,40 @@ function generatePosts() {
   for (let index = 0; index < 10; index++) {
     posts.push({
       id: index,
-      date: "2017-01-01",
-      slug: "aa_a",
-      title: { rendered: "aaa" }
+      userId: 1,
+      uniqid: '9a0s9298l20' + index * 2,
+      type: 1,
+      title: 'Primera publicación!',
+      stub: 'primera-publicacion',
+      status: 1,
+      sticky: false,
+      content:
+        'Primera publicación dentro del blog, podrás **Publicar**, **Editar**, **Guardar**, **Eliminar** tus publicaciones.',
+      category: 1,
+      language: 1,
+      thumbnail: 'cover_goblinslayer.png',
+      createdAt: new Date(),
+      updatedAt: new Date()
     });
   }
   return posts;
 }
 
 /**
- * Genera mock de ReleaseCard
+ * Generate a PostCard mock
  *
  * @param {any} releases
- * @returns lista de ReleaseCard
+ * @returns PostCard list
  */
 function generatePostCard(posts) {
   let listPostCard = [];
   posts.map(post => {
     listPostCard.push(
-      <ReleaseCard
+      <PostCard
         key={post.id}
-        url={""}
-        name={post.title.rendered}
-        thumb={post.thumb_blog}
-        chapter={null}
-        subchapter={null}
+        onClick={on => ''}
+        post={post}
+        thumbnail={on => ''}
       />
     );
   });

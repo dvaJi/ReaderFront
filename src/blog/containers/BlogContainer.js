@@ -5,7 +5,6 @@ import { fetchPosts, blogSelectPost, blogPage } from '../actions/doBlog';
 import PostsList from '../components/PostsList';
 import PostView from '../components/PostView';
 import * as config from '../../config';
-import { subString } from "../../utils/helpers";
 
 class BlogContainer extends Component {
   constructor(props) {
@@ -108,7 +107,6 @@ class BlogContainer extends Component {
           posts={this.props.posts}
           page={this.props.page}
           doSelect={this.handleSelectPost}
-          subString={subString}
         />
       </div>
     );
