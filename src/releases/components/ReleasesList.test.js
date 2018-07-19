@@ -1,16 +1,15 @@
-import React from "react";
-import I18n from "redux-i18n";
-import { Provider } from "react-redux";
-import PropTypes from "prop-types";
-import { render, mount } from "enzyme";
-import ReleasesList from "./ReleasesList";
-import ReleaseCard from "./ReleaseCard";
-import ReleaseCardEmpty from "./ReleaseCardEmpty";
-import { BrowserRouter } from "react-router-dom";
-import { translations } from "../../translations";
-import store from "../../store";
+import React from 'react';
+import I18n from 'redux-i18n';
+import { Provider } from 'react-redux';
+import { render, mount } from 'enzyme';
+import ReleasesList from './ReleasesList';
+import ReleaseCard from './ReleaseCard';
+import ReleaseCardEmpty from './ReleaseCardEmpty';
+import { BrowserRouter } from 'react-router-dom';
+import { translations } from '../../translations';
+import store from '../../store';
 
-it("renders without crashing", () => {
+it('renders without crashing', () => {
   render(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -20,7 +19,7 @@ it("renders without crashing", () => {
   );
 });
 
-it("should render releases without crashing", () => {
+it('should render releases without crashing', () => {
   const releases = generateReleases();
   mount(
     <Provider store={store}>
@@ -33,7 +32,7 @@ it("should render releases without crashing", () => {
   );
 });
 
-it("renders RealeaseCard without crashing", () => {
+it('renders RealeaseCard without crashing', () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
@@ -50,7 +49,7 @@ it("renders RealeaseCard without crashing", () => {
   ).toBeTruthy();
 });
 
-it("renders RealeaseCard and fetching data without crashing", () => {
+it('renders RealeaseCard and fetching data without crashing', () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
@@ -67,7 +66,7 @@ it("renders RealeaseCard and fetching data without crashing", () => {
   ).toBeTruthy();
 });
 
-it("renders RealeaseCard and add RealeaseCardEmpty while is loading", () => {
+it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
   const releases = generateReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
@@ -84,7 +83,7 @@ it("renders RealeaseCard and add RealeaseCardEmpty while is loading", () => {
   ).toBeTruthy();
 });
 
-it("renders RealeaseCardEmpty without crashing", () => {
+it('renders RealeaseCardEmpty without crashing', () => {
   const listReleaseCardEmpty = generateReleaseCardEmpty();
   const wrapper = mount(
     <BrowserRouter>
@@ -102,15 +101,17 @@ it("renders RealeaseCardEmpty without crashing", () => {
 function generateReleases() {
   let releases = [];
   for (let index = 30; index < 40; index++) {
-    let comic = { stub: "" };
+    let work = { stub: '' };
     let chapter = {
-      language: "",
+      id: index,
+      language: '',
       volume: 0,
       chapter: 0,
-      thumbnail: "thumb.png",
-      subchapter: index % 2 === 0 ? 0 : 1
+      thumbnail: 'thumb.png',
+      subchapter: index % 2 === 0 ? 0 : 1,
+      work: work
     };
-    releases.push({ id: index, comic: comic, chapter: chapter });
+    releases.push(chapter);
   }
   return releases;
 }
@@ -141,7 +142,7 @@ function generateReleaseCard(releases) {
     listReleaseCard.push(
       <ReleaseCard
         key={release.id}
-        url={""}
+        url={''}
         name={release.chapter.name}
         thumb={release.chapter.thumbnail}
         chapter={release.chapter.chapter}

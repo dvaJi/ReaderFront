@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
-import ReleaseCard from "./ReleaseCard";
-import ReleaseCardEmpty from "./ReleaseCardEmpty";
+import React, { PureComponent } from 'react';
+import ReleaseCard from './ReleaseCard';
+import ReleaseCardEmpty from './ReleaseCardEmpty';
 
 export default class ReleasesList extends PureComponent {
   render() {
@@ -17,16 +17,16 @@ export default class ReleasesList extends PureComponent {
       }
     } else {
       this.props.releases.forEach(release => {
-        let chapter = release.chapter;
-        let comic = release.comic;
-        let chapterUrl = `read/${comic.stub}/${chapter.language}/${
+        let chapter = release;
+        let work = release.work;
+        let chapterUrl = `read/${work.stub}/${chapter.language}/${
           chapter.volume
         }/${chapter.chapter}.${chapter.subchapter}`;
         rows.push(
           <ReleaseCard
             key={release.id}
             url={chapterUrl}
-            name={comic.name}
+            name={work.name}
             thumb={chapter.thumbnail}
             chapter={chapter.chapter}
             subchapter={chapter.subchapter}
@@ -37,7 +37,7 @@ export default class ReleasesList extends PureComponent {
 
     if (isLoading && this.props.releases.length !== 0 && page !== 1) {
       for (let index = 0; index < 15; index++) {
-        rows.push(<ReleaseCardEmpty key={index} />);
+        rows.push(<ReleaseCardEmpty key={'A' + index} />);
       }
     }
 

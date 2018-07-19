@@ -1,61 +1,89 @@
-import * as config from "../../config";
+import axios from 'axios';
+import * as config from '../../config';
+import params from '../../params.json';
+import { queryBuilder } from '../../utils/helpers';
 
 export function releasesPage(page) {
   return {
-    type: "RELEASES_PAGE",
+    type: 'RELEASES_PAGE',
     page: page
-  }
+  };
 }
 
 export function releasesHasErrored(bool) {
   return {
-    type: "RELEASES_HAS_ERRORED",
+    type: 'RELEASES_HAS_ERRORED',
     hasErrored: bool
   };
 }
 
 export function releasesIsLoading(bool) {
   return {
-    type: "RELEASES_IS_LOADING",
+    type: 'RELEASES_IS_LOADING',
     isLoading: bool
   };
 }
 
 export function releasesFetchDataSuccess(chapters, page) {
   return {
-    type: "RELEASES_FETCH_DATA_SUCCESS",
+    type: 'RELEASES_FETCH_DATA_SUCCESS',
     chapters,
     page
   };
 }
 
-export function fetchReleases(lang, page) {
+export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
   return dispatch => {
     dispatch(releasesIsLoading(true));
 
     if (lang === undefined || lang === null) {
       dispatch(releasesHasErrored(true));
-      throw Error("Lang is undefined");
+      throw Error('Lang is undefined');
     } else if (page === undefined || page === null) {
       dispatch(releasesHasErrored(true));
-      throw Error("Page is undefined");
+      throw Error('Page is undefined');
     }
 
-    fetch(
-      `${
-        config.READER_PATH
-      }v2/releases?lang=${lang}&orderby=desc_created&page=${page}`
-    )
+    axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'chapters',
+          data: {
+            language: params.global.languages[lang].id,
+            orderBy: sort,
+            first: perPage,
+            offset: page
+          },
+          fields: [
+            'id',
+            'work {id, stub, name}',
+            'chapter',
+            'subchapter',
+            'volume',
+            'pages {id, filename, height, width},',
+            'language',
+            'name',
+            'stub',
+            'uniqid',
+            'description',
+            'createdAt'
+          ]
+        })
+      )
       .then(response => {
-        if (!response.ok) {
+        if (response.statusText !== 'OK') {
           throw Error(response.statusText);
         }
 
-        return response;
+        return response.data.data.chapters;
       })
-      .then(response => response.json())
       .then(chapters => dispatch(releasesFetchDataSuccess(chapters, page)))
       .then(() => dispatch(releasesIsLoading(false)))
-      .catch(() => dispatch(releasesHasErrored(true)));
+      .catch(err => {
+        console.log(err);
+        dispatch(releasesHasErrored(true));
+      });
   };
 }

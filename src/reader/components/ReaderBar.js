@@ -12,13 +12,13 @@ class ReaderBar extends PureComponent {
 
     this.state = {
       chapters: [],
-      serie: {}
+      work: {}
     };
   }
 
-  serieLink() {
-    let url = `/serie/${this.props.serie.stub}`;
-    return <Link to={url}>{this.props.serie.name}</Link>;
+  workLink() {
+    let url = `/work/${this.props.work.stub}`;
+    return <Link to={url}>{this.props.work.name}</Link>;
   }
 
   downloadChapter() {
@@ -33,8 +33,8 @@ class ReaderBar extends PureComponent {
         href={url}
         onClick={e =>
           this.createGAEvent(
-            "Downloaded a chapter",
-            `${this.props.serie.name} - ${chapter}.${subchapter}`
+            "Chapter Downloaded",
+            `${this.props.work.name} - ${chapter}.${subchapter}`
           )
         }
         target="_blank"
@@ -46,16 +46,16 @@ class ReaderBar extends PureComponent {
 
   chapterUrl(chapter) {
     if (
-      this.props.serie.stub === undefined ||
+      this.props.work.stub === undefined ||
       this.props.chapters[chapter] === undefined
     ) {
       return "";
     }
     if (chapter === -1) {
-      return `/serie/${this.props.serie.stub}`;
+      return `/work/${this.props.work.stub}`;
     }
 
-    return `/read/${this.props.serie.stub}/${
+    return `/read/${this.props.work.stub}/${
       this.props.chapters[chapter].language
     }/${this.props.chapters[chapter].volume}/${
       this.props.chapters[chapter].chapter
@@ -75,7 +75,7 @@ class ReaderBar extends PureComponent {
     return (
       <div className="ReaderBar clearfix">
         <div className="float-left title">
-          <span className="truncate">{this.serieLink()}</span>
+          <span className="truncate">{this.workLink()}</span>
           : {this.context.t("Capítulo")} {this.props.chapter.chapter}
           {this.downloadChapter()}
         </div>
