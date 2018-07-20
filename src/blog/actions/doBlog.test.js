@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import { fetchPosts } from './doBlog';
 import { getPosts } from '../../utils/mocks/getBlogMock';
+import { normalizePost } from '../../utils/normalizeBlog';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -28,7 +29,11 @@ describe('fetchPosts actions', () => {
 
     const expectedActions = [
       { type: 'BLOG_IS_LOADING', isLoading: true },
-      { type: 'BLOG_FETCH_DATA_SUCCESS', posts: getPosts(), page: 1 },
+      {
+        type: 'BLOG_FETCH_DATA_SUCCESS',
+        posts: getPosts().map(p => normalizePost(p)),
+        page: 1
+      },
       { type: 'BLOG_IS_LOADING', isLoading: false }
     ];
 
@@ -42,12 +47,9 @@ describe('fetchPosts actions', () => {
       }
     });
 
-    return store
-      .dispatch(fetchPosts('es', 1, 'DESC', 10))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      })
-      .catch(err => console.error(err));
+    return store.dispatch(fetchPosts('es', 1, 'DESC', 10)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('creates BLOG_HAS_ERRORED after catch any error', () => {
@@ -56,7 +58,7 @@ describe('fetchPosts actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'ERROR',
-        response: { data: { chapters: null } }
+        response: { data: { posts: null } }
       });
     });
 

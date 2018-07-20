@@ -45,8 +45,7 @@ describe('fetchReleases actions', () => {
       .dispatch(fetchReleases('es', 1, 20, 'DESC'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-      })
-      .catch(err => console.error(err));
+      });
   });
 
   it('creates RELEASES_HAS_ERRORED after catch any error', () => {

@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as config from '../../config';
 import params from '../../params.json';
 import { queryBuilder } from '../../utils/helpers';
+import { normalizePost } from '../../utils/normalizeBlog';
 
 export function blogSelectPost(post) {
   return {
@@ -85,17 +86,7 @@ export function fetchPosts(lang, page = 0, sort = 'ASC', perPage = 120) {
 
         return response.data.data.posts;
       })
-      .then(posts =>
-        posts.map(post => {
-          const categoryLabel = Object.keys(params.blog.categories).find(
-            st => params.blog.categories[st].id === post.category
-          );
-          return {
-            ...post,
-            categoryLabel
-          };
-        })
-      )
+      .then(posts => posts.map(post => normalizePost(post)))
       .then(posts => dispatch(blogFetchDataSuccess(posts, page)))
       .then(() => dispatch(blogIsLoading(false)))
       .catch(err => dispatch(blogHasErrored(true)));

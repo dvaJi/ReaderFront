@@ -45,8 +45,7 @@ describe('fetchChapters actions', () => {
       .dispatch(fetchChapters('es', 'hunter_x_hunter'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-      })
-      .catch(err => console.error(err));
+      });
   });
 
   it('creates RELEASES_HAS_ERRORED after catch any error', () => {
