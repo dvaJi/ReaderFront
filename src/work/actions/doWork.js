@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as config from '../../config';
 import params from '../../params.json';
 import { queryBuilder } from '../../utils/helpers';
+import { normalizeWork } from '../../utils/normalizeWork';
 
 export function workHasErrored(bool) {
   return {
@@ -47,7 +48,7 @@ export function fetchWork(lang, stub) {
       throw Error('Stub is undefined');
     }
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
@@ -81,70 +82,7 @@ export function fetchWork(lang, stub) {
 
         return response.data.data.work;
       })
-      .then(work => {
-        // Get status key
-        const status = Object.keys(params.works.status).find(
-          st => params.works.status[st].id === work.status
-        );
-
-        // Get demographic key
-        const demographic = Object.keys(params.genres.demographic).find(
-          dm => params.genres.demographic[dm].id === work.demographicId
-        );
-
-        // get genres keys
-        const genres = work.works_genres.map(wg => {
-          return Object.keys(params.genres.types).find(
-            dm => params.genres.types[dm].id === wg.genreId
-          );
-        });
-
-        // get roles keys
-        const pWorks = work.people_works.map(pw => {
-          return {
-            ...pw,
-            rolText: Object.keys(params.works.roles).find(
-              dm => params.works.roles[dm].id === pw.rol
-            )
-          };
-        });
-
-        // set a safest description
-        const desc =
-          work.works_descriptions.length === 0
-            ? ''
-            : work.works_descriptions[0].description;
-
-        // set a covers obj
-        const covers =
-          work.works_covers.length === 0
-            ? null
-            : {
-                small: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.small_thumb.id
-                ),
-                medium: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.medium_thumb.id
-                ),
-                large: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.large_thumb.id
-                ),
-                portrait: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.portrait.id
-                )
-              };
-        // new work with new values
-        const newWork = {
-          ...work,
-          statusLabel: status,
-          demographic: demographic,
-          works_genres: genres,
-          people_works: pWorks,
-          description: desc,
-          covers: covers
-        };
-        return newWork;
-      })
+      .then(work => normalizeWork(work))
       .then(work => dispatch(workFetchDataSuccess(work)))
       .then(() => dispatch(workIsLoading(false)))
       .catch(() => dispatch(workHasErrored(true)));
@@ -155,7 +93,7 @@ export function fetchRandomWork(lang) {
   return dispatch => {
     dispatch(workRandomIsLoading(true));
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
@@ -186,41 +124,7 @@ export function fetchRandomWork(lang) {
 
         return response.data.data.workRandom;
       })
-      .then(work => {
-        // set a safest description
-        const desc =
-          work.works_descriptions.length === 0
-            ? ''
-            : work.works_descriptions[0].description;
-
-        // set a covers obj
-        const covers =
-          work.works_covers.length === 0
-            ? null
-            : {
-                small: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.small_thumb.id
-                ),
-                medium: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.medium_thumb.id
-                ),
-                large: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.large_thumb.id
-                ),
-                portrait: work.works_covers.find(
-                  c => c.coverTypeId === params.works.cover_type.portrait.id
-                )
-              };
-
-        // new work with new values
-        const newWork = {
-          ...work,
-          description: desc,
-          covers: covers
-        };
-
-        return newWork;
-      })
+      .then(work => normalizeWork(work))
       .then(work => dispatch(randomWorkFetchDataSuccess(work)))
       .then(() => dispatch(workRandomIsLoading(false)))
       .catch(error => dispatch(workHasErrored(true)));
