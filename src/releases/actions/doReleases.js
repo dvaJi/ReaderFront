@@ -44,7 +44,7 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
       throw Error('Page is undefined');
     }
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
@@ -81,9 +81,6 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
       })
       .then(chapters => dispatch(releasesFetchDataSuccess(chapters, page)))
       .then(() => dispatch(releasesIsLoading(false)))
-      .catch(err => {
-        console.log(err);
-        dispatch(releasesHasErrored(true));
-      });
+      .catch(err => dispatch(releasesHasErrored(true)));
   };
 }

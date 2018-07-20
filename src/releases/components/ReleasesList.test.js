@@ -8,6 +8,7 @@ import ReleaseCardEmpty from './ReleaseCardEmpty';
 import { BrowserRouter } from 'react-router-dom';
 import { translations } from '../../translations';
 import store from '../../store';
+import { getReleases } from '../../utils/mocks/getReleasesMock';
 
 it('renders without crashing', () => {
   render(
@@ -20,7 +21,7 @@ it('renders without crashing', () => {
 });
 
 it('should render releases without crashing', () => {
-  const releases = generateReleases();
+  const releases = getReleases();
   mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -33,7 +34,7 @@ it('should render releases without crashing', () => {
 });
 
 it('renders RealeaseCard without crashing', () => {
-  const releases = generateReleases();
+  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
@@ -50,7 +51,7 @@ it('renders RealeaseCard without crashing', () => {
 });
 
 it('renders RealeaseCard and fetching data without crashing', () => {
-  const releases = generateReleases();
+  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
@@ -67,7 +68,7 @@ it('renders RealeaseCard and fetching data without crashing', () => {
 });
 
 it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
-  const releases = generateReleases();
+  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
@@ -92,29 +93,6 @@ it('renders RealeaseCardEmpty without crashing', () => {
   );
   expect(wrapper.children().contains(listReleaseCardEmpty)).toBeTruthy();
 });
-
-/**
- * Generate a Releases list
- *
- * @returns releases list
- */
-function generateReleases() {
-  let releases = [];
-  for (let index = 30; index < 40; index++) {
-    let work = { stub: '' };
-    let chapter = {
-      id: index,
-      language: '',
-      volume: 0,
-      chapter: 0,
-      thumbnail: 'thumb.png',
-      subchapter: index % 2 === 0 ? 0 : 1,
-      work: work
-    };
-    releases.push(chapter);
-  }
-  return releases;
-}
 
 /**
  * Generate a ReleaseCardEmpty list
