@@ -39,19 +39,16 @@ export function blogFetchDataSuccess(posts, page) {
   };
 }
 
-export function fetchPosts(lang, page, sort = 'ASC', perPage = 120) {
+export function fetchPosts(lang, page = 0, sort = 'ASC', perPage = 120) {
   return dispatch => {
     dispatch(blogIsLoading(true));
 
     if (lang === undefined || lang === null) {
       dispatch(blogHasErrored(true));
       throw Error('Lang is undefined');
-    } else if (page === undefined || page === null) {
-      dispatch(blogHasErrored(true));
-      throw Error('Page is undefined');
     }
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
@@ -101,9 +98,6 @@ export function fetchPosts(lang, page, sort = 'ASC', perPage = 120) {
       )
       .then(posts => dispatch(blogFetchDataSuccess(posts, page)))
       .then(() => dispatch(blogIsLoading(false)))
-      .catch(err => {
-        console.error(err);
-        dispatch(blogHasErrored(true));
-      });
+      .catch(err => dispatch(blogHasErrored(true)));
   };
 }

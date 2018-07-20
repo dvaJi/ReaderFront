@@ -57,13 +57,9 @@ it("should change page without throwing", () => {
 });
 
 
-it("should throw if it receive a null page or lang props", () => {
+it("should throw if lang is undefined or null", () => {
   expect(() => {
     store.dispatch(fetchPosts(null, 1));
-  }).toThrow();
-
-  expect(() => {
-    store.dispatch(fetchPosts("es", null));
   }).toThrow();
 });
 

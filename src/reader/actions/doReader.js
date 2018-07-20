@@ -42,7 +42,7 @@ export function fetchChapters(lang, stub) {
       throw Error('Stub is undefined');
     }
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
