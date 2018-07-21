@@ -16,11 +16,11 @@ class Info extends PureComponent {
         </div>
         <div className="Genres">
           <h4>{this.context.t('genres')}</h4>
-          {work.works_genres.map(genre => <li key={genre}>{this.context.t(genre)}</li>)}
+          {work.genres.map(genre => <li key={genre}>{this.context.t(genre)}</li>)}
         </div>
         <div className="People">
           {work.people_works.map(peopleWork => (
-            <div>
+            <div key={peopleWork.rol + peopleWork.people.id}>
               <h4>{this.context.t(peopleWork.rolText)}</h4>
               <span>{peopleWork.people.name}</span>
             </div>

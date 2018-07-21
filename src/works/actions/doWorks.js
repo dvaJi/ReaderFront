@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as config from '../../config';
 import params from '../../params.json';
 import { queryBuilder } from '../../utils/helpers';
-import { normalizeCovers } from '../../utils/common';
+import { normalizeWork } from '../../utils/normalizeWork';
 
 export function worksHasErrored(bool) {
   return {
@@ -57,7 +57,7 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
       throw Error('Lang is undefined');
     }
 
-    axios
+    return axios
       .post(
         config.READER_PATH,
         queryBuilder({
@@ -95,40 +95,7 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
         return response.data.data.works;
       })
       .then(works =>
-        works.map(work => {
-          const status = Object.keys(params.works.status).find(
-            st => params.works.status[st].id === work.status
-          );
-
-          const demographic = Object.keys(params.genres.demographic).find(
-            dm => params.genres.demographic[dm].id === work.demographicId
-          );
-
-          const genres = work.works_genres.map(wg => {
-            return Object.keys(params.genres.types).find(
-              dm => params.genres.types[dm].id === wg.genreId
-            );
-          });
-
-          // set a safest description
-          const desc =
-            work.works_descriptions.length === 0
-              ? ''
-              : work.works_descriptions[0].description;
-
-          // set a covers obj
-          const covers = normalizeCovers(work);
-
-          const newWork = {
-            ...work,
-            statusLabel: status,
-            demographic: demographic,
-            works_genres: genres,
-            description: desc,
-            covers: covers
-          };
-          return newWork;
-        })
+        works.map(work => normalizeWork(work))
       )
       .then(
         works =>
@@ -143,7 +110,6 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
             : dispatch(worksIsLoading(false))
       )
       .catch(err => {
-        console.error(err);
         dispatch(worksHasErrored(true));
       });
   };

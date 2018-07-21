@@ -9,6 +9,7 @@ import PostCardEmpty from './PostCardEmpty';
 import { BrowserRouter } from 'react-router-dom';
 import { translations } from '../../translations';
 import store from '../../store';
+import { getPosts } from '../../utils/mocks/getBlogMock';
 
 it('renders without crashing', () => {
   render(
@@ -21,7 +22,7 @@ it('renders without crashing', () => {
 });
 
 it('should render posts without crashing', () => {
-  const posts = generatePosts();
+  const posts = getPosts();
   mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -34,7 +35,7 @@ it('should render posts without crashing', () => {
 });
 
 it('renders PostCard without crashing', () => {
-  const posts = generatePosts();
+  const posts = getPosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
     <Provider store={store}>
@@ -49,7 +50,7 @@ it('renders PostCard without crashing', () => {
 });
 
 it('renders PostCard and fetching data without crashing', () => {
-  const posts = generatePosts();
+  const posts = getPosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
     <Provider store={store}>
@@ -64,7 +65,7 @@ it('renders PostCard and fetching data without crashing', () => {
 });
 
 it('renders PostCard and add PostCardEmpty while is loading without crashing', () => {
-  const posts = generatePosts();
+  const posts = getPosts();
   const listPostCard = generatePostCard(posts);
   const wrapper = mount(
     <Provider store={store}>
@@ -90,35 +91,6 @@ it('renders PostCardEmpty without crashing', () => {
   );
   expect(wrapper.find(PostCardEmpty)).toBeTruthy();
 });
-
-/**
- * Genera mock de publicaciones
- *
- * @returns lista de publicaciones
- */
-function generatePosts() {
-  let posts = [];
-  for (let index = 0; index < 10; index++) {
-    posts.push({
-      id: index,
-      userId: 1,
-      uniqid: '9a0s9298l20' + index * 2,
-      type: 1,
-      title: 'Primera publicación!',
-      stub: 'primera-publicacion',
-      status: 1,
-      sticky: false,
-      content:
-        'Primera publicación dentro del blog, podrás **Publicar**, **Editar**, **Guardar**, **Eliminar** tus publicaciones.',
-      category: 1,
-      language: 1,
-      thumbnail: 'cover_goblinslayer.png',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    });
-  }
-  return posts;
-}
 
 /**
  * Generate a PostCard mock

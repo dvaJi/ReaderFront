@@ -10,6 +10,8 @@ it("should render without throwing an error", () => {
       path="/read/infection/es/6/40.0"
     />
   );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should be updated when receive new props", () => {
@@ -24,6 +26,9 @@ it("should be updated when receive new props", () => {
   wrapper.setProps({ id: "020202-01011" });
   wrapper.setProps({ title: "Infection - Capítulo 41" });
   wrapper.setProps({ path: "/read/infection/es/6/41.0" });
+
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should reset (set to undefined) window.DISQUS if it is not undefined", () => {
@@ -40,4 +45,7 @@ it("should reset (set to undefined) window.DISQUS if it is not undefined", () =>
       path="/read/infection/es/6/40.0"
     />
   );
+
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

@@ -1,12 +1,14 @@
 import React from 'react';
 import I18n from 'redux-i18n';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
 import NextButton from './NextButton';
+import HomeContainer from '../../containers/HomeContainer';
 import { translations } from '../../../translations';
 import store from '../../../store';
+import { getReleases } from '../../../utils/mocks/getReleasesMock';
 
 it('renders while loading without crashing', async () => {
   const wrapper = await mount(
@@ -24,7 +26,7 @@ it('renders while loading without crashing', async () => {
 });
 
 it('renders without crashing', async () => {
-  const blocks = createBlocks(generateReleases());
+  const blocks = createBlocks(getReleases());
   const wrapper = mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -39,7 +41,7 @@ it('renders without crashing', async () => {
 });
 
 it('should update state when NextButton is clicked', async () => {
-  const blocks = createBlocks(generateReleases());
+  const blocks = createBlocks(getReleases(20));
   const wrapper = mount(
     <MemoryRouter>
       <ComicSlide blocks={blocks} isLoading={false} />
@@ -56,24 +58,6 @@ it('should update state when NextButton is clicked', async () => {
   expect(oldState).toBeGreaterThan(newState);
   await wrapper.unmount();
 });
-
-function generateReleases() {
-  let releases = [];
-  for (let index = 30; index < 40; index++) {
-    let work = { stub: '' };
-    let chapter = {
-      id: index,
-      language: '',
-      volume: 0,
-      chapter: 0,
-      thumbnail: 'thumb.png',
-      subchapter: index % 2 === 0 ? 0 : 1,
-      work: work
-    };
-    releases.push(chapter);
-  }
-  return releases;
-}
 
 function generateRandomBlock(previousBlock) {
   var num = Math.floor(Math.random() * (5 - 1 + 1)) + 1;

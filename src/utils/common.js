@@ -25,30 +25,3 @@ export function getPostThumb(dir, filename) {
     ? `/images/blog/${dir}/${filename}`
     : '/static/images/default-cover.png';
 }
-
-/* HELPERS TO NORMALIZE DATA */
-
-export function normalizeCovers(work) {
-  if (work.works_covers.length === 0) {
-    return null;
-  }
-
-  let covers = {};
-  const coversTypesKeys = Object.keys(params.works.cover_type);
-  coversTypesKeys
-    .filter(ctk =>
-      work.works_covers.find(
-        wc => wc.coverTypeId === params.works.cover_type[ctk].id
-      )
-    )
-    .forEach(ctk => {
-      covers = {
-        ...covers,
-        [ctk]: work.works_covers.find(
-          wc => wc.coverTypeId === params.works.cover_type[ctk].id
-        )
-      };
-    });
-
-  return covers;
-}

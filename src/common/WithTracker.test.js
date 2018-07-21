@@ -13,6 +13,8 @@ it("should render without throwing an error", () => {
       <Route path="/work/all" exact component={withTracker(Works)} />
     </MemoryRouter>
   );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should be update when receive new props", () => {
@@ -26,4 +28,7 @@ it("should be update when receive new props", () => {
   newProp.location.pathname = "/";
   newProp.location.key = "08ggxc";
   wrapper.setProps({ history: newProp });
+  wrapper.update();
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

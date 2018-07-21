@@ -20,6 +20,7 @@ it("should render without throwing an error", () => {
   );
 
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should render without throwing an error when it receive a new language props", () => {
@@ -33,6 +34,7 @@ it("should render without throwing an error when it receive a new language props
 
   store.dispatch(doChangeLanguage("en"));
   wrapper.update();
+  wrapper.unmount();
 });
 
 it("should render without throwing an error when it receive a new language props", () => {
@@ -50,6 +52,7 @@ it("should render without throwing an error when it receive a new language props
   document.body.scrollTop = 40;
   window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
   wrapper.update();
+  wrapper.unmount();
 });
 
 it("should throw if it receive a null lang or page props", () => {
