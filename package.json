@@ -87,7 +87,8 @@
       "!src/Routes.js",
       "!src/registerServiceWorker.js",
       "!src/common/WithTracker.js",
-      "!src/App.js"
+      "!src/App.js",
+      "!src/utils/mocks/*.{js}"
     ],
     "coverageThreshold": {
       "global": {

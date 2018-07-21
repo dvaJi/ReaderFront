@@ -8,7 +8,7 @@ export function getPosts(amount = 10) {
     };
     let post = {
       id: 2,
-      uniqid: '123534k1249sd',
+      uniqid: '123gsasd0dk' + (index * 3),
       type: 1,
       title: 'Lorem Ipsum 1',
       stub: 'lorem-ipsum',

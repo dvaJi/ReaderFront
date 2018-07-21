@@ -51,8 +51,7 @@ describe('fetchWorks actions', () => {
       .dispatch(fetchWorks('es', 'ASC', 120))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-      })
-      .catch(err => console.error(err));
+      });
   });
 });
 

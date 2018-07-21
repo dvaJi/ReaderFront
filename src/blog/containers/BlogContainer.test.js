@@ -17,6 +17,8 @@ it("should render without throwing an error", () => {
       <BlogContainer />
     </Provider>
   );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should render without throwing an error when it receive a new language props", () => {
@@ -30,6 +32,8 @@ it("should render without throwing an error when it receive a new language props
 
   store.dispatch(doChangeLanguage("en"));
   wrapper.update();
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 
@@ -48,6 +52,8 @@ it("should render without throwing an error when it receive a new language props
   document.body.scrollTop = 40;
   window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
   wrapper.update();
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should change page without throwing", () => {

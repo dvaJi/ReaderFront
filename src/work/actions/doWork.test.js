@@ -47,8 +47,7 @@ describe('fetchWork actions', () => {
       .dispatch(fetchWork('es', 'aka_akatoshitachi_no_monogatari'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-      })
-      .catch(err => console.error(err));
+      });
   });
 
   it('creates WORK_HAS_ERRORED after catch any error', () => {
