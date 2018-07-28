@@ -4,6 +4,7 @@ import moxios from 'moxios';
 import { fetchReleases } from './doReleases';
 import { getReleases } from '../../utils/mocks/getReleasesMock';
 
+const releases = getReleases();
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
@@ -22,13 +23,13 @@ describe('fetchReleases actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { chapters: getReleases() } }
+        response: { data: { chapters: releases } }
       });
     });
 
     const expectedActions = [
       { type: 'RELEASES_IS_LOADING', isLoading: true },
-      { type: 'RELEASES_FETCH_DATA_SUCCESS', chapters: getReleases(), page: 1 },
+      { type: 'RELEASES_FETCH_DATA_SUCCESS', chapters: releases, page: 1 },
       { type: 'RELEASES_IS_LOADING', isLoading: false }
     ];
 

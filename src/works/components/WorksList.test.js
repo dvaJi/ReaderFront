@@ -6,8 +6,9 @@ import WorkItem from "./WorkItem";
 import WorkItemEmpty from "./WorkItemEmpty";
 import { getWorks } from "../../utils/mocks/getWorksMock";
 
+const works = getWorks();
+
 it("renders without crashing", () => {
-  let works = [];
   let filterText = "";
   render(<WorksList loading="false" works={works} filterText={filterText} />);
 });
@@ -25,8 +26,6 @@ it("should displays WorkItemEmpty", () => {
 
 it("should displays WorkItem", () => {
   let filterText = "";
-  let works = getWorks();
-
   const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />
@@ -37,8 +36,6 @@ it("should displays WorkItem", () => {
 
 it("should filter works", () => {
   let filterText = "aka";
-  let works = getWorks();
-
   const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />

@@ -8,6 +8,9 @@ import Works from './works';
 import Work from './work';
 import Reader from './reader';
 import Blog from './blog';
+import Login from './user/containers/LoginContainer';
+import Signup from './user/containers/SignupContainer';
+import Activate from './user/containers/ActivateAccountContainer';
 
 export default (
   <Switch>
@@ -21,5 +24,9 @@ export default (
       exact
       component={withTracker(Reader)}
     />
+    <Route path="/auth/login" exact component={withTracker(Login)} />
+    <Route path="/auth/signup" exact component={withTracker(Signup)} />
+    <Route path="/auth/activate_account" exact component={withTracker(Activate)} />
+    <Route path="/auth/request_password" exact component={withTracker(Activate)} />
   </Switch>
 );

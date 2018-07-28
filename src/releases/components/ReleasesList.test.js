@@ -10,6 +10,8 @@ import { translations } from '../../translations';
 import store from '../../store';
 import { getReleases } from '../../utils/mocks/getReleasesMock';
 
+const releases = getReleases();
+
 it('renders without crashing', () => {
   render(
     <Provider store={store}>
@@ -21,7 +23,6 @@ it('renders without crashing', () => {
 });
 
 it('should render releases without crashing', () => {
-  const releases = getReleases();
   mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -34,7 +35,6 @@ it('should render releases without crashing', () => {
 });
 
 it('renders RealeaseCard without crashing', () => {
-  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
@@ -51,7 +51,6 @@ it('renders RealeaseCard without crashing', () => {
 });
 
 it('renders RealeaseCard and fetching data without crashing', () => {
-  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
@@ -68,7 +67,6 @@ it('renders RealeaseCard and fetching data without crashing', () => {
 });
 
 it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
-  const releases = getReleases();
   const listReleaseCard = generateReleaseCard(releases);
   const wrapper = mount(
     <Provider store={store}>
