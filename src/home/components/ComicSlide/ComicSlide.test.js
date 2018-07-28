@@ -10,6 +10,8 @@ import { translations } from '../../../translations';
 import store from '../../../store';
 import { getReleases } from '../../../utils/mocks/getReleasesMock';
 
+const releases = getReleases();
+
 it('renders while loading without crashing', async () => {
   const wrapper = await mount(
     <Provider store={store}>
@@ -26,7 +28,7 @@ it('renders while loading without crashing', async () => {
 });
 
 it('renders without crashing', async () => {
-  const blocks = createBlocks(getReleases());
+  const blocks = createBlocks(releases);
   const wrapper = mount(
     <Provider store={store}>
       <I18n translations={translations}>
@@ -41,7 +43,7 @@ it('renders without crashing', async () => {
 });
 
 it('should update state when NextButton is clicked', async () => {
-  const blocks = createBlocks(getReleases(20));
+  const blocks = createBlocks(releases);
   const wrapper = mount(
     <MemoryRouter>
       <ComicSlide blocks={blocks} isLoading={false} />
@@ -59,30 +61,13 @@ it('should update state when NextButton is clicked', async () => {
   await wrapper.unmount();
 });
 
-function generateRandomBlock(previousBlock) {
-  var num = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-  return num === 4 || num === previousBlock ? generateRandomBlock() : num;
-}
-
 function createBlocks(chapters) {
   const blocks = [];
-  let blockNumber = generateRandomBlock();
 
-  chapters.forEach((chapter, index) => {
-    if (blocks.length === 0) {
-      blocks.push({ chapters: [chapter], block: blockNumber });
-    } else if (
-      blocks[blocks.length - 1].chapters.length <
-      blocks[blocks.length - 1].block
-    ) {
-      blocks[blocks.length - 1].chapters.push(chapter);
-    } else {
-      do {
-        blockNumber = generateRandomBlock(blockNumber);
-      } while (blockNumber > chapters.length - index);
-      blocks.push({ chapters: [chapter], block: blockNumber });
-    }
-  });
+  blocks.push({ chapters: chapters, block: 1 });
+  blocks.push({ chapters: chapters, block: 2 });
+  blocks.push({ chapters: chapters, block: 3 });
+  blocks.push({ chapters: chapters, block: 5 });
 
   return blocks;
 }

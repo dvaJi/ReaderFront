@@ -1,4 +1,4 @@
-export function getPosts(amount = 10) {
+export function getPosts(amount = 2) {
   let posts = [];
   for (let index = 1; index < amount; index++) {
     let user = {

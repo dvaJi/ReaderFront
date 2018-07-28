@@ -15,15 +15,18 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons';
 import * as config from '../../config';
+import { renderIf, isAuthRoute } from '../../utils/helpers';
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
-    this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       isOpen: false
     };
+
+    this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.renderNav = this.renderNav.bind(this);
   }
 
   toggleNavbar() {
@@ -37,7 +40,7 @@ class Header extends Component {
     this.props.setLanguage(lang);
   }
 
-  render() {
+  renderNav() {
     return (
       <Navbar
         color="white"
@@ -100,6 +103,10 @@ class Header extends Component {
       </Navbar>
     );
   }
+
+  render() {
+    return renderIf(!isAuthRoute(this.props.route), this.renderNav);
+  }
 }
 
 Header.contextTypes = {
@@ -108,7 +115,8 @@ Header.contextTypes = {
 
 const mapStateToProps = state => {
   return {
-    language: state.i18nState.lang
+    language: state.i18nState.lang,
+    route: state.router.location
   };
 };
 

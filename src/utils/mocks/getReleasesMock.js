@@ -1,4 +1,4 @@
-export function getReleases(amount = 10) {
+export function getReleases(amount = 2) {
   let releases = [];
   for (let index = 1; index < amount; index++) {
     let work = { stub: '' };

@@ -7,6 +7,7 @@ import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const work = getWork();
 
 describe('fetchWork actions', () => {
   beforeEach(function() {
@@ -23,13 +24,13 @@ describe('fetchWork actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { work: getWork() } }
+        response: { data: { work: work } }
       });
     });
 
     const expectedActions = [
       { type: 'WORK_IS_LOADING', isLoading: true },
-      { type: 'WORK_FETCH_DATA_SUCCESS', work: normalizeWork(getWork()) },
+      { type: 'WORK_FETCH_DATA_SUCCESS', work: normalizeWork(work) },
       { type: 'WORK_IS_LOADING', isLoading: false }
     ];
 
@@ -106,7 +107,7 @@ describe('fetchRandomWork actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { workRandom: getWork() } }
+        response: { data: { workRandom: work } }
       });
     });
 
@@ -114,7 +115,7 @@ describe('fetchRandomWork actions', () => {
       { type: 'WORK_RANDOM_IS_LOADING', isLoading: true },
       {
         type: 'RANDOM_WORK_FETCH_DATA_SUCCESS',
-        work: normalizeWork(getWork())
+        work: normalizeWork(work)
       },
       { type: 'WORK_RANDOM_IS_LOADING', isLoading: false }
     ];

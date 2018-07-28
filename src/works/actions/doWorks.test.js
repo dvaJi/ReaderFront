@@ -7,6 +7,8 @@ import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const works = getWorks();
+const worksNormalized = works.map(work => normalizeWork(work));
 
 describe('fetchWorks actions', () => {
   beforeEach(function() {
@@ -23,7 +25,7 @@ describe('fetchWorks actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { works: getWorks() } }
+        response: { data: { works: works } }
       });
     });
 
@@ -31,7 +33,7 @@ describe('fetchWorks actions', () => {
       { type: 'WORKS_IS_LOADING', isLoading: true },
       {
         type: 'WORKS_FETCH_DATA_SUCCESS',
-        works: getWorks().map(work => normalizeWork(work))
+        works: worksNormalized
       },
       { type: 'WORKS_IS_LOADING', isLoading: false }
     ];
@@ -70,13 +72,13 @@ describe('fetchWorks actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { works: getWorks() } }
+        response: { data: { works: works } }
       });
     });
 
     const expectedActions = [
       { type: 'WORKS_IS_LOADING', isLoading: true },
-      { type: 'WORKS_FETCH_DATA_SUCCESS', works: getWorks().map(work => normalizeWork(work)) },
+      { type: 'WORKS_FETCH_DATA_SUCCESS', works: worksNormalized },
       { type: 'WORKS_IS_LOADING', isLoading: false }
     ];
 
@@ -102,13 +104,13 @@ describe('fetchWorks actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { works: getWorks() } }
+        response: { data: { works: works } }
       });
     });
 
     const expectedActions = [
       { type: 'LATEST_WORKS_IS_LOADING', isLoading: true },
-      { type: 'WORKS_CUSTOM_FETCH_DATA_SUCCESS', works: getWorks().map(work => normalizeWork(work)) },
+      { type: 'WORKS_CUSTOM_FETCH_DATA_SUCCESS', works: worksNormalized },
       { type: 'LATEST_WORKS_IS_LOADING', isLoading: false }
     ];
 

@@ -5,6 +5,23 @@ export function renderIf(condition, renderFn) {
   return condition ? renderFn() : null;
 }
 
+export function isAuthRoute(location) {
+  if (location === null || location.pathname === null) {
+    return false;
+  }
+
+  if (
+    location.pathname === '/auth/login' ||
+    location.pathname === '/auth/signup' ||
+    location.pathname === '/auth/resetpassword' ||
+    location.pathname === '/auth/activate_account'
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 // Substring with ...
 export function subString(string, length = 0) {
   if (typeof string !== 'string') {
@@ -59,6 +76,24 @@ export function slug(text) {
       .replace(/^-+/, '') // Trim - from start of text
       .replace(/-+$/, '')
   ); // Trim - from end of text
+}
+
+// Transform query param to object
+// ?foo=bar => {foo: bar}
+export function getQueryParams(query) {
+  if (!query) {
+    return {};
+  }
+  return query
+    .replace(/^\?/, '')
+    .split('&')
+    .reduce((json, item) => {
+      if (item) {
+        item = item.split('=').map(value => decodeURIComponent(value));
+        json[item[0]] = item[1];
+      }
+      return json;
+    }, {});
 }
 
 // GraphQL Query Builder

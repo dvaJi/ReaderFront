@@ -75,7 +75,7 @@ export default class RecommendedWork extends PureComponent {
       : '';
     const coverUrl =
       this.props.work && this.props.work.covers
-        ? `/works/${dir}/${this.props.work.covers.medium.filename}`
+        ? `/works/${dir}/${this.props.work.covers.medium_thumb.filename}`
         : '/static/images/default-cover.png';
     return (
       <div className="Recommended mb-4">
