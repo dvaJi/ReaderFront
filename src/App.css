@@ -1,3 +1,7 @@
+body {
+  background-color: #f8f8f8;
+}
+
 .navbar {
   box-shadow: 0px 2px 40px 0px rgba(0, 0, 0, 0.2);
   position: fixed;

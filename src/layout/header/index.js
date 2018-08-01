@@ -15,7 +15,7 @@ import {
   faHome
 } from '@fortawesome/free-solid-svg-icons';
 import * as config from '../../config';
-import { renderIf, isAuthRoute } from '../../utils/helpers';
+import { renderIf, isAuthRoute, isAdminRoute } from '../../utils/helpers';
 
 class Header extends Component {
   constructor(props) {
@@ -27,6 +27,7 @@ class Header extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.renderNav = this.renderNav.bind(this);
+    this.renderAdminNav = this.renderAdminNav.bind(this);
   }
 
   toggleNavbar() {
@@ -104,8 +105,48 @@ class Header extends Component {
     );
   }
 
+  renderAdminNav() {
+    return (
+      <Navbar
+        color="white"
+        fixed="true"
+        light
+        expand="md"
+        style={{ padding: '0.1rem 1rem 0 1rem' }}
+      >
+        <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
+        <NavbarToggler onClick={this.toggleNavbar} />
+        <Collapse isOpen={this.state.isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <RouteNavItem to="/admincp/dashboard" exact>
+              Dashboard
+            </RouteNavItem>
+            <RouteNavItem to="/admincp/works" exact>
+              Works
+            </RouteNavItem>
+            <RouteNavItem to="/admincp/blog" exact>
+              Posts
+            </RouteNavItem>
+            <RouteNavItem to="/admincp/preferences" exact>
+              Settings
+            </RouteNavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    );
+  }
+
   render() {
-    return renderIf(!isAuthRoute(this.props.route), this.renderNav);
+    return (
+      renderIf(
+        !isAuthRoute(this.props.route) && !isAdminRoute(this.props.route),
+        this.renderNav
+      ) ||
+      renderIf(
+        !isAuthRoute(this.props.route) && isAdminRoute(this.props.route),
+        this.renderAdminNav
+      )
+    );
   }
 }
 
