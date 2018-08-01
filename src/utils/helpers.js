@@ -10,12 +10,19 @@ export function isAuthRoute(location) {
     return false;
   }
 
-  if (
-    location.pathname === '/auth/login' ||
-    location.pathname === '/auth/signup' ||
-    location.pathname === '/auth/resetpassword' ||
-    location.pathname === '/auth/activate_account'
-  ) {
+  if (location.pathname.startsWith('/auth', 0)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function isAdminRoute(location) {
+  if (location === null || location.pathname === null) {
+    return false;
+  }
+
+  if (location.pathname.startsWith('/admin', 0)) {
     return true;
   }
 

@@ -100,7 +100,8 @@ Login.contextTypes = {
 
 function loginState(state) {
   return {
-    user: state.user
+    user: state.user,
+    router: state.router
   };
 }
 

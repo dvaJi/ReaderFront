@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import withTracker from './common/WithTracker';
+import RoutePrivate from './auth/RoutePrivate';
 
 import Home from './home';
 import Releases from './releases';
@@ -11,6 +12,7 @@ import Blog from './blog';
 import Login from './user/containers/LoginContainer';
 import Signup from './user/containers/SignupContainer';
 import Activate from './user/containers/ActivateAccountContainer';
+import ACPDashboard from './admin/Dashboard';
 
 export default (
   <Switch>
@@ -26,7 +28,20 @@ export default (
     />
     <Route path="/auth/login" exact component={withTracker(Login)} />
     <Route path="/auth/signup" exact component={withTracker(Signup)} />
-    <Route path="/auth/activate_account" exact component={withTracker(Activate)} />
-    <Route path="/auth/request_password" exact component={withTracker(Activate)} />
+    <Route
+      path="/auth/activate_account"
+      exact
+      component={withTracker(Activate)}
+    />
+    <Route
+      path="/auth/request_password"
+      exact
+      component={withTracker(Activate)}
+    />
+    <RoutePrivate
+      path="/admincp/dashboard"
+      exact
+      component={withTracker(ACPDashboard)}
+    />
   </Switch>
 );
