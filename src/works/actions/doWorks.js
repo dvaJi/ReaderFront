@@ -46,16 +46,17 @@ export function worksCustomDataSuccess(works) {
   };
 }
 
-export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
+export function fetchWorks(
+  lang,
+  sort = 'ASC',
+  perPage = 120,
+  sortBy = 'id',
+  page = 0
+) {
   return dispatch => {
-    sort !== 'ASC'
+    sort !== 'ASC' && sortBy === 'id'
       ? dispatch(latestWorksIsLoading(true))
       : dispatch(worksIsLoading(true));
-
-    if (lang === undefined || lang === null) {
-      dispatch(worksHasErrored(true));
-      throw Error('Lang is undefined');
-    }
 
     return axios
       .post(
@@ -64,9 +65,11 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
           type: 'query',
           operation: 'works',
           data: {
-            language: params.global.languages[lang].id,
+            language: lang ? params.global.languages[lang].id : -1,
             orderBy: sort,
-            first: perPage
+            sortBy: sortBy,
+            first: perPage,
+            offset: page
           },
           fields: [
             'id',
@@ -80,8 +83,9 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
             'visits',
             'adult',
             'createdAt',
+            'updatedAt',
             'works_covers { filename, coverTypeId, height, width }',
-            'works_descriptions {description}',
+            'works_descriptions {description, language}',
             'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
             'works_genres { genreId }'
           ]
@@ -94,9 +98,7 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
 
         return response.data.data.works;
       })
-      .then(works =>
-        works.map(work => normalizeWork(work))
-      )
+      .then(works => works.map(work => normalizeWork(work)))
       .then(
         works =>
           sort !== 'ASC'
@@ -111,6 +113,50 @@ export function fetchWorks(lang, sort = 'ASC', perPage = 120) {
       )
       .catch(err => {
         dispatch(worksHasErrored(true));
+      });
+  };
+}
+
+export function worksAggregateSuccess(workAggregates) {
+  return {
+    type: 'WORKS_AGG',
+    workAggregates
+  };
+}
+
+export function getAggregates(
+  lang,
+  aggFunc = 'COUNT',
+  column = 'id'
+) {
+  return dispatch => {
+    return axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'workAggregates',
+          data: {
+            language: lang ? params.global.languages[lang].id : -1,
+            aggregate: aggFunc,
+            aggregateColumn: column
+          },
+          fields: [aggFunc.toLowerCase()]
+        })
+      )
+      .then(response => {
+        if (response.statusText !== 'OK') {
+          throw Error(response.statusText);
+        }
+
+        return response.data.data.workAggregates;
+      })
+      .then(
+        works =>
+          dispatch(worksAggregateSuccess(works))
+      )
+      .catch(err => {
+        console.error(err);
       });
   };
 }
