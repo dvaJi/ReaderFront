@@ -167,7 +167,7 @@ class CreateOrEdit extends Component {
     let work = this.state.work;
     work[event.target.name] = isNaN(event.target.value)
       ? event.target.value
-      : parseInt(event.target.value);
+      : parseInt(event.target.value, 0);
     this.setState({
       work
     });
@@ -177,9 +177,9 @@ class CreateOrEdit extends Component {
     let work = this.state.work;
     const nameSplit = event.target.name.split('-');
     const description = event.target.value;
-    work.works_descriptions[parseInt(nameSplit[1])] = {
+    work.works_descriptions[parseInt(nameSplit[1], 0)] = {
       description: description,
-      language: parseInt(nameSplit[2])
+      language: parseInt(nameSplit[2], 0)
     };
     this.setState({
       work

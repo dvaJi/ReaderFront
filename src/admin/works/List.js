@@ -143,31 +143,32 @@ class List extends PureComponent {
                         <td>{type}</td>
 
                         <td style={{ textAlign: 'center' }}>
-                          {works_descriptions.length > 0
-                            ? works_descriptions.map((desc, i) => {
-                                const comma = i !== 0 ? ', ' : '';
-                                return (
-                                  comma +
-                                  this.state.languages.find(
-                                    pl => pl.id === desc.language
-                                  ).name
-                                );
-                              })
-                            : (
-                                <FontAwesomeIcon
-                                  id="noDescWarn"
-                                  title="asdasd"
-                                  color="#f2a900"
-                                  icon={faExclamationCircle}
-                                />
-                              ) && (
-                                <UncontrolledTooltip
-                                  placement="bottom"
-                                  target="noDescWarn"
-                                >
-                                  {this.context.t('work_no_desc_added')}
-                                </UncontrolledTooltip>
-                              )}
+                          {works_descriptions.length > 0 ? (
+                            works_descriptions.map((desc, i) => {
+                              const comma = i !== 0 ? ', ' : '';
+                              return (
+                                comma +
+                                this.state.languages.find(
+                                  pl => pl.id === desc.language
+                                ).name
+                              );
+                            })
+                          ) : (
+                            <span>
+                              <FontAwesomeIcon
+                                id="noDescWarn"
+                                title="asdasd"
+                                color="#f2a900"
+                                icon={faExclamationCircle}
+                              />
+                              <UncontrolledTooltip
+                                placement="bottom"
+                                target="noDescWarn"
+                              >
+                                {this.context.t('work_no_desc_added')}
+                              </UncontrolledTooltip>
+                            </span>
+                          )}
                         </td>
 
                         <td>{new Date(createdAt).toDateString()}</td>
@@ -202,15 +203,18 @@ class List extends PureComponent {
         {this.props.worksAgg &&
           this.props.worksAgg.count > 5 && (
             <Pagination aria-label="pagination">
-              {new Array(Math.round(this.props.worksAgg.count / 5)).map(
-                (pg, index) => (
-                  <PaginationItem>
-                    <PaginationLink onClick={e => this.handlePagination(index)}>
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                )
-              )}
+              {Array.from(
+                'pag'.repeat(Math.round(this.props.worksAgg.count / 5))
+              ).map((pg, index) => (
+                <PaginationItem
+                  key={pg + index}
+                  active={this.state.page === index}
+                >
+                  <PaginationLink onClick={e => this.handlePagination(index)}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
             </Pagination>
           )}
       </Container>
