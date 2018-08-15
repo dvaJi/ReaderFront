@@ -124,11 +124,7 @@ export function worksAggregateSuccess(workAggregates) {
   };
 }
 
-export function getAggregates(
-  lang,
-  aggFunc = 'COUNT',
-  column = 'id'
-) {
+export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
   return dispatch => {
     return axios
       .post(
@@ -151,10 +147,7 @@ export function getAggregates(
 
         return response.data.data.workAggregates;
       })
-      .then(
-        works =>
-          dispatch(worksAggregateSuccess(works))
-      )
+      .then(works => dispatch(worksAggregateSuccess(works)))
       .catch(err => {
         console.error(err);
       });
