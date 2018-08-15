@@ -22,6 +22,7 @@ it("should displays WorkItemEmpty", () => {
     </MemoryRouter>
   );
   expect(wrapper.find(WorkItemEmpty)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should displays WorkItem", () => {
@@ -32,6 +33,7 @@ it("should displays WorkItem", () => {
     </MemoryRouter>
   );
   expect(wrapper.find(WorkItem)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should filter works", () => {
@@ -43,6 +45,7 @@ it("should filter works", () => {
   );
   wrapper.setProps({ filterText: "aka" });
   expect(wrapper.find(WorkItem)).toBeTruthy();
+  wrapper.unmount();
 });
 
 

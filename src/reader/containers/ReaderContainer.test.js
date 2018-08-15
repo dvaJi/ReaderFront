@@ -31,6 +31,7 @@ it("should render without throwing an error when it receive a new language props
 
   store.dispatch(doChangeLanguage("en"));
   wrapper.update();
+  wrapper.unmount();
 });
 
 it("should render without throwing an error when it receive a new language props", () => {
@@ -46,6 +47,7 @@ it("should render without throwing an error when it receive a new language props
 
   store.dispatch(readerSelectChapter(null));
   wrapper.update();
+  wrapper.unmount();
 });
 
 it("should throw if it receive a null stub or lang props", () => {

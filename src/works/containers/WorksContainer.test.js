@@ -20,6 +20,7 @@ it("should render without throwing an error", () => {
   );
 
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should filter works", () => {
@@ -51,4 +52,5 @@ it("should render without throwing an error when it receive a new language props
   wrapper.update();
   store.dispatch(doChangeLanguage("es"));
   wrapper.update();
+  wrapper.unmount();
 });

@@ -10,4 +10,6 @@ it("should render without throwing an error", () => {
       <Blog />
     </Provider>
   );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

@@ -160,13 +160,4 @@ describe('fetchWorks actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
-
-  it('throw an Error if language is undefined', () => {
-    expect(() => {
-      const store = mockStore({
-        works: {}
-      });
-      store.dispatch(fetchWorks());
-    }).toThrow();
-  });
 });

@@ -44,7 +44,10 @@ export function getWorks() {
     stub: 'infection',
     status: 1,
     demographicId: 7,
-    works_descriptions: [{ description: 'zombies and ecchi' }],
+    works_descriptions: [
+      { description: 'Zombis y rikura', language: 1 },
+      { description: 'zombies and ecchi', language: 2 }
+    ],
     works_genres: generateGenres(1),
     works_covers: []
   });
@@ -59,7 +62,10 @@ export function getWork() {
     stub: 'aka_akatoshitachi_no_monogatari',
     status: 2,
     demographicId: 7,
-    works_descriptions: [{ description: 'some vampires' }],
+    works_descriptions: [
+      { description: 'some vampires', language: 2 },
+      { description: 'vampiros', language: 1 }
+    ],
     works_genres: generateGenres(3),
     people_works: [{ rol: 1, people: getPeople() }],
     works_covers: []

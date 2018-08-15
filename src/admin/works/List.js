@@ -143,31 +143,32 @@ class List extends PureComponent {
                         <td>{type}</td>
 
                         <td style={{ textAlign: 'center' }}>
-                          {works_descriptions.length > 0 ? (
-                            works_descriptions.map((desc, i) => {
-                              const comma = i !== 0 ? ', ' : '';
-                              return (
-                                comma +
-                                this.state.languages.find(
-                                  pl => pl.id === desc.language
-                                ).name
-                              );
-                            })
-                          ) : (
-                            <FontAwesomeIcon
-                              id="noDescWarn"
-                              title="asdasd"
-                              color="#f2a900"
-                              icon={faExclamationCircle}
-                            />
-                          )}
+                          {works_descriptions.length > 0
+                            ? works_descriptions.map((desc, i) => {
+                                const comma = i !== 0 ? ', ' : '';
+                                return (
+                                  comma +
+                                  this.state.languages.find(
+                                    pl => pl.id === desc.language
+                                  ).name
+                                );
+                              })
+                            : (
+                                <FontAwesomeIcon
+                                  id="noDescWarn"
+                                  title="asdasd"
+                                  color="#f2a900"
+                                  icon={faExclamationCircle}
+                                />
+                              ) && (
+                                <UncontrolledTooltip
+                                  placement="bottom"
+                                  target="noDescWarn"
+                                >
+                                  {this.context.t('work_no_desc_added')}
+                                </UncontrolledTooltip>
+                              )}
                         </td>
-                        <UncontrolledTooltip
-                          placement="bottom"
-                          target="noDescWarn"
-                        >
-                          {this.context.t('work_no_desc_added')}
-                        </UncontrolledTooltip>
 
                         <td>{new Date(createdAt).toDateString()}</td>
 

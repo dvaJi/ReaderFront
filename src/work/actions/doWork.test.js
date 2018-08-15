@@ -81,15 +81,6 @@ describe('fetchWork actions', () => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
-
-  it('throw an Error if stub is undefined', () => {
-    expect(() => {
-      const store = mockStore({
-        work: {}
-      });
-      store.dispatch(fetchWork());
-    }).toThrow();
-  });
 });
 
 describe('fetchRandomWork actions', () => {

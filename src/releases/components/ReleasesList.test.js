@@ -48,6 +48,7 @@ it('renders RealeaseCard without crashing', () => {
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)
   ).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders RealeaseCard and fetching data without crashing', () => {
@@ -64,6 +65,7 @@ it('renders RealeaseCard and fetching data without crashing', () => {
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)
   ).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
@@ -80,6 +82,7 @@ it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
   expect(
     wrapper.children().containsMatchingElement(listReleaseCard)
   ).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders RealeaseCardEmpty without crashing', () => {
@@ -90,6 +93,7 @@ it('renders RealeaseCardEmpty without crashing', () => {
     </BrowserRouter>
   );
   expect(wrapper.children().contains(listReleaseCardEmpty)).toBeTruthy();
+  wrapper.unmount();
 });
 
 /**
