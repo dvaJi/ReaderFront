@@ -12,7 +12,7 @@ const description = {
   description: '...'
 };
 
-const work = normalizeWork(getWork());
+const work = normalizeWork(getWork);
 
 it('renders without crashing', () => {
   const wrapper = mount(

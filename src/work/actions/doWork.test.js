@@ -7,7 +7,7 @@ import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const work = getWork();
+const work = getWork;
 
 describe('fetchWork actions', () => {
   beforeEach(function() {

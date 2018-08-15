@@ -6,7 +6,7 @@ import WorkItem from "./WorkItem";
 import WorkItemEmpty from "./WorkItemEmpty";
 import { getWorks } from "../../utils/mocks/getWorksMock";
 
-const works = getWorks();
+const works = getWorks;
 
 it("renders without crashing", () => {
   let filterText = "";

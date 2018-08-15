@@ -340,7 +340,10 @@ class CreateOrEdit extends Component {
               <br />
               {this.state.work.works_descriptions.map((desc, index) => {
                 return (
-                  <div key={'textarea-' + desc.language}>
+                  <div
+                    id={'textarea-' + desc.language}
+                    key={'textarea-' + desc.language}
+                  >
                     <Label for={'textarea-' + desc.language}>
                       {this.context.t(
                         this.state.languages.find(

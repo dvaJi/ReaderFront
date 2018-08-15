@@ -20,6 +20,7 @@ import {
   fetchWorks as getWorks,
   getAggregates
 } from '../../works/actions/doWorks';
+import { remove as removeWork } from '../../work/actions/doWork';
 import params from '../../params';
 
 class List extends PureComponent {
@@ -54,7 +55,7 @@ class List extends PureComponent {
 
       if (check) {
         this.props
-          .removeProduct({ id })
+          .removeWork({ id })
           .then(response => {
             if (response.status === 200) {
               if (response.data.errors && response.data.errors.length > 0) {
@@ -243,5 +244,5 @@ function listState(state) {
 
 export default connect(
   listState,
-  { getWorks, getAggregates }
+  { getWorks, getAggregates, removeWork }
 )(List);
