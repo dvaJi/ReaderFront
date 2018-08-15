@@ -16,4 +16,5 @@ it("should render without throwing an error", () => {
     </Provider>
   );
   global.console.error.mockRestore();
+  wrapper.unmount();
 });

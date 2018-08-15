@@ -16,4 +16,5 @@ it("should render without throwing an error", () => {
   );
 
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

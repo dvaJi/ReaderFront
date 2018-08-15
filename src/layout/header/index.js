@@ -121,7 +121,7 @@ class Header extends Component {
             <RouteNavItem to="/admincp/dashboard" exact>
               Dashboard
             </RouteNavItem>
-            <RouteNavItem to="/admincp/works" exact>
+            <RouteNavItem to="/admincp/work">
               Works
             </RouteNavItem>
             <RouteNavItem to="/admincp/blog" exact>

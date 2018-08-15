@@ -47,6 +47,7 @@ it('renders PostCard without crashing', () => {
     </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders PostCard and fetching data without crashing', () => {
@@ -62,6 +63,7 @@ it('renders PostCard and fetching data without crashing', () => {
     </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders PostCard and add PostCardEmpty while is loading without crashing', () => {
@@ -77,6 +79,7 @@ it('renders PostCard and add PostCardEmpty while is loading without crashing', (
     </Provider>
   );
   expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('renders PostCardEmpty without crashing', () => {
@@ -90,6 +93,7 @@ it('renders PostCardEmpty without crashing', () => {
     </Provider>
   );
   expect(wrapper.find(PostCardEmpty)).toBeTruthy();
+  wrapper.unmount();
 });
 
 /**

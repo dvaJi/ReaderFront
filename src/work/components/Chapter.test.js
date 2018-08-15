@@ -33,6 +33,7 @@ it("renders without crashing", () => {
     </Provider>
   );
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("renders with subchapter without crashing", () => {
@@ -54,6 +55,7 @@ it("renders with subchapter without crashing", () => {
     </Provider>
   );
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("renders without name without crashing", () => {
@@ -75,6 +77,7 @@ it("renders without name without crashing", () => {
     </Provider>
   );
   expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should create an valid href", () => {
@@ -98,4 +101,5 @@ it("should create an valid href", () => {
     .first()
     .children();
   expect(link.props().href).toBe("/read/infection/es/1/30.0");
+  wrapper.unmount();
 });

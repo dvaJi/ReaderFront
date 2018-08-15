@@ -111,49 +111,63 @@
         "id": 2,
         "name": "artist"
       }
+    },
+    "types": {
+      "manga": "Manga",
+      "artbook": "Artbook",
+      "doujinshi": "Doujinshi",
+      "drama_cd": "Drama CD",
+      "filipino": "Filipino",
+      "indonesian": "Indonesian",
+      "manhwa": "Manhwa",
+      "manhua": "Manhua",
+      "novel": "Novel",
+      "oel": "OEL",
+      "thai": "Thai",
+      "vietnamese": "Vietnamese"
     }
   },
   "genres": {
     "demographic": {
       "josei": {
         "id": 1,
-        "name": "josei"
+        "name": "Josei"
       },
       "lolicon": {
         "id": 2,
-        "name": "lolicon"
+        "name": "Lolicon"
       },
       "seinen": {
         "id": 3,
-        "name": "seinen"
+        "name": "Seinen"
       },
       "shotacon": {
         "id": 4,
-        "name": "shotacon"
+        "name": "Shotacon"
       },
       "shoujo": {
         "id": 5,
-        "name": "shoujo"
+        "name": "Shoujo"
       },
       "shoujo_ai": {
         "id": 6,
-        "name": "shoujo_ai"
+        "name": "Shoujo Ai"
       },
       "shounen": {
         "id": 7,
-        "name": "shounen"
+        "name": "Shounen"
       },
       "shounen_ai": {
         "id": 8,
-        "name": "shounen_ai"
+        "name": "Shounen Ai"
       },
       "yaoi": {
         "id": 9,
-        "name": "yaoi"
+        "name": "Yaoi"
       },
       "yuri": {
         "id": 10,
-        "name": "yuri"
+        "name": "Yuri"
       }
     },
     "types": {

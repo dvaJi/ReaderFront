@@ -117,7 +117,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getWork: (lang, stub) => dispatch(fetchWork(lang, stub))
+    getWork: (lang, stub) => dispatch(fetchWork(stub, lang))
   };
 };
 

@@ -6,7 +6,7 @@ import WorkItem from "./WorkItem";
 import WorkItemEmpty from "./WorkItemEmpty";
 import { getWorks } from "../../utils/mocks/getWorksMock";
 
-const works = getWorks();
+const works = getWorks;
 
 it("renders without crashing", () => {
   let filterText = "";
@@ -22,6 +22,7 @@ it("should displays WorkItemEmpty", () => {
     </MemoryRouter>
   );
   expect(wrapper.find(WorkItemEmpty)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should displays WorkItem", () => {
@@ -32,6 +33,7 @@ it("should displays WorkItem", () => {
     </MemoryRouter>
   );
   expect(wrapper.find(WorkItem)).toBeTruthy();
+  wrapper.unmount();
 });
 
 it("should filter works", () => {
@@ -43,6 +45,7 @@ it("should filter works", () => {
   );
   wrapper.setProps({ filterText: "aka" });
   expect(wrapper.find(WorkItem)).toBeTruthy();
+  wrapper.unmount();
 });
 
 

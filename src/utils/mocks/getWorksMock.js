@@ -1,25 +1,24 @@
 import { getPeople } from './getPeopleMock';
 
-export function getWorks() {
-  let works = [];
-  works.push({
+export const getWorks = [
+  {
     id: 1,
     name: 'Aka Akatoshitachi no Monogatari',
     stub: 'aka_akatoshitachi_no_monogatari',
     status: 2,
     demographicId: 7,
     works_descriptions: [],
-    works_genres: generateGenres(3),
+    works_genres: [{ genreId: 5 }, { genreId: 8 }, { genreId: 1 }],
     works_covers: []
-  });
-  works.push({
+  },
+  {
     id: 2,
     name: 'Deathtopia',
     stub: 'deathtopia',
     status: 2,
     demographicId: 3,
     works_descriptions: [],
-    works_genres: generateGenres(2),
+    works_genres: [{ genreId: 3 }, { genreId: 6 }],
     works_covers: [
       {
         id: 1,
@@ -37,39 +36,33 @@ export function getWorks() {
         coverTypeId: 3
       }
     ]
-  });
-  works.push({
+  },
+  {
     id: 3,
     name: 'Infection',
     stub: 'infection',
     status: 1,
     demographicId: 7,
-    works_descriptions: [{ description: 'zombies and ecchi' }],
-    works_genres: generateGenres(1),
+    works_descriptions: [
+      { description: 'Zombis y rikura', language: 1 },
+      { description: 'zombies and ecchi', language: 2 }
+    ],
+    works_genres: [],
     works_covers: []
-  });
-
-  return works;
-}
-
-export function getWork() {
-  return {
-    id: 1,
-    name: 'Aka Akatoshitachi no Monogatari',
-    stub: 'aka_akatoshitachi_no_monogatari',
-    status: 2,
-    demographicId: 7,
-    works_descriptions: [{ description: 'some vampires' }],
-    works_genres: generateGenres(3),
-    people_works: [{ rol: 1, people: getPeople() }],
-    works_covers: []
-  };
-}
-
-function generateGenres(amount = 2) {
-  const genres = [];
-  for (let index = 1; index <= amount; index++) {
-    genres.push({ genreId: index });
   }
-  return genres;
-}
+];
+
+export const getWork = {
+  id: 1,
+  name: 'Aka Akatoshitachi no Monogatari',
+  stub: 'aka_akatoshitachi_no_monogatari',
+  status: 2,
+  demographicId: 7,
+  works_descriptions: [
+    { description: 'some vampires', language: 2 },
+    { description: 'vampiros', language: 1 }
+  ],
+  works_genres: [{ genreId: 1 }, { genreId: 2 }],
+  people_works: [{ rol: 1, people: getPeople() }],
+  works_covers: []
+};

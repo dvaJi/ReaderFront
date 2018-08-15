@@ -7,7 +7,7 @@ import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const works = getWorks();
+const works = getWorks;
 const worksNormalized = works.map(work => normalizeWork(work));
 
 describe('fetchWorks actions', () => {
@@ -159,14 +159,5 @@ describe('fetchWorks actions', () => {
     return store.dispatch(fetchWorks('es')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-  });
-
-  it('throw an Error if language is undefined', () => {
-    expect(() => {
-      const store = mockStore({
-        works: {}
-      });
-      store.dispatch(fetchWorks());
-    }).toThrow();
   });
 });

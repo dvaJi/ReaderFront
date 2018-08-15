@@ -25,4 +25,5 @@ it("renders without crashing", () => {
   input.instance().value = "a";
   input.simulate("change");
   wrapper.update();
+  wrapper.unmount();
 });

@@ -7,7 +7,7 @@ import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const work = getWork();
+const work = getWork;
 
 describe('fetchWork actions', () => {
   beforeEach(function() {
@@ -45,7 +45,7 @@ describe('fetchWork actions', () => {
     });
 
     return store
-      .dispatch(fetchWork('es', 'aka_akatoshitachi_no_monogatari'))
+      .dispatch(fetchWork('aka_akatoshitachi_no_monogatari', 'es'))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
       });
@@ -77,18 +77,9 @@ describe('fetchWork actions', () => {
       }
     });
 
-    return store.dispatch(fetchWork('es', 'boku_no_piko')).then(() => {
+    return store.dispatch(fetchWork('boku_no_piko', 'es')).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-  });
-
-  it('throw an Error if stub is undefined', () => {
-    expect(() => {
-      const store = mockStore({
-        work: {}
-      });
-      store.dispatch(fetchWork());
-    }).toThrow();
   });
 });
 

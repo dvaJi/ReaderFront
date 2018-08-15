@@ -12,7 +12,7 @@ const description = {
   description: '...'
 };
 
-const work = normalizeWork(getWork());
+const work = normalizeWork(getWork);
 
 it('renders without crashing', () => {
   const wrapper = mount(
@@ -23,6 +23,7 @@ it('renders without crashing', () => {
     </Provider>
   );
   expect(wrapper.find(Info).prop('work')).toBe(work);
+  wrapper.unmount();
 });
 
 it('renders without a description', () => {
@@ -34,4 +35,5 @@ it('renders without a description', () => {
     </Provider>
   );
   expect(wrapper.find(Info).prop('work')).toBe(work);
+  wrapper.unmount();
 });

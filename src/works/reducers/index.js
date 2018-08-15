@@ -5,7 +5,8 @@ import {
   worksFilterText,
   worksHasErrored,
   worksIsLoading,
-  latestWorksIsLoading
+  latestWorksIsLoading,
+  aggregates
 } from "./applyWorks";
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   worksFilterText,
   worksHasErrored,
   worksIsLoading,
-  latestWorksIsLoading
+  latestWorksIsLoading,
+  aggregates
 });

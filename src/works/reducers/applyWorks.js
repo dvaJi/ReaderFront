@@ -57,3 +57,13 @@ export function latestWorks(state = [], action) {
       return state;
   }
 }
+
+export function aggregates(state = {}, action) {
+  switch (action.type) {
+    case "WORKS_AGG":
+      return action.workAggregates;
+
+    default:
+      return state;
+  }
+}

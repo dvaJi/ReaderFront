@@ -58,4 +58,5 @@ it('should render without throwing an error', () => {
     .find(Button)
     .first()
     .simulate('click');
+  wrapper.unmount();
 });

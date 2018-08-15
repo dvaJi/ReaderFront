@@ -71,7 +71,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getWorks: lang => dispatch(fetchWorks(lang)),
+    getWorks: lang => dispatch(fetchWorks(lang, 'ASC', 120, 'name')),
     doFilterText: text => dispatch(worksFilterText(text))
   };
 };

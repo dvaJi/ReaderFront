@@ -10,6 +10,7 @@ it("should render without throwing an error", () => {
       <RouteNavItem to="/">Releases</RouteNavItem>
     </MemoryRouter>
   );
+  wrapper.unmount();
 });
 
 it("should render without throwing an error", () => {
@@ -23,4 +24,5 @@ it("should render without throwing an error", () => {
   );
   wrapper.find("a").first().simulate("click");
   expect(wrapper.find("a").first().find(".active")).toBeTruthy();
+  wrapper.unmount();
 });

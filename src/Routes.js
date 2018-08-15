@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 import withTracker from './common/WithTracker';
 import RoutePrivate from './auth/RoutePrivate';
 
@@ -13,6 +13,8 @@ import Login from './user/containers/LoginContainer';
 import Signup from './user/containers/SignupContainer';
 import Activate from './user/containers/ActivateAccountContainer';
 import ACPDashboard from './admin/Dashboard';
+import ACPWorkCreate from './admin/works/CreateOrEdit';
+import ACPWorkManage from './admin/works/List';
 
 export default (
   <Switch>
@@ -42,6 +44,22 @@ export default (
       path="/admincp/dashboard"
       exact
       component={withTracker(ACPDashboard)}
+    />
+    <Redirect exact from='/admincp/work' to='/admincp/work/manage'/>
+    <RoutePrivate
+      path="/admincp/work/manage"
+      exact
+      component={withTracker(ACPWorkManage)}
+    />
+    <RoutePrivate
+      path="/admincp/work/add"
+      exact
+      component={withTracker(ACPWorkCreate)}
+    />
+    <RoutePrivate
+      path="/admincp/work/edit/:stub"
+      exact
+      component={withTracker(ACPWorkCreate)}
     />
   </Switch>
 );

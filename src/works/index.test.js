@@ -15,4 +15,5 @@ it("should render without throwing an error", () => {
       </I18n>
     </Provider>
   );
+  wrapper.unmount();
 });

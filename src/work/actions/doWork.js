@@ -39,14 +39,9 @@ export function randomWorkFetchDataSuccess(work) {
   };
 }
 
-export function fetchWork(lang, stub) {
+export function fetchWork(stub, lang) {
   return dispatch => {
     dispatch(workIsLoading(true));
-
-    if (stub === undefined || stub === null) {
-      dispatch(workHasErrored(true));
-      throw Error('Stub is undefined');
-    }
 
     return axios
       .post(
@@ -54,7 +49,52 @@ export function fetchWork(lang, stub) {
         queryBuilder({
           type: 'query',
           operation: 'work',
-          data: { language: params.global.languages[lang].id, stub },
+          data: { language: lang ? params.global.languages[lang].id : -1, stub },
+          fields: [
+            'id',
+            'name',
+            'stub',
+            'uniqid',
+            'type',
+            'demographicId',
+            'status',
+            'statusReason',
+            'visits',
+            'adult',
+            'createdAt',
+            'chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }',
+            'works_covers { filename, coverTypeId, height, width }',
+            'works_descriptions {description, language}',
+            'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
+            'works_genres { genreId }'
+          ]
+        })
+      )
+      .then(response => {
+        if (response.statusText !== 'OK') {
+          throw Error(response.statusText);
+        }
+
+        return response.data.data.work;
+      })
+      .then(work => normalizeWork(work))
+      .then(work => dispatch(workFetchDataSuccess(work)))
+      .then(() => dispatch(workIsLoading(false)))
+      .catch(() => dispatch(workHasErrored(true)));
+  };
+}
+
+export function fetchWorkById(lang, workId) {
+  return dispatch => {
+    dispatch(workIsLoading(true));
+
+    return axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'workById',
+          data: { language: params.global.languages[lang].id, workId },
           fields: [
             'id',
             'name',
@@ -128,5 +168,57 @@ export function fetchRandomWork(lang) {
       .then(work => dispatch(randomWorkFetchDataSuccess(work)))
       .then(() => dispatch(workRandomIsLoading(false)))
       .catch(error => dispatch(workHasErrored(true)));
+  };
+}
+
+export function createOrUpdate(work) {
+  if (work.id > 0) {
+    return update(work);
+  } else {
+    delete work.id;
+    return create(work);
+  }
+}
+
+export function create(work) {
+  const operation = work.cover ? 'workWithCoverCreate' : 'workCreate';
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: operation,
+        data: work,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function update(work) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'workUpdate',
+        data: work,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function remove(data) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'workRemove',
+        data,
+        fields: ['id']
+      })
+    );
   };
 }

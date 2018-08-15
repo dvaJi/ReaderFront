@@ -11,8 +11,8 @@ import {
 
 const Dashboard = () => (
   <div className="container">
-    <div class="row" style={{ marginTop: '50px' }}>
-      <div class="col-md-6 col-sm-6 col-xl-3">
+    <div className="row" style={{ marginTop: '50px' }}>
+      <div className="col-md-6 col-sm-6 col-xl-3">
         <CounterCard
           color="#02BC77"
           title="Ver listado de works"
@@ -21,7 +21,7 @@ const Dashboard = () => (
           to={'/admincp/work/manage'}
         />
       </div>
-      <div class="col-md-6 col-sm-6 col-xl-3">
+      <div className="col-md-6 col-sm-6 col-xl-3">
         <CounterCard
           color="#28c3d7"
           title="Añadir work"
@@ -30,7 +30,7 @@ const Dashboard = () => (
           to={'/admincp/work/add'}
         />
       </div>
-      <div class="col-md-6 col-sm-6 col-xl-3">
+      <div className="col-md-6 col-sm-6 col-xl-3">
         <CounterCard
           color="#d9534f"
           title="Añadir publicación"
@@ -39,7 +39,7 @@ const Dashboard = () => (
           to={'/admincp/blog/add_post'}
         />
       </div>
-      <div class="col-md-6 col-sm-6 col-xl-3">
+      <div className="col-md-6 col-sm-6 col-xl-3">
         <CounterCard
           color="#FFD950"
           title="Cambiar preferencias"
