@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchChapters, readerSelectChapter } from '../actions/doReader';
+import { getChapterPageUrl } from '../../utils/common';
 import * as config from '../../config';
 import ReaderBar from '../components/ReaderBar';
 import ImagesList from '../components/ImagesList';
@@ -109,7 +110,8 @@ class ReaderContainer extends Component {
     const title = `${chapter.work.name} Capítulo ${chapter.chapter}`;
     return (
       <div className="Read">
-        <MetaTags>
+        <Helmet>
+          <meta charSet="utf-8" />
           <title>{`${title} - ${config.APP_TITLE}`}</title>
           <meta
             name="description"
@@ -119,7 +121,15 @@ class ReaderContainer extends Component {
             property="og:title"
             content={`${title} - ${config.APP_TITLE}`}
           />
-        </MetaTags>
+          <meta
+            property="og:image"
+            content={getChapterPageUrl(
+              chapter.work,
+              chapter,
+              chapter.pages[0].filename
+            )}
+          />
+        </Helmet>
         <ReaderBar
           chapter={chapter}
           chapters={chapters}

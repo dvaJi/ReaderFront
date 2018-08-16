@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { fetchReleases, releasesPage } from "../actions/doReleases";
-import ReleasesList from "../components/ReleasesList";
-import * as config from "../../config";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { fetchReleases, releasesPage } from '../actions/doReleases';
+import ReleasesList from '../components/ReleasesList';
+import * as config from '../../config';
 
 class ReleasesContainer extends Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class ReleasesContainer extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.handleOnScroll);
+    window.addEventListener('scroll', this.handleOnScroll);
     if (this.props.chapters.length === 0) {
       try {
         this.props.loadChapters(this.props.language, this.props.page);
@@ -32,7 +32,7 @@ class ReleasesContainer extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleOnScroll);
+    window.removeEventListener('scroll', this.handleOnScroll);
   }
 
   isScrolledToBottom() {
@@ -48,7 +48,7 @@ class ReleasesContainer extends Component {
 
     var perScroll =
       scrollHeight > 0
-        ? Math.ceil(scrollTop + clientHeight) * 100 / scrollHeight
+        ? (Math.ceil(scrollTop + clientHeight) * 100) / scrollHeight
         : 0;
 
     return perScroll >= 85;
@@ -68,14 +68,25 @@ class ReleasesContainer extends Component {
     let { chapters, isLoading, page } = this.props;
     return (
       <div className="Releases">
-        <MetaTags>
-          <title>{config.APP_TITLE + " - " + this.context.t("Capítulos más recientes")}</title>
-          <meta name="description" content={this.context.t("Capítulos más recientes")} />
+        <Helmet>
+          <title>
+            {config.APP_TITLE +
+              ' - ' +
+              this.context.t('Capítulos más recientes')}
+          </title>
+          <meta
+            name="description"
+            content={this.context.t('Capítulos más recientes')}
+          />
           <meta
             property="og:title"
-            content={config.APP_TITLE + " - " + this.context.t("Capítulos más recientes")}
+            content={
+              config.APP_TITLE +
+              ' - ' +
+              this.context.t('Capítulos más recientes')
+            }
           />
-        </MetaTags>
+        </Helmet>
         <ReleasesList loading={isLoading} releases={chapters} page={page} />
       </div>
     );
@@ -84,7 +95,7 @@ class ReleasesContainer extends Component {
 
 ReleasesContainer.contextTypes = {
   t: PropTypes.func.isRequired
-}
+};
 
 const mapStateToProps = state => {
   return {
@@ -103,4 +114,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReleasesContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReleasesContainer);

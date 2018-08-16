@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchPosts, blogSelectPost, blogPage } from '../actions/doBlog';
 import PostsList from '../components/PostsList';
@@ -76,7 +76,7 @@ class BlogContainer extends Component {
   renderPost() {
     return (
       <div className="Post">
-        <MetaTags>
+        <Helmet>
           <title>{this.props.post.title + ' - ' + config.APP_TITLE}</title>
           <meta
             name="description"
@@ -88,8 +88,11 @@ class BlogContainer extends Component {
             property="og:title"
             content={this.props.post.title + ' - ' + config.APP_TITLE}
           />
-        </MetaTags>
-        <PostView post={this.props.post} onClickBack={this.handleDeselectPost} />
+        </Helmet>
+        <PostView
+          post={this.props.post}
+          onClickBack={this.handleDeselectPost}
+        />
       </div>
     );
   }
@@ -97,11 +100,12 @@ class BlogContainer extends Component {
   renderPostsList() {
     return (
       <div className="Blog">
-        <MetaTags>
+        <Helmet>
+          <meta charSet="utf-8" />
           <title>{config.APP_TITLE + ' - Blog'}</title>
           <meta name="description" content={'Blog de ' + config.APP_TITLE} />
           <meta property="og:title" content={config.APP_TITLE + ' - Blog'} />
-        </MetaTags>
+        </Helmet>
         <PostsList
           isLoading={this.props.isLoading}
           posts={this.props.posts}

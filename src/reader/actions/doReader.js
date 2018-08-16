@@ -48,10 +48,10 @@ export function fetchChapters(lang, stub) {
         queryBuilder({
           type: 'query',
           operation: 'chaptersByWork',
-          data: { language: lang, workStub: stub },
+          data: { language: parseInt(lang, 0), workStub: stub },
           fields: [
             'id',
-            'work {id, stub, name}',
+            'work {id, stub, name, uniqid}',
             'chapter',
             'subchapter',
             'volume',
