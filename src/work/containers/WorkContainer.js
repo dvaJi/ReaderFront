@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchWork } from '../actions/doWork';
 import { withRouter } from 'react-router';
+import { getWorkThumb } from '../../utils/common';
 import * as config from '../../config';
 import params from '../../params.json';
 import Cover from '../components/Cover';
@@ -27,8 +28,9 @@ class WorkContainer extends Component {
   }
 
   renderMetaTags() {
+    const workDir = this.props.work.stub + '_' + this.props.work.uniqid;
     return (
-      <MetaTags>
+      <Helmet>
         <title>{this.props.work.name + ' - ' + config.APP_TITLE}</title>
         <meta
           name="description"
@@ -40,7 +42,12 @@ class WorkContainer extends Component {
           property="og:title"
           content={this.props.work.name + ' - ' + config.APP_TITLE}
         />
-      </MetaTags>
+        <meta property="og:description" content={this.props.work.description} />
+        <meta
+          property="og:image"
+          content={getWorkThumb(workDir, this.props.work.covers)}
+        />
+      </Helmet>
     );
   }
 

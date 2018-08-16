@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MetaTags from 'react-meta-tags';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -101,7 +101,8 @@ class HomeContainer extends Component {
 
   renderMetatags() {
     return (
-      <MetaTags>
+      <Helmet>
+        <meta charSet="utf-8" />
         <title>{config.APP_TITLE + ' - ' + this.context.t('Inicio')}</title>
         <meta
           name="description"
@@ -113,7 +114,7 @@ class HomeContainer extends Component {
             config.APP_TITLE + ' - ' + this.context.t('Capítulos más recientes')
           }
         />
-      </MetaTags>
+      </Helmet>
     );
   }
 

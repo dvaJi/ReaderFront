@@ -1,5 +1,6 @@
 // Common functions
 import params from '../params.json';
+import * as config from "../config";
 
 // Return an object with styles
 export function getStatusTagStyle(statusId) {
@@ -17,6 +18,12 @@ export function getWorkThumb(dir, covers) {
   return covers
     ? `/works/${dir}/${covers.medium_thumb.filename}`
     : '/static/images/default-cover.png';
+}
+
+export function getChapterPageUrl(work, chapter, filename) {
+  return `${config.READER_PATH}works/${work.stub}_${work.uniqid}/${chapter.chapter}-${
+    chapter.subchapter
+  }-${chapter.name}_${chapter.uniqid}/${filename}`;
 }
 
 // Get the post thumbnail url

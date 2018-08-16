@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import MetaTags from "react-meta-tags";
-import { connect } from "react-redux";
-import { fetchWorks, worksFilterText } from "../actions/doWorks";
-import * as config from "../../config";
-import WorksList from "../components/WorksList";
-import FilterCard from "../components/FilterCard";
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { fetchWorks, worksFilterText } from '../actions/doWorks';
+import * as config from '../../config';
+import WorksList from '../components/WorksList';
+import FilterCard from '../components/FilterCard';
 
 class WorksContainer extends Component {
   constructor(props) {
@@ -36,14 +36,14 @@ class WorksContainer extends Component {
   render() {
     return (
       <div className="Works">
-        <MetaTags>
-          <title>{config.APP_TITLE + " - Lista de Works"}</title>
+        <Helmet>
+          <title>{config.APP_TITLE + ' - Lista de Works'}</title>
           <meta name="description" content="Lista de todas nuestras works." />
           <meta
             property="og:title"
-            content={config.APP_TITLE + " - Lista de Works"}
+            content={config.APP_TITLE + ' - Lista de Works'}
           />
-        </MetaTags>
+        </Helmet>
         <FilterCard
           filter={this.props.searchText}
           onFilterTextChange={this.handleFilterTextChange}
@@ -76,4 +76,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorksContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WorksContainer);
