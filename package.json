@@ -34,7 +34,7 @@
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-adapter-react-16": "^1.2.0",
     "history": "^4.7.2",
     "js-cookie": "^2.2.0",
     "moment": "^2.22.2",
