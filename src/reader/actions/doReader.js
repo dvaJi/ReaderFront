@@ -1,4 +1,5 @@
 import axios from 'axios';
+import params from '../../params.json';
 import * as config from '../../config';
 import { queryBuilder } from '../../utils/helpers';
 
@@ -34,10 +35,7 @@ export function fetchChapters(lang, stub) {
   return dispatch => {
     dispatch(readerIsLoading(true));
 
-    if (lang === undefined || lang === null) {
-      dispatch(readerHasErrored(true));
-      throw Error('Lang is undefined');
-    } else if (stub === undefined || stub === null) {
+    if (stub === undefined || stub === null) {
       dispatch(readerHasErrored(true));
       throw Error('Stub is undefined');
     }
@@ -48,7 +46,10 @@ export function fetchChapters(lang, stub) {
         queryBuilder({
           type: 'query',
           operation: 'chaptersByWork',
-          data: { language: parseInt(lang, 0), workStub: stub },
+          data: {
+            language: lang ? params.global.languages[lang].id : -1,
+            workStub: stub
+          },
           fields: [
             'id',
             'work {id, stub, name, uniqid}',
@@ -61,7 +62,8 @@ export function fetchChapters(lang, stub) {
             'stub',
             'uniqid',
             'description',
-            'createdAt'
+            'createdAt',
+            'updatedAt'
           ]
         })
       )
@@ -78,5 +80,50 @@ export function fetchChapters(lang, stub) {
       .then(chapters => dispatch(readerFetchDataSuccess(chapters)))
       .then(() => dispatch(readerIsLoading(false)))
       .catch(err => dispatch(readerHasErrored(true)));
+  };
+}
+
+export function fetchChapter(chapterId) {
+  return dispatch => {
+    if (chapterId === undefined || chapterId === null) {
+      dispatch(readerHasErrored(true));
+      throw Error('chapterId is undefined');
+    }
+
+    return axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'chapterById',
+          data: {
+            id: parseInt(chapterId, 0)
+          },
+          fields: [
+            'id',
+            'work {id, stub, name, uniqid}',
+            'chapter',
+            'subchapter',
+            'volume',
+            'pages {id, filename, height, width, size},',
+            'language',
+            'name',
+            'stub',
+            'uniqid',
+            'description',
+            'thumbnail',
+            'createdAt',
+            'updatedAt'
+          ]
+        })
+      )
+      .then(response => {
+        if (response.statusText !== 'OK') {
+          throw Error(response.statusText);
+        }
+
+        return response.data.data.chapterById;
+      })
+      .then(chapter => dispatch(readerSelectChapter(chapter)));
   };
 }

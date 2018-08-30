@@ -142,6 +142,7 @@ class ReaderContainer extends Component {
           loading={isLoading}
           onChapterChange={this.handleChapterChange}
           pages={chapter.pages}
+          chapter={chapter}
         />
         <Comments
           id={this.state.disqusConfig.id}
@@ -168,7 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.reader.readerIsLoading,
     hasErrored: state.reader.readerHasErrored,
     params: ownProps.match.params,
-    language: state.layout.language
+    language: state.i18nState.lang
   };
 };
 

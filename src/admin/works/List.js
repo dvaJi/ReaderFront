@@ -33,6 +33,7 @@ class List extends PureComponent {
       check: null,
       modal: false,
       page: 0,
+      perPage: 20,
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       )
@@ -41,12 +42,24 @@ class List extends PureComponent {
 
   componentDidMount() {
     this.props.getAggregates();
-    this.props.getWorks(undefined, 'ASC', 5, 'name', this.state.page);
+    this.props.getWorks(
+      undefined,
+      'ASC',
+      this.state.perPage,
+      'name',
+      this.state.page
+    );
   }
 
   handlePagination(page) {
     this.setState({ page: page });
-    this.props.getWorks(undefined, 'ASC', 5, 'name', page * 5);
+    this.props.getWorks(
+      undefined,
+      'ASC',
+      this.state.perPage,
+      'name',
+      page * this.state.perPage
+    );
   }
 
   remove = id => {
@@ -139,7 +152,11 @@ class List extends PureComponent {
                           )}
                         </td>
 
-                        <td>{name}</td>
+                        <td>
+                          <Link to={'/admincp/work/' + id + '/' + stub}>
+                            {name}
+                          </Link>
+                        </td>
 
                         <td>{type}</td>
 
@@ -157,14 +174,14 @@ class List extends PureComponent {
                           ) : (
                             <span>
                               <FontAwesomeIcon
-                                id="noDescWarn"
+                                id={'noDescWarn-' + id}
                                 title="asdasd"
                                 color="#f2a900"
                                 icon={faExclamationCircle}
                               />
                               <UncontrolledTooltip
                                 placement="bottom"
-                                target="noDescWarn"
+                                target={'noDescWarn-' + id}
                               >
                                 {this.context.t('work_no_desc_added')}
                               </UncontrolledTooltip>
@@ -202,20 +219,22 @@ class List extends PureComponent {
           </div>
         </div>
         {this.props.worksAgg &&
-          this.props.worksAgg.count > 5 && (
+          this.props.worksAgg.count > this.state.perPage && (
             <Pagination aria-label="pagination">
-              {Array.from(
-                'pag'.repeat(Math.round(this.props.worksAgg.count / 5))
-              ).map((pg, index) => (
-                <PaginationItem
-                  key={pg + index}
-                  active={this.state.page === index}
-                >
-                  <PaginationLink onClick={e => this.handlePagination(index)}>
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
+              {new Array(
+                Math.ceil(this.props.worksAgg.count / this.state.perPage)
+              )
+                .fill('pag')
+                .map((pg, index) => (
+                  <PaginationItem
+                    key={pg + index}
+                    active={this.state.page === index}
+                  >
+                    <PaginationLink onClick={e => this.handlePagination(index)}>
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
             </Pagination>
           )}
       </Container>

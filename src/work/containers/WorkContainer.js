@@ -54,6 +54,7 @@ class WorkContainer extends Component {
   renderWork() {
     const dir = this.props.work.stub + '_' + this.props.work.uniqid;
     const coversTypes = params.works.cover_type;
+    const language = params.global.languages[this.props.language];
     return (
       <div className="Work">
         {this.renderMetaTags()}
@@ -76,20 +77,21 @@ class WorkContainer extends Component {
           <Info
             work={this.props.work}
             description={this.props.work.works_descriptions.find(
-              e => e.language === this.props.language
+              e => e.language === language.id
             )}
           />
           <div className="ChaptersList col-md-12">
             <h2>{this.context.t('Lista de capítulos')}</h2>
             <ul className="Chapters">
               {this.props.work.chapters
-                .filter(c => c.language === this.props.language)
+                .filter(c => c.language === language.id)
                 .sort((a, b) => b.chapter - a.chapter)
                 .map(chapter => (
                   <Chapter
                     key={chapter.id}
                     work={this.props.work}
                     chapter={chapter}
+                    language={language}
                   />
                 ))}
             </ul>

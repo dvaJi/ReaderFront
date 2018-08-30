@@ -137,8 +137,12 @@ class CreateOrEdit extends Component {
                 desc => desc.language === lang.id
               )
           );
+          console.log(this.props.work.work);
+          let cover = this.props.work.work.cover
+            ? this.props.work.work.small_thumb.filename
+            : null;
           this.setState({
-            work: this.props.work.work,
+            work: { ...this.props.work.work, cover: cover },
             languagesAvailables: langAvailables
           });
         })
@@ -281,7 +285,7 @@ class CreateOrEdit extends Component {
           </Link>
 
           <h4>
-            {this.props.match.params.id === undefined
+            {this.props.match.params.stub === undefined
               ? this.context.t('create')
               : this.context.t('edit')}{' '}
             {this.context.t('Work')}
