@@ -105,7 +105,7 @@ it('should show a message when works list is empty without throwing an error', (
   wrapper.unmount();
 });
 
-it('should call remove when Remove button is clicked without throwing an error', () => {
+it('should call remove() when Remove button is clicked without throwing an error', () => {
   const store = mockStore({
     reader: {
       chapters: chapters,

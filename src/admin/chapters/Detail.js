@@ -171,11 +171,11 @@ class Detail extends Component {
       });
   };
 
-  onUpload(file) {
+  async onUpload(file) {
     if (file.file.size <= 2411724) {
       file.isUploading = true;
       file.hasError = false;
-      this.setState({
+      await this.setState({
         isLoading: true,
         pages: [
           ...this.state.pages.filter(p => p.filename !== file.filename),
@@ -187,9 +187,9 @@ class Detail extends Component {
       data.append('file', file.file);
 
       // Upload image
-      this.props
+      await this.props
         .upload(data)
-        .then(response => {
+        .then(async response => {
           if (response.status === 200) {
             const newPage = {
               chapterId: this.state.chapter.id,
@@ -205,7 +205,7 @@ class Detail extends Component {
             const pageToUpload = Object.assign({}, newPage);
             delete pageToUpload.file;
 
-            this.props
+            await this.props
               .createOrUpdatePage(pageToUpload)
               .then(response => {
                 this.setState({
@@ -269,15 +269,14 @@ class Detail extends Component {
           });
         });
     }
-  };
+
+    return false;
+  }
 
   async uploadSelected() {
-    await this.state.pages
-      .filter(page => !page.uploaded)
-      .forEach(async page => {
-        console.log(page);
-        await this.onUpload(page);
-      });
+    for (const page of this.state.pages) {
+      await this.onUpload(page);
+    }
   }
 
   onDrop(files) {
@@ -298,10 +297,7 @@ class Detail extends Component {
   async removePage(page) {
     const id = page.id;
     if (page.uploaded) {
-      await this.props
-        .removePage({ id })
-        .then(response => {})
-        .catch(error => {});
+      await this.props.removePage({ id });
     }
 
     await this.setState({
@@ -318,14 +314,16 @@ class Detail extends Component {
   }
 
   async removeAllPages() {
-    // TODO: idear forma de que espere a que termine cada uno :()
-    await this.state.pages.forEach(async page => {
-      await this.removePage(page);
+    await this.setState({
+      showModalDelete: false
     });
+
+    for (const page of this.state.pages) {
+      await this.removePage(page);
+    }
 
     this.setState({
       chapter: { ...this.state.chapter, thumbnail: '' },
-      showModalDelete: false,
       pages: []
     });
   }
