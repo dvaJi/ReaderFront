@@ -22,7 +22,7 @@ import {
 } from 'reactstrap';
 
 // App imports
-import { renderIf, slug } from '../../utils/helpers';
+import { renderIf } from '../../utils/helpers';
 import { getChapterPageUrl } from '../../utils/common';
 import {
   createOrUpdatePage,
@@ -41,7 +41,6 @@ class Detail extends Component {
     this.state = {
       isLoading: false,
       error: null,
-      success: null,
       showModalDelete: false,
       chapter: {
         workId: parseInt(this.props.match.params.workId, 0),
@@ -76,10 +75,20 @@ class Detail extends Component {
       this.props.chapter.id !== parseInt(this.props.match.params.chapterId, 0)
     ) {
       this.getChapter(this.props.match.params.chapterId);
+    } else {
+      this.setState({
+        chapter: {
+          ...this.props.chapter,
+          workId: this.props.match.params.workId
+        },
+        pages: this.props.chapter.pages.map(pag => {
+          return { ...pag, uploaded: true };
+        })
+      });
     }
   }
 
-  getChapter = chapterId => {
+  getChapter(chapterId) {
     if (chapterId !== undefined) {
       this.props
         .getChapter(chapterId)
@@ -100,76 +109,7 @@ class Detail extends Component {
           });
         });
     }
-  };
-
-  onChange = event => {
-    let chapter = this.state.chapter;
-    chapter[event.target.name] = isNaN(event.target.value)
-      ? event.target.value
-      : parseInt(event.target.value, 0);
-
-    if (event.target.name === 'name') {
-      chapter.stub = slug(event.target.value);
-    }
-
-    this.setState({
-      chapter
-    });
-  };
-
-  onChangeSelect = event => {
-    let chapter = this.state.chapter;
-    chapter[event.target.name] = isNaN(event.target.value)
-      ? event.target.value
-      : parseInt(event.target.value, 0);
-    this.setState({
-      chapter
-    });
-  };
-
-  onSubmitChapter = event => {
-    event.preventDefault();
-
-    this.setState({
-      isLoading: true
-    });
-
-    const chapter = Object.assign({}, this.state.chapter);
-    delete chapter.pages;
-
-    // Save work
-    this.props
-      .chapterCreateOrUpdate(chapter)
-      .then(response => {
-        this.setState({
-          isLoading: false
-        });
-
-        if (response.data.errors && response.data.errors.length > 0) {
-          this.setState({ error: response.data.errors[0].message });
-        } else {
-          this.setState({ success: this.context.t('chapter_saved') });
-
-          window.setTimeout(() => {
-            this.props.history.push(
-              '/admincp/work/' +
-                this.props.match.params.workId +
-                '/' +
-                this.props.match.params.stub +
-                '/chapter/edit/' +
-                response.data.data.chapterCreate.id
-            );
-          }, 5000);
-        }
-      })
-      .catch(error => {
-        this.setState({ error: this.context.t('unknown_error') });
-
-        this.setState({
-          isLoading: false
-        });
-      });
-  };
+  }
 
   async onUpload(file) {
     if (file.file.size <= 2411724) {
@@ -187,7 +127,7 @@ class Detail extends Component {
       data.append('file', file.file);
 
       // Upload image
-      await this.props
+      this.props
         .upload(data)
         .then(async response => {
           if (response.status === 200) {
@@ -205,7 +145,7 @@ class Detail extends Component {
             const pageToUpload = Object.assign({}, newPage);
             delete pageToUpload.file;
 
-            await this.props
+            this.props
               .createOrUpdatePage(pageToUpload)
               .then(response => {
                 this.setState({
@@ -269,8 +209,6 @@ class Detail extends Component {
           });
         });
     }
-
-    return false;
   }
 
   async uploadSelected() {
@@ -300,10 +238,12 @@ class Detail extends Component {
       await this.props.removePage({ id });
     }
 
+    const newPagesList = [
+      ...this.state.pages.filter(p => p.filename !== page.filename)
+    ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
     await this.setState({
-      pages: [
-        ...this.state.pages.filter(p => p.filename !== page.filename)
-      ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+      pages: newPagesList
     });
   }
 
@@ -328,34 +268,37 @@ class Detail extends Component {
     });
   }
 
-  setDefaultPage(page) {
-    const thumb = {
+  async setDefaultPage(page) {
+    const thumb = await {
       id: parseInt(this.props.match.params.chapterId, 0),
       thumbnail: page.filename
     };
-    this.props
-      .updateDefaultPage(thumb)
-      .then(response => {
-        this.setState({
-          chapter: {
-            ...this.state.chapter,
-            thumbnail: page.filename
-          }
-        });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    await this.props.updateDefaultPage(thumb);
+
+    this.setState({
+      chapter: {
+        ...this.state.chapter,
+        thumbnail: page.filename
+      }
+    });
   }
 
   renderDropzone() {
     return (
       <div>
-        <Button type="button" onClick={e => this.uploadSelected()}>
+        <Button
+          id="upload-all-pages"
+          type="button"
+          onClick={e => this.uploadSelected()}
+        >
           {this.context.t('upload_selected')}
         </Button>
         {'  '}
-        <Button type="button" onClick={this.toggleModalDelete}>
+        <Button
+          id="delete-all-pages"
+          type="button"
+          onClick={this.toggleModalDelete}
+        >
           {this.context.t('delete_all')}
         </Button>
         <Dropzone
@@ -372,36 +315,34 @@ class Detail extends Component {
             {this.context.t('drop_or_browse_files')}
           </p>
         </Dropzone>
-        <aside>
-          <ul>
-            {this.state.pages.map((f, index) => {
-              const filename = f.file !== undefined ? f.file.name : f.filename;
-              const isUploading = f.isUploading ? true : false;
-              const thumb =
-                f.file !== undefined
-                  ? f.file.preview
-                  : getChapterPageUrl(
-                      this.props.chapter.work,
-                      this.props.chapter,
-                      f.filename
-                    );
-              return (
-                <Preview
-                  index={index}
-                  key={thumb}
-                  thumb={thumb}
-                  isUploaded={f.uploaded}
-                  isUploading={isUploading}
-                  isDefaultPage={filename === this.state.chapter.thumbnail}
-                  hasError={f.hasError}
-                  handleUpload={this.onUpload}
-                  handleSelectDefault={this.setDefaultPage}
-                  handleRemovePage={this.removePage}
-                  page={f}
-                />
-              );
-            })}
-          </ul>
+        <aside id="pages-list">
+          {this.state.pages.map((f, index) => {
+            const filename = f.file !== undefined ? f.file.name : f.filename;
+            const isUploading = f.isUploading ? true : false;
+            const thumb =
+              f.file !== undefined
+                ? f.file.preview
+                : getChapterPageUrl(
+                    this.props.chapter.work,
+                    this.props.chapter,
+                    f.filename
+                  );
+            return (
+              <Preview
+                index={index}
+                key={thumb}
+                thumb={thumb}
+                isUploaded={f.uploaded}
+                isUploading={isUploading}
+                isDefaultPage={filename === this.state.chapter.thumbnail}
+                hasError={f.hasError}
+                handleUpload={this.onUpload}
+                handleSelectDefault={this.setDefaultPage}
+                handleRemovePage={this.removePage}
+                page={f}
+              />
+            );
+          })}
         </aside>
       </div>
     );
@@ -411,10 +352,7 @@ class Detail extends Component {
     return (
       <div className="container">
         <div>
-          {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
-          {this.state.success && (
-            <Alert color="success">{this.state.success}</Alert>
-          )}
+          {this.state.error && <Alert id="error-alert" color="danger">{this.state.error}</Alert>}
           <Link
             to={
               '/admincp/work/' +
@@ -501,10 +439,18 @@ class Detail extends Component {
             ¿Está seguro? Se eliminarán todas las páginas de este capítulo
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={e => this.removeAllPages()}>
+            <Button
+              id="confirm-delete-all-pages"
+              color="primary"
+              onClick={e => this.removeAllPages()}
+            >
               Aceptar
             </Button>{' '}
-            <Button color="secondary" onClick={this.toggleModalDelete}>
+            <Button
+              id="cancel-delete-all-pages"
+              color="secondary"
+              onClick={this.toggleModalDelete}
+            >
               Cancelar
             </Button>
           </ModalFooter>
@@ -524,9 +470,10 @@ Detail.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-function CreateOrEditState(state) {
+function CreateOrEditState(state, ownProps) {
   return {
-    chapter: state.reader.chapter
+    chapter: state.reader.chapter,
+    match: state.match || ownProps.match
   };
 }
 

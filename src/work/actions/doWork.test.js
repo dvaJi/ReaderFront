@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import moxios from '@anilanar/moxios';
 import { fetchWork, fetchRandomWork } from './doWork';
 import { getWork } from '../../utils/mocks/getWorksMock';
 import { normalizeWork } from '../../utils/normalizeWork';

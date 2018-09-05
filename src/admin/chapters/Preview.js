@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, UncontrolledTooltip } from 'reactstrap';
+import { Col, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -21,6 +21,7 @@ const RoundedButton = styled.div`
   margin-right: 10px;
   transition: 0.25s ease;
   opacity: 0.8;
+  ${props => (props.isActive ? 'border: 2px solid rgba(255, 255, 255, 0.8);' : '')}
 
   svg {
     vertical-align: middle;
@@ -34,7 +35,7 @@ const RoundedButton = styled.div`
   }
 `;
 
-const CardOverlay = styled(Row)`
+const CardOverlay = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -59,7 +60,7 @@ const CardOverlay = styled(Row)`
       : ''};
 `;
 
-const OverlaySelectDefault = styled(Row)`
+const OverlaySelectDefault = styled.div`
   opacity: ${props => (props.isActive ? '1' : '0')};
   position: absolute;
   top: 0;
@@ -252,7 +253,7 @@ class Preview extends Component {
           {!isDefaultPage &&
             isUploaded &&
             !isUploading && (
-              <OverlaySelectDefault>
+              <OverlaySelectDefault className="row">
                 <RoundedButton
                   id={'select-default-' + index}
                   onClick={e => handleSelectDefault(page)}
@@ -262,8 +263,8 @@ class Preview extends Component {
               </OverlaySelectDefault>
             )}
           {isDefaultPage && (
-            <OverlaySelectDefault isActive={true}>
-              <RoundedButton>
+            <OverlaySelectDefault isActive={true} className="row">
+              <RoundedButton isActive={true}>
                 {isUploading ? (
                   <StyledSpinner icon={faSpinner} size="xs" />
                 ) : (
@@ -272,7 +273,7 @@ class Preview extends Component {
               </RoundedButton>
             </OverlaySelectDefault>
           )}
-          <CardOverlay isuploaded={isUploaded} hasError={hasError}>
+          <CardOverlay className="row" isuploaded={isUploaded} hasError={hasError}>
             <CardOverlayInfo>
               <span className="main">{page.filename}</span>
               <span className="sub">{this.bytesToSize(size)}</span>

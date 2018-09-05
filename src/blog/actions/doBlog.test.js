@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from 'moxios';
+import moxios from '@anilanar/moxios';
 import { fetchPosts } from './doBlog';
 import { getPosts } from '../../utils/mocks/getBlogMock';
 import { normalizePost } from '../../utils/normalizeBlog';
