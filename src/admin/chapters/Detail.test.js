@@ -3,7 +3,6 @@ import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
-import axios from 'axios';
 import moxios from '@anilanar/moxios';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';

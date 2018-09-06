@@ -21,9 +21,8 @@ const RoundedButton = styled.div`
   margin-right: 10px;
   transition: 0.25s ease;
   opacity: 0.8;
-  ${props => (props.isActive ? 'border: 2px solid rgba(255, 255, 255, 0.8);' : '')}
-
-  svg {
+  ${props =>
+    props.isActive ? 'border: 2px solid rgba(255, 255, 255, 0.8);' : ''} svg {
     vertical-align: middle;
     width: 20px;
     font-size: 0.8em;
@@ -214,11 +213,6 @@ const StyledSpinner = styled(FontAwesomeIcon)`
 class Preview extends Component {
   constructor(props) {
     super(props);
-    this.doSelect = this.doSelect.bind(this);
-  }
-
-  doSelect(e) {
-    this.props.onClick(this.props.post);
   }
 
   bytesToSize(bytes, fixed = 0) {
@@ -273,7 +267,11 @@ class Preview extends Component {
               </RoundedButton>
             </OverlaySelectDefault>
           )}
-          <CardOverlay className="row" isuploaded={isUploaded} hasError={hasError}>
+          <CardOverlay
+            className="row"
+            isuploaded={isUploaded}
+            hasError={hasError}
+          >
             <CardOverlayInfo>
               <span className="main">{page.filename}</span>
               <span className="sub">{this.bytesToSize(size)}</span>

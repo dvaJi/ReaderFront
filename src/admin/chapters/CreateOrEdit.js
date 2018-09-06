@@ -42,7 +42,6 @@ class CreateOrEdit extends Component {
         thumbnail: '',
         pages: []
       },
-      pages: [],
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       )
@@ -50,7 +49,12 @@ class CreateOrEdit extends Component {
   }
 
   componentDidMount() {
-    this.getChapter(this.props.match.params.chapterId);
+    if (
+      !this.props.chapter ||
+      this.props.chapter.id !== this.props.match.params.chapterId
+    ) {
+      this.getChapter(this.props.match.params.chapterId);
+    }
   }
 
   getChapter = chapterId => {
@@ -145,70 +149,15 @@ class CreateOrEdit extends Component {
       });
   };
 
-  onUpload = file => {
-    this.setState({ success: this.context.t('uploading_file') });
-
-    this.setState({
-      isLoading: true
-    });
-
-    let data = new FormData();
-    data.append('file', file);
-
-    // Upload image
-    this.props
-      .upload(data)
-      .then(response => {
-        if (response.status === 200) {
-          this.setState({ success: this.context.t('file_uploaded') });
-
-          const newPage = {
-            chapterId: this.state.chapter.id,
-            filename: response.data.file,
-            hidden: false,
-            height: 0,
-            width: 0,
-            size: file.size,
-            mime: file.type
-          };
-
-          this.setState({
-            pages: [...this.state.pages, newPage]
-          });
-        } else {
-          this.setState({ error: this.context.t('try_again') });
-        }
-      })
-      .catch(error => {
-        this.setState({ error: this.context.t('unknown_error') });
-      })
-      .then(() => {
-        this.setState({
-          isLoading: false
-        });
-      });
-  };
-
-  uploadSelected() {
-    this.state.pages.filter(page => !page.uploaded).forEach(page => {
-      this.onUpload(page);
-    });
-  }
-
-  onDrop(files) {
-    this.setState({
-      pages: [
-        ...this.state.pages,
-        ...files.map(f => ({ filename: f.name, file: f, uploaded: false }))
-      ]
-    });
-  }
-
   render() {
     return (
       <div className="container">
         <div>
-          {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+          {this.state.error && (
+            <Alert id="error-alert" color="danger">
+              {this.state.error}
+            </Alert>
+          )}
           <Link
             to={
               '/admincp/work/' +
@@ -242,7 +191,7 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="name">{this.context.t('volume')}</Label>
+              <Label for="volume">{this.context.t('volume')}</Label>
               <Input
                 id="volume"
                 type="text"
@@ -255,7 +204,7 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="name">{this.context.t('chapter')}</Label>
+              <Label for="chapter">{this.context.t('chapter')}</Label>
               <Input
                 id="chapter"
                 type="text"
@@ -268,7 +217,7 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="name">{this.context.t('subchapter')}</Label>
+              <Label for="subchapter">{this.context.t('subchapter')}</Label>
               <Input
                 id="subchapter"
                 type="text"
@@ -281,7 +230,7 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="status">{this.context.t('language')}</Label>
+              <Label for="language">{this.context.t('language')}</Label>
               <Input
                 type="select"
                 name="language"
@@ -331,9 +280,10 @@ CreateOrEdit.contextTypes = {
   t: PropTypes.func.isRequired
 };
 
-function CreateOrEditState(state) {
+function CreateOrEditState(state, ownProps) {
   return {
-    chapter: state.reader.chapter
+    chapter: state.reader.chapter,
+    match: state.match || ownProps.match
   };
 }
 
