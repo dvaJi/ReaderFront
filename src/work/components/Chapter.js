@@ -7,7 +7,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 class Chapter extends PureComponent {
   render() {
     const { work, chapter } = this.props;
-    const dir = `${work.stub}/${chapter.language}/${chapter.volume}/${
+    const dir = `${work.stub}/${this.props.language.name}/${chapter.volume}/${
       chapter.chapter
     }.${chapter.subchapter}`;
     return (

@@ -84,3 +84,119 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
       .catch(err => dispatch(releasesHasErrored(true)));
   };
 }
+
+export function createOrUpdate(chapter) {
+  if (chapter.id > 0) {
+    return update(chapter);
+  } else {
+    delete chapter.id;
+    return create(chapter);
+  }
+}
+
+export function create(chapter) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'chapterCreate',
+        data: chapter,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function update(chapter) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'chapterUpdate',
+        data: chapter,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function remove(data) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'chapterRemove',
+        data,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function createOrUpdatePage(page) {
+  if (page.id > 0) {
+    return updatePage(page);
+  } else {
+    delete page.id;
+    return createPage(page);
+  }
+}
+
+export function createPage(page) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'pageCreate',
+        data: page,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function updatePage(page) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'pageUpdate',
+        data: page,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function removePage(data) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'pageRemove',
+        data,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function updateDefaultPage(thumb) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'chapterThumbUpdate',
+        data: thumb,
+        fields: ['id']
+      })
+    );
+  };
+}

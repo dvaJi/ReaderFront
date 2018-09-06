@@ -35,8 +35,11 @@ it('should render without throwing an error', () => {
   });
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
-  div.setAttribute('id', 'noDescWarn');
+  div.setAttribute('id', 'noDescWarn-1');
   document.body.appendChild(div);
+  const div2 = document.createElement('div');
+  div2.setAttribute('id', 'noDescWarn-2');
+  document.body.appendChild(div2);
 
   const wrapper = mount(
     <Provider store={store}>
@@ -125,7 +128,7 @@ it('should change pagination without throwing an error', () => {
     works: {
       works: works,
       aggregates: {
-        count: 15
+        count: 25
       },
       worksIsLoading: false
     },
@@ -137,8 +140,11 @@ it('should change pagination without throwing an error', () => {
   });
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
-  div.setAttribute('id', 'noDescWarn');
+  div.setAttribute('id', 'noDescWarn-1');
   document.body.appendChild(div);
+  const div2 = document.createElement('div');
+  div2.setAttribute('id', 'noDescWarn-2');
+  document.body.appendChild(div2);
 
   const wrapper = mount(
     <Provider store={store}>
@@ -176,8 +182,11 @@ it('should call removeWork when Remove button is clicked without throwing an err
   });
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
-  div.setAttribute('id', 'noDescWarn');
+  div.setAttribute('id', 'noDescWarn-1');
   document.body.appendChild(div);
+  const div2 = document.createElement('div');
+  div2.setAttribute('id', 'noDescWarn-2');
+  document.body.appendChild(div2);
 
   const wrapper = mount(
     <Provider store={store}>

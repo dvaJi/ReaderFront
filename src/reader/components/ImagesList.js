@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import Lazyload from "react-lazyload";
+import {getChapterPageUrl} from "../../utils/common"
 
 const ImageList = styled.div`
   text-align: center;
@@ -16,6 +17,7 @@ const Image = styled.img`
 export default class ImagesList extends PureComponent {
   render() {
     let isLoading = this.props.loading;
+    let chapter = this.props.chapter;
     let pages = this.props.pages;
     let rows = [];
 
@@ -35,7 +37,7 @@ export default class ImagesList extends PureComponent {
           offset={page.height / 2}
         >
           <Image
-            src={page.thumb_url}
+            src={getChapterPageUrl(chapter.work, chapter, page.filename)}
             alt={page.filename}
             title={page.filename}
           />

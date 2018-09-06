@@ -15,6 +15,9 @@ import Activate from './user/containers/ActivateAccountContainer';
 import ACPDashboard from './admin/Dashboard';
 import ACPWorkCreate from './admin/works/CreateOrEdit';
 import ACPWorkManage from './admin/works/List';
+import ACPWorkDetail from './admin/works/Detail';
+import ACPChapterCreate from './admin/chapters/CreateOrEdit';
+import ACPChapterDetail from './admin/chapters/Detail';
 
 export default (
   <Switch>
@@ -60,6 +63,26 @@ export default (
       path="/admincp/work/edit/:stub"
       exact
       component={withTracker(ACPWorkCreate)}
+    />
+    <RoutePrivate
+      path="/admincp/work/:workId/:stub"
+      exact
+      component={withTracker(ACPWorkDetail)}
+    />
+    <RoutePrivate
+      path="/admincp/work/:workId/:stub/chapter/add"
+      exact
+      component={withTracker(ACPChapterCreate)}
+    />
+    <RoutePrivate
+      path="/admincp/work/:workId/:stub/chapter/edit/:chapterId"
+      exact
+      component={withTracker(ACPChapterCreate)}
+    />
+    <RoutePrivate
+      path="/admincp/work/:workId/:stub/chapter/:chapterId"
+      exact
+      component={withTracker(ACPChapterDetail)}
     />
   </Switch>
 );
