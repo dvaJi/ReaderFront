@@ -211,10 +211,6 @@ const StyledSpinner = styled(FontAwesomeIcon)`
 `;
 
 class Preview extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   bytesToSize(bytes, fixed = 0) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === undefined || bytes === 0) return 0;
