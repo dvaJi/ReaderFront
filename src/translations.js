@@ -48,6 +48,8 @@ export const translations = {
     "tragedy": "Tragédia",
     "news": "Noticias",
     "chapter": "Capítulo",
+    "subchapter": "Subcapítulo",
+    "volume": "Tomo",
     "tutorials": "Tutoriales",
     "other": "Otro",
     "publish": "Publicar",
@@ -78,6 +80,7 @@ export const translations = {
     "go_back": "Volver atras",
     "remove": "Quitar",
     "loading": "Cargando",
+    "thumbnail": "Miniatura",
     "work_no_desc_added": "Este work no se mostrará, por favor añada una descripción",
     "confirm_delete_work": "¿Estás seguro de que quieres eliminar este work?",
     "error_fetching_work": "Hubo un error al obtener el work. Inténtelo nuevamente.",
@@ -85,7 +88,16 @@ export const translations = {
     "try_again": "Intentelo nuevamente por favor.",
     "unknown_error": "Hubo un error. Intentelo nuevamente por favor.",
     "work_saved": "Work guardado exitosamente.",
-    "uploading_file": "Subiendo archivo, espere..."
+    "uploading_file": "Subiendo archivo, espere...",
+    "upload_selected": "Subir seleccionados",
+    "notShowAtStart": "No mostrar en el inicio (Inicio y Releases)",
+    "drop_or_browse_files": "Deja las imágenes aqui o haz click para buscarlas",
+    "manage_chapter": "Administrar capítulo",
+    "delete_all": "Eliminar todo",
+    "delete_page": "Eliminar página",
+    "upload_page": "Subir página",
+    "error_size_limit": "Error: Este archivo excede el tamaño máximo de subida",
+    "select_page_as_default": "Seleccionar esta página como por defecto"
   },
   en: {
     "es_full": "Spanish",
@@ -136,6 +148,8 @@ export const translations = {
     "tragedy": "Tragedy",
     "news": "News",
     "chapter": "Chapter",
+    "subchapter": "Subchapter",
+    "volume": "Volume",
     "tutorials": "Turorials",
     "other": "Others",
     "publish": "Publish",
@@ -166,6 +180,7 @@ export const translations = {
     "go_back": "Go back",
     "remove": "Remove",
     "loading": "Loading",
+    "thumbnail": "Thumbnail",
     "work_no_desc_added": "This work will not be displayed, please add a description",
     "confirm_delete_work": "Are you sure you want to delete this work?",
     "error_fetching_work": "There was some error fetching work. Please try again.",
@@ -173,6 +188,15 @@ export const translations = {
     "try_again": "Please try again.",
     "unknown_error": "There was some error. Please try again.",
     "work_saved": "Work saved successfully.",
-    "uploading_file": "Uploading file, please wait..."
+    "uploading_file": "Uploading file, please wait...",
+    "upload_selected": "Upload selected",
+    "notShowAtStart": "Not show at start (Home and Releases)",
+    "drop_or_browse_files": "Drop or Browse images",
+    "manage_chapter": "Manage chapter",
+    "delete_all": "Delete all",
+    "delete_page": "Delete page",
+    "upload_page": "Upload page",
+    "error_size_limit": "Error: This file exceeds the maximum upload size",
+    "select_page_as_default": "Select page as default"
   }
 };

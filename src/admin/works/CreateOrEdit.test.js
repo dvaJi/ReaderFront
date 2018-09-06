@@ -118,7 +118,7 @@ it('should render without throwing an error', async () => {
   wrapper.unmount();
 });
 
-it('should render without throwing an error', async () => {
+it('should add a language without throwing an error', async () => {
   const store = mockStore({
     work: {
       work: work

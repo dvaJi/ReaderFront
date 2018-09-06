@@ -116,6 +116,22 @@ class Header extends Component {
       >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
+        <Nav className="ml-auto" navbar>
+          <LangNavItem
+            cookielang={this.props.language}
+            language="es"
+            onClick={e => this.handleChangeLanguage('es')}
+          >
+            ES
+          </LangNavItem>
+          <LangNavItem
+            cookielang={this.props.language}
+            language="en"
+            onClick={e => this.handleChangeLanguage('en')}
+          >
+            EN
+          </LangNavItem>
+        </Nav>
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <RouteNavItem to="/admincp/dashboard" exact>
