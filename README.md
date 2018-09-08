@@ -1,4 +1,6 @@
 # ReaderFront Front End
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FdvaJi%2FReaderFront.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FdvaJi%2FReaderFront?ref=badge_shield)
+
 
 #### A comic reader meant for users to enjoy reading
 - [**API** built with Node, GraphQL, Express, Sequelize (MySQL) and JWT Auth](https://github.com/dvaJi/ReaderFront-API)
@@ -49,3 +51,5 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 ## License
 
 MIT
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FdvaJi%2FReaderFront.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FdvaJi%2FReaderFront?ref=badge_large)
