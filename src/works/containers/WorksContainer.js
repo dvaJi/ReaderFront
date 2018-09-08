@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { fetchWorks, worksFilterText } from '../actions/doWorks';
 import * as config from '../../config';
 import WorksList from '../components/WorksList';
@@ -33,17 +34,44 @@ class WorksContainer extends Component {
     }
   }
 
+  renderMetaTags() {
+    const title = config.APP_TITLE;
+    return (
+      <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+        </Helmet>
+        <FormattedMessage
+          id="works.title"
+          defaultMessage="{title} - Projects list"
+          values={{ title: title }}
+        >
+          {title => (
+            <Helmet>
+              <title>{title}</title>
+              <meta property="og:title" content={title} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+        <FormattedMessage
+          id="works.desc"
+          defaultMessage="All {title} Projects"
+          values={{ title: title }}
+        >
+          {desc => (
+            <Helmet>
+              <meta name="description" content={desc} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="Works">
-        <Helmet>
-          <title>{config.APP_TITLE + ' - Lista de Works'}</title>
-          <meta name="description" content="Lista de todas nuestras works." />
-          <meta
-            property="og:title"
-            content={config.APP_TITLE + ' - Lista de Works'}
-          />
-        </Helmet>
+        {this.renderMetaTags()}
         <FilterCard
           filter={this.props.searchText}
           onFilterTextChange={this.handleFilterTextChange}

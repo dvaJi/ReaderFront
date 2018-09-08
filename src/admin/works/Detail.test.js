@@ -1,14 +1,9 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
+import moxios from '@anilanar/moxios';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
-import {
-  PaginationItem,
-  PaginationLink,
-  Button,
-  ButtonGroup
-} from 'reactstrap';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { Button, ButtonGroup } from 'reactstrap';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import { getReleases } from '../../utils/mocks/getReleasesMock';
@@ -24,6 +19,16 @@ const params = {
   }
 };
 
+beforeEach(function() {
+  moxios.install();
+});
+
+afterEach(function() {
+  moxios.uninstall();
+});
+
+// TODO: Improve this test with moxios
+
 it('should render without throwing an error', () => {
   const store = mockStore({
     reader: {
@@ -37,13 +42,11 @@ it('should render without throwing an error', () => {
     }
   });
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -64,13 +67,11 @@ it('should render when is loading without throwing an error', () => {
     }
   });
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -91,13 +92,11 @@ it('should show a message when works list is empty without throwing an error', (
     }
   });
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -118,13 +117,11 @@ it('should call remove() when Remove button is clicked without throwing an error
     }
   });
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 

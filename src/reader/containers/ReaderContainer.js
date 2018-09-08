@@ -169,7 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     isLoading: state.reader.readerIsLoading,
     hasErrored: state.reader.readerHasErrored,
     params: ownProps.match.params,
-    language: state.i18nState.lang
+    language: state.layout.language
   };
 };
 

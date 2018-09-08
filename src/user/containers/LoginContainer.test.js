@@ -1,10 +1,9 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
-import PropTypes from 'prop-types';
+import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import moxios from '@anilanar/moxios';
 import LoginContainer from './LoginContainer';
 import { Button, Form } from 'reactstrap';
 import { MemoryRouter } from 'react-router-dom';
@@ -12,11 +11,21 @@ import { MemoryRouter } from 'react-router-dom';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
+beforeEach(function() {
+  moxios.install();
+});
+
+afterEach(function() {
+  moxios.uninstall();
+});
+
+// TODO: Improve this test with moxios
+
 it('should render without throwing an error', () => {
   const store = mockStore({
     user: {}
   });
-  const wrapper = shallow(<LoginContainer store={store} />);
+  const wrapper = shallowWithIntl(<LoginContainer store={store} />);
 
   expect(wrapper).toBeTruthy();
 });
@@ -29,23 +38,19 @@ it('should render without throwing an error', () => {
         pathname: 'LUL'
       }
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <LoginContainer
-            store={store}
-            router={{ location: { pathname: 'AS' } }}
-            user={{ isLoading: false, error: null }}
-          />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <LoginContainer
+          store={store}
+          router={{ location: { pathname: 'AS' } }}
+          user={{ isLoading: false, error: null }}
+        />
+      </MemoryRouter>
     </Provider>
   );
 

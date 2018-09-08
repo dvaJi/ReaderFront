@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Col, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -230,7 +230,8 @@ class Preview extends Component {
       page,
       handleRemovePage,
       handleSelectDefault,
-      handleUpload
+      handleUpload,
+      intl
     } = this.props;
     const size = page.file !== undefined ? page.file.size : page.size;
     return (
@@ -274,7 +275,10 @@ class Preview extends Component {
             </CardOverlayInfo>
             <CardOverlayStatus>
               <RoundedButton
-                title={this.context.t('delete_page')}
+                title={intl.formatMessage({
+                  id: 'delete_page',
+                  defaultMessage: 'Delete page'
+                })}
                 onClick={e => handleRemovePage(page)}
               >
                 <FontAwesomeIcon icon={faTimes} size="xs" />
@@ -289,7 +293,10 @@ class Preview extends Component {
                 !isUploading &&
                 size <= 2411724 && (
                   <RoundedButton
-                    title={this.context.t('upload_page')}
+                    title={intl.formatMessage({
+                      id: 'upload_page',
+                      defaultMessage: 'Upload page'
+                    })}
                     onClick={e => handleUpload(page)}
                   >
                     <FontAwesomeIcon icon={faFileUpload} size="xs" />
@@ -297,7 +304,14 @@ class Preview extends Component {
                 )}
             </CardOverlayStatus>
             <CardOverlayMessage>
-              {size > 2411724 ? this.context.t('error_size_limit') : ''}
+              {size > 2411724 ? (
+                <FormattedMessage
+                  id="error_size_limit"
+                  defaultMessage="Error: This file exceeds the maximum upload size"
+                />
+              ) : (
+                ''
+              )}
             </CardOverlayMessage>
           </CardOverlay>
         </CardHero>
@@ -308,7 +322,10 @@ class Preview extends Component {
               placement="bottom"
               target={'select-default-' + index}
             >
-              {this.context.t('select_page_as_default')}
+              <FormattedMessage
+                id="select_page_as_default"
+                defaultMessage="Select page as default"
+              />
             </UncontrolledTooltip>
           )}
       </Card>
@@ -316,8 +333,4 @@ class Preview extends Component {
   }
 }
 
-Preview.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default Preview;
+export default injectIntl(Preview);

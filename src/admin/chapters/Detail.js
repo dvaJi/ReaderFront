@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -105,7 +105,11 @@ class Detail extends Component {
         })
         .catch(error => {
           this.setState({
-            error: this.context.t('error_fetching_chapter')
+            error: this.props.intl.formatMessage({
+              id: 'error_fetching_chapter',
+              defaultMessage:
+                'There was some error fetching the chapter. Please try again.'
+            })
           });
         });
     }
@@ -175,7 +179,10 @@ class Detail extends Component {
                 file.isUploading = false;
                 file.hasError = true;
                 this.setState({
-                  error: this.context.t('unknown_error'),
+                  error: this.props.intl.formatMessage({
+                    id: 'unknown_error',
+                    defaultMessage: 'There was some error. Please try again.'
+                  }),
                   isLoading: false,
                   pages: [
                     ...this.state.pages.filter(
@@ -189,7 +196,10 @@ class Detail extends Component {
             file.isUploading = false;
             file.hasError = true;
             this.setState({
-              error: this.context.t('try_again'),
+              error: this.props.intl.formatMessage({
+                id: 'try_again',
+                defaultMessage: 'Please try again.'
+              }),
               pages: [
                 ...this.state.pages.filter(p => p.filename !== file.filename),
                 file
@@ -201,7 +211,10 @@ class Detail extends Component {
           file.isUploading = false;
           file.hasError = true;
           this.setState({
-            error: this.context.t('unknown_error'),
+            error: this.props.intl.formatMessage({
+              id: 'unknown_error',
+              defaultMessage: 'There was some error. Please try again.'
+            }),
             pages: [
               ...this.state.pages.filter(p => p.filename !== file.filename),
               file
@@ -291,7 +304,10 @@ class Detail extends Component {
           type="button"
           onClick={e => this.uploadSelected()}
         >
-          {this.context.t('upload_selected')}
+          <FormattedMessage
+            id="upload_selected"
+            defaultMessage="Upload selected"
+          />
         </Button>
         {'  '}
         <Button
@@ -299,7 +315,7 @@ class Detail extends Component {
           type="button"
           onClick={this.toggleModalDelete}
         >
-          {this.context.t('delete_all')}
+          <FormattedMessage id="delete_all" defaultMessage="Delete all" />
         </Button>
         <Dropzone
           accept="image/jpeg, image/png"
@@ -312,7 +328,10 @@ class Detail extends Component {
           }}
         >
           <p style={{ paddingTop: '40px' }}>
-            {this.context.t('drop_or_browse_files')}
+            <FormattedMessage
+              id="drop_or_browse_files"
+              defaultMessage="Drop or Browse images"
+            />
           </p>
         </Dropzone>
         <aside id="pages-list">
@@ -349,10 +368,17 @@ class Detail extends Component {
   }
 
   render() {
+    const langName = this.state.languages.find(
+      l => l.id === this.state.chapter.language
+    ).name;
     return (
       <div className="container">
         <div>
-          {this.state.error && <Alert id="error-alert" color="danger">{this.state.error}</Alert>}
+          {this.state.error && (
+            <Alert id="error-alert" color="danger">
+              {this.state.error}
+            </Alert>
+          )}
           <Link
             to={
               '/admincp/work/' +
@@ -361,23 +387,30 @@ class Detail extends Component {
               this.props.match.params.stub
             }
           >
-            <Button>{this.context.t('go_back')}</Button>
+            <Button>
+              <FormattedMessage id="go_back" defaultMessage="Go back" />
+            </Button>
           </Link>
 
-          <h4>{this.context.t('manage_chapter')}</h4>
+          <h4>
+            <FormattedMessage
+              id="manage_chapter"
+              defaultMessage="Manage chapter"
+            />
+          </h4>
 
           <Card>
             <CardBody>
               <CardTitle>
-                {this.context.t('volume')} {this.state.chapter.volume}{' '}
-                {this.context.t('chapter')} {this.state.chapter.chapter}.
-                {this.state.chapter.subchapter}
+                <FormattedMessage id="volume" defaultMessage="Volume" />{' '}
+                {this.state.chapter.volume}{' '}
+                <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
+                {this.state.chapter.chapter}.{this.state.chapter.subchapter}
                 <span className="float-right">
-                  {this.context.t(
-                    this.state.languages.find(
-                      l => l.id === this.state.chapter.language
-                    ).name + '_full'
-                  )}
+                  <FormattedMessage
+                    id={langName + '_full'}
+                    defaultMessage={langName}
+                  />
                 </span>
               </CardTitle>
               <CardSubtitle>{this.state.chapter.name}</CardSubtitle>
@@ -393,21 +426,30 @@ class Detail extends Component {
                       type="checkbox"
                       id="hidden"
                       disabled
-                      label={this.context.t('hidden')}
+                      label={this.props.intl.formatMessage({
+                        id: 'hidden',
+                        defaultMessage: 'Hidden'
+                      })}
                       value={this.state.chapter.hidden}
                     />
                     <CustomInput
                       type="checkbox"
                       id="notShowAtStart"
                       disabled
-                      label={this.context.t('notShowAtStart')}
+                      label={this.props.intl.formatMessage({
+                        id: 'not_show_at_start',
+                        defaultMessage: 'Not show at start (Home and Releases)'
+                      })}
                       value={this.state.chapter.notShowAtStart}
                     />
                   </FormGroup>
                 </Col>
                 <Col>
                   <h6 style={{ fontWeight: '100', textAlign: 'right' }}>
-                    {this.context.t('thumbnail')}
+                    <FormattedMessage
+                      id="thumbnail"
+                      defaultMessage="Thumbnail"
+                    />
                   </h6>
                   <div style={{ textAlign: 'right' }}>
                     {this.state.chapter.work ? (
@@ -434,9 +476,14 @@ class Detail extends Component {
           toggle={this.toggleModalDelete}
           backdrop={'static'}
         >
-          <ModalHeader toggle={this.showModalDelete}>Confirmación</ModalHeader>
+          <ModalHeader toggle={this.showModalDelete}>
+            <FormattedMessage id="confirm_title" defaultMessage="Confirm" />
+          </ModalHeader>
           <ModalBody>
-            ¿Está seguro? Se eliminarán todas las páginas de este capítulo
+            <FormattedMessage
+              id="confirm_delete_pages"
+              defaultMessage="Are you sure? All pages in this chapter will be deleted."
+            />
           </ModalBody>
           <ModalFooter>
             <Button
@@ -444,14 +491,14 @@ class Detail extends Component {
               color="primary"
               onClick={e => this.removeAllPages()}
             >
-              Aceptar
+              <FormattedMessage id="agree" defaultMessage="Agree" />
             </Button>{' '}
             <Button
               id="cancel-delete-all-pages"
               color="secondary"
               onClick={this.toggleModalDelete}
             >
-              Cancelar
+              <FormattedMessage id="cancel" defaultMessage="Cancel" />
             </Button>
           </ModalFooter>
         </Modal>
@@ -466,10 +513,6 @@ class Detail extends Component {
   }
 }
 
-Detail.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 function CreateOrEditState(state, ownProps) {
   return {
     chapter: state.reader.chapter,
@@ -477,15 +520,17 @@ function CreateOrEditState(state, ownProps) {
   };
 }
 
-export default withRouter(
-  connect(
-    CreateOrEditState,
-    {
-      createOrUpdatePage,
-      updateDefaultPage,
-      removePage,
-      getChapter,
-      upload
-    }
-  )(Detail)
+export default injectIntl(
+  withRouter(
+    connect(
+      CreateOrEditState,
+      {
+        createOrUpdatePage,
+        updateDefaultPage,
+        removePage,
+        getChapter,
+        upload
+      }
+    )(Detail)
+  )
 );

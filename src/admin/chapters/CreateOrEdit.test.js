@@ -1,14 +1,12 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
 import { Form } from 'reactstrap';
+import { mountWithIntl } from 'enzyme-react-intl';
 import moxios from '@anilanar/moxios';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import { getReleases } from '../../utils/mocks/getReleasesMock';
-import ErrorBoundary from '../../utils/ErrorBoundary';
 import CreateOrEdit from './CreateOrEdit';
 
 const middlewares = [thunk];
@@ -53,13 +51,11 @@ describe('Create or Edit Chapter tests', () => {
         match: paramsWChapter
       });
 
-      const wrapper = await mount(
+      const wrapper = await mountWithIntl(
         <Provider store={store}>
-          <I18n store={store} translations={{}}>
-            <MemoryRouter>
-              <CreateOrEdit store={store} match={paramsWChapter} />
-            </MemoryRouter>
-          </I18n>
+          <MemoryRouter>
+            <CreateOrEdit store={store} match={paramsWChapter} />
+          </MemoryRouter>
         </Provider>
       );
 
@@ -91,13 +87,11 @@ describe('Create or Edit Chapter tests', () => {
         match: paramsWChapter
       });
 
-      const wrapper = await mount(
+      const wrapper = await mountWithIntl(
         <Provider store={store}>
-          <I18n store={store} translations={{}}>
-            <MemoryRouter>
-              <CreateOrEdit store={store} match={paramsWChapter} />
-            </MemoryRouter>
-          </I18n>
+          <MemoryRouter>
+            <CreateOrEdit store={store} match={paramsWChapter} />
+          </MemoryRouter>
         </Provider>
       );
 
@@ -131,13 +125,11 @@ describe('Create or Edit Chapter tests', () => {
         match: params
       });
 
-      const wrapper = await mount(
+      const wrapper = await mountWithIntl(
         <Provider store={store}>
-          <I18n store={store} translations={{}}>
-            <MemoryRouter>
-              <CreateOrEdit store={store} match={params} />
-            </MemoryRouter>
-          </I18n>
+          <MemoryRouter>
+            <CreateOrEdit store={store} match={params} />
+          </MemoryRouter>
         </Provider>
       );
 

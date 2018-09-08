@@ -1,45 +1,51 @@
 import React from 'react';
-import I18n from 'redux-i18n';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { getWork } from '../../../utils/mocks/getWorksMock';
+import { normalizeWork } from '../../../utils/normalizeWork';
 import RecommendedWork from './RecommendedWork';
-import { translations } from '../../../translations';
-import store from '../../../store';
+
+const workNormalized = normalizeWork(getWork);
 
 it('renders while loading without crashing', () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <MemoryRouter>
-            <RecommendedWork title={'Test 1'} work={{}} description={''} isLoading={true} />
-        </MemoryRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <RecommendedWork
+      title={'Test 1'}
+      work={null}
+      description={''}
+      isLoading={true}
+    />
   );
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it('renders without crashing', () => {
-  const work = generateWork();
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <MemoryRouter>
-          <RecommendedWork title={'Test 2'} work={work} description={'Desc'} isLoading={false} />
-        </MemoryRouter>
-      </I18n>
-    </Provider>
+it('renders the work', () => {
+  const wrapper = mountWithIntl(
+    <MemoryRouter>
+      <RecommendedWork
+        title={'Test 2'}
+        work={workNormalized}
+        description={'Desc'}
+        isLoading={false}
+      />
+    </MemoryRouter>
   );
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-function generateWork() {
-  return {
-    id: 1,
-    name: 'Aka Akatoshitachi no Monogatari',
-    stub: 'aka_akatoshitachi_no_monogatari'
-  };
-}
+it('renders the work without cover', () => {
+  const wrapper = mountWithIntl(
+    <MemoryRouter>
+      <RecommendedWork
+        title={'Test 2'}
+        work={getWork}
+        description={'Desc'}
+        isLoading={false}
+      />
+    </MemoryRouter>
+  );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
+});

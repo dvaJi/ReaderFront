@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { fetchWork } from '../actions/doWork';
@@ -28,26 +28,32 @@ class WorkContainer extends Component {
   }
 
   renderMetaTags() {
-    const workDir = this.props.work.stub + '_' + this.props.work.uniqid;
+    const title = config.APP_TITLE;
+    const { work } = this.props;
+    const workDir = work.stub + '_' + work.uniqid;
     return (
-      <Helmet>
-        <title>{this.props.work.name + ' - ' + config.APP_TITLE}</title>
-        <meta
-          name="description"
-          content={
-            'Todos los capítulos y más recientes de ' + this.props.work.name
-          }
-        />
-        <meta
-          property="og:title"
-          content={this.props.work.name + ' - ' + config.APP_TITLE}
-        />
-        <meta property="og:description" content={this.props.work.description} />
-        <meta
-          property="og:image"
-          content={getWorkThumb(workDir, this.props.work.covers)}
-        />
-      </Helmet>
+      <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{work.name + ' - ' + title}</title>
+          <meta property="og:title" content={work.name + ' - ' + title} />
+          <meta
+            property="og:image"
+            content={getWorkThumb(workDir, this.props.work.covers)}
+          />
+        </Helmet>
+        <FormattedMessage
+          id="work.desc"
+          defaultMessage="All the latest and most recent chapters of {workName}"
+          values={{ workName: work.name }}
+        >
+          {desc => (
+            <Helmet>
+              <meta name="description" content={desc} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+      </div>
     );
   }
 
@@ -81,7 +87,7 @@ class WorkContainer extends Component {
             )}
           />
           <div className="ChaptersList col-md-12">
-            <h2>{this.context.t('Lista de capítulos')}</h2>
+            <h2><FormattedMessage id="chapters_list" defaultMessage="Chapters" /></h2>
             <ul className="Chapters">
               {this.props.work.chapters
                 .filter(c => c.language === language.id)
@@ -109,10 +115,6 @@ class WorkContainer extends Component {
     }
   }
 }
-
-WorkContainer.contextTypes = {
-  t: PropTypes.func.isRequired
-};
 
 const mapStateToProps = (state, ownProps) => {
   return {

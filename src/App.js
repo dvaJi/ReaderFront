@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
+import { IntlProvider } from 'react-intl-redux';
 import store, { history } from './store';
-import I18n from 'redux-i18n';
+import { addLocaleData } from 'react-intl';
+import { updateIntl } from 'react-intl-redux';
 import ReactGA from 'react-ga';
+
 import * as config from './config';
 import Routes from './Routes';
 import Header from './layout/header';
-import { translations } from './translations';
 import {
   setUser,
   loginSetUserLocalStorageAndCookie
 } from './user/actions/doUser';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import en from 'react-intl/locale-data/en';
+import es from 'react-intl/locale-data/es';
+import translations from './i18n/locales';
+
+addLocaleData([...en, ...es]);
+
+// Language
+const language = window.localStorage.getItem('rf_language') || 'en';
+store.dispatch(
+  updateIntl({
+    locale: language,
+    messages: translations[language]
+  })
+);
 
 // User Authentication
 const token = window.localStorage.getItem('token');
@@ -28,10 +44,6 @@ if (token && token !== 'undefined' && token !== '') {
 }
 
 class App extends Component {
-  defaultLanguage = () => {
-    return localStorage.getItem('rf_language') || 'en';
-  };
-
   render() {
     ReactGA.initialize(config.GA_ID, {
       debug: process.env.NODE_ENV === 'development'
@@ -40,14 +52,14 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <I18n translations={translations} initialLang={this.defaultLanguage()}>
+        <IntlProvider store={store}>
           <ConnectedRouter history={history}>
             <div className="App">
               <Header />
               {Routes}
             </div>
           </ConnectedRouter>
-        </I18n>
+        </IntlProvider>
       </Provider>
     );
   }

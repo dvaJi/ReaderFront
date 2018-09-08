@@ -1,8 +1,8 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
+import moxios from '@anilanar/moxios';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import {
   PaginationItem,
   PaginationLink,
@@ -18,6 +18,16 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const works = getWorks;
 
+beforeEach(function() {
+  moxios.install();
+});
+
+afterEach(function() {
+  moxios.uninstall();
+});
+
+// TODO: Improve this test with moxios
+
 it('should render without throwing an error', () => {
   const store = mockStore({
     works: {
@@ -27,10 +37,8 @@ it('should render without throwing an error', () => {
       },
       worksIsLoading: false
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
   // Append a div to test our UncontrolledTooltip
@@ -41,13 +49,11 @@ it('should render without throwing an error', () => {
   div2.setAttribute('id', 'noDescWarn-2');
   document.body.appendChild(div2);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <List store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <List store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -64,10 +70,8 @@ it('should render when is loading without throwing an error', () => {
       },
       worksIsLoading: true
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
   // Append a div to test our UncontrolledTooltip
@@ -75,13 +79,11 @@ it('should render when is loading without throwing an error', () => {
   div.setAttribute('id', 'noDescWarn');
   document.body.appendChild(div);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <List store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <List store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -98,10 +100,8 @@ it('should show a message when works list is empty without throwing an error', (
       },
       worksIsLoading: false
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
   // Append a div to test our UncontrolledTooltip
@@ -109,13 +109,11 @@ it('should show a message when works list is empty without throwing an error', (
   div.setAttribute('id', 'noDescWarn');
   document.body.appendChild(div);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <List store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <List store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -132,10 +130,8 @@ it('should change pagination without throwing an error', () => {
       },
       worksIsLoading: false
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
   // Append a div to test our UncontrolledTooltip
@@ -146,13 +142,11 @@ it('should change pagination without throwing an error', () => {
   div2.setAttribute('id', 'noDescWarn-2');
   document.body.appendChild(div2);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <List store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <List store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -174,10 +168,8 @@ it('should call removeWork when Remove button is clicked without throwing an err
       },
       worksIsLoading: false
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
   // Append a div to test our UncontrolledTooltip
@@ -188,13 +180,11 @@ it('should call removeWork when Remove button is clicked without throwing an err
   div2.setAttribute('id', 'noDescWarn-2');
   document.body.appendChild(div2);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <List store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <List store={store} />
+      </MemoryRouter>
     </Provider>
   );
 

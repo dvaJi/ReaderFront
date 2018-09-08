@@ -64,5 +64,21 @@ export const getWork = {
   ],
   works_genres: [{ genreId: 1 }, { genreId: 2 }],
   people_works: [{ rol: 1, people: getPeople() }],
-  works_covers: []
+  works_covers: [
+    {
+      id: 1,
+      filename: 'thumb_00_cover.png',
+      coverTypeId: 1
+    },
+    {
+      id: 2,
+      filename: 'thumb2_00_cover.png',
+      coverTypeId: 2
+    },
+    {
+      id: 3,
+      filename: '00_cover.png',
+      coverTypeId: 3
+    }
+  ]
 };

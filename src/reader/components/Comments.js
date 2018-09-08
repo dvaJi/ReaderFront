@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import DisqusThread from "../../common/DisqusComments";
-import Lazyload from "react-lazyload";
+import React, { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
+import DisqusThread from '../../common/DisqusComments';
+import Lazyload from 'react-lazyload';
 
-const Comments = styled.div`
+const CommentsStyle = styled.div`
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
@@ -19,25 +19,23 @@ const Comments = styled.div`
   white-space: normal;
 `;
 
-class Comment extends PureComponent {
+class Comments extends PureComponent {
   render() {
     return (
       <Lazyload throttle={200} height={300}>
-        <Comments>
-          <h4>{this.context.t("Comentarios")}</h4>
+        <CommentsStyle>
+          <h4>
+            <FormattedMessage id="comments" defaultMessage="Comments" />
+          </h4>
           <DisqusThread
             id={this.props.id}
             title={this.props.title}
             path={this.props.path}
           />
-        </Comments>
+        </CommentsStyle>
       </Lazyload>
     );
   }
 }
 
-Comment.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default Comment;
+export default Comments;

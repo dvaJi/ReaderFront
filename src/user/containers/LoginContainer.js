@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { login } from '../actions/doUser';
@@ -56,23 +57,33 @@ class Login extends Component {
         {this.state.error && <Alert color="danger">{error}</Alert>}
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
-            <Label for="email">{this.context.t('Correo electrónico')}</Label>
+            <Label for="email">
+              <FormattedMessage id="email" defaultMessage="Email" />
+            </Label>
             <Input
               id="email"
               type="email"
               name="email"
-              placeholder={this.context.t('Correo electrónico')}
+              placeholder={this.props.intl.formatMessage({
+                id: 'email',
+                defaultMessage: 'Email'
+              })}
               required="required"
               value={this.state.user.email}
               onChange={this.onChange}
             />
           </FormGroup>
           <FormGroup>
-            <Label for="password">{this.context.t('Contraseña')}</Label>
+            <Label for="password">
+              <FormattedMessage id="password" defaultMessage="Password" />
+            </Label>
             <Input
               id="password"
               type="password"
-              placeholder={this.context.t('Contraseña')}
+              placeholder={this.props.intl.formatMessage({
+                id: 'password',
+                defaultMessage: 'Password'
+              })}
               required="required"
               name="password"
               value={this.state.user.password}
@@ -80,7 +91,7 @@ class Login extends Component {
             />
           </FormGroup>
           <Button type="submit" size="lg" block disabled={isLoading}>
-            {this.context.t('Iniciar sesión')}
+            <FormattedMessage id="login" defaultMessage="Login" />
           </Button>
         </Form>
         <AuthCheck />
@@ -94,10 +105,6 @@ Login.propTypes = {
   login: PropTypes.func.isRequired
 };
 
-Login.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 function loginState(state) {
   return {
     user: state.user,
@@ -105,7 +112,9 @@ function loginState(state) {
   };
 }
 
-export default connect(
-  loginState,
-  { login }
-)(withRouter(Login));
+export default injectIntl(
+  connect(
+    loginState,
+    { login }
+  )(withRouter(Login))
+);

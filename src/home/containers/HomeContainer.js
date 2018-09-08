@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { FormattedMessage } from 'react-intl';
 
 import { fetchReleases } from '../../releases/actions/doReleases';
 import { fetchRandomWork } from '../../work/actions/doWork';
@@ -100,21 +100,32 @@ class HomeContainer extends Component {
   }
 
   renderMetatags() {
+    const title = config.APP_TITLE;
     return (
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{config.APP_TITLE + ' - ' + this.context.t('Inicio')}</title>
-        <meta
-          name="description"
-          content={this.context.t('Capítulos más recientes')}
-        />
-        <meta
-          property="og:title"
-          content={
-            config.APP_TITLE + ' - ' + this.context.t('Capítulos más recientes')
-          }
-        />
-      </Helmet>
+      <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+        </Helmet>
+        <FormattedMessage
+          id="home.title"
+          defaultMessage="{title} - Home"
+          values={{ title: title }}
+        >
+          {title => (
+            <Helmet>
+              <title>{title}</title>
+              <meta property="og:title" content={title} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+        <FormattedMessage id="home.desc" defaultMessage="All releases">
+          {desc => (
+            <Helmet>
+              <meta name="description" content={desc} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+      </div>
     );
   }
 
@@ -130,7 +141,6 @@ class HomeContainer extends Component {
           <div className="row">
             <div className="col-md-8">
               <LatestWorks
-                title={this.context.t('Añadidos recientemente')}
                 works={this.props.latestWorks}
                 isLoading={this.props.latestWorksIsLoading}
               />
@@ -138,7 +148,6 @@ class HomeContainer extends Component {
             <div className="col-md-4">
               <RecommendedWork
                 isLoading={this.props.workRandomIsLoading}
-                title={this.context.t('Recomendación')}
                 work={this.props.randomWork}
                 description={
                   this.props.randomWork !== null
@@ -155,10 +164,6 @@ class HomeContainer extends Component {
   }
 }
 
-HomeContainer.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 const mapStateToProps = (state, ownProps) => {
   return {
     chapters: state.releases.chapters,
@@ -169,7 +174,7 @@ const mapStateToProps = (state, ownProps) => {
     latestWorksIsLoading: state.works.latestWorksIsLoading,
     isLoadingChapters: state.releases.releasesIsLoading,
     hasErrored: state.releases.releasesHasErrored,
-    language: state.i18nState.lang
+    language: state.layout.language
   };
 };
 

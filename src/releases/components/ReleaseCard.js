@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
+import React, { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const CardData = styled.div`
   background: linear-gradient(
@@ -88,13 +88,14 @@ class ReleaseCard extends PureComponent {
     return (
       <Link to={url}>
         <Card className="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-          <CardCoverBackground thumb={thumb}>{""}</CardCoverBackground>
+          <CardCoverBackground thumb={thumb}>{''}</CardCoverBackground>
           <CardData>
             <h5>{name}</h5>
             <span>
-              <div title="Capítulo">
-              {this.context.t("Capítulo")} {chapter}
-                {Number(subchapter) !== 0 ? "." + subchapter : ""}
+              <div title="Chapter">
+                <FormattedMessage id="chapter" defaultMessage="Chapter" />
+                {' ' + chapter}
+                {Number(subchapter) !== 0 ? '.' + subchapter : ''}
               </div>
             </span>
           </CardData>
@@ -103,9 +104,5 @@ class ReleaseCard extends PureComponent {
     );
   }
 }
-
-ReleaseCard.contextTypes = {
-  t: PropTypes.func.isRequired
-};
 
 export default ReleaseCard;

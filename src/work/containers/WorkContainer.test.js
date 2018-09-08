@@ -1,24 +1,47 @@
 import React from 'react';
-import I18n from 'redux-i18n';
-import { mount, shallow } from 'enzyme';
+import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { MemoryRouter } from 'react-router-dom';
 import WorkContainer from './WorkContainer';
 import App from '../../App';
-import store, { history } from '../../store';
 import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
-import { fetchWork } from '../actions/doWork';
-import { translations } from '../../translations';
 import ErrorBoundary from '../../utils/ErrorBoundary';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import moxios from '@anilanar/moxios';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+beforeEach(function() {
+  moxios.install();
+});
+
+afterEach(function() {
+  moxios.uninstall();
+});
+
+// TODO: Improve this test with moxios
 
 it('should render without throwing an error', () => {
-  const wrapper = shallow(
+  const store = mockStore({
+    work: {
+      work: null,
+      workIsLoading: false,
+      workHasErrored: false
+    },
+    params: { match: { params: {} } },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = shallowWithIntl(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <MemoryRouter>
         <ErrorBoundary>
           <WorkContainer match={'infection'} />
         </ErrorBoundary>
-      </ConnectedRouter>
+      </MemoryRouter>
     </Provider>
   );
 
@@ -26,18 +49,25 @@ it('should render without throwing an error', () => {
 });
 
 it('should render without throwing an error when it receive a new language props', () => {
-  const wrapper = mount(
-    <App>
-      <Provider store={store}>
-        <I18n translations={translations} initialLang={'es'}>
-          <ConnectedRouter history={history}>
-            <ErrorBoundary>
-              <WorkContainer />
-            </ErrorBoundary>
-          </ConnectedRouter>
-        </I18n>
-      </Provider>
-    </App>
+  const store = mockStore({
+    work: {
+      work: null,
+      workIsLoading: false,
+      workHasErrored: false
+    },
+    params: { match: { params: {} } },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <Provider store={store}>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <WorkContainer />
+        </ErrorBoundary>
+      </MemoryRouter>
+    </Provider>
   );
 
   store.dispatch(doChangeLanguage('en'));
