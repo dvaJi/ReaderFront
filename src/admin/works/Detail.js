@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 
 // App Imports
@@ -31,7 +32,12 @@ class Detail extends PureComponent {
 
   remove = id => {
     if (id > 0) {
-      let check = window.confirm(this.context.t('confirm_delete_chapter'));
+      let check = window.confirm(
+        this.props.intl.formatMessage({
+          id: 'confirm_delete_chapter',
+          defaultMessage: 'confirm_delete_chapter'
+        })
+      );
 
       if (check) {
         this.props
@@ -57,7 +63,7 @@ class Detail extends PureComponent {
       <Container>
         <div>
           <Button tag={Link} to={'/admincp/work/manage'}>
-            {this.context.t('go_back')}
+            <FormattedMessage id="go_back" defaultMessage="Go back" />
           </Button>
           <Button
             tag={Link}
@@ -71,21 +77,39 @@ class Detail extends PureComponent {
               '/chapter/add'
             }
           >
-            {this.context.t('add')} {this.context.t('chapter')}
+            <FormattedMessage id="add_chapter" defaultMessage="Add chapter" />
           </Button>
 
           <div>
             <Table bordered hover>
               <thead>
                 <tr>
-                  <th>{this.context.t('volume')}</th>
-                  <th>{this.context.t('chapter')}</th>
-                  <th>{this.context.t('name')}</th>
-                  <th>{this.context.t('language')}</th>
-                  <th>{this.context.t('created_at')}</th>
-                  <th>{this.context.t('updated_at')}</th>
+                  <th>
+                    <FormattedMessage id="volume" defaultMessage="Volume" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="chapter" defaultMessage="Chapter" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="name" defaultMessage="Name" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="language" defaultMessage="Language" />
+                  </th>
+                  <th>
+                    <FormattedMessage
+                      id="created_at"
+                      defaultMessage="Created at"
+                    />
+                  </th>
+                  <th>
+                    <FormattedMessage
+                      id="updated_at"
+                      defaultMessage="Updated at"
+                    />
+                  </th>
                   <th style={{ textAlign: 'center' }}>
-                    {this.context.t('actions')}
+                    <FormattedMessage id="actions" defaultMessage="Actions" />
                   </th>
                 </tr>
               </thead>
@@ -93,7 +117,12 @@ class Detail extends PureComponent {
               <tbody>
                 {this.props.isLoading ? (
                   <tr>
-                    <td colSpan="7">{this.context.t('loading')}</td>
+                    <td colSpan="7">
+                      <FormattedMessage
+                        id="loading"
+                        defaultMessage="Loading..."
+                      />
+                    </td>
                   </tr>
                 ) : this.props.chapters.length > 0 ? (
                   this.props.chapters.map(
@@ -141,7 +170,8 @@ class Detail extends PureComponent {
 
                         <td style={{ textAlign: 'center' }}>
                           <ButtonGroup size="sm">
-                            <Button id={"edit-" + id}
+                            <Button
+                              id={'edit-' + id}
                               tag={Link}
                               to={
                                 '/admincp/work/' +
@@ -152,10 +182,19 @@ class Detail extends PureComponent {
                                 id
                               }
                             >
-                              {this.context.t('edit')}
+                              <FormattedMessage
+                                id="edit"
+                                defaultMessage="Edit"
+                              />
                             </Button>
-                            <Button id={"remove-" + id} onClick={this.remove.bind(this, id)}>
-                              {this.context.t('delete')}
+                            <Button
+                              id={'remove-' + id}
+                              onClick={this.remove.bind(this, id)}
+                            >
+                              <FormattedMessage
+                                id="delete"
+                                defaultMessage="Delete"
+                              />
                             </Button>
                           </ButtonGroup>
                         </td>
@@ -164,7 +203,12 @@ class Detail extends PureComponent {
                   )
                 ) : (
                   <tr>
-                    <td colSpan="6">{this.context.t('chapters_empty')}</td>
+                    <td colSpan="6">
+                      <FormattedMessage
+                        id="chapters_empty"
+                        defaultMessage="Chapters empty"
+                      />
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -181,10 +225,6 @@ Detail.propTypes = {
   chapters: PropTypes.array.isRequired
 };
 
-Detail.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 // Component State
 function detailState(state) {
   return {
@@ -193,7 +233,9 @@ function detailState(state) {
   };
 }
 
-export default connect(
-  detailState,
-  { getChapters, removeChapter }
-)(Detail);
+export default injectIntl(
+  connect(
+    detailState,
+    { getChapters, removeChapter }
+  )(Detail)
+);

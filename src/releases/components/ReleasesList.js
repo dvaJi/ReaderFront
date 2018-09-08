@@ -13,7 +13,7 @@ export default class ReleasesList extends PureComponent {
       (isLoading && page === 1)
     ) {
       for (let index = 0; index < 15; index++) {
-        rows.push(<ReleaseCardEmpty key={index} />);
+        rows.push(<ReleaseCardEmpty key={'A' + index} />);
       }
     } else {
       this.props.releases.forEach(release => {

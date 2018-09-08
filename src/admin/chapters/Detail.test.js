@@ -1,8 +1,7 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import moxios from '@anilanar/moxios';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
@@ -65,13 +64,11 @@ it('should render the chapter with pages', async () => {
     match: params
   });
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -103,13 +100,11 @@ it('should render the chapter without pages', () => {
     match: params
   });
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -136,13 +131,11 @@ it('should delete all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <Detail store={store} match={params} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <Detail store={store} match={params} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -190,15 +183,13 @@ it('should upload all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <ErrorBoundary>
-            <Detail store={store} match={params} />
-          </ErrorBoundary>
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <Detail store={store} match={params} />
+        </ErrorBoundary>
+      </MemoryRouter>
     </Provider>
   );
 
@@ -259,15 +250,13 @@ it('should allow to set a page as default', async () => {
     match: params
   });
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <ErrorBoundary>
-            <Detail store={store} match={params} />
-          </ErrorBoundary>
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <Detail store={store} match={params} />
+        </ErrorBoundary>
+      </MemoryRouter>
     </Provider>
   );
 
@@ -310,15 +299,13 @@ it('should allow to add pages', async () => {
     match: params
   });
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <ErrorBoundary>
-            <Detail store={store} match={params} />
-          </ErrorBoundary>
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <Detail store={store} match={params} />
+        </ErrorBoundary>
+      </MemoryRouter>
     </Provider>
   );
 
@@ -366,15 +353,13 @@ it('should show an error message', async () => {
     match: params
   });
 
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <ErrorBoundary>
-            <Detail store={store} match={params} />
-          </ErrorBoundary>
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <Detail store={store} match={params} />
+        </ErrorBoundary>
+      </MemoryRouter>
     </Provider>
   );
 

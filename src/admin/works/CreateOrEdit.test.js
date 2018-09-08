@@ -1,11 +1,11 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import { Form, ButtonDropdown } from 'reactstrap';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
+import moxios from '@anilanar/moxios';
 import { getWork } from '../../utils/mocks/getWorksMock';
 import CreateOrEdit from './CreateOrEdit';
 
@@ -13,24 +13,30 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const work = getWork;
 
+beforeEach(function() {
+  moxios.install();
+});
+
+afterEach(function() {
+  moxios.uninstall();
+});
+
+// TODO: Improve this test with moxios
+
 it('should render without throwing an error', () => {
   const store = mockStore({
     work: {
       work: work
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <CreateOrEdit store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <CreateOrEdit store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -42,19 +48,15 @@ it('should fill the form without throwing an error', () => {
     work: {
       work: work
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <CreateOrEdit store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <CreateOrEdit store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -82,19 +84,15 @@ it('should render without throwing an error', async () => {
     work: {
       work: work
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <CreateOrEdit store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <CreateOrEdit store={store} />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -123,19 +121,15 @@ it('should add a language without throwing an error', async () => {
     work: {
       work: work
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n store={store} translations={{}}>
-        <MemoryRouter>
-          <CreateOrEdit store={store} />
-        </MemoryRouter>
-      </I18n>
+      <MemoryRouter>
+        <CreateOrEdit store={store} />
+      </MemoryRouter>
     </Provider>
   );
 

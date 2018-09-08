@@ -1,17 +1,28 @@
-import React from "react";
-import I18n from "redux-i18n";
-import { mount } from "enzyme";
-import { Provider } from "react-redux";
-import Releases from "./";
-import store from "../store";
-import { translations } from "../translations";
+import React from 'react';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { Provider } from 'react-redux';
+import Releases from './';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
-it("should render without throwing an error", () => {
-  const wrapper = mount(
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+it('should render without throwing an error', () => {
+  const store = mockStore({
+    releases: {
+      chapters: [],
+      releasesPage: 0,
+      releasesIsLoading: false,
+      releasesHasErrored: false
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <I18n translations={translations}>
-        <Releases />
-      </I18n>
+      <Releases />
     </Provider>
   );
 

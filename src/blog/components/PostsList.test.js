@@ -1,96 +1,64 @@
 import React from 'react';
-import I18n from 'redux-i18n';
-import PropTypes from 'prop-types';
-import { Provider } from 'react-redux';
-import { render, mount } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import PostsList from './PostsList';
 import PostCard from './PostCard';
 import PostCardEmpty from './PostCardEmpty';
 import { BrowserRouter } from 'react-router-dom';
-import { translations } from '../../translations';
-import store from '../../store';
 import { getPosts } from '../../utils/mocks/getBlogMock';
 
+const posts = getPosts();
+const postsCard = generatePostCard(posts);
+
 it('renders without crashing', () => {
-  render(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <PostsList loading={true} posts={[]} />
-      </I18n>
-    </Provider>
-  );
+  const wrapper = mountWithIntl(<PostsList loading={true} posts={[]} />);
+  wrapper.unmount();
 });
 
 it('should render posts without crashing', () => {
-  const posts = getPosts();
-  mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <PostsList loading={false} posts={posts} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <PostsList loading={false} posts={posts} />
+    </BrowserRouter>
   );
+
+  wrapper.unmount();
 });
 
 it('renders PostCard without crashing', () => {
-  const posts = getPosts();
-  const listPostCard = generatePostCard(posts);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <PostsList loading={false} posts={posts} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <PostsList loading={false} posts={posts} />
+    </BrowserRouter>
   );
-  expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(postsCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders PostCard and fetching data without crashing', () => {
-  const posts = getPosts();
-  const listPostCard = generatePostCard(posts);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <PostsList loading={false} posts={posts} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <PostsList loading={false} posts={posts} />
+    </BrowserRouter>
   );
-  expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(postsCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders PostCard and add PostCardEmpty while is loading without crashing', () => {
-  const posts = getPosts();
-  const listPostCard = generatePostCard(posts);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <PostsList loading={true} posts={posts} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <PostsList loading={true} posts={posts} />
+    </BrowserRouter>
   );
-  expect(wrapper.children().containsMatchingElement(listPostCard)).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(postsCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders PostCardEmpty without crashing', () => {
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <PostsList loading={true} posts={[]} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <PostsList loading={true} posts={[]} />
+    </BrowserRouter>
   );
   expect(wrapper.find(PostCardEmpty)).toBeTruthy();
   wrapper.unmount();

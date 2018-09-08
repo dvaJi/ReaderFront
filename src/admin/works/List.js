@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -64,7 +65,12 @@ class List extends PureComponent {
 
   remove = id => {
     if (id > 0) {
-      let check = window.confirm(this.context.t('confirm_delete_work'));
+      let check = window.confirm(
+        this.props.intl.formatMessage({
+          id: 'confirm_delete_chapter',
+          defaultMessage: 'confirm_delete_chapter'
+        })
+      );
 
       if (check) {
         this.props
@@ -96,21 +102,39 @@ class List extends PureComponent {
       <Container>
         <div>
           <Button tag={Link} to={'/admincp/work/add'}>
-            {this.context.t('add')} Work
+            <FormattedMessage id="add_work" defaultMessage="Add Work" />
           </Button>
 
           <div>
             <Table bordered hover>
               <thead>
                 <tr>
-                  <th>{this.context.t('cover')}</th>
-                  <th>{this.context.t('name')}</th>
-                  <th>{this.context.t('type')}</th>
-                  <th>{this.context.t('language')}</th>
-                  <th>{this.context.t('created_at')}</th>
-                  <th>{this.context.t('updated_at')}</th>
+                  <th>
+                    <FormattedMessage id="cover" defaultMessage="Cover" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="name" defaultMessage="Name" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="type" defaultMessage="Type" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="language" defaultMessage="Language" />
+                  </th>
+                  <th>
+                    <FormattedMessage
+                      id="created_at"
+                      defaultMessage="Created at"
+                    />
+                  </th>
+                  <th>
+                    <FormattedMessage
+                      id="updated_at"
+                      defaultMessage="Updated at"
+                    />
+                  </th>
                   <th style={{ textAlign: 'center' }}>
-                    {this.context.t('actions')}
+                    <FormattedMessage id="actions" defaultMessage="Actions" />
                   </th>
                 </tr>
               </thead>
@@ -118,7 +142,12 @@ class List extends PureComponent {
               <tbody>
                 {this.props.isLoading ? (
                   <tr>
-                    <td colSpan="7">{this.context.t('loading')}</td>
+                    <td colSpan="7">
+                      <FormattedMessage
+                        id="loading"
+                        defaultMessage="Loading..."
+                      />
+                    </td>
                   </tr>
                 ) : this.props.works.length > 0 ? (
                   this.props.works.map(
@@ -183,7 +212,10 @@ class List extends PureComponent {
                                 placement="bottom"
                                 target={'noDescWarn-' + id}
                               >
-                                {this.context.t('work_no_desc_added')}
+                                <FormattedMessage
+                                  id="work_no_desc_added"
+                                  defaultMessage="This work will not be displayed, please add a description"
+                                />
                               </UncontrolledTooltip>
                             </span>
                           )}
@@ -199,10 +231,16 @@ class List extends PureComponent {
                               tag={Link}
                               to={'/admincp/work/edit/' + stub}
                             >
-                              {this.context.t('edit')}
+                              <FormattedMessage
+                                id="edit"
+                                defaultMessage="Edit"
+                              />
                             </Button>
                             <Button onClick={this.remove.bind(this, id)}>
-                              {this.context.t('delete')}
+                              <FormattedMessage
+                                id="remove"
+                                defaultMessage="Remove"
+                              />
                             </Button>
                           </ButtonGroup>
                         </td>
@@ -211,7 +249,12 @@ class List extends PureComponent {
                   )
                 ) : (
                   <tr>
-                    <td colSpan="6">{this.context.t('works_empty')}</td>
+                    <td colSpan="6">
+                      <FormattedMessage
+                        id="works_empty"
+                        defaultMessage="Works empty"
+                      />
+                    </td>
                   </tr>
                 )}
               </tbody>
@@ -248,10 +291,6 @@ List.propTypes = {
   getWorks: PropTypes.func.isRequired
 };
 
-List.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 // Component State
 function listState(state) {
   return {
@@ -261,7 +300,9 @@ function listState(state) {
   };
 }
 
-export default connect(
-  listState,
-  { getWorks, getAggregates, removeWork }
-)(List);
+export default injectIntl(
+  connect(
+    listState,
+    { getWorks, getAggregates, removeWork }
+  )(List)
+);

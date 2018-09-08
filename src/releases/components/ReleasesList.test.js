@@ -1,98 +1,64 @@
 import React from 'react';
-import I18n from 'redux-i18n';
-import { Provider } from 'react-redux';
-import { render, mount } from 'enzyme';
+import { BrowserRouter } from 'react-router-dom';
+import { mountWithIntl } from 'enzyme-react-intl';
 import ReleasesList from './ReleasesList';
 import ReleaseCard from './ReleaseCard';
 import ReleaseCardEmpty from './ReleaseCardEmpty';
-import { BrowserRouter } from 'react-router-dom';
-import { translations } from '../../translations';
-import store from '../../store';
 import { getReleases } from '../../utils/mocks/getReleasesMock';
 
 const releases = getReleases();
+const releaseCard = generateReleaseCard(releases);
+const releaseCardEmpty = generateReleaseCardEmpty();
 
 it('renders without crashing', () => {
-  render(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <ReleasesList loading={true} releases={[]} />
-      </I18n>
-    </Provider>
-  );
+  mountWithIntl(<ReleasesList loading={true} releases={[]} />);
 });
 
 it('should render releases without crashing', () => {
-  mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <ReleasesList loading={false} releases={releases} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  mountWithIntl(
+    <BrowserRouter>
+      <ReleasesList loading={false} releases={releases} />
+    </BrowserRouter>
   );
 });
 
 it('renders RealeaseCard without crashing', () => {
-  const listReleaseCard = generateReleaseCard(releases);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <ReleasesList loading={false} releases={releases} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <ReleasesList loading={false} releases={releases} />
+    </BrowserRouter>
   );
-  expect(
-    wrapper.children().containsMatchingElement(listReleaseCard)
-  ).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(releaseCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders RealeaseCard and fetching data without crashing', () => {
-  const listReleaseCard = generateReleaseCard(releases);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <ReleasesList loading={false} releases={releases} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <ReleasesList loading={false} releases={releases} />
+    </BrowserRouter>
   );
-  expect(
-    wrapper.children().containsMatchingElement(listReleaseCard)
-  ).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(releaseCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders RealeaseCard and add RealeaseCardEmpty while is loading', () => {
-  const listReleaseCard = generateReleaseCard(releases);
-  const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <BrowserRouter>
-          <ReleasesList loading={true} releases={releases} />
-        </BrowserRouter>
-      </I18n>
-    </Provider>
+  const wrapper = mountWithIntl(
+    <BrowserRouter>
+      <ReleasesList loading={true} releases={releases} />
+    </BrowserRouter>
   );
-  expect(
-    wrapper.children().containsMatchingElement(listReleaseCard)
-  ).toBeTruthy();
+  expect(wrapper.children().containsMatchingElement(releaseCard)).toBeTruthy();
   wrapper.unmount();
 });
 
 it('renders RealeaseCardEmpty without crashing', () => {
-  const listReleaseCardEmpty = generateReleaseCardEmpty();
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <BrowserRouter>
       <ReleasesList loading={true} releases={[]} />
     </BrowserRouter>
   );
-  expect(wrapper.children().contains(listReleaseCardEmpty)).toBeTruthy();
+  expect(wrapper.children().contains(releaseCardEmpty)).toBeTruthy();
   wrapper.unmount();
 });
 

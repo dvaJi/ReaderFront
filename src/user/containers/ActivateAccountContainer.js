@@ -76,10 +76,6 @@ ActivateAccount.propTypes = {
   activate: PropTypes.func.isRequired
 };
 
-ActivateAccount.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 const mapStateToProps = (state, ownProps) => {
   return {
     searchLocation: ownProps.location.search

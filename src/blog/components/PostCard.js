@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 
 const CardOverlay = styled.div`
@@ -130,13 +130,15 @@ class PostCard extends Component {
   }
 
   render() {
-    const { title, categoryLabel } = this.props.post;
+    const { categoryLabel, title, thumbnail } = this.props.post;
 
     return (
       <Card onClick={e => this.doSelect(e)}>
-        <CardHero thumb={this.props.thumbnail}>
+        <CardHero thumb={thumbnail}>
           <CardOverlay>
-            <h3>{this.context.t('Leer Más')}</h3>
+            <h3>
+              <FormattedMessage id="read_more" defaultMessage="Read More" />
+            </h3>
           </CardOverlay>
         </CardHero>
         <CardBody>
@@ -145,16 +147,17 @@ class PostCard extends Component {
         </CardBody>
         <CardFooter>
           <CardFooterWrapper layout="row bottom-left">
-            <CardFooterTag>{this.context.t(categoryLabel)}</CardFooterTag>
+            <CardFooterTag>
+              <FormattedMessage
+                id={'blog.category.' + categoryLabel}
+                defaultMessage={categoryLabel}
+              />
+            </CardFooterTag>
           </CardFooterWrapper>
         </CardFooter>
       </Card>
     );
   }
 }
-
-PostCard.contextTypes = {
-  t: PropTypes.func.isRequired
-};
 
 export default PostCard;

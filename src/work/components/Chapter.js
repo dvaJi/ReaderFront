@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 class Chapter extends PureComponent {
   render() {
-    const { work, chapter } = this.props;
+    const { work, chapter, intl } = this.props;
     const dir = `${work.stub}/${this.props.language.name}/${chapter.volume}/${
       chapter.chapter
     }.${chapter.subchapter}`;
     return (
       <li className="clearfix">
         <Link to={`/read/${dir}`} className="Chapter">
-          {this.context.t('Capítulo')} {chapter.chapter}
+          <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
+          {chapter.chapter}
           {chapter.subchapter !== '0' ? '.' + chapter.subchapter : ''}
           {chapter.name !== '' ? `: ${chapter.name}` : ''}
         </Link>
@@ -22,7 +23,10 @@ class Chapter extends PureComponent {
             className="Download"
             href={`/download/${dir}`}
             target="_blank"
-            title={this.context.t('Descargar capítulo')}
+            title={intl.formatMessage({
+              id: 'download_chapter',
+              defaultMessage: 'Download chapter'
+            })}
           >
             <FontAwesomeIcon icon={faDownload} />
           </a>
@@ -32,8 +36,4 @@ class Chapter extends PureComponent {
   }
 }
 
-Chapter.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default Chapter;
+export default injectIntl(Chapter);

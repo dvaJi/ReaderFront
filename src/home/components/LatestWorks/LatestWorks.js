@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
 import Card from '../../../works/components/WorkItem';
 import CardLoading from '../../../works/components/WorkItemEmpty';
@@ -28,12 +29,18 @@ export default class LatestWork extends PureComponent {
   };
 
   render() {
+    const { works, isLoading } = this.props;
     return (
       <div className="LatestWorks mb-4">
-        <h3>{this.props.title}</h3>
+        <h3>
+          <FormattedMessage
+            id="recently_added"
+            defaultMessage="Recently added"
+          />
+        </h3>
         <WorksList>
-          {!this.props.isLoading
-            ? this.props.works.map(work => (
+          {!isLoading
+            ? works.map(work => (
                 <Card
                   key={work.id}
                   truncate={this.handleTruncate}
@@ -45,7 +52,11 @@ export default class LatestWork extends PureComponent {
                 />
               ))
             : Array.from(new Array(4)).map((fk, index) => (
-                <CardLoading key={index} work={{}} size={'small'} />
+                <CardLoading
+                  key={'lw-card-loading-' + index}
+                  work={{}}
+                  size={'small'}
+                />
               ))}
         </WorksList>
       </div>

@@ -16,7 +16,7 @@ import {
   DropdownItem,
   DropdownToggle
 } from 'reactstrap';
-import { Card } from '../common/UI';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
 import { renderIf, slug } from '../../utils/helpers';
@@ -25,6 +25,7 @@ import {
   fetchWork as getWork,
   fetchWorkById as getWorkById
 } from '../../work/actions/doWork';
+import { Card } from '../common/UI';
 import { upload } from '../../common/actions';
 import params from '../../params';
 
@@ -137,7 +138,6 @@ class CreateOrEdit extends Component {
                 desc => desc.language === lang.id
               )
           );
-          console.log(this.props.work.work);
           let cover = this.props.work.work.cover
             ? this.props.work.work.small_thumb.filename
             : null;
@@ -148,7 +148,11 @@ class CreateOrEdit extends Component {
         })
         .catch(error => {
           this.setState({
-            error: this.context.t('error_fetching_work')
+            error: this.props.intl.formatMessage({
+              id: 'error_fetching_work',
+              defaultMessage:
+                'There was some error fetching work. Please try again.'
+            })
           });
         });
     }
@@ -222,7 +226,12 @@ class CreateOrEdit extends Component {
         if (response.data.errors && response.data.errors.length > 0) {
           this.setState({ error: response.data.errors[0].message });
         } else {
-          this.setState({ success: this.context.t('work_saved') });
+          this.setState({
+            success: this.props.intl.formatMessage({
+              id: 'work_saved',
+              defaultMessage: 'Work saved successfully.'
+            })
+          });
 
           window.setTimeout(() => {
             this.props.history.push('/admincp/work/manage');
@@ -230,7 +239,12 @@ class CreateOrEdit extends Component {
         }
       })
       .catch(error => {
-        this.setState({ error: this.context.t('unknown_error') });
+        this.setState({
+          error: this.props.intl.formatMessage({
+            id: 'unknown_error',
+            defaultMessage: 'There was some error. Please try again.'
+          })
+        });
 
         this.setState({
           isLoading: false
@@ -239,7 +253,12 @@ class CreateOrEdit extends Component {
   };
 
   onUpload = event => {
-    this.setState({ success: this.context.t('uploading_file') });
+    this.setState({
+      success: this.props.intl.formatMessage({
+        id: 'uploading_file',
+        defaultMessage: 'Uploading file, please wait...'
+      })
+    });
 
     this.setState({
       isLoading: true
@@ -253,7 +272,12 @@ class CreateOrEdit extends Component {
       .upload(data)
       .then(response => {
         if (response.status === 200) {
-          this.setState({ success: this.context.t('file_uploaded') });
+          this.setState({
+            success: this.props.intl.formatMessage({
+              id: 'file_uploaded',
+              defaultMessage: 'File uploaded successfully.'
+            })
+          });
 
           let work = this.state.work;
           work.cover = response.data.file;
@@ -262,11 +286,21 @@ class CreateOrEdit extends Component {
             work
           });
         } else {
-          this.setState({ error: this.context.t('try_again') });
+          this.setState({
+            error: this.props.intl.formatMessage({
+              id: 'try_again',
+              defaultMessage: 'Please try again.'
+            })
+          });
         }
       })
       .catch(error => {
-        this.setState({ error: this.context.t('unknown_error') });
+        this.setState({
+          error: this.props.intl.formatMessage({
+            id: 'unknown_error',
+            defaultMessage: 'There was some error. Please try again.'
+          })
+        });
       })
       .then(() => {
         this.setState({
@@ -281,23 +315,32 @@ class CreateOrEdit extends Component {
         <Card>
           {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
           <Link to={'/admincp/work/manage'}>
-            <Button>{this.context.t('go_back')}</Button>
+            <Button>
+              <FormattedMessage id="go_back" defaultMessage="Go back" />
+            </Button>
           </Link>
 
           <h4>
-            {this.props.match.params.stub === undefined
-              ? this.context.t('create')
-              : this.context.t('edit')}{' '}
-            {this.context.t('Work')}
+            {this.props.match.params.stub === undefined ? (
+              <FormattedMessage id="create" defaultMessage="Create" />
+            ) : (
+              <FormattedMessage id="edit" defaultMessage="Edit" />
+            )}{' '}
+            <FormattedMessage id="work" defaultMessage="Work" />
           </h4>
 
           <Form onSubmit={this.onSubmit}>
             <FormGroup>
-              <Label for="name">{this.context.t('main_name')}</Label>
+              <Label for="name">
+                <FormattedMessage id="main_name" defaultMessage="Main name" />
+              </Label>
               <Input
                 id="name"
                 type="text"
-                placeholder={this.context.t('name')}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'name',
+                  defaultMessage: 'Name'
+                })}
                 required="required"
                 name="name"
                 autoComplete="off"
@@ -306,7 +349,9 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="status">{this.context.t('status')}</Label>
+              <Label for="status">
+                <FormattedMessage id="status" defaultMessage="Status" />
+              </Label>
               <Input
                 type="select"
                 name="status"
@@ -317,7 +362,10 @@ class CreateOrEdit extends Component {
               >
                 {this.state.workStatus.map(st => (
                   <option key={st.id + st.name} value={st.id}>
-                    {this.context.t(st.name)}
+                    {this.props.intl.formatMessage({
+                      id: 'work.status.' + st.name,
+                      defaultMessage: st.name
+                    })}
                   </option>
                 ))}
               </Input>
@@ -328,7 +376,10 @@ class CreateOrEdit extends Component {
                 toggle={this.toggleDescriptionsDropdown}
               >
                 <DropdownToggle caret size="sm">
-                  {this.context.t('add_language')}
+                  <FormattedMessage
+                    id="add_language"
+                    defaultMessage="Add language"
+                  />
                 </DropdownToggle>
                 <DropdownMenu>
                   {this.state.languagesAvailables.map(lang => (
@@ -336,30 +387,35 @@ class CreateOrEdit extends Component {
                       key={'drop-' + lang.id}
                       onClick={e => this.handleSelectLanguage(lang)}
                     >
-                      {this.context.t(lang.name + '_full')}
+                      <FormattedMessage
+                        id={lang.name + '_full'}
+                        defaultMessage={lang.name}
+                      />
                     </DropdownItem>
                   ))}
                 </DropdownMenu>
               </ButtonDropdown>
               <br />
               {this.state.work.works_descriptions.map((desc, index) => {
+                const lang = this.state.languages.find(
+                  lang => lang.id === desc.language
+                ).name;
                 return (
                   <div
                     id={'textarea-' + desc.language}
                     key={'textarea-' + desc.language}
                   >
                     <Label for={'textarea-' + desc.language}>
-                      {this.context.t(
-                        this.state.languages.find(
-                          lang => lang.id === desc.language
-                        ).name + '_full'
-                      )}
+                      <FormattedMessage
+                        id={lang + '_full'}
+                        defaultMessage={lang}
+                      />
                     </Label>
                     <span
                       className="float-right"
                       onClick={e => this.handleDeselectLanguage(desc)}
                     >
-                      {this.context.t('remove')}
+                      <FormattedMessage id="remove" defaultMessage="Remove" />
                     </span>
                     <Input
                       type="textarea"
@@ -373,7 +429,9 @@ class CreateOrEdit extends Component {
               })}
             </FormGroup>
             <FormGroup>
-              <Label for="type">{this.context.t('type')}</Label>
+              <Label for="type">
+                <FormattedMessage id="type" defaultMessage="Type" />
+              </Label>
               <Input
                 type="select"
                 name="type"
@@ -391,7 +449,12 @@ class CreateOrEdit extends Component {
             </FormGroup>
 
             <FormGroup>
-              <Label for="demographic">{this.context.t('demographic')}</Label>
+              <Label for="demographic">
+                <FormattedMessage
+                  id="demographic"
+                  defaultMessage="Demographic"
+                />
+              </Label>
               <Input
                 type="select"
                 name="demographicId"
@@ -402,7 +465,10 @@ class CreateOrEdit extends Component {
               >
                 {this.state.demographics.map(st => (
                   <option key={st.id + st.name} value={st.id}>
-                    {this.context.t(st.name)}
+                    {this.props.intl.formatMessage({
+                      id: 'work.demographic.' + st.name,
+                      defaultMessage: st.name
+                    })}
                   </option>
                 ))}
               </Input>
@@ -412,24 +478,35 @@ class CreateOrEdit extends Component {
               <CustomInput
                 type="checkbox"
                 id="adult"
-                label={this.context.t('adult')}
+                label={this.props.intl.formatMessage({
+                  id: 'adult_',
+                  defaultMessage: 'Adult?'
+                })}
                 value={this.state.work.adult}
               />
               <CustomInput
                 type="checkbox"
                 id="hidden"
-                label={this.context.t('hidden')}
+                label={this.props.intl.formatMessage({
+                  id: 'hidden',
+                  defaultMessage: 'Hidden'
+                })}
                 value={this.state.work.hidden}
               />
             </FormGroup>
 
             <FormGroup>
-              <Label for="uploadCover">{this.context.t('cover')}</Label>
+              <Label for="uploadCover">
+                <FormattedMessage id="cover" defaultMessage="Cover" />
+              </Label>
               <CustomInput
                 type="file"
                 id="uploadCover"
                 name="cover"
-                label={this.context.t('upload_cover')}
+                label={this.props.intl.formatMessage({
+                  id: 'upload_cover',
+                  defaultMessage: 'Upload cover'
+                })}
                 onChange={this.onUpload}
                 required={this.state.work.id === 0}
               />
@@ -449,7 +526,7 @@ class CreateOrEdit extends Component {
                 theme="secondary"
                 disabled={this.state.isLoading}
               >
-                {this.context.t('save')}
+                <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
             </FormGroup>
           </Form>
@@ -465,24 +542,20 @@ CreateOrEdit.propTypes = {
   upload: PropTypes.func.isRequired
 };
 
-CreateOrEdit.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 function CreateOrEditState(state) {
   return {
     work: state.work
   };
 }
 
-export default withRouter(
-  connect(
-    CreateOrEditState,
-    {
-      workCreateOrUpdate,
-      getWork,
-      getWorkById,
-      upload
-    }
-  )(CreateOrEdit)
-);
+const connectComponent = connect(
+  CreateOrEditState,
+  {
+    workCreateOrUpdate,
+    getWork,
+    getWorkById,
+    upload
+  }
+)(CreateOrEdit);
+
+export default injectIntl(withRouter(connectComponent));

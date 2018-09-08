@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
-import RouteNavItem from './RouteNavItem';
-import LangNavItem from './LangNavItem';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { doChangeLanguage } from '../actions/doChangeLanguage';
-import { setLanguage } from 'redux-i18n';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 import { faDiscord, faPatreon } from '@fortawesome/free-brands-svg-icons';
 import {
   faBook,
@@ -16,6 +13,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import * as config from '../../config';
 import { renderIf, isAuthRoute, isAdminRoute } from '../../utils/helpers';
+import RouteNavItem from './RouteNavItem';
+import LangNavItem from './LangNavItem';
 
 class Header extends Component {
   constructor(props) {
@@ -38,7 +37,27 @@ class Header extends Component {
 
   handleChangeLanguage(lang) {
     this.props.doChangeLanguage(lang);
-    this.props.setLanguage(lang);
+  }
+
+  renderLangNav() {
+    return (
+      <Nav className="ml-auto" navbar>
+        <LangNavItem
+          cookielang={this.props.language}
+          language="es"
+          onClick={e => this.handleChangeLanguage('es')}
+        >
+          ES
+        </LangNavItem>
+        <LangNavItem
+          cookielang={this.props.language}
+          language="en"
+          onClick={e => this.handleChangeLanguage('en')}
+        >
+          EN
+        </LangNavItem>
+      </Nav>
+    );
   }
 
   renderNav() {
@@ -52,52 +71,40 @@ class Header extends Component {
       >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
-        <Nav className="ml-auto" navbar>
-          <LangNavItem
-            cookielang={this.props.language}
-            language="es"
-            onClick={e => this.handleChangeLanguage('es')}
-          >
-            ES
-          </LangNavItem>
-          <LangNavItem
-            cookielang={this.props.language}
-            language="en"
-            onClick={e => this.handleChangeLanguage('en')}
-          >
-            EN
-          </LangNavItem>
-        </Nav>
+        {this.renderLangNav()}
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <RouteNavItem to="/" exact>
               <FontAwesomeIcon icon={faHome} />
-              {this.context.t('Inicio')}
+              <FormattedMessage id="home" defaultMessage="Home" />
             </RouteNavItem>
             <RouteNavItem to="/releases">
               <FontAwesomeIcon icon={faThList} />
-              Releases
+              <FormattedMessage id="releases" defaultMessage="Releases" />
             </RouteNavItem>
             <RouteNavItem to="/work/all">
               <FontAwesomeIcon icon={faBook} />
-              {this.context.t('projects')}
+              <FormattedMessage id="projects" defaultMessage="Projects" />
             </RouteNavItem>
             <RouteNavItem to="/blog">
-              <FontAwesomeIcon icon={faRss} />Blog
+              <FontAwesomeIcon icon={faRss} />
+              Blog
             </RouteNavItem>
             <RouteNavItem
               to={config.DISCORD_URL}
               target="_blank"
               rel="noopener"
             >
-              <FontAwesomeIcon icon={faDiscord} />Discord
+              <FontAwesomeIcon icon={faDiscord} />
+              Discord
             </RouteNavItem>
             <RouteNavItem
               to={config.PATREON_URL}
               target="_blank"
               rel="noopener"
             >
-              <FontAwesomeIcon icon={faPatreon} />Patreon
+              <FontAwesomeIcon icon={faPatreon} />
+              Patreon
             </RouteNavItem>
           </Nav>
         </Collapse>
@@ -116,35 +123,20 @@ class Header extends Component {
       >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
-        <Nav className="ml-auto" navbar>
-          <LangNavItem
-            cookielang={this.props.language}
-            language="es"
-            onClick={e => this.handleChangeLanguage('es')}
-          >
-            ES
-          </LangNavItem>
-          <LangNavItem
-            cookielang={this.props.language}
-            language="en"
-            onClick={e => this.handleChangeLanguage('en')}
-          >
-            EN
-          </LangNavItem>
-        </Nav>
+        {this.renderLangNav()}
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <RouteNavItem to="/admincp/dashboard" exact>
-              Dashboard
+              <FormattedMessage id="dashboard" defaultMessage="Dashboard" />
             </RouteNavItem>
             <RouteNavItem to="/admincp/work">
-              Works
+              <FormattedMessage id="projects" defaultMessage="Projects" />
             </RouteNavItem>
             <RouteNavItem to="/admincp/blog" exact>
-              Posts
+              <FormattedMessage id="posts" defaultMessage="Posts" />
             </RouteNavItem>
             <RouteNavItem to="/admincp/preferences" exact>
-              Settings
+              <FormattedMessage id="settings" defaultMessage="Settings" />
             </RouteNavItem>
           </Nav>
         </Collapse>
@@ -166,21 +158,16 @@ class Header extends Component {
   }
 }
 
-Header.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => {
   return {
-    language: state.i18nState.lang,
+    language: state.layout.language,
     route: state.router.location
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    doChangeLanguage: lang => dispatch(doChangeLanguage(lang)),
-    setLanguage: lang => dispatch(setLanguage(lang))
+    doChangeLanguage: lang => dispatch(doChangeLanguage(lang))
   };
 };
 

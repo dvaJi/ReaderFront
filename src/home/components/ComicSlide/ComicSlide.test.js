@@ -1,26 +1,17 @@
 import React from 'react';
-import I18n from 'redux-i18n';
-import { Provider } from 'react-redux';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
 import NextButton from './NextButton';
-import HomeContainer from '../../containers/HomeContainer';
-import { translations } from '../../../translations';
-import store from '../../../store';
 import { getReleases } from '../../../utils/mocks/getReleasesMock';
 
 const releases = getReleases();
 
 it('renders while loading without crashing', async () => {
   const wrapper = await mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <MemoryRouter>
-          <ComicSlide blocks={[]} isLoading={true} />
-        </MemoryRouter>
-      </I18n>
-    </Provider>
+    <MemoryRouter>
+      <ComicSlide blocks={[]} isLoading={true} />
+    </MemoryRouter>
   );
 
   expect(wrapper).toBeTruthy();
@@ -30,13 +21,9 @@ it('renders while loading without crashing', async () => {
 it('renders without crashing', async () => {
   const blocks = createBlocks(releases);
   const wrapper = mount(
-    <Provider store={store}>
-      <I18n translations={translations}>
-        <MemoryRouter>
-          <ComicSlide blocks={blocks} isLoading={false} />
-        </MemoryRouter>
-      </I18n>
-    </Provider>
+    <MemoryRouter>
+      <ComicSlide blocks={blocks} isLoading={false} />
+    </MemoryRouter>
   );
   expect(wrapper).toBeTruthy();
   await wrapper.unmount();

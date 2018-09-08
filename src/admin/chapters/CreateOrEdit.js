@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -12,6 +11,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
 import { slug } from '../../utils/helpers';
@@ -74,7 +74,11 @@ class CreateOrEdit extends Component {
         })
         .catch(error => {
           this.setState({
-            error: this.context.t('error_fetching_chapter')
+            error: this.props.intl.formatMessage({
+              id: 'error_fetching_chapter',
+              defaultMessage:
+                'There was some error fetching the chapter. Please try again.'
+            })
           });
         });
     }
@@ -126,7 +130,12 @@ class CreateOrEdit extends Component {
         if (response.data.errors && response.data.errors.length > 0) {
           this.setState({ error: response.data.errors[0].message });
         } else {
-          this.setState({ success: this.context.t('chapter_saved') });
+          this.setState({
+            success: this.props.intl.formatMessage({
+              id: 'chapter_saved',
+              defaultMessage: 'Chapter saved successfully.'
+            })
+          });
 
           window.setTimeout(() => {
             this.props.history.push(
@@ -141,7 +150,12 @@ class CreateOrEdit extends Component {
         }
       })
       .catch(error => {
-        this.setState({ error: this.context.t('unknown_error') });
+        this.setState({
+          error: this.props.intl.formatMessage({
+            id: 'unknown_error',
+            defaultMessage: 'There was some error. Please try again.'
+          })
+        });
 
         this.setState({
           isLoading: false
@@ -166,23 +180,32 @@ class CreateOrEdit extends Component {
               this.props.match.params.stub
             }
           >
-            <Button>{this.context.t('go_back')}</Button>
+            <Button>
+              <FormattedMessage id="go_back" defaultMessage="Go back" />
+            </Button>
           </Link>
 
           <h4>
-            {this.props.match.params.chapterId === undefined
-              ? this.context.t('create')
-              : this.context.t('edit')}{' '}
-            {this.context.t('chapter')}
+            {this.props.match.params.stub === undefined ? (
+              <FormattedMessage id="create" defaultMessage="Create" />
+            ) : (
+              <FormattedMessage id="edit" defaultMessage="Edit" />
+            )}{' '}
+            <FormattedMessage id="chapter" defaultMessage="Chapter" />
           </h4>
 
           <Form onSubmit={this.onSubmitChapter}>
             <FormGroup>
-              <Label for="name">{this.context.t('name')}</Label>
+              <Label for="name">
+                <FormattedMessage id="name" defaultMessage="Name" />
+              </Label>
               <Input
                 id="name"
                 type="text"
-                placeholder={this.context.t('name')}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'name',
+                  defaultMessage: 'Name'
+                })}
                 required="required"
                 name="name"
                 autoComplete="off"
@@ -191,11 +214,16 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="volume">{this.context.t('volume')}</Label>
+              <Label for="volume">
+                <FormattedMessage id="volume" defaultMessage="Volume" />
+              </Label>
               <Input
                 id="volume"
                 type="text"
-                placeholder={this.context.t('volume')}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'volume',
+                  defaultMessage: 'Volume'
+                })}
                 required="required"
                 name="volume"
                 autoComplete="off"
@@ -204,11 +232,16 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="chapter">{this.context.t('chapter')}</Label>
+              <Label for="chapter">
+                <FormattedMessage id="chapter" defaultMessage="Chapter" />
+              </Label>
               <Input
                 id="chapter"
                 type="text"
-                placeholder={this.context.t('chapter')}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'chapter',
+                  defaultMessage: 'Chapter'
+                })}
                 required="required"
                 name="chapter"
                 autoComplete="off"
@@ -217,11 +250,16 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="subchapter">{this.context.t('subchapter')}</Label>
+              <Label for="subchapter">
+                <FormattedMessage id="subchapter" defaultMessage="Subchapter" />
+              </Label>
               <Input
                 id="subchapter"
                 type="text"
-                placeholder={this.context.t('subchapter')}
+                placeholder={this.props.intl.formatMessage({
+                  id: 'subchapter',
+                  defaultMessage: 'Subchapter'
+                })}
                 required="required"
                 name="subchapter"
                 autoComplete="off"
@@ -230,7 +268,9 @@ class CreateOrEdit extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="language">{this.context.t('language')}</Label>
+              <Label for="language">
+                <FormattedMessage id="language" defaultMessage="Language" />
+              </Label>
               <Input
                 type="select"
                 name="language"
@@ -241,7 +281,10 @@ class CreateOrEdit extends Component {
               >
                 {this.state.languages.map(lang => (
                   <option key={lang.id + lang.name} value={lang.id}>
-                    {this.context.t(lang.name + '_full')}
+                    {this.props.intl.formatMessage({
+                      id: lang.name + '_full',
+                      defaultMessage: lang.name
+                    })}
                   </option>
                 ))}
               </Input>
@@ -250,13 +293,19 @@ class CreateOrEdit extends Component {
               <CustomInput
                 type="checkbox"
                 id="hidden"
-                label={this.context.t('hidden')}
+                label={this.props.intl.formatMessage({
+                  id: 'hidden',
+                  defaultMessage: 'Hidden'
+                })}
                 value={this.state.chapter.hidden}
               />
               <CustomInput
                 type="checkbox"
                 id="notShowAtStart"
-                label={this.context.t('notShowAtStart ')}
+                label={this.props.intl.formatMessage({
+                  id: 'not_show_at_start',
+                  defaultMessage: 'Not show at start (Home and Releases)'
+                })}
                 value={this.state.chapter.notShowAtStart}
               />
             </FormGroup>
@@ -266,7 +315,7 @@ class CreateOrEdit extends Component {
                 theme="secondary"
                 disabled={this.state.isLoading}
               >
-                {this.context.t('save')}
+                <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
             </FormGroup>
           </Form>
@@ -276,10 +325,6 @@ class CreateOrEdit extends Component {
   }
 }
 
-CreateOrEdit.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
 function CreateOrEditState(state, ownProps) {
   return {
     chapter: state.reader.chapter,
@@ -287,13 +332,13 @@ function CreateOrEditState(state, ownProps) {
   };
 }
 
-export default withRouter(
-  connect(
-    CreateOrEditState,
-    {
-      chapterCreateOrUpdate,
-      getChapter,
-      upload
-    }
-  )(CreateOrEdit)
-);
+const connectComponent = connect(
+  CreateOrEditState,
+  {
+    chapterCreateOrUpdate,
+    getChapter,
+    upload
+  }
+)(CreateOrEdit);
+
+export default injectIntl(withRouter(connectComponent));

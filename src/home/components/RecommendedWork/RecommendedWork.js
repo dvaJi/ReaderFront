@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -69,22 +70,25 @@ const LoadingCover = styled.div`
 `;
 
 export default class RecommendedWork extends PureComponent {
+  getCover(work) {
+    const dir = work ? work.stub + '_' + work.uniqid : '';
+    return work && work.covers
+      ? `/works/${dir}/${work.covers.medium_thumb.filename}`
+      : '/static/images/default-cover.png';
+  }
+  
   render() {
-    const dir = this.props.work
-      ? this.props.work.stub + '_' + this.props.work.uniqid
-      : '';
-    const coverUrl =
-      this.props.work && this.props.work.covers
-        ? `/works/${dir}/${this.props.work.covers.medium_thumb.filename}`
-        : '/static/images/default-cover.png';
+    const { work, isLoading, description } = this.props;
     return (
       <div className="Recommended mb-4">
-        <h3>{this.props.title}</h3>
-        {!this.props.isLoading ? (
-          <Serie to={`work/${this.props.work.stub}`} cover={coverUrl}>
+        <h3>
+          <FormattedMessage id="random" defaultMessage="Random" />
+        </h3>
+        {!isLoading ? (
+          <Serie to={`work/${work.stub}`} cover={this.getCover(work)}>
             <Overlay>
-              <span className="title">{this.props.work.name}</span>
-              <span className="desc">{this.props.description}</span>
+              <span className="title">{work.name}</span>
+              <span className="desc">{description}</span>
             </Overlay>
           </Serie>
         ) : (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import { fetchReleases, releasesPage } from '../actions/doReleases';
 import ReleasesList from '../components/ReleasesList';
 import * as config from '../../config';
@@ -64,38 +64,46 @@ class ReleasesContainer extends Component {
     }
   }
 
+  renderMetatags() {
+    const title = config.APP_TITLE;
+    return (
+      <div>
+        <Helmet>
+          <meta charSet="utf-8" />
+        </Helmet>
+        <FormattedMessage
+          id="releases.title"
+          defaultMessage="{title} - All chapters"
+          values={{ title: title }}
+        >
+          {title => (
+            <Helmet>
+              <title>{title}</title>
+              <meta property="og:title" content={title} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+        <FormattedMessage id="releases.desc" defaultMessage="All releases">
+          {desc => (
+            <Helmet>
+              <meta name="description" content={desc} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+      </div>
+    );
+  }
+
   render() {
     let { chapters, isLoading, page } = this.props;
     return (
       <div className="Releases">
-        <Helmet>
-          <title>
-            {config.APP_TITLE +
-              ' - ' +
-              this.context.t('Capítulos más recientes')}
-          </title>
-          <meta
-            name="description"
-            content={this.context.t('Capítulos más recientes')}
-          />
-          <meta
-            property="og:title"
-            content={
-              config.APP_TITLE +
-              ' - ' +
-              this.context.t('Capítulos más recientes')
-            }
-          />
-        </Helmet>
+        {this.renderMetatags()}
         <ReleasesList loading={isLoading} releases={chapters} page={page} />
       </div>
     );
   }
 }
-
-ReleasesContainer.contextTypes = {
-  t: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => {
   return {
@@ -103,7 +111,7 @@ const mapStateToProps = state => {
     page: state.releases.releasesPage,
     isLoading: state.releases.releasesIsLoading,
     hasErrored: state.releases.releasesHasErrored,
-    language: state.i18nState.lang
+    language: state.layout.language
   };
 };
 

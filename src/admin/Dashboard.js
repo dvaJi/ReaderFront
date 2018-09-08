@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CounterCard } from './common/CounterCard';
 import {
@@ -51,10 +50,6 @@ const Dashboard = () => (
     </div>
   </div>
 );
-
-Dashboard.propTypes = {
-  user: PropTypes.object.isRequired
-};
 
 function dashboardState(state) {
   return {

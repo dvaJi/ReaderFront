@@ -1,6 +1,6 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React, { PureComponent } from 'react';
+import { injectIntl } from 'react-intl';
+import styled from 'styled-components';
 import { forceCheck } from 'react-lazyload';
 
 const FilterCardComp = styled.div`
@@ -31,7 +31,10 @@ class FilterCard extends PureComponent {
           type="text"
           name="q"
           className="form-control"
-          placeholder={this.context.t("Buscar serie...")}
+          placeholder={this.props.intl.formatMessage({
+            id: 'search_work',
+            defaultMessage: 'Search...'
+          })}
           id="q"
           value={this.props.filterText}
           onChange={this.handleFilterTextChange}
@@ -41,8 +44,4 @@ class FilterCard extends PureComponent {
   }
 }
 
-FilterCard.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default FilterCard;
+export default injectIntl(FilterCard);

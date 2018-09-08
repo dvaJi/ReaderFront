@@ -1,7 +1,6 @@
 import React from 'react';
-import I18n from 'redux-i18n';
 import thunk from 'redux-thunk';
-import { shallow } from 'enzyme';
+import { shallowWithIntl } from 'enzyme-react-intl';
 import configureMockStore from 'redux-mock-store';
 import AuthContainer from './AuthContainer';
 
@@ -16,15 +15,11 @@ it('renders without crashing', () => {
         pathname: 'LUL'
       }
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    layout: {
+      language: 'es'
     }
   });
-  shallow(
-    <I18n store={store} translations={{}}>
-      <AuthContainer route={{ pathname: 'LUL' }} />
-    </I18n>
-  );
+  const wrapper = shallowWithIntl(<AuthContainer route={{ pathname: 'LUL' }} />);
+
+  expect(wrapper).toBeTruthy();
 });

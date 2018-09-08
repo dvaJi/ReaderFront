@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 const Root = styled.div`
   background-color: #0747a6;
@@ -139,7 +139,10 @@ class AuthContainer extends Component {
                   <div>
                     <Link id="signup" className="primary-action" to="/signup">
                       <span>
-                        {this.context.t('Regístrese para obtener una cuenta')}
+                        <FormattedMessage
+                          id="auth.signup_message"
+                          defaultMessage="Sign up for an account"
+                        />
                       </span>
                     </Link>
                   </div>
@@ -152,9 +155,5 @@ class AuthContainer extends Component {
     );
   }
 }
-
-AuthContainer.contextTypes = {
-  t: PropTypes.func.isRequired
-};
 
 export default AuthContainer;

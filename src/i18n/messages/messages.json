@@ -1,0 +1,462 @@
+[
+  {
+    "id": "home.title",
+    "defaultMessage": "{title} - Home"
+  },
+  {
+    "id": "home.desc",
+    "defaultMessage": "All releases"
+  },
+  {
+    "id": "works.title",
+    "defaultMessage": "{title} - Projects list"
+  },
+  {
+    "id": "works.desc",
+    "defaultMessage": "All {title} Projects"
+  },
+  {
+    "id": "random",
+    "defaultMessage": "Random"
+  },
+  {
+    "id": "recently_added",
+    "defaultMessage": "Recently added"
+  },
+  {
+    "id": "home",
+    "defaultMessage": "Home"
+  },
+  {
+    "id": "releases",
+    "defaultMessage": "Releases"
+  },
+  {
+    "id": "projects",
+    "defaultMessage": "Projects"
+  },
+  {
+    "id": "dashboard",
+    "defaultMessage": "Dashboard"
+  },
+  {
+    "id": "projects",
+    "defaultMessage": "Projects"
+  },
+  {
+    "id": "posts",
+    "defaultMessage": "Posts"
+  },
+  {
+    "id": "settings",
+    "defaultMessage": "Settings"
+  },
+  {
+    "id": "search_work",
+    "defaultMessage": "Search..."
+  },
+  {
+    "id": "go_back",
+    "defaultMessage": "Go back"
+  },
+  {
+    "id": "create",
+    "defaultMessage": "Create"
+  },
+  {
+    "id": "edit",
+    "defaultMessage": "Edit"
+  },
+  {
+    "id": "chapter",
+    "defaultMessage": "Chapter"
+  },
+  {
+    "id": "name",
+    "defaultMessage": "Name"
+  },
+  {
+    "id": "volume",
+    "defaultMessage": "Volume"
+  },
+  {
+    "id": "subchapter",
+    "defaultMessage": "Subchapter"
+  },
+  {
+    "id": "language",
+    "defaultMessage": "Language"
+  },
+  {
+    "id": "hidden",
+    "defaultMessage": "Hidden"
+  },
+  {
+    "id": "not_show_at_start",
+    "defaultMessage": "Not show at start (Home and Releases)"
+  },
+  {
+    "id": "save",
+    "defaultMessage": "Save"
+  },
+  {
+    "id": "delete_all",
+    "defaultMessage": "Delete all"
+  },
+  {
+    "id": "upload_selected",
+    "defaultMessage": "Upload selected"
+  },
+  {
+    "id": "drop_or_browse_files",
+    "defaultMessage": "Drop or Browse images"
+  },
+  {
+    "id": "manage_chapter",
+    "defaultMessage": "Manage chapter"
+  },
+  {
+    "id": "thumbnail",
+    "defaultMessage": "Thumbnail"
+  },
+  {
+    "id": "confirm",
+    "defaultMessage": "Confirm"
+  },
+  {
+    "id": "agree",
+    "defaultMessage": "Agree"
+  },
+  {
+    "id": "cancel",
+    "defaultMessage": "Cancel"
+  },
+  {
+    "id": "confirm_delete_pages",
+    "defaultMessage": "Are you sure? All pages in this chapter will be deleted."
+  },
+  {
+    "id": "error_size_limit",
+    "defaultMessage": "Error: This file exceeds the maximum upload size"
+  },
+  {
+    "id": "upload_page",
+    "defaultMessage": "Upload page"
+  },
+  {
+    "id": "select_page_as_default",
+    "defaultMessage": "Select page as default"
+  },
+  {
+    "id": "delete_page",
+    "defaultMessage": "Delete page"
+  },
+  {
+    "id": "chapter_saved",
+    "defaultMessage": "Chapter saved successfully."
+  },
+  {
+    "id": "unknown_error",
+    "defaultMessage": "There was some error. Please try again."
+  },
+  {
+    "id": "try_again",
+    "defaultMessage": "Please try again."
+  },
+  {
+    "id": "work_saved",
+    "defaultMessage": "Work saved successfully."
+  },
+  {
+    "id": "uploading_file",
+    "defaultMessage": "Uploading file, please wait..."
+  },
+  {
+    "id": "file_uploaded",
+    "defaultMessage": "File uploaded successfully."
+  },
+  {
+    "id": "main_name",
+    "defaultMessage": "Main name"
+  },
+  {
+    "id": "status",
+    "defaultMessage": "Status"
+  },
+  {
+    "id": "remove",
+    "defaultMessage": "Remove"
+  },
+  {
+    "id": "type",
+    "defaultMessage": "Type"
+  },
+  {
+    "id": "demographic",
+    "defaultMessage": "Demographic"
+  },
+  {
+    "id": "adult_",
+    "defaultMessage": "Adult?"
+  },
+  {
+    "id": "cover",
+    "defaultMessage": "Cover"
+  },
+  {
+    "id": "upload_cover",
+    "defaultMessage": "Upload cover"
+  },
+  {
+    "id": "confirm_delete_chapter",
+    "defaultMessage": "confirm_delete_chapter"
+  },
+  {
+    "id": "add_chapter",
+    "defaultMessage": "Add chapter"
+  },
+  {
+    "id": "cover",
+    "defaultMessage": "Cover"
+  },
+  {
+    "id": "created_at",
+    "defaultMessage": "Created at"
+  },
+  {
+    "id": "updated_at",
+    "defaultMessage": "Updated at"
+  },
+  {
+    "id": "actions",
+    "defaultMessage": "Actions"
+  },
+  {
+    "id": "loading",
+    "defaultMessage": "Loading..."
+  },
+  {
+    "id": "chapters_empty",
+    "defaultMessage": "Chapters empty"
+  },
+  {
+    "id": "add_work",
+    "defaultMessage": "Add Work"
+  },
+  {
+    "id": "work_no_desc_added",
+    "defaultMessage": "This work will not be displayed, please add a description"
+  },
+  {
+    "id": "works_empty",
+    "defaultMessage": "Works empty"
+  },
+  {
+    "id": "read_more",
+    "defaultMessage": "Read More"
+  },
+  {
+    "id": "comments",
+    "defaultMessage": "Comments"
+  },
+  {
+    "id": "previous_chapter",
+    "defaultMessage": "Previous chapter"
+  },
+  {
+    "id": "next_chapter",
+    "defaultMessage": "Next chapter"
+  },
+  {
+    "id": "releases.title",
+    "defaultMessage": "{title} - All chapters"
+  },
+  {
+    "id": "releases.desc",
+    "defaultMessage": "All releases"
+  },
+  {
+    "id": "auth.signup_message",
+    "defaultMessage": "Sign up for an account"
+  },
+  {
+    "id": "email",
+    "defaultMessage": "Email"
+  },
+  {
+    "id": "password",
+    "defaultMessage": "Password"
+  },
+  {
+    "id": "login",
+    "defaultMessage": "Login"
+  },
+  {
+    "id": "download_chapter",
+    "defaultMessage": "Download chapter"
+  },
+  {
+    "id": "description",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "genres",
+    "defaultMessage": "Genres"
+  },
+  {
+    "id": "work.desc",
+    "defaultMessage": "All the latest and most recent chapters of {workName}"
+  },
+  {
+    "id": "chapters_list",
+    "defaultMessage": "Chapters"
+  },
+  {
+    "id": "es_full",
+    "defaultMessage": "Spanish"
+  },
+  {
+    "id": "en_full",
+    "defaultMessage": "English"
+  },
+  {
+    "id": "action",
+    "defaultMessage": "Action"
+  },
+  {
+    "id": "adult",
+    "defaultMessage": "Adult"
+  },
+  {
+    "id": "adventure",
+    "defaultMessage": "Adventure"
+  },
+  {
+    "id": "comedy",
+    "defaultMessage": "Comedy"
+  },
+  {
+    "id": "doujinshi",
+    "defaultMessage": "Doujinshi"
+  },
+  {
+    "id": "drama",
+    "defaultMessage": "Drama"
+  },
+  {
+    "id": "ecchi",
+    "defaultMessage": "Ecchi"
+  },
+  {
+    "id": "gender_bender",
+    "defaultMessage": "Gender Bender"
+  },
+  {
+    "id": "fantasy",
+    "defaultMessage": "Fantasy"
+  },
+  {
+    "id": "harem",
+    "defaultMessage": "Harem"
+  },
+  {
+    "id": "hentai",
+    "defaultMessage": "Hentai"
+  },
+  {
+    "id": "historical",
+    "defaultMessage": "Historical"
+  },
+  {
+    "id": "horror",
+    "defaultMessage": "Horror"
+  },
+  {
+    "id": "martial_arts",
+    "defaultMessage": "Martial Arts"
+  },
+  {
+    "id": "mature",
+    "defaultMessage": "Mature"
+  },
+  {
+    "id": "mecha",
+    "defaultMessage": "Mecha"
+  },
+  {
+    "id": "mystery",
+    "defaultMessage": "Mystery"
+  },
+  {
+    "id": "psychological",
+    "defaultMessage": "Psychological"
+  },
+  {
+    "id": "romance",
+    "defaultMessage": "Romance"
+  },
+  {
+    "id": "school_life",
+    "defaultMessage": "School Life"
+  },
+  {
+    "id": "sci_fi",
+    "defaultMessage": "Sci-fi"
+  },
+  {
+    "id": "slice_of_life",
+    "defaultMessage": "Slice Of Life"
+  },
+  {
+    "id": "smut",
+    "defaultMessage": "Smut"
+  },
+  {
+    "id": "sports",
+    "defaultMessage": "Sports"
+  },
+  {
+    "id": "supernatural",
+    "defaultMessage": "Supernatural"
+  },
+  {
+    "id": "tragedy",
+    "defaultMessage": "Tragedy"
+  },
+  {
+    "id": "tutorials",
+    "defaultMessage": "Turorials"
+  },
+  {
+    "id": "news",
+    "defaultMessage": "News"
+  },
+  {
+    "id": "other",
+    "defaultMessage": "Others"
+  },
+  {
+    "id": "publish",
+    "defaultMessage": "Publish"
+  },
+  {
+    "id": "draft",
+    "defaultMessage": "Draft"
+  },
+  {
+    "id": "trash",
+    "defaultMessage": "Trash"
+  },
+  {
+    "id": "on_going",
+    "defaultMessage": "On going"
+  },
+  {
+    "id": "completed",
+    "defaultMessage": "Completed"
+  },
+  {
+    "id": "dropped",
+    "defaultMessage": "Dropped"
+  }
+]
