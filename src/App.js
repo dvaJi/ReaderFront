@@ -23,7 +23,10 @@ import translations from './i18n/locales';
 addLocaleData([...en, ...es]);
 
 // Language
-const language = window.localStorage.getItem('rf_language') || 'en';
+const langNav = navigator.language || navigator.userLanguage;
+const language = langNav
+  ? langNav.split('-')[0]
+  : window.localStorage.getItem('rf_language') || 'en';
 store.dispatch(
   updateIntl({
     locale: language,
