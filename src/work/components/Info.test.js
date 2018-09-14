@@ -1,15 +1,12 @@
 import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
-
-import { getWork } from '../../utils/mocks/getWorksMock';
-import { normalizeWork } from '../../utils/normalizeWork';
 import Info from './Info';
 
 const description = {
   description: '...'
 };
 
-const work = normalizeWork(getWork);
+const work = global.rfMocks.work.workNormalized;
 
 it('renders without crashing', () => {
   const wrapper = mountWithIntl(<Info work={work} description={description} />);

@@ -130,11 +130,11 @@ class PostCard extends Component {
   }
 
   render() {
-    const { categoryLabel, title, thumbnail } = this.props.post;
+    const { post, children } = this.props;
 
     return (
       <Card onClick={e => this.doSelect(e)}>
-        <CardHero thumb={thumbnail}>
+        <CardHero thumb={post.thumbnail}>
           <CardOverlay>
             <h3>
               <FormattedMessage id="read_more" defaultMessage="Read More" />
@@ -142,15 +142,15 @@ class PostCard extends Component {
           </CardOverlay>
         </CardHero>
         <CardBody>
-          <CardBodyTitle>{title}</CardBodyTitle>
-          <CardBodyDescription>{this.props.children}</CardBodyDescription>
+          <CardBodyTitle>{post.title}</CardBodyTitle>
+          <CardBodyDescription>{children}</CardBodyDescription>
         </CardBody>
         <CardFooter>
           <CardFooterWrapper layout="row bottom-left">
             <CardFooterTag>
               <FormattedMessage
-                id={'blog.category.' + categoryLabel}
-                defaultMessage={categoryLabel}
+                id={post.categoryLabel}
+                defaultMessage={post.categoryLabel}
               />
             </CardFooterTag>
           </CardFooterWrapper>

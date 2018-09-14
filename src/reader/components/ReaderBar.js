@@ -83,6 +83,7 @@ class ReaderBar extends PureComponent {
         </div>
         <div className="float-right">
           <Button
+            id="previous_chapter"
             text={intl.formatMessage({
               id: 'previous_chapter',
               defaultMessage: 'Previous chapter'
@@ -92,6 +93,7 @@ class ReaderBar extends PureComponent {
             chapter={prevChapter}
           />{' '}
           <Button
+            id="next_chapter"
             text={intl.formatMessage({
               id: 'next_chapter',
               defaultMessage: 'Next chapter'

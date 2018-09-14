@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { register } from '../actions/doUser';
@@ -53,7 +54,10 @@ class Signup extends Component {
           });
         } else {
           this.setState({
-            success: 'Signed up successfully.'
+            success: this.props.intl.formatMessage({
+              id: 'success_signup',
+              defaultMessage: 'Signed up successfully.'
+            })
           });
           this.props.history.push('/login');
         }
@@ -61,7 +65,11 @@ class Signup extends Component {
       .catch(error => {
         this.setState({
           isLoading: false,
-          error: 'There was some error signing you up. Please try again.'
+          error: this.props.intl.formatMessage({
+            id: 'uknown_error_signup',
+            defaultMessage:
+              'There was some error signing you up. Please try again.'
+          })
         });
       });
   };
@@ -69,17 +77,22 @@ class Signup extends Component {
   render() {
     return (
       <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+        {this.state.error && <Alert id="signup_error_alert" color="danger">{this.state.error}</Alert>}
         {this.state.success && (
           <Alert color="success">{this.state.success}</Alert>
         )}
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
-            <Label for="username">{this.context.t('Nombre de usuario')}</Label>
+            <Label for="username">
+              <FormattedMessage id="username" defaultMessage="Username" />
+            </Label>
             <Input
               id="username"
               type="text"
-              placeholder={this.context.t('Nombre de usuario')}
+              placeholder={this.props.intl.formatMessage({
+                id: 'username',
+                defaultMessage: 'Username'
+              })}
               required="required"
               name="name"
               value={this.state.user.name}
@@ -87,23 +100,33 @@ class Signup extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="email">{this.context.t('Correo electrónico')}</Label>
+            <Label for="email">
+              <FormattedMessage id="email" defaultMessage="Email" />
+            </Label>
             <Input
               id="email"
               type="email"
               name="email"
-              placeholder={this.context.t('Correo electrónico')}
+              placeholder={this.props.intl.formatMessage({
+                id: 'email',
+                defaultMessage: 'Email'
+              })}
               required="required"
               value={this.state.user.email}
               onChange={this.onChange}
             />
           </FormGroup>
           <FormGroup>
-            <Label for="password">{this.context.t('Contraseña')}</Label>
+            <Label for="password">
+              <FormattedMessage id="password" defaultMessage="Password" />
+            </Label>
             <Input
               id="password"
               type="password"
-              placeholder={this.context.t('Contraseña')}
+              placeholder={this.props.intl.formatMessage({
+                id: 'password',
+                defaultMessage: 'Password'
+              })}
               required="required"
               name="password"
               value={this.state.user.password}
@@ -111,7 +134,7 @@ class Signup extends Component {
             />
           </FormGroup>
           <Button type="submit" size="lg" block disabled={this.state.isLoading}>
-            {this.context.t('Iniciar sesión')}
+            <FormattedMessage id="signup" defaultMessage="Signup" />
           </Button>
         </Form>
         <AuthCheck />
@@ -124,11 +147,9 @@ Signup.propTypes = {
   register: PropTypes.func.isRequired
 };
 
-Signup.contextTypes = {
-  t: PropTypes.func.isRequired
-};
-
-export default connect(
-  null,
-  { register }
-)(withRouter(Signup));
+export default injectIntl(
+  connect(
+    null,
+    { register }
+  )(withRouter(Signup))
+);
