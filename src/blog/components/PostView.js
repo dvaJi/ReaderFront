@@ -18,7 +18,7 @@ const Container = styled.div`
   white-space: normal;
 `;
 
-export default class PostCard extends Component {
+export default class PostView extends Component {
   render() {
     const { title, content } = this.props.post;
 

@@ -2,12 +2,11 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
 import { fetchWork, fetchRandomWork } from './doWork';
-import { getWork } from '../../utils/mocks/getWorksMock';
-import { normalizeWork } from '../../utils/normalizeWork';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const work = getWork;
+const work = global.rfMocks.work.work;
+const workNormalized = global.rfMocks.work.workNormalized;
 
 describe('fetchWork actions', () => {
   beforeEach(function() {
@@ -30,7 +29,7 @@ describe('fetchWork actions', () => {
 
     const expectedActions = [
       { type: 'WORK_IS_LOADING', isLoading: true },
-      { type: 'WORK_FETCH_DATA_SUCCESS', work: normalizeWork(work) },
+      { type: 'WORK_FETCH_DATA_SUCCESS', work: workNormalized },
       { type: 'WORK_IS_LOADING', isLoading: false }
     ];
 
@@ -106,7 +105,7 @@ describe('fetchRandomWork actions', () => {
       { type: 'WORK_RANDOM_IS_LOADING', isLoading: true },
       {
         type: 'RANDOM_WORK_FETCH_DATA_SUCCESS',
-        work: normalizeWork(work)
+        work: workNormalized
       },
       { type: 'WORK_RANDOM_IS_LOADING', isLoading: false }
     ];

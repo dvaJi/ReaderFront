@@ -1,14 +1,12 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
-import { fetchWorks, worksFetchDataSuccess } from './doWorks';
-import { getWorks } from '../../utils/mocks/getWorksMock';
-import { normalizeWork } from '../../utils/normalizeWork';
+import { fetchWorks } from './doWorks';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const works = getWorks;
-const worksNormalized = works.map(work => normalizeWork(work));
+const works = global.rfMocks.work.works;
+const worksNormalized = global.rfMocks.work.worksNormalized;
 
 describe('fetchWorks actions', () => {
   beforeEach(function() {
@@ -49,11 +47,9 @@ describe('fetchWorks actions', () => {
       }
     });
 
-    return store
-      .dispatch(fetchWorks('es', 'ASC', 120))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+    return store.dispatch(fetchWorks('es', 'ASC', 120)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 });
 

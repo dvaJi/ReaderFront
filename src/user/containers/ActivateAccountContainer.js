@@ -27,10 +27,10 @@ class ActivateAccount extends Component {
     this.setState({
       isLoading: true
     });
-    const searchLocation = getQueryParams(this.props.searchLocation);
+    const params = getQueryParams(this.props.searchLocation);
     const userActivate = {
-      email: searchLocation.email,
-      activatedToken: searchLocation.token
+      email: params.email,
+      activatedToken: params.token
     };
 
     this.props
@@ -62,7 +62,7 @@ class ActivateAccount extends Component {
   render() {
     return (
       <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+        {this.state.error && <Alert id="activate-account_error_alert" color="danger">{this.state.error}</Alert>}
         {this.state.success && (
           <Alert color="success">{this.state.success}</Alert>
         )}

@@ -458,5 +458,17 @@
   {
     "id": "dropped",
     "defaultMessage": "Dropped"
+  },
+  {
+    "id": "success_signup",
+    "defaultMessage": "Signed up successfully."
+  },
+  {
+    "id": "uknown_error_signup",
+    "defaultMessage": "There was some error signing you up. Please try again."
+  },
+  {
+    "id": "signup",
+    "defaultMessage": "Signup"
   }
 ]

@@ -1,11 +1,12 @@
-import React, { PureComponent } from "react";
-import { Link } from "react-router-dom";
-import { Button as RButton } from "reactstrap";
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
+import { Button as RButton } from 'reactstrap';
 
 export default class Button extends PureComponent {
   render() {
     return (
       <RButton
+        id={this.props.id}
         tag={Link}
         color="primary"
         onClick={e =>

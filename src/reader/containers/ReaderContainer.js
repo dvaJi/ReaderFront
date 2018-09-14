@@ -31,7 +31,7 @@ class ReaderContainer extends Component {
   }
 
   handleDisqusChange(chapter) {
-    const lang = this.props.params.lang || 'es';
+    const lang = this.props.match.params.lang || 'es';
     this.setState({
       disqusConfig: {
         id: `${chapter.work.uniqid}-${chapter.uniqid}`,
@@ -61,22 +61,23 @@ class ReaderContainer extends Component {
   // New props validations
   isChapterEmpty = newProps =>
     this.props.chapter === null && newProps.chapters.length > 0;
-  isNewSerie = newProps => this.props.params.stub !== newProps.params.stub;
+  isNewSerie = newProps =>
+    this.props.match.params.stub !== newProps.match.params.stub;
   isNewChapter = newProps =>
-    this.props.params.chapter !== newProps.params.chapter ||
-    this.props.params.subchapter !== newProps.params.subchapter;
+    this.props.match.params.chapter !== newProps.match.params.chapter ||
+    this.props.match.params.subchapter !== newProps.match.params.subchapter;
   serieHasChanged = newProps =>
     newProps.chapter &&
     newProps.chapters.length > 0 &&
-    newProps.chapters[0].language === this.props.params.lang &&
-    newProps.chapters[0].work.stub === this.props.params.stub &&
-    (newProps.chapter.chapter !== this.props.params.chapter ||
-      newProps.chapter.subchapter !== this.props.params.subchapter);
+    newProps.chapters[0].language === this.props.match.params.lang &&
+    newProps.chapters[0].work.stub === this.props.match.params.stub &&
+    (newProps.chapter.chapter !== this.props.match.params.chapter ||
+      newProps.chapter.subchapter !== this.props.match.params.subchapter);
 
   componentWillReceiveProps(newProps) {
     if (this.isNewSerie(newProps)) {
-      const lang = this.props.params.lang || 'es';
-      this.props.getChapters(lang, this.props.params.stub);
+      const lang = this.props.match.params.lang || 'es';
+      this.props.getChapters(lang, this.props.match.params.stub);
     } else if (
       this.isChapterEmpty(newProps) ||
       this.isNewChapter(newProps) ||
@@ -84,8 +85,8 @@ class ReaderContainer extends Component {
     ) {
       let newChapter = newProps.chapters.find(
         chapter =>
-          chapter.chapter === Number(newProps.params.chapter) &&
-          chapter.subchapter === Number(newProps.params.subchapter)
+          chapter.chapter === Number(newprops.match.params.chapter) &&
+          chapter.subchapter === Number(newprops.match.params.subchapter)
       );
 
       if (newChapter === undefined) {
@@ -98,8 +99,8 @@ class ReaderContainer extends Component {
 
   componentDidMount() {
     try {
-      const lang = this.props.params.lang || 'es';
-      this.props.getChapters(lang, this.props.params.stub);
+      const lang = this.props.match.params.lang || 'es';
+      this.props.getChapters(lang, this.props.match.params.stub);
     } catch (e) {
       console.error(e);
     }
@@ -126,7 +127,7 @@ class ReaderContainer extends Component {
             content={getChapterPageUrl(
               chapter.work,
               chapter,
-              chapter.pages[0].filename
+              chapter.thumbnail
             )}
           />
         </Helmet>
@@ -168,7 +169,7 @@ const mapStateToProps = (state, ownProps) => {
     chapter: state.reader.chapter,
     isLoading: state.reader.readerIsLoading,
     hasErrored: state.reader.readerHasErrored,
-    params: ownProps.match.params,
+    match: state.match || ownProps.match,
     language: state.layout.language
   };
 };

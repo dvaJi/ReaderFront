@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import WorksContainer from './WorksContainer';
@@ -11,16 +11,7 @@ import moxios from '@anilanar/moxios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-
-beforeEach(function() {
-  moxios.install();
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
-
-// TODO: Improve this test with moxios
+const works = global.rfMocks.work.worksNormalized;
 
 it('should render without throwing an error', () => {
   const store = mockStore({
@@ -49,7 +40,7 @@ it('should render without throwing an error', () => {
 it('should filter works', () => {
   const store = mockStore({
     works: {
-      works: [],
+      works: works,
       worksFilterText: '',
       worksIsLoading: false,
       workHasErrored: false
@@ -69,7 +60,7 @@ it('should filter works', () => {
   input.simulate('change');
 });
 
-it('should render without throwing an error when it receive a new language props', () => {
+it('should render without throwing an error when it receive a new language props', async () => {
   const store = mockStore({
     works: {
       works: [],
@@ -78,20 +69,14 @@ it('should render without throwing an error when it receive a new language props
       workHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: 'en'
     }
   });
-  const wrapper = mount(
-    <App>
-      <Provider store={store}>
-        <WorksContainer />
-      </Provider>
-    </App>
-  );
+  const wrapper = await mountWithIntl(<WorksContainer store={store} />);
+  await wrapper.update();
+  wrapper.setProps({ language: 'es' });
 
-  store.dispatch(doChangeLanguage('en'));
-  wrapper.update();
-  store.dispatch(doChangeLanguage('es'));
-  wrapper.update();
+  await store.dispatch(doChangeLanguage('es'));
+  await wrapper.update();
   wrapper.unmount();
 });
