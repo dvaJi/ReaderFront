@@ -85,8 +85,8 @@ class ReaderContainer extends Component {
     ) {
       let newChapter = newProps.chapters.find(
         chapter =>
-          chapter.chapter === Number(newprops.match.params.chapter) &&
-          chapter.subchapter === Number(newprops.match.params.subchapter)
+          chapter.chapter === Number(newProps.match.params.chapter) &&
+          chapter.subchapter === Number(newProps.match.params.subchapter)
       );
 
       if (newChapter === undefined) {
