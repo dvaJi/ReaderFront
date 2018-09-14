@@ -4,10 +4,9 @@ import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
-import LoginContainer from './LoginContainer';
+import SignupContainer from './SignupContainer';
 import { Form } from 'reactstrap';
 import { MemoryRouter } from 'react-router-dom';
-import { authError } from '../actions/doUser';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -24,7 +23,7 @@ it('should render without throwing an error', () => {
   const store = mockStore({
     user: {}
   });
-  const wrapper = shallowWithIntl(<LoginContainer store={store} />);
+  const wrapper = shallowWithIntl(<SignupContainer store={store} />);
 
   expect(wrapper).toBeTruthy();
 });
@@ -44,18 +43,21 @@ it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <LoginContainer
+        <SignupContainer
           store={store}
           router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
         />
       </MemoryRouter>
     </Provider>
   );
 
   const form = wrapper.find(Form);
+  const inputUsername = form.find('input[name="name"]');
+  inputUsername.simulate('change', { target: { value: 'user01' } });
+
   const inputEmail = form.find('input[name="email"]');
   inputEmail.simulate('change', { target: { value: 'test@example.com' } });
+
   const inputPasword = form.find('input[name="password"]');
   inputPasword.simulate('change', { target: { value: '123456' } });
 
@@ -67,12 +69,12 @@ it('should render without throwing an error', async () => {
     statusText: 'OK',
     response: {
       data: {
-        userLogin: {
+        userSignup: {
           token: 'f4k3T0k3N',
           user: {
-            name: 'Admin',
-            email: 'my@email.com',
-            role: 'admin'
+            name: 'user01',
+            email: 'test@example.com',
+            role: 'user'
           }
         }
       }
@@ -82,51 +84,54 @@ it('should render without throwing an error', async () => {
   wrapper.unmount();
 });
 
-it('should render an error if login not match', async () => {
-  const state = {
-    user: { isLoading: false, error: null },
-    router: {
-      location: {
-        pathname: 'LUL'
-      }
-    },
-    layout: {
-      language: 'es'
-    }
-  };
-  const store = mockStore(state);
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <LoginContainer
-          store={store}
-          router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
-        />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  const form = wrapper.find(Form);
-  const inputEmail = form.find('input[name="email"]');
-  inputEmail.simulate('change', { target: { value: 'iam@god.com' } });
-  const inputPasword = form.find('input[name="password"]');
-  inputPasword.simulate('change', { target: { value: 'h4ck3rm4n' } });
-
-  await form.simulate('submit');
-
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 200,
-    statusText: 'OK',
-    response: {
-      errors: [
-        {
-          message: 'You dont rule here :('
+it('should render an error', async () => {
+    const store = mockStore({
+      user: { isLoading: false, error: null },
+      router: {
+        location: {
+          pathname: 'LUL'
         }
-      ]
-    }
-  });
+      },
+      layout: {
+        language: 'es'
+      }
+    });
+    const wrapper = mountWithIntl(
+      <Provider store={store}>
+        <MemoryRouter>
+          <SignupContainer
+            store={store}
+            router={{ location: { pathname: 'AS' } }}
+          />
+        </MemoryRouter>
+      </Provider>
+    );
+  
+    const form = wrapper.find(Form);
+    const inputUsername = form.find('input[name="name"]');
+    inputUsername.simulate('change', { target: { value: 'user01' } });
+  
+    const inputEmail = form.find('input[name="email"]');
+    inputEmail.simulate('change', { target: { value: 'test@example.com' } });
+  
+    const inputPasword = form.find('input[name="password"]');
+    inputPasword.simulate('change', { target: { value: '123456' } });
+  
+    await form.simulate('submit');
+  
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 400,
+      statusText: 'ERROR',
+      response: {
+        data: {
+          error: 'Error :('
+        }
+      }
+    });
 
-  wrapper.unmount();
-});
+    expect(wrapper.find('#signup_error_alert')).toBeDefined();
+  
+    wrapper.unmount();
+  });
+  

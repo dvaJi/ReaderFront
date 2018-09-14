@@ -1,11 +1,10 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'enzyme-react-intl';
-import { getWork } from '../../../utils/mocks/getWorksMock';
-import { normalizeWork } from '../../../utils/normalizeWork';
 import RecommendedWork from './RecommendedWork';
 
-const workNormalized = normalizeWork(getWork);
+const work = global.rfMocks.work.work;
+const workNormalized = global.rfMocks.work.workNormalized;
 
 it('renders while loading without crashing', () => {
   const wrapper = mountWithIntl(
@@ -40,7 +39,7 @@ it('renders the work without cover', () => {
     <MemoryRouter>
       <RecommendedWork
         title={'Test 2'}
-        work={getWork}
+        work={work}
         description={'Desc'}
         isLoading={false}
       />

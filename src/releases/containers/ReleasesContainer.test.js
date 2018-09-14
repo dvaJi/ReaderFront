@@ -1,27 +1,26 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import ReleasesContainer from './ReleasesContainer';
-import App from '../../App';
 import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
-import { releasesIsLoading, fetchReleases } from '../actions/doReleases';
+import { releasesIsLoading } from '../actions/doReleases';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const releases = global.rfMocks.releases.getReleases;
 
 beforeEach(function() {
   moxios.install();
+  global.window.resizeTo(1024);
 });
 
 afterEach(function() {
   moxios.uninstall();
 });
-
-// TODO: Improve this test with moxios
 
 it('should render without throwing an error', () => {
   const store = mockStore({
@@ -58,11 +57,11 @@ it('should render without throwing an error when it receive a new language props
     }
   });
   const wrapper = mountWithIntl(
-    <App>
-      <Provider store={store}>
+    <Provider store={store}>
+      <MemoryRouter>
         <ReleasesContainer />
-      </Provider>
-    </App>
+      </MemoryRouter>
+    </Provider>
   );
 
   store.dispatch(doChangeLanguage('en'));
@@ -70,11 +69,11 @@ it('should render without throwing an error when it receive a new language props
   wrapper.unmount();
 });
 
-it('should render without throwing an error when it receive a new language props', () => {
+it('should render new items if user scroll to bottom', () => {
   const store = mockStore({
     releases: {
-      chapters: [],
-      releasesPage: 0,
+      chapters: releases,
+      releasesPage: 1,
       releasesIsLoading: false,
       releasesHasErrored: false
     },
@@ -83,11 +82,11 @@ it('should render without throwing an error when it receive a new language props
     }
   });
   const wrapper = mountWithIntl(
-    <App>
-      <Provider store={store}>
+    <Provider store={store}>
+      <MemoryRouter>
         <ReleasesContainer />
-      </Provider>
-    </App>
+      </MemoryRouter>
+    </Provider>
   );
 
   store.dispatch(releasesIsLoading(false));
@@ -95,16 +94,7 @@ it('should render without throwing an error when it receive a new language props
 
   document.body.scrollTop = 40;
   window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
+
   wrapper.update();
   wrapper.unmount();
-});
-
-it('should throw if it receive a null lang or page props', () => {
-  expect(() => {
-    store.dispatch(fetchReleases('es', null));
-  }).toThrow();
-
-  expect(() => {
-    store.dispatch(fetchReleases(null, 1));
-  }).toThrow();
 });

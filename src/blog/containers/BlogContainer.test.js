@@ -1,19 +1,30 @@
-import React from "react";
-import { mount } from "enzyme";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware, combineReducers } from "redux";
-import BlogContainer from "./BlogContainer";
-import App from "../../App";
-import thunk from "redux-thunk";
-import rootReducer from "../../rootReducer";
-import store from "../../store";
-import { blogIsLoading, blogPage, fetchPosts } from "../actions/doBlog"
-import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
+import React from 'react';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { Provider } from 'react-redux';
+import BlogContainer from './BlogContainer';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
 
-it("should render without throwing an error", () => {
-  const props = {};
-  const wrapper = mount(
-    <Provider store={store} {...props}>
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const posts = global.rfMocks.posts.getPostsNormalized;
+
+it('should render without throwing an error', () => {
+  const store = mockStore({
+    blog: {
+      posts: posts,
+      post: null,
+      blogPage: 0,
+      blogIsLoading: false,
+      blogHasErrored: false
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <Provider store={store}>
       <BlogContainer />
     </Provider>
   );
@@ -21,51 +32,76 @@ it("should render without throwing an error", () => {
   wrapper.unmount();
 });
 
-it("should render without throwing an error when it receive a new language props", () => {
-  const wrapper = mount(
-    <App>
-      <Provider store={store}>
-        <BlogContainer />
-      </Provider>
-    </App>
+it('should render a post', () => {
+  const store = mockStore({
+    blog: {
+      posts: posts,
+      post: posts[0],
+      blogPage: 0,
+      blogIsLoading: false,
+      blogHasErrored: false
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <Provider store={store}>
+      <BlogContainer />
+    </Provider>
   );
-
-  store.dispatch(doChangeLanguage("en"));
-  wrapper.update();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-
-it("should render without throwing an error when it receive a new language props", () => {
-  const wrapper = mount(
-    <App>
-      <Provider store={store}>
-        <BlogContainer />
-      </Provider>
-    </App>
+it('should show a selected post', async () => {
+  const store = mockStore({
+    blog: {
+      posts: posts,
+      post: posts[0],
+      blogPage: 0,
+      blogIsLoading: false,
+      blogHasErrored: false
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <Provider store={store}>
+      <BlogContainer />
+    </Provider>
   );
 
-  store.dispatch(blogIsLoading(false));
-  wrapper.update();
+  await store.dispatch(doChangeLanguage('en'));
+  await wrapper.update();
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
+});
+
+it('should render new items if user scroll to bottom', async () => {
+  const store = mockStore({
+    blog: {
+      posts: posts,
+      post: null,
+      blogPage: 0,
+      blogIsLoading: false,
+      blogHasErrored: false
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <Provider store={store}>
+      <BlogContainer />
+    </Provider>
+  );
 
   document.body.scrollTop = 40;
-  window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
-  wrapper.update();
+  window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
+  
+  await wrapper.update();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
-
-it("should change page without throwing", () => {
-  expect(() => {
-    store.dispatch(blogPage(10));
-  }).not.toThrow();
-});
-
-
-it("should throw if lang is undefined or null", () => {
-  expect(() => {
-    store.dispatch(fetchPosts(null, 1));
-  }).toThrow();
-});
-

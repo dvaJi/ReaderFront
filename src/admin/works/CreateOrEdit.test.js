@@ -6,12 +6,11 @@ import { Form, ButtonDropdown } from 'reactstrap';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import moxios from '@anilanar/moxios';
-import { getWork } from '../../utils/mocks/getWorksMock';
 import CreateOrEdit from './CreateOrEdit';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const work = getWork;
+const work = global.rfMocks.work.work;
 
 beforeEach(function() {
   moxios.install();
