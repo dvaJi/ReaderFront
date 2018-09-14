@@ -4,9 +4,8 @@ import PostsList from './PostsList';
 import PostCard from './PostCard';
 import PostCardEmpty from './PostCardEmpty';
 import { BrowserRouter } from 'react-router-dom';
-import { getPosts } from '../../utils/mocks/getBlogMock';
 
-const posts = getPosts();
+const posts = global.rfMocks.posts.getPostsNormalized;
 const postsCard = generatePostCard(posts);
 
 it('renders without crashing', () => {

@@ -4,10 +4,8 @@ import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
-import LoginContainer from './LoginContainer';
-import { Form } from 'reactstrap';
+import ActivateAccountContainer from './ActivateAccountContainer';
 import { MemoryRouter } from 'react-router-dom';
-import { authError } from '../actions/doUser';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -24,12 +22,18 @@ it('should render without throwing an error', () => {
   const store = mockStore({
     user: {}
   });
-  const wrapper = shallowWithIntl(<LoginContainer store={store} />);
+  const wrapper = shallowWithIntl(
+    <ActivateAccountContainer
+      store={store}
+      location={{ search: '?email=test@aa.com&token=t0k3n' }}
+      router={{ location: { pathname: 'AS' } }}
+    />
+  );
 
   expect(wrapper).toBeTruthy();
 });
 
-it('should render without throwing an error', async () => {
+it('should show a success message if account is activated', async () => {
   const store = mockStore({
     user: { isLoading: false, error: null },
     router: {
@@ -44,22 +48,16 @@ it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <LoginContainer
+        <ActivateAccountContainer
           store={store}
           router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
+          location={{ search: '?email=test@aa.com&token=t0k3n' }}
         />
       </MemoryRouter>
     </Provider>
   );
 
-  const form = wrapper.find(Form);
-  const inputEmail = form.find('input[name="email"]');
-  inputEmail.simulate('change', { target: { value: 'test@example.com' } });
-  const inputPasword = form.find('input[name="password"]');
-  inputPasword.simulate('change', { target: { value: '123456' } });
-
-  await form.simulate('submit');
+  await wrapper.update();
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
@@ -67,13 +65,8 @@ it('should render without throwing an error', async () => {
     statusText: 'OK',
     response: {
       data: {
-        userLogin: {
-          token: 'f4k3T0k3N',
-          user: {
-            name: 'Admin',
-            email: 'my@email.com',
-            role: 'admin'
-          }
+        userActivate: {
+          email: 'test@aa.com'
         }
       }
     }
@@ -82,8 +75,8 @@ it('should render without throwing an error', async () => {
   wrapper.unmount();
 });
 
-it('should render an error if login not match', async () => {
-  const state = {
+it('should show an error message if account can not be activated', async () => {
+  const store = mockStore({
     user: { isLoading: false, error: null },
     router: {
       location: {
@@ -93,40 +86,33 @@ it('should render an error if login not match', async () => {
     layout: {
       language: 'es'
     }
-  };
-  const store = mockStore(state);
+  });
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <LoginContainer
+        <ActivateAccountContainer
           store={store}
           router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
+          location={{ search: '?email=test@aa.com&token=t0k3n' }}
         />
       </MemoryRouter>
     </Provider>
   );
 
-  const form = wrapper.find(Form);
-  const inputEmail = form.find('input[name="email"]');
-  inputEmail.simulate('change', { target: { value: 'iam@god.com' } });
-  const inputPasword = form.find('input[name="password"]');
-  inputPasword.simulate('change', { target: { value: 'h4ck3rm4n' } });
-
-  await form.simulate('submit');
+  await wrapper.update();
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
-    status: 200,
-    statusText: 'OK',
+    status: 500,
+    statusText: 'ERROR',
     response: {
-      errors: [
-        {
-          message: 'You dont rule here :('
-        }
-      ]
+      data: {
+        error: ':<'
+      }
     }
   });
+
+  expect(wrapper.find('#activate-account_error_alert')).toBeDefined();
 
   wrapper.unmount();
 });
