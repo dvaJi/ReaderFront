@@ -16,7 +16,7 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn test:ci
+      - run: yarn test:ci --maxWorkers=2
   build:
     docker:
       - image: circleci/node:8.11.3
