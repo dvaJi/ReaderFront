@@ -363,7 +363,7 @@ class CreateOrEdit extends Component {
                 {this.state.workStatus.map(st => (
                   <option key={st.id + st.name} value={st.id}>
                     {this.props.intl.formatMessage({
-                      id: 'work.status.' + st.name,
+                      id: st.name,
                       defaultMessage: st.name
                     })}
                   </option>
@@ -466,7 +466,7 @@ class CreateOrEdit extends Component {
                 {this.state.demographics.map(st => (
                   <option key={st.id + st.name} value={st.id}>
                     {this.props.intl.formatMessage({
-                      id: 'work.demographic.' + st.name,
+                      id: st.name,
                       defaultMessage: st.name
                     })}
                   </option>

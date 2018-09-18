@@ -40,14 +40,15 @@ export function blogFetchDataSuccess(posts, page) {
   };
 }
 
-export function fetchPosts(lang, page = 0, sort = 'ASC', perPage = 120) {
+export function fetchPosts(
+  lang,
+  sort = 'ASC',
+  perPage = 120,
+  sortBy = 'id',
+  page = 0
+) {
   return dispatch => {
     dispatch(blogIsLoading(true));
-
-    if (lang === undefined || lang === null) {
-      dispatch(blogHasErrored(true));
-      throw Error('Lang is undefined');
-    }
 
     return axios
       .post(
@@ -56,8 +57,9 @@ export function fetchPosts(lang, page = 0, sort = 'ASC', perPage = 120) {
           type: 'query',
           operation: 'posts',
           data: {
-            language: params.global.languages[lang].id,
+            language: lang ? params.global.languages[lang].id : -1,
             orderBy: sort,
+            sortBy: sortBy,
             first: perPage,
             offset: page
           },
@@ -90,5 +92,135 @@ export function fetchPosts(lang, page = 0, sort = 'ASC', perPage = 120) {
       .then(posts => dispatch(blogFetchDataSuccess(posts, page)))
       .then(() => dispatch(blogIsLoading(false)))
       .catch(err => dispatch(blogHasErrored(true)));
+  };
+}
+
+export function fetchPost(stub) {
+  return dispatch => {
+    dispatch(blogIsLoading(true));
+
+    return axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'postByStub',
+          data: { stub },
+          fields: [
+            'id',
+            'uniqid',
+            'type',
+            'title',
+            'stub',
+            'content',
+            'user { id,name,role }',
+            'category',
+            'status',
+            'sticky',
+            'language',
+            'thumbnail',
+            'createdAt',
+            'updatedAt'
+          ]
+        })
+      )
+      .then(response => {
+        if (response.statusText !== 'OK') {
+          throw Error(response.statusText);
+        }
+
+        return response.data.data.postsByStub;
+      })
+      .then(post => dispatch(blogSelectPost(post)))
+      .then(() => dispatch(blogIsLoading(false)))
+      .catch(() => dispatch(blogHasErrored(true)));
+  };
+}
+
+export function postsAggregateSuccess(postsAggregates) {
+  return {
+    type: 'POSTS_AGG',
+    postsAggregates
+  };
+}
+
+export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
+  return dispatch => {
+    return axios
+      .post(
+        config.READER_PATH,
+        queryBuilder({
+          type: 'query',
+          operation: 'postsAggregates',
+          data: {
+            language: lang ? params.global.languages[lang].id : -1,
+            aggregate: aggFunc,
+            aggregateColumn: column
+          },
+          fields: [aggFunc.toLowerCase()]
+        })
+      )
+      .then(response => {
+        if (response.statusText !== 'OK') {
+          throw Error(response.statusText);
+        }
+
+        return response.data.data.postsAggregates;
+      })
+      .then(works => dispatch(postsAggregateSuccess(works)))
+      .catch(err => {
+        console.error(err);
+      });
+  };
+}
+
+export function createOrUpdate(post) {
+  if (post.id > 0) {
+    return update(post);
+  } else {
+    delete post.id;
+    return create(post);
+  }
+}
+
+export function create(post) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'postCreate',
+        data: post,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function update(post) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'postUpdate',
+        data: post,
+        fields: ['id']
+      })
+    );
+  };
+}
+
+export function remove(post) {
+  return dispatch => {
+    return axios.post(
+      config.READER_PATH,
+      queryBuilder({
+        type: 'mutation',
+        operation: 'postRemove',
+        data: post,
+        fields: ['id']
+      })
+    );
   };
 }

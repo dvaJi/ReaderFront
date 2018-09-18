@@ -18,6 +18,8 @@ import ACPWorkManage from './admin/works/List';
 import ACPWorkDetail from './admin/works/Detail';
 import ACPChapterCreate from './admin/chapters/CreateOrEdit';
 import ACPChapterDetail from './admin/chapters/Detail';
+import ACPBlogCreate from './admin/blog/CreateOrEdit';
+import ACPBlogManage from './admin/blog/List';
 
 export default (
   <Switch>
@@ -83,6 +85,22 @@ export default (
       path="/admincp/work/:workId/:stub/chapter/:chapterId"
       exact
       component={withTracker(ACPChapterDetail)}
+    />
+    <Redirect exact from='/admincp/blog' to='/admincp/blog/manage'/>
+    <RoutePrivate
+      path="/admincp/blog/manage"
+      exact
+      component={withTracker(ACPBlogManage)}
+    />
+    <RoutePrivate
+      path="/admincp/blog/add_post"
+      exact
+      component={withTracker(ACPBlogCreate)}
+    />
+    <RoutePrivate
+      path="/admincp/blog/edit_post/:stub"
+      exact
+      component={withTracker(ACPBlogCreate)}
     />
   </Switch>
 );
