@@ -49,7 +49,6 @@ it('should render the chapter with pages', async () => {
         name: '',
         stub: '',
         hidden: false,
-        notShowAtStart: false,
         description: '',
         thumbnail: '',
         pages: []
@@ -338,7 +337,6 @@ it('should show an error message', async () => {
         name: '',
         stub: '',
         hidden: false,
-        notShowAtStart: false,
         description: '',
         thumbnail: '',
         pages: []
