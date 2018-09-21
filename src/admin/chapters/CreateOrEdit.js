@@ -37,7 +37,6 @@ class CreateOrEdit extends Component {
         name: '',
         stub: '',
         hidden: false,
-        notShowAtStart: false,
         description: '',
         thumbnail: '',
         pages: []
@@ -298,15 +297,6 @@ class CreateOrEdit extends Component {
                   defaultMessage: 'Hidden'
                 })}
                 value={this.state.chapter.hidden}
-              />
-              <CustomInput
-                type="checkbox"
-                id="notShowAtStart"
-                label={this.props.intl.formatMessage({
-                  id: 'not_show_at_start',
-                  defaultMessage: 'Not show at start (Home and Releases)'
-                })}
-                value={this.state.chapter.notShowAtStart}
               />
             </FormGroup>
             <FormGroup>
