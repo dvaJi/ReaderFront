@@ -10,6 +10,6 @@ cache:
 jobs:
   include:
     - stage: test
-      script: yarn test:ci
+      script: yarn test:ci --maxWorkers=2
     - stage: build project
       script: yarn build
