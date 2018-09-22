@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -10,11 +9,8 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink,
-  UncontrolledTooltip
+  PaginationLink
 } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
 // App Imports
 import { fetchPosts, remove, getAggregates } from '../../blog/actions/doBlog';
@@ -31,6 +27,12 @@ class List extends PureComponent {
       modal: false,
       page: 0,
       perPage: 20,
+      postStatus: Object.keys(params.blog.status).map(
+        k => params.blog.status[k]
+      ),
+      blogCategories: Object.keys(params.blog.categories).map(
+        k => params.blog.categories[k]
+      ),
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       )
@@ -39,22 +41,24 @@ class List extends PureComponent {
 
   componentDidMount() {
     this.props.getAggregates();
-    this.props.fetchPosts(
-      undefined,
-      'ASC',
-      this.state.perPage,
-      'id',
-      this.state.page
-    );
+    if (this.props.posts.length === 0) {
+      this.props.fetchPosts(
+        undefined,
+        'DESC',
+        this.state.perPage,
+        'createdAt',
+        this.state.page
+      );
+    }
   }
 
   handlePagination(page) {
     this.setState({ page: page });
     this.props.fetchPosts(
       undefined,
-      'ASC',
+      'DESC',
       this.state.perPage,
-      'id',
+      'createdAt',
       page * this.state.perPage
     );
   }
@@ -78,9 +82,9 @@ class List extends PureComponent {
               } else {
                 this.props.fetchPosts(
                   undefined,
-                  'ASC',
+                  'DESC',
                   5,
-                  'id',
+                  'createdAt',
                   this.state.page
                 );
               }
@@ -107,9 +111,6 @@ class List extends PureComponent {
                 <tr>
                   <th>
                     <FormattedMessage id="title" defaultMessage="Title" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="type" defaultMessage="Type" />
                   </th>
                   <th>
                     <FormattedMessage id="category" defaultMessage="Category" />
@@ -161,47 +162,77 @@ class List extends PureComponent {
                       language,
                       createdAt,
                       updatedAt
-                    }) => (
-                      <tr key={id}>
-                        <td>
-                          <Link to={'/admincp/blog/edit_post/' + stub}>
-                            {title}
-                          </Link>
-                        </td>
+                    }) => {
+                      const statusTxt = this.state.postStatus.find(
+                        ps => ps.id === status
+                      );
+                      const categoryTxt = this.state.blogCategories.find(
+                        cat => cat.id === category
+                      );
+                      const languageTxt = this.state.languages.find(
+                        lang => lang.id === language
+                      );
+                      return (
+                        <tr key={id}>
+                          <td>
+                            <Link to={'/admincp/blog/edit_post/' + stub}>
+                              {title}
+                            </Link>
+                          </td>
 
-                        <td>{type}</td>
-
-                        <td>{category}</td>
-
-                        <td>{status}</td>
-
-                        <td style={{ textAlign: 'center' }}>{language}</td>
-
-                        <td>{new Date(createdAt).toDateString()}</td>
-
-                        <td>{new Date(updatedAt).toDateString()}</td>
-
-                        <td style={{ textAlign: 'center' }}>
-                          <ButtonGroup size="sm">
-                            <Button
-                              tag={Link}
-                              to={'/admincp/blog/edit_post/' + stub}
-                            >
+                          <td>
+                            {categoryTxt !== undefined ? (
                               <FormattedMessage
-                                id="edit"
-                                defaultMessage="Edit"
+                                id={categoryTxt.name}
+                                defaultMessage={categoryTxt.name}
                               />
-                            </Button>
-                            <Button onClick={this.remove.bind(this, id)}>
+                            ) : (
+                              'SIN ASIGNAR'
+                            )}
+                          </td>
+
+                          <td>
+                            {statusTxt !== undefined ? (
                               <FormattedMessage
-                                id="remove"
-                                defaultMessage="Remove"
+                                id={statusTxt.name}
+                                defaultMessage={statusTxt.name}
                               />
-                            </Button>
-                          </ButtonGroup>
-                        </td>
-                      </tr>
-                    )
+                            ) : (
+                              'SIN STATUS'
+                            )}
+                          </td>
+
+                          <td style={{ textAlign: 'center' }}><FormattedMessage
+                                id={languageTxt.name + '_full'}
+                                defaultMessage={languageTxt.name}
+                              /></td>
+
+                          <td>{new Date(createdAt).toDateString()}</td>
+
+                          <td>{new Date(updatedAt).toDateString()}</td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <ButtonGroup size="sm">
+                              <Button
+                                tag={Link}
+                                to={'/admincp/blog/edit_post/' + stub}
+                              >
+                                <FormattedMessage
+                                  id="edit"
+                                  defaultMessage="Edit"
+                                />
+                              </Button>
+                              <Button onClick={this.remove.bind(this, id)}>
+                                <FormattedMessage
+                                  id="remove"
+                                  defaultMessage="Remove"
+                                />
+                              </Button>
+                            </ButtonGroup>
+                          </td>
+                        </tr>
+                      );
+                    }
                   )
                 ) : (
                   <tr>

@@ -129,11 +129,11 @@ export function fetchPost(stub) {
           throw Error(response.statusText);
         }
 
-        return response.data.data.postsByStub;
+        return response.data.data.postByStub;
       })
       .then(post => dispatch(blogSelectPost(post)))
       .then(() => dispatch(blogIsLoading(false)))
-      .catch(() => dispatch(blogHasErrored(true)));
+      .catch((err) => dispatch(blogHasErrored(true)));
   };
 }
 

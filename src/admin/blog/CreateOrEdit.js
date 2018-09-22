@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import ReactMde from 'react-mde';
-import ReactMarkdown from 'react-markdown';
+import MarkDownEditor from './MarkDownEditor';
 import {
   Alert,
   Button,
@@ -47,36 +46,30 @@ class CreateOrEdit extends Component {
         language: 0,
         thumbnail: ''
       },
-      postStatus: [],
-      blogCategories: [],
+      postStatus: Object.keys(params.blog.status).map(
+        k => params.blog.status[k]
+      ),
+      blogCategories: Object.keys(params.blog.categories).map(
+        k => params.blog.categories[k]
+      ),
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       ),
-      mdeState: null
+      mdeState: ''
     };
   }
 
   componentDidMount() {
-    const postStatus = Object.keys(params.blog.status).map(
-      k => params.blog.status[k]
-    );
-
-    const blogCategories = Object.keys(params.blog.categories).map(
-      k => params.blog.categories[k]
-    );
-
-    this.setState({ postStatus, blogCategories });
-
     this.getPost(this.props.match.params.stub);
   }
 
-  getPost = postStub => {
+  getPost = async postStub => {
     if (postStub !== undefined) {
       this.props
         .getPost(postStub)
-        .then(() => {
+        .then(async () => {
           this.setState({
-            post: this.props.blog.post
+            post: this.props.post
           });
         })
         .catch(error => {
@@ -95,7 +88,7 @@ class CreateOrEdit extends Component {
     let post = this.state.post;
     post[event.target.name] = event.target.value;
 
-    if (event.target.name === 'name') {
+    if (event.target.name === 'title') {
       post.stub = slug(event.target.value);
     }
 
@@ -104,10 +97,10 @@ class CreateOrEdit extends Component {
     });
   };
 
-  handleValueChange = mdeState => {
+  handleValueChange = value => {
     let post = this.state.post;
-    post['content'] = mdeState.markdown;
-    this.setState({ mdeState, post });
+    post['content'] = value;
+    this.setState({ post, mdeState: value });
   };
 
   onChangeSelect = event => {
@@ -128,7 +121,15 @@ class CreateOrEdit extends Component {
     });
 
     const post = Object.assign({}, this.state.post);
+    post.language =
+      post.language === 0 ? this.state.languages[0].id : post.language;
+    post.category =
+      post.category === 0 ? this.state.blogCategories[0].id : post.category;
+    post.status = post.status === 0 ? this.state.postStatus[0].id : post.status;
+    post.userId = this.props.user.details.id;
     delete post.user;
+    delete post.createdAt;
+    delete post.updatedAt;
 
     // Save post
     this.props
@@ -267,20 +268,14 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              <ReactMde
-                onChange={this.handleValueChange}
-                editorState={this.state.mdeState}
-                generateMarkdownPreview={markdown => (
-                  <ReactMarkdown source={markdown} escapeHtml={true} />
-                )}
-              />
+              <MarkDownEditor onChangeValue={this.handleValueChange} text={this.state.post.content} />
             </FormGroup>
             <FormGroup>
               <Label for="language">
                 <FormattedMessage id="language" defaultMessage="Language" />
               </Label>
               <Input
-                type="language"
+                type="select"
                 name="language"
                 id="language"
                 required="required"
@@ -359,10 +354,8 @@ class CreateOrEdit extends Component {
             </FormGroup>
             {renderIf(this.state.post.thumbnail !== '', () => (
               <img
-                src={`/works/${this.state.work.stub}_${
-                  this.state.work.uniqid
-                }/${this.state.work.works_covers[0].filename}`}
-                alt={this.state.work.name}
+                src={`/works/${this.state.post.thumbnail}`}
+                alt={this.state.post.title}
                 style={{ width: 200, marginTop: '1em' }}
               />
             ))}
@@ -384,7 +377,7 @@ class CreateOrEdit extends Component {
 
 function CreateOrEditState(state) {
   return {
-    post: state.post,
+    post: state.blog.post,
     user: state.user
   };
 }
