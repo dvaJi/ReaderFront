@@ -1,29 +1,124 @@
 import React from 'react';
+import Loadable from 'react-loadable';
 import { Route, Switch, Redirect } from 'react-router';
 import withTracker from './common/WithTracker';
 import RoutePrivate from './auth/RoutePrivate';
 
-import Home from './home';
-import Releases from './releases';
-import Works from './works';
-import Work from './work';
-import Reader from './reader';
-import Blog from './blog';
-import Login from './user/containers/LoginContainer';
-import Signup from './user/containers/SignupContainer';
-import Activate from './user/containers/ActivateAccountContainer';
-import ACPDashboard from './admin/Dashboard';
-import ACPWorkCreate from './admin/works/CreateOrEdit';
-import ACPWorkManage from './admin/works/List';
-import ACPWorkDetail from './admin/works/Detail';
-import ACPChapterCreate from './admin/chapters/CreateOrEdit';
-import ACPChapterDetail from './admin/chapters/Detail';
-import ACPBlogCreate from './admin/blog/CreateOrEdit';
-import ACPBlogManage from './admin/blog/List';
+const Homepage = Loadable({
+  loader: () => import(/* webpackChunkName: "homepage" */ './home'),
+  loading: () => null,
+  modules: ['homepage']
+});
+
+const Releases = Loadable({
+  loader: () => import(/* webpackChunkName: "releases" */ './releases'),
+  loading: () => null,
+  modules: ['releases']
+});
+
+const Works = Loadable({
+  loader: () => import(/* webpackChunkName: "works" */ './works'),
+  loading: () => null,
+  modules: ['works']
+});
+
+const Work = Loadable({
+  loader: () => import(/* webpackChunkName: "work" */ './work'),
+  loading: () => null,
+  modules: ['work']
+});
+
+const Reader = Loadable({
+  loader: () => import(/* webpackChunkName: "reader" */ './reader'),
+  loading: () => null,
+  modules: ['reader']
+});
+
+const Blog = Loadable({
+  loader: () => import(/* webpackChunkName: "blog" */ './blog'),
+  loading: () => null,
+  modules: ['blog']
+});
+
+const Login = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "login" */ './user/containers/LoginContainer'),
+  loading: () => null,
+  modules: ['login']
+});
+
+const Signup = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "signup" */ './user/containers/SignupContainer'),
+  loading: () => null,
+  modules: ['signup']
+});
+
+const Activate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "activate" */ './user/containers/ActivateAccountContainer'),
+  loading: () => null,
+  modules: ['activate']
+});
+
+const ACPDashboard = Loadable({
+  loader: () => import(/* webpackChunkName: "dashboard" */ './admin/Dashboard'),
+  loading: () => null,
+  modules: ['dashboard']
+});
+
+const ACPWorkCreate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPWorkCreate" */ './admin/works/CreateOrEdit'),
+  loading: () => null,
+  modules: ['ACPWorkCreate']
+});
+
+const ACPWorkManage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPWorkManage" */ './admin/works/List'),
+  loading: () => null,
+  modules: ['ACPWorkManage']
+});
+
+const ACPWorkDetail = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPWorkDetail" */ './admin/works/Detail'),
+  loading: () => null,
+  modules: ['ACPWorkDetail']
+});
+
+const ACPChapterCreate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPChapterCreate" */ './admin/chapters/CreateOrEdit'),
+  loading: () => null,
+  modules: ['ACPChapterCreate']
+});
+
+const ACPChapterDetail = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPChapterDetail" */ './admin/chapters/Detail'),
+  loading: () => null,
+  modules: ['ACPChapterDetail']
+});
+
+const ACPBlogCreate = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPBlogCreate" */ './admin/blog/CreateOrEdit'),
+  loading: () => null,
+  modules: ['ACPBlogCreate']
+});
+
+const ACPBlogManage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPBlogManage" */ './admin/blog/List'),
+  loading: () => null,
+  modules: ['ACPBlogManage']
+});
 
 export default (
   <Switch>
-    <Route path="/" exact component={withTracker(Home)} />
+    <Route path="/" exact component={withTracker(Homepage)} />
     <Route path="/releases" exact component={withTracker(Releases)} />
     <Route path="/work/all" exact component={withTracker(Works)} />
     <Route path="/work/:stub" exact component={withTracker(Work)} />
@@ -50,7 +145,7 @@ export default (
       exact
       component={withTracker(ACPDashboard)}
     />
-    <Redirect exact from='/admincp/work' to='/admincp/work/manage'/>
+    <Redirect exact from="/admincp/work" to="/admincp/work/manage" />
     <RoutePrivate
       path="/admincp/work/manage"
       exact
@@ -86,7 +181,7 @@ export default (
       exact
       component={withTracker(ACPChapterDetail)}
     />
-    <Redirect exact from='/admincp/blog' to='/admincp/blog/manage'/>
+    <Redirect exact from="/admincp/blog" to="/admincp/blog/manage" />
     <RoutePrivate
       path="/admincp/blog/manage"
       exact
