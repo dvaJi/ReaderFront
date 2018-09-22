@@ -19,7 +19,6 @@ class WorksContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.language, nextProps.language)
     if (this.props.language !== nextProps.language) {
       this.props.getWorks(nextProps.language);
     }

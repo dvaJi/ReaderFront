@@ -148,10 +148,12 @@ class PostCard extends Component {
         <CardFooter>
           <CardFooterWrapper layout="row bottom-left">
             <CardFooterTag>
-              <FormattedMessage
-                id={post.categoryLabel}
-                defaultMessage={post.categoryLabel}
-              />
+              {post.categoryLabel && (
+                <FormattedMessage
+                  id={post.categoryLabel}
+                  defaultMessage={post.categoryLabel}
+                />
+              )}
             </CardFooterTag>
           </CardFooterWrapper>
         </CardFooter>

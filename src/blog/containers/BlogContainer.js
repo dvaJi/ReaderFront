@@ -19,7 +19,13 @@ class BlogContainer extends Component {
     window.addEventListener('scroll', this.handleOnScroll);
     if (this.props.posts.length === 0) {
       try {
-        this.props.getPosts(this.props.language, this.props.page);
+        this.props.getPosts(
+          this.props.language,
+          'DESC',
+          15,
+          'id',
+          this.props.page
+        );
       } catch (e) {
         console.error(e);
       }
@@ -29,7 +35,7 @@ class BlogContainer extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.language !== nextProps.language) {
       this.props.changePage(0);
-      this.props.getPosts(nextProps.language, 0);
+      this.props.getPosts(nextProps.language, 'DESC', 15, 'id', 0);
     }
   }
 
@@ -68,7 +74,13 @@ class BlogContainer extends Component {
     if (!this.props.isLoading) {
       let scrolledToBottom = this.isScrolledToBottom();
       if (scrolledToBottom && !this.props.isLoading) {
-        this.props.getPosts(this.props.language, this.props.page);
+        this.props.getPosts(
+          this.props.language,
+          'DESC',
+          15,
+          'id',
+          this.props.page
+        );
       }
     }
   }
@@ -134,7 +146,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPosts: (lang, page) => dispatch(fetchPosts(lang, page)),
+    getPosts: (lang, sort, perPage, sortBy, page) =>
+      dispatch(fetchPosts(lang, sort, perPage, sortBy, page)),
     changePage: page => dispatch(blogPage(page)),
     selectPost: post => dispatch(blogSelectPost(post))
   };

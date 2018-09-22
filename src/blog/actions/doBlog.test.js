@@ -2,11 +2,11 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
 import { fetchPosts } from './doBlog';
-import { getPosts } from '../../utils/mocks/getBlogMock';
-import { normalizePost } from '../../utils/normalizeBlog';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const posts = global.rfMocks.posts.getPosts;
+const postsNormalized = global.rfMocks.posts.getPostsNormalized;
 
 describe('fetchPosts actions', () => {
   beforeEach(function() {
@@ -23,7 +23,7 @@ describe('fetchPosts actions', () => {
       request.respondWith({
         status: 200,
         statusText: 'OK',
-        response: { data: { posts: getPosts() } }
+        response: { data: { posts: posts } }
       });
     });
 
@@ -31,7 +31,7 @@ describe('fetchPosts actions', () => {
       { type: 'BLOG_IS_LOADING', isLoading: true },
       {
         type: 'BLOG_FETCH_DATA_SUCCESS',
-        posts: getPosts().map(p => normalizePost(p)),
+        posts: postsNormalized,
         page: 1
       },
       { type: 'BLOG_IS_LOADING', isLoading: false }
@@ -47,7 +47,7 @@ describe('fetchPosts actions', () => {
       }
     });
 
-    return store.dispatch(fetchPosts('es', 1, 'DESC', 10)).then(() => {
+    return store.dispatch(fetchPosts('es', 'DESC', 10, 'id', 1)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -77,17 +77,8 @@ describe('fetchPosts actions', () => {
       }
     });
 
-    return store.dispatch(fetchPosts('es', 1, 'DESC', 20)).then(() => {
+    return store.dispatch(fetchPosts('es', 'DESC', 20, 'id', 1)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
-  });
-
-  it('throw an Error if lang is undefined', () => {
-    expect(() => {
-      const store = mockStore({
-        releases: {}
-      });
-      store.dispatch(fetchPosts());
-    }).toThrow();
   });
 });
