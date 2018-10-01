@@ -82,9 +82,9 @@ export function fetchWorks(
             'statusReason',
             'visits',
             'adult',
+            'thumbnail',
             'createdAt',
             'updatedAt',
-            'works_covers { filename, coverTypeId, height, width }',
             'works_descriptions {description, language}',
             'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
             'works_genres { genreId }'

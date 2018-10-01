@@ -115,6 +115,7 @@ class Detail extends Component {
   }
 
   async onUpload(file) {
+    console.log(file);
     if (file.file.size <= 2411724) {
       file.isUploading = true;
       file.hasError = false;
@@ -160,87 +161,100 @@ class Detail extends Component {
                   file.uploaded = true;
                   file.isUploading = false;
                   file.hasError = false;
+                  const newPages = [
+                    ...this.state.pages.filter(
+                      p => p.filename !== file.filename
+                    ),
+                    file
+                  ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
                   this.setState({
                     chapter: {
                       ...this.state.chapter,
-                      pages: [...this.state.pages, newPage]
+                      pages: [...this.state.pages, newPage].sort((p1, p2) =>
+                        p1.filename.localeCompare(p2.filename)
+                      )
                     },
-                    pages: [
-                      ...this.state.pages.filter(
-                        p => p.filename !== file.filename
-                      ),
-                      file
-                    ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+                    pages: newPages
                   });
                 }
               })
               .catch(error => {
                 file.isUploading = false;
                 file.hasError = true;
+                const newPages = [
+                  ...this.state.pages.filter(p => p.filename !== file.filename),
+                  file
+                ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
                 this.setState({
                   error: this.props.intl.formatMessage({
                     id: 'unknown_error',
                     defaultMessage: 'There was some error. Please try again.'
                   }),
                   isLoading: false,
-                  pages: [
-                    ...this.state.pages.filter(
-                      p => p.filename !== file.filename
-                    ),
-                    file
-                  ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+                  pages: newPages
                 });
               });
           } else {
             file.isUploading = false;
             file.hasError = true;
+            const newPages = [
+              ...this.state.pages.filter(p => p.filename !== file.filename),
+              file
+            ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
             this.setState({
               error: this.props.intl.formatMessage({
                 id: 'try_again',
                 defaultMessage: 'Please try again.'
               }),
-              pages: [
-                ...this.state.pages.filter(p => p.filename !== file.filename),
-                file
-              ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+              pages: newPages
             });
           }
         })
         .catch(error => {
           file.isUploading = false;
           file.hasError = true;
+          const newPages = [
+            ...this.state.pages.filter(p => p.filename !== file.filename),
+            file
+          ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
           this.setState({
             error: this.props.intl.formatMessage({
               id: 'unknown_error',
               defaultMessage: 'There was some error. Please try again.'
             }),
-            pages: [
-              ...this.state.pages.filter(p => p.filename !== file.filename),
-              file
-            ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+            pages: newPages
           });
         });
     }
   }
 
   async uploadSelected() {
-    for (const page of this.state.pages) {
+    const pagesToUpload = this.state.pages.filter(
+      page => page.file !== undefined
+    );
+    for (const page of pagesToUpload) {
       await this.onUpload(page);
     }
   }
 
   onDrop(files) {
+    const newPages = [
+      ...this.state.pages,
+      ...files.map(f => ({
+        filename: f.name,
+        file: f,
+        uploaded: false,
+        isUploading: false,
+        hasError: f.size > 2411724
+      }))
+    ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
     this.setState({
-      pages: [
-        ...this.state.pages,
-        ...files.map(f => ({
-          filename: f.name,
-          file: f,
-          uploaded: false,
-          isUploading: false,
-          hasError: f.size > 2411724
-        }))
-      ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+      pages: newPages
     });
   }
 
@@ -441,14 +455,14 @@ class Detail extends Component {
                     />
                   </h6>
                   <div style={{ textAlign: 'right' }}>
-                    {this.state.chapter.work ? (
+                    {this.state.chapter.work && this.state.chapter.thumbnail ? (
                       <img
                         style={{ height: '150px' }}
                         alt={this.state.chapter.thumbnail}
                         src={getChapterPageUrl(
                           this.state.chapter.work,
                           this.state.chapter,
-                          'small_thumb_' + this.state.chapter.thumbnail
+                          this.state.chapter.thumbnail
                         )}
                       />
                     ) : (

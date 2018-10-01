@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { getWorkThumb } from '../../../utils/common';
 
 const Overlay = styled.div`
   background: rgba(31, 38, 49, 0.8);
@@ -72,11 +73,11 @@ const LoadingCover = styled.div`
 export default class RecommendedWork extends PureComponent {
   getCover(work) {
     const dir = work ? work.stub + '_' + work.uniqid : '';
-    return work && work.covers
-      ? `/works/${dir}/${work.covers.medium_thumb.filename}`
+    return work
+      ? getWorkThumb(dir, work.thumbnail, 'medium')
       : '/static/images/default-cover.png';
   }
-  
+
   render() {
     const { work, isLoading, description } = this.props;
     return (

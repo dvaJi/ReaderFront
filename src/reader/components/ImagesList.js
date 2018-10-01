@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import styled from "styled-components";
-import Lazyload from "react-lazyload";
-import {getChapterPageUrl} from "../../utils/common"
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+import Lazyload from 'react-lazyload';
+import { getChapterPageUrl } from '../../utils/common';
 
 const ImageList = styled.div`
   text-align: center;
@@ -37,7 +37,7 @@ export default class ImagesList extends PureComponent {
           offset={page.height / 2}
         >
           <Image
-            src={getChapterPageUrl(chapter.work, chapter, page.filename)}
+            src={getChapterPageUrl(chapter.work, chapter, page.filename, 'original')}
             alt={page.filename}
             title={page.filename}
           />

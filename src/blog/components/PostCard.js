@@ -130,11 +130,11 @@ class PostCard extends Component {
   }
 
   render() {
-    const { post, children } = this.props;
+    const { post, children, thumbnail } = this.props;
 
     return (
       <Card onClick={e => this.doSelect(e)}>
-        <CardHero thumb={post.thumbnail}>
+        <CardHero thumb={thumbnail}>
           <CardOverlay>
             <h3>
               <FormattedMessage id="read_more" defaultMessage="Read More" />

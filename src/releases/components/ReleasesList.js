@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReleaseCard from './ReleaseCard';
 import ReleaseCardEmpty from './ReleaseCardEmpty';
+import {getChapterPageUrl} from '../../utils/common'
 
 export default class ReleasesList extends PureComponent {
   render() {
@@ -27,7 +28,7 @@ export default class ReleasesList extends PureComponent {
             key={release.id}
             url={chapterUrl}
             name={work.name}
-            thumb={chapter.thumbnail}
+            thumb={getChapterPageUrl(work, chapter, chapter.thumbnail, 'small')}
             chapter={chapter.chapter}
             subchapter={chapter.subchapter}
           />

@@ -23,7 +23,7 @@ export default class WorkList extends PureComponent {
 
     const thumbUrl = work => {
       const dir = work.stub + '_' + work.uniqid;
-      return getWorkThumb(dir, work.covers);
+      return getWorkThumb(dir, work.thumbnail, 'small');
     };
 
     if (isLoading || (!isLoading && works.length === 0)) {

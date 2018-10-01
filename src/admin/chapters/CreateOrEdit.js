@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { slugify } from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -14,7 +15,6 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
-import { slug } from '../../utils/helpers';
 import { createOrUpdate as chapterCreateOrUpdate } from '../../releases/actions/doReleases';
 import { fetchChapter as getChapter } from '../../reader/actions/doReader';
 import { upload } from '../../common/actions';
@@ -90,7 +90,7 @@ class CreateOrEdit extends Component {
       : parseInt(event.target.value, 0);
 
     if (event.target.name === 'name') {
-      chapter.stub = slug(event.target.value);
+      chapter.stub = slugify(event.target.value);
     }
 
     this.setState({
@@ -116,6 +116,8 @@ class CreateOrEdit extends Component {
     });
 
     const chapter = Object.assign({}, this.state.chapter);
+    chapter.language =
+      chapter.language === 0 ? this.state.languages[0].id : chapter.language;
     delete chapter.pages;
 
     // Save work

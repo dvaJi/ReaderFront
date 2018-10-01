@@ -22,7 +22,7 @@ export default class PostsList extends PureComponent {
 
   thumbUrl(post) {
     const dir = post.stub + '_' + post.uniqid;
-    return getPostThumb(dir, post.thumbnail);
+    return getPostThumb(dir, post.thumbnail, 'medium');
   }
 
   render() {

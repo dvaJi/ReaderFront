@@ -61,9 +61,9 @@ export function fetchWork(stub, lang) {
             'statusReason',
             'visits',
             'adult',
+            'thumbnail',
             'createdAt',
             'chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }',
-            'works_covers { filename, coverTypeId, height, width }',
             'works_descriptions {description, language}',
             'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
             'works_genres { genreId }'
@@ -106,9 +106,9 @@ export function fetchWorkById(lang, workId) {
             'statusReason',
             'visits',
             'adult',
+            'thumbnail',
             'createdAt',
             'chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }',
-            'works_covers { filename, coverTypeId, height, width }',
             'works_descriptions {description, language}',
             'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
             'works_genres { genreId }'
@@ -151,7 +151,7 @@ export function fetchRandomWork(lang) {
             'statusReason',
             'visits',
             'adult',
-            'works_covers { filename, coverTypeId, height, width }',
+            'thumbnail',
             'works_descriptions {description, language}',
             'works_genres { genreId }'
           ]
@@ -181,13 +181,12 @@ export function createOrUpdate(work) {
 }
 
 export function create(work) {
-  const operation = work.cover ? 'workWithCoverCreate' : 'workCreate';
   return dispatch => {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
         type: 'mutation',
-        operation: operation,
+        operation: 'workCreate',
         data: work,
         fields: ['id']
       })

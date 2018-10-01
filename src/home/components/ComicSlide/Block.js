@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { getChapterPageUrl, languageIdToName } from '../../../utils/common';
 
 const Image = styled(Link)`
   background-image: url('${props => props.image}');
@@ -13,18 +14,18 @@ const Image = styled(Link)`
 
 export default class Block extends PureComponent {
   chapterUrl(block) {
-    return `read/${block.work.stub}/${block.language}/${block.volume}/${
-      block.chapter
-    }.${block.subchapter}`;
+    return `read/${block.work.stub}/${languageIdToName(block.language)}/${
+      block.volume
+    }/${block.chapter}.${block.subchapter}`;
   }
 
   imageToDisplay(blockId, index, chapter) {
     if (blockId <= 2 || (blockId === 3 && index > 1)) {
-      return chapter.thumbnail3;
+      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
     } else if (blockId === 5 && index <= 1) {
-      return chapter.thumbnail2;
+      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
     } else {
-      return chapter.thumbnail;
+      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail);
     }
   }
 
@@ -41,11 +42,7 @@ export default class Block extends PureComponent {
           <li key={index}>
             <Image
               to={this.chapterUrl(chapter)}
-              image={this.imageToDisplay(
-                this.props.blockId,
-                index,
-                chapter.chapter
-              )}
+              image={this.imageToDisplay(this.props.blockId, index, chapter)}
               tabIndex="-1"
             >
               <span>

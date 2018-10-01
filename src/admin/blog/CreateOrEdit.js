@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import MarkDownEditor from './MarkDownEditor';
+import { slugify } from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -15,7 +16,7 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
-import { renderIf, slug } from '../../utils/helpers';
+import { renderIf } from '../../utils/helpers';
 import {
   createOrUpdate as postCreateOrUpdate,
   fetchPost as getPost
@@ -89,7 +90,7 @@ class CreateOrEdit extends Component {
     post[event.target.name] = event.target.value;
 
     if (event.target.name === 'title') {
-      post.stub = slug(event.target.value);
+      post.stub = slugify(event.target.value);
     }
 
     this.setState({
