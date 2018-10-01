@@ -45,7 +45,6 @@ export function getPostThumb(dir, filename, size = 'small') {
   }
 
   const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-  console.log(isWebp);
 
   return `${
     config.READER_PATH

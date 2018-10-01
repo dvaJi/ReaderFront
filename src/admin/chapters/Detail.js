@@ -115,7 +115,6 @@ class Detail extends Component {
   }
 
   async onUpload(file) {
-    console.log(file);
     if (file.file.size <= 2411724) {
       file.isUploading = true;
       file.hasError = false;
