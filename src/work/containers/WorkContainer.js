@@ -39,7 +39,7 @@ class WorkContainer extends Component {
           <meta property="og:title" content={work.name + ' - ' + title} />
           <meta
             property="og:image"
-            content={getWorkThumb(workDir, this.props.work.covers)}
+            content={getWorkThumb(workDir, this.props.work.thumbnail, 'medium')}
           />
         </Helmet>
         <FormattedMessage
@@ -58,44 +58,38 @@ class WorkContainer extends Component {
   }
 
   renderWork() {
-    const dir = this.props.work.stub + '_' + this.props.work.uniqid;
-    const coversTypes = params.works.cover_type;
+    const work = this.props.work;
+    const dir = work.stub + '_' + work.uniqid;
     const language = params.global.languages[this.props.language];
     return (
       <div className="Work">
         {this.renderMetaTags()}
-        <h1>{this.props.work.name}</h1>
+        <h1>{work.name}</h1>
         <div className="row">
           <div className="col-md-3">
             <Cover
-              cover={
-                this.props.work.works_covers.length > 0
-                  ? `/works/${dir}/${
-                      this.props.work.works_covers.find(
-                        c => c.coverTypeId === coversTypes.medium_thumb.id
-                      ).filename
-                    }`
-                  : '/static/images/default-cover.png'
-              }
-              name={this.props.work.name}
+              cover={getWorkThumb(dir, work.thumbnail, 'medium')}
+              name={work.name}
             />
           </div>
           <Info
-            work={this.props.work}
-            description={this.props.work.works_descriptions.find(
+            work={work}
+            description={work.works_descriptions.find(
               e => e.language === language.id
             )}
           />
           <div className="ChaptersList col-md-12">
-            <h2><FormattedMessage id="chapters_list" defaultMessage="Chapters" /></h2>
+            <h2>
+              <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
+            </h2>
             <ul className="Chapters">
-              {this.props.work.chapters
+              {work.chapters
                 .filter(c => c.language === language.id)
                 .sort((a, b) => b.chapter - a.chapter)
                 .map(chapter => (
                   <Chapter
                     key={chapter.id}
-                    work={this.props.work}
+                    work={work}
                     chapter={chapter}
                     language={language}
                   />

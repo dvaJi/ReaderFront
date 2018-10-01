@@ -6,6 +6,10 @@
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@anilanar/moxios/-/moxios-0.9.0.tgz#082fd8f55f04e316c6aa306eaba4ba2d8ac0e3e9"
 
+"@dvaji/react-responsive@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@dvaji/react-responsive/-/react-responsive-0.0.2.tgz#d97c9b3c646e1eabaaf0355838d817f234b94608"
+
 "@fortawesome/fontawesome-common-types@^0.2.4":
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.4.tgz#7c560ff732c6c7c7c179ae25227ce5449e6f6d65"
@@ -7539,6 +7543,10 @@ shellwords@^0.1.0:
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+simple-slugify-string@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/simple-slugify-string/-/simple-slugify-string-1.0.0.tgz#bcc2067210dc30198f1383463c8ddb4f73a6ebde"
 
 sinon@^6.2.0:
   version "6.2.0"

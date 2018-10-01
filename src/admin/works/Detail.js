@@ -71,8 +71,6 @@ class Detail extends PureComponent {
               '/admincp/work/' +
               this.props.match.params.workId +
               '/' +
-              this.props.match.params.workId +
-              '/' +
               this.props.match.params.stub +
               '/chapter/add'
             }

@@ -21,7 +21,7 @@ export default class LatestWork extends PureComponent {
 
   handleThumbUrl = work => {
     const dir = work.stub + '_' + work.uniqid;
-    return getWorkThumb(dir, work.covers);
+    return getWorkThumb(dir, work.thumbnail, 'medium');
   };
 
   handleStatusTag = statusId => {

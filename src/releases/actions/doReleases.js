@@ -58,7 +58,7 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
           },
           fields: [
             'id',
-            'work {id, stub, name}',
+            'work {id, stub, name, uniqid}',
             'chapter',
             'subchapter',
             'volume',
@@ -67,6 +67,7 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
             'name',
             'stub',
             'uniqid',
+            'thumbnail',
             'description',
             'createdAt'
           ]

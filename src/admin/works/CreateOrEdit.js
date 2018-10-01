@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { slugify } from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -19,7 +20,8 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
-import { renderIf, slug } from '../../utils/helpers';
+import { renderIf } from '../../utils/helpers';
+import { getWorkThumb } from '../../utils/common';
 import {
   createOrUpdate as workCreateOrUpdate,
   fetchWork as getWork,
@@ -48,10 +50,9 @@ class CreateOrEdit extends Component {
         status: 0,
         statusReason: null,
         visits: 0,
-        cover: null,
-        works_covers: [],
         works_descriptions: []
       },
+      workThumbnail: null,
       workStatus: [],
       workTypes: [],
       demographics: [],
@@ -138,11 +139,9 @@ class CreateOrEdit extends Component {
                 desc => desc.language === lang.id
               )
           );
-          let cover = this.props.work.work.cover
-            ? this.props.work.work.small_thumb.filename
-            : null;
           this.setState({
-            work: { ...this.props.work.work, cover: cover },
+            work: this.props.work.work,
+            workThumbnail: this.props.work.work.thumbnail,
             languagesAvailables: langAvailables
           });
         })
@@ -163,7 +162,7 @@ class CreateOrEdit extends Component {
     work[event.target.name] = event.target.value;
 
     if (event.target.name === 'name') {
-      work.stub = slug(event.target.value);
+      work.stub = slugify(event.target.value);
     }
 
     this.setState({
@@ -203,12 +202,16 @@ class CreateOrEdit extends Component {
 
     const work = Object.assign({}, this.state.work);
     work.works_descriptions = JSON.stringify(work.works_descriptions);
-    delete work.works_covers;
+    work.type = work.type === '' ? this.state.workTypes[0] : work.type;
+    work.status = work.status === 0 ? this.state.workStatus[0].id : work.status;
+    work.demographicId =
+      work.demographicId === 0
+        ? this.state.demographics[0].id
+        : work.demographicId;
     delete work.chapters;
     delete work.people_works;
     delete work.works_genres;
     delete work.genres;
-    delete work.covers;
     delete work.description;
     delete work.createdAt;
     delete work.description;
@@ -280,7 +283,7 @@ class CreateOrEdit extends Component {
           });
 
           let work = this.state.work;
-          work.cover = response.data.file;
+          work.thumbnail = response.data.file;
 
           this.setState({
             work
@@ -511,15 +514,20 @@ class CreateOrEdit extends Component {
                 required={this.state.work.id === 0}
               />
             </FormGroup>
-            {renderIf(this.state.work.works_covers.length > 0, () => (
-              <img
-                src={`/works/${this.state.work.stub}_${
-                  this.state.work.uniqid
-                }/${this.state.work.works_covers[0].filename}`}
-                alt={this.state.work.name}
-                style={{ width: 200, marginTop: '1em' }}
-              />
-            ))}
+            {renderIf(
+              this.state.workThumbnail !== null && this.state.work.id !== 0,
+              () => (
+                <img
+                  src={getWorkThumb(
+                    `${this.state.work.stub}_${this.state.work.uniqid}`,
+                    this.state.workThumbnail,
+                    'small'
+                  )}
+                  alt={this.state.work.name}
+                  style={{ width: 170, marginTop: '1em' }}
+                />
+              )
+            )}
             <FormGroup>
               <Button
                 type="submit"

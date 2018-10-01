@@ -110,9 +110,6 @@ class List extends PureComponent {
               <thead>
                 <tr>
                   <th>
-                    <FormattedMessage id="cover" defaultMessage="Cover" />
-                  </th>
-                  <th>
                     <FormattedMessage id="name" defaultMessage="Name" />
                   </th>
                   <th>
@@ -156,31 +153,12 @@ class List extends PureComponent {
                       stub,
                       uniqid,
                       type,
-                      works_covers,
                       works_descriptions,
                       name,
                       createdAt,
                       updatedAt
                     }) => (
                       <tr key={id}>
-                        <td>
-                          {works_covers.length > 0 ? (
-                            <img
-                              src={`/works/${stub}_${uniqid}/${
-                                works_covers[0].filename
-                              }`}
-                              alt={name}
-                              style={{ width: 80 }}
-                            />
-                          ) : (
-                            <img
-                              src="/static/images/default-cover.png"
-                              alt={name}
-                              style={{ width: 80 }}
-                            />
-                          )}
-                        </td>
-
                         <td>
                           <Link to={'/admincp/work/' + id + '/' + stub}>
                             {name}

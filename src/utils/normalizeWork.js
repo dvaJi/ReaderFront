@@ -33,44 +33,14 @@ export function normalizeWork(work) {
       ? ''
       : work.works_descriptions[0].description;
 
-  // set a covers obj
-  const covers =
-    work.works_covers !== undefined ? normalizeCovers(work.works_covers) : null;
-
   return {
     ...work,
     statusLabel: status,
     demographic: demographic,
     genres: genres,
     people_works: pWorks,
-    description: desc,
-    covers: covers
+    description: desc
   };
-}
-
-function normalizeCovers(works_covers) {
-  if (works_covers.length === 0) {
-    return null;
-  }
-
-  let covers = {};
-  const coversTypesKeys = Object.keys(params.works.cover_type);
-  coversTypesKeys
-    .filter(ctk =>
-      works_covers.find(
-        wc => wc.coverTypeId === params.works.cover_type[ctk].id
-      )
-    )
-    .forEach(ctk => {
-      covers = {
-        ...covers,
-        [ctk]: works_covers.find(
-          wc => wc.coverTypeId === params.works.cover_type[ctk].id
-        )
-      };
-    });
-
-  return covers;
 }
 
 function normalizePeopleWorks(people_works) {
