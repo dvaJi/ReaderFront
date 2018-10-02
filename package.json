@@ -42,7 +42,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-dropzone": "^5.0.1",
+    "react-dropzone": "^6.0.0",
     "react-ga": "^2.5.3",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.4.0",
