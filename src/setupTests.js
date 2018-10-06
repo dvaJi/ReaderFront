@@ -79,6 +79,10 @@ window.HTMLCanvasElement.prototype.toDataURL = function () {
   return "";
 }
 
+if (typeof window.URL.createObjectURL === 'undefined') {
+  Object.defineProperty(window.URL, 'createObjectURL', { value: () =>  ""})
+}
+
 // Setup Mocks
 global.rfMocks = {
   releases: {

@@ -65,6 +65,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "enzyme-react-intl": "^2.0.2",
+    "jsdom-global": "^3.0.2",
     "react-intl-translations-manager": "^5.0.3",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "~2.13.5",
@@ -110,5 +111,11 @@
       "lcov",
       "text"
     ]
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
