@@ -52,12 +52,15 @@ export function getPostThumb(dir, filename, size = 'small') {
 }
 
 export function canUseWebP() {
-  const elem =
-    typeof document === 'object' ? document.createElement('canvas') : {};
-
-  if (!!(elem.getContext && elem.getContext('2d'))) {
-    return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
-  } else {
+  try {
+    const elem =
+      typeof document === 'object' ? document.createElement('canvas') : {};
+    if (!!(elem.getContext && elem.getContext('2d'))) {
+      return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    } else {
+      return false;
+    }
+  } catch (err) {
     return false;
   }
 }
