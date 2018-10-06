@@ -38,6 +38,7 @@ class ReaderBar extends PureComponent {
           )
         }
         target="_blank"
+        rel="noopener noreferrer"
       >
         <FontAwesomeIcon icon={faDownload} />
       </a>
