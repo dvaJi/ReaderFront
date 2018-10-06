@@ -1,5 +1,4 @@
 import React from 'react';
-import sinon from 'sinon';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import Chapter from './Chapter';
@@ -79,7 +78,7 @@ it('renders without name without crashing', () => {
 });
 
 it('should create an valid href', () => {
-  const onButtonClick = sinon.spy();
+  const onButtonClick = jest.fn();
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <Chapter

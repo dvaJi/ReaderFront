@@ -23,6 +23,7 @@ class Chapter extends PureComponent {
             className="Download"
             href={`/download/${dir}`}
             target="_blank"
+            rel="noopener noreferrer"
             title={intl.formatMessage({
               id: 'download_chapter',
               defaultMessage: 'Download chapter'

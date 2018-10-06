@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import styled from "styled-components";
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 
 const Card = styled.div`
   background-color: #fff;
@@ -24,7 +24,7 @@ const Card = styled.div`
 const CardBody = styled.div`
   float: left;
   padding: 15px 25px 25px 20px;
-  width: ${props => (props.size === "small" ? "100%" : "70%")};
+  width: ${props => (props.size === 'small' ? '100%' : '70%')};
 
   @media (max-width: 1200px) {
     width: 60%;
@@ -49,9 +49,9 @@ const CardBody = styled.div`
 
   .card-body-description {
     ${props =>
-      props.size === "small"
-        ? "padding-left: 0;font-size: 0.9rem;color: #8a8e94;"
-        : ""} @media (max-width: 990px) {
+      props.size === 'small'
+        ? 'padding-left: 0;font-size: 0.9rem;color: #8a8e94;'
+        : ''} @media (max-width: 990px) {
       padding-left: 0;
       font-size: 0.9rem;
       color: #8a8e94;
@@ -60,13 +60,13 @@ const CardBody = styled.div`
 `;
 const Cover = styled.div`
   float: left;
-  padding: ${props => (props.size === "small" ? "0" : "0 0 25px 25px")};
+  padding: ${props => (props.size === 'small' ? '0' : '0 0 25px 25px')};
   position: relative;
-  width: ${props => (props.size === "small" ? "100%" : "145px")};
+  width: ${props => (props.size === 'small' ? '100%' : '145px')};
   ${props =>
-    props.size === "small"
-      ? "height: 180px; margin-bottom: -20px;"
-      : ""} @media (max-width: 990px) {
+    props.size === 'small'
+      ? 'height: 180px; margin-bottom: -20px;'
+      : ''} @media (max-width: 990px) {
     width: 100%;
     height: 180px;
     padding: 0;
@@ -74,17 +74,17 @@ const Cover = styled.div`
 
   .card-media-img {
     background-color: #ddd;
-    height: ${props => (props.size === "small" ? "100%" : "212px")};
-    width: ${props => (props.size === "small" ? "100%" : "150px")};
+    height: ${props => (props.size === 'small' ? '100%' : '212px')};
+    width: ${props => (props.size === 'small' ? '100%' : '150px')};
     box-shadow: ${props =>
-      props.size === "small"
-        ? "2px 2px 0px 0px rgba(0, 0, 0, 0.02)"
-        : "0 3px 6px rgba(0, 0, 0, 0.2)"};
+      props.size === 'small'
+        ? '2px 2px 0px 0px rgba(0, 0, 0, 0.02)'
+        : '0 3px 6px rgba(0, 0, 0, 0.2)'};
     float: left;
     margin-top: -25px;
     position: relative;
     border-radius: ${props =>
-      props.size === "small" ? "2px 2px 0px 0px" : "2px"};
+      props.size === 'small' ? '2px 2px 0px 0px' : '2px'};
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -102,33 +102,31 @@ const Cover = styled.div`
 export default class WorkItemEmpty extends PureComponent {
   render() {
     return (
-      <a>
-        <Card className="shimme-card">
-          <Cover size={this.props.size}>
-            <div className="card-media-img show-loading-animation" />
-          </Cover>
-          <CardBody size={this.props.size}>
-            {this.props.size !== "small" && (
-              <h2 className="card-body-heading shimme-title">
-                <div className="shimme-text show-loading-animation">
-                  {"\u00A0"}
-                </div>
-              </h2>
-            )}
-            <ul className="card-body-description">
-              <div className="shimme-text shimme-desc show-loading-animation">
-                {"\u00A0"}
+      <Card className="shimme-card">
+        <Cover size={this.props.size}>
+          <div className="card-media-img show-loading-animation" />
+        </Cover>
+        <CardBody size={this.props.size}>
+          {this.props.size !== 'small' && (
+            <h2 className="card-body-heading shimme-title">
+              <div className="shimme-text show-loading-animation">
+                {'\u00A0'}
               </div>
-              <div className="shimme-text shimme-desc show-loading-animation">
-                {"\u00A0"}
-              </div>
-              <div className="shimme-text shimme-desc show-loading-animation">
-                {"\u00A0"}
-              </div>
-            </ul>
-          </CardBody>
-        </Card>
-      </a>
+            </h2>
+          )}
+          <ul className="card-body-description">
+            <div className="shimme-text shimme-desc show-loading-animation">
+              {'\u00A0'}
+            </div>
+            <div className="shimme-text shimme-desc show-loading-animation">
+              {'\u00A0'}
+            </div>
+            <div className="shimme-text shimme-desc show-loading-animation">
+              {'\u00A0'}
+            </div>
+          </ul>
+        </CardBody>
+      </Card>
     );
   }
 }
