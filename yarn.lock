@@ -6668,12 +6668,12 @@ react-dom@^16.4.2:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-dropzone@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-5.0.1.tgz#3ed201215794c0f650c6f25a8311a9d96d35ebb6"
+react-dropzone@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-6.0.0.tgz#9a5dfb34d082a4fa851df3323f6e6f1e7fe87714"
   dependencies:
     attr-accept "^1.1.3"
-    prop-types "^15.5.7"
+    prop-types "^15.6.2"
 
 react-error-overlay@^4.0.1:
   version "4.0.1"
