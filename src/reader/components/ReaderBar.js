@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
+import * as config from '../../config';
 
 class ReaderBar extends PureComponent {
   constructor(props) {
@@ -22,12 +23,9 @@ class ReaderBar extends PureComponent {
   }
 
   downloadChapter() {
-    const { chapter, subchapter } = this.props.chapter;
-    let url = `${this.props.chapter.download_href}`.replace(
-      'https://',
-      'http://'
-    );
-    return (
+    const { id, chapter, subchapter, pages } = this.props.chapter;
+    let url = `${config.READER_PATH}download/${id}`;
+    return pages && pages.length > 0 ? (
       <a
         className="Download"
         href={url}
@@ -42,6 +40,8 @@ class ReaderBar extends PureComponent {
       >
         <FontAwesomeIcon icon={faDownload} />
       </a>
+    ) : (
+      ''
     );
   }
 
