@@ -8,7 +8,8 @@ it('renders without crashing', () => {
     chapter: 20,
     volume: 2,
     subchapter: 0,
-    language: 'es'
+    language: 'es',
+    pages: []
   };
 
   let chapters = [chapter, chapter, chapter];

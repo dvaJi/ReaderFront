@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReleaseCard from './ReleaseCard';
 import ReleaseCardEmpty from './ReleaseCardEmpty';
-import {getChapterPageUrl} from '../../utils/common'
+import { getChapterPageUrl, languageIdToName } from '../../utils/common';
 
 export default class ReleasesList extends PureComponent {
   render() {
@@ -20,9 +20,9 @@ export default class ReleasesList extends PureComponent {
       this.props.releases.forEach(release => {
         let chapter = release;
         let work = release.work;
-        let chapterUrl = `read/${work.stub}/${chapter.language}/${
-          chapter.volume
-        }/${chapter.chapter}.${chapter.subchapter}`;
+        let chapterUrl = `read/${work.stub}/${languageIdToName(
+          chapter.language
+        )}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
         rows.push(
           <ReleaseCard
             key={release.id}
