@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/dvaJi/ReaderFront/compare/v3.5.0...v4.0.0) (2018-10-14)
+
+
+### Features
+
+* **admincp:** Manage chapters and pages ([#98](https://github.com/dvaJi/ReaderFront/issues/98)) ([e563415](https://github.com/dvaJi/ReaderFront/commit/e563415))
+* Graphql integration ([#77](https://github.com/dvaJi/ReaderFront/issues/77)) ([ac0628a](https://github.com/dvaJi/ReaderFront/commit/ac0628a))
+* New Auth module, it includes Login, Signup and Activate Account. ([#85](https://github.com/dvaJi/ReaderFront/issues/85)) ([42bc324](https://github.com/dvaJi/ReaderFront/commit/42bc324))
+* use react-helmet ([#96](https://github.com/dvaJi/ReaderFront/issues/96)) ([dd4c9ec](https://github.com/dvaJi/ReaderFront/commit/dd4c9ec))
+* **admincp:** add posts ([#115](https://github.com/dvaJi/ReaderFront/issues/115)) ([e5b906c](https://github.com/dvaJi/ReaderFront/commit/e5b906c))
+* **admincp:** new simple Dashboard module ([#87](https://github.com/dvaJi/ReaderFront/issues/87)) ([3a162bc](https://github.com/dvaJi/ReaderFront/commit/3a162bc))
+* **admincp:** works ([#91](https://github.com/dvaJi/ReaderFront/issues/91)) ([4881fd8](https://github.com/dvaJi/ReaderFront/commit/4881fd8))
+* **common:** Improve language detector ([#103](https://github.com/dvaJi/ReaderFront/issues/103)) ([ad05ae5](https://github.com/dvaJi/ReaderFront/commit/ad05ae5))
+* **core:** add react-loadable to create chunks to reduce initial loading time ([#117](https://github.com/dvaJi/ReaderFront/issues/117)) ([d0a9a5d](https://github.com/dvaJi/ReaderFront/commit/d0a9a5d))
+* **core:** generate thumbnails ([#120](https://github.com/dvaJi/ReaderFront/issues/120)) ([a810090](https://github.com/dvaJi/ReaderFront/commit/a810090))
+* **core:** use react-intl ([#100](https://github.com/dvaJi/ReaderFront/issues/100)) ([b7ee966](https://github.com/dvaJi/ReaderFront/commit/b7ee966))
+* **Reader:** chapters now can be downloaded ([#127](https://github.com/dvaJi/ReaderFront/issues/127)) ([8c91a5a](https://github.com/dvaJi/ReaderFront/commit/8c91a5a))
+
+
+### BREAKING CHANGES
+
+* * FoOlSlide-API is deprecated, now it uses ReaderFront-API as backend.
+* Use axios instead fetch to make HTTP request
+* Serie(s) were renamed as Work(s)
+* Serie has many people (artist, author, etc)
+* Serie has many genres
+* Serie has a demographic category and a status (on going, completed and dropped)
+* The Blog module has been redesigned
+
+
+
 <a name="3.5.0"></a>
 # [3.5.0](https://github.com/dvaJi/ReaderFront/compare/v3.4.2...v3.5.0) (2018-07-15)
 
