@@ -317,6 +317,9 @@ class CreateOrEdit extends Component {
       <div className="container">
         <Card>
           {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
+          {this.state.success && (
+            <Alert color="success">{this.state.success}</Alert>
+          )}
           <Link to={'/admincp/work/manage'}>
             <Button>
               <FormattedMessage id="go_back" defaultMessage="Go back" />
