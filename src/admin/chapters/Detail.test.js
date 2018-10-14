@@ -317,9 +317,11 @@ it('should allow to add pages', async () => {
   const fileContents = image;
   const file = new Blob([fileContents], { type: 'text/plain' });
 
-  await wrapper
-    .find(Dropzone)
-    .simulate('drop', { dataTransfer: { files: [file] } });
+  const drop = await wrapper
+    .find(Dropzone);
+
+    console.log(drop);
+  
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();

@@ -85,9 +85,11 @@ class CreateOrEdit extends Component {
 
   onChange = event => {
     let chapter = this.state.chapter;
-    chapter[event.target.name] = isNaN(event.target.value)
-      ? event.target.value
-      : parseInt(event.target.value, 0);
+    if (isNaN(event.target.value) || event.target.value === '') {
+      chapter[event.target.name] = event.target.value;
+    } else {
+      chapter[event.target.name] = parseInt(event.target.value, 0);
+    }
 
     if (event.target.name === 'name') {
       chapter.stub = slugify(event.target.value);
@@ -144,10 +146,10 @@ class CreateOrEdit extends Component {
                 this.props.match.params.workId +
                 '/' +
                 this.props.match.params.stub +
-                '/chapter/edit/' +
+                '/chapter/' +
                 response.data.data.chapterCreate.id
             );
-          }, 5000);
+          }, 1000);
         }
       })
       .catch(error => {
@@ -171,6 +173,11 @@ class CreateOrEdit extends Component {
           {this.state.error && (
             <Alert id="error-alert" color="danger">
               {this.state.error}
+            </Alert>
+          )}
+          {this.state.success && (
+            <Alert id="success-alert" color="success">
+              {this.state.success}
             </Alert>
           )}
           <Link
@@ -207,7 +214,6 @@ class CreateOrEdit extends Component {
                   id: 'name',
                   defaultMessage: 'Name'
                 })}
-                required="required"
                 name="name"
                 autoComplete="off"
                 value={this.state.chapter.name}

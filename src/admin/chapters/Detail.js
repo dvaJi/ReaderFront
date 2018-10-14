@@ -309,6 +309,7 @@ class Detail extends Component {
   }
 
   renderDropzone() {
+    console.log('is rendered')
     return (
       <div>
         <Button
@@ -330,6 +331,7 @@ class Detail extends Component {
           <FormattedMessage id="delete_all" defaultMessage="Delete all" />
         </Button>
         <Dropzone
+          id="dropzone-pages"
           accept="image/jpeg, image/png"
           onDrop={this.onDrop.bind(this)}
           style={{
