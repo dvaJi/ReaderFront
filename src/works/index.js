@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
 import SeriesContainer from "./containers/WorksContainer";
-import "./index.css";
 
 class Series extends Component {
   render() {
