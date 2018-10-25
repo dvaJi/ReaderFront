@@ -1,5 +1,22 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
+
+export const InfoStyle = styled.div`
+  width: 100%;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 2px;
+  padding: 15px 20px;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(10px);
+  white-space: normal;
+  transition-property: all;
+  transition-duration: 250ms;
+`;
 
 class Info extends PureComponent {
   render() {
@@ -9,7 +26,7 @@ class Info extends PureComponent {
         ? this.props.description.description
         : '';
     return (
-      <div className="Info col-md-8 col-md-offset-1">
+      <InfoStyle className="col-md-8 col-md-offset-1">
         <div className="Description">
           <h4>
             <FormattedMessage id="description" defaultMessage="Description" />
@@ -39,7 +56,7 @@ class Info extends PureComponent {
             </div>
           ))}
         </div>
-      </div>
+      </InfoStyle>
     );
   }
 }

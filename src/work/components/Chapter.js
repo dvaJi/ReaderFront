@@ -1,9 +1,19 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import * as config from '../../config';
+
+export const ChapterLi = styled.div`
+  list-style-type: none;
+  background-color: #fff;
+  line-height: 1.5rem;
+  padding: 10px 20px;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+`;
 
 class Chapter extends PureComponent {
   render() {
@@ -13,7 +23,7 @@ class Chapter extends PureComponent {
     }.${chapter.subchapter}`;
     let url = `${config.READER_PATH}download/${chapter.id}`;
     return (
-      <li className="clearfix">
+      <ChapterLi className="clearfix">
         <Link to={`/read/${dir}`} className="Chapter">
           <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
           {chapter.chapter}
@@ -24,7 +34,6 @@ class Chapter extends PureComponent {
           <a
             className="Download"
             href={url}
-
             target="_blank"
             rel="noopener noreferrer"
             title={intl.formatMessage({
@@ -35,7 +44,7 @@ class Chapter extends PureComponent {
             <FontAwesomeIcon icon={faDownload} />
           </a>
         </div>
-      </li>
+      </ChapterLi>
     );
   }
 }

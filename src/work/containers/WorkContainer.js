@@ -9,7 +9,7 @@ import * as config from '../../config';
 import params from '../../params.json';
 import Cover from '../components/Cover';
 import Info from '../components/Info';
-import Chapter from '../components/Chapter';
+import ChapterList from '../components/ChapterList';
 import WorkEmpty from '../components/WorkEmpty';
 
 class WorkContainer extends Component {
@@ -66,7 +66,7 @@ class WorkContainer extends Component {
         {this.renderMetaTags()}
         <h1>{work.name}</h1>
         <div className="row">
-          <div className="col-md-3">
+          <div className="col-md-4">
             <Cover
               cover={getWorkThumb(dir, work.thumbnail, 'medium')}
               name={work.name}
@@ -78,24 +78,7 @@ class WorkContainer extends Component {
               e => e.language === language.id
             )}
           />
-          <div className="ChaptersList col-md-12">
-            <h2>
-              <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
-            </h2>
-            <ul className="Chapters">
-              {work.chapters
-                .filter(c => c.language === language.id)
-                .sort((a, b) => b.chapter - a.chapter)
-                .map(chapter => (
-                  <Chapter
-                    key={chapter.id}
-                    work={work}
-                    chapter={chapter}
-                    language={language}
-                  />
-                ))}
-            </ul>
-          </div>
+          <ChapterList work={work} language={language}/>
         </div>
       </div>
     );

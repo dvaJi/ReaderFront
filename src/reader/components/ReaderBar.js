@@ -1,11 +1,32 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
 import ReactGA from 'react-ga';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import Button from './Button';
 import * as config from '../../config';
+
+const ReaderBarStyle = styled.div`
+  min-height: 30px;
+  margin-bottom: 15px;
+`;
+
+const Title = styled.div`
+  font-size: 22px;
+
+  .truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+`;
+
+const DownloadIcon = styled.a`
+  font-size: 18px;
+  margin-left: 10px;
+`;
 
 class ReaderBar extends PureComponent {
   constructor(props) {
@@ -26,8 +47,7 @@ class ReaderBar extends PureComponent {
     const { id, chapter, subchapter, pages } = this.props.chapter;
     let url = `${config.READER_PATH}download/${id}`;
     return pages && pages.length > 0 ? (
-      <a
-        className="Download"
+      <DownloadIcon
         href={url}
         onClick={e =>
           this.createGAEvent(
@@ -39,7 +59,7 @@ class ReaderBar extends PureComponent {
         rel="noopener noreferrer"
       >
         <FontAwesomeIcon icon={faDownload} />
-      </a>
+      </DownloadIcon>
     ) : (
       ''
     );
@@ -75,13 +95,13 @@ class ReaderBar extends PureComponent {
   render() {
     const { nextChapter, prevChapter, intl } = this.props;
     return (
-      <div className="ReaderBar clearfix">
-        <div className="float-left title">
+      <ReaderBarStyle className="clearfix">
+        <Title className="float-left">
           <span className="truncate">{this.workLink()}</span>:{' '}
           <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
           {this.props.chapter.chapter}
           {this.downloadChapter()}
-        </div>
+        </Title>
         <div className="float-right">
           <Button
             id="previous_chapter"
@@ -104,7 +124,7 @@ class ReaderBar extends PureComponent {
             chapter={nextChapter}
           />
         </div>
-      </div>
+      </ReaderBarStyle>
     );
   }
 }
