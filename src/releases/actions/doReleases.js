@@ -44,7 +44,6 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
       throw Error('Page is undefined');
     }
 
-    console.log(config, config.READER_PATH)
     return axios
       .post(
         config.READER_PATH,
