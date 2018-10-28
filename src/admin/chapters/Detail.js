@@ -309,7 +309,6 @@ class Detail extends Component {
   }
 
   renderDropzone() {
-    console.log('is rendered')
     return (
       <div>
         <Button
