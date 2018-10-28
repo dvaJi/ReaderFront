@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React, { PureComponent } from "react";
+import styled from "styled-components";
 
 const CardMedia = styled.div`
   float: left;
-  padding: ${props => (props.size === 'small' ? '0' : '0 0 25px 25px')};
+  padding: ${props => (props.size === "small" ? "0" : "0 0 25px 25px")};
   position: relative;
-  width: ${props => (props.size === 'small' ? '100%' : '145px')};
+  width: ${props => (props.size === "small" ? "100%" : "145px")};
   ${props =>
-    props.size === 'small'
-      ? 'height: 180px; margin-bottom: -20px;'
-      : ''} @media (max-width: 990px) {
+    props.size === "small"
+      ? "height: 180px; margin-bottom: -20px;"
+      : ""} @media (max-width: 990px) {
     width: 100%;
     height: 180px;
     padding: 0;
@@ -22,13 +22,13 @@ const Cover = styled.div`
   background-position: 50% 50%;
   background-size: cover;
   border-radius: ${props =>
-    props.size === 'small' ? '2px 2px 0px 0px' : '2px'};
+    props.size === "small" ? "2px 2px 0px 0px" : "2px"};
   box-shadow: ${props =>
-    props.size === 'small'
-      ? '2px 2px 0px 0px rgba(0, 0, 0, 0.02)'
-      : '0 3px 6px rgba(0, 0, 0, 0.2)'};
-  height: ${props => (props.size === 'small' ? '100%' : '212px')};
-  width: ${props => (props.size === 'small' ? '100%' : '150px')};
+    props.size === "small"
+      ? "2px 2px 0px 0px rgba(0, 0, 0, 0.02)"
+      : "0 3px 6px rgba(0, 0, 0, 0.2)"};
+  height: ${props => (props.size === "small" ? "100%" : "212px")};
+  width: ${props => (props.size === "small" ? "100%" : "150px")};
   flex-direction: column;
   float: left;
   margin-top: -25px;
@@ -83,25 +83,26 @@ export default class WorkCover extends PureComponent {
   render() {
     const coverUrl = this.props.cover
       ? this.props.cover
-      : '/static/images/default-cover.png';
+      : "/static/images/default-cover.png";
 
     return (
       <CardMedia size={this.props.size}>
         <Cover size={this.props.size} thumb={coverUrl}>
-          {this.props.size === 'small' && (
+          {this.props.size === "small" && (
             <Overlay>
               <span className="title">{this.props.name}</span>
             </Overlay>
           )}
         </Cover>
-        {this.props.size !== 'small' && this.props.statusTag && (
-          <Tag
-            statusColorBg={this.props.statusTag.background}
-            statusColorTxt={this.props.statusTag.color}
-          >
-            {this.props.status}
-          </Tag>
-        )}
+        {this.props.size !== "small" &&
+          this.props.statusTag && (
+            <Tag
+              statusColorBg={this.props.statusTag.background}
+              statusColorTxt={this.props.statusTag.color}
+            >
+              {this.props.status}
+            </Tag>
+          )}
       </CardMedia>
     );
   }

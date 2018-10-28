@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Card = styled(Link)`
   color: #6c757d;
@@ -50,7 +50,12 @@ export const CounterCard = props => (
   <Card to={props.to} className="mb-4">
     <div className="card-body">
       <div className="d-flex align-items-center">
-        <FontAwesomeIcon className="icon" color={props.color} size="2x" icon={props.icon} />
+        <FontAwesomeIcon
+          className="icon"
+          color={props.color}
+          size="2x"
+          icon={props.icon}
+        />
         <div className="ml-3">
           <div className="text-muted small">{props.title}</div>
           <div className="text-large">{props.total}</div>

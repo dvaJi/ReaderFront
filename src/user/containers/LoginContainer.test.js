@@ -1,13 +1,12 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
-import LoginContainer from './LoginContainer';
-import { Form } from 'reactstrap';
-import { MemoryRouter } from 'react-router-dom';
-import { authError } from '../actions/doUser';
+import React from "react";
+import { Provider } from "react-redux";
+import { shallowWithIntl, mountWithIntl } from "enzyme-react-intl";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import moxios from "@anilanar/moxios";
+import LoginContainer from "./LoginContainer";
+import { Form } from "reactstrap";
+import { MemoryRouter } from "react-router-dom";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -20,7 +19,7 @@ afterEach(function() {
   moxios.uninstall();
 });
 
-it('should render without throwing an error', () => {
+it("should render without throwing an error", () => {
   const store = mockStore({
     user: {}
   });
@@ -29,16 +28,16 @@ it('should render without throwing an error', () => {
   expect(wrapper).toBeTruthy();
 });
 
-it('should render without throwing an error', async () => {
+it("should render without throwing an error", async () => {
   const store = mockStore({
     user: { isLoading: false, error: null },
     router: {
       location: {
-        pathname: 'LUL'
+        pathname: "LUL"
       }
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -46,7 +45,7 @@ it('should render without throwing an error', async () => {
       <MemoryRouter>
         <LoginContainer
           store={store}
-          router={{ location: { pathname: 'AS' } }}
+          router={{ location: { pathname: "AS" } }}
           user={{ isLoading: false, error: null }}
         />
       </MemoryRouter>
@@ -55,24 +54,24 @@ it('should render without throwing an error', async () => {
 
   const form = wrapper.find(Form);
   const inputEmail = form.find('input[name="email"]');
-  inputEmail.simulate('change', { target: { value: 'test@example.com' } });
+  inputEmail.simulate("change", { target: { value: "test@example.com" } });
   const inputPasword = form.find('input[name="password"]');
-  inputPasword.simulate('change', { target: { value: '123456' } });
+  inputPasword.simulate("change", { target: { value: "123456" } });
 
-  await form.simulate('submit');
+  await form.simulate("submit");
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
         userLogin: {
-          token: 'f4k3T0k3N',
+          token: "f4k3T0k3N",
           user: {
-            name: 'Admin',
-            email: 'my@email.com',
-            role: 'admin'
+            name: "Admin",
+            email: "my@email.com",
+            role: "admin"
           }
         }
       }
@@ -82,16 +81,16 @@ it('should render without throwing an error', async () => {
   wrapper.unmount();
 });
 
-it('should render an error if login not match', async () => {
+it("should render an error if login not match", async () => {
   const state = {
     user: { isLoading: false, error: null },
     router: {
       location: {
-        pathname: 'LUL'
+        pathname: "LUL"
       }
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   };
   const store = mockStore(state);
@@ -100,7 +99,7 @@ it('should render an error if login not match', async () => {
       <MemoryRouter>
         <LoginContainer
           store={store}
-          router={{ location: { pathname: 'AS' } }}
+          router={{ location: { pathname: "AS" } }}
           user={{ isLoading: false, error: null }}
         />
       </MemoryRouter>
@@ -109,20 +108,20 @@ it('should render an error if login not match', async () => {
 
   const form = wrapper.find(Form);
   const inputEmail = form.find('input[name="email"]');
-  inputEmail.simulate('change', { target: { value: 'iam@god.com' } });
+  inputEmail.simulate("change", { target: { value: "iam@god.com" } });
   const inputPasword = form.find('input[name="password"]');
-  inputPasword.simulate('change', { target: { value: 'h4ck3rm4n' } });
+  inputPasword.simulate("change", { target: { value: "h4ck3rm4n" } });
 
-  await form.simulate('submit');
+  await form.simulate("submit");
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       errors: [
         {
-          message: 'You dont rule here :('
+          message: "You dont rule here :("
         }
       ]
     }

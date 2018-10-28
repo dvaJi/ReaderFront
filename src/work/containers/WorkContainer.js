@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { fetchWork } from '../actions/doWork';
-import { withRouter } from 'react-router';
-import { getWorkThumb } from '../../utils/common';
-import * as config from '../../config';
-import params from '../../params.json';
-import Cover from '../components/Cover';
-import Info from '../components/Info';
-import ChapterList from '../components/ChapterList';
-import WorkEmpty from '../components/WorkEmpty';
+import React, { Component } from "react";
+import { FormattedMessage } from "react-intl";
+import { Helmet } from "react-helmet";
+import { connect } from "react-redux";
+import { fetchWork } from "../actions/doWork";
+import { withRouter } from "react-router";
+import { getWorkThumb } from "../../utils/common";
+import * as config from "../../config";
+import params from "../../params.json";
+import Cover from "../components/Cover";
+import Info from "../components/Info";
+import ChapterList from "../components/ChapterList";
+import WorkEmpty from "../components/WorkEmpty";
 
 class WorkContainer extends Component {
   constructor(props) {
@@ -30,16 +30,16 @@ class WorkContainer extends Component {
   renderMetaTags() {
     const title = config.APP_TITLE;
     const { work } = this.props;
-    const workDir = work.stub + '_' + work.uniqid;
+    const workDir = work.stub + "_" + work.uniqid;
     return (
       <div>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{work.name + ' - ' + title}</title>
-          <meta property="og:title" content={work.name + ' - ' + title} />
+          <title>{work.name + " - " + title}</title>
+          <meta property="og:title" content={work.name + " - " + title} />
           <meta
             property="og:image"
-            content={getWorkThumb(workDir, this.props.work.thumbnail, 'medium')}
+            content={getWorkThumb(workDir, this.props.work.thumbnail, "medium")}
           />
         </Helmet>
         <FormattedMessage
@@ -59,7 +59,7 @@ class WorkContainer extends Component {
 
   renderWork() {
     const work = this.props.work;
-    const dir = work.stub + '_' + work.uniqid;
+    const dir = work.stub + "_" + work.uniqid;
     const language = params.global.languages[this.props.language];
     return (
       <div className="Work">
@@ -68,7 +68,7 @@ class WorkContainer extends Component {
         <div className="row">
           <div className="col-md-4">
             <Cover
-              cover={getWorkThumb(dir, work.thumbnail, 'medium')}
+              cover={getWorkThumb(dir, work.thumbnail, "medium")}
               name={work.name}
             />
           </div>
@@ -78,7 +78,7 @@ class WorkContainer extends Component {
               e => e.language === language.id
             )}
           />
-          <ChapterList work={work} language={language}/>
+          <ChapterList work={work} language={language} />
         </div>
       </div>
     );

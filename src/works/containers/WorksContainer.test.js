@@ -1,28 +1,27 @@
-import React from 'react';
-import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import WorksContainer from './WorksContainer';
-import App from '../../App';
-import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
+import React from "react";
+import { mountWithIntl } from "enzyme-react-intl";
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
+import WorksContainer from "./WorksContainer";
+import App from "../../App";
+import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const works = global.rfMocks.work.worksNormalized;
 
-it('should render without throwing an error', () => {
+it("should render without throwing an error", () => {
   const store = mockStore({
     works: {
       works: [],
-      worksFilterText: '',
+      worksFilterText: "",
       worksIsLoading: false,
       workHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mount(
@@ -37,16 +36,16 @@ it('should render without throwing an error', () => {
   wrapper.unmount();
 });
 
-it('should filter works', () => {
+it("should filter works", () => {
   const store = mockStore({
     works: {
       works: works,
-      worksFilterText: '',
+      worksFilterText: "",
       worksIsLoading: false,
       workHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -56,27 +55,27 @@ it('should filter works', () => {
   );
 
   const input = wrapper.find('input[name="q"]');
-  input.instance().value = 'a';
-  input.simulate('change');
+  input.instance().value = "a";
+  input.simulate("change");
 });
 
-it('should render without throwing an error when it receive a new language props', async () => {
+it("should render without throwing an error when it receive a new language props", async () => {
   const store = mockStore({
     works: {
       works: [],
-      worksFilterText: '',
+      worksFilterText: "",
       worksIsLoading: false,
       workHasErrored: false
     },
     layout: {
-      language: 'en'
+      language: "en"
     }
   });
   const wrapper = await mountWithIntl(<WorksContainer store={store} />);
   await wrapper.update();
-  wrapper.setProps({ language: 'es' });
+  wrapper.setProps({ language: "es" });
 
-  await store.dispatch(doChangeLanguage('es'));
+  await store.dispatch(doChangeLanguage("es"));
   await wrapper.update();
   wrapper.unmount();
 });

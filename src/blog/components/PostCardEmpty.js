@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
 
 const Card = styled.div`
   display: inline-block;
@@ -16,8 +16,6 @@ const Card = styled.div`
 
 export default class PostCardEmpty extends Component {
   render() {
-    return (
-      <Card className="show-loading-animation" />
-    );
+    return <Card className="show-loading-animation" />;
   }
 }

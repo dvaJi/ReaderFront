@@ -1,8 +1,8 @@
-import params from '../params.json';
+import params from "../params.json";
 
 /**
  * Normalize data and add new properties to work object
- * @param {*} work 
+ * @param {*} work
  */
 export function normalizeWork(work) {
   const status = Object.keys(params.works.status).find(
@@ -30,7 +30,7 @@ export function normalizeWork(work) {
   // set a safest description
   const desc =
     work.works_descriptions.length === 0
-      ? ''
+      ? ""
       : work.works_descriptions[0].description;
 
   return {

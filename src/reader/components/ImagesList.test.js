@@ -1,7 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
-import ImagesList from './ImagesList';
-import { getRelease } from '../../utils/mocks/getReleasesMock';
+import React from "react";
+import { shallow } from "enzyme";
+import ImagesList from "./ImagesList";
+import { getRelease } from "../../utils/mocks/getReleasesMock";
 
 function handleChapterChange(chapter) {
   //
@@ -10,17 +10,17 @@ const chapter = getRelease();
 const pages = [
   {
     id: 1,
-    filename: 1 + 'l.png',
-    thumb_url: '/root/' + 1 + 'l.png'
+    filename: 1 + "l.png",
+    thumb_url: "/root/" + 1 + "l.png"
   },
   {
     id: 2,
-    filename: 2 + 'l.png',
-    thumb_url: '/root/' + 2 + 'l.png'
+    filename: 2 + "l.png",
+    thumb_url: "/root/" + 2 + "l.png"
   }
 ];
 
-it('should render while loading and cascade mode without throwing an error', () => {
+it("should render while loading and cascade mode without throwing an error", () => {
   const wrapper = shallow(
     <ImagesList
       loading={true}
@@ -32,9 +32,11 @@ it('should render while loading and cascade mode without throwing an error', () 
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
-it('should render loaded with cascade mode without throwing an error', () => {
+it("should render loaded with cascade mode without throwing an error", () => {
   const wrapper = shallow(
     <ImagesList
       loading={false}
@@ -46,9 +48,11 @@ it('should render loaded with cascade mode without throwing an error', () => {
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
-it('should render loaded without cascade mode without throwing an error', () => {
+it("should render loaded without cascade mode without throwing an error", () => {
   const wrapper = shallow(
     <ImagesList
       loading={false}
@@ -60,4 +64,6 @@ it('should render loaded without cascade mode without throwing an error', () => 
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });

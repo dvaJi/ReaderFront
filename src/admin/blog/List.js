@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Button,
   ButtonGroup,
@@ -10,11 +10,11 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink
-} from 'reactstrap';
+} from "reactstrap";
 
 // App Imports
-import { fetchPosts, remove, getAggregates } from '../../blog/actions/doBlog';
-import params from '../../params';
+import { fetchPosts, remove, getAggregates } from "../../blog/actions/doBlog";
+import params from "../../params";
 
 class List extends PureComponent {
   constructor(props) {
@@ -44,9 +44,9 @@ class List extends PureComponent {
     if (this.props.posts.length === 0) {
       this.props.fetchPosts(
         undefined,
-        'DESC',
+        "DESC",
         this.state.perPage,
-        'createdAt',
+        "createdAt",
         this.state.page
       );
     }
@@ -56,9 +56,9 @@ class List extends PureComponent {
     this.setState({ page: page });
     this.props.fetchPosts(
       undefined,
-      'DESC',
+      "DESC",
       this.state.perPage,
-      'createdAt',
+      "createdAt",
       page * this.state.perPage
     );
   }
@@ -67,8 +67,8 @@ class List extends PureComponent {
     if (id > 0) {
       let check = window.confirm(
         this.props.intl.formatMessage({
-          id: 'confirm_delete_post',
-          defaultMessage: 'confirm_delete_post'
+          id: "confirm_delete_post",
+          defaultMessage: "confirm_delete_post"
         })
       );
 
@@ -82,9 +82,9 @@ class List extends PureComponent {
               } else {
                 this.props.fetchPosts(
                   undefined,
-                  'DESC',
+                  "DESC",
                   5,
-                  'createdAt',
+                  "createdAt",
                   this.state.page
                 );
               }
@@ -101,7 +101,7 @@ class List extends PureComponent {
     return (
       <Container>
         <div>
-          <Button tag={Link} to={'/admincp/blog/add_post'}>
+          <Button tag={Link} to={"/admincp/blog/add_post"}>
             <FormattedMessage id="add_post" defaultMessage="Add Post" />
           </Button>
 
@@ -133,7 +133,7 @@ class List extends PureComponent {
                       defaultMessage="Updated at"
                     />
                   </th>
-                  <th style={{ textAlign: 'center' }}>
+                  <th style={{ textAlign: "center" }}>
                     <FormattedMessage id="actions" defaultMessage="Actions" />
                   </th>
                 </tr>
@@ -175,7 +175,7 @@ class List extends PureComponent {
                       return (
                         <tr key={id}>
                           <td>
-                            <Link to={'/admincp/blog/edit_post/' + stub}>
+                            <Link to={"/admincp/blog/edit_post/" + stub}>
                               {title}
                             </Link>
                           </td>
@@ -187,7 +187,7 @@ class List extends PureComponent {
                                 defaultMessage={categoryTxt.name}
                               />
                             ) : (
-                              'SIN ASIGNAR'
+                              "SIN ASIGNAR"
                             )}
                           </td>
 
@@ -198,24 +198,26 @@ class List extends PureComponent {
                                 defaultMessage={statusTxt.name}
                               />
                             ) : (
-                              'SIN STATUS'
+                              "SIN STATUS"
                             )}
                           </td>
 
-                          <td style={{ textAlign: 'center' }}><FormattedMessage
-                                id={languageTxt.name + '_full'}
-                                defaultMessage={languageTxt.name}
-                              /></td>
+                          <td style={{ textAlign: "center" }}>
+                            <FormattedMessage
+                              id={languageTxt.name + "_full"}
+                              defaultMessage={languageTxt.name}
+                            />
+                          </td>
 
                           <td>{new Date(createdAt).toDateString()}</td>
 
                           <td>{new Date(updatedAt).toDateString()}</td>
 
-                          <td style={{ textAlign: 'center' }}>
+                          <td style={{ textAlign: "center" }}>
                             <ButtonGroup size="sm">
                               <Button
                                 tag={Link}
-                                to={'/admincp/blog/edit_post/' + stub}
+                                to={"/admincp/blog/edit_post/" + stub}
                               >
                                 <FormattedMessage
                                   id="edit"
@@ -254,7 +256,7 @@ class List extends PureComponent {
               {new Array(
                 Math.ceil(this.props.postsAgg.count / this.state.perPage)
               )
-                .fill('pag')
+                .fill("pag")
                 .map((pg, index) => (
                   <PaginationItem
                     key={pg + index}

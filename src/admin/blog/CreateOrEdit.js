@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-import MarkDownEditor from './MarkDownEditor';
-import { slugify } from 'simple-slugify-string';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import MarkDownEditor from "./MarkDownEditor";
+import { slugify } from "simple-slugify-string";
 import {
   Alert,
   Button,
@@ -12,18 +12,18 @@ import {
   FormGroup,
   Label,
   Input
-} from 'reactstrap';
-import { FormattedMessage, injectIntl } from 'react-intl';
+} from "reactstrap";
+import { FormattedMessage, injectIntl } from "react-intl";
 
 // App imports
-import { renderIf } from '../../utils/helpers';
+import { renderIf } from "../../utils/helpers";
 import {
   createOrUpdate as postCreateOrUpdate,
   fetchPost as getPost
-} from '../../blog/actions/doBlog';
-import { Card } from '../common/UI';
-import { upload } from '../../common/actions';
-import params from '../../params';
+} from "../../blog/actions/doBlog";
+import { Card } from "../common/UI";
+import { upload } from "../../common/actions";
+import params from "../../params";
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -36,16 +36,16 @@ class CreateOrEdit extends Component {
       post: {
         id: 0,
         userId: 0,
-        content: '',
+        content: "",
         category: 0,
-        uniqid: '',
+        uniqid: "",
         type: 0,
-        title: '',
-        stub: '',
+        title: "",
+        stub: "",
         status: 0,
         sticky: false,
         language: 0,
-        thumbnail: ''
+        thumbnail: ""
       },
       postStatus: Object.keys(params.blog.status).map(
         k => params.blog.status[k]
@@ -56,7 +56,7 @@ class CreateOrEdit extends Component {
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       ),
-      mdeState: ''
+      mdeState: ""
     };
   }
 
@@ -76,9 +76,9 @@ class CreateOrEdit extends Component {
         .catch(error => {
           this.setState({
             error: this.props.intl.formatMessage({
-              id: 'error_fetching_post',
+              id: "error_fetching_post",
               defaultMessage:
-                'There was some error fetching post. Please try again.'
+                "There was some error fetching post. Please try again."
             })
           });
         });
@@ -89,7 +89,7 @@ class CreateOrEdit extends Component {
     let post = this.state.post;
     post[event.target.name] = event.target.value;
 
-    if (event.target.name === 'title') {
+    if (event.target.name === "title") {
       post.stub = slugify(event.target.value);
     }
 
@@ -100,7 +100,7 @@ class CreateOrEdit extends Component {
 
   handleValueChange = value => {
     let post = this.state.post;
-    post['content'] = value;
+    post["content"] = value;
     this.setState({ post, mdeState: value });
   };
 
@@ -145,21 +145,21 @@ class CreateOrEdit extends Component {
         } else {
           this.setState({
             success: this.props.intl.formatMessage({
-              id: 'post_saved',
-              defaultMessage: 'Post saved successfully.'
+              id: "post_saved",
+              defaultMessage: "Post saved successfully."
             })
           });
 
           window.setTimeout(() => {
-            this.props.history.push('/admincp/blog/manage');
+            this.props.history.push("/admincp/blog/manage");
           }, 5000);
         }
       })
       .catch(error => {
         this.setState({
           error: this.props.intl.formatMessage({
-            id: 'unknown_error',
-            defaultMessage: 'There was some error. Please try again.'
+            id: "unknown_error",
+            defaultMessage: "There was some error. Please try again."
           })
         });
 
@@ -172,8 +172,8 @@ class CreateOrEdit extends Component {
   onUpload = event => {
     this.setState({
       success: this.props.intl.formatMessage({
-        id: 'uploading_file',
-        defaultMessage: 'Uploading file, please wait...'
+        id: "uploading_file",
+        defaultMessage: "Uploading file, please wait..."
       })
     });
 
@@ -182,7 +182,7 @@ class CreateOrEdit extends Component {
     });
 
     let data = new FormData();
-    data.append('file', event.target.files[0]);
+    data.append("file", event.target.files[0]);
 
     // Upload image
     this.props
@@ -191,8 +191,8 @@ class CreateOrEdit extends Component {
         if (response.status === 200) {
           this.setState({
             success: this.props.intl.formatMessage({
-              id: 'file_uploaded',
-              defaultMessage: 'File uploaded successfully.'
+              id: "file_uploaded",
+              defaultMessage: "File uploaded successfully."
             })
           });
 
@@ -205,8 +205,8 @@ class CreateOrEdit extends Component {
         } else {
           this.setState({
             error: this.props.intl.formatMessage({
-              id: 'try_again',
-              defaultMessage: 'Please try again.'
+              id: "try_again",
+              defaultMessage: "Please try again."
             })
           });
         }
@@ -214,8 +214,8 @@ class CreateOrEdit extends Component {
       .catch(error => {
         this.setState({
           error: this.props.intl.formatMessage({
-            id: 'unknown_error',
-            defaultMessage: 'There was some error. Please try again.'
+            id: "unknown_error",
+            defaultMessage: "There was some error. Please try again."
           })
         });
       })
@@ -231,8 +231,10 @@ class CreateOrEdit extends Component {
       <div className="container">
         <Card>
           {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
-          {this.state.success && <Alert color="success">{this.state.success}</Alert>}
-          <Link to={'/admincp/blog/manage'}>
+          {this.state.success && (
+            <Alert color="success">{this.state.success}</Alert>
+          )}
+          <Link to={"/admincp/blog/manage"}>
             <Button>
               <FormattedMessage id="go_back" defaultMessage="Go back" />
             </Button>
@@ -243,7 +245,7 @@ class CreateOrEdit extends Component {
               <FormattedMessage id="create" defaultMessage="Create" />
             ) : (
               <FormattedMessage id="edit" defaultMessage="Edit" />
-            )}{' '}
+            )}{" "}
             <FormattedMessage id="post" defaultMessage="Post" />
           </h4>
 
@@ -256,8 +258,8 @@ class CreateOrEdit extends Component {
                 id="title"
                 type="text"
                 placeholder={this.props.intl.formatMessage({
-                  id: 'title',
-                  defaultMessage: 'Title'
+                  id: "title",
+                  defaultMessage: "Title"
                 })}
                 required="required"
                 name="title"
@@ -270,7 +272,10 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              <MarkDownEditor onChangeValue={this.handleValueChange} text={this.state.post.content} />
+              <MarkDownEditor
+                onChangeValue={this.handleValueChange}
+                text={this.state.post.content}
+              />
             </FormGroup>
             <FormGroup>
               <Label for="language">
@@ -287,7 +292,7 @@ class CreateOrEdit extends Component {
                 {this.state.languages.map(lang => (
                   <option key={lang.id + lang.name} value={lang.id}>
                     {this.props.intl.formatMessage({
-                      id: lang.name + '_full',
+                      id: lang.name + "_full",
                       defaultMessage: lang.name
                     })}
                   </option>
@@ -347,18 +352,18 @@ class CreateOrEdit extends Component {
                 id="uploadCover"
                 name="cover"
                 label={this.props.intl.formatMessage({
-                  id: 'upload_cover',
-                  defaultMessage: 'Upload cover'
+                  id: "upload_cover",
+                  defaultMessage: "Upload cover"
                 })}
                 onChange={this.onUpload}
                 required={this.state.post.id === 0}
               />
             </FormGroup>
-            {renderIf(this.state.post.thumbnail !== '', () => (
+            {renderIf(this.state.post.thumbnail !== "", () => (
               <img
                 src={`/works/${this.state.post.thumbnail}`}
                 alt={this.state.post.title}
-                style={{ width: 200, marginTop: '1em' }}
+                style={{ width: 200, marginTop: "1em" }}
               />
             ))}
             <FormGroup>

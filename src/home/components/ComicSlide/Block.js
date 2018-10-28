@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { getChapterPageUrl, languageIdToName } from '../../../utils/common';
+import React, { PureComponent } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { getChapterPageUrl, languageIdToName } from "../../../utils/common";
 
 const Image = styled(Link)`
   background-image: url('${props => props.image}');
@@ -21,9 +21,19 @@ export default class Block extends PureComponent {
 
   imageToDisplay(blockId, index, chapter) {
     if (blockId <= 2 || (blockId === 3 && index > 1)) {
-      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
+      return getChapterPageUrl(
+        chapter.work,
+        chapter,
+        chapter.thumbnail,
+        "medium"
+      );
     } else if (blockId === 5 && index <= 1) {
-      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
+      return getChapterPageUrl(
+        chapter.work,
+        chapter,
+        chapter.thumbnail,
+        "medium"
+      );
     } else {
       return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail);
     }
@@ -48,8 +58,8 @@ export default class Block extends PureComponent {
               <span>
                 {chapter.work.name} - Cap. {chapter.chapter}
                 {Number(chapter.subchapter) !== 0
-                  ? '.' + chapter.subchapter
-                  : ''}
+                  ? "." + chapter.subchapter
+                  : ""}
               </span>
             </Image>
           </li>

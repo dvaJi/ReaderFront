@@ -17,12 +17,22 @@ it("should render without throwing an error", () => {
   const wrapper = mount(
     <MemoryRouter>
       <Nav className="ml-auto" navbar>
-        <RouteNavItem to="/" exact>Releases</RouteNavItem>
+        <RouteNavItem to="/" exact>
+          Releases
+        </RouteNavItem>
         <RouteNavItem to="/series">Series</RouteNavItem>
       </Nav>
     </MemoryRouter>
   );
-  wrapper.find("a").first().simulate("click");
-  expect(wrapper.find("a").first().find(".active")).toBeTruthy();
+  wrapper
+    .find("a")
+    .first()
+    .simulate("click");
+  expect(
+    wrapper
+      .find("a")
+      .first()
+      .find(".active")
+  ).toBeTruthy();
   wrapper.unmount();
 });

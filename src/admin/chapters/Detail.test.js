@@ -1,19 +1,19 @@
-import React from 'react';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { mountWithIntl } from 'enzyme-react-intl';
-import moxios from '@anilanar/moxios';
-import configureMockStore from 'redux-mock-store';
-import { MemoryRouter } from 'react-router-dom';
+import React from "react";
+import thunk from "redux-thunk";
+import { Provider } from "react-redux";
+import { mountWithIntl } from "enzyme-react-intl";
+import moxios from "@anilanar/moxios";
+import configureMockStore from "redux-mock-store";
+import { MemoryRouter } from "react-router-dom";
 import {
   getReleases,
   getPages,
   getPagesAsFiles,
   getPagesUploaded
-} from '../../utils/mocks/getReleasesMock';
-import ErrorBoundary from '../../utils/ErrorBoundary';
-import Dropzone from 'react-dropzone';
-import Detail from './Detail';
+} from "../../utils/mocks/getReleasesMock";
+import ErrorBoundary from "../../utils/ErrorBoundary";
+import Dropzone from "react-dropzone";
+import Detail from "./Detail";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -25,7 +25,7 @@ const params = {
   params: {
     chapterId: 1,
     workId: 0,
-    stub: ''
+    stub: ""
   }
 };
 
@@ -37,7 +37,7 @@ afterEach(() => {
   moxios.uninstall();
 });
 
-it('should render the chapter with pages', async () => {
+it("should render the chapter with pages", async () => {
   const store = mockStore({
     reader: {
       chapter: {
@@ -46,21 +46,20 @@ it('should render the chapter with pages', async () => {
         subchapter: 0,
         volume: 0,
         language: 1,
-        name: '',
-        stub: '',
+        name: "",
+        stub: "",
         hidden: false,
-        description: '',
-        thumbnail: '',
+        description: "",
+        thumbnail: "",
         pages: []
       }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -74,7 +73,7 @@ it('should render the chapter with pages', async () => {
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
         chapterById: { ...chapter, pages: pages }
@@ -86,13 +85,13 @@ it('should render the chapter with pages', async () => {
   wrapper.unmount();
 });
 
-it('should render the chapter without pages', () => {
+it("should render the chapter without pages", () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: [] }
     },
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
     },
@@ -111,23 +110,22 @@ it('should render the chapter without pages', () => {
   wrapper.unmount();
 });
 
-it('should delete all pages', async () => {
+it("should delete all pages", async () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: pagesUploaded }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   // Append a div to test our UncontrolledTooltip
-  const div = document.createElement('div');
-  div.setAttribute('id', 'select-default-0');
+  const div = document.createElement("div");
+  div.setAttribute("id", "select-default-0");
   document.body.appendChild(div);
 
   const wrapper = await mountWithIntl(
@@ -138,23 +136,22 @@ it('should delete all pages', async () => {
     </Provider>
   );
 
-  const removeAllButton = await wrapper
-    .find('button[id="delete-all-pages"]')
-    .simulate('click');
+  // Click delete all pages button
+  await wrapper.find('button[id="delete-all-pages"]').simulate("click");
 
   const confirmRemoveAllButton = await wrapper.find(
     'button[id="confirm-delete-all-pages"]'
   );
-  await confirmRemoveAllButton.simulate('click');
+  await confirmRemoveAllButton.simulate("click");
   await wrapper.update();
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
-        message: 'Ok'
+        message: "Ok"
       }
     }
   });
@@ -163,23 +160,22 @@ it('should delete all pages', async () => {
   wrapper.unmount();
 });
 
-it('should upload all pages', async () => {
+it("should upload all pages", async () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: pagesAsFile }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   // Append a div to test our UncontrolledTooltip
-  const div = document.createElement('div');
-  div.setAttribute('id', 'select-default-0');
+  const div = document.createElement("div");
+  div.setAttribute("id", "select-default-0");
   document.body.appendChild(div);
 
   const wrapper = await mountWithIntl(
@@ -192,13 +188,13 @@ it('should upload all pages', async () => {
     </Provider>
   );
 
-  moxios.stubRequest('/uploads', {
+  moxios.stubRequest("/uploads", {
     status: 200,
-    responseText: 'hello'
+    responseText: "hello"
   });
 
   const uploadAllButton = await wrapper.find('button[id="upload-all-pages"]');
-  uploadAllButton.simulate('click');
+  uploadAllButton.simulate("click");
 
   await wrapper.update();
 
@@ -207,10 +203,12 @@ it('should upload all pages', async () => {
     .props()
     .store.getState();
 
+  expect(props).toBeDefined();
+
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
         file: pagesAsFile[0]
@@ -221,11 +219,11 @@ it('should upload all pages', async () => {
   let requestCreateOrUpdatePage = moxios.requests.mostRecent();
   await requestCreateOrUpdatePage.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
         createOrUpdatePage: {
-          response: 'ok'
+          response: "ok"
         }
       }
     }
@@ -235,18 +233,17 @@ it('should upload all pages', async () => {
   wrapper.unmount();
 });
 
-it('should allow to set a page as default', async () => {
+it("should allow to set a page as default", async () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: pagesAsFile }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -259,8 +256,8 @@ it('should allow to set a page as default', async () => {
     </Provider>
   );
 
-  const selectAsDefault = await wrapper.find('div#select-default-0');
-  selectAsDefault.simulate('click');
+  const selectAsDefault = await wrapper.find("div#select-default-0");
+  selectAsDefault.simulate("click");
 
   await wrapper.update();
 
@@ -269,13 +266,15 @@ it('should allow to set a page as default', async () => {
     .props()
     .store.getState();
 
+  expect(props).toBeDefined();
+
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
-    statusText: 'OK',
+    statusText: "OK",
     response: {
       data: {
-        message: 'Ok'
+        message: "Ok"
       }
     }
   });
@@ -284,18 +283,17 @@ it('should allow to set a page as default', async () => {
   wrapper.unmount();
 });
 
-it('should allow to add pages', async () => {
+it("should allow to add pages", async () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: [] }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -309,25 +307,23 @@ it('should allow to add pages', async () => {
   );
 
   let image = {
-    name: 'plot.jpg',
+    name: "plot.jpg",
     size: 1000,
-    type: 'image/jpeg'
+    type: "image/jpeg"
   };
 
   const fileContents = image;
-  const file = new Blob([fileContents], { type: 'text/plain' });
+  const file = new Blob([fileContents], { type: "text/plain" });
+  expect(file).toBeDefined();
 
-  const drop = await wrapper
-    .find(Dropzone);
-
-    console.log(drop);
-  
+  const drop = await wrapper.find(Dropzone);
+  expect(drop).toBeDefined();
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it('should show an error message', async () => {
+it("should show an error message", async () => {
   const store = mockStore({
     reader: {
       chapter: {
@@ -336,21 +332,20 @@ it('should show an error message', async () => {
         subchapter: 0,
         volume: 0,
         language: 1,
-        name: '',
-        stub: '',
+        name: "",
+        stub: "",
         hidden: false,
-        description: '',
-        thumbnail: '',
+        description: "",
+        thumbnail: "",
         pages: []
       }
     },
     match: params,
     i18nState: {
-      lang: 'es',
+      lang: "es",
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -366,15 +361,15 @@ it('should show an error message', async () => {
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 500,
-    statusText: 'ERROR',
+    statusText: "ERROR",
     response: {
       data: {
-        error: 'EWWWW'
+        error: "EWWWW"
       }
     }
   });
 
-  const alert = wrapper.find('#error-alert');
+  const alert = wrapper.find("#error-alert");
 
   expect(alert).toBeDefined();
   wrapper.unmount();

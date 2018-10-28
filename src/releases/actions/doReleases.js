@@ -1,55 +1,55 @@
-import axios from 'axios';
-import * as config from '../../config';
-import params from '../../params.json';
-import { queryBuilder } from '../../utils/helpers';
+import axios from "axios";
+import * as config from "../../config";
+import params from "../../params.json";
+import { queryBuilder } from "../../utils/helpers";
 
 export function releasesPage(page) {
   return {
-    type: 'RELEASES_PAGE',
+    type: "RELEASES_PAGE",
     page: page
   };
 }
 
 export function releasesHasErrored(bool) {
   return {
-    type: 'RELEASES_HAS_ERRORED',
+    type: "RELEASES_HAS_ERRORED",
     hasErrored: bool
   };
 }
 
 export function releasesIsLoading(bool) {
   return {
-    type: 'RELEASES_IS_LOADING',
+    type: "RELEASES_IS_LOADING",
     isLoading: bool
   };
 }
 
 export function releasesFetchDataSuccess(chapters, page) {
   return {
-    type: 'RELEASES_FETCH_DATA_SUCCESS',
+    type: "RELEASES_FETCH_DATA_SUCCESS",
     chapters,
     page
   };
 }
 
-export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
+export function fetchReleases(lang, page, perPage = 12, sort = "DESC") {
   return dispatch => {
     dispatch(releasesIsLoading(true));
 
     if (lang === undefined || lang === null) {
       dispatch(releasesHasErrored(true));
-      throw Error('Lang is undefined');
+      throw Error("Lang is undefined");
     } else if (page === undefined || page === null) {
       dispatch(releasesHasErrored(true));
-      throw Error('Page is undefined');
+      throw Error("Page is undefined");
     }
 
     return axios
       .post(
         config.READER_PATH,
         queryBuilder({
-          type: 'query',
-          operation: 'chapters',
+          type: "query",
+          operation: "chapters",
           data: {
             language: params.global.languages[lang].id,
             orderBy: sort,
@@ -57,24 +57,25 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
             offset: page
           },
           fields: [
-            'id',
-            'work {id, stub, name, uniqid}',
-            'chapter',
-            'subchapter',
-            'volume',
-            'pages {id, filename, height, width},',
-            'language',
-            'name',
-            'stub',
-            'uniqid',
-            'thumbnail',
-            'description',
-            'createdAt'
+            "id",
+            "work {id, stub, name, uniqid}",
+            "chapter",
+            "subchapter",
+            "volume",
+            "pages {id, filename, height, width},",
+            "language",
+            "name",
+            "stub",
+            "uniqid",
+            "thumbnail",
+            "releaseDate",
+            "description",
+            "createdAt"
           ]
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== "OK") {
           throw Error(response.statusText);
         }
 
@@ -88,6 +89,10 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
 
 export function createOrUpdate(chapter) {
   if (chapter.id > 0) {
+    delete chapter.createdAt;
+    delete chapter.updatedAt;
+    delete chapter.work;
+    chapter.workId = parseInt(chapter.workId, 0);
     return update(chapter);
   } else {
     delete chapter.id;
@@ -100,10 +105,10 @@ export function create(chapter) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'chapterCreate',
+        type: "mutation",
+        operation: "chapterCreate",
         data: chapter,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -114,10 +119,10 @@ export function update(chapter) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'chapterUpdate',
+        type: "mutation",
+        operation: "chapterUpdate",
         data: chapter,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -128,10 +133,10 @@ export function remove(data) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'chapterRemove',
+        type: "mutation",
+        operation: "chapterRemove",
         data,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -151,10 +156,10 @@ export function createPage(page) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'pageCreate',
+        type: "mutation",
+        operation: "pageCreate",
         data: page,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -165,10 +170,10 @@ export function updatePage(page) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'pageUpdate',
+        type: "mutation",
+        operation: "pageUpdate",
         data: page,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -179,10 +184,10 @@ export function removePage(data) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'pageRemove',
+        type: "mutation",
+        operation: "pageRemove",
         data,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -193,10 +198,10 @@ export function updateDefaultPage(thumb) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'chapterThumbUpdate',
+        type: "mutation",
+        operation: "chapterThumbUpdate",
         data: thumb,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };

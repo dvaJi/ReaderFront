@@ -47,5 +47,3 @@ it("should filter works", () => {
   expect(wrapper.find(WorkItem)).toBeTruthy();
   wrapper.unmount();
 });
-
-

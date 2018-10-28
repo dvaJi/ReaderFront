@@ -1,40 +1,40 @@
-import axios from 'axios';
-import * as config from '../../config';
-import params from '../../params.json';
-import { queryBuilder } from '../../utils/helpers';
-import { normalizeWork } from '../../utils/normalizeWork';
+import axios from "axios";
+import * as config from "../../config";
+import params from "../../params.json";
+import { queryBuilder } from "../../utils/helpers";
+import { normalizeWork } from "../../utils/normalizeWork";
 
 export function workHasErrored(bool) {
   return {
-    type: 'WORK_HAS_ERRORED',
+    type: "WORK_HAS_ERRORED",
     hasErrored: bool
   };
 }
 
 export function workIsLoading(bool) {
   return {
-    type: 'WORK_IS_LOADING',
+    type: "WORK_IS_LOADING",
     isLoading: bool
   };
 }
 
 export function workRandomIsLoading(bool) {
   return {
-    type: 'WORK_RANDOM_IS_LOADING',
+    type: "WORK_RANDOM_IS_LOADING",
     isLoading: bool
   };
 }
 
 export function workFetchDataSuccess(work) {
   return {
-    type: 'WORK_FETCH_DATA_SUCCESS',
+    type: "WORK_FETCH_DATA_SUCCESS",
     work
   };
 }
 
 export function randomWorkFetchDataSuccess(work) {
   return {
-    type: 'RANDOM_WORK_FETCH_DATA_SUCCESS',
+    type: "RANDOM_WORK_FETCH_DATA_SUCCESS",
     work
   };
 }
@@ -47,31 +47,34 @@ export function fetchWork(stub, lang) {
       .post(
         config.READER_PATH,
         queryBuilder({
-          type: 'query',
-          operation: 'work',
-          data: { language: lang ? params.global.languages[lang].id : -1, stub },
+          type: "query",
+          operation: "work",
+          data: {
+            language: lang ? params.global.languages[lang].id : -1,
+            stub
+          },
           fields: [
-            'id',
-            'name',
-            'stub',
-            'uniqid',
-            'type',
-            'demographicId',
-            'status',
-            'statusReason',
-            'visits',
-            'adult',
-            'thumbnail',
-            'createdAt',
-            'chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }',
-            'works_descriptions {description, language}',
-            'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
-            'works_genres { genreId }'
+            "id",
+            "name",
+            "stub",
+            "uniqid",
+            "type",
+            "demographicId",
+            "status",
+            "statusReason",
+            "visits",
+            "adult",
+            "thumbnail",
+            "createdAt",
+            "chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }",
+            "works_descriptions {description, language}",
+            "people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }",
+            "works_genres { genreId }"
           ]
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== "OK") {
           throw Error(response.statusText);
         }
 
@@ -92,31 +95,31 @@ export function fetchWorkById(lang, workId) {
       .post(
         config.READER_PATH,
         queryBuilder({
-          type: 'query',
-          operation: 'workById',
+          type: "query",
+          operation: "workById",
           data: { language: params.global.languages[lang].id, workId },
           fields: [
-            'id',
-            'name',
-            'stub',
-            'uniqid',
-            'type',
-            'demographicId',
-            'status',
-            'statusReason',
-            'visits',
-            'adult',
-            'thumbnail',
-            'createdAt',
-            'chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }',
-            'works_descriptions {description, language}',
-            'people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }',
-            'works_genres { genreId }'
+            "id",
+            "name",
+            "stub",
+            "uniqid",
+            "type",
+            "demographicId",
+            "status",
+            "statusReason",
+            "visits",
+            "adult",
+            "thumbnail",
+            "createdAt",
+            "chapters { id,chapter,subchapter,volume,language,name,stub,uniqid,thumbnail }",
+            "works_descriptions {description, language}",
+            "people_works { rol, people {id,name,name_kanji,thumbnail,stub,uniqid,description} }",
+            "works_genres { genreId }"
           ]
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== "OK") {
           throw Error(response.statusText);
         }
 
@@ -137,28 +140,28 @@ export function fetchRandomWork(lang) {
       .post(
         config.READER_PATH,
         queryBuilder({
-          type: 'query',
-          operation: 'workRandom',
+          type: "query",
+          operation: "workRandom",
           data: { language: params.global.languages[lang].id },
           fields: [
-            'id',
-            'name',
-            'stub',
-            'uniqid',
-            'type',
-            'demographicId',
-            'status',
-            'statusReason',
-            'visits',
-            'adult',
-            'thumbnail',
-            'works_descriptions {description, language}',
-            'works_genres { genreId }'
+            "id",
+            "name",
+            "stub",
+            "uniqid",
+            "type",
+            "demographicId",
+            "status",
+            "statusReason",
+            "visits",
+            "adult",
+            "thumbnail",
+            "works_descriptions {description, language}",
+            "works_genres { genreId }"
           ]
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== "OK") {
           throw Error(response.statusText);
         }
 
@@ -185,10 +188,10 @@ export function create(work) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'workCreate',
+        type: "mutation",
+        operation: "workCreate",
         data: work,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -199,10 +202,10 @@ export function update(work) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'workUpdate',
+        type: "mutation",
+        operation: "workUpdate",
         data: work,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };
@@ -213,10 +216,10 @@ export function remove(data) {
     return axios.post(
       config.READER_PATH,
       queryBuilder({
-        type: 'mutation',
-        operation: 'workRemove',
+        type: "mutation",
+        operation: "workRemove",
         data,
-        fields: ['id']
+        fields: ["id"]
       })
     );
   };

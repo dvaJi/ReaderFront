@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import Dropzone from 'react-dropzone';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import Dropzone from "react-dropzone";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   Alert,
   Button,
@@ -19,20 +19,20 @@ import {
   ModalFooter,
   Row,
   Col
-} from 'reactstrap';
+} from "reactstrap";
 
 // App imports
-import { renderIf } from '../../utils/helpers';
-import { getChapterPageUrl } from '../../utils/common';
+import { renderIf } from "../../utils/helpers";
+import { getChapterPageUrl } from "../../utils/common";
 import {
   createOrUpdatePage,
   updateDefaultPage,
   removePage
-} from '../../releases/actions/doReleases';
-import { fetchChapter as getChapter } from '../../reader/actions/doReader';
-import { upload } from '../../common/actions';
-import Preview from './Preview';
-import params from '../../params';
+} from "../../releases/actions/doReleases";
+import { fetchChapter as getChapter } from "../../reader/actions/doReader";
+import { upload } from "../../common/actions";
+import Preview from "./Preview";
+import params from "../../params";
 
 class Detail extends Component {
   constructor(props) {
@@ -48,11 +48,11 @@ class Detail extends Component {
         subchapter: 0,
         volume: 0,
         language: 1,
-        name: '',
-        stub: '',
+        name: "",
+        stub: "",
         hidden: false,
-        description: '',
-        thumbnail: '',
+        description: "",
+        thumbnail: "",
         pages: []
       },
       pages: [],
@@ -70,7 +70,7 @@ class Detail extends Component {
 
   componentDidMount() {
     if (
-      this.props.chapter == null ||
+      this.props.chapter === null ||
       this.props.chapter.id !== parseInt(this.props.match.params.chapterId, 0)
     ) {
       this.getChapter(this.props.match.params.chapterId);
@@ -105,9 +105,9 @@ class Detail extends Component {
         .catch(error => {
           this.setState({
             error: this.props.intl.formatMessage({
-              id: 'error_fetching_chapter',
+              id: "error_fetching_chapter",
               defaultMessage:
-                'There was some error fetching the chapter. Please try again.'
+                "There was some error fetching the chapter. Please try again."
             })
           });
         });
@@ -127,7 +127,7 @@ class Detail extends Component {
       });
 
       let data = new FormData();
-      data.append('file', file.file);
+      data.append("file", file.file);
 
       // Upload image
       this.props
@@ -188,8 +188,8 @@ class Detail extends Component {
 
                 this.setState({
                   error: this.props.intl.formatMessage({
-                    id: 'unknown_error',
-                    defaultMessage: 'There was some error. Please try again.'
+                    id: "unknown_error",
+                    defaultMessage: "There was some error. Please try again."
                   }),
                   isLoading: false,
                   pages: newPages
@@ -205,8 +205,8 @@ class Detail extends Component {
 
             this.setState({
               error: this.props.intl.formatMessage({
-                id: 'try_again',
-                defaultMessage: 'Please try again.'
+                id: "try_again",
+                defaultMessage: "Please try again."
               }),
               pages: newPages
             });
@@ -222,8 +222,8 @@ class Detail extends Component {
 
           this.setState({
             error: this.props.intl.formatMessage({
-              id: 'unknown_error',
-              defaultMessage: 'There was some error. Please try again.'
+              id: "unknown_error",
+              defaultMessage: "There was some error. Please try again."
             }),
             pages: newPages
           });
@@ -288,7 +288,7 @@ class Detail extends Component {
     }
 
     this.setState({
-      chapter: { ...this.state.chapter, thumbnail: '' },
+      chapter: { ...this.state.chapter, thumbnail: "" },
       pages: []
     });
   }
@@ -321,7 +321,7 @@ class Detail extends Component {
             defaultMessage="Upload selected"
           />
         </Button>
-        {'  '}
+        {"  "}
         <Button
           id="delete-all-pages"
           type="button"
@@ -334,13 +334,13 @@ class Detail extends Component {
           accept="image/jpeg, image/png"
           onDrop={this.onDrop.bind(this)}
           style={{
-            background: '#edf0f4',
-            height: '100px',
-            textAlign: 'center',
-            borderRadius: '5px'
+            background: "#edf0f4",
+            height: "100px",
+            textAlign: "center",
+            borderRadius: "5px"
           }}
         >
-          <p style={{ paddingTop: '40px' }}>
+          <p style={{ paddingTop: "40px" }}>
             <FormattedMessage
               id="drop_or_browse_files"
               defaultMessage="Drop or Browse images"
@@ -394,9 +394,9 @@ class Detail extends Component {
           )}
           <Link
             to={
-              '/admincp/work/' +
+              "/admincp/work/" +
               this.props.match.params.workId +
-              '/' +
+              "/" +
               this.props.match.params.stub
             }
           >
@@ -415,13 +415,13 @@ class Detail extends Component {
           <Card>
             <CardBody>
               <CardTitle>
-                <FormattedMessage id="volume" defaultMessage="Volume" />{' '}
-                {this.state.chapter.volume}{' '}
-                <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
+                <FormattedMessage id="volume" defaultMessage="Volume" />{" "}
+                {this.state.chapter.volume}{" "}
+                <FormattedMessage id="chapter" defaultMessage="Chapter" />{" "}
                 {this.state.chapter.chapter}.{this.state.chapter.subchapter}
                 <span className="float-right">
                   <FormattedMessage
-                    id={langName + '_full'}
+                    id={langName + "_full"}
                     defaultMessage={langName}
                   />
                 </span>
@@ -431,7 +431,7 @@ class Detail extends Component {
             <CardBody>
               <Row>
                 <Col md="9">
-                  <span style={{ fontWeight: '100' }}>
+                  <span style={{ fontWeight: "100" }}>
                     {this.state.chapter.description}
                   </span>
                   <FormGroup check>
@@ -440,24 +440,24 @@ class Detail extends Component {
                       id="hidden"
                       disabled
                       label={this.props.intl.formatMessage({
-                        id: 'hidden',
-                        defaultMessage: 'Hidden'
+                        id: "hidden",
+                        defaultMessage: "Hidden"
                       })}
                       value={this.state.chapter.hidden}
                     />
                   </FormGroup>
                 </Col>
                 <Col>
-                  <h6 style={{ fontWeight: '100', textAlign: 'right' }}>
+                  <h6 style={{ fontWeight: "100", textAlign: "right" }}>
                     <FormattedMessage
                       id="thumbnail"
                       defaultMessage="Thumbnail"
                     />
                   </h6>
-                  <div style={{ textAlign: 'right' }}>
+                  <div style={{ textAlign: "right" }}>
                     {this.state.chapter.work && this.state.chapter.thumbnail ? (
                       <img
-                        style={{ height: '150px' }}
+                        style={{ height: "150px" }}
                         alt={this.state.chapter.thumbnail}
                         src={getChapterPageUrl(
                           this.state.chapter.work,
@@ -466,7 +466,7 @@ class Detail extends Component {
                         )}
                       />
                     ) : (
-                      ''
+                      ""
                     )}
                   </div>
                 </Col>
@@ -477,7 +477,7 @@ class Detail extends Component {
         <Modal
           isOpen={this.state.showModalDelete}
           toggle={this.toggleModalDelete}
-          backdrop={'static'}
+          backdrop={"static"}
         >
           <ModalHeader toggle={this.showModalDelete}>
             <FormattedMessage id="confirm_title" defaultMessage="Confirm" />
@@ -495,7 +495,7 @@ class Detail extends Component {
               onClick={e => this.removeAllPages()}
             >
               <FormattedMessage id="agree" defaultMessage="Agree" />
-            </Button>{' '}
+            </Button>{" "}
             <Button
               id="cancel-delete-all-pages"
               color="secondary"

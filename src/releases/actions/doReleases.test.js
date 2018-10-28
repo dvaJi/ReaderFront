@@ -1,14 +1,14 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
-import { fetchReleases } from './doReleases';
-import { getReleases } from '../../utils/mocks/getReleasesMock';
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import moxios from "@anilanar/moxios";
+import { fetchReleases } from "./doReleases";
+import { getReleases } from "../../utils/mocks/getReleasesMock";
 
 const releases = getReleases();
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('fetchReleases actions', () => {
+describe("fetchReleases actions", () => {
   beforeEach(function() {
     moxios.install();
   });
@@ -17,20 +17,20 @@ describe('fetchReleases actions', () => {
     moxios.uninstall();
   });
 
-  it('creates RELEASES_IS_LOADING and RELEASES_FETCH_DATA_SUCCESS after successfuly fetching work', () => {
+  it("creates RELEASES_IS_LOADING and RELEASES_FETCH_DATA_SUCCESS after successfuly fetching work", () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
         status: 200,
-        statusText: 'OK',
+        statusText: "OK",
         response: { data: { chapters: releases } }
       });
     });
 
     const expectedActions = [
-      { type: 'RELEASES_IS_LOADING', isLoading: true },
-      { type: 'RELEASES_FETCH_DATA_SUCCESS', chapters: releases, page: 1 },
-      { type: 'RELEASES_IS_LOADING', isLoading: false }
+      { type: "RELEASES_IS_LOADING", isLoading: true },
+      { type: "RELEASES_FETCH_DATA_SUCCESS", chapters: releases, page: 1 },
+      { type: "RELEASES_IS_LOADING", isLoading: false }
     ];
 
     const store = mockStore({
@@ -42,26 +42,24 @@ describe('fetchReleases actions', () => {
       }
     });
 
-    return store
-      .dispatch(fetchReleases('es', 1, 20, 'DESC'))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+    return store.dispatch(fetchReleases("es", 1, 20, "DESC")).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
-  it('creates RELEASES_HAS_ERRORED after catch any error', () => {
+  it("creates RELEASES_HAS_ERRORED after catch any error", () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
         status: 200,
-        statusText: 'ERROR',
+        statusText: "ERROR",
         response: { data: { chapters: null } }
       });
     });
 
     const expectedActions = [
-      { type: 'RELEASES_IS_LOADING', isLoading: true },
-      { type: 'RELEASES_HAS_ERRORED', hasErrored: true }
+      { type: "RELEASES_IS_LOADING", isLoading: true },
+      { type: "RELEASES_HAS_ERRORED", hasErrored: true }
     ];
 
     const store = mockStore({
@@ -73,12 +71,12 @@ describe('fetchReleases actions', () => {
       }
     });
 
-    return store.dispatch(fetchReleases('es', 1, 20, 'DESC')).then(() => {
+    return store.dispatch(fetchReleases("es", 1, 20, "DESC")).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
 
-  it('throw an Error if stub or lang are undefined', () => {
+  it("throw an Error if stub or lang are undefined", () => {
     expect(() => {
       const store = mockStore({
         releases: {}
@@ -90,7 +88,7 @@ describe('fetchReleases actions', () => {
       const store = mockStore({
         releases: {}
       });
-      store.dispatch(fetchReleases('es'));
+      store.dispatch(fetchReleases("es"));
     }).toThrow();
   });
 });

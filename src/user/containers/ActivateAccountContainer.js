@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Alert } from 'reactstrap';
-import { getQueryParams } from '../../utils/helpers';
-import { activate } from '../actions/doUser';
-import AuthCheck from '../../auth/AuthCheck';
-import AuthContainer from '../components/AuthContainer';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { Alert } from "reactstrap";
+import { getQueryParams } from "../../utils/helpers";
+import { activate } from "../actions/doUser";
+import AuthCheck from "../../auth/AuthCheck";
+import AuthContainer from "../components/AuthContainer";
 
 class ActivateAccount extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      error: '',
-      success: '',
+      error: "",
+      success: "",
       isLoading: false,
       user: {
-        email: '',
-        token: ''
+        email: "",
+        token: ""
       }
     };
   }
@@ -46,15 +46,15 @@ class ActivateAccount extends Component {
           });
         } else {
           this.setState({
-            success: 'Account activated.'
+            success: "Account activated."
           });
-          this.props.history.push('/login');
+          this.props.history.push("/login");
         }
       })
       .catch(error => {
         this.setState({
           isLoading: false,
-          error: 'There was some error. Please try again.'
+          error: "There was some error. Please try again."
         });
       });
   };
@@ -62,7 +62,11 @@ class ActivateAccount extends Component {
   render() {
     return (
       <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert id="activate-account_error_alert" color="danger">{this.state.error}</Alert>}
+        {this.state.error && (
+          <Alert id="activate-account_error_alert" color="danger">
+            {this.state.error}
+          </Alert>
+        )}
         {this.state.success && (
           <Alert color="success">{this.state.success}</Alert>
         )}

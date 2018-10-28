@@ -1,16 +1,16 @@
-import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
-import BlogContainer from './BlogContainer';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
+import React from "react";
+import { mountWithIntl } from "enzyme-react-intl";
+import { Provider } from "react-redux";
+import BlogContainer from "./BlogContainer";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const posts = global.rfMocks.posts.getPostsNormalized;
 
-it('should render without throwing an error', () => {
+it("should render without throwing an error", () => {
   const store = mockStore({
     blog: {
       posts: posts,
@@ -20,7 +20,7 @@ it('should render without throwing an error', () => {
       blogHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -32,7 +32,7 @@ it('should render without throwing an error', () => {
   wrapper.unmount();
 });
 
-it('should render a post', () => {
+it("should render a post", () => {
   const store = mockStore({
     blog: {
       posts: posts,
@@ -42,7 +42,7 @@ it('should render a post', () => {
       blogHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -54,7 +54,7 @@ it('should render a post', () => {
   wrapper.unmount();
 });
 
-it('should show a selected post', async () => {
+it("should show a selected post", async () => {
   const store = mockStore({
     blog: {
       posts: posts,
@@ -64,7 +64,7 @@ it('should show a selected post', async () => {
       blogHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -73,13 +73,13 @@ it('should show a selected post', async () => {
     </Provider>
   );
 
-  await store.dispatch(doChangeLanguage('en'));
+  await store.dispatch(doChangeLanguage("en"));
   await wrapper.update();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it('should render new items if user scroll to bottom', async () => {
+it("should render new items if user scroll to bottom", async () => {
   const store = mockStore({
     blog: {
       posts: posts,
@@ -89,7 +89,7 @@ it('should render new items if user scroll to bottom', async () => {
       blogHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(
@@ -99,8 +99,8 @@ it('should render new items if user scroll to bottom', async () => {
   );
 
   document.body.scrollTop = 40;
-  window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
-  
+  window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
+
   await wrapper.update();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();

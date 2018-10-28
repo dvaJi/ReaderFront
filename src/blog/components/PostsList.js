@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import PostCard from './PostCard';
-import PostCardEmpty from './PostCardEmpty';
-import styled from 'styled-components';
-import ReactMarkdown from 'react-markdown';
-import { getPostThumb } from '../../utils/common';
-import { subString } from '../../utils/helpers';
+import React, { PureComponent } from "react";
+import PostCard from "./PostCard";
+import PostCardEmpty from "./PostCardEmpty";
+import styled from "styled-components";
+import ReactMarkdown from "react-markdown";
+import { getPostThumb } from "../../utils/common";
+import { subString } from "../../utils/helpers";
 
 const CardWrapper = styled.div`
   display: inline-block;
@@ -21,8 +21,8 @@ export default class PostsList extends PureComponent {
   }
 
   thumbUrl(post) {
-    const dir = post.stub + '_' + post.uniqid;
-    return getPostThumb(dir, post.thumbnail, 'medium');
+    const dir = post.stub + "_" + post.uniqid;
+    return getPostThumb(dir, post.thumbnail, "medium");
   }
 
   render() {
@@ -37,7 +37,11 @@ export default class PostsList extends PureComponent {
       posts.forEach(post => {
         rows.push(
           <CardWrapper key={post.uniqid}>
-            <PostCard onClick={this.doSelect} post={post} thumbnail={this.thumbUrl(post)}>
+            <PostCard
+              onClick={this.doSelect}
+              post={post}
+              thumbnail={this.thumbUrl(post)}
+            >
               <ReactMarkdown
                 source={subString(post.content, 150)}
                 escapeHtml={true}
@@ -57,9 +61,7 @@ export default class PostsList extends PureComponent {
 
     return (
       <div className="container--grid">
-        <ul layout="rows top-left">
-          {rows}
-        </ul>
+        <ul layout="rows top-left">{rows}</ul>
       </div>
     );
   }

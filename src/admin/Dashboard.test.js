@@ -1,16 +1,16 @@
-import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import Dashboard from './Dashboard';
-import store, { history } from '../store';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import React from "react";
+import { mountWithIntl } from "enzyme-react-intl";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "react-router-redux";
+import Dashboard from "./Dashboard";
+import { history } from "../store";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-it('should render without throwing an error', () => {
+it("should render without throwing an error", () => {
   const store = mockStore({
     releases: {
       chapters: [],
@@ -19,7 +19,7 @@ it('should render without throwing an error', () => {
       releasesHasErrored: false
     },
     layout: {
-      language: 'es'
+      language: "es"
     }
   });
   const wrapper = mountWithIntl(

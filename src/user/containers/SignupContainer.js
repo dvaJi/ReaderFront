@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
-import { register } from '../actions/doUser';
-import AuthCheck from '../../auth/AuthCheck';
-import AuthContainer from '../components/AuthContainer';
+import { register } from "../actions/doUser";
+import AuthCheck from "../../auth/AuthCheck";
+import AuthContainer from "../components/AuthContainer";
 
 class Signup extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      error: '',
-      success: '',
+      error: "",
+      success: "",
       isLoading: false,
       user: {
-        name: '',
-        email: '',
-        password: ''
+        name: "",
+        email: "",
+        password: ""
       }
     };
   }
@@ -55,20 +55,20 @@ class Signup extends Component {
         } else {
           this.setState({
             success: this.props.intl.formatMessage({
-              id: 'success_signup',
-              defaultMessage: 'Signed up successfully.'
+              id: "success_signup",
+              defaultMessage: "Signed up successfully."
             })
           });
-          this.props.history.push('/login');
+          this.props.history.push("/login");
         }
       })
       .catch(error => {
         this.setState({
           isLoading: false,
           error: this.props.intl.formatMessage({
-            id: 'uknown_error_signup',
+            id: "uknown_error_signup",
             defaultMessage:
-              'There was some error signing you up. Please try again.'
+              "There was some error signing you up. Please try again."
           })
         });
       });
@@ -77,7 +77,11 @@ class Signup extends Component {
   render() {
     return (
       <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert id="signup_error_alert" color="danger">{this.state.error}</Alert>}
+        {this.state.error && (
+          <Alert id="signup_error_alert" color="danger">
+            {this.state.error}
+          </Alert>
+        )}
         {this.state.success && (
           <Alert color="success">{this.state.success}</Alert>
         )}
@@ -90,8 +94,8 @@ class Signup extends Component {
               id="username"
               type="text"
               placeholder={this.props.intl.formatMessage({
-                id: 'username',
-                defaultMessage: 'Username'
+                id: "username",
+                defaultMessage: "Username"
               })}
               required="required"
               name="name"
@@ -108,8 +112,8 @@ class Signup extends Component {
               type="email"
               name="email"
               placeholder={this.props.intl.formatMessage({
-                id: 'email',
-                defaultMessage: 'Email'
+                id: "email",
+                defaultMessage: "Email"
               })}
               required="required"
               value={this.state.user.email}
@@ -124,8 +128,8 @@ class Signup extends Component {
               id="password"
               type="password"
               placeholder={this.props.intl.formatMessage({
-                id: 'password',
-                defaultMessage: 'Password'
+                id: "password",
+                defaultMessage: "Password"
               })}
               required="required"
               name="password"
