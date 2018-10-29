@@ -1,13 +1,13 @@
-import React from "react";
-import { mountWithIntl } from "enzyme-react-intl";
-import { Provider } from "react-redux";
-import { MemoryRouter } from "react-router-dom";
-import ReleasesContainer from "./ReleasesContainer";
-import { doChangeLanguage } from "../../layout/actions/doChangeLanguage";
-import { releasesIsLoading } from "../actions/doReleases";
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
-import moxios from "@anilanar/moxios";
+import React from 'react';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import ReleasesContainer from './ReleasesContainer';
+import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
+import { releasesIsLoading } from '../actions/doReleases';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import moxios from '@anilanar/moxios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -22,7 +22,7 @@ afterEach(function() {
   moxios.uninstall();
 });
 
-it("should render without throwing an error", () => {
+it('should render without throwing an error', () => {
   const store = mockStore({
     releases: {
       chapters: [],
@@ -31,7 +31,7 @@ it("should render without throwing an error", () => {
       releasesHasErrored: false
     },
     layout: {
-      language: "es"
+      language: 'es'
     }
   });
   const wrapper = mountWithIntl(
@@ -44,7 +44,7 @@ it("should render without throwing an error", () => {
   wrapper.unmount();
 });
 
-it("should render without throwing an error when it receive a new language props", () => {
+it('should render without throwing an error when it receive a new language props', () => {
   const store = mockStore({
     releases: {
       chapters: [],
@@ -53,7 +53,7 @@ it("should render without throwing an error when it receive a new language props
       releasesHasErrored: false
     },
     layout: {
-      language: "es"
+      language: 'es'
     }
   });
   const wrapper = mountWithIntl(
@@ -64,12 +64,12 @@ it("should render without throwing an error when it receive a new language props
     </Provider>
   );
 
-  store.dispatch(doChangeLanguage("en"));
+  store.dispatch(doChangeLanguage('en'));
   wrapper.update();
   wrapper.unmount();
 });
 
-it("should render new items if user scroll to bottom", () => {
+it('should render new items if user scroll to bottom', () => {
   const store = mockStore({
     releases: {
       chapters: releases,
@@ -78,7 +78,7 @@ it("should render new items if user scroll to bottom", () => {
       releasesHasErrored: false
     },
     layout: {
-      language: "es"
+      language: 'es'
     }
   });
   const wrapper = mountWithIntl(
@@ -93,7 +93,7 @@ it("should render new items if user scroll to bottom", () => {
   wrapper.update();
 
   document.body.scrollTop = 40;
-  window.dispatchEvent(new window.UIEvent("scroll", { detail: 0 }));
+  window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
 
   wrapper.update();
   wrapper.unmount();

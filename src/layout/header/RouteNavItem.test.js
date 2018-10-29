@@ -1,10 +1,10 @@
-import React from "react";
-import { mount } from "enzyme";
-import { MemoryRouter } from "react-router-dom";
-import RouteNavItem from "./RouteNavItem";
-import { Nav } from "reactstrap";
+import React from 'react';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import RouteNavItem from './RouteNavItem';
+import { Nav } from 'reactstrap';
 
-it("should render without throwing an error", () => {
+it('should render without throwing an error', () => {
   const wrapper = mount(
     <MemoryRouter>
       <RouteNavItem to="/">Releases</RouteNavItem>
@@ -13,7 +13,7 @@ it("should render without throwing an error", () => {
   wrapper.unmount();
 });
 
-it("should render without throwing an error", () => {
+it('should render without throwing an error', () => {
   const wrapper = mount(
     <MemoryRouter>
       <Nav className="ml-auto" navbar>
@@ -25,14 +25,14 @@ it("should render without throwing an error", () => {
     </MemoryRouter>
   );
   wrapper
-    .find("a")
+    .find('a')
     .first()
-    .simulate("click");
+    .simulate('click');
   expect(
     wrapper
-      .find("a")
+      .find('a')
       .first()
-      .find(".active")
+      .find('.active')
   ).toBeTruthy();
   wrapper.unmount();
 });

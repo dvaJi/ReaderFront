@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react";
-import PostCard from "./PostCard";
-import PostCardEmpty from "./PostCardEmpty";
-import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
-import { getPostThumb } from "../../utils/common";
-import { subString } from "../../utils/helpers";
+import React, { PureComponent } from 'react';
+import PostCard from './PostCard';
+import PostCardEmpty from './PostCardEmpty';
+import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
+import { getPostThumb } from '../../utils/common';
+import { subString } from '../../utils/helpers';
 
 const CardWrapper = styled.div`
   display: inline-block;
@@ -21,8 +21,8 @@ export default class PostsList extends PureComponent {
   }
 
   thumbUrl(post) {
-    const dir = post.stub + "_" + post.uniqid;
-    return getPostThumb(dir, post.thumbnail, "medium");
+    const dir = post.stub + '_' + post.uniqid;
+    return getPostThumb(dir, post.thumbnail, 'medium');
   }
 
   render() {

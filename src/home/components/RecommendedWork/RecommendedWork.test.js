@@ -1,17 +1,17 @@
-import React from "react";
-import { MemoryRouter } from "react-router-dom";
-import { mountWithIntl } from "enzyme-react-intl";
-import RecommendedWork from "./RecommendedWork";
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import { mountWithIntl } from 'enzyme-react-intl';
+import RecommendedWork from './RecommendedWork';
 
 const work = global.rfMocks.work.work;
 const workNormalized = global.rfMocks.work.workNormalized;
 
-it("renders while loading without crashing", () => {
+it('renders while loading without crashing', () => {
   const wrapper = mountWithIntl(
     <RecommendedWork
-      title={"Test 1"}
+      title={'Test 1'}
       work={null}
-      description={""}
+      description={''}
       isLoading={true}
     />
   );
@@ -19,13 +19,13 @@ it("renders while loading without crashing", () => {
   wrapper.unmount();
 });
 
-it("renders the work", () => {
+it('renders the work', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <RecommendedWork
-        title={"Test 2"}
+        title={'Test 2'}
         work={workNormalized}
-        description={"Desc"}
+        description={'Desc'}
         isLoading={false}
       />
     </MemoryRouter>
@@ -34,13 +34,13 @@ it("renders the work", () => {
   wrapper.unmount();
 });
 
-it("renders the work without cover", () => {
+it('renders the work without cover', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <RecommendedWork
-        title={"Test 2"}
+        title={'Test 2'}
         work={work}
-        description={"Desc"}
+        description={'Desc'}
         isLoading={false}
       />
     </MemoryRouter>

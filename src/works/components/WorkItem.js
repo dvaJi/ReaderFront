@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import WorkCover from "./WorkCover";
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import WorkCover from './WorkCover';
 
 const Card = styled.div`
   background-color: #fff;
@@ -39,7 +39,7 @@ const Card = styled.div`
 const CardBody = styled.div`
   float: left;
   padding: 15px 25px 25px 20px;
-  width: ${props => (props.size === "small" ? "100%" : "70%")};
+  width: ${props => (props.size === 'small' ? '100%' : '70%')};
 
   @media (max-width: 1200px) {
     width: 60%;
@@ -64,9 +64,9 @@ const CardBody = styled.div`
 
   .card-body-description {
     ${props =>
-      props.size === "small"
-        ? "padding-left: 0;font-size: 0.9rem;color: #8a8e94;"
-        : ""} @media (max-width: 990px) {
+      props.size === 'small'
+        ? 'padding-left: 0;font-size: 0.9rem;color: #8a8e94;'
+        : ''} @media (max-width: 990px) {
       padding-left: 0;
       font-size: 0.9rem;
       color: #8a8e94;
@@ -95,7 +95,7 @@ export default class WorkItem extends PureComponent {
             statusTag={statusTag(work.status)}
           />
           <CardBody size={size}>
-            {size !== "small" && (
+            {size !== 'small' && (
               <h2 className="card-body-heading">{work.name}</h2>
             )}
             <ul className="card-body-description">{truncate(work)}</ul>

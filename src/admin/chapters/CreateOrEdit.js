@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import moment from "moment";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
-import { slugify } from "simple-slugify-string";
-import DatePicker from "react-datepicker";
+import React, { Component } from 'react';
+import moment from 'moment';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { slugify } from 'simple-slugify-string';
+import DatePicker from 'react-datepicker';
 import {
   Alert,
   Button,
@@ -13,16 +13,16 @@ import {
   FormGroup,
   Label,
   Input
-} from "reactstrap";
-import { FormattedMessage, injectIntl } from "react-intl";
+} from 'reactstrap';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
-import { createOrUpdate as chapterCreateOrUpdate } from "../../releases/actions/doReleases";
-import { fetchChapter as getChapter } from "../../reader/actions/doReader";
-import { upload } from "../../common/actions";
-import params from "../../params";
+import { createOrUpdate as chapterCreateOrUpdate } from '../../releases/actions/doReleases';
+import { fetchChapter as getChapter } from '../../reader/actions/doReader';
+import { upload } from '../../common/actions';
+import params from '../../params';
 
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -38,11 +38,11 @@ class CreateOrEdit extends Component {
         subchapter: 0,
         volume: 0,
         language: 0,
-        name: "",
-        stub: "",
+        name: '',
+        stub: '',
         hidden: false,
-        description: "",
-        thumbnail: "",
+        description: '',
+        thumbnail: '',
         releaseDate: new Date(),
         pages: []
       },
@@ -79,9 +79,9 @@ class CreateOrEdit extends Component {
         .catch(error => {
           this.setState({
             error: this.props.intl.formatMessage({
-              id: "error_fetching_chapter",
+              id: 'error_fetching_chapter',
               defaultMessage:
-                "There was some error fetching the chapter. Please try again."
+                'There was some error fetching the chapter. Please try again.'
             })
           });
         });
@@ -90,13 +90,13 @@ class CreateOrEdit extends Component {
 
   onChange = event => {
     let chapter = this.state.chapter;
-    if (isNaN(event.target.value) || event.target.value === "") {
+    if (isNaN(event.target.value) || event.target.value === '') {
       chapter[event.target.name] = event.target.value.toString();
     } else {
       chapter[event.target.name] = parseInt(event.target.value, 0);
     }
 
-    if (event.target.name === "name") {
+    if (event.target.name === 'name') {
       chapter.stub = slugify(event.target.value);
     }
 
@@ -148,8 +148,8 @@ class CreateOrEdit extends Component {
         } else {
           this.setState({
             success: this.props.intl.formatMessage({
-              id: "chapter_saved",
-              defaultMessage: "Chapter saved successfully."
+              id: 'chapter_saved',
+              defaultMessage: 'Chapter saved successfully.'
             })
           });
 
@@ -159,11 +159,11 @@ class CreateOrEdit extends Component {
 
           window.setTimeout(() => {
             this.props.history.push(
-              "/admincp/work/" +
+              '/admincp/work/' +
                 this.props.match.params.workId +
-                "/" +
+                '/' +
                 this.props.match.params.stub +
-                "/chapter/" +
+                '/chapter/' +
                 chapterId
             );
           }, 1000);
@@ -172,8 +172,8 @@ class CreateOrEdit extends Component {
       .catch(error => {
         this.setState({
           error: this.props.intl.formatMessage({
-            id: "unknown_error",
-            defaultMessage: "There was some error. Please try again."
+            id: 'unknown_error',
+            defaultMessage: 'There was some error. Please try again.'
           })
         });
 
@@ -199,9 +199,9 @@ class CreateOrEdit extends Component {
           )}
           <Link
             to={
-              "/admincp/work/" +
+              '/admincp/work/' +
               this.props.match.params.workId +
-              "/" +
+              '/' +
               this.props.match.params.stub
             }
           >
@@ -215,7 +215,7 @@ class CreateOrEdit extends Component {
               <FormattedMessage id="create" defaultMessage="Create" />
             ) : (
               <FormattedMessage id="edit" defaultMessage="Edit" />
-            )}{" "}
+            )}{' '}
             <FormattedMessage id="chapter" defaultMessage="Chapter" />
           </h4>
 
@@ -228,8 +228,8 @@ class CreateOrEdit extends Component {
                 id="name"
                 type="text"
                 placeholder={this.props.intl.formatMessage({
-                  id: "name",
-                  defaultMessage: "Name"
+                  id: 'name',
+                  defaultMessage: 'Name'
                 })}
                 name="name"
                 autoComplete="off"
@@ -245,8 +245,8 @@ class CreateOrEdit extends Component {
                 id="volume"
                 type="text"
                 placeholder={this.props.intl.formatMessage({
-                  id: "volume",
-                  defaultMessage: "Volume"
+                  id: 'volume',
+                  defaultMessage: 'Volume'
                 })}
                 required="required"
                 name="volume"
@@ -263,8 +263,8 @@ class CreateOrEdit extends Component {
                 id="chapter"
                 type="text"
                 placeholder={this.props.intl.formatMessage({
-                  id: "chapter",
-                  defaultMessage: "Chapter"
+                  id: 'chapter',
+                  defaultMessage: 'Chapter'
                 })}
                 required="required"
                 name="chapter"
@@ -281,8 +281,8 @@ class CreateOrEdit extends Component {
                 id="subchapter"
                 type="text"
                 placeholder={this.props.intl.formatMessage({
-                  id: "subchapter",
-                  defaultMessage: "Subchapter"
+                  id: 'subchapter',
+                  defaultMessage: 'Subchapter'
                 })}
                 required="required"
                 name="subchapter"
@@ -306,7 +306,7 @@ class CreateOrEdit extends Component {
                 {this.state.languages.map(lang => (
                   <option key={lang.id + lang.name} value={lang.id}>
                     {this.props.intl.formatMessage({
-                      id: lang.name + "_full",
+                      id: lang.name + '_full',
                       defaultMessage: lang.name
                     })}
                   </option>
@@ -331,8 +331,8 @@ class CreateOrEdit extends Component {
                 type="checkbox"
                 id="hidden"
                 label={this.props.intl.formatMessage({
-                  id: "hidden",
-                  defaultMessage: "Hidden"
+                  id: 'hidden',
+                  defaultMessage: 'Hidden'
                 })}
                 value={this.state.chapter.hidden}
               />

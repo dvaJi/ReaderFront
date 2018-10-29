@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { Route } from "react-router-dom";
-import { NavLink as RRNavLink } from "react-router-dom";
-import { NavItem, NavLink } from "reactstrap";
+import React from 'react';
+import styled from 'styled-components';
+import { Route } from 'react-router-dom';
+import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavItem, NavLink } from 'reactstrap';
 
 const Item = styled(NavItem)`
   position: relative;
@@ -25,7 +25,7 @@ const Link = styled(NavLink)`
   }
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     width: 0;
