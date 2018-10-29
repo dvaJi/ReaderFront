@@ -78,7 +78,7 @@ class WorkContainer extends Component {
               e => e.language === language.id
             )}
           />
-          <ChapterList work={work} language={language}/>
+          <ChapterList work={work} language={language} />
         </div>
       </div>
     );

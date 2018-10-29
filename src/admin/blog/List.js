@@ -202,10 +202,12 @@ class List extends PureComponent {
                             )}
                           </td>
 
-                          <td style={{ textAlign: 'center' }}><FormattedMessage
-                                id={languageTxt.name + '_full'}
-                                defaultMessage={languageTxt.name}
-                              /></td>
+                          <td style={{ textAlign: 'center' }}>
+                            <FormattedMessage
+                              id={languageTxt.name + '_full'}
+                              defaultMessage={languageTxt.name}
+                            />
+                          </td>
 
                           <td>{new Date(createdAt).toDateString()}</td>
 

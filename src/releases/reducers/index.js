@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { chapters, releasesHasErrored, releasesIsLoading, releasesPage } from "./applyReleases";
+import {
+  chapters,
+  releasesHasErrored,
+  releasesIsLoading,
+  releasesPage
+} from "./applyReleases";
 
 export default combineReducers({
   chapters,

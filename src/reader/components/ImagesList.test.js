@@ -32,6 +32,8 @@ it('should render while loading and cascade mode without throwing an error', () 
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
 it('should render loaded with cascade mode without throwing an error', () => {
@@ -46,6 +48,8 @@ it('should render loaded with cascade mode without throwing an error', () => {
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
 it('should render loaded without cascade mode without throwing an error', () => {
@@ -60,4 +64,6 @@ it('should render loaded without cascade mode without throwing an error', () => 
       pages={pages}
     />
   );
+
+  expect(wrapper).toBeTruthy();
 });

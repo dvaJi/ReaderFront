@@ -133,7 +133,7 @@ export function fetchPost(stub) {
       })
       .then(post => dispatch(blogSelectPost(post)))
       .then(() => dispatch(blogIsLoading(false)))
-      .catch((err) => dispatch(blogHasErrored(true)));
+      .catch(err => dispatch(blogHasErrored(true)));
   };
 }
 

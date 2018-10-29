@@ -42,11 +42,9 @@ describe('fetchReleases actions', () => {
       }
     });
 
-    return store
-      .dispatch(fetchReleases('es', 1, 20, 'DESC'))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+    return store.dispatch(fetchReleases('es', 1, 20, 'DESC')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('creates RELEASES_HAS_ERRORED after catch any error', () => {

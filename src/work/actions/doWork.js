@@ -49,7 +49,10 @@ export function fetchWork(stub, lang) {
         queryBuilder({
           type: 'query',
           operation: 'work',
-          data: { language: lang ? params.global.languages[lang].id : -1, stub },
+          data: {
+            language: lang ? params.global.languages[lang].id : -1,
+            stub
+          },
           fields: [
             'id',
             'name',

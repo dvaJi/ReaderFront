@@ -1,6 +1,6 @@
 export function workHasErrored(state = false, action) {
   switch (action.type) {
-    case "WORK_HAS_ERRORED":
+    case 'WORK_HAS_ERRORED':
       return action.hasErrored;
 
     default:
@@ -10,7 +10,7 @@ export function workHasErrored(state = false, action) {
 
 export function workIsLoading(state = true, action) {
   switch (action.type) {
-    case "WORK_IS_LOADING":
+    case 'WORK_IS_LOADING':
       return action.isLoading;
 
     default:
@@ -20,7 +20,7 @@ export function workIsLoading(state = true, action) {
 
 export function workRandomIsLoading(state = true, action) {
   switch (action.type) {
-    case "WORK_RANDOM_IS_LOADING":
+    case 'WORK_RANDOM_IS_LOADING':
       return action.isLoading;
 
     default:
@@ -30,7 +30,7 @@ export function workRandomIsLoading(state = true, action) {
 
 export function work(state = null, action) {
   switch (action.type) {
-    case "WORK_FETCH_DATA_SUCCESS":
+    case 'WORK_FETCH_DATA_SUCCESS':
       return action.work;
 
     default:
@@ -40,7 +40,7 @@ export function work(state = null, action) {
 
 export function randomWork(state = null, action) {
   switch (action.type) {
-    case "RANDOM_WORK_FETCH_DATA_SUCCESS":
+    case 'RANDOM_WORK_FETCH_DATA_SUCCESS':
       return action.work;
 
     default:

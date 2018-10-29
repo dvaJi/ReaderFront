@@ -1,7 +1,7 @@
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ReactGA from 'react-ga';
-import {JSDOM} from 'jsdom';
+import { JSDOM } from 'jsdom';
 import {
   getPages,
   getPagesAsFiles,
@@ -40,47 +40,49 @@ global.window.scrollToBottom = () => {
   global.window.dispatchEvent(new Event('scroll')); // eslint-disable-line no-undef
 };
 
-window.HTMLCanvasElement.prototype.getContext = function () {
+window.HTMLCanvasElement.prototype.getContext = function() {
   return {
-      fillRect: function() {},
-      clearRect: function(){},
-      getImageData: function(x, y, w, h) {
-          return  {
-              data: new Array(w*h*4)
-          };
-      },
-      putImageData: function() {},
-      createImageData: function(){ return []},
-      setTransform: function(){},
-      drawImage: function(){},
-      save: function(){},
-      fillText: function(){},
-      restore: function(){},
-      beginPath: function(){},
-      moveTo: function(){},
-      lineTo: function(){},
-      closePath: function(){},
-      stroke: function(){},
-      translate: function(){},
-      scale: function(){},
-      rotate: function(){},
-      arc: function(){},
-      fill: function(){},
-      measureText: function(){
-          return { width: 0 };
-      },
-      transform: function(){},
-      rect: function(){},
-      clip: function(){},
+    fillRect: function() {},
+    clearRect: function() {},
+    getImageData: function(x, y, w, h) {
+      return {
+        data: new Array(w * h * 4)
+      };
+    },
+    putImageData: function() {},
+    createImageData: function() {
+      return [];
+    },
+    setTransform: function() {},
+    drawImage: function() {},
+    save: function() {},
+    fillText: function() {},
+    restore: function() {},
+    beginPath: function() {},
+    moveTo: function() {},
+    lineTo: function() {},
+    closePath: function() {},
+    stroke: function() {},
+    translate: function() {},
+    scale: function() {},
+    rotate: function() {},
+    arc: function() {},
+    fill: function() {},
+    measureText: function() {
+      return { width: 0 };
+    },
+    transform: function() {},
+    rect: function() {},
+    clip: function() {}
   };
-}
+};
 
-window.HTMLCanvasElement.prototype.toDataURL = function () {
-  return "";
-}
+window.HTMLCanvasElement.prototype.toDataURL = function() {
+  return '';
+};
 
 if (typeof window.URL.createObjectURL === 'undefined') {
-  Object.defineProperty(window.URL, 'createObjectURL', { value: () =>  ""})
+  Object.defineProperty(window.URL, 'createObjectURL', { value: () => '' });
 }
 
 // Setup Mocks

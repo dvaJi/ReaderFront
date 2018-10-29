@@ -2,7 +2,7 @@ import params from '../params.json';
 
 /**
  * Normalize data and add new properties to work object
- * @param {*} work 
+ * @param {*} work
  */
 export function normalizeWork(work) {
   const status = Object.keys(params.works.status).find(

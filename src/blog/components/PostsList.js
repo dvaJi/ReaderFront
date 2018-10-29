@@ -37,7 +37,11 @@ export default class PostsList extends PureComponent {
       posts.forEach(post => {
         rows.push(
           <CardWrapper key={post.uniqid}>
-            <PostCard onClick={this.doSelect} post={post} thumbnail={this.thumbUrl(post)}>
+            <PostCard
+              onClick={this.doSelect}
+              post={post}
+              thumbnail={this.thumbUrl(post)}
+            >
               <ReactMarkdown
                 source={subString(post.content, 150)}
                 escapeHtml={true}
@@ -57,9 +61,7 @@ export default class PostsList extends PureComponent {
 
     return (
       <div className="container--grid">
-        <ul layout="rows top-left">
-          {rows}
-        </ul>
+        <ul layout="rows top-left">{rows}</ul>
       </div>
     );
   }

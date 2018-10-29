@@ -62,6 +62,7 @@ export function fetchChapters(lang, stub) {
             'stub',
             'uniqid',
             'description',
+            'releaseDate',
             'createdAt',
             'updatedAt'
           ]
@@ -112,6 +113,7 @@ export function fetchChapter(chapterId) {
             'uniqid',
             'description',
             'thumbnail',
+            'releaseDate',
             'createdAt',
             'updatedAt'
           ]

@@ -1,20 +1,20 @@
-import React from "react";
-import { render, mount } from "enzyme";
-import { MemoryRouter } from "react-router-dom";
-import WorksList from "./WorksList";
-import WorkItem from "./WorkItem";
-import WorkItemEmpty from "./WorkItemEmpty";
-import { getWorks } from "../../utils/mocks/getWorksMock";
+import React from 'react';
+import { render, mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import WorksList from './WorksList';
+import WorkItem from './WorkItem';
+import WorkItemEmpty from './WorkItemEmpty';
+import { getWorks } from '../../utils/mocks/getWorksMock';
 
 const works = getWorks;
 
-it("renders without crashing", () => {
-  let filterText = "";
+it('renders without crashing', () => {
+  let filterText = '';
   render(<WorksList loading="false" works={works} filterText={filterText} />);
 });
 
-it("should displays WorkItemEmpty", () => {
-  let filterText = "";
+it('should displays WorkItemEmpty', () => {
+  let filterText = '';
 
   const wrapper = mount(
     <MemoryRouter>
@@ -25,8 +25,8 @@ it("should displays WorkItemEmpty", () => {
   wrapper.unmount();
 });
 
-it("should displays WorkItem", () => {
-  let filterText = "";
+it('should displays WorkItem', () => {
+  let filterText = '';
   const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />
@@ -36,16 +36,14 @@ it("should displays WorkItem", () => {
   wrapper.unmount();
 });
 
-it("should filter works", () => {
-  let filterText = "aka";
+it('should filter works', () => {
+  let filterText = 'aka';
   const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />
     </MemoryRouter>
   );
-  wrapper.setProps({ filterText: "aka" });
+  wrapper.setProps({ filterText: 'aka' });
   expect(wrapper.find(WorkItem)).toBeTruthy();
   wrapper.unmount();
 });
-
-

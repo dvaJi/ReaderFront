@@ -3,7 +3,7 @@ import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import Dashboard from './Dashboard';
-import store, { history } from '../store';
+import { history } from '../store';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 

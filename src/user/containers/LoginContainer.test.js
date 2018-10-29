@@ -7,7 +7,6 @@ import moxios from '@anilanar/moxios';
 import LoginContainer from './LoginContainer';
 import { Form } from 'reactstrap';
 import { MemoryRouter } from 'react-router-dom';
-import { authError } from '../actions/doUser';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

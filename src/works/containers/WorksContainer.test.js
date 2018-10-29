@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl } from 'enzyme-react-intl';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import WorksContainer from './WorksContainer';
@@ -7,7 +7,6 @@ import App from '../../App';
 import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

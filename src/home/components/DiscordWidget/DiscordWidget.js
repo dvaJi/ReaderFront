@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 
 export default class DiscordWidget extends PureComponent {
   render() {
@@ -7,7 +7,9 @@ export default class DiscordWidget extends PureComponent {
         <h3>Discord</h3>
         <iframe
           title="Discord"
-          src={`https://discordapp.com/widget?id=${this.props.discordId}&theme=dark`}
+          src={`https://discordapp.com/widget?id=${
+            this.props.discordId
+          }&theme=dark`}
           width="350"
           height="500"
           allowtransparency="true"

@@ -70,7 +70,7 @@ class Detail extends Component {
 
   componentDidMount() {
     if (
-      this.props.chapter == null ||
+      this.props.chapter === null ||
       this.props.chapter.id !== parseInt(this.props.match.params.chapterId, 0)
     ) {
       this.getChapter(this.props.match.params.chapterId);

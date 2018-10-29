@@ -50,7 +50,12 @@ export const CounterCard = props => (
   <Card to={props.to} className="mb-4">
     <div className="card-body">
       <div className="d-flex align-items-center">
-        <FontAwesomeIcon className="icon" color={props.color} size="2x" icon={props.icon} />
+        <FontAwesomeIcon
+          className="icon"
+          color={props.color}
+          size="2x"
+          icon={props.icon}
+        />
         <div className="ml-3">
           <div className="text-muted small">{props.title}</div>
           <div className="text-large">{props.total}</div>

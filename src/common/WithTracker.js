@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import ReactGA from "react-ga";
+import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 
 export default function withTracker(WrappedComponent, options = {}) {
   const trackPage = page => {

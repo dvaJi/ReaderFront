@@ -100,7 +100,7 @@ it('should render new items if user scroll to bottom', async () => {
 
   document.body.scrollTop = 40;
   window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
-  
+
   await wrapper.update();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();

@@ -4,10 +4,8 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import ReaderContainer from './ReaderContainer';
 import store from '../../store';
-import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

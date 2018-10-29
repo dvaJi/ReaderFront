@@ -1,8 +1,8 @@
-import React from "react";
-import { mount } from "enzyme";
-import DisqusComments from "./DisqusComments";
+import React from 'react';
+import { mount } from 'enzyme';
+import DisqusComments from './DisqusComments';
 
-it("should render without throwing an error", () => {
+it('should render without throwing an error', () => {
   const wrapper = mount(
     <DisqusComments
       id="01901-2302"
@@ -14,7 +14,7 @@ it("should render without throwing an error", () => {
   wrapper.unmount();
 });
 
-it("should be updated when receive new props", () => {
+it('should be updated when receive new props', () => {
   const wrapper = mount(
     <DisqusComments
       id="01901-2302"
@@ -23,15 +23,15 @@ it("should be updated when receive new props", () => {
     />
   );
 
-  wrapper.setProps({ id: "020202-01011" });
-  wrapper.setProps({ title: "Infection - Capítulo 41" });
-  wrapper.setProps({ path: "/read/infection/es/6/41.0" });
+  wrapper.setProps({ id: '020202-01011' });
+  wrapper.setProps({ title: 'Infection - Capítulo 41' });
+  wrapper.setProps({ path: '/read/infection/es/6/41.0' });
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it("should reset (set to undefined) window.DISQUS if it is not undefined", () => {
+it('should reset (set to undefined) window.DISQUS if it is not undefined', () => {
   window.DISQUS = {
     id: 1,
     reset: a => {

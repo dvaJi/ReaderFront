@@ -68,6 +68,7 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
             'stub',
             'uniqid',
             'thumbnail',
+            'releaseDate',
             'description',
             'createdAt'
           ]
@@ -88,6 +89,10 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
 
 export function createOrUpdate(chapter) {
   if (chapter.id > 0) {
+    delete chapter.createdAt;
+    delete chapter.updatedAt;
+    delete chapter.work;
+    chapter.workId = parseInt(chapter.workId, 0);
     return update(chapter);
   } else {
     delete chapter.id;

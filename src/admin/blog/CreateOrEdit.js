@@ -231,7 +231,9 @@ class CreateOrEdit extends Component {
       <div className="container">
         <Card>
           {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
-          {this.state.success && <Alert color="success">{this.state.success}</Alert>}
+          {this.state.success && (
+            <Alert color="success">{this.state.success}</Alert>
+          )}
           <Link to={'/admincp/blog/manage'}>
             <Button>
               <FormattedMessage id="go_back" defaultMessage="Go back" />
@@ -270,7 +272,10 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              <MarkDownEditor onChangeValue={this.handleValueChange} text={this.state.post.content} />
+              <MarkDownEditor
+                onChangeValue={this.handleValueChange}
+                text={this.state.post.content}
+              />
             </FormGroup>
             <FormGroup>
               <Label for="language">

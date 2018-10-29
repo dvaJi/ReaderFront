@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { slugify } from 'simple-slugify-string';
+import DatePicker from 'react-datepicker';
 import {
   Alert,
   Button,
@@ -19,6 +21,8 @@ import { createOrUpdate as chapterCreateOrUpdate } from '../../releases/actions/
 import { fetchChapter as getChapter } from '../../reader/actions/doReader';
 import { upload } from '../../common/actions';
 import params from '../../params';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -39,6 +43,7 @@ class CreateOrEdit extends Component {
         hidden: false,
         description: '',
         thumbnail: '',
+        releaseDate: new Date(),
         pages: []
       },
       languages: Object.keys(params.global.languages).map(
@@ -86,7 +91,7 @@ class CreateOrEdit extends Component {
   onChange = event => {
     let chapter = this.state.chapter;
     if (isNaN(event.target.value) || event.target.value === '') {
-      chapter[event.target.name] = event.target.value;
+      chapter[event.target.name] = event.target.value.toString();
     } else {
       chapter[event.target.name] = parseInt(event.target.value, 0);
     }
@@ -95,6 +100,14 @@ class CreateOrEdit extends Component {
       chapter.stub = slugify(event.target.value);
     }
 
+    this.setState({
+      chapter
+    });
+  };
+
+  onChangeDate = value => {
+    let chapter = this.state.chapter;
+    chapter.releaseDate = value.toDate();
     this.setState({
       chapter
     });
@@ -140,6 +153,10 @@ class CreateOrEdit extends Component {
             })
           });
 
+          const chapterId = chapter.id
+            ? chapter.id
+            : response.data.data.chapterCreate.id;
+
           window.setTimeout(() => {
             this.props.history.push(
               '/admincp/work/' +
@@ -147,7 +164,7 @@ class CreateOrEdit extends Component {
                 '/' +
                 this.props.match.params.stub +
                 '/chapter/' +
-                response.data.data.chapterCreate.id
+                chapterId
             );
           }, 1000);
         }
@@ -295,6 +312,19 @@ class CreateOrEdit extends Component {
                   </option>
                 ))}
               </Input>
+            </FormGroup>
+            <FormGroup>
+              <Label for="releaseDate">
+                <FormattedMessage
+                  id="releaseDate"
+                  defaultMessage="Release date"
+                />
+              </Label>
+              <DatePicker
+                selected={moment(this.state.chapter.releaseDate)}
+                onChange={this.onChangeDate}
+                className="form-control"
+              />
             </FormGroup>
             <FormGroup check>
               <CustomInput

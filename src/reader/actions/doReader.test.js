@@ -43,11 +43,9 @@ describe('fetchChapters actions', () => {
       }
     });
 
-    return store
-      .dispatch(fetchChapters('es', 'hunter_x_hunter'))
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-      });
+    return store.dispatch(fetchChapters('es', 'hunter_x_hunter')).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
   });
 
   it('creates RELEASES_HAS_ERRORED after catch any error', () => {

@@ -55,7 +55,7 @@ export function canUseWebP() {
   try {
     const elem =
       typeof document === 'object' ? document.createElement('canvas') : {};
-    if (!!(elem.getContext && elem.getContext('2d'))) {
+    if (elem.getContext && elem.getContext('2d')) {
       return elem.toDataURL('image/webp').indexOf('data:image/webp') === 0;
     } else {
       return false;

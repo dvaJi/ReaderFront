@@ -16,8 +16,6 @@ const Card = styled.div`
 
 export default class PostCardEmpty extends Component {
   render() {
-    return (
-      <Card className="show-loading-animation" />
-    );
+    return <Card className="show-loading-animation" />;
   }
 }

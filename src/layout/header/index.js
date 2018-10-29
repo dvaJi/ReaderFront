@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { doChangeLanguage } from '../actions/doChangeLanguage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
-import { faDiscord, faPatreon } from '@fortawesome/free-brands-svg-icons';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
+import { doChangeLanguage } from "../actions/doChangeLanguage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
+import { faDiscord, faPatreon } from "@fortawesome/free-brands-svg-icons";
 import {
   faBook,
   faThList,
   faRss,
   faHome
-} from '@fortawesome/free-solid-svg-icons';
-import * as config from '../../config';
-import { renderIf, isAuthRoute, isAdminRoute } from '../../utils/helpers';
-import RouteNavItem from './RouteNavItem';
-import LangNavItem from './LangNavItem';
+} from "@fortawesome/free-solid-svg-icons";
+import * as config from "../../config";
+import { renderIf, isAuthRoute, isAdminRoute } from "../../utils/helpers";
+import RouteNavItem from "./RouteNavItem";
+import LangNavItem from "./LangNavItem";
 
 class Header extends Component {
   constructor(props) {
@@ -45,14 +45,14 @@ class Header extends Component {
         <LangNavItem
           cookielang={this.props.language}
           language="es"
-          onClick={e => this.handleChangeLanguage('es')}
+          onClick={e => this.handleChangeLanguage("es")}
         >
           ES
         </LangNavItem>
         <LangNavItem
           cookielang={this.props.language}
           language="en"
-          onClick={e => this.handleChangeLanguage('en')}
+          onClick={e => this.handleChangeLanguage("en")}
         >
           EN
         </LangNavItem>
@@ -67,7 +67,7 @@ class Header extends Component {
         fixed="true"
         light
         expand="md"
-        style={{ padding: '0.1rem 1rem 0 1rem' }}
+        style={{ padding: "0.1rem 1rem 0 1rem" }}
       >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />
@@ -90,22 +90,26 @@ class Header extends Component {
               <FontAwesomeIcon icon={faRss} />
               Blog
             </RouteNavItem>
-            <RouteNavItem
-              to={config.DISCORD_URL}
-              target="_blank"
-              rel="noopener"
-            >
-              <FontAwesomeIcon icon={faDiscord} />
-              Discord
-            </RouteNavItem>
-            <RouteNavItem
-              to={config.PATREON_URL}
-              target="_blank"
-              rel="noopener"
-            >
-              <FontAwesomeIcon icon={faPatreon} />
-              Patreon
-            </RouteNavItem>
+            {config.DISCORD_URL && (
+              <RouteNavItem
+                to={config.DISCORD_URL}
+                target="_blank"
+                rel="noopener"
+              >
+                <FontAwesomeIcon icon={faDiscord} />
+                Discord
+              </RouteNavItem>
+            )}
+            {config.PATREON_URL && (
+              <RouteNavItem
+                to={config.PATREON_URL}
+                target="_blank"
+                rel="noopener"
+              >
+                <FontAwesomeIcon icon={faPatreon} />
+                Patreon
+              </RouteNavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
@@ -119,7 +123,7 @@ class Header extends Component {
         fixed="true"
         light
         expand="md"
-        style={{ padding: '0.1rem 1rem 0 1rem' }}
+        style={{ padding: "0.1rem 1rem 0 1rem" }}
       >
         <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
         <NavbarToggler onClick={this.toggleNavbar} />

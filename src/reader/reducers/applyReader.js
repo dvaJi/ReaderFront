@@ -1,6 +1,6 @@
 export function chapter(state = null, action) {
   switch (action.type) {
-    case "READER_SELECT_CHAPTER":
+    case 'READER_SELECT_CHAPTER':
       return action.chapter;
 
     default:
@@ -10,7 +10,7 @@ export function chapter(state = null, action) {
 
 export function readerHasErrored(state = false, action) {
   switch (action.type) {
-    case "READER_HAS_ERRORED":
+    case 'READER_HAS_ERRORED':
       return action.hasErrored;
 
     default:
@@ -20,7 +20,7 @@ export function readerHasErrored(state = false, action) {
 
 export function readerIsLoading(state = true, action) {
   switch (action.type) {
-    case "READER_IS_LOADING":
+    case 'READER_IS_LOADING':
       return action.isLoading;
 
     default:
@@ -30,7 +30,7 @@ export function readerIsLoading(state = true, action) {
 
 export function chapters(state = [], action) {
   switch (action.type) {
-    case "READER_FETCH_DATA_SUCCESS":
+    case 'READER_FETCH_DATA_SUCCESS':
       return action.chapters;
 
     default:

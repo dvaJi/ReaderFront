@@ -37,7 +37,12 @@ export default class ImagesList extends PureComponent {
           offset={page.height / 2}
         >
           <Image
-            src={getChapterPageUrl(chapter.work, chapter, page.filename, 'original')}
+            src={getChapterPageUrl(
+              chapter.work,
+              chapter,
+              page.filename,
+              'original'
+            )}
             alt={page.filename}
             title={page.filename}
           />

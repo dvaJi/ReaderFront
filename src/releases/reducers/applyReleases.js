@@ -1,6 +1,6 @@
 export function releasesHasErrored(state = false, action) {
   switch (action.type) {
-    case "RELEASES_HAS_ERRORED":
+    case 'RELEASES_HAS_ERRORED':
       return action.hasErrored;
 
     default:
@@ -10,7 +10,7 @@ export function releasesHasErrored(state = false, action) {
 
 export function releasesIsLoading(state = false, action) {
   switch (action.type) {
-    case "RELEASES_IS_LOADING":
+    case 'RELEASES_IS_LOADING':
       return action.isLoading;
 
     default:
@@ -20,7 +20,7 @@ export function releasesIsLoading(state = false, action) {
 
 export function releasesPage(state = 0, action) {
   switch (action.type) {
-    case "RELEASES_PAGE":
+    case 'RELEASES_PAGE':
       return action.page;
 
     default:
@@ -30,8 +30,10 @@ export function releasesPage(state = 0, action) {
 
 export function chapters(state = [], action) {
   switch (action.type) {
-    case "RELEASES_FETCH_DATA_SUCCESS":
-      return action.page === 1 ? action.chapters : state.concat(action.chapters);
+    case 'RELEASES_FETCH_DATA_SUCCESS':
+      return action.page === 1
+        ? action.chapters
+        : state.concat(action.chapters);
 
     default:
       return state;

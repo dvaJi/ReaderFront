@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { Route } from "react-router-dom";
+import React from 'react';
+import styled from 'styled-components';
+import { Route } from 'react-router-dom';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import { NavItem, NavLink } from "reactstrap";
+import { NavItem, NavLink } from 'reactstrap';
 
 const Item = styled(NavItem)`
   position: relative;
@@ -12,9 +12,10 @@ const Item = styled(NavItem)`
 const Link = styled(NavLink)`
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
-  padding: .5rem !important;
+  padding: 0.5rem !important;
 
-  &:hover, &.active {
+  &:hover,
+  &.active {
     color: #5b3cc4 !important;
   }
 
@@ -24,7 +25,7 @@ const Link = styled(NavLink)`
   }
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     width: 0;
@@ -45,11 +46,7 @@ export default props => (
     exact
     children={({ match, history }) => (
       <Item>
-        <Link
-          {...props}
-          activeClassName="active"
-          tag={RRNavLink}
-        >
+        <Link {...props} activeClassName="active" tag={RRNavLink}>
           {props.children}
         </Link>
       </Item>

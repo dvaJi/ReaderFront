@@ -59,8 +59,7 @@ it('should render the chapter with pages', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -121,8 +120,7 @@ it('should delete all pages', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   // Append a div to test our UncontrolledTooltip
@@ -138,9 +136,8 @@ it('should delete all pages', async () => {
     </Provider>
   );
 
-  const removeAllButton = await wrapper
-    .find('button[id="delete-all-pages"]')
-    .simulate('click');
+  // Click delete all pages button
+  await wrapper.find('button[id="delete-all-pages"]').simulate('click');
 
   const confirmRemoveAllButton = await wrapper.find(
     'button[id="confirm-delete-all-pages"]'
@@ -173,8 +170,7 @@ it('should upload all pages', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   // Append a div to test our UncontrolledTooltip
@@ -206,6 +202,8 @@ it('should upload all pages', async () => {
     .find(Detail)
     .props()
     .store.getState();
+
+  expect(props).toBeDefined();
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
@@ -245,8 +243,7 @@ it('should allow to set a page as default', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -268,6 +265,8 @@ it('should allow to set a page as default', async () => {
     .find(Detail)
     .props()
     .store.getState();
+
+  expect(props).toBeDefined();
 
   let request = moxios.requests.mostRecent();
   await request.respondWith({
@@ -294,8 +293,7 @@ it('should allow to add pages', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(
@@ -316,12 +314,10 @@ it('should allow to add pages', async () => {
 
   const fileContents = image;
   const file = new Blob([fileContents], { type: 'text/plain' });
+  expect(file).toBeDefined();
 
-  const drop = await wrapper
-    .find(Dropzone);
-
-    console.log(drop);
-  
+  const drop = await wrapper.find(Dropzone);
+  expect(drop).toBeDefined();
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
@@ -349,8 +345,7 @@ it('should show an error message', async () => {
       lang: 'es',
       translations: {},
       forceRefresh: false
-    },
-    match: params
+    }
   });
 
   const wrapper = await mountWithIntl(

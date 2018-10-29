@@ -21,9 +21,19 @@ export default class Block extends PureComponent {
 
   imageToDisplay(blockId, index, chapter) {
     if (blockId <= 2 || (blockId === 3 && index > 1)) {
-      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
+      return getChapterPageUrl(
+        chapter.work,
+        chapter,
+        chapter.thumbnail,
+        'medium'
+      );
     } else if (blockId === 5 && index <= 1) {
-      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail, 'medium');
+      return getChapterPageUrl(
+        chapter.work,
+        chapter,
+        chapter.thumbnail,
+        'medium'
+      );
     } else {
       return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail);
     }

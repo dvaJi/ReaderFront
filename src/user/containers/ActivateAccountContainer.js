@@ -62,7 +62,11 @@ class ActivateAccount extends Component {
   render() {
     return (
       <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert id="activate-account_error_alert" color="danger">{this.state.error}</Alert>}
+        {this.state.error && (
+          <Alert id="activate-account_error_alert" color="danger">
+            {this.state.error}
+          </Alert>
+        )}
         {this.state.success && (
           <Alert color="success">{this.state.success}</Alert>
         )}

@@ -71,7 +71,7 @@ it('renders PostCardEmpty without crashing', () => {
  */
 function generatePostCard(posts) {
   let listPostCard = [];
-  posts.map(post => {
+  posts.forEach(post => {
     listPostCard.push(
       <PostCard
         key={post.id}
