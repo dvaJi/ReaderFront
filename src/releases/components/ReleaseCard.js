@@ -39,17 +39,30 @@ const CardData = styled.div`
   }
 `;
 
+const isAdultOverlay = `&:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}`;
+
 const CardCoverBackground = styled.div`
-      background-image: url('${props => props.thumb}');
-      background-position: 50% 50%;
-      background-size: cover;
-      border-radius: 3px;
-      display: block;
-      height: 100%;
-      position: absolute;
-      width: 100%;
-      transition: 0.15s;
-    `;
+  background-image: url('${props => props.thumb}');
+  background-position: 50% 50%;
+  background-size: cover;
+  border-radius: 3px;
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  transition: 0.15s;
+      
+  ${props => (props.isAdult ? isAdultOverlay : '')}
+`;
+
 const Card = styled.div`
   background-color: #ddd;
   font-size: 0.87em;
@@ -83,12 +96,14 @@ const Card = styled.div`
 
 class ReleaseCard extends PureComponent {
   render() {
-    const { url, name, thumb, chapter, subchapter } = this.props;
+    const { url, name, thumb, chapter, subchapter, isAdult } = this.props;
 
     return (
       <Link to={url}>
         <Card className="col-lg-2 col-md-3 col-sm-4 col-xs-12">
-          <CardCoverBackground thumb={thumb}>{''}</CardCoverBackground>
+          <CardCoverBackground isAdult={isAdult} thumb={thumb}>
+            {''}
+          </CardCoverBackground>
           <CardData>
             <h5>{name}</h5>
             <span>

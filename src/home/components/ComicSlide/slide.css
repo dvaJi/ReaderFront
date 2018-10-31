@@ -17,7 +17,7 @@
 .comic-slide-fr-track::before,
 .comic-slide-fr-track::after {
   display: table;
-  content: "";
+  content: '';
 }
 .comic-slide-fr-track::after {
   clear: both;
@@ -28,7 +28,7 @@
   height: 100%;
   min-height: 1px;
 }
-[dir="rtl"] .comic-slide-fr-slide {
+[dir='rtl'] .comic-slide-fr-slide {
   float: right;
 }
 .comic-slide-fr-slide img {
@@ -136,6 +136,12 @@
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
+.comic-slide-wrapper .comic-slide-list-block li a.is-adult::before {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.comic-slide-wrapper .comic-slide-list-block li a:hover.is-adult::before {
+  background-color: rgba(0, 0, 0, 0.8);
+}
 .comic-slide-wrapper .comic-slide-list-block li a:hover::before {
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -163,7 +169,7 @@
 }
 .comic-slide-wrapper .comic-slide-list-block li a::before {
   position: absolute;
-  content: "";
+  content: '';
   width: 100%;
   height: 100%;
   top: 0;
@@ -176,7 +182,7 @@
 }
 .comic-slide-wrapper .comic-slide-list-block.block1 {
   width: 332px;
-  background-image: url("/static/images/koma_block_static.png");
+  background-image: url('/static/images/koma_block_static.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block1 {
@@ -186,8 +192,8 @@
 .comic-slide-wrapper .comic-slide-list-block.block1 li {
   width: 332px;
   height: 334px;
-  -webkit-mask-image: url("/static/images/koma_block_static.png");
-  mask-image: url("/static/images/koma_block_static.png");
+  -webkit-mask-image: url('/static/images/koma_block_static.png');
+  mask-image: url('/static/images/koma_block_static.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block1 li {
@@ -196,11 +202,11 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block1 li a::before {
-  background-image: url("/static/images/koma_block_static_border.png");
+  background-image: url('/static/images/koma_block_static_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block2 {
   width: 345px;
-  background-image: url("/static/images/koma_block_2.png");
+  background-image: url('/static/images/koma_block_2.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block2 {
@@ -212,8 +218,8 @@
   height: 163px;
   margin-bottom: 8px;
   margin-left: 25px;
-  -webkit-mask-image: url("/static/images/koma_block_2_1.png");
-  mask-image: url("/static/images/koma_block_2_1.png");
+  -webkit-mask-image: url('/static/images/koma_block_2_1.png');
+  mask-image: url('/static/images/koma_block_2_1.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(1) {
@@ -224,13 +230,13 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(1) a::before {
-  background-image: url("/static/images/koma_block_2_1_border.png");
+  background-image: url('/static/images/koma_block_2_1_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(2) {
   width: 320px;
   height: 163px;
-  -webkit-mask-image: url("/static/images/koma_block_2_2.png");
-  mask-image: url("/static/images/koma_block_2_2.png");
+  -webkit-mask-image: url('/static/images/koma_block_2_2.png');
+  mask-image: url('/static/images/koma_block_2_2.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(2) {
@@ -239,12 +245,12 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(2) a::before {
-  background-image: url("/static/images/koma_block_2_2_border.png");
+  background-image: url('/static/images/koma_block_2_2_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.first-block,
 .comic-slide-wrapper .comic-slide-list-block.block3 {
   width: 447px;
-  background-image: url("/static/images/koma_block_3.png");
+  background-image: url('/static/images/koma_block_3.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.first-block,
@@ -258,8 +264,8 @@
   height: 111px;
   margin-bottom: 8px;
   margin-left: 33px;
-  -webkit-mask-image: url("/static/images/koma_block_3_1.png");
-  mask-image: url("/static/images/koma_block_3_1.png");
+  -webkit-mask-image: url('/static/images/koma_block_3_1.png');
+  mask-image: url('/static/images/koma_block_3_1.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.first-block li:nth-child(1),
@@ -275,7 +281,7 @@
   li:nth-child(1)
   a::before,
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(1) a::before {
-  background-image: url("/static/images/koma_block_3_1_border.png");
+  background-image: url('/static/images/koma_block_3_1_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.first-block li:nth-child(2),
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(2) {
@@ -283,8 +289,8 @@
   height: 111px;
   margin-bottom: 8px;
   margin-left: -8px;
-  -webkit-mask-image: url("/static/images/koma_block_3_2.png");
-  mask-image: url("/static/images/koma_block_3_2.png");
+  -webkit-mask-image: url('/static/images/koma_block_3_2.png');
+  mask-image: url('/static/images/koma_block_3_2.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.first-block li:nth-child(2),
@@ -300,14 +306,14 @@
   li:nth-child(2)
   a::before,
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(2) a::before {
-  background-image: url("/static/images/koma_block_3_2_border.png");
+  background-image: url('/static/images/koma_block_3_2_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.first-block li:nth-child(3),
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(3) {
   width: 430px;
   height: 215px;
-  -webkit-mask-image: url("/static/images/koma_block_3_3.png");
-  mask-image: url("/static/images/koma_block_3_3.png");
+  -webkit-mask-image: url('/static/images/koma_block_3_3.png');
+  mask-image: url('/static/images/koma_block_3_3.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.first-block li:nth-child(3),
@@ -321,11 +327,11 @@
   li:nth-child(3)
   a::before,
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(3) a::before {
-  background-image: url("/static/images/koma_block_3_3_border.png");
+  background-image: url('/static/images/koma_block_3_3_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 {
   width: 633px;
-  background-image: url("/static/images/koma_block_5.png");
+  background-image: url('/static/images/koma_block_5.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 {
@@ -337,8 +343,8 @@
   height: 184px;
   margin-bottom: 8px;
   margin-left: 22px;
-  -webkit-mask-image: url("/static/images/koma_block_5_1.png");
-  mask-image: url("/static/images/koma_block_5_1.png");
+  -webkit-mask-image: url('/static/images/koma_block_5_1.png');
+  mask-image: url('/static/images/koma_block_5_1.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(1) {
@@ -349,15 +355,15 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(1) a::before {
-  background-image: url("/static/images/koma_block_5_1_border.png");
+  background-image: url('/static/images/koma_block_5_1_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(2) {
   width: 315px;
   height: 184px;
   margin-left: -19px;
   margin-bottom: 8px;
-  -webkit-mask-image: url("/static/images/koma_block_5_2.png");
-  mask-image: url("/static/images/koma_block_5_2.png");
+  -webkit-mask-image: url('/static/images/koma_block_5_2.png');
+  mask-image: url('/static/images/koma_block_5_2.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(2) {
@@ -368,13 +374,13 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(2) a::before {
-  background-image: url("/static/images/koma_block_5_2_border.png");
+  background-image: url('/static/images/koma_block_5_2_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(3) {
   width: 210px;
   height: 142px;
-  -webkit-mask-image: url("/static/images/koma_block_5_3.png");
-  mask-image: url("/static/images/koma_block_5_3.png");
+  -webkit-mask-image: url('/static/images/koma_block_5_3.png');
+  mask-image: url('/static/images/koma_block_5_3.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(3) {
@@ -383,14 +389,14 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(3) a::before {
-  background-image: url("/static/images/koma_block_5_3_border.png");
+  background-image: url('/static/images/koma_block_5_3_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(4) {
   width: 210px;
   height: 142px;
   margin-left: -13px;
-  -webkit-mask-image: url("/static/images/koma_block_5_4.png");
-  mask-image: url("/static/images/koma_block_5_4.png");
+  -webkit-mask-image: url('/static/images/koma_block_5_4.png');
+  mask-image: url('/static/images/koma_block_5_4.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(4) {
@@ -400,14 +406,14 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(4) a::before {
-  background-image: url("/static/images/koma_block_5_4_border.png");
+  background-image: url('/static/images/koma_block_5_4_border.png');
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(5) {
   width: 210px;
   height: 142px;
   margin-left: -13px;
-  -webkit-mask-image: url("/static/images/koma_block_5_5.png");
-  mask-image: url("/static/images/koma_block_5_5.png");
+  -webkit-mask-image: url('/static/images/koma_block_5_5.png');
+  mask-image: url('/static/images/koma_block_5_5.png');
 }
 @media screen and (max-width: 602px) {
   .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(5) {
@@ -417,7 +423,7 @@
   }
 }
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(5) a::before {
-  background-image: url("/static/images/koma_block_5_5_border.png");
+  background-image: url('/static/images/koma_block_5_5_border.png');
 }
 .comic-slide-wrapper-svg .comic-slide-list-block li a::before {
   content: none !important;

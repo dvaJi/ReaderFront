@@ -54,6 +54,7 @@ export default class Block extends PureComponent {
               to={this.chapterUrl(chapter)}
               image={this.imageToDisplay(this.props.blockId, index, chapter)}
               tabIndex="-1"
+              className={chapter.work.adult ? 'is-adult' : ''}
             >
               <span>
                 {chapter.work.name} - Cap. {chapter.chapter}
