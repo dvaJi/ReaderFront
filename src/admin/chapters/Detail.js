@@ -90,7 +90,7 @@ class Detail extends Component {
   getChapter(chapterId) {
     if (chapterId !== undefined) {
       this.props
-        .getChapter(chapterId)
+        .getChapter(chapterId, true)
         .then(response => {
           this.setState({
             chapter: {

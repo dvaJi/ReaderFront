@@ -42,13 +42,14 @@ class List extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getAggregates();
+    this.props.getAggregates(undefined, undefined, undefined, true);
     this.props.getWorks(
       undefined,
       'ASC',
       this.state.perPage,
       'name',
-      this.state.page
+      this.state.page,
+      true
     );
   }
 
@@ -59,7 +60,8 @@ class List extends PureComponent {
       'ASC',
       this.state.perPage,
       'name',
-      page * this.state.perPage
+      page * this.state.perPage,
+      true
     );
   }
 
@@ -85,7 +87,8 @@ class List extends PureComponent {
                   'ASC',
                   5,
                   'name',
-                  this.state.page
+                  this.state.page,
+                  true
                 );
               }
             }

@@ -24,8 +24,7 @@ import { renderIf } from '../../utils/helpers';
 import { getWorkThumb } from '../../utils/common';
 import {
   createOrUpdate as workCreateOrUpdate,
-  fetchWork as getWork,
-  fetchWorkById as getWorkById
+  fetchWork as getWork
 } from '../../work/actions/doWork';
 import { Card } from '../common/UI';
 import { upload } from '../../common/actions';
@@ -131,7 +130,7 @@ class CreateOrEdit extends Component {
   getWork = workStub => {
     if (workStub !== undefined) {
       this.props
-        .getWork(workStub)
+        .getWork(workStub, undefined, true)
         .then(response => {
           const langAvailables = this.state.languages.filter(
             lang =>
@@ -164,6 +163,15 @@ class CreateOrEdit extends Component {
     if (event.target.name === 'name') {
       work.stub = slugify(event.target.value);
     }
+
+    this.setState({
+      work
+    });
+  };
+
+  onChangeCheckbox = event => {
+    let work = this.state.work;
+    work[event.target.name] = !work[event.target.name];
 
     this.setState({
       work
@@ -484,20 +492,24 @@ class CreateOrEdit extends Component {
               <CustomInput
                 type="checkbox"
                 id="adult"
+                name="adult"
                 label={this.props.intl.formatMessage({
                   id: 'adult_',
                   defaultMessage: 'Adult?'
                 })}
                 value={this.state.work.adult}
+                onChange={this.onChangeCheckbox}
               />
               <CustomInput
                 type="checkbox"
                 id="hidden"
+                name="hidden"
                 label={this.props.intl.formatMessage({
                   id: 'hidden',
                   defaultMessage: 'Hidden'
                 })}
                 value={this.state.work.hidden}
+                onChange={this.onChangeCheckbox}
               />
             </FormGroup>
 
@@ -564,7 +576,6 @@ const connectComponent = connect(
   {
     workCreateOrUpdate,
     getWork,
-    getWorkById,
     upload
   }
 )(CreateOrEdit);

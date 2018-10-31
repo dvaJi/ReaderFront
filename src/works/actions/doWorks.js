@@ -51,7 +51,8 @@ export function fetchWorks(
   sort = 'ASC',
   perPage = 120,
   sortBy = 'id',
-  page = 0
+  page = 0,
+  showHidden = false
 ) {
   return dispatch => {
     sort !== 'ASC' && sortBy === 'id'
@@ -69,7 +70,8 @@ export function fetchWorks(
             orderBy: sort,
             sortBy: sortBy,
             first: perPage,
-            offset: page
+            offset: page,
+            showHidden
           },
           fields: [
             'id',
@@ -124,7 +126,12 @@ export function worksAggregateSuccess(workAggregates) {
   };
 }
 
-export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
+export function getAggregates(
+  lang,
+  aggFunc = 'COUNT',
+  column = 'id',
+  showHidden = false
+) {
   return dispatch => {
     return axios
       .post(
@@ -135,7 +142,8 @@ export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
           data: {
             language: lang ? params.global.languages[lang].id : -1,
             aggregate: aggFunc,
-            aggregateColumn: column
+            aggregateColumn: column,
+            showHidden
           },
           fields: [aggFunc.toLowerCase()]
         })

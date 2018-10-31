@@ -64,7 +64,7 @@ class CreateOrEdit extends Component {
   getChapter = chapterId => {
     if (chapterId !== undefined) {
       this.props
-        .getChapter(chapterId)
+        .getChapter(chapterId, true)
         .then(response => {
           this.setState({
             chapter: {
@@ -99,6 +99,15 @@ class CreateOrEdit extends Component {
     if (event.target.name === 'name') {
       chapter.stub = slugify(event.target.value);
     }
+
+    this.setState({
+      chapter
+    });
+  };
+
+  onChangeCheckbox = event => {
+    let chapter = this.state.chapter;
+    chapter[event.target.name] = !chapter[event.target.name];
 
     this.setState({
       chapter
@@ -330,11 +339,13 @@ class CreateOrEdit extends Component {
               <CustomInput
                 type="checkbox"
                 id="hidden"
+                name="hidden"
                 label={this.props.intl.formatMessage({
                   id: 'hidden',
                   defaultMessage: 'Hidden'
                 })}
                 value={this.state.chapter.hidden}
+                onChange={this.onChangeCheckbox}
               />
             </FormGroup>
             <FormGroup>

@@ -45,7 +45,8 @@ export function fetchPosts(
   sort = 'ASC',
   perPage = 120,
   sortBy = 'id',
-  page = 0
+  page = 0,
+  showHidden = false
 ) {
   return dispatch => {
     dispatch(blogIsLoading(true));
@@ -61,7 +62,8 @@ export function fetchPosts(
             orderBy: sort,
             sortBy: sortBy,
             first: perPage,
-            offset: page
+            offset: page,
+            showHidden
           },
           fields: [
             'id',
@@ -95,7 +97,7 @@ export function fetchPosts(
   };
 }
 
-export function fetchPost(stub) {
+export function fetchPost(stub, showHidden = false) {
   return dispatch => {
     dispatch(blogIsLoading(true));
 
@@ -105,7 +107,7 @@ export function fetchPost(stub) {
         queryBuilder({
           type: 'query',
           operation: 'postByStub',
-          data: { stub },
+          data: { stub, showHidden },
           fields: [
             'id',
             'uniqid',
@@ -144,7 +146,12 @@ export function postsAggregateSuccess(postsAggregates) {
   };
 }
 
-export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
+export function getAggregates(
+  lang,
+  aggFunc = 'COUNT',
+  column = 'id',
+  showHidden = false
+) {
   return dispatch => {
     return axios
       .post(
@@ -155,7 +162,8 @@ export function getAggregates(lang, aggFunc = 'COUNT', column = 'id') {
           data: {
             language: lang ? params.global.languages[lang].id : -1,
             aggregate: aggFunc,
-            aggregateColumn: column
+            aggregateColumn: column,
+            showHidden
           },
           fields: [aggFunc.toLowerCase()]
         })
