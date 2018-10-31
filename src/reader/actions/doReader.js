@@ -31,7 +31,7 @@ export function readerFetchDataSuccess(chapters) {
   };
 }
 
-export function fetchChapters(lang, stub) {
+export function fetchChapters(lang, stub, showHidden = false) {
   return dispatch => {
     dispatch(readerIsLoading(true));
 
@@ -48,7 +48,8 @@ export function fetchChapters(lang, stub) {
           operation: 'chaptersByWork',
           data: {
             language: lang ? params.global.languages[lang].id : -1,
-            workStub: stub
+            workStub: stub,
+            showHidden
           },
           fields: [
             'id',
@@ -84,7 +85,7 @@ export function fetchChapters(lang, stub) {
   };
 }
 
-export function fetchChapter(chapterId) {
+export function fetchChapter(chapterId, showHidden = false) {
   return dispatch => {
     if (chapterId === undefined || chapterId === null) {
       dispatch(readerHasErrored(true));
@@ -98,7 +99,8 @@ export function fetchChapter(chapterId) {
           type: 'query',
           operation: 'chapterById',
           data: {
-            id: parseInt(chapterId, 0)
+            id: parseInt(chapterId, 0),
+            showHidden
           },
           fields: [
             'id',

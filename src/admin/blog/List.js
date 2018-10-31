@@ -40,14 +40,15 @@ class List extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getAggregates();
+    this.props.getAggregates(undefined, undefined, undefined, true);
     if (this.props.posts.length === 0) {
       this.props.fetchPosts(
         undefined,
         'DESC',
         this.state.perPage,
         'createdAt',
-        this.state.page
+        this.state.page,
+        true
       );
     }
   }
@@ -59,7 +60,8 @@ class List extends PureComponent {
       'DESC',
       this.state.perPage,
       'createdAt',
-      page * this.state.perPage
+      page * this.state.perPage,
+      true
     );
   }
 
@@ -85,7 +87,8 @@ class List extends PureComponent {
                   'DESC',
                   5,
                   'createdAt',
-                  this.state.page
+                  this.state.page,
+                  true
                 );
               }
             }

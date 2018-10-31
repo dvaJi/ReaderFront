@@ -32,7 +32,13 @@ export function releasesFetchDataSuccess(chapters, page) {
   };
 }
 
-export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
+export function fetchReleases(
+  lang,
+  page,
+  perPage = 12,
+  sort = 'DESC',
+  showHidden = false
+) {
   return dispatch => {
     dispatch(releasesIsLoading(true));
 
@@ -54,7 +60,8 @@ export function fetchReleases(lang, page, perPage = 12, sort = 'DESC') {
             language: params.global.languages[lang].id,
             orderBy: sort,
             first: perPage,
-            offset: page
+            offset: page,
+            showHidden
           },
           fields: [
             'id',

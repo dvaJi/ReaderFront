@@ -39,7 +39,7 @@ export function randomWorkFetchDataSuccess(work) {
   };
 }
 
-export function fetchWork(stub, lang) {
+export function fetchWork(stub, lang, showHidden = false) {
   return dispatch => {
     dispatch(workIsLoading(true));
 
@@ -51,7 +51,8 @@ export function fetchWork(stub, lang) {
           operation: 'work',
           data: {
             language: lang ? params.global.languages[lang].id : -1,
-            stub
+            stub,
+            showHidden
           },
           fields: [
             'id',

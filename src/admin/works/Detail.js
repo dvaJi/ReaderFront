@@ -27,7 +27,7 @@ class Detail extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.getChapters(undefined, this.props.match.params.stub);
+    this.props.getChapters(undefined, this.props.match.params.stub, true);
   }
 
   remove = id => {
@@ -47,7 +47,11 @@ class Detail extends PureComponent {
               if (response.data.errors && response.data.errors.length > 0) {
                 console.error(response.data.errors[0].message);
               } else {
-                this.props.getChapters(undefined, this.props.match.params.stub);
+                this.props.getChapters(
+                  undefined,
+                  this.props.match.params.stub,
+                  true
+                );
               }
             }
           })

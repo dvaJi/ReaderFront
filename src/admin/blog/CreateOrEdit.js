@@ -67,7 +67,7 @@ class CreateOrEdit extends Component {
   getPost = async postStub => {
     if (postStub !== undefined) {
       this.props
-        .getPost(postStub)
+        .getPost(postStub, true)
         .then(async () => {
           this.setState({
             post: this.props.post
