@@ -65,7 +65,7 @@ export function fetchReleases(
           },
           fields: [
             'id',
-            'work {id, stub, name, uniqid}',
+            'work {id, stub, name, uniqid, adult}',
             'chapter',
             'subchapter',
             'volume',

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+
+// App Imports
 import { fetchWork } from '../actions/doWork';
 import { withRouter } from 'react-router';
 import { getWorkThumb } from '../../utils/common';
 import * as config from '../../config';
 import params from '../../params.json';
+
 import Cover from '../components/Cover';
 import Info from '../components/Info';
 import ChapterList from '../components/ChapterList';

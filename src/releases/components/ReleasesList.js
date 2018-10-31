@@ -31,6 +31,7 @@ export default class ReleasesList extends PureComponent {
             thumb={getChapterPageUrl(work, chapter, chapter.thumbnail, 'small')}
             chapter={chapter.chapter}
             subchapter={chapter.subchapter}
+            isAdult={work.adult}
           />
         );
       });
