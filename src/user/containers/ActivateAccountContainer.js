@@ -48,7 +48,7 @@ class ActivateAccount extends Component {
           this.setState({
             success: 'Account activated.'
           });
-          this.props.history.push('/login');
+          this.props.history.push('/auth/login');
         }
       })
       .catch(error => {
@@ -82,7 +82,8 @@ ActivateAccount.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    searchLocation: ownProps.location.search
+    searchLocation: ownProps.location.search,
+    router: state.router
   };
 };
 
