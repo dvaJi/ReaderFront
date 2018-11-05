@@ -151,9 +151,15 @@ Signup.propTypes = {
   register: PropTypes.func.isRequired
 };
 
+function signUpState(state) {
+  return {
+    router: state.router
+  };
+}
+
 export default injectIntl(
   connect(
-    null,
+    signUpState,
     { register }
   )(withRouter(Signup))
 );
