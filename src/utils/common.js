@@ -32,10 +32,8 @@ export function getChapterPageUrl(work, chapter, filename, size = 'small') {
 
   const isWebp = canUseWebP() ? '&lowQuality=true' : '';
   return `${config.READER_PATH}covers/chapter/${work.stub}_${work.uniqid}/${
-    chapter.chapter
-  }-${chapter.subchapter}_${chapter.stub}_${
-    chapter.uniqid
-  }/${filename}?size=${size}${isWebp}`;
+    chapter.stub
+  }_${chapter.uniqid}/${filename}?size=${size}${isWebp}`;
 }
 
 // Get the post thumbnail url

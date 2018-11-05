@@ -140,6 +140,8 @@ class CreateOrEdit extends Component {
     });
 
     const chapter = Object.assign({}, this.state.chapter);
+    const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
+    chapter.stub = chStubNumber + (chapter.stub === null ? '' : chapter.stub);
     chapter.language =
       chapter.language === 0 ? this.state.languages[0].id : chapter.language;
     delete chapter.pages;
