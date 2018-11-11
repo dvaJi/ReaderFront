@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/dvaJi/ReaderFront/compare/v4.0.0...v4.1.0) (2018-11-11)
+
+
+### Bug Fixes
+
+* add router as props in auth (activate account and signup) ([#164](https://github.com/dvaJi/ReaderFront/issues/164)) ([a592b86](https://github.com/dvaJi/ReaderFront/commit/a592b86))
+* change stub to work like foolslider one ([#163](https://github.com/dvaJi/ReaderFront/issues/163)) ([69fddc9](https://github.com/dvaJi/ReaderFront/commit/69fddc9))
+* works, chapters and posts can be hidden ([#159](https://github.com/dvaJi/ReaderFront/issues/159)) ([c84835b](https://github.com/dvaJi/ReaderFront/commit/c84835b))
+
+
+### Features
+
+* add censorship to Home and Releases modules ([#160](https://github.com/dvaJi/ReaderFront/issues/160)) ([6bd3f9c](https://github.com/dvaJi/ReaderFront/commit/6bd3f9c))
+* chapters are sorted by releaseDate column ([#157](https://github.com/dvaJi/ReaderFront/issues/157)) ([acf3b0d](https://github.com/dvaJi/ReaderFront/commit/acf3b0d))
+* use env variables instead plain js config ([#155](https://github.com/dvaJi/ReaderFront/issues/155)) ([017568d](https://github.com/dvaJi/ReaderFront/commit/017568d))
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/dvaJi/ReaderFront/compare/v3.5.0...v4.0.0) (2018-10-14)
 
