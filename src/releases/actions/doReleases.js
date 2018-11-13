@@ -35,7 +35,7 @@ export function releasesFetchDataSuccess(chapters, page) {
 export function fetchReleases(
   lang,
   page,
-  perPage = 12,
+  perPage = 20,
   sort = 'DESC',
   showHidden = false
 ) {
@@ -82,7 +82,7 @@ export function fetchReleases(
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 

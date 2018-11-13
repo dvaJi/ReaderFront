@@ -75,7 +75,7 @@ export function fetchWork(stub, lang, showHidden = false) {
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
@@ -120,7 +120,7 @@ export function fetchWorkById(lang, workId) {
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
@@ -162,7 +162,7 @@ export function fetchRandomWork(lang) {
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 

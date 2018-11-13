@@ -70,7 +70,7 @@ export function fetchChapters(lang, stub, showHidden = false) {
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
@@ -81,7 +81,10 @@ export function fetchChapters(lang, stub, showHidden = false) {
       )
       .then(chapters => dispatch(readerFetchDataSuccess(chapters)))
       .then(() => dispatch(readerIsLoading(false)))
-      .catch(err => dispatch(readerHasErrored(true)));
+      .catch(err => {
+        console.error(err);
+        dispatch(readerHasErrored(true));
+      });
   };
 }
 
@@ -122,12 +125,16 @@ export function fetchChapter(chapterId, showHidden = false) {
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
         return response.data.data.chapterById;
       })
-      .then(chapter => dispatch(readerSelectChapter(chapter)));
+      .then(chapter => dispatch(readerSelectChapter(chapter)))
+      .catch(err => {
+        console.error(err);
+        dispatch(readerHasErrored(true));
+      });
   };
 }

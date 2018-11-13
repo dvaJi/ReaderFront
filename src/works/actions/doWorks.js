@@ -94,7 +94,7 @@ export function fetchWorks(
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
@@ -149,7 +149,7 @@ export function getAggregates(
         })
       )
       .then(response => {
-        if (response.statusText !== 'OK') {
+        if (response.status !== 200) {
           throw Error(response.statusText);
         }
 
