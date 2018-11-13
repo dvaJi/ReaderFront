@@ -51,7 +51,7 @@ describe('fetchReleases actions', () => {
     moxios.wait(() => {
       const request = moxios.requests.mostRecent();
       request.respondWith({
-        status: 200,
+        status: 500,
         statusText: 'ERROR',
         response: { data: { chapters: null } }
       });

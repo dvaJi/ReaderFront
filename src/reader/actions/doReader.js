@@ -132,9 +132,6 @@ export function fetchChapter(chapterId, showHidden = false) {
         return response.data.data.chapterById;
       })
       .then(chapter => dispatch(readerSelectChapter(chapter)))
-      .catch(err => {
-        console.error(err);
-        dispatch(readerHasErrored(true));
-      });
+      .catch(err => dispatch(readerHasErrored(true)));
   };
 }
