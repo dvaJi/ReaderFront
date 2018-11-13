@@ -41,7 +41,7 @@
     "js-cookie": "^2.2.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
-    "react": "^16.6.1",
+    "react": "^16.6.3",
     "react-datepicker": "^1.8.0",
     "react-dom": "^16.6.1",
     "react-dropzone": "7.0.0",
