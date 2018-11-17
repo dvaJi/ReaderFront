@@ -42,7 +42,7 @@
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.6.1",
-    "react-datepicker": "^1.8.0",
+    "react-datepicker": "^2.0.0",
     "react-dom": "^16.6.1",
     "react-dropzone": "7.0.0",
     "react-ga": "^2.5.3",
