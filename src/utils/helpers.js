@@ -146,3 +146,14 @@ function queryDataType(data) {
       return 'String';
   }
 }
+
+export function hashCode(string) {
+  if (!string) {
+    return 0;
+  }
+
+  for (var index = 0, hash = 0; index < string.length; index++) {
+    hash = (Math.imul(31, hash) + string.charCodeAt(index)) | 0;
+  }
+  return hash;
+}

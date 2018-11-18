@@ -22,7 +22,7 @@ import {
 } from 'reactstrap';
 
 // App imports
-import { renderIf } from '../../utils/helpers';
+import { renderIf, hashCode } from '../../utils/helpers';
 import { getChapterPageUrl } from '../../utils/common';
 import {
   createOrUpdatePage,
@@ -33,6 +33,7 @@ import { fetchChapter as getChapter } from '../../reader/actions/doReader';
 import { upload } from '../../common/actions';
 import Preview from './Preview';
 import params from '../../params';
+import { slugify } from 'simple-slugify-string';
 
 class Detail extends Component {
   constructor(props) {
@@ -150,16 +151,22 @@ class Detail extends Component {
 
             this.props
               .createOrUpdatePage(pageToUpload)
-              .then(response => {
+              .then(responsePage => {
                 this.setState({
                   isLoading: false
                 });
-                if (response.data.errors && response.data.errors.length > 0) {
-                  this.setState({ error: response.data.errors[0].message });
+                if (
+                  responsePage.data.errors &&
+                  responsePage.data.errors.length > 0
+                ) {
+                  this.setState({ error: responsePage.data.errors[0].message });
                 } else {
                   file.uploaded = true;
                   file.isUploading = false;
                   file.hasError = false;
+                  file.size = file.file.size;
+                  file.file = undefined;
+                  file.filename = response.data.file;
                   const newPages = [
                     ...this.state.pages.filter(
                       p => p.filename !== file.filename
@@ -250,7 +257,9 @@ class Detail extends Component {
         isUploading: false,
         hasError: f.size > 2411724
       }))
-    ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+    ].sort((p1, p2) =>
+      slugify(p1.filename).localeCompare(slugify(p2.filename))
+    );
 
     this.setState({
       pages: newPages
@@ -348,12 +357,13 @@ class Detail extends Component {
           </p>
         </Dropzone>
         <aside id="pages-list">
-          {this.state.pages.map((f, index) => {
+          {this.state.pages.map(f => {
             const filename = f.file !== undefined ? f.file.name : f.filename;
             const isUploading = f.isUploading ? true : false;
+            const pageHash = hashCode(filename);
             const thumb =
               f.file !== undefined
-                ? f.file.preview
+                ? f.file
                 : getChapterPageUrl(
                     this.props.chapter.work,
                     this.props.chapter,
@@ -361,8 +371,8 @@ class Detail extends Component {
                   );
             return (
               <Preview
-                index={index}
-                key={thumb}
+                index={pageHash}
+                key={thumb + filename}
                 thumb={thumb}
                 isUploaded={f.uploaded}
                 isUploading={isUploading}
