@@ -211,6 +211,29 @@ const StyledSpinner = styled(FontAwesomeIcon)`
 `;
 
 class Preview extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      thumb: null
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.thumb !== this.props.thumb ||
+      nextState.thumb !== this.state.thumb ||
+      nextProps.isUploaded !== this.props.isUploaded ||
+      nextProps.isUploading !== this.props.isUploading ||
+      nextProps.isDefaultPage !== this.props.isDefaultPage ||
+      nextProps.hasError !== this.props.hasError ||
+      nextProps.page !== this.props.page
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   bytesToSize(bytes, fixed = 0) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     if (bytes === undefined || bytes === 0) return 0;
@@ -233,6 +256,15 @@ class Preview extends Component {
       handleUpload,
       intl
     } = this.props;
+    if (typeof thumb === 'object' && thumb instanceof Blob) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({ thumb: reader.result });
+      };
+      reader.readAsDataURL(thumb);
+    } else {
+      this.setState({ thumb: thumb });
+    }
     const size = page.file !== undefined ? page.file.size : page.size;
     return (
       <Card
@@ -240,7 +272,7 @@ class Preview extends Component {
         isuploaded={isUploaded}
         hasError={hasError}
       >
-        <CardHero thumb={thumb}>
+        <CardHero thumb={this.state.thumb}>
           {!isDefaultPage &&
             isUploaded &&
             !isUploading && (
