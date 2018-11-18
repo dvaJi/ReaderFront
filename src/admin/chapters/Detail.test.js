@@ -125,7 +125,7 @@ it('should delete all pages', async () => {
 
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
-  div.setAttribute('id', 'select-default-0');
+  div.setAttribute('id', 'select-default-1298337316');
   document.body.appendChild(div);
 
   const wrapper = await mountWithIntl(
