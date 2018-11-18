@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -332,7 +331,7 @@ class CreateOrEdit extends Component {
                 />
               </Label>
               <DatePicker
-                selected={moment(this.state.chapter.releaseDate)}
+                selected={this.state.chapter.releaseDate}
                 onChange={this.onChangeDate}
                 className="form-control"
               />
