@@ -39,6 +39,9 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: yarn build
+      - run:
+          name: Add Server to known_hosts
+          command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
       - add_ssh_keys:
           fingerprints:
           - "84:9e:f6:94:0c:6f:ff:10:95:9d:23:bd:9a:48:11:f5"
