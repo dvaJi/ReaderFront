@@ -39,6 +39,9 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
       - run: yarn build
+      - add_ssh_keys:
+        fingerprints:
+          - "84:9e:f6:94:0c:6f:ff:10:95:9d:23:bd:9a:48:11:f5"
       - run:
           name: Deploy to ravens-scans.com
           command: |
