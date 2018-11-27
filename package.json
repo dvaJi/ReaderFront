@@ -83,7 +83,7 @@
     "pretty-quick": "^1.8.0",
     "react-intl-translations-manager": "^5.0.3",
     "redux-devtools": "^3.4.2",
-    "redux-devtools-extension": "~2.13.5",
+    "redux-devtools-extension": "~2.13.7",
     "redux-mock-store": "^1.5.3",
     "source-map-explorer": "^1.6.0",
     "standard-version": "^4.4.0"
