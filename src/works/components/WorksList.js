@@ -59,13 +59,7 @@ export default class WorkList extends PureComponent {
 
       mapList.forEach((workList, index) => {
         rows.push(
-          <Lazyload
-            key={index}
-            height={220}
-            once={true}
-            throttle={200}
-            offset={100}
-          >
+          <Lazyload key={index} height={220}>
             <div>{workList.map(work => work)}</div>
           </Lazyload>
         );

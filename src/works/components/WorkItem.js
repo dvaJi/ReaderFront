@@ -63,6 +63,7 @@ const CardBody = styled.div`
   }
 
   .card-body-description {
+    padding-left: 40px;
     ${props =>
       props.size === 'small'
         ? 'padding-left: 0;font-size: 0.9rem;color: #8a8e94;'
@@ -98,7 +99,7 @@ export default class WorkItem extends PureComponent {
             {size !== 'small' && (
               <h2 className="card-body-heading">{work.name}</h2>
             )}
-            <ul className="card-body-description">{truncate(work)}</ul>
+            <p className="card-body-description">{truncate(work)}</p>
           </CardBody>
         </Card>
       </Link>
