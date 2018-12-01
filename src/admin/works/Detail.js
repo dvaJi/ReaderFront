@@ -127,82 +127,85 @@ class Detail extends PureComponent {
                     </td>
                   </tr>
                 ) : this.props.chapters.length > 0 ? (
-                  this.props.chapters.map(
-                    ({
-                      id,
-                      stub,
-                      uniqid,
-                      name,
-                      chapter,
-                      subchapter,
-                      volume,
-                      language,
-                      createdAt,
-                      updatedAt
-                    }) => (
-                      <tr key={id}>
-                        <td>{volume}</td>
-                        <td>
-                          <Link
-                            to={
-                              '/admincp/work/' +
-                              this.props.match.params.workId +
-                              '/' +
-                              this.props.match.params.stub +
-                              '/chapter/' +
-                              id
-                            }
-                          >
-                            {chapter}.{subchapter}
-                          </Link>
-                        </td>
-
-                        <td>{name}</td>
-
-                        <td style={{ textAlign: 'center' }}>
-                          {
-                            this.state.languages.find(pl => pl.id === language)
-                              .name
-                          }
-                        </td>
-
-                        <td>{new Date(createdAt).toDateString()}</td>
-
-                        <td>{new Date(updatedAt).toDateString()}</td>
-
-                        <td style={{ textAlign: 'center' }}>
-                          <ButtonGroup size="sm">
-                            <Button
-                              id={'edit-' + id}
-                              tag={Link}
+                  this.props.chapters
+                    .sort((ch1, ch2) => ch2.chapter - ch1.chapter)
+                    .map(
+                      ({
+                        id,
+                        stub,
+                        uniqid,
+                        name,
+                        chapter,
+                        subchapter,
+                        volume,
+                        language,
+                        createdAt,
+                        updatedAt
+                      }) => (
+                        <tr key={id}>
+                          <td>{volume}</td>
+                          <td>
+                            <Link
                               to={
                                 '/admincp/work/' +
                                 this.props.match.params.workId +
                                 '/' +
                                 this.props.match.params.stub +
-                                '/chapter/edit/' +
+                                '/chapter/' +
                                 id
                               }
                             >
-                              <FormattedMessage
-                                id="edit"
-                                defaultMessage="Edit"
-                              />
-                            </Button>
-                            <Button
-                              id={'remove-' + id}
-                              onClick={this.remove.bind(this, id)}
-                            >
-                              <FormattedMessage
-                                id="delete"
-                                defaultMessage="Delete"
-                              />
-                            </Button>
-                          </ButtonGroup>
-                        </td>
-                      </tr>
+                              {chapter}.{subchapter}
+                            </Link>
+                          </td>
+
+                          <td>{name}</td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            {
+                              this.state.languages.find(
+                                pl => pl.id === language
+                              ).name
+                            }
+                          </td>
+
+                          <td>{new Date(createdAt).toDateString()}</td>
+
+                          <td>{new Date(updatedAt).toDateString()}</td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <ButtonGroup size="sm">
+                              <Button
+                                id={'edit-' + id}
+                                tag={Link}
+                                to={
+                                  '/admincp/work/' +
+                                  this.props.match.params.workId +
+                                  '/' +
+                                  this.props.match.params.stub +
+                                  '/chapter/edit/' +
+                                  id
+                                }
+                              >
+                                <FormattedMessage
+                                  id="edit"
+                                  defaultMessage="Edit"
+                                />
+                              </Button>
+                              <Button
+                                id={'remove-' + id}
+                                onClick={this.remove.bind(this, id)}
+                              >
+                                <FormattedMessage
+                                  id="delete"
+                                  defaultMessage="Delete"
+                                />
+                              </Button>
+                            </ButtonGroup>
+                          </td>
+                        </tr>
+                      )
                     )
-                  )
                 ) : (
                   <tr>
                     <td colSpan="6">
