@@ -9,12 +9,12 @@ import ReactGA from 'react-ga';
 
 import * as config from './config';
 import Routes from './Routes';
-import Header from './layout/header';
+import Layout from './layout';
 import {
   setUser,
   loginSetUserLocalStorageAndCookie
 } from './user/actions/doUser';
-import 'bootstrap/dist/css/bootstrap.css';
+import 'antd/dist/antd.css';
 import './App.css';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
@@ -57,10 +57,7 @@ class App extends Component {
       <Provider store={store}>
         <IntlProvider store={store}>
           <ConnectedRouter history={history}>
-            <div className="App">
-              <Header />
-              {Routes}
-            </div>
+            <Layout>{Routes}</Layout>
           </ConnectedRouter>
         </IntlProvider>
       </Provider>

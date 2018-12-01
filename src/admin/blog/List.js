@@ -253,25 +253,24 @@ class List extends PureComponent {
             </Table>
           </div>
         </div>
-        {this.props.postsAgg &&
-          this.props.postsAgg.count > this.state.perPage && (
-            <Pagination aria-label="pagination">
-              {new Array(
-                Math.ceil(this.props.postsAgg.count / this.state.perPage)
-              )
-                .fill('pag')
-                .map((pg, index) => (
-                  <PaginationItem
-                    key={pg + index}
-                    active={this.state.page === index}
-                  >
-                    <PaginationLink onClick={e => this.handlePagination(index)}>
-                      {index + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-            </Pagination>
-          )}
+        {this.props.postsAgg && this.props.postsAgg.count > this.state.perPage && (
+          <Pagination aria-label="pagination">
+            {new Array(
+              Math.ceil(this.props.postsAgg.count / this.state.perPage)
+            )
+              .fill('pag')
+              .map((pg, index) => (
+                <PaginationItem
+                  key={pg + index}
+                  active={this.state.page === index}
+                >
+                  <PaginationLink onClick={e => this.handlePagination(index)}>
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+          </Pagination>
+        )}
       </Container>
     );
   }

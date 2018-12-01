@@ -101,17 +101,15 @@ export function fetchWorks(
         return response.data.data.works;
       })
       .then(works => works.map(work => normalizeWork(work)))
-      .then(
-        works =>
-          sort !== 'ASC'
-            ? dispatch(worksCustomDataSuccess(works))
-            : dispatch(worksFetchDataSuccess(works))
+      .then(works =>
+        sort !== 'ASC'
+          ? dispatch(worksCustomDataSuccess(works))
+          : dispatch(worksFetchDataSuccess(works))
       )
-      .then(
-        () =>
-          sort !== 'ASC'
-            ? dispatch(latestWorksIsLoading(false))
-            : dispatch(worksIsLoading(false))
+      .then(() =>
+        sort !== 'ASC'
+          ? dispatch(latestWorksIsLoading(false))
+          : dispatch(worksIsLoading(false))
       )
       .catch(err => {
         dispatch(worksHasErrored(true));

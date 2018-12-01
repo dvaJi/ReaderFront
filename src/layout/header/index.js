@@ -1,32 +1,29 @@
 import React, { Component } from "react";
+import { Layout, Menu } from 'antd';
 import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom';
 import { FormattedMessage } from "react-intl";
-import { doChangeLanguage } from "../actions/doChangeLanguage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
-import { faDiscord, faPatreon } from "@fortawesome/free-brands-svg-icons";
-import {
-  faBook,
-  faThList,
-  faRss,
-  faHome
-} from "@fortawesome/free-solid-svg-icons";
-import * as config from "../../config";
-import { renderIf, isAuthRoute, isAdminRoute } from "../../utils/helpers";
-import RouteNavItem from "./RouteNavItem";
-import LangNavItem from "./LangNavItem";
 
-class Header extends Component {
+// App imports
+import * as config from "../../config";
+import { doChangeLanguage } from "../actions/doChangeLanguage";
+import { ADMIN_ROUTES, PUBLIC_ROUTES } from "./routesNav";
+import { renderIf, isAuthRoute, isAdminRoute } from "../../utils/helpers";
+
+const { Header } = Layout;
+
+class Navbar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      languages: ['es', 'en']
     };
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.renderNav = this.renderNav.bind(this);
-    this.renderAdminNav = this.renderAdminNav.bind(this);
   }
 
   toggleNavbar() {
@@ -39,133 +36,70 @@ class Header extends Component {
     this.props.doChangeLanguage(lang);
   }
 
-  renderLangNav() {
-    return (
-      <Nav className="ml-auto" navbar>
-        <LangNavItem
-          cookielang={this.props.language}
-          language="es"
-          onClick={e => this.handleChangeLanguage("es")}
-        >
-          ES
-        </LangNavItem>
-        <LangNavItem
-          cookielang={this.props.language}
-          language="en"
-          onClick={e => this.handleChangeLanguage("en")}
-        >
-          EN
-        </LangNavItem>
-      </Nav>
-    );
+  renderLanguageNav() {
+    return this.state.languages.map(lang => (
+      <Menu.Item
+        key={"lang_" + lang}
+        language={lang}
+        onClick={e => this.handleChangeLanguage(lang)}
+      >
+        {lang.toUpperCase()}
+      </Menu.Item>
+    ));
   }
 
-  renderNav() {
-    return (
-      <Navbar
-        color="white"
-        fixed="true"
-        light
-        expand="md"
-        style={{ padding: "0.1rem 1rem 0 1rem" }}
-      >
-        <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
-        <NavbarToggler onClick={this.toggleNavbar} />
-        {this.renderLangNav()}
-        <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <RouteNavItem to="/" exact>
-              <FontAwesomeIcon icon={faHome} />
-              <FormattedMessage id="home" defaultMessage="Home" />
-            </RouteNavItem>
-            <RouteNavItem to="/releases">
-              <FontAwesomeIcon icon={faThList} />
-              <FormattedMessage id="releases" defaultMessage="Releases" />
-            </RouteNavItem>
-            <RouteNavItem to="/work/all">
-              <FontAwesomeIcon icon={faBook} />
-              <FormattedMessage id="projects" defaultMessage="Projects" />
-            </RouteNavItem>
-            <RouteNavItem to="/blog">
-              <FontAwesomeIcon icon={faRss} />
-              Blog
-            </RouteNavItem>
-            {config.DISCORD_URL && (
-              <RouteNavItem
-                to={config.DISCORD_URL}
-                target="_blank"
-                rel="noopener"
-              >
-                <FontAwesomeIcon icon={faDiscord} />
-                Discord
-              </RouteNavItem>
-            )}
-            {config.PATREON_URL && (
-              <RouteNavItem
-                to={config.PATREON_URL}
-                target="_blank"
-                rel="noopener"
-              >
-                <FontAwesomeIcon icon={faPatreon} />
-                Patreon
-              </RouteNavItem>
-            )}
-          </Nav>
-        </Collapse>
-      </Navbar>
-    );
-  }
-
-  renderAdminNav() {
-    return (
-      <Navbar
-        color="white"
-        fixed="true"
-        light
-        expand="md"
-        style={{ padding: "0.1rem 1rem 0 1rem" }}
-      >
-        <NavbarBrand to="/">{config.APP_TITLE}</NavbarBrand>
-        <NavbarToggler onClick={this.toggleNavbar} />
-        {this.renderLangNav()}
-        <Collapse isOpen={this.state.isOpen} navbar>
-          <Nav className="ml-auto" navbar>
-            <RouteNavItem to="/admincp/dashboard" exact>
-              <FormattedMessage id="dashboard" defaultMessage="Dashboard" />
-            </RouteNavItem>
-            <RouteNavItem to="/admincp/work">
-              <FormattedMessage id="projects" defaultMessage="Projects" />
-            </RouteNavItem>
-            <RouteNavItem to="/admincp/blog">
-              <FormattedMessage id="blog" defaultMessage="Blog" />
-            </RouteNavItem>
-            <RouteNavItem to="/admincp/preferences" exact>
-              <FormattedMessage id="settings" defaultMessage="Settings" />
-            </RouteNavItem>
-          </Nav>
-        </Collapse>
-      </Navbar>
-    );
+  renderNav(routes) {
+    return routes
+    .sort((r1, r2) => r2.position - r1.position)
+    .map(route => {
+      return (
+        route.show && (
+          <Menu.Item key={route.to} style={{ float: "right" }}>
+            <NavLink
+              to={route.to}
+              activeClassName="active"
+              exact={true}
+            >
+              {route.icon && <FontAwesomeIcon style={{marginRight: '3px'}} icon={route.icon} />}
+              <FormattedMessage
+                id={route.msgId}
+                defaultMessage={route.msgDefault}
+              />
+            </NavLink>
+          </Menu.Item>
+        )
+      );
+    });
   }
 
   render() {
-    return (
-      renderIf(
-        !isAuthRoute(this.props.route) && !isAdminRoute(this.props.route),
-        this.renderNav
-      ) ||
-      renderIf(
-        !isAuthRoute(this.props.route) && isAdminRoute(this.props.route),
-        this.renderAdminNav
-      )
-    );
+    const langSelected = 'lang_' + this.props.language;
+    return renderIf(!isAuthRoute(this.props.route), () => (
+      <Header style={{ zIndex: 1, width: "100%", padding: "0px" }}>
+        <div style={{ fontSize: "large", float: "left", paddingLeft: "10px" }}>
+          {config.APP_TITLE}
+        </div>
+        <Menu
+          theme="light"
+          mode="horizontal"
+          selectedKeys={[this.props.currentPath, langSelected]}
+          style={{ lineHeight: "64px" }}
+        >
+          {this.renderNav(
+            isAdminRoute(this.props.route) ? ADMIN_ROUTES : PUBLIC_ROUTES
+          )}
+          {this.renderLanguageNav()}
+        </Menu>
+      </Header>
+    ));
   }
 }
 
 const mapStateToProps = state => {
   return {
     language: state.layout.language,
-    route: state.router.location
+    route: state.router.location,
+    currentPath: state.router.location.pathname
   };
 };
 
@@ -182,4 +116,4 @@ export default connect(
   {
     pure: false
   }
-)(Header);
+)(Navbar);

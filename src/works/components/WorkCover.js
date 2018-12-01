@@ -94,15 +94,14 @@ export default class WorkCover extends PureComponent {
             </Overlay>
           )}
         </Cover>
-        {this.props.size !== 'small' &&
-          this.props.statusTag && (
-            <Tag
-              statusColorBg={this.props.statusTag.background}
-              statusColorTxt={this.props.statusTag.color}
-            >
-              {this.props.status}
-            </Tag>
-          )}
+        {this.props.size !== 'small' && this.props.statusTag && (
+          <Tag
+            statusColorBg={this.props.statusTag.background}
+            statusColorTxt={this.props.statusTag.color}
+          >
+            {this.props.status}
+          </Tag>
+        )}
       </CardMedia>
     );
   }
