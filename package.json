@@ -44,7 +44,7 @@
     "react-datepicker": "^2.0.0",
     "react-dom": "^16.6.3",
     "react-dropzone": "7.0.0",
-    "react-ga": "^2.5.3",
+    "react-ga": "^2.5.6",
     "react-helmet": "^5.2.0",
     "react-intl": "^2.7.2",
     "react-intl-redux": "^2.0.2",
