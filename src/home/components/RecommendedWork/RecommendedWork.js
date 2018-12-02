@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+// App imports
 import { getWorkThumb } from '../../../utils/common';
 
 const Overlay = styled.div`
@@ -82,9 +84,9 @@ export default class RecommendedWork extends PureComponent {
     const { work, isLoading, description } = this.props;
     return (
       <div className="Recommended mb-4">
-        <h3>
+        <h1>
           <FormattedMessage id="random" defaultMessage="Random" />
-        </h3>
+        </h1>
         {!isLoading ? (
           <Serie to={`work/${work.stub}`} cover={this.getCover(work)}>
             <Overlay>

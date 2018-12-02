@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'antd';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -11,6 +12,7 @@ import * as config from '../../config';
 import { subString } from '../../utils/helpers';
 
 // UI
+import { Container } from './styles';
 import ComicSlide from '../components/ComicSlide';
 import DiscordWidget from '../components/DiscordWidget';
 import RecommendedWork from '../components/RecommendedWork';
@@ -137,15 +139,15 @@ class HomeContainer extends Component {
           blocks={this.state.blocks}
           isLoading={this.props.isLoadingChapters}
         />
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
+        <Container>
+          <Row>
+            <Col xs={24} md={17}>
               <LatestWorks
                 works={this.props.latestWorks}
                 isLoading={this.props.latestWorksIsLoading}
               />
-            </div>
-            <div className="col-md-4">
+            </Col>
+            <Col xs={24} md={7}>
               <RecommendedWork
                 isLoading={this.props.workRandomIsLoading}
                 work={this.props.randomWork}
@@ -156,9 +158,9 @@ class HomeContainer extends Component {
                 }
               />
               <DiscordWidget discordId={config.DISCORD_ID} />
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }

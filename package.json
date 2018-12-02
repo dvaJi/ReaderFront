@@ -54,6 +54,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "next",
     "react-scripts": "^2.1.1",
+    "react-spring": "^6.1.10",
     "react-test-renderer": "^16.6.3",
     "react-transition-group": "^2.5.0",
     "redux": "^4.0.1",
