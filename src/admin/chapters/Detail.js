@@ -349,12 +349,14 @@ class Detail extends Component {
             borderRadius: '5px'
           }}
         >
-          <p style={{ paddingTop: '40px' }}>
-            <FormattedMessage
-              id="drop_or_browse_files"
-              defaultMessage="Drop or Browse images"
-            />
-          </p>
+          {({ getRootProps }) => (
+            <p {...getRootProps()} style={{ paddingTop: '40px' }}>
+              <FormattedMessage
+                id="drop_or_browse_files"
+                defaultMessage="Drop or Browse images"
+              />
+            </p>
+          )}
         </Dropzone>
         <aside id="pages-list">
           {this.state.pages.map(f => {
