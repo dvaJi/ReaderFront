@@ -342,20 +342,25 @@ class Detail extends Component {
           id="dropzone-pages"
           accept="image/jpeg, image/png"
           onDrop={this.onDrop.bind(this)}
-          style={{
-            background: '#edf0f4',
-            height: '100px',
-            textAlign: 'center',
-            borderRadius: '5px'
-          }}
         >
-          {({ getRootProps }) => (
-            <p {...getRootProps()} style={{ paddingTop: '40px' }}>
-              <FormattedMessage
-                id="drop_or_browse_files"
-                defaultMessage="Drop or Browse images"
-              />
-            </p>
+          {({ getRootProps, getInputProps }) => (
+            <div
+              {...getRootProps()}
+              style={{
+                background: '#edf0f4',
+                height: '100px',
+                textAlign: 'center',
+                borderRadius: '5px'
+              }}
+            >
+              <input {...getInputProps()} />
+              <p style={{ paddingTop: '40px' }}>
+                <FormattedMessage
+                  id="drop_or_browse_files"
+                  defaultMessage="Drop or Browse images"
+                />
+              </p>
+            </div>
           )}
         </Dropzone>
         <aside id="pages-list">
