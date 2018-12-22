@@ -71,7 +71,11 @@ it('should render without throwing an error when it receive a new language props
       language: 'en'
     }
   });
-  const wrapper = await mountWithIntl(<WorksContainer store={store} />);
+  const wrapper = await mountWithIntl(
+    <Provider store={store}>
+      <WorksContainer />
+    </Provider>
+  );
   await wrapper.update();
   wrapper.setProps({ language: 'es' });
 
