@@ -23,7 +23,11 @@ it('should render without throwing an error', () => {
   const store = mockStore({
     user: {}
   });
-  const wrapper = shallowWithIntl(<SignupContainer store={store} />);
+  const wrapper = shallowWithIntl(
+    <Provider store={store}>
+      <SignupContainer />
+    </Provider>
+  );
 
   expect(wrapper).toBeTruthy();
 });
@@ -43,10 +47,7 @@ it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <SignupContainer
-          store={store}
-          router={{ location: { pathname: 'AS' } }}
-        />
+        <SignupContainer router={{ location: { pathname: 'AS' } }} />
       </MemoryRouter>
     </Provider>
   );
@@ -99,10 +100,7 @@ it('should render an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <SignupContainer
-          store={store}
-          router={{ location: { pathname: 'AS' } }}
-        />
+        <SignupContainer router={{ location: { pathname: 'AS' } }} />
       </MemoryRouter>
     </Provider>
   );

@@ -1,9 +1,8 @@
 import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { MemoryRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
-import { history } from '../store';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -24,9 +23,9 @@ it('should render without throwing an error', () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <MemoryRouter>
         <Dashboard />
-      </ConnectedRouter>
+      </MemoryRouter>
     </Provider>
   );
 

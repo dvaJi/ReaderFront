@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import { IntlProvider } from 'react-intl-redux';
 import store, { history } from './store';
 import { addLocaleData } from 'react-intl';
@@ -55,7 +55,7 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <IntlProvider store={store}>
+        <IntlProvider>
           <ConnectedRouter history={history}>
             <div className="App">
               <Header />

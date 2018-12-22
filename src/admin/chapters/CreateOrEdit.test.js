@@ -54,7 +54,7 @@ describe('Create or Edit Chapter tests', () => {
       const wrapper = await mountWithIntl(
         <Provider store={store}>
           <MemoryRouter>
-            <CreateOrEdit store={store} match={paramsWChapter} />
+            <CreateOrEdit match={paramsWChapter} />
           </MemoryRouter>
         </Provider>
       );
@@ -90,7 +90,7 @@ describe('Create or Edit Chapter tests', () => {
       const wrapper = await mountWithIntl(
         <Provider store={store}>
           <MemoryRouter>
-            <CreateOrEdit store={store} match={paramsWChapter} />
+            <CreateOrEdit match={paramsWChapter} />
           </MemoryRouter>
         </Provider>
       );
@@ -128,7 +128,7 @@ describe('Create or Edit Chapter tests', () => {
       const wrapper = await mountWithIntl(
         <Provider store={store}>
           <MemoryRouter>
-            <CreateOrEdit store={store} match={params} />
+            <CreateOrEdit match={params} />
           </MemoryRouter>
         </Provider>
       );

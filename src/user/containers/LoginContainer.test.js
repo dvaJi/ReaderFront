@@ -20,10 +20,7 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
-  const store = mockStore({
-    user: {}
-  });
-  const wrapper = shallowWithIntl(<LoginContainer store={store} />);
+  const wrapper = shallowWithIntl(<LoginContainer />);
 
   expect(wrapper).toBeTruthy();
 });
@@ -44,7 +41,6 @@ it('should render without throwing an error', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <LoginContainer
-          store={store}
           router={{ location: { pathname: 'AS' } }}
           user={{ isLoading: false, error: null }}
         />
@@ -98,7 +94,6 @@ it('should render an error if login not match', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <LoginContainer
-          store={store}
           router={{ location: { pathname: 'AS' } }}
           user={{ isLoading: false, error: null }}
         />

@@ -52,7 +52,7 @@ it('should render without throwing an error', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <List store={store} />
+        <List />
       </MemoryRouter>
     </Provider>
   );
@@ -82,7 +82,7 @@ it('should render when is loading without throwing an error', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <List store={store} />
+        <List />
       </MemoryRouter>
     </Provider>
   );
@@ -112,7 +112,7 @@ it('should show a message when works list is empty without throwing an error', (
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <List store={store} />
+        <List />
       </MemoryRouter>
     </Provider>
   );
@@ -145,7 +145,7 @@ it('should change pagination without throwing an error', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <List store={store} />
+        <List />
       </MemoryRouter>
     </Provider>
   );
@@ -183,7 +183,7 @@ it('should call removeWork when Remove button is clicked without throwing an err
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <List store={store} />
+        <List />
       </MemoryRouter>
     </Provider>
   );

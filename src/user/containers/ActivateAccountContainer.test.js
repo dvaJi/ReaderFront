@@ -19,12 +19,8 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
-  const store = mockStore({
-    user: {}
-  });
   const wrapper = shallowWithIntl(
     <ActivateAccountContainer
-      store={store}
       location={{ search: '?email=test@aa.com&token=t0k3n' }}
       router={{ location: { pathname: 'AS' } }}
     />
@@ -49,7 +45,6 @@ it('should show a success message if account is activated', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ActivateAccountContainer
-          store={store}
           router={{ location: { pathname: 'AS' } }}
           location={{ search: '?email=test@aa.com&token=t0k3n' }}
         />
@@ -91,7 +86,6 @@ it('should show an error message if account can not be activated', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ActivateAccountContainer
-          store={store}
           router={{ location: { pathname: 'AS' } }}
           location={{ search: '?email=test@aa.com&token=t0k3n' }}
         />

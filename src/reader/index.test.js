@@ -1,20 +1,33 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
+import { MemoryRouter } from 'react-router-dom';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import Reader from './';
-import store, { history } from '../store';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
 
 it('should render without throwing an error', () => {
-  jest.spyOn(console, 'error');
-  global.console.error.mockImplementation(() => {});
-  const wrapper = mount(
+  const store = mockStore({
+    reader: {},
+    match: {
+      params: {
+        stub: 'mango'
+      }
+    },
+    layout: {
+      language: 'es'
+    }
+  });
+
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <MemoryRouter>
         <Reader />
-      </ConnectedRouter>
+      </MemoryRouter>
     </Provider>
   );
-  global.console.error.mockRestore();
   wrapper.unmount();
 });
