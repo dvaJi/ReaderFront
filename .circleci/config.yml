@@ -46,18 +46,18 @@ jobs:
           fingerprints:
           - "84:9e:f6:94:0c:6f:ff:10:95:9d:23:bd:9a:48:11:f5"
       - run:
-          name: Deploy to ravens-scans.com
+          name: Deploy
           command: |
-            ssh $SSH_USER@$SSH_HOST; ./deploy_front.sh; echo "Done!";
+            ssh $SSH_USER@$SSH_HOST "./deploy_front.sh"
 
 workflows:
   version: 2
   test-build-and-deploy:
     jobs:
-      - build
-      - test:
+      - test
+      - build:
           requires:
-            - build
+            - test
       - deploy:
           requires:
             - build
