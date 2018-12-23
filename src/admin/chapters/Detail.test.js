@@ -65,7 +65,7 @@ it('should render the chapter with pages', async () => {
   const wrapper = await mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <Detail store={store} match={params} />
+        <Detail match={params} />
       </MemoryRouter>
     </Provider>
   );
@@ -101,7 +101,7 @@ it('should render the chapter without pages', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <Detail store={store} match={params} />
+        <Detail match={params} />
       </MemoryRouter>
     </Provider>
   );
@@ -131,7 +131,7 @@ it('should delete all pages', async () => {
   const wrapper = await mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <Detail store={store} match={params} />
+        <Detail match={params} />
       </MemoryRouter>
     </Provider>
   );
@@ -182,7 +182,7 @@ it('should upload all pages', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ErrorBoundary>
-          <Detail store={store} match={params} />
+          <Detail match={params} />
         </ErrorBoundary>
       </MemoryRouter>
     </Provider>
@@ -198,10 +198,7 @@ it('should upload all pages', async () => {
 
   await wrapper.update();
 
-  const props = await wrapper
-    .find(Detail)
-    .props()
-    .store.getState();
+  const props = await wrapper.find(Detail).props();
 
   expect(props).toBeDefined();
 
@@ -250,7 +247,7 @@ it('should allow to set a page as default', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ErrorBoundary>
-          <Detail store={store} match={params} />
+          <Detail match={params} />
         </ErrorBoundary>
       </MemoryRouter>
     </Provider>
@@ -261,10 +258,7 @@ it('should allow to set a page as default', async () => {
 
   await wrapper.update();
 
-  const props = await wrapper
-    .find(Detail)
-    .props()
-    .store.getState();
+  const props = await wrapper.find(Detail).props();
 
   expect(props).toBeDefined();
 
@@ -300,7 +294,7 @@ it('should allow to add pages', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ErrorBoundary>
-          <Detail store={store} match={params} />
+          <Detail match={params} />
         </ErrorBoundary>
       </MemoryRouter>
     </Provider>
@@ -352,7 +346,7 @@ it('should show an error message', async () => {
     <Provider store={store}>
       <MemoryRouter>
         <ErrorBoundary>
-          <Detail store={store} match={params} />
+          <Detail match={params} />
         </ErrorBoundary>
       </MemoryRouter>
     </Provider>

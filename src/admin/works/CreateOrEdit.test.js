@@ -34,7 +34,7 @@ it('should render without throwing an error', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <CreateOrEdit store={store} />
+        <CreateOrEdit />
       </MemoryRouter>
     </Provider>
   );
@@ -54,7 +54,7 @@ it('should fill the form without throwing an error', () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <CreateOrEdit store={store} />
+        <CreateOrEdit />
       </MemoryRouter>
     </Provider>
   );
@@ -90,7 +90,7 @@ it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <CreateOrEdit store={store} />
+        <CreateOrEdit />
       </MemoryRouter>
     </Provider>
   );
@@ -127,7 +127,7 @@ it('should add a language without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <Provider store={store}>
       <MemoryRouter>
-        <CreateOrEdit store={store} />
+        <CreateOrEdit />
       </MemoryRouter>
     </Provider>
   );
