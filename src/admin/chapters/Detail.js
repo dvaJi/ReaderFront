@@ -4,6 +4,7 @@ import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import { slugify } from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -22,7 +23,8 @@ import {
 } from 'reactstrap';
 
 // App imports
-import { renderIf, hashCode } from '../../utils/helpers';
+import params from '../../params';
+import { renderIf, forEachSeries } from '../../utils/helpers';
 import { getChapterPageUrl } from '../../utils/common';
 import {
   createOrUpdatePage,
@@ -31,9 +33,8 @@ import {
 } from '../../releases/actions/doReleases';
 import { fetchChapter as getChapter } from '../../reader/actions/doReader';
 import { upload } from '../../common/actions';
-import Preview from './Preview';
-import params from '../../params';
-import { slugify } from 'simple-slugify-string';
+import PagesList from './PagesList';
+import DetailActions from './DetailActions';
 
 class Detail extends Component {
   constructor(props) {
@@ -59,12 +60,15 @@ class Detail extends Component {
       pages: [],
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
-      )
+      ),
+      pageView: 'list'
     };
 
+    this.handlePageViewChange = this.handlePageViewChange.bind(this);
     this.toggleModalDelete = this.toggleModalDelete.bind(this);
     this.renderDropzone = this.renderDropzone.bind(this);
     this.setDefaultPage = this.setDefaultPage.bind(this);
+    this.uploadSelected = this.uploadSelected.bind(this);
     this.removePage = this.removePage.bind(this);
     this.onUpload = this.onUpload.bind(this);
   }
@@ -116,110 +120,91 @@ class Detail extends Component {
   }
 
   async onUpload(file) {
-    if (file.file.size <= 2411724) {
-      file.isUploading = true;
-      file.hasError = false;
-      await this.setState({
-        isLoading: true,
-        pages: [
-          ...this.state.pages.filter(p => p.filename !== file.filename),
-          file
-        ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
-      });
+    file.isUploading = true;
+    file.hasError = false;
+    await this.setState({
+      isLoading: true,
+      pages: [
+        ...this.state.pages.filter(p => p.filename !== file.filename),
+        file
+      ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
+    });
 
-      let data = new FormData();
-      data.append('file', file.file);
+    let data = new FormData();
+    data.append('file', file.file);
 
-      // Upload image
-      this.props
-        .upload(data)
-        .then(async response => {
-          if (response.status === 200) {
-            const newPage = {
-              chapterId: this.state.chapter.id,
-              filename: response.data.file,
-              hidden: false,
-              height: 0,
-              width: 0,
-              size: file.file.size,
-              mime: file.file.type,
-              file: file.file
-            };
+    // Upload image
+    return await this.props
+      .upload(data)
+      .then(async response => {
+        if (response.status === 200) {
+          const newPage = {
+            chapterId: this.state.chapter.id,
+            filename: response.data.file,
+            hidden: false,
+            height: 0,
+            width: 0,
+            size: file.file.size,
+            mime: file.file.type,
+            file: file.file
+          };
 
-            const pageToUpload = Object.assign({}, newPage);
-            delete pageToUpload.file;
+          const pageToUpload = Object.assign({}, newPage);
+          delete pageToUpload.file;
 
-            this.props
-              .createOrUpdatePage(pageToUpload)
-              .then(responsePage => {
-                this.setState({
-                  isLoading: false
-                });
-                if (
-                  responsePage.data.errors &&
-                  responsePage.data.errors.length > 0
-                ) {
-                  this.setState({ error: responsePage.data.errors[0].message });
-                } else {
-                  file.uploaded = true;
-                  file.isUploading = false;
-                  file.hasError = false;
-                  file.size = file.file.size;
-                  file.file = undefined;
-                  file.filename = response.data.file;
-                  const newPages = [
-                    ...this.state.pages.filter(
-                      p => p.filename !== file.filename
-                    ),
-                    file
-                  ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
-
-                  this.setState({
-                    chapter: {
-                      ...this.state.chapter,
-                      pages: [...this.state.pages, newPage].sort((p1, p2) =>
-                        p1.filename.localeCompare(p2.filename)
-                      )
-                    },
-                    pages: newPages
-                  });
-                }
-              })
-              .catch(error => {
+          return await this.props
+            .createOrUpdatePage(pageToUpload)
+            .then(responsePage => {
+              this.setState({
+                isLoading: false
+              });
+              if (
+                responsePage.data.errors &&
+                responsePage.data.errors.length > 0
+              ) {
+                this.setState({ error: responsePage.data.errors[0].message });
+              } else {
+                file.id = responsePage.data.data.pageCreate.id;
+                file.uploaded = true;
                 file.isUploading = false;
-                file.hasError = true;
+                file.hasError = false;
+                file.size = file.file.size;
+                file.file = undefined;
+                file.filename = response.data.file;
                 const newPages = [
                   ...this.state.pages.filter(p => p.filename !== file.filename),
                   file
                 ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
                 this.setState({
-                  error: this.props.intl.formatMessage({
-                    id: 'unknown_error',
-                    defaultMessage: 'There was some error. Please try again.'
-                  }),
-                  isLoading: false,
+                  chapter: {
+                    ...this.state.chapter,
+                    pages: [...this.state.pages, newPage].sort((p1, p2) =>
+                      p1.filename.localeCompare(p2.filename)
+                    )
+                  },
                   pages: newPages
                 });
-              });
-          } else {
-            file.isUploading = false;
-            file.hasError = true;
-            const newPages = [
-              ...this.state.pages.filter(p => p.filename !== file.filename),
-              file
-            ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+              }
+            })
+            .catch(error => {
+              file.isUploading = false;
+              file.hasError = true;
+              const newPages = [
+                ...this.state.pages.filter(p => p.filename !== file.filename),
+                file
+              ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-            this.setState({
-              error: this.props.intl.formatMessage({
-                id: 'try_again',
-                defaultMessage: 'Please try again.'
-              }),
-              pages: newPages
+              this.setState({
+                error: this.props.intl.formatMessage({
+                  id: 'unknown_error',
+                  defaultMessage: 'There was some error. Please try again.'
+                }),
+                isLoading: false,
+                pages: newPages
+              });
             });
-          }
-        })
-        .catch(error => {
+        } else {
           file.isUploading = false;
           file.hasError = true;
           const newPages = [
@@ -229,22 +214,39 @@ class Detail extends Component {
 
           this.setState({
             error: this.props.intl.formatMessage({
-              id: 'unknown_error',
-              defaultMessage: 'There was some error. Please try again.'
+              id: 'try_again',
+              defaultMessage: 'Please try again.'
             }),
             pages: newPages
           });
+        }
+      })
+      .catch(error => {
+        file.isUploading = false;
+        file.hasError = true;
+        const newPages = [
+          ...this.state.pages.filter(p => p.filename !== file.filename),
+          file
+        ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+
+        this.setState({
+          error: this.props.intl.formatMessage({
+            id: 'unknown_error',
+            defaultMessage: 'There was some error. Please try again.'
+          }),
+          pages: newPages
         });
-    }
+      });
   }
 
   async uploadSelected() {
     const pagesToUpload = this.state.pages.filter(
       page => page.file !== undefined
     );
-    for (const page of pagesToUpload) {
+
+    await forEachSeries(pagesToUpload, async page => {
       await this.onUpload(page);
-    }
+    });
   }
 
   onDrop(files) {
@@ -292,9 +294,9 @@ class Detail extends Component {
       showModalDelete: false
     });
 
-    for (const page of this.state.pages) {
+    await forEachSeries(this.state.pages, async page => {
       await this.removePage(page);
-    }
+    });
 
     this.setState({
       chapter: { ...this.state.chapter, thumbnail: '' },
@@ -317,27 +319,19 @@ class Detail extends Component {
     });
   }
 
+  handlePageViewChange(view) {
+    this.setState({ pageView: view });
+  }
+
   renderDropzone() {
     return (
       <div>
-        <Button
-          id="upload-all-pages"
-          type="button"
-          onClick={e => this.uploadSelected()}
-        >
-          <FormattedMessage
-            id="upload_selected"
-            defaultMessage="Upload selected"
-          />
-        </Button>
-        {'  '}
-        <Button
-          id="delete-all-pages"
-          type="button"
-          onClick={this.toggleModalDelete}
-        >
-          <FormattedMessage id="delete_all" defaultMessage="Delete all" />
-        </Button>
+        <DetailActions
+          uploadAll={this.uploadSelected}
+          deleteAll={this.toggleModalDelete}
+          changeView={this.handlePageViewChange}
+          actualView={this.state.pageView}
+        />
         <Dropzone
           id="dropzone-pages"
           accept="image/jpeg, image/png"
@@ -348,9 +342,10 @@ class Detail extends Component {
               {...getRootProps()}
               style={{
                 background: '#edf0f4',
-                height: '100px',
+                height: 100,
                 textAlign: 'center',
-                borderRadius: '5px'
+                borderRadius: 5,
+                margin: 10
               }}
             >
               <input {...getInputProps()} />
@@ -363,36 +358,15 @@ class Detail extends Component {
             </div>
           )}
         </Dropzone>
-        <aside id="pages-list">
-          {this.state.pages.map(f => {
-            const filename = f.file !== undefined ? f.file.name : f.filename;
-            const isUploading = f.isUploading ? true : false;
-            const pageHash = hashCode(filename);
-            const thumb =
-              f.file !== undefined
-                ? f.file
-                : getChapterPageUrl(
-                    this.props.chapter.work,
-                    this.props.chapter,
-                    f.filename
-                  );
-            return (
-              <Preview
-                index={pageHash}
-                key={thumb + filename}
-                thumb={thumb}
-                isUploaded={f.uploaded}
-                isUploading={isUploading}
-                isDefaultPage={filename === this.state.chapter.thumbnail}
-                hasError={f.hasError}
-                handleUpload={this.onUpload}
-                handleSelectDefault={this.setDefaultPage}
-                handleRemovePage={this.removePage}
-                page={f}
-              />
-            );
-          })}
-        </aside>
+        <PagesList
+          pages={this.state.pages}
+          chapter={this.props.chapter}
+          defaultPage={this.state.chapter.thumbnail}
+          actualView={this.state.pageView}
+          handleUpload={this.onUpload}
+          handleSelectDefaultPage={this.setDefaultPage}
+          handleRemovePage={this.removePage}
+        />
       </div>
     );
   }

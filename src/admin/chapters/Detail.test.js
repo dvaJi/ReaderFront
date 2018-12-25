@@ -145,6 +145,8 @@ it('should delete all pages', async () => {
   await confirmRemoveAllButton.simulate('click');
   await wrapper.update();
 
+  await setTimeout(() => {}, 1000);
+
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
@@ -202,6 +204,8 @@ it('should upload all pages', async () => {
 
   expect(props).toBeDefined();
 
+  await setTimeout(() => {}, 1000);
+
   let request = moxios.requests.mostRecent();
   await request.respondWith({
     status: 200,
@@ -230,7 +234,7 @@ it('should upload all pages', async () => {
   wrapper.unmount();
 });
 
-it('should allow to set a page as default', async () => {
+it('should allow to set a page as default in with thumbnail view', async () => {
   const store = mockStore({
     reader: {
       chapter: { ...chapter, pages: pagesAsFile }
@@ -253,8 +257,11 @@ it('should allow to set a page as default', async () => {
     </Provider>
   );
 
+  const changeView = await wrapper.find('button#thumbnails-view');
+  await changeView.simulate('click');
+
   const selectAsDefault = await wrapper.find('div#select-default-0');
-  selectAsDefault.simulate('click');
+  await selectAsDefault.simulate('click');
 
   await wrapper.update();
 
