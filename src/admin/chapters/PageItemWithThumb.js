@@ -10,29 +10,7 @@ import {
   faImage
 } from '@fortawesome/free-solid-svg-icons';
 
-const RoundedButton = styled.div`
-  display: block;
-  background: rgba(0, 0, 0, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0);
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  float: right;
-  margin-right: 10px;
-  transition: 0.25s ease;
-  opacity: 0.8;
-  ${props =>
-    props.isActive ? 'border: 2px solid rgba(255, 255, 255, 0.8);' : ''} svg {
-    vertical-align: middle;
-    width: 20px;
-    font-size: 0.8em;
-  }
-
-  &:hover {
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    opacity: 1;
-  }
-`;
+import { StyledSpinner, RoundedButton } from './styles';
 
 const CardOverlay = styled.div`
   position: absolute;
@@ -180,42 +158,29 @@ const CardOverlayMessage = styled.div`
   text-shadow: 0px 1px 8px rgba(0, 0, 0, 0.8);
 `;
 
-const StyledSpinner = styled(FontAwesomeIcon)`
-  animation: rotate 2s linear infinite;
-
-  & .path {
-    stroke: #5652bf;
-    stroke-linecap: round;
-    animation: dash 1.5s ease-in-out infinite;
-  }
-
-  @keyframes rotate {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes dash {
-    0% {
-      stroke-dasharray: 1, 150;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -35;
-    }
-    100% {
-      stroke-dasharray: 90, 150;
-      stroke-dashoffset: -124;
-    }
-  }
-`;
-
-class Preview extends Component {
+class PageItemWithThumb extends Component {
   constructor(props) {
     super(props);
     this.state = {
       thumb: null
     };
+
+    this.updateThumb = this.updateThumb.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
+  }
+
+  componentDidMount() {
+    const { thumb } = this.props;
+    if (typeof thumb === 'object' && thumb instanceof Blob) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({ thumb: reader.result });
+      };
+      reader.readAsDataURL(thumb);
+    } else {
+      this.setState({ thumb: thumb });
+    }
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -242,10 +207,21 @@ class Preview extends Component {
     return `${(bytes / 1024 ** i).toFixed(fixed)} ${sizes[i]}`;
   }
 
+  updateThumb(thumb) {
+    if (typeof thumb === 'object' && thumb instanceof Blob) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        this.setState({ thumb: reader.result });
+      };
+      reader.readAsDataURL(thumb);
+    } else {
+      this.setState({ thumb: thumb });
+    }
+  }
+
   render() {
     const {
       index,
-      thumb,
       isUploaded,
       isUploading,
       isDefaultPage,
@@ -256,15 +232,7 @@ class Preview extends Component {
       handleUpload,
       intl
     } = this.props;
-    if (typeof thumb === 'object' && thumb instanceof Blob) {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        this.setState({ thumb: reader.result });
-      };
-      reader.readAsDataURL(thumb);
-    } else {
-      this.setState({ thumb: thumb });
-    }
+
     const size = page.file !== undefined ? page.file.size : page.size;
     return (
       <Card
@@ -365,4 +333,4 @@ class Preview extends Component {
   }
 }
 
-export default injectIntl(Preview);
+export default injectIntl(PageItemWithThumb);

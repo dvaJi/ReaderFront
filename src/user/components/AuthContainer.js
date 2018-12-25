@@ -137,7 +137,11 @@ class AuthContainer extends Component {
               {this.props.route.pathname !== '/signup' && (
                 <Footer>
                   <div>
-                    <Link id="signup" className="primary-action" to="/signup">
+                    <Link
+                      id="signup"
+                      className="primary-action"
+                      to="/auth/signup"
+                    >
                       <span>
                         <FormattedMessage
                           id="auth.signup_message"
