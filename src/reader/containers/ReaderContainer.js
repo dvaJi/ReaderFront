@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+
+// App imports
 import { fetchChapters, readerSelectChapter } from '../actions/doReader';
 import { getChapterPageUrl } from '../../utils/common';
 import * as config from '../../config';
+
 import ReaderBar from '../components/ReaderBar';
 import ImagesList from '../components/ImagesList';
 import ReaderEmpty from '../components/ReaderEmpty';
@@ -59,30 +62,19 @@ class ReaderContainer extends Component {
   }
 
   // New props validations
-  isChapterEmpty = newProps =>
-    this.props.chapter === null && newProps.chapters.length > 0;
   isNewSerie = newProps =>
-    this.props.match.params.stub !== newProps.match.params.stub;
+    this.props.match.params.stub !== newProps.match.params.stub ||
+    (this.props.chapters.length > 0 &&
+      this.props.chapters[0].work.stub !== newProps.match.params.stub);
   isNewChapter = newProps =>
-    this.props.match.params.chapter !== newProps.match.params.chapter ||
-    this.props.match.params.subchapter !== newProps.match.params.subchapter;
-  serieHasChanged = newProps =>
-    newProps.chapter &&
-    newProps.chapters.length > 0 &&
-    newProps.chapters[0].language === this.props.match.params.lang &&
-    newProps.chapters[0].work.stub === this.props.match.params.stub &&
-    (newProps.chapter.chapter !== this.props.match.params.chapter ||
-      newProps.chapter.subchapter !== this.props.match.params.subchapter);
+    this.props.chapter.chapter !== Number(newProps.match.params.chapter) ||
+    this.props.chapter.subchapter !== Number(newProps.match.params.subchapter);
 
   componentWillReceiveProps(newProps) {
     if (this.isNewSerie(newProps)) {
       const lang = this.props.match.params.lang || 'es';
       this.props.getChapters(lang, this.props.match.params.stub);
-    } else if (
-      this.isChapterEmpty(newProps) ||
-      this.isNewChapter(newProps) ||
-      this.serieHasChanged(newProps)
-    ) {
+    } else if (this.props.chapter === null || this.isNewChapter(newProps)) {
       let newChapter = newProps.chapters.find(
         chapter =>
           chapter.chapter === Number(newProps.match.params.chapter) &&
