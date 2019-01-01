@@ -31,7 +31,7 @@ class CreateOrEdit extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
+      isLoading: true,
       error: null,
       success: null,
       post: {
@@ -230,6 +230,7 @@ class CreateOrEdit extends Component {
   render() {
     const { error, success, post } = this.state;
     const { match, intl } = this.props;
+    const isCreate = match.params.stub === undefined;
     return (
       <div className="container">
         <Card>
@@ -242,7 +243,7 @@ class CreateOrEdit extends Component {
           </Link>
 
           <h4>
-            {match.params.stub === undefined ? (
+            {isCreate ? (
               <FormattedMessage id="create" defaultMessage="Create" />
             ) : (
               <FormattedMessage id="edit" defaultMessage="Edit" />
@@ -273,15 +274,19 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              {!this.props.isLoading && (
+              {renderIf(isCreate, () => (
+                <EditorMD>
+                  <Editor defaultValue={''} onChange={this.handleValueChange} />
+                </EditorMD>
+              ))}
+              {renderIf(!isCreate && this.props.post, () => (
                 <EditorMD>
                   <Editor
                     defaultValue={this.props.post.content}
                     onChange={this.handleValueChange}
-                    toc={true}
                   />
                 </EditorMD>
-              )}
+              ))}
             </FormGroup>
             <FormGroup>
               <Label for="language">
