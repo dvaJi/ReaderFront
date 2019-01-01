@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import Editor from 'rich-markdown-editor';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import MarkDownEditor from './MarkDownEditor';
 import { slugify } from 'simple-slugify-string';
 import {
   Alert,
@@ -24,6 +24,7 @@ import {
 import { Card } from '../common/UI';
 import { upload } from '../../common/actions';
 import params from '../../params';
+import { EditorMD } from './styles';
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -100,7 +101,7 @@ class CreateOrEdit extends Component {
 
   handleValueChange = value => {
     let post = this.state.post;
-    post['content'] = value;
+    post['content'] = value();
     this.setState({ post, mdeState: value });
   };
 
@@ -227,13 +228,13 @@ class CreateOrEdit extends Component {
   };
 
   render() {
+    const { error, success, post } = this.state;
+    const { match, intl } = this.props;
     return (
       <div className="container">
         <Card>
-          {this.state.error && <Alert color="danger">{this.state.error}</Alert>}
-          {this.state.success && (
-            <Alert color="success">{this.state.success}</Alert>
-          )}
+          {error && <Alert color="danger">{error}</Alert>}
+          {success && <Alert color="success">{success}</Alert>}
           <Link to={'/admincp/blog/manage'}>
             <Button>
               <FormattedMessage id="go_back" defaultMessage="Go back" />
@@ -241,7 +242,7 @@ class CreateOrEdit extends Component {
           </Link>
 
           <h4>
-            {this.props.match.params.stub === undefined ? (
+            {match.params.stub === undefined ? (
               <FormattedMessage id="create" defaultMessage="Create" />
             ) : (
               <FormattedMessage id="edit" defaultMessage="Edit" />
@@ -257,14 +258,14 @@ class CreateOrEdit extends Component {
               <Input
                 id="title"
                 type="text"
-                placeholder={this.props.intl.formatMessage({
+                placeholder={intl.formatMessage({
                   id: 'title',
                   defaultMessage: 'Title'
                 })}
                 required="required"
                 name="title"
                 autoComplete="off"
-                value={this.state.post.title}
+                value={post.title}
                 onChange={this.onChange}
               />
             </FormGroup>
@@ -272,10 +273,15 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              <MarkDownEditor
-                onChangeValue={this.handleValueChange}
-                text={this.state.post.content}
-              />
+              {!this.props.isLoading && (
+                <EditorMD>
+                  <Editor
+                    defaultValue={this.props.post.content}
+                    onChange={this.handleValueChange}
+                    toc={true}
+                  />
+                </EditorMD>
+              )}
             </FormGroup>
             <FormGroup>
               <Label for="language">
@@ -286,12 +292,12 @@ class CreateOrEdit extends Component {
                 name="language"
                 id="language"
                 required="required"
-                value={this.state.post.language}
+                value={post.language}
                 onChange={this.onChangeSelect}
               >
                 {this.state.languages.map(lang => (
                   <option key={lang.id + lang.name} value={lang.id}>
-                    {this.props.intl.formatMessage({
+                    {intl.formatMessage({
                       id: lang.name + '_full',
                       defaultMessage: lang.name
                     })}
@@ -308,12 +314,12 @@ class CreateOrEdit extends Component {
                 name="status"
                 id="status"
                 required="required"
-                value={this.state.post.status}
+                value={post.status}
                 onChange={this.onChangeSelect}
               >
                 {this.state.postStatus.map(status => (
                   <option key={status.id + status.name} value={status.id}>
-                    {this.props.intl.formatMessage({
+                    {intl.formatMessage({
                       id: status.name,
                       defaultMessage: status.name
                     })}
@@ -330,12 +336,12 @@ class CreateOrEdit extends Component {
                 name="category"
                 id="category"
                 required="required"
-                value={this.state.post.demographicId}
+                value={post.demographicId}
                 onChange={this.onChangeSelect}
               >
                 {this.state.blogCategories.map(category => (
                   <option key={category.id + category.name} value={category.id}>
-                    {this.props.intl.formatMessage({
+                    {intl.formatMessage({
                       id: category.name,
                       defaultMessage: category.name
                     })}
@@ -351,18 +357,18 @@ class CreateOrEdit extends Component {
                 type="file"
                 id="uploadCover"
                 name="cover"
-                label={this.props.intl.formatMessage({
+                label={intl.formatMessage({
                   id: 'upload_cover',
                   defaultMessage: 'Upload cover'
                 })}
                 onChange={this.onUpload}
-                required={this.state.post.id === 0}
+                required={post.id === 0}
               />
             </FormGroup>
-            {renderIf(this.state.post.thumbnail !== '', () => (
+            {renderIf(post.thumbnail !== '', () => (
               <img
-                src={`/works/${this.state.post.thumbnail}`}
-                alt={this.state.post.title}
+                src={`/works/${post.thumbnail}`}
+                alt={post.title}
                 style={{ width: 200, marginTop: '1em' }}
               />
             ))}
@@ -370,7 +376,7 @@ class CreateOrEdit extends Component {
               <Button
                 type="submit"
                 theme="secondary"
-                disabled={this.state.isLoading}
+                disabled={this.props.isLoading}
               >
                 <FormattedMessage id="save" defaultMessage="Save" />
               </Button>
@@ -385,6 +391,7 @@ class CreateOrEdit extends Component {
 function CreateOrEditState(state) {
   return {
     post: state.blog.post,
+    isLoading: state.blog.blogIsLoading,
     user: state.user
   };
 }
