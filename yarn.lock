@@ -8322,11 +8322,12 @@ react@^16.7.0:
     prop-types "^15.6.2"
     scheduler "^0.12.0"
 
-reactstrap@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-7.0.0.tgz#7e55c99f7212243f77868cf8dd870003f041c9e1"
-  integrity sha512-BBfHz7KJG0e6QDD4T4QWjO08P6memxRg+pznJv43Q/QhYZEP1aW6zqzrxzXy6re7GIWwV4uug4HZj5qj5bLPgQ==
+reactstrap@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-7.0.2.tgz#c390224913f11c7ccbd98f56f3d850ce50bda9a9"
+  integrity sha512-VVa/1tqCiKa63YPwAIWrn4za806TVva/GEx7yP/2U+xmq1iKIzGo0UHmFL/6XpZKqx/ZzP/olkTorP/2o/2pTg==
   dependencies:
+    "@babel/runtime" "^7.2.0"
     classnames "^2.2.3"
     lodash.isfunction "^3.0.9"
     lodash.isobject "^3.0.2"

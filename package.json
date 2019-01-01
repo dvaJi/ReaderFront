@@ -58,7 +58,7 @@
     "react-spring": "^7.2.5",
     "react-test-renderer": "^16.7.0",
     "react-transition-group": "^2.5.2",
-    "reactstrap": "^7.0.0",
+    "reactstrap": "^7.0.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "simple-slugify-string": "^1.0.0",
