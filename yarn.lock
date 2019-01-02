@@ -8873,9 +8873,10 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-simple-slugify-string@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/simple-slugify-string/-/simple-slugify-string-1.0.0.tgz#bcc2067210dc30198f1383463c8ddb4f73a6ebde"
+simple-slugify-string@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/simple-slugify-string/-/simple-slugify-string-1.0.1.tgz#b0c07349e3f003189dcbb9528929122463a390cd"
+  integrity sha512-BRpB0YCgFaf1zLaABLQFVPr+1f/hBWJgbhqWf+2W39Ra9kk/u81zdXNjb0FFVOBfSvB6m+RVA14Jrydi+MZIEQ==
 
 simple-swizzle@^0.2.2:
   version "0.2.2"

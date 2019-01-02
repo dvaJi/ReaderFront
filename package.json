@@ -60,7 +60,7 @@
     "reactstrap": "^7.0.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "simple-slugify-string": "^1.0.0",
+    "simple-slugify-string": "^1.0.1",
     "styled-components": "^4.1.3"
   },
   "devDependencies": {
