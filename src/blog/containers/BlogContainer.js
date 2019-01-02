@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+
+// App imports
 import { fetchPosts, blogSelectPost, blogPage } from '../actions/doBlog';
 import PostsList from '../components/PostsList';
 import PostView from '../components/PostView';
@@ -16,16 +19,11 @@ class BlogContainer extends Component {
   }
 
   componentDidMount() {
+    const { posts, page, language, getPosts } = this.props;
     window.addEventListener('scroll', this.handleOnScroll);
-    if (this.props.posts.length === 0) {
+    if (posts.length === 0) {
       try {
-        this.props.getPosts(
-          this.props.language,
-          'DESC',
-          15,
-          'id',
-          this.props.page
-        );
+        getPosts(language, 'DESC', 15, 'id', page);
       } catch (e) {
         console.error(e);
       }
@@ -33,9 +31,23 @@ class BlogContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.language !== nextProps.language) {
-      this.props.changePage(0);
-      this.props.getPosts(nextProps.language, 'DESC', 15, 'id', 0);
+    const {
+      params,
+      posts,
+      post,
+      language,
+      selectPost,
+      changePage,
+      getPosts
+    } = this.props;
+    if (language !== nextProps.language) {
+      changePage(0);
+      getPosts(nextProps.language, 'DESC', 15, 'id', 0);
+    }
+
+    if (params.stub !== undefined && posts.length === 0 && post === null) {
+      const postSelected = nextProps.posts.find(p => p.stub === params.stub);
+      selectPost(postSelected);
     }
   }
 
@@ -129,18 +141,23 @@ class BlogContainer extends Component {
   }
 
   render() {
-    return this.props.post ? this.renderPost() : this.renderPostsList();
+    const { post, params } = this.props;
+    //return this.props.post ? this.renderPost() : this.renderPostsList();
+    return params.stub !== undefined && post
+      ? this.renderPost()
+      : this.renderPostsList();
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   return {
     posts: state.blog.posts,
     post: state.blog.post,
     page: state.blog.blogPage,
     isLoading: state.blog.blogIsLoading,
     hasErrored: state.blog.blogHasErrored,
-    language: state.layout.language
+    language: state.layout.language,
+    params: ownProps.match.params
   };
 };
 
@@ -153,7 +170,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlogContainer);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BlogContainer)
+);

@@ -52,6 +52,7 @@
     "react-markdown": "^4.0.4",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.2.2",
+    "react-rte": "^0.16.1",
     "react-scripts": "^2.1.1",
     "react-spring": "^7.2.7",
     "react-test-renderer": "^16.7.0",
@@ -59,7 +60,6 @@
     "reactstrap": "^7.0.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "rich-markdown-editor": "^7.0.0-2",
     "simple-slugify-string": "^1.0.0",
     "styled-components": "^4.1.3"
   },
