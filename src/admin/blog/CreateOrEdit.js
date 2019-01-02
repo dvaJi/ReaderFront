@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Editor from 'rich-markdown-editor';
+import RichTextEditor from 'react-rte';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { slugify } from 'simple-slugify-string';
+import slugify from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -24,7 +24,6 @@ import {
 import { Card } from '../common/UI';
 import { upload } from '../../common/actions';
 import params from '../../params';
-import { EditorMD } from './styles';
 
 class CreateOrEdit extends Component {
   constructor(props) {
@@ -57,7 +56,7 @@ class CreateOrEdit extends Component {
       languages: Object.keys(params.global.languages).map(
         k => params.global.languages[k]
       ),
-      mdeState: ''
+      mdeState: RichTextEditor.createEmptyValue()
     };
   }
 
@@ -71,7 +70,11 @@ class CreateOrEdit extends Component {
         .getPost(postStub, true)
         .then(async () => {
           this.setState({
-            post: this.props.post
+            post: this.props.post,
+            mdeState: RichTextEditor.createValueFromString(
+              this.props.post.content,
+              'markdown'
+            )
           });
         })
         .catch(error => {
@@ -101,7 +104,7 @@ class CreateOrEdit extends Component {
 
   handleValueChange = value => {
     let post = this.state.post;
-    post['content'] = value();
+    post['content'] = value.toString('markdown');
     this.setState({ post, mdeState: value });
   };
 
@@ -274,19 +277,10 @@ class CreateOrEdit extends Component {
               <Label for="content">
                 <FormattedMessage id="content" defaultMessage="Content" />
               </Label>
-              {renderIf(isCreate, () => (
-                <EditorMD>
-                  <Editor defaultValue={''} onChange={this.handleValueChange} />
-                </EditorMD>
-              ))}
-              {renderIf(!isCreate && this.props.post, () => (
-                <EditorMD>
-                  <Editor
-                    defaultValue={this.props.post.content}
-                    onChange={this.handleValueChange}
-                  />
-                </EditorMD>
-              ))}
+              <RichTextEditor
+                value={this.state.mdeState}
+                onChange={this.handleValueChange}
+              />
             </FormGroup>
             <FormGroup>
               <Label for="language">

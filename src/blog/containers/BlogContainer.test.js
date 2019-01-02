@@ -1,9 +1,11 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
-import BlogContainer from './BlogContainer';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+
+import BlogContainer from './BlogContainer';
 import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
 
 const middlewares = [thunk];
@@ -25,7 +27,9 @@ it('should render without throwing an error', () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <BlogContainer />
+      <MemoryRouter>
+        <BlogContainer />
+      </MemoryRouter>
     </Provider>
   );
   expect(wrapper).toBeTruthy();
@@ -47,7 +51,9 @@ it('should render a post', () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <BlogContainer />
+      <MemoryRouter>
+        <BlogContainer />
+      </MemoryRouter>
     </Provider>
   );
   expect(wrapper).toBeTruthy();
@@ -69,7 +75,9 @@ it('should show a selected post', async () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <BlogContainer />
+      <MemoryRouter>
+        <BlogContainer />
+      </MemoryRouter>
     </Provider>
   );
 
@@ -94,7 +102,9 @@ it('should render new items if user scroll to bottom', async () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <BlogContainer />
+      <MemoryRouter>
+        <BlogContainer />
+      </MemoryRouter>
     </Provider>
   );
 

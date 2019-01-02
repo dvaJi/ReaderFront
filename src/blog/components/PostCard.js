@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const CardOverlay = styled.div`
@@ -22,7 +23,7 @@ const CardOverlay = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled(Link)`
   color: #4b4f56;
   cursor: pointer;
   display: inline-block;
@@ -84,6 +85,7 @@ const CardBodyTitle = styled.div`
 `;
 
 const CardBodyDescription = styled.div`
+  height: 74px;
   color: #4b4f56;
   display: block;
   display: -webkit-box;
@@ -120,20 +122,11 @@ const CardFooterTag = styled.div`
 `;
 
 class PostCard extends Component {
-  constructor(props) {
-    super(props);
-    this.doSelect = this.doSelect.bind(this);
-  }
-
-  doSelect(e) {
-    this.props.onClick(this.props.post);
-  }
-
   render() {
-    const { post, children, thumbnail } = this.props;
+    const { post, children, thumbnail, onClick } = this.props;
 
     return (
-      <Card onClick={e => this.doSelect(e)}>
+      <Card to={'/blog/' + post.stub} onClick={() => onClick(post)}>
         <CardHero thumb={thumbnail}>
           <CardOverlay>
             <h3>

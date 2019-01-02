@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import ReactMarkdown from 'react-markdown';
 
@@ -24,7 +25,13 @@ export default class PostView extends Component {
 
     return (
       <Container>
-        <Button color="primary" size="sm" onClick={this.props.onClickBack}>
+        <Button
+          tag={Link}
+          color="primary"
+          size="sm"
+          onClick={this.props.onClickBack}
+          to={'/blog'}
+        >
           Volver
         </Button>
         <h1>{title}</h1>

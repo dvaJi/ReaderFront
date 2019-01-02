@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { slugify } from 'simple-slugify-string';
+import slugify from 'simple-slugify-string';
 import DatePicker from 'react-datepicker';
 import {
   Alert,

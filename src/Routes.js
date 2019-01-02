@@ -123,6 +123,7 @@ export default (
     <Route path="/work/all" exact component={withTracker(Works)} />
     <Route path="/work/:stub" exact component={withTracker(Work)} />
     <Route path="/blog" exact component={withTracker(Blog)} />
+    <Route path="/blog/:stub" exact component={withTracker(Blog)} />
     <Route
       path="/read/:stub/:lang/:volume/:chapter.:subchapter"
       exact
