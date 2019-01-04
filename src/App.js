@@ -5,6 +5,8 @@ import { IntlProvider } from 'react-intl-redux';
 import store, { history } from './store';
 import { addLocaleData } from 'react-intl';
 import { updateIntl } from 'react-intl-redux';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
 import ReactGA from 'react-ga';
 
 import * as config from './config';
@@ -46,6 +48,10 @@ if (token && token !== 'undefined' && token !== '') {
   }
 }
 
+const client = new ApolloClient({
+  uri: config.READER_PATH
+});
+
 class App extends Component {
   render() {
     ReactGA.initialize(config.GA_ID, {
@@ -54,16 +60,18 @@ class App extends Component {
     ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
-      <Provider store={store}>
-        <IntlProvider>
-          <ConnectedRouter history={history}>
-            <div className="App">
-              <Header />
-              {Routes}
-            </div>
-          </ConnectedRouter>
-        </IntlProvider>
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <IntlProvider>
+            <ConnectedRouter history={history}>
+              <div className="App">
+                <Header />
+                {Routes}
+              </div>
+            </ConnectedRouter>
+          </IntlProvider>
+        </Provider>
+      </ApolloProvider>
     );
   }
 }
