@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
