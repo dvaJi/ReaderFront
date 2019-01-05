@@ -1,87 +1,43 @@
-import React, { PureComponent } from 'react';
-import styled from 'styled-components';
+import React, { memo } from 'react';
 
-const CardCoverBackground = styled.div`
-  background-position: 50% 50%;
-  background-size: cover;
-  border-radius: 3px;
-  display: block;
-  height: 100%;
-  position: absolute;
-  width: 100%;
-  transition: 0.15s;
-`;
-const CardData = styled.div`
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.01) 100%
+const style = { backgroundColor: '#ddd', height: 20, width: 300 };
+
+export default memo(function ReleaseLoading() {
+  const categories = [1, 2, 3];
+  const rows = [1, 2, 3, 4];
+  return (
+    <>
+      {categories.map(cat => (
+        <div key={'cat-' + cat} className="my-3 p-3 bg-white rounded shadow-sm">
+          <h6 className="pb-2 mb-0 show-loading-animation" style={style}>
+            {' '}
+          </h6>
+          {rows.map(r => (
+            <div key={'row-' + r} className="media text-muted pt-3">
+              <svg
+                className="bd-placeholder-img mr-2 rounded show-loading-animation"
+                width="32"
+                height="32"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+                role="img"
+                aria-label="Loading"
+              >
+                <title>Loading</title>
+                <rect fill="#ddd" width="100%" height="100%" />
+                <text fill="#ddd" dy=".3em" x="50%" y="50%" />
+              </svg>
+              <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <strong
+                  className="d-block text-gray-dark show-loading-animation"
+                  style={{ ...style, height: 15 }}
+                />
+              </p>
+            </div>
+          ))}
+        </div>
+      ))}
+    </>
   );
-  border-radius: 0 0 3px 3px;
-  bottom: 0;
-  color: #fff;
-  padding: 10px;
-  padding-top: 40px;
-  position: absolute;
-  text-align: left;
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.59);
-  width: 100%;
-  transition: all 200ms;
-
-  h5 {
-    display: inline-block;
-    font-size: 1.2em;
-    line-height: 1.3;
-    padding: 0 3px;
-    width: 100%;
-    word-wrap: break-word;
-  }
-
-  div {
-    color: #53c4ff;
-    display: inline-block;
-    font-size: 1em;
-    margin-top: 10px;
-    margin-left: 4px;
-    width: 100%;
-  }
-`;
-
-const Card = styled.div`
-  background-color: #ddd;
-  font-size: 0.87em;
-  height: 275px;
-  margin-right: 30px;
-  margin-top: 20px;
-  padding-left: 0px !important;
-  overflow: hidden;
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
-
-  &:hover {
-    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  &:hover ${CardCoverBackground} {
-    transform: scale(1.2);
-  }
-
-  &:hover ${CardData} {
-    padding-top: 90px;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.02) 100%
-    );
-  }
-`;
-
-export default class ReleaseCardEmpty extends PureComponent {
-  render() {
-    return (
-      <Card className="col-lg-2 col-md-3 col-sm-4 col-xs-12 show-loading-animation" />
-    );
-  }
-}
+});
