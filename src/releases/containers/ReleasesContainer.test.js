@@ -1,13 +1,15 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl, shallowWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import ReleasesContainer from './ReleasesContainer';
-import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
-import { releasesIsLoading } from '../actions/doReleases';
+import { MockedProvider } from 'react-apollo/test-utils';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
+
+// App imports
+import ReleasesContainer from './ReleasesContainer';
+import { query } from './query';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -22,7 +24,21 @@ afterEach(function() {
   moxios.uninstall();
 });
 
-it('should render without throwing an error', () => {
+const mocks = [
+  {
+    request: {
+      query: query(1, 'DESC', 20, 0),
+      variables: {}
+    },
+    result: {
+      data: {
+        chapters: releases
+      }
+    }
+  }
+];
+
+it('should render without throwing an error', async () => {
   const store = mockStore({
     releases: {
       chapters: [],
@@ -35,16 +51,18 @@ it('should render without throwing an error', () => {
     }
   });
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <ReleasesContainer />
-    </Provider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <Provider store={store}>
+        <ReleasesContainer />
+      </Provider>
+    </MockedProvider>
   );
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it('should render without throwing an error when it receive a new language props', () => {
+it('should render an error if cannot fetch data', async () => {
   const store = mockStore({
     releases: {
       chapters: [],
@@ -56,45 +74,25 @@ it('should render without throwing an error when it receive a new language props
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ReleasesContainer />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  store.dispatch(doChangeLanguage('en'));
-  wrapper.update();
-  wrapper.unmount();
-});
-
-it('should render new items if user scroll to bottom', () => {
-  const store = mockStore({
-    releases: {
-      chapters: releases,
-      releasesPage: 1,
-      releasesIsLoading: false,
-      releasesHasErrored: false
+  const errorMock = {
+    request: {
+      query: query(1, 'DESC', 20, 0),
+      variables: {}
     },
-    layout: {
-      language: 'es'
-    }
-  });
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <ReleasesContainer />
-      </MemoryRouter>
-    </Provider>
+    error: new Error('Nope')
+  };
+  const wrapper = await mountWithIntl(
+    <MockedProvider mocks={[errorMock]} addTypename={false}>
+      <Provider store={store}>
+        <MemoryRouter>
+          <ReleasesContainer />
+        </MemoryRouter>
+      </Provider>
+    </MockedProvider>
   );
 
-  store.dispatch(releasesIsLoading(false));
-  wrapper.update();
+  await global.wait(0);
+  expect(wrapper.text()).toContain('Error');
 
-  document.body.scrollTop = 40;
-  window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
-
-  wrapper.update();
   wrapper.unmount();
 });

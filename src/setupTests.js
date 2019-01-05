@@ -85,6 +85,17 @@ if (typeof window.URL.createObjectURL === 'undefined') {
   Object.defineProperty(window.URL, 'createObjectURL', { value: () => '' });
 }
 
+// Temporal: https://github.com/airbnb/enzyme/issues/1875#issuecomment-451177239
+jest.mock('react', () => {
+  const r = jest.requireActual('react');
+
+  return { ...r, memo: x => x };
+});
+
+global.wait = ms => {
+  return new Promise(resolve => setTimeout(() => resolve(), ms));
+};
+
 // Setup Mocks
 global.rfMocks = {
   releases: {

@@ -1,9 +1,11 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
-import Releases from './';
-import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
+import { mountWithIntl } from 'enzyme-react-intl';
+import { MockedProvider } from 'react-apollo/test-utils';
+import { Provider } from 'react-redux';
+
+import Releases from './';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -21,9 +23,11 @@ it('should render without throwing an error', () => {
     }
   });
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <Releases />
-    </Provider>
+    <MockedProvider mocks={[]} addTypename={false}>
+      <Provider store={store}>
+        <Releases />
+      </Provider>
+    </MockedProvider>
   );
 
   expect(wrapper).toBeTruthy();

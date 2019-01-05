@@ -2,41 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
 
 // App imports
-import { fetchReleases, releasesPage } from '../actions/doReleases';
 import MetaTag from './ReleaseMetaTags';
 import ReleasePagination from '../components/ReleasePagination';
 import ReleasesList from '../components/ReleasesList';
+import ReleaseCardEmpty from '../components/ReleaseCardEmpty';
 import params from '../../params.json';
+import { query } from './query';
 
 const LatestReleases = ({ language, orderBy, first, offset }) => (
-  <Query
-    query={gql`
-      {
-        chapters(language: ${language}, orderBy: "${orderBy}", first: ${first}, offset: ${offset}, showHidden: false) {
-          id
-          chapter
-          subchapter
-          volume
-          language
-          name
-          stub
-          uniqid
-          thumbnail
-          releaseDate
-          description
-          createdAt
-          work {id, stub, name, uniqid, adult}
-          pages {id, filename, height, width}
-        }
-      }
-    `}
-  >
+  <Query query={query(language, orderBy, first, offset)}>
     {({ loading, error, data }) => {
-      if (loading) return <p>Loading...</p>;
-      if (error) return <p>Error :(</p>;
+      if (loading) return <ReleaseCardEmpty />;
+      if (error) return <p id="error_releases">Error :(</p>;
 
       return <ReleasesList releases={data.chapters} />;
     }}
@@ -62,7 +41,10 @@ class ReleasesContainer extends Component {
     return (
       <div className="Releases">
         <h2>
-          <FormattedMessage id="latest" defaultMessage="Latest" />
+          <FormattedMessage
+            id="latest_releases"
+            defaultMessage="Latest Releases"
+          />
         </h2>
         <MetaTag />
         <LatestReleases
@@ -83,14 +65,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadChapters: (lang, page) => dispatch(fetchReleases(lang, page)),
-    changePage: page => dispatch(releasesPage(page))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ReleasesContainer);
+export default connect(mapStateToProps)(ReleasesContainer);

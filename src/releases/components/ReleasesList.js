@@ -17,7 +17,7 @@ export default memo(function ReleasesList({ releases }) {
       const { work } = release;
       if (lastWork !== null && work.stub !== lastWork) {
         rows.push(
-          <div className="my-3 p-3 bg-white rounded shadow-sm">
+          <div key={work.stub} className="my-3 p-3 bg-white rounded shadow-sm">
             <ReleaseCategory work={work} key={work.stub} />
             {tempRows}
             <small className="d-block text-right mt-3">

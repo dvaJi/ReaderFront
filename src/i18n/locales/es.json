@@ -111,5 +111,10 @@
   "work_saved": "Work guardado exitosamente.",
   "works.desc": "All releases",
   "works.title": "{title} - Lista de Proyectos",
-  "works_empty": "No hay works"
+  "works_empty": "No hay works",
+  "all_chapters": "Ver todos los capítulos",
+  "vol": "T.",
+  "latest_releases": "Capítulos más recientes",
+  "previous": "Anterior",
+  "next": "Siguiente"
 }

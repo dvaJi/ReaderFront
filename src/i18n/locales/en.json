@@ -111,5 +111,10 @@
   "work_saved": "Work saved successfully.",
   "works.desc": "All releases",
   "works.title": "{title} - Projects list",
-  "works_empty": "Works empty"
+  "works_empty": "Works empty",
+  "all_chapters": "All chapters",
+  "vol": "Vol.",
+  "latest_releases": "Latest Releases",
+  "previous": "Previous",
+  "next": "Next"
 }
