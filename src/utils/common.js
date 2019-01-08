@@ -1,3 +1,5 @@
+import axios from 'axios/index';
+
 // Common functions
 import params from '../params.json';
 import * as config from '../config';
@@ -67,9 +69,24 @@ export const languages = Object.keys(params.global.languages).map(
   k => params.global.languages[k]
 );
 
+export const postsStatus = Object.keys(params.blog.status).map(
+  k => params.blog.status[k]
+);
+export const blogCategories = Object.keys(params.blog.categories).map(
+  k => params.blog.categories[k]
+);
+
 export function languageIdToName(langId) {
   const language = languages.find(lang => lang.id === langId);
   return language !== undefined ? language.name : null;
+}
+
+export async function uploadImage(data) {
+  return await axios.post(config.READER_PATH + 'uploads', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 }
 
 function filenameIsValid(filename) {

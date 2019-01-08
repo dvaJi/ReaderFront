@@ -2,6 +2,7 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ReactGA from 'react-ga';
 import { JSDOM } from 'jsdom';
+import 'jest-localstorage-mock';
 import {
   getPages,
   getPagesAsFiles,
@@ -96,6 +97,19 @@ global.wait = ms => {
   return new Promise(resolve => setTimeout(() => resolve(), ms));
 };
 
+global.originalError = console.error;
+
+// Helper for Markdown Editor
+global.createPasteEvent = function createPasteEvent(html) {
+  const text = html.replace('<[^>]*>', '');
+  return {
+    clipboardData: {
+      types: ['text/plain', 'text/html'],
+      getData: type => (type === 'text/plain' ? text : html)
+    }
+  };
+};
+
 // Setup Mocks
 global.rfMocks = {
   releases: {
@@ -105,6 +119,7 @@ global.rfMocks = {
     getPagesUploaded: getPagesUploaded()
   },
   posts: {
+    getPost: getPosts()[0],
     getPosts: getPosts(),
     getPostsNormalized: getPosts().map(post => normalizePost(post))
   },
