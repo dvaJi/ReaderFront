@@ -4,7 +4,6 @@ import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import slugify from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -24,7 +23,7 @@ import {
 
 // App imports
 import params from '../../params';
-import { renderIf, forEachSeries } from '../../utils/helpers';
+import { renderIf, forEachSeries, slugify } from '../../utils/helpers';
 import { getChapterPageUrl } from '../../utils/common';
 import {
   createOrUpdatePage,

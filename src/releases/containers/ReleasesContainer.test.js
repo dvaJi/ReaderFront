@@ -92,7 +92,7 @@ it('should render an error if cannot fetch data', async () => {
   );
 
   await global.wait(0);
-  expect(wrapper.text()).toContain('Error');
+  expect(wrapper.text()).toContain('Error :(');
 
   wrapper.unmount();
 });
