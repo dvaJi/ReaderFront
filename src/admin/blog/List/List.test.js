@@ -2,8 +2,6 @@ import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import waitForExpect from 'wait-for-expect';
 
 // App imports
 import List from './List';
