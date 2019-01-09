@@ -70,9 +70,6 @@ jobs:
       - run:
           name: Build
           command: yarn build
-      - run:
-          name: Check PR for semVer label
-          command: yarn semver:check
       - persist_to_workspace:
           root: .
           paths:
