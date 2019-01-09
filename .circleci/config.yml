@@ -35,6 +35,7 @@ aliases:
 
 jobs:
   install:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache: *restore-cache
