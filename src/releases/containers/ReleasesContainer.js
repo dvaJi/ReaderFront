@@ -9,10 +9,13 @@ import ReleasePagination from '../components/ReleasePagination';
 import ReleasesList from '../components/ReleasesList';
 import ReleaseCardEmpty from '../components/ReleaseCardEmpty';
 import params from '../../params.json';
-import { query } from './query';
+import { FETCH_RELEASES } from './query';
 
 const LatestReleases = ({ language, orderBy, first, offset }) => (
-  <Query query={query(language, orderBy, first, offset)}>
+  <Query
+    query={FETCH_RELEASES}
+    variables={{ language, orderBy, first, offset }}
+  >
     {({ loading, error, data }) => {
       if (loading) return <ReleaseCardEmpty />;
       if (error) return <p id="error_releases">Error :(</p>;
@@ -26,18 +29,20 @@ class ReleasesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 0
+      page: 0,
+      offset: 0,
+      perPage: 20
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   handlePageChange(page) {
-    this.setState({ page });
+    this.setState({ page, offset: page * this.state.perPage });
   }
 
   render() {
     const { language } = this.props;
-    const { page } = this.state;
+    const { page, perPage, offset } = this.state;
     return (
       <div className="Releases">
         <h2>
@@ -50,8 +55,8 @@ class ReleasesContainer extends Component {
         <LatestReleases
           language={params.global.languages[language].id}
           orderBy={'DESC'}
-          first={20}
-          offset={page}
+          first={perPage}
+          offset={offset}
         />
         <ReleasePagination page={page} onPageChange={this.handlePageChange} />
       </div>
