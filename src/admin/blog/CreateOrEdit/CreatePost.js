@@ -14,7 +14,7 @@ import { MetaTagCreate } from '../ABlogMetatag';
 import { FETCH_ALL_POSTS_WITH_AGG } from '../queries';
 import { CREATE_POST } from '../mutations';
 
-const postEmpty = {
+export const postEmpty = {
   id: 0,
   userId: 0,
   content: '',
