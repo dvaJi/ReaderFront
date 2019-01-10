@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 const MetaTag = () => {
   const title = config.APP_TITLE;
   return (
-    <div>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
       </Helmet>
@@ -29,7 +29,7 @@ const MetaTag = () => {
           </Helmet>
         )}
       </FormattedMessage>
-    </div>
+    </>
   );
 };
 

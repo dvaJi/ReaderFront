@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 
 export const MetaTagList = () => {
   return (
-    <div>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
       </Helmet>
@@ -21,13 +21,13 @@ export const MetaTagList = () => {
           </Helmet>
         )}
       </FormattedMessage>
-    </div>
+    </>
   );
 };
 
 export const MetaTagCreate = () => {
   return (
-    <div>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
       </Helmet>
@@ -43,13 +43,13 @@ export const MetaTagCreate = () => {
           </Helmet>
         )}
       </FormattedMessage>
-    </div>
+    </>
   );
 };
 
 export const MetaTagEdit = ({ postTitle = '' }) => {
   return (
-    <div>
+    <>
       <Helmet>
         <meta charSet="utf-8" />
       </Helmet>
@@ -65,6 +65,6 @@ export const MetaTagEdit = ({ postTitle = '' }) => {
           </Helmet>
         )}
       </FormattedMessage>
-    </div>
+    </>
   );
 };

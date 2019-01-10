@@ -1,14 +1,14 @@
 import gql from 'graphql-tag';
 
 export const FETCH_ALL_POSTS_WITH_AGG = gql`
-  query AllPosts($first: Int, $offset: Int) {
+  query AllPosts($language: Int, $first: Int, $offset: Int) {
     posts(
-      language: -1
+      language: $language
       orderBy: "DESC"
       sortBy: "createdAt"
       first: $first
       offset: $offset
-      showHidden: true
+      showHidden: false
     ) {
       id
       uniqid
@@ -31,10 +31,10 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
     }
 
     postsAggregates(
-      language: -1
+      language: $language
       aggregate: "COUNT"
       aggregateColumn: "id"
-      showHidden: true
+      showHidden: false
     ) {
       count
     }
