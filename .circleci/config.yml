@@ -1,87 +1,93 @@
 version: 2
-jobs:
-  test:
-    docker:
-      - image: circleci/node:8.11.3
-    parallelism: 4
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn test:ci --maxWorkers=2
-  build:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn build
-  deploy:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn build
-      - run:
-          name: Deploy to ravens-scans.com
-          command: |
-            sudo apt-get update
-            echo "Initiating Push site ravens-scans.com"
-            cd build/
-            find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/httpdocs/{} \;
-  beta:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn build
-      - run:
-          name: Deploy to beta.ravens-scans.com
-          command: |
-            sudo apt-get update
-            echo "Initiating Push site beta.ravens-scans.com"
-            cd build/
-            find . -name '*' -type f -exec curl -u $FTP_USER:$FTP_PASSWORD --ftp-create-dirs -T {} ftp://ravens-scans.com/beta.ravens-scans.com/{} \;
 
+defaults: &defaults
+  working_directory: ~/reader-front
+  docker:
+    - image: circleci/node:8.14-browsers
+  environment:
+    TZ: '/usr/share/zoneinfo/America/Los_Angeles'
+
+aliases:
+  # Circle related commands
+  - &restore-cache
+    keys:
+      # Find a cache corresponding to this specific package.json checksum
+      # when this file is changed, this key will fail
+      - reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      - reader-front-{{ checksum "yarn.lock" }}
+      # Find the most recent cache used from any branch
+      - reader-front-
+  - &save-cache
+      key: reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      paths:
+        - ~/.cache/yarn
+        - node_modules
+  # Yarn commands
+  - &yarn
+    name: Install Dependencies
+    command: yarn install --frozen-lockfile --non-interactive --cache-folder=~/.cache/yarn
+  - &lint
+    name: Lint
+    command: yarn lint
+  - &test
+    name: Test
+    command: yarn test:ci --maxWorkers=2
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache: *restore-cache
+      - run: date
+      - run: *yarn
+      - save_cache: *save-cache
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *lint
+  test:
+    <<: *defaults
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *test
+      - run:
+          name: Send CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run:
+          name: Build
+          command: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
 workflows:
   version: 2
-  test-build-and-deploy:
+  build_and_test:
     jobs:
-      - test
+      - install
+
+      - lint:
+          requires:
+            - install
+
+      - test:
+          requires:
+            - install
+
       - build:
           requires:
-            - test
-      - beta:
-          requires:
-            - build
-          filters:
-            branches:
-              only: beta-ravens
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: ravens
+            - install

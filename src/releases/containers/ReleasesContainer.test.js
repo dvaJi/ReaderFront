@@ -9,7 +9,7 @@ import moxios from '@anilanar/moxios';
 
 // App imports
 import ReleasesContainer from './ReleasesContainer';
-import { query } from './query';
+import { FETCH_RELEASES } from './query';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -27,8 +27,8 @@ afterEach(function() {
 const mocks = [
   {
     request: {
-      query: query(1, 'DESC', 20, 0),
-      variables: {}
+      query: FETCH_RELEASES,
+      variables: { language: 1, orderBy: 'DESC', first: 20, offset: 0 }
     },
     result: {
       data: {
@@ -76,8 +76,8 @@ it('should render an error if cannot fetch data', async () => {
   });
   const errorMock = {
     request: {
-      query: query(1, 'DESC', 20, 0),
-      variables: {}
+      query: FETCH_RELEASES,
+      variables: { language: 1, orderBy: 'DESC', first: 20, offset: 0 }
     },
     error: new Error('Nope')
   };
@@ -92,7 +92,7 @@ it('should render an error if cannot fetch data', async () => {
   );
 
   await global.wait(0);
-  expect(wrapper.text()).toContain('Error');
+  expect(wrapper.text()).toContain('Error :(');
 
   wrapper.unmount();
 });

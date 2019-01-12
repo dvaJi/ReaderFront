@@ -1,17 +1,10 @@
-import React, { Component } from 'react';
-import { Container } from 'reactstrap';
+import React, { memo } from 'react';
 import BlogContainer from './containers/BlogContainer';
 
-class Blog extends Component {
-  render() {
-    return (
-      <div id="Blog">
-        <Container style={{ maxWidth: '80%' }}>
-          <BlogContainer />
-        </Container>
-      </div>
-    );
-  }
-}
-
-export default Blog;
+export default memo(function Blog(props) {
+  return (
+    <div id="Blog">
+        <BlogContainer {...props} />
+    </div>
+  );
+})

@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
+
 import Button from './Button';
+import { languageIdToName } from '../../utils/common';
 import * as config from '../../config';
 
 const ReaderBarStyle = styled.div`
@@ -65,22 +67,20 @@ class ReaderBar extends PureComponent {
     );
   }
 
-  chapterUrl(chapter) {
-    if (
-      this.props.work.stub === undefined ||
-      this.props.chapters[chapter] === undefined
-    ) {
+  chapterUrl(chapterSelected) {
+    const { work, chapters } = this.props;
+    if (work.stub === undefined || chapters[chapterSelected] === undefined) {
       return '';
     }
-    if (chapter === -1) {
-      return `/work/${this.props.work.stub}`;
+    if (chapterSelected === -1) {
+      return `/work/${work.stub}`;
     }
 
-    return `/read/${this.props.work.stub}/${
-      this.props.chapters[chapter].language
-    }/${this.props.chapters[chapter].volume}/${
-      this.props.chapters[chapter].chapter
-    }.${this.props.chapters[chapter].subchapter}`;
+    const chapter = chapters[chapterSelected];
+
+    return `/read/${work.stub}/${languageIdToName(chapter.language)}/${
+      chapter.volume
+    }/${chapter.chapter}.${chapter.subchapter}`;
   }
 
   createGAEvent(action, label) {

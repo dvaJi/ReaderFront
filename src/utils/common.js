@@ -1,3 +1,5 @@
+import axios from 'axios/index';
+
 // Common functions
 import params from '../params.json';
 import * as config from '../config';
@@ -63,6 +65,7 @@ export function canUseWebP() {
   }
 }
 
+// Language helpers
 export const languages = Object.keys(params.global.languages).map(
   k => params.global.languages[k]
 );
@@ -70,6 +73,49 @@ export const languages = Object.keys(params.global.languages).map(
 export function languageIdToName(langId) {
   const language = languages.find(lang => lang.id === langId);
   return language !== undefined ? language.name : null;
+}
+
+export function languageNameToId(langName) {
+  const language = languages.find(lang => lang.name === langName);
+  return language !== undefined ? language.id : -1;
+}
+
+//Posts Status helpers
+export const postsStatus = Object.keys(params.blog.status).map(
+  k => params.blog.status[k]
+);
+
+export function postsStatusIdToName(statusId) {
+  const status = postsStatus.find(status => status.id === statusId);
+  return status !== undefined ? status.name : null;
+}
+
+export function postsStatusNameToId(statusName) {
+  const status = postsStatus.find(status => status.name === statusName);
+  return status !== undefined ? status.id : null;
+}
+
+// Blog Categories helpers
+export const blogCategories = Object.keys(params.blog.categories).map(
+  k => params.blog.categories[k]
+);
+
+export function blogCategoriesIdToName(categoryId) {
+  const category = blogCategories.find(cat => cat.id === categoryId);
+  return category !== undefined ? category.name : null;
+}
+
+export function blogCategoriesNameToId(categoryName) {
+  const category = blogCategories.find(cat => cat.name === categoryName);
+  return category !== undefined ? category.id : null;
+}
+
+export async function uploadImage(data) {
+  return await axios.post(config.READER_PATH + 'uploads', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
 }
 
 function filenameIsValid(filename) {
