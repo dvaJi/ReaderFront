@@ -70,6 +70,8 @@
   },
   "devDependencies": {
     "@anilanar/moxios": "^0.9.0",
+    "@commitlint/cli": "^7.3.1",
+    "@commitlint/config-conventional": "^7.3.1",
     "@types/react-intl": "^2.3.12",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
@@ -97,6 +99,7 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "yarn prettier && yarn lint"
     }
   },
