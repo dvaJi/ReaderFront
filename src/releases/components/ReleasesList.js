@@ -15,13 +15,16 @@ export default memo(function ReleasesList({ releases }) {
     .sort((r1, r2) => r1.work.stub.localeCompare(r2.work.stub))
     .forEach(release => {
       const { work } = release;
-      if (lastWork !== null && work.stub !== lastWork) {
+      if (lastWork !== null && work.stub !== lastWork.stub) {
         rows.push(
-          <div key={work.stub} className="my-3 p-3 bg-white rounded shadow-sm">
-            <ReleaseCategory work={work} key={work.stub} />
+          <div
+            key={lastWork.stub}
+            className="my-3 p-3 bg-white rounded shadow-sm"
+          >
+            <ReleaseCategory work={lastWork} key={lastWork.stub} />
             {tempRows}
             <small className="d-block text-right mt-3">
-              <Link to={`/work/${work.stub}`}>
+              <Link to={`/work/${lastWork.stub}`}>
                 <FormattedMessage
                   id="all_chapters"
                   defaultMessage="All chapters"
@@ -39,7 +42,7 @@ export default memo(function ReleasesList({ releases }) {
       tempRows.push(
         <ReleaseItem release={release} url={chapterUrl} key={release.id} />
       );
-      lastWork = work.stub;
+      lastWork = work;
     });
 
   return rows;
