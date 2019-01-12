@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 const Card = styled.div`
   display: inline-block;
   position: relative;
-  width: 355px;
+  width: 310px;
   background-color: #ddd;
   vertical-align: top;
   text-align: left;
@@ -14,8 +14,9 @@ const Card = styled.div`
   white-space: normal;
 `;
 
-export default class PostCardEmpty extends Component {
-  render() {
-    return <Card className="show-loading-animation" />;
-  }
-}
+export default memo(function PostCardEmpty() {
+  const cards = [1, 2, 3, 4, 5, 6];
+  return cards.map(c => (
+    <Card key={'posts-loading-' + c} className="show-loading-animation" />
+  ));
+});
