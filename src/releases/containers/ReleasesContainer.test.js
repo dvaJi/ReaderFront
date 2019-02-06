@@ -40,12 +40,6 @@ const mocks = [
 
 it('should render without throwing an error', async () => {
   const store = mockStore({
-    releases: {
-      chapters: [],
-      releasesPage: 0,
-      releasesIsLoading: false,
-      releasesHasErrored: false
-    },
     layout: {
       language: 'es'
     }
@@ -64,12 +58,6 @@ it('should render without throwing an error', async () => {
 
 it('should render an error if cannot fetch data', async () => {
   const store = mockStore({
-    releases: {
-      chapters: [],
-      releasesPage: 0,
-      releasesIsLoading: false,
-      releasesHasErrored: false
-    },
     layout: {
       language: 'es'
     }

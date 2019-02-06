@@ -1,160 +1,123 @@
 import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { FormattedMessage } from 'react-intl';
+import { Query } from 'react-apollo';
 
-import { fetchReleases } from '../../releases/actions/doReleases';
-import { fetchRandomWork } from '../../work/actions/doWork';
-import { fetchWorks } from '../../works/actions/doWorks';
+import params from '../../params.json';
 import * as config from '../../config';
 import { subString } from '../../utils/helpers';
+import {
+  FETCH_RELEASES,
+  FETCH_LATEST_WORKS,
+  FETCH_RANDOM_WORK
+} from './queries';
 
 // UI
+import HomeMetaTags from './HomeMetaTags';
 import ComicSlide from '../components/ComicSlide';
 import DiscordWidget from '../components/DiscordWidget';
 import RecommendedWork from '../components/RecommendedWork';
 import LatestWorks from '../components/LatestWorks';
 
-class HomeContainer extends Component {
-  constructor(props) {
-    super(props);
+const generateRandomBlock = previousBlock => {
+  const numbers = [1, 2, 3, 5];
+  const index = numbers.indexOf(previousBlock);
+  const nextIndex = numbers.length - 1 === index ? 0 : index + 1;
+  return numbers[nextIndex];
+};
 
-    this.state = {
-      blocks: [],
-      disqusConfig: {
-        id: '',
-        path: '',
-        title: ''
-      }
-    };
+const createBlocks = chapters => {
+  const blocks = [];
+  let blockNumber = generateRandomBlock();
 
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.language !== this.props.language) {
-      this.props.loadChapters(newProps.language, 0);
-      this.props.recommendedWork(newProps.language);
-      this.props.getLatestWorks(newProps.language, 'DESC', 10);
-    }
-
-    if (
-      this.props.chapters.length === 0 ||
-      (this.props.chapters.length > 0 &&
-        this.props.chapters[0] !== newProps.chapters[0])
+  chapters.forEach((chapter, index) => {
+    if (chapters.length <= 5 && chapters.length !== 4) {
+      blocks.push({ chapters: [chapter], block: chapters.length });
+    } else if (blocks.length === 0) {
+      blocks.push({ chapters: [chapter], block: blockNumber });
+    } else if (
+      blocks[blocks.length - 1].chapters.length <
+      blocks[blocks.length - 1].block
     ) {
-      this.createBlocks(newProps.chapters);
+      blocks[blocks.length - 1].chapters.push(chapter);
+    } else {
+      do {
+        blockNumber = generateRandomBlock(blockNumber);
+      } while (blockNumber > chapters.length - index);
+      blocks.push({ chapters: [chapter], block: blockNumber });
     }
-  }
+  });
 
-  generateRandomBlock(previousBlock) {
-    var num = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-    return num === 4 || num === previousBlock
-      ? this.generateRandomBlock()
-      : num;
-  }
+  return blocks;
+};
 
-  createBlocks(chapters) {
-    const blocks = [];
-    let blockNumber = this.generateRandomBlock();
+const LatestReleases = ({ language }) => (
+  <Query
+    query={FETCH_RELEASES}
+    variables={{ language, orderBy: 'DESC', first: 20, offset: 0 }}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return <ComicSlide blocks={[]} isLoading={true} />;
+      if (error) return <p id="error_releases">Error :(</p>;
 
-    chapters.forEach((chapter, index) => {
-      if (chapters.length <= 5 && chapters.length !== 4) {
-        blocks.push({ chapters: [chapter], block: chapters.length });
-      } else if (blocks.length === 0) {
-        blocks.push({ chapters: [chapter], block: blockNumber });
-      } else if (
-        blocks[blocks.length - 1].chapters.length <
-        blocks[blocks.length - 1].block
-      ) {
-        blocks[blocks.length - 1].chapters.push(chapter);
-      } else {
-        do {
-          blockNumber = this.generateRandomBlock(blockNumber);
-        } while (blockNumber > chapters.length - index);
-        blocks.push({ chapters: [chapter], block: blockNumber });
-      }
-    });
+      return (
+        <ComicSlide blocks={createBlocks(data.chapters)} isLoading={false} />
+      );
+    }}
+  </Query>
+);
 
-    this.setState({ blocks: blocks });
-  }
+const LatestWorksAdded = ({ language }) => (
+  <Query query={FETCH_LATEST_WORKS} variables={{ language }}>
+    {({ loading, error, data }) => {
+      if (loading) return <LatestWorks blocks={[]} isLoading={true} />;
+      if (error) return <p id="error_releases">Error :(</p>;
 
-  componentDidMount() {
-    if (this.props.chapters.length === 0) {
-      this.props.loadChapters(this.props.language, 0);
-    }
+      return <LatestWorks works={data.works} isLoading={false} />;
+    }}
+  </Query>
+);
 
-    if (this.props.randomWork === null) {
-      this.props.recommendedWork(this.props.language);
-    }
+const RandomWork = ({ language }) => (
+  <Query query={FETCH_RANDOM_WORK} variables={{ language }}>
+    {({ loading, error, data }) => {
+      if (loading)
+        return (
+          <RecommendedWork isLoading={true} work={null} description={''} />
+        );
+      if (error) return <p id="error_releases">Error :(</p>;
 
-    if (this.props.latestWorks.length === 0) {
-      this.props.getLatestWorks(this.props.language, 'DESC', 10);
-    }
+      const description =
+        data.workRandom !== null
+          ? subString(data.workRandom.works_descriptions[0].description, 175)
+          : '';
 
-    if (this.props.chapters.length > 0 && this.state.blocks.length === 0) {
-      this.createBlocks(this.props.chapters);
-    }
-  }
+      return (
+        <RecommendedWork
+          isLoading={false}
+          work={data.workRandom}
+          description={description}
+        />
+      );
+    }}
+  </Query>
+);
 
-  renderMetatags() {
-    const title = config.APP_TITLE;
-    return (
-      <div>
-        <Helmet>
-          <meta charSet="utf-8" />
-        </Helmet>
-        <FormattedMessage
-          id="home.title"
-          defaultMessage="{title} - Home"
-          values={{ title: title }}
-        >
-          {title => (
-            <Helmet>
-              <title>{title}</title>
-              <meta property="og:title" content={title} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-        <FormattedMessage id="home.desc" defaultMessage="All releases">
-          {desc => (
-            <Helmet>
-              <meta name="description" content={desc} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-      </div>
-    );
-  }
-
+class HomeContainer extends Component {
   render() {
+    const { language } = this.props;
     return (
       <div className="Home">
-        {this.renderMetatags()}
-        <ComicSlide
-          blocks={this.state.blocks}
-          isLoading={this.props.isLoadingChapters}
-        />
+        <HomeMetaTags />
+        <LatestReleases language={params.global.languages[language].id} />
         <div className="container">
           <div className="row">
             <div className="col-md-8">
-              <LatestWorks
-                works={this.props.latestWorks}
-                isLoading={this.props.latestWorksIsLoading}
+              <LatestWorksAdded
+                language={params.global.languages[language].id}
               />
             </div>
             <div className="col-md-4">
-              <RecommendedWork
-                isLoading={this.props.workRandomIsLoading}
-                work={this.props.randomWork}
-                description={
-                  this.props.randomWork !== null
-                    ? subString(this.props.randomWork.description, 175)
-                    : ''
-                }
-              />
+              <RandomWork language={params.global.languages[language].id} />
               <DiscordWidget discordId={config.DISCORD_ID} />
             </div>
           </div>
@@ -164,32 +127,10 @@ class HomeContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
-    chapters: state.releases.chapters,
-    page: state.releases.releasesPage,
-    randomWork: state.work.randomWork,
-    workRandomIsLoading: state.work.workRandomIsLoading,
-    latestWorks: state.works.latestWorks,
-    latestWorksIsLoading: state.works.latestWorksIsLoading,
-    isLoadingChapters: state.releases.releasesIsLoading,
-    hasErrored: state.releases.releasesHasErrored,
     language: state.layout.language
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadChapters: (lang, page) => dispatch(fetchReleases(lang, page)),
-    recommendedWork: lang => dispatch(fetchRandomWork(lang)),
-    getLatestWorks: (lang, sort, perPage) =>
-      dispatch(fetchWorks(lang, sort, perPage))
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(HomeContainer)
-);
+export default connect(mapStateToProps)(HomeContainer);

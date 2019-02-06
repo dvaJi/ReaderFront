@@ -12,7 +12,11 @@ const WorksList = styled.div`
 
 export default class LatestWork extends PureComponent {
   handleTruncate = work => {
-    return subString(work.description, 120);
+    if (work.works_descriptions.length === 0) {
+      return '';
+    }
+
+    return subString(work.works_descriptions[0].description, 120);
   };
 
   handleRedirectTo = work => {
