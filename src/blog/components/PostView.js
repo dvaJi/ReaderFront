@@ -1,14 +1,13 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
-import ReactMarkdown from 'react-markdown';
-import { Transition } from 'react-spring';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-
-import { HeroContainer, HeroBg } from './styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactMarkdown from 'react-markdown';
+import { Link } from 'react-router-dom';
+import { animated, useTransition } from 'react-spring';
+import { Button, Container } from 'reactstrap';
+import styled from 'styled-components';
 import { getPostThumb } from '../../utils/common';
+import { HeroBg, HeroContainer } from './styles';
 
 const Card = styled.div`
   background-color: #fff;
@@ -31,24 +30,26 @@ export default memo(function PostView({ post, onClickBack }) {
   const { title, content, stub, uniqid, thumbnail } = post;
   const dir = stub + '_' + uniqid;
   const portrait = getPostThumb(dir, thumbnail, 'medium');
+  const heroTransition = useTransition([portrait], item => item.id, {
+    from: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' },
+    enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },
+    leave: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' }
+  });
+  const titleTransition = useTransition([title], item => item.id, {
+    from: { transform: 'translate3d(0,5px,0)', opacity: '0.4' },
+    enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },
+    leave: { transform: 'translate3d(0,5px,0)', opacity: '0.4' }
+  });
 
   return (
     <div>
-      <Transition
-        items={true}
-        from={{ transform: 'translate3d(0,-10px,0)', opacity: '0.2' }}
-        enter={{ transform: 'translate3d(0,0px,0)', opacity: '1' }}
-        leave={{ transform: 'translate3d(0,-10px,0)', opacity: '0.2' }}
-      >
-        {show =>
-          show &&
-          (props => (
-            <HeroContainer style={props}>
-              <HeroBg portrait={portrait} />
-            </HeroContainer>
-          ))
-        }
-      </Transition>
+      {heroTransition.map(({ item, key, props }) => (
+        <animated.div key={key} style={props}>
+          <HeroContainer style={props}>
+            <HeroBg portrait={item} />
+          </HeroContainer>
+        </animated.div>
+      ))}
       <Container>
         <Card>
           <Button
@@ -60,21 +61,11 @@ export default memo(function PostView({ post, onClickBack }) {
           >
             <FontAwesomeIcon icon={faArrowLeft} /> Volver
           </Button>
-          <Transition
-            items={true}
-            from={{ transform: 'translate3d(0,5px,0)', opacity: '0.4' }}
-            enter={{ transform: 'translate3d(0,0px,0)', opacity: '1' }}
-            leave={{ transform: 'translate3d(0,5px,0)', opacity: '0.4' }}
-          >
-            {show =>
-              show &&
-              (props => (
-                <div style={props}>
-                  <h1 id="post_title">{title}</h1>
-                </div>
-              ))
-            }
-          </Transition>
+          {titleTransition.map(({ item, key, props }) => (
+            <animated.div key={key} style={props}>
+              <h1 id="post_title">{item}</h1>
+            </animated.div>
+          ))}
           <ReactMarkdown source={content} escapeHtml={true} />
         </Card>
       </Container>
