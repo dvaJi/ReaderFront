@@ -1,4 +1,5 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { Provider } from 'react-redux';
 import { MockedProvider } from 'react-apollo/test-utils';
@@ -46,10 +47,14 @@ it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
-        <HomeContainer />
+        <MemoryRouter>
+          <HomeContainer />
+        </MemoryRouter>
       </Provider>
     </MockedProvider>
   );
+
+  await global.wait(0);
   expect(wrapper).toBeTruthy();
   await wrapper.unmount();
 });

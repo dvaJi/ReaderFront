@@ -1,5 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
+import { injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
+import Lazyload from 'react-lazyload';
+
 import styled from 'styled-components';
 import WorkCover from './WorkCover';
 
@@ -75,34 +78,33 @@ const CardBody = styled.div`
   }
 `;
 
-export default class WorkItem extends PureComponent {
-  render() {
-    const {
-      work,
-      truncate,
-      redirectTo,
-      thumbUrl,
-      size,
-      statusTag
-    } = this.props;
-    return (
-      <Link to={redirectTo(work)}>
-        <Card>
+function WorkItem({ work, truncate, thumbUrl, size, statusTag, intl }) {
+  const status = statusTag(work.status);
+  return (
+    <Link to={'/work/' + work.stub}>
+      <Card>
+        <Lazyload height={150}>
           <WorkCover
             cover={thumbUrl(work)}
             name={work.name}
             size={size}
-            status={work.statusLabel}
-            statusTag={statusTag(work.status)}
+            status={intl.formatMessage({
+              id: status.name,
+              defaultMessage: status.name
+            })}
+            statusTag={status.style}
           />
-          <CardBody size={size}>
-            {size !== 'small' && (
-              <h2 className="card-body-heading">{work.name}</h2>
-            )}
-            <p className="card-body-description">{truncate(work)}</p>
-          </CardBody>
-        </Card>
-      </Link>
-    );
-  }
+        </Lazyload>
+
+        <CardBody size={size}>
+          {size !== 'small' && (
+            <h2 className="card-body-heading">{work.name}</h2>
+          )}
+          <p className="card-body-description">{truncate(work)}</p>
+        </CardBody>
+      </Card>
+    </Link>
+  );
 }
+
+export default memo(injectIntl(WorkItem));

@@ -110,6 +110,16 @@ export function blogCategoriesNameToId(categoryName) {
   return category !== undefined ? category.id : null;
 }
 
+// Work Helpers
+export const workStatus = Object.keys(params.works.status).map(
+  s => params.works.status[s]
+);
+
+export function workStatusIdToName(statusId) {
+  const status = workStatus.find(status => status.id === statusId);
+  return status !== undefined ? status.name : null;
+}
+
 export async function uploadImage(data) {
   return await axios.post(config.READER_PATH + 'uploads', data, {
     headers: {

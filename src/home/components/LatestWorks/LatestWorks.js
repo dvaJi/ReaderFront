@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import Card from '../../../works/components/WorkItem';
 import CardLoading from '../../../works/components/WorkItemEmpty';
 import { subString } from '../../../utils/helpers';
-import { getStatusTagStyle, getWorkThumb } from '../../../utils/common';
+import {
+  getStatusTagStyle,
+  getWorkThumb,
+  workStatusIdToName
+} from '../../../utils/common';
 
 const WorksList = styled.div`
   margin-top: 30px;
@@ -29,7 +33,10 @@ export default class LatestWork extends PureComponent {
   };
 
   handleStatusTag = statusId => {
-    return getStatusTagStyle(statusId);
+    return {
+      style: getStatusTagStyle(statusId),
+      name: workStatusIdToName(statusId)
+    };
   };
 
   render() {

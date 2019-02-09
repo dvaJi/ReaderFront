@@ -1,85 +1,75 @@
 import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+import { MockedProvider } from 'react-apollo/test-utils';
+
 import WorksContainer from './WorksContainer';
-import App from '../../App';
-import { doChangeLanguage } from '../../layout/actions/doChangeLanguage';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import { FETCH_WORKS } from './query';
+
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const works = global.rfMocks.work.worksNormalized;
+const works = global.rfMocks.work.works;
 
-it('should render without throwing an error', () => {
-  const store = mockStore({
-    works: {
-      works: [],
-      worksFilterText: '',
-      worksIsLoading: false,
-      workHasErrored: false
+const mocks = [
+  {
+    request: {
+      query: FETCH_WORKS,
+      variables: { language: 1 }
     },
-    layout: {
-      language: 'es'
+    result: {
+      data: {
+        works: works
+      }
     }
-  });
-  const wrapper = mount(
-    <App>
-      <Provider store={store}>
-        <WorksContainer />
-      </Provider>
-    </App>
-  );
+  }
+];
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
-});
-
-it('should filter works', () => {
+it('should render without throwing an error', async () => {
   const store = mockStore({
-    works: {
-      works: works,
-      worksFilterText: '',
-      worksIsLoading: false,
-      workHasErrored: false
-    },
     layout: {
       language: 'es'
     }
   });
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <WorksContainer />
-    </Provider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <Provider store={store}>
+        <MemoryRouter>
+          <WorksContainer />
+        </MemoryRouter>
+      </Provider>
+    </MockedProvider>
   );
+
+  await global.wait(0);
+
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
+});
+
+it('should filter works', async () => {
+  const store = mockStore({
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mountWithIntl(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <Provider store={store}>
+        <MemoryRouter>
+          <WorksContainer />
+        </MemoryRouter>
+      </Provider>
+    </MockedProvider>
+  );
+
+  await global.wait(0);
 
   const input = wrapper.find('input[name="q"]');
   input.instance().value = 'a';
   input.simulate('change');
-});
-
-it('should render without throwing an error when it receive a new language props', async () => {
-  const store = mockStore({
-    works: {
-      works: [],
-      worksFilterText: '',
-      worksIsLoading: false,
-      workHasErrored: false
-    },
-    layout: {
-      language: 'en'
-    }
-  });
-  const wrapper = await mountWithIntl(
-    <Provider store={store}>
-      <WorksContainer />
-    </Provider>
-  );
-  await wrapper.update();
-  wrapper.setProps({ language: 'es' });
-
-  await store.dispatch(doChangeLanguage('es'));
-  await wrapper.update();
   wrapper.unmount();
 });

@@ -17,6 +17,11 @@ module.exports = {
     eqeqeq: ['error', 'always'],
     'no-console': ['error', { allow: ['warn', 'info', 'error'] }]
   },
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 8,
