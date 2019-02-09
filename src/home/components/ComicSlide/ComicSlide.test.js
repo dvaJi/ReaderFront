@@ -3,9 +3,8 @@ import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
 import NextButton from './NextButton';
-import { getReleases } from '../../../utils/mocks/getReleasesMock';
 
-const releases = getReleases();
+const releases = global.rfMocks.releases.getReleases;
 
 it('renders while loading without crashing', async () => {
   const wrapper = await mountWithIntl(
