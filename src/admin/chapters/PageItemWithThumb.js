@@ -241,18 +241,16 @@ class PageItemWithThumb extends Component {
         hasError={hasError}
       >
         <CardHero thumb={this.state.thumb}>
-          {!isDefaultPage &&
-            isUploaded &&
-            !isUploading && (
-              <OverlaySelectDefault className="row">
-                <RoundedButton
-                  id={'select-default-' + index}
-                  onClick={e => handleSelectDefault(page)}
-                >
-                  <FontAwesomeIcon icon={faImage} size="6x" />
-                </RoundedButton>
-              </OverlaySelectDefault>
-            )}
+          {!isDefaultPage && isUploaded && !isUploading && (
+            <OverlaySelectDefault className="row">
+              <RoundedButton
+                id={'select-default-' + index}
+                onClick={e => handleSelectDefault(page)}
+              >
+                <FontAwesomeIcon icon={faImage} size="6x" />
+              </RoundedButton>
+            </OverlaySelectDefault>
+          )}
           {isDefaultPage && (
             <OverlaySelectDefault isActive={true} className="row">
               <RoundedButton isActive={true}>
@@ -283,25 +281,22 @@ class PageItemWithThumb extends Component {
               >
                 <FontAwesomeIcon icon={faTimes} size="xs" />
               </RoundedButton>
-              {!isUploaded &&
-                isUploading && (
-                  <RoundedButton>
-                    <StyledSpinner icon={faSpinner} size="xs" />
-                  </RoundedButton>
-                )}
-              {!isUploaded &&
-                !isUploading &&
-                size <= 2411724 && (
-                  <RoundedButton
-                    title={intl.formatMessage({
-                      id: 'upload_page',
-                      defaultMessage: 'Upload page'
-                    })}
-                    onClick={e => handleUpload(page)}
-                  >
-                    <FontAwesomeIcon icon={faFileUpload} size="xs" />
-                  </RoundedButton>
-                )}
+              {!isUploaded && isUploading && (
+                <RoundedButton>
+                  <StyledSpinner icon={faSpinner} size="xs" />
+                </RoundedButton>
+              )}
+              {!isUploaded && !isUploading && size <= 2411724 && (
+                <RoundedButton
+                  title={intl.formatMessage({
+                    id: 'upload_page',
+                    defaultMessage: 'Upload page'
+                  })}
+                  onClick={e => handleUpload(page)}
+                >
+                  <FontAwesomeIcon icon={faFileUpload} size="xs" />
+                </RoundedButton>
+              )}
             </CardOverlayStatus>
             <CardOverlayMessage>
               {size > 2411724 ? (
@@ -315,19 +310,17 @@ class PageItemWithThumb extends Component {
             </CardOverlayMessage>
           </CardOverlay>
         </CardHero>
-        {!isDefaultPage &&
-          isUploaded &&
-          !isUploading && (
-            <UncontrolledTooltip
-              placement="bottom"
-              target={'select-default-' + index}
-            >
-              <FormattedMessage
-                id="select_page_as_default"
-                defaultMessage="Select page as default"
-              />
-            </UncontrolledTooltip>
-          )}
+        {!isDefaultPage && isUploaded && !isUploading && (
+          <UncontrolledTooltip
+            placement="bottom"
+            target={'select-default-' + index}
+          >
+            <FormattedMessage
+              id="select_page_as_default"
+              defaultMessage="Select page as default"
+            />
+          </UncontrolledTooltip>
+        )}
       </Card>
     );
   }
