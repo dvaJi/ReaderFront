@@ -21,6 +21,7 @@ export function getReleases(amount = 4) {
       subchapter: is ? 0 : 1,
       releaseDate: new Date(),
       createdAt: new Date(),
+      updatedAt: new Date(),
       work: work
     };
     releases.push(chapter);

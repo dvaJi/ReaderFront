@@ -12,7 +12,7 @@ const MetaTag = () => {
       </Helmet>
       <FormattedMessage
         id="home.title"
-        defaultMessage="{title} - Home"
+        defaultMessage="Home :: {title}"
         values={{ title: title }}
       >
         {title => (

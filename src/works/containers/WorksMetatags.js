@@ -10,7 +10,7 @@ const MetaTag = () => (
     </Helmet>
     <FormattedMessage
       id="works.title"
-      defaultMessage="{title} - Projects list"
+      defaultMessage="Projects List :: {title}"
       values={{ title: APP_TITLE }}
     >
       {title => (
@@ -22,7 +22,7 @@ const MetaTag = () => (
     </FormattedMessage>
     <FormattedMessage
       id="works.desc"
-      defaultMessage="All {title} Projects"
+      defaultMessage="Projects List for {title}"
       values={{ title: APP_TITLE }}
     >
       {desc => (
