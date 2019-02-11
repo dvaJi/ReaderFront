@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const FETCH_WORKS = gql`
-  query Chapters($language: Int) {
+  query Works($language: Int) {
     works(
       language: $language
       orderBy: "ASC"

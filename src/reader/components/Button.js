@@ -1,22 +1,21 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Button as RButton } from 'reactstrap';
 
-export default class Button extends PureComponent {
-  render() {
-    return (
-      <RButton
-        id={this.props.id}
-        tag={Link}
-        color="primary"
-        onClick={e =>
-          this.props.gaEvent(`Press ${this.props.text}`, this.props.url)
-        }
-        to={this.props.url}
-        disabled={this.props.chapter === -1}
-      >
-        {this.props.text}
-      </RButton>
-    );
-  }
+function Button({ id, url, text, chapter, gaEvent }) {
+  const handleOnClick = () => gaEvent(`Press ${text}`, url);
+  return (
+    <RButton
+      id={id}
+      tag={Link}
+      color="primary"
+      onClick={handleOnClick}
+      to={url}
+      disabled={chapter === -1}
+    >
+      {text}
+    </RButton>
+  );
 }
+
+export default memo(Button);

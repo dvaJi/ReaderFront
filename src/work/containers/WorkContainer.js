@@ -30,7 +30,7 @@ class WorkContainer extends Component {
     }
   }
 
-  renderMetaTags() {
+  renderMetaTags(language) {
     const title = config.APP_TITLE;
     const { work } = this.props;
     const workDir = work.stub + '_' + work.uniqid;
@@ -38,8 +38,15 @@ class WorkContainer extends Component {
       <div>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{work.name + ' - ' + title}</title>
-          <meta property="og:title" content={work.name + ' - ' + title} />
+          <title>{work.name + ' :: ' + title}</title>
+          <meta property="og:title" content={work.name + ' :: ' + title} />
+          <meta property="og:type" content="book" />
+          <meta
+            name="description"
+            content={work.works_descriptions.find(
+              e => e.language === language.id
+            )}
+          />
           <meta
             property="og:image"
             content={getWorkThumb(workDir, this.props.work.thumbnail, 'medium')}
@@ -56,6 +63,19 @@ class WorkContainer extends Component {
             </Helmet>
           )}
         </FormattedMessage>
+        <FormattedMessage
+          id="cover_alt"
+          defaultMessage="Cover for {workName}"
+          values={{
+            workName: work.name
+          }}
+        >
+          {coverAlt => (
+            <Helmet>
+              <meta property="og:image:alt" content={coverAlt} />
+            </Helmet>
+          )}
+        </FormattedMessage>
       </div>
     );
   }
@@ -66,7 +86,7 @@ class WorkContainer extends Component {
     const language = params.global.languages[this.props.language];
     return (
       <div className="Work">
-        {this.renderMetaTags()}
+        {this.renderMetaTags(language)}
         <h1>{work.name}</h1>
         <div className="row">
           <div className="col-md-4">
