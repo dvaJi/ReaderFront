@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['eslint:recommended', 'prettier', 'react-app'],
+  extends: ['plugin:prettier/recommended', 'react-app'],
   env: {
     browser: true,
     node: true,

@@ -71,19 +71,14 @@ function PagesItem({
           <FontAwesomeIcon icon={faImage} />
         </PageListItemAction>
       </animated.span>
-      {!isDefaultPage &&
-        isUploaded &&
-        !isUploading && (
-          <UncontrolledTooltip
-            placement="top"
-            target={'select-default-' + index}
-          >
-            <FormattedMessage
-              id="select_page_as_default"
-              defaultMessage="Select page as default"
-            />
-          </UncontrolledTooltip>
-        )}
+      {!isDefaultPage && isUploaded && !isUploading && (
+        <UncontrolledTooltip placement="top" target={'select-default-' + index}>
+          <FormattedMessage
+            id="select_page_as_default"
+            defaultMessage="Select page as default"
+          />
+        </UncontrolledTooltip>
+      )}
       {'  '}
       {isUploaded ? (
         <a

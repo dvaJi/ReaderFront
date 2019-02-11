@@ -90,15 +90,14 @@ function WorkCover({ name, cover, size, statusTag, status }) {
           </Overlay>
         )}
       </Cover>
-      {size !== 'small' &&
-        statusTag && (
-          <Tag
-            statusColorBg={statusTag.background}
-            statusColorTxt={statusTag.color}
-          >
-            {status}
-          </Tag>
-        )}
+      {size !== 'small' && statusTag && (
+        <Tag
+          statusColorBg={statusTag.background}
+          statusColorTxt={statusTag.color}
+        >
+          {status}
+        </Tag>
+      )}
     </CardMedia>
   );
 }
