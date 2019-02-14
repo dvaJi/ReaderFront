@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FormattedMessage, injectIntl } from 'react-intl';
+import { useTrail, animated } from 'react-spring';
 import Chapter from './Chapter';
 
 export const ChapterListStyle = styled.div`
@@ -23,30 +24,42 @@ const Title = styled.h2`
   margin-left: 10px;
 `;
 
-class ChapterList extends PureComponent {
-  render() {
-    const { work, language } = this.props;
-    return (
-      <ChapterListStyle className="col-md-12">
-        <Title>
-          <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
-        </Title>
-        <List>
-          {work.chapters
-            .filter(c => c.language === language.id)
-            .sort((a, b) => b.chapter - a.chapter)
-            .map(chapter => (
+const config = { mass: 5, tension: 2000, friction: 200 };
+
+function ChapterList({ work, language }) {
+  const trail = useTrail(work.chapters.length, {
+    config,
+    opacity: 1,
+    x: 0,
+    from: { opacity: 0, x: 5 }
+  });
+  return (
+    <ChapterListStyle className="col-md-12">
+      <Title>
+        <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
+      </Title>
+      <List>
+        {trail.map(({ x, height, ...rest }, index) => (
+          <animated.div
+            key={work.chapters[index]}
+            style={{
+              ...rest,
+              transform: x.interpolate(x => `translate3d(0,${x}px,0)`)
+            }}
+          >
+            <animated.div style={{ height }}>
               <Chapter
-                key={chapter.id}
+                key={work.chapters[index].id}
                 work={work}
-                chapter={chapter}
+                chapter={work.chapters[index]}
                 language={language}
               />
-            ))}
-        </List>
-      </ChapterListStyle>
-    );
-  }
+            </animated.div>
+          </animated.div>
+        ))}
+      </List>
+    </ChapterListStyle>
+  );
 }
 
 export default injectIntl(ChapterList);

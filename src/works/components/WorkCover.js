@@ -18,6 +18,7 @@ const CardMedia = styled.div`
 `;
 
 export const Cover = styled.div`
+  background-color: #eee;
   background-image: url(${props => props.thumb});
   background-position: 50% 50%;
   background-size: cover;
@@ -72,11 +73,11 @@ const Tag = styled.div`
   letter-spacing: 0.4px;
   padding: 5px 8px;
   position: absolute;
-  left: 110px;
+  left: 100px;
   text-align: center;
   text-transform: uppercase;
   top: -10px;
-  width: 63px;
+  width: 73px;
 `;
 
 function WorkCover({ name, cover, size, statusTag, status }) {
