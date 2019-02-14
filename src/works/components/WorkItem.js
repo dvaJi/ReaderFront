@@ -83,18 +83,26 @@ function WorkItem({ work, truncate, thumbUrl, size, statusTag, intl }) {
   return (
     <Link to={'/work/' + work.stub}>
       <Card>
-        <Lazyload height={150}>
-          <WorkCover
-            cover={thumbUrl(work)}
-            name={work.name}
-            size={size}
-            status={intl.formatMessage({
-              id: status.name,
-              defaultMessage: status.name
-            })}
-            statusTag={status.style}
-          />
-        </Lazyload>
+        <span
+          style={{
+            height: 212,
+            width: 150,
+            float: 'left'
+          }}
+        >
+          <Lazyload height={150} once debounce={false}>
+            <WorkCover
+              cover={thumbUrl(work)}
+              name={work.name}
+              size={size}
+              status={intl.formatMessage({
+                id: status.name,
+                defaultMessage: status.name
+              })}
+              statusTag={status.style}
+            />
+          </Lazyload>
+        </span>
 
         <CardBody size={size}>
           {size !== 'small' && (

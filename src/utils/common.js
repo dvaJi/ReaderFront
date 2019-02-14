@@ -2,16 +2,16 @@ import axios from 'axios/index';
 
 // Common functions
 import params from '../params.json';
-import * as config from '../config';
+import { READER_PATH } from '../config';
 
 // Return an object with styles
 export function getStatusTagStyle(statusId) {
   if (statusId === params.works.status.onGoing.id) {
-    return { background: '#ff982c', color: '#ffe111' };
+    return { background: '#17a2b8', color: '#fff' };
   } else if (statusId === params.works.status.completed.id) {
-    return { background: '#ff982c', color: '#ffe111' };
+    return { background: '#28a745', color: '#fff' };
   } else if (statusId === params.works.status.dropped.id) {
-    return { background: '#ff982c', color: '#ffe111' };
+    return { background: '#f8f9fa', color: '#212529' };
   }
 }
 
@@ -22,9 +22,7 @@ export function getWorkThumb(dir, filename, size = 'small') {
   }
 
   const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-  return `${
-    config.READER_PATH
-  }covers/works/${dir}/${filename}?size=${size}${isWebp}`;
+  return `${READER_PATH}covers/works/${dir}/${filename}?size=${size}${isWebp}`;
 }
 
 export function getChapterPageUrl(work, chapter, filename, size = 'small') {
@@ -33,7 +31,7 @@ export function getChapterPageUrl(work, chapter, filename, size = 'small') {
   }
 
   const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-  return `${config.READER_PATH}covers/chapter/${work.stub}_${work.uniqid}/${
+  return `${READER_PATH}covers/chapter/${work.stub}_${work.uniqid}/${
     chapter.stub
   }_${chapter.uniqid}/${filename}?size=${size}${isWebp}`;
 }
@@ -46,9 +44,7 @@ export function getPostThumb(dir, filename, size = 'small') {
 
   const isWebp = canUseWebP() ? '&lowQuality=true' : '';
 
-  return `${
-    config.READER_PATH
-  }covers/blog/${dir}/${filename}?size=${size}${isWebp}`;
+  return `${READER_PATH}covers/blog/${dir}/${filename}?size=${size}${isWebp}`;
 }
 
 export function canUseWebP() {
@@ -120,8 +116,37 @@ export function workStatusIdToName(statusId) {
   return status !== undefined ? status.name : null;
 }
 
+export const genresDemographic = Object.keys(params.genres.demographic).map(
+  d => params.genres.demographic[d]
+);
+
+export function genreDemographicIdToName(demographicId) {
+  const status = genresDemographic.find(
+    demographic => demographic.id === demographicId
+  );
+  return status !== undefined ? status.name : '';
+}
+
+export const genresTypes = Object.keys(params.genres.types).map(
+  g => params.genres.types[g]
+);
+
+export function genreTypeIdToName(genreId) {
+  const genre = genresTypes.find(genre => genre.id === genreId);
+  return genre !== undefined ? genre.name : null;
+}
+
+export const workRoles = Object.keys(params.works.roles).map(
+  r => params.works.roles[r]
+);
+
+export function rolIdToName(rolId) {
+  const rol = workRoles.find(rol => rol.id === rolId);
+  return rol !== undefined ? rol.name : null;
+}
+
 export async function uploadImage(data) {
-  return await axios.post(config.READER_PATH + 'uploads', data, {
+  return await axios.post(READER_PATH + 'uploads', data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

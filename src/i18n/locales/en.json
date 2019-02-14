@@ -119,5 +119,7 @@
   "next": "Next",
   "cover_alt": "Cover for {workName}",
   "reader.title": "{workName} :: Chapter {chapter} :: {appTitle}",
-  "blog.description": "All blog posts by {title}"
+  "blog.description": "All blog posts by {title}",
+  "people.rol.author": "Author",
+  "people.rol.artist": "Artist"
 }

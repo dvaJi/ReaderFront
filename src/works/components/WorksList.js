@@ -39,7 +39,7 @@ function WorkList({ works, filterText }) {
     .filter(work =>
       work.name.toUpperCase().startsWith(filterText.toUpperCase())
     )
-    .map((work, index) => (
+    .map(work => (
       <animated.span key={work.id} style={springProps}>
         <WorkItem
           key={work.id}

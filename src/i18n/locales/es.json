@@ -1,5 +1,5 @@
 {
-  "action": "Action",
+  "action": "Acción",
   "actions": "Acciones",
   "add_chapter": "Añadir capítulo",
   "add_work": "Añadir Work",
@@ -119,5 +119,7 @@
   "next": "Siguiente",
   "cover_alt": "Portada de {workName}",
   "reader.title": "{workName} :: Capítulo {chapter} :: {appTitle}",
-  "blog.description": "Publicaciones en el blog mas recientes de {title}"
+  "blog.description": "Publicaciones en el blog mas recientes de {title}",
+  "people.rol.author": "Guión",
+  "people.rol.artist": "Artista"
 }
