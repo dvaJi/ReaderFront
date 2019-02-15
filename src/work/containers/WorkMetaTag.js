@@ -31,7 +31,7 @@ const MetaTag = ({ work, language }) => {
       {work.works_genres.map(g => {
         const genre = genreTypeIdToName(g.genreId);
         return (
-          <FormattedMessage id={genre} defaultMessage={genre}>
+          <FormattedMessage id={genre} key={genre} defaultMessage={genre}>
             {genre => (
               <Helmet>
                 <meta property="book:tag" content={genre} />

@@ -10,8 +10,6 @@ export const FETCH_WORK = gql`
       type
       demographicId
       status
-      statusReason
-      visits
       adult
       thumbnail
       createdAt

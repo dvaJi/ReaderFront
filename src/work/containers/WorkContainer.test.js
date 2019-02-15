@@ -29,7 +29,7 @@ const mocks = [
   }
 ];
 
-it('should render without throwing an error', () => {
+it('should render without throwing an error', async () => {
   const store = mockStore({
     layout: {
       language: 'es'
@@ -51,6 +51,7 @@ it('should render without throwing an error', () => {
     </MockedProvider>
   );
 
+  await global.wait(0);
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
