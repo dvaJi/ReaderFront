@@ -1,5 +1,6 @@
 export function getPeople() {
   return {
+    id: 1,
     name: 'Asato Mizu',
     name_kanji: '水あさと',
     stub: 'asato-mizu',

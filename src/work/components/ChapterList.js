@@ -41,7 +41,7 @@ function ChapterList({ work, language }) {
       <List>
         {trail.map(({ x, height, ...rest }, index) => (
           <animated.div
-            key={work.chapters[index]}
+            key={work.chapters[index].id}
             style={{
               ...rest,
               transform: x.interpolate(x => `translate3d(0,${x}px,0)`)
