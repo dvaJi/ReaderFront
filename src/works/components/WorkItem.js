@@ -78,18 +78,17 @@ const CardBody = styled.div`
   }
 `;
 
+const CoverWrapper = styled.span`
+  ${props =>
+    props.size !== 'small' ? 'height: 212px; width: 150px; float: left;' : ''}
+`;
+
 function WorkItem({ work, truncate, thumbUrl, size, statusTag, intl }) {
   const status = statusTag(work.status);
   return (
     <Link to={'/work/' + work.stub}>
       <Card>
-        <span
-          style={{
-            height: 212,
-            width: 150,
-            float: 'left'
-          }}
-        >
+        <CoverWrapper size={size}>
           <Lazyload height={150} once debounce={false}>
             <WorkCover
               cover={thumbUrl(work)}
@@ -102,7 +101,7 @@ function WorkItem({ work, truncate, thumbUrl, size, statusTag, intl }) {
               statusTag={status.style}
             />
           </Lazyload>
-        </span>
+        </CoverWrapper>
 
         <CardBody size={size}>
           {size !== 'small' && (
