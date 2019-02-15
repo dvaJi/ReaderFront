@@ -95,7 +95,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-mock-store": "^1.5.3",
     "source-map-explorer": "^1.6.0",
-    "standard-version": "^4.4.0",
+    "standard-version": "^5.0.0",
     "wait-for-expect": "^1.1.0"
   },
   "husky": {
