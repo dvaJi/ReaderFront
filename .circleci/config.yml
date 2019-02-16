@@ -35,9 +35,6 @@ aliases:
   - &build-app
     name: Building app
     command: yarn build
-  - &add-server-know-host
-    name: Add Server to known_hosts
-    command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
   - &deploy
     name: Deploy
     command: |
@@ -90,7 +87,6 @@ jobs:
       - add_ssh_keys:
           fingerprints:
           - "$FINGERPRINT"
-      - run: *add-server-know-host
       - run: *deploy
       
 
