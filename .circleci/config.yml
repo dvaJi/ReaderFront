@@ -90,21 +90,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - install
-
-      - lint:
-          requires:
-            - install
-
-      - test:
-          requires:
-            - install
-
-      - build:
-          requires:
-            - install
-  build_test_and_deploy:
-    jobs:
       - install:
           filters:
             tags:
