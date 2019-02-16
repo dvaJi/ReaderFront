@@ -94,7 +94,6 @@ workflows:
 
       - lint:
           requires:
-
             - install
 
       - test:
@@ -104,6 +103,33 @@ workflows:
       - build:
           requires:
             - install
+  build_test_and_deploy:
+    jobs:
+      - install:
+          filters:
+            tags:
+              only: /.*/
+
+      - lint:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
+
+      - test:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
+
+      - build:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
       
       - deploy:
           requires:
@@ -115,4 +141,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*
+              ignore: /.*/
