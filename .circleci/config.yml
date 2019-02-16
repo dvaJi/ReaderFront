@@ -90,21 +90,32 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - install
+      - install:
+          filters:
+            tags:
+              only: /.*/
 
       - lint:
           requires:
 
             - install
+          filters:
+            tags:
+              only: /.*/
 
       - test:
           requires:
             - install
+          filters:
+            tags:
+              only: /.*/
 
       - build:
           requires:
             - install
-      
+          filters:
+            tags:
+              only: /.*/
       - deploy:
           requires:
             - install
@@ -115,4 +126,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*
+              ignore: /.*/
