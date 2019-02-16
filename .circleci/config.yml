@@ -97,6 +97,7 @@ workflows:
 
       - lint:
           requires:
+
             - install
           filters:
             tags:
@@ -115,7 +116,7 @@ workflows:
           filters:
             tags:
               only: /.*/
-      
+
       - deploy:
           requires:
             - install
