@@ -37,8 +37,7 @@ aliases:
     command: yarn build
   - &deploy
     name: Deploy
-    command: |
-            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "./deploy_front.sh"
+    command: curl $SECRET_HOST_RS?id=$SECRET_TOKEN_RS
 
 jobs:
   install:
@@ -84,9 +83,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/reader-front
-      - add_ssh_keys:
-          fingerprints:
-          - "$FINGERPRINT"
       - run: *deploy
       
 
@@ -118,5 +114,5 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-#            branches:
-#              ignore: /.*
+            branches:
+              ignore: /.*
