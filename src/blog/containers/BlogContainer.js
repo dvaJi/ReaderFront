@@ -1,159 +1,124 @@
 import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
-import { fetchPosts, blogSelectPost, blogPage } from '../actions/doBlog';
+import { Query } from 'react-apollo';
+import { Container } from 'reactstrap';
+
+// App imports
+import { FETCH_ALL_POSTS_WITH_AGG, FIND_BY_STUB } from './queries';
+import { MetaTagList, MetaTagPost } from './BlogMetatag';
 import PostsList from '../components/PostsList';
 import PostView from '../components/PostView';
-import * as config from '../../config';
+import PostCardLoading from '../components/PostCardEmpty';
+import { languageNameToId } from '../../utils/common';
 
 class BlogContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      perPage: 9,
+      postSelected: null
+    };
 
-    this.handleOnScroll = this.handleOnScroll.bind(this);
     this.handleSelectPost = this.handleSelectPost.bind(this);
     this.handleDeselectPost = this.handleDeselectPost.bind(this);
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleOnScroll);
-    if (this.props.posts.length === 0) {
-      try {
-        this.props.getPosts(
-          this.props.language,
-          'DESC',
-          15,
-          'id',
-          this.props.page
-        );
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.language !== nextProps.language) {
-      this.props.changePage(0);
-      this.props.getPosts(nextProps.language, 'DESC', 15, 'id', 0);
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleOnScroll);
-  }
-
   handleSelectPost(e) {
-    this.props.selectPost(e);
+    this.setState({ postSelected: e });
   }
 
   handleDeselectPost() {
-    this.props.selectPost(null);
-  }
-
-  isScrolledToBottom() {
-    // http://stackoverflow.com/questions/9439725/javascript-how-to-detect-if-browser-window-is-scrolled-to-bottom
-    var scrollTop =
-      (document.documentElement && document.documentElement.scrollTop) ||
-      document.body.scrollTop;
-    var scrollHeight =
-      (document.documentElement && document.documentElement.scrollHeight) ||
-      document.body.scrollHeight;
-    var clientHeight =
-      document.documentElement.clientHeight || window.innerHeight;
-
-    var perScroll =
-      scrollHeight > 0
-        ? (Math.ceil(scrollTop + clientHeight) * 100) / scrollHeight
-        : 0;
-
-    return perScroll >= 85;
-  }
-
-  handleOnScroll() {
-    if (!this.props.isLoading) {
-      let scrolledToBottom = this.isScrolledToBottom();
-      if (scrolledToBottom && !this.props.isLoading) {
-        this.props.getPosts(
-          this.props.language,
-          'DESC',
-          15,
-          'id',
-          this.props.page
-        );
-      }
-    }
+    this.setState({ postSelected: null });
   }
 
   renderPost() {
+    const { match } = this.props;
     return (
       <div className="Post">
-        <Helmet>
-          <title>{this.props.post.title + ' - ' + config.APP_TITLE}</title>
-          <meta
-            name="description"
-            content={
-              'Todos los capítulos y más recientes de ' + this.props.post.title
-            }
-          />
-          <meta
-            property="og:title"
-            content={this.props.post.title + ' - ' + config.APP_TITLE}
-          />
-        </Helmet>
-        <PostView
-          post={this.props.post}
-          onClickBack={this.handleDeselectPost}
-        />
+        <Query
+          query={FIND_BY_STUB}
+          variables={{
+            stub: match.params.stub
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading)
+              return (
+                <div style={{ textAlign: 'center', padding: 100 }}>
+                  Loading...
+                </div>
+              );
+            if (error) return <p id="error_blog">Error :(</p>;
+            return (
+              <>
+                <MetaTagPost post={data.postByStub} />
+                <PostView
+                  post={data.postByStub}
+                  onClickBack={this.handleDeselectPost}
+                />
+              </>
+            );
+          }}
+        </Query>
       </div>
     );
   }
 
   renderPostsList() {
+    const { perPage } = this.state;
+    const { language } = this.props;
     return (
-      <div className="Blog">
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{config.APP_TITLE + ' - Blog'}</title>
-          <meta name="description" content={'Blog de ' + config.APP_TITLE} />
-          <meta property="og:title" content={config.APP_TITLE + ' - Blog'} />
-        </Helmet>
-        <PostsList
-          isLoading={this.props.isLoading}
-          posts={this.props.posts}
-          page={this.props.page}
-          doSelect={this.handleSelectPost}
-        />
-      </div>
+      <Container className="Blog">
+        <MetaTagList />
+        <Query
+          query={FETCH_ALL_POSTS_WITH_AGG}
+          variables={{
+            first: perPage,
+            offset: 0,
+            language: languageNameToId(language)
+          }}
+        >
+          {({ loading, error, data, fetchMore }) => {
+            if (loading) return <PostCardLoading />;
+            if (error) return <p id="error_blog">Error :(</p>;
+            return (
+              <PostsList
+                onLoadMore={() =>
+                  fetchMore({
+                    variables: {
+                      offset: data.posts.length
+                    },
+                    updateQuery: (prev, { fetchMoreResult }) => {
+                      if (fetchMoreResult.posts.length === 0) return prev;
+                      return Object.assign({}, prev, {
+                        posts: prev.posts.concat(fetchMoreResult.posts)
+                      });
+                    }
+                  })
+                }
+                posts={data.posts}
+                maxPosts={data.postsAggregates.count}
+                doSelect={this.handleSelectPost}
+              />
+            );
+          }}
+        </Query>
+      </Container>
     );
   }
 
   render() {
-    return this.props.post ? this.renderPost() : this.renderPostsList();
+    const { match } = this.props;
+    return match.params.stub !== undefined
+      ? this.renderPost()
+      : this.renderPostsList();
   }
 }
 
 const mapStateToProps = state => {
   return {
-    posts: state.blog.posts,
-    post: state.blog.post,
-    page: state.blog.blogPage,
-    isLoading: state.blog.blogIsLoading,
-    hasErrored: state.blog.blogHasErrored,
     language: state.layout.language
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getPosts: (lang, sort, perPage, sortBy, page) =>
-      dispatch(fetchPosts(lang, sort, perPage, sortBy, page)),
-    changePage: page => dispatch(blogPage(page)),
-    selectPost: post => dispatch(blogSelectPost(post))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BlogContainer);
+export default connect(mapStateToProps)(BlogContainer);

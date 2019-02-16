@@ -102,16 +102,23 @@ const ACPChapterDetail = Loadable({
   modules: ['ACPChapterDetail']
 });
 
-const ACPBlogCreate = Loadable({
+const ACPBlogCreatePost = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPBlogCreate" */ './admin/blog/CreateOrEdit'),
+    import(/* webpackChunkName: "ACPBlogCreatePost" */ './admin/blog/CreateOrEdit/CreatePost'),
   loading: () => null,
-  modules: ['ACPBlogCreate']
+  modules: ['ACPBlogCreatePost']
+});
+
+const ACPBlogEdit = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPBlogEdit" */ './admin/blog/CreateOrEdit/EditPost'),
+  loading: () => null,
+  modules: ['ACPBlogEdit']
 });
 
 const ACPBlogManage = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPBlogManage" */ './admin/blog/List'),
+    import(/* webpackChunkName: "ACPBlogManage" */ './admin/blog/List/List'),
   loading: () => null,
   modules: ['ACPBlogManage']
 });
@@ -123,6 +130,7 @@ export default (
     <Route path="/work/all" exact component={withTracker(Works)} />
     <Route path="/work/:stub" exact component={withTracker(Work)} />
     <Route path="/blog" exact component={withTracker(Blog)} />
+    <Route path="/blog/:stub" exact component={withTracker(Blog)} />
     <Route
       path="/read/:stub/:lang/:volume/:chapter.:subchapter"
       exact
@@ -190,12 +198,12 @@ export default (
     <RoutePrivate
       path="/admincp/blog/add_post"
       exact
-      component={withTracker(ACPBlogCreate)}
+      component={withTracker(ACPBlogCreatePost)}
     />
     <RoutePrivate
       path="/admincp/blog/edit_post/:stub"
       exact
-      component={withTracker(ACPBlogCreate)}
+      component={withTracker(ACPBlogEdit)}
     />
   </Switch>
 );

@@ -5,8 +5,11 @@ import { IntlProvider } from 'react-intl-redux';
 import store, { history } from './store';
 import { addLocaleData } from 'react-intl';
 import { updateIntl } from 'react-intl-redux';
+import { ApolloProvider } from 'react-apollo';
 import ReactGA from 'react-ga';
 
+// App imports
+import apolloClient from './setupApollo';
 import * as config from './config';
 import Routes from './Routes';
 import Header from './layout/header';
@@ -14,6 +17,7 @@ import {
   setUser,
   loginSetUserLocalStorageAndCookie
 } from './user/actions/doUser';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import en from 'react-intl/locale-data/en';
@@ -54,16 +58,18 @@ class App extends Component {
     ReactGA.pageview(window.location.pathname + window.location.search);
 
     return (
-      <Provider store={store}>
-        <IntlProvider>
-          <ConnectedRouter history={history}>
-            <div className="App">
-              <Header />
-              {Routes}
-            </div>
-          </ConnectedRouter>
-        </IntlProvider>
-      </Provider>
+      <ApolloProvider client={apolloClient}>
+        <Provider store={store}>
+          <IntlProvider>
+            <ConnectedRouter history={history}>
+              <div className="App">
+                <Header />
+                {Routes}
+              </div>
+            </ConnectedRouter>
+          </IntlProvider>
+        </Provider>
+      </ApolloProvider>
     );
   }
 }

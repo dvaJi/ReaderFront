@@ -1,8 +1,13 @@
 import React from 'react';
-import { render } from 'enzyme';
+import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
+import { forceCheck } from 'react-lazyload';
 import WorkItem from './WorkItem';
-import { getStatusTagStyle, getWorkThumb } from '../../utils/common';
+import {
+  workStatusIdToName,
+  getStatusTagStyle,
+  getWorkThumb
+} from '../../utils/common';
 
 const redirectTo = () => {
   return `work/infection`;
@@ -19,7 +24,10 @@ const work = {
 };
 
 const statusTag = statusId => {
-  return getStatusTagStyle(statusId);
+  return {
+    style: getStatusTagStyle(statusId),
+    name: workStatusIdToName(statusId)
+  };
 };
 
 const thumbUrl = work => {
@@ -28,7 +36,7 @@ const thumbUrl = work => {
 };
 
 it('renders without crashing', () => {
-  render(
+  const wrapper = mountWithIntl(
     <MemoryRouter>
       <WorkItem
         redirectTo={redirectTo}
@@ -39,4 +47,8 @@ it('renders without crashing', () => {
       />
     </MemoryRouter>
   );
+
+  forceCheck();
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

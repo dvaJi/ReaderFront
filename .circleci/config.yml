@@ -1,66 +1,126 @@
 version: 2
+
+defaults: &defaults
+  working_directory: ~/reader-front
+  docker:
+    - image: circleci/node:8.14-browsers
+  environment:
+    TZ: '/usr/share/zoneinfo/America/Los_Angeles'
+
+aliases:
+  # Circle related commands
+  - &restore-cache
+    keys:
+      # Find a cache corresponding to this specific package.json checksum
+      # when this file is changed, this key will fail
+      - reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      - reader-front-{{ checksum "yarn.lock" }}
+      # Find the most recent cache used from any branch
+      - reader-front-
+  - &save-cache
+      key: reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      paths:
+        - ~/.cache/yarn
+        - node_modules
+  # Yarn commands
+  - &yarn
+    name: Install Dependencies
+    command: yarn install --frozen-lockfile --non-interactive --cache-folder=~/.cache/yarn
+  - &lint
+    name: Lint
+    command: yarn lint
+  - &test
+    name: Test
+    command: yarn test:ci --maxWorkers=2
+  - &build-app
+    name: Building app
+    command: yarn build
+  - &add-server-know-host
+    name: Add Server to known_hosts
+    command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+  - &deploy
+    name: Deploy
+    command: |
+            ssh -o "StrictHostKeyChecking no" $SSH_USER@$SSH_HOST "./deploy_front.sh"
+
 jobs:
-  test:
-    docker:
-      - image: circleci/node:8.11.3
-    parallelism: 4
-    working_directory: ~/repo
+  install:
+    <<: *defaults
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn install
-      - save_cache:
+      - restore_cache: *restore-cache
+      - run: date
+      - run: *yarn
+      - save_cache: *save-cache
+      - persist_to_workspace:
+          root: .
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: yarn test:ci --maxWorkers=2
-  build:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/repo
+            - .
+  lint:
+    <<: *defaults
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn build
-  deploy:
-    docker:
-      - image: circleci/node:8.11.3
-    working_directory: ~/repo
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *lint
+  test:
+    <<: *defaults
+    parallelism: 4
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-      - run: yarn build
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *test
       - run:
-          name: Add Server to known_hosts
-          command: ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
+          name: Send CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *build-app
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
       - add_ssh_keys:
           fingerprints:
-          - "84:9e:f6:94:0c:6f:ff:10:95:9d:23:bd:9a:48:11:f5"
-      - run:
-          name: Deploy
-          command: |
-            ssh $SSH_USER@$SSH_HOST "./deploy_front.sh"
+          - "$FINGERPRINT"
+      - run: *add-server-know-host
+      - run: *deploy
+      
 
 workflows:
   version: 2
-  test-build-and-deploy:
+  build_and_test:
     jobs:
-      - test
+      - install
+
+      - lint:
+          requires:
+
+            - install
+
+      - test:
+          requires:
+            - install
+
       - build:
           requires:
-            - test
+            - install
+      
       - deploy:
           requires:
+            - install
+            - lint
+            - test
             - build
           filters:
             tags:
               only: /^v.*/
+#            branches:
+#              ignore: /.*

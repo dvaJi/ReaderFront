@@ -1,120 +1,65 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
-import { Helmet } from 'react-helmet';
 import { connect } from 'react-redux';
+import { Query } from 'react-apollo';
 
 // App Imports
-import { fetchWork } from '../actions/doWork';
-import { withRouter } from 'react-router';
 import { getWorkThumb } from '../../utils/common';
-import * as config from '../../config';
 import params from '../../params.json';
 
+import MetaTag from './WorkMetaTag';
 import Cover from '../components/Cover';
 import Info from '../components/Info';
 import ChapterList from '../components/ChapterList';
 import WorkEmpty from '../components/WorkEmpty';
+import { FETCH_WORK } from './query';
 
 class WorkContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-
-  componentDidMount() {
-    try {
-      this.props.getWork(this.props.language, this.props.params.stub);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  renderMetaTags() {
-    const title = config.APP_TITLE;
-    const { work } = this.props;
-    const workDir = work.stub + '_' + work.uniqid;
-    return (
-      <div>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{work.name + ' - ' + title}</title>
-          <meta property="og:title" content={work.name + ' - ' + title} />
-          <meta
-            property="og:image"
-            content={getWorkThumb(workDir, this.props.work.thumbnail, 'medium')}
-          />
-        </Helmet>
-        <FormattedMessage
-          id="work.desc"
-          defaultMessage="All the latest and most recent chapters of {workName}"
-          values={{ workName: work.name }}
-        >
-          {desc => (
-            <Helmet>
-              <meta name="description" content={desc} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-      </div>
-    );
-  }
-
-  renderWork() {
-    const work = this.props.work;
-    const dir = work.stub + '_' + work.uniqid;
+  render() {
     const language = params.global.languages[this.props.language];
     return (
-      <div className="Work">
-        {this.renderMetaTags()}
-        <h1>{work.name}</h1>
-        <div className="row">
-          <div className="col-md-4">
-            <Cover
-              cover={getWorkThumb(dir, work.thumbnail, 'medium')}
-              name={work.name}
-            />
-          </div>
-          <Info
-            work={work}
-            description={work.works_descriptions.find(
-              e => e.language === language.id
-            )}
-          />
-          <ChapterList work={work} language={language} />
-        </div>
-      </div>
-    );
-  }
+      <Query
+        query={FETCH_WORK}
+        variables={{
+          language: language.id,
+          stub: this.props.match.params.stub
+        }}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return <WorkEmpty />;
+          if (error) return <p id="error_releases">Error :(</p>;
 
-  render() {
-    if (!this.props.isLoading && this.props.work) {
-      return this.renderWork();
-    } else {
-      return <WorkEmpty />;
-    }
+          const workDir = data.work.stub + '_' + data.work.uniqid;
+          return (
+            <>
+              <MetaTag work={data.work} language={language} />
+              <div className="row">
+                <div className="col-md-4">
+                  <Cover
+                    cover={getWorkThumb(workDir, data.work.thumbnail, 'medium')}
+                    name={data.work.name}
+                  />
+                </div>
+                <Info
+                  work={data.work}
+                  description={data.work.works_descriptions.find(
+                    e => e.language === language.id
+                  )}
+                />
+                <ChapterList work={data.work} language={language} />
+              </div>
+            </>
+          );
+        }}
+      </Query>
+    );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    work: state.work.work,
-    params: ownProps.match.params,
-    isLoading: state.work.workIsLoading,
-    hasErrored: state.work.workHasErrored,
+    match: ownProps.match,
     language: state.layout.language
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getWork: (lang, stub) => dispatch(fetchWork(stub, lang))
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(WorkContainer)
-);
+export default connect(mapStateToProps)(WorkContainer);

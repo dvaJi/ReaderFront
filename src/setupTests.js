@@ -2,6 +2,7 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import ReactGA from 'react-ga';
 import { JSDOM } from 'jsdom';
+import 'jest-localstorage-mock';
 import {
   getPages,
   getPagesAsFiles,
@@ -12,6 +13,7 @@ import { getPosts } from './utils/mocks/getBlogMock';
 import { getWork, getWorks } from './utils/mocks/getWorksMock';
 import { normalizePost } from './utils/normalizeBlog';
 import { normalizeWork } from './utils/normalizeWork';
+import 'jest-styled-components';
 
 configure({ adapter: new Adapter() });
 ReactGA.initialize('foo', { testMode: true });
@@ -85,6 +87,30 @@ if (typeof window.URL.createObjectURL === 'undefined') {
   Object.defineProperty(window.URL, 'createObjectURL', { value: () => '' });
 }
 
+// Temporal: https://github.com/airbnb/enzyme/issues/1875#issuecomment-451177239
+jest.mock('react', () => {
+  const r = jest.requireActual('react');
+
+  return { ...r, memo: x => x };
+});
+
+global.wait = ms => {
+  return new Promise(resolve => setTimeout(() => resolve(), ms));
+};
+
+global.originalError = console.error;
+
+// Helper for Markdown Editor
+global.createPasteEvent = function createPasteEvent(html) {
+  const text = html.replace('<[^>]*>', '');
+  return {
+    clipboardData: {
+      types: ['text/plain', 'text/html'],
+      getData: type => (type === 'text/plain' ? text : html)
+    }
+  };
+};
+
 // Setup Mocks
 global.rfMocks = {
   releases: {
@@ -94,6 +120,7 @@ global.rfMocks = {
     getPagesUploaded: getPagesUploaded()
   },
   posts: {
+    getPost: getPosts()[0],
     getPosts: getPosts(),
     getPostsNormalized: getPosts().map(post => normalizePost(post))
   },

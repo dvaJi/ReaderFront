@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { slugify } from 'simple-slugify-string';
 import DatePicker from 'react-datepicker';
 import {
   Alert,
@@ -19,6 +18,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { createOrUpdate as chapterCreateOrUpdate } from '../../releases/actions/doReleases';
 import { fetchChapter as getChapter } from '../../reader/actions/doReader';
 import { upload } from '../../common/actions';
+import { slugify } from '../../utils/helpers';
 import params from '../../params';
 
 import 'react-datepicker/dist/react-datepicker.css';

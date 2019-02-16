@@ -1,16 +1,27 @@
-export function getReleases(amount = 2) {
+export function getReleases(amount = 4) {
   let releases = [];
   for (let index = 1; index < amount + 1; index++) {
-    let work = { name: 'Test1', stub: 'test1', uniqid: 'wqioweas' };
+    const is = Math.floor(Math.random() * 2) + 1 === 1;
+    let work = {
+      id: 123123 + index,
+      name: 'BOB' + index,
+      stub: 'bob' + index,
+      uniqid: 'wqioweas' + index,
+      adult: is
+    };
     let chapter = {
       id: index,
       language: 1,
-      volume: 0,
-      chapter: 0,
-      name: 'Test ' + index,
+      volume: is ? 1 : 0,
+      uniqid: is ? 'asd' + index : 'qwery' + index,
+      chapter: index * 2,
+      name: is ? 'Test ' + index : null,
       stub: 'test-' + index,
-      thumbnail: 'thumb.png',
-      subchapter: index % 2 === 0 ? 0 : 1,
+      thumbnail: 'thumb ' + index + '.png',
+      subchapter: is ? 0 : 1,
+      releaseDate: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       work: work
     };
     releases.push(chapter);

@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import Lazyload from 'react-lazyload';
 import { getChapterPageUrl } from '../../utils/common';
 
 const ImageList = styled.div`
   text-align: center;
+  min-height: 1000px;
 `;
 const Image = styled.img`
   display: block;
@@ -14,22 +15,12 @@ const Image = styled.img`
   margin-bottom: 10px;
 `;
 
-export default class ImagesList extends PureComponent {
-  render() {
-    let isLoading = this.props.loading;
-    let chapter = this.props.chapter;
-    let pages = this.props.pages;
-    let rows = [];
-
-    window.scrollTo(0, 0);
-
-    if (isLoading) {
-      return <div className="shimme-img" />;
-    }
-
-    pages.forEach(page => {
-      rows.push(
-        <Lazyload key={page.id} height={page.height}>
+function ImagesList({ chapter, pages }) {
+  window.scrollTo(0, 0);
+  return (
+    <ImageList>
+      {pages.map(page => (
+        <Lazyload key={page.id} height={page.height} once>
           <Image
             src={getChapterPageUrl(
               chapter.work,
@@ -41,9 +32,8 @@ export default class ImagesList extends PureComponent {
             title={page.filename}
           />
         </Lazyload>
-      );
-    });
-
-    return <ImageList>{rows}</ImageList>;
-  }
+      ))}
+    </ImageList>
+  );
 }
+export default memo(ImagesList);

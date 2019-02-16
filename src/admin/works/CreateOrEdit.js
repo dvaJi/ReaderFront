@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { slugify } from 'simple-slugify-string';
 import {
   Alert,
   Button,
@@ -20,7 +19,7 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 // App imports
-import { renderIf } from '../../utils/helpers';
+import { renderIf, slugify } from '../../utils/helpers';
 import { getWorkThumb } from '../../utils/common';
 import {
   createOrUpdate as workCreateOrUpdate,

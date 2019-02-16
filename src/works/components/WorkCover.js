@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const CardMedia = styled.div`
@@ -17,7 +17,8 @@ const CardMedia = styled.div`
   }
 `;
 
-const Cover = styled.div`
+export const Cover = styled.div`
+  background-color: #eee;
   background-image: url(${props => props.thumb});
   background-position: 50% 50%;
   background-size: cover;
@@ -72,38 +73,33 @@ const Tag = styled.div`
   letter-spacing: 0.4px;
   padding: 5px 8px;
   position: absolute;
-  left: 110px;
+  left: 100px;
   text-align: center;
   text-transform: uppercase;
   top: -10px;
-  width: 63px;
+  width: 73px;
 `;
 
-export default class WorkCover extends PureComponent {
-  render() {
-    const coverUrl = this.props.cover
-      ? this.props.cover
-      : '/static/images/default-cover.png';
-
-    return (
-      <CardMedia size={this.props.size}>
-        <Cover size={this.props.size} thumb={coverUrl}>
-          {this.props.size === 'small' && (
-            <Overlay>
-              <span className="title">{this.props.name}</span>
-            </Overlay>
-          )}
-        </Cover>
-        {this.props.size !== 'small' &&
-          this.props.statusTag && (
-            <Tag
-              statusColorBg={this.props.statusTag.background}
-              statusColorTxt={this.props.statusTag.color}
-            >
-              {this.props.status}
-            </Tag>
-          )}
-      </CardMedia>
-    );
-  }
+function WorkCover({ name, cover, size, statusTag, status }) {
+  const coverUrl = cover ? cover : '/static/images/default-cover.png';
+  return (
+    <CardMedia size={size}>
+      <Cover size={size} thumb={coverUrl}>
+        {size === 'small' && (
+          <Overlay>
+            <span className="title">{name}</span>
+          </Overlay>
+        )}
+      </Cover>
+      {size !== 'small' && statusTag && (
+        <Tag
+          statusColorBg={statusTag.background}
+          statusColorTxt={statusTag.color}
+        >
+          {status}
+        </Tag>
+      )}
+    </CardMedia>
+  );
 }
+export default WorkCover;

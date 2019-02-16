@@ -1,19 +1,65 @@
 import React, { PureComponent } from 'react';
-import PostCard from './PostCard';
-import PostCardEmpty from './PostCardEmpty';
-import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
+
+import { CardWrapper, ListRows } from './styles';
+import PostCard from './PostCard';
 import { getPostThumb } from '../../utils/common';
 import { subString } from '../../utils/helpers';
-
-const CardWrapper = styled.div`
-  display: inline-block;
-`;
 
 export default class PostsList extends PureComponent {
   constructor(props) {
     super(props);
+    this.state = {
+      isFetching: false
+    };
     this.doSelect = this.doSelect.bind(this);
+    this.handleOnScroll = this.handleOnScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleOnScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleOnScroll);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.posts.length < nextProps.posts.length) {
+      this.setState({ isFetching: false });
+    }
+  }
+
+  isScrolledToBottom() {
+    // http://stackoverflow.com/questions/9439725/javascript-how-to-detect-if-browser-window-is-scrolled-to-bottom
+    var scrollTop =
+      (document.documentElement && document.documentElement.scrollTop) ||
+      document.body.scrollTop;
+    var scrollHeight =
+      (document.documentElement && document.documentElement.scrollHeight) ||
+      document.body.scrollHeight;
+    var clientHeight =
+      document.documentElement.clientHeight || window.innerHeight;
+
+    var perScroll =
+      scrollHeight > 0
+        ? (Math.ceil(scrollTop + clientHeight) * 100) / scrollHeight
+        : 0;
+
+    return perScroll >= 85;
+  }
+
+  handleOnScroll() {
+    const { maxPosts, posts, onLoadMore } = this.props;
+    if (posts.length < maxPosts) {
+      let scrolledToBottom = this.isScrolledToBottom();
+      if (scrolledToBottom && !this.state.isFetching) {
+        onLoadMore();
+        this.setState({ isFetching: true });
+      }
+    } else {
+      window.removeEventListener('scroll', this.handleOnScroll);
+    }
   }
 
   doSelect(e) {
@@ -26,42 +72,26 @@ export default class PostsList extends PureComponent {
   }
 
   render() {
-    const { isLoading, page, posts } = this.props;
-    let rows = [];
-
-    if ((isLoading && posts.length === 0) || (isLoading && page === 0)) {
-      for (let index = 0; index < 6; index++) {
-        rows.push(<PostCardEmpty key={index} />);
-      }
-    } else {
-      posts.forEach(post => {
-        rows.push(
-          <CardWrapper key={post.uniqid}>
-            <PostCard
-              onClick={this.doSelect}
-              post={post}
-              thumbnail={this.thumbUrl(post)}
-            >
-              <ReactMarkdown
-                source={subString(post.content, 150)}
-                escapeHtml={true}
-              />
-            </PostCard>
-          </CardWrapper>
-        );
-      });
-
-      if (isLoading && posts.length !== 0) {
-        let postsIndex = posts.length;
-        for (let index = postsIndex; index < postsIndex + 15; index++) {
-          rows.push(<PostCardEmpty key={index} />);
-        }
-      }
-    }
+    const { posts } = this.props;
 
     return (
       <div className="container--grid">
-        <ul layout="rows top-left">{rows}</ul>
+        <ListRows id="posts_list" layout="rows top-left">
+          {posts.map(post => (
+            <CardWrapper key={post.uniqid}>
+              <PostCard
+                onClick={this.doSelect}
+                post={post}
+                thumbnail={this.thumbUrl(post)}
+              >
+                <ReactMarkdown
+                  source={subString(post.content, 150)}
+                  escapeHtml={true}
+                />
+              </PostCard>
+            </CardWrapper>
+          ))}
+        </ListRows>
       </div>
     );
   }

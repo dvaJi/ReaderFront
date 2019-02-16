@@ -1,189 +1,103 @@
-import React, { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { fetchChapters, readerSelectChapter } from '../actions/doReader';
-import { getChapterPageUrl } from '../../utils/common';
-import * as config from '../../config';
+import { Query } from 'react-apollo';
+
+// App imports
+import { languageNameToId, languageIdToName } from '../../utils/common';
+import Metatag from './ReaderMetaTags';
 import ReaderBar from '../components/ReaderBar';
+import ReaderBarEmpty from '../components/ReaderBarEmpty';
 import ImagesList from '../components/ImagesList';
-import ReaderEmpty from '../components/ReaderEmpty';
-import Comments from '../components/Comments';
+import { FETCH_CHAPTERS, FETCH_CHAPTER } from './queries';
 
-class ReaderContainer extends Component {
-  constructor(props) {
-    super(props);
+const Comments = React.lazy(() => import('../components/Comments'));
 
-    this.state = {
-      nextChapter: 0,
-      prevChapter: 0,
-      disqusConfig: {
-        id: '',
-        path: '',
-        title: ''
-      }
-    };
-
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-    this.handleChapterChange = this.handleChapterChange.bind(this);
-    this.handleDisqusChange = this.handleDisqusChange.bind(this);
-  }
-
-  handleDisqusChange(chapter) {
-    const lang = this.props.match.params.lang || 'es';
-    this.setState({
-      disqusConfig: {
-        id: `${chapter.work.uniqid}-${chapter.uniqid}`,
-        path: `/read/${chapter.work.stub}/${chapter.language}/${
-          chapter.volume
-        }/${chapter.chapter}.${chapter.subchapter}`,
-        title: `${chapter.work.name} - Capítulo ${
-          chapter.chapter
-        } | ${lang.toUpperCase()} `
-      }
-    });
-  }
-
-  handleChapterChange(chapter, chapters) {
-    this.props.selectChapter(chapter);
-    this.handleDisqusChange(chapter);
-    let prevChapter =
-      chapters.indexOf(chapter) !== 0 ? chapters.indexOf(chapter) - 1 : -1;
-    let nextChapter =
-      chapters.indexOf(chapter) + 1 !== chapters.length
-        ? chapters.indexOf(chapter) + 1
-        : -1;
-    this.setState({ nextChapter: nextChapter });
-    this.setState({ prevChapter: prevChapter });
-  }
-
-  // New props validations
-  isChapterEmpty = newProps =>
-    this.props.chapter === null && newProps.chapters.length > 0;
-  isNewSerie = newProps =>
-    this.props.match.params.stub !== newProps.match.params.stub;
-  isNewChapter = newProps =>
-    this.props.match.params.chapter !== newProps.match.params.chapter ||
-    this.props.match.params.subchapter !== newProps.match.params.subchapter;
-  serieHasChanged = newProps =>
-    newProps.chapter &&
-    newProps.chapters.length > 0 &&
-    newProps.chapters[0].language === this.props.match.params.lang &&
-    newProps.chapters[0].work.stub === this.props.match.params.stub &&
-    (newProps.chapter.chapter !== this.props.match.params.chapter ||
-      newProps.chapter.subchapter !== this.props.match.params.subchapter);
-
-  componentWillReceiveProps(newProps) {
-    if (this.isNewSerie(newProps)) {
-      const lang = this.props.match.params.lang || 'es';
-      this.props.getChapters(lang, this.props.match.params.stub);
-    } else if (
-      this.isChapterEmpty(newProps) ||
-      this.isNewChapter(newProps) ||
-      this.serieHasChanged(newProps)
-    ) {
-      let newChapter = newProps.chapters.find(
-        chapter =>
-          chapter.chapter === Number(newProps.match.params.chapter) &&
-          chapter.subchapter === Number(newProps.match.params.subchapter)
+const Chapters = ({ workStub, language, chapter }) => (
+  <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
+    {({ loading, error, data }) => {
+      if (loading || error) return <ReaderBarEmpty />;
+      const chapterIndex = data.chaptersByWork.indexOf(
+        data.chaptersByWork.find(c => c.id === chapter.id)
       );
-
-      if (newChapter === undefined) {
-        throw Error('Capítulo no encontrado');
-      }
-
-      this.handleChapterChange(newChapter, newProps.chapters);
-    }
-  }
-
-  componentDidMount() {
-    try {
-      const lang = this.props.match.params.lang || 'es';
-      this.props.getChapters(lang, this.props.match.params.stub);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  renderChapter() {
-    const { chapter, chapters, isLoading } = this.props;
-    const title = `${chapter.work.name} Capítulo ${chapter.chapter}`;
-    return (
-      <div className="Read">
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{`${title} - ${config.APP_TITLE}`}</title>
-          <meta
-            name="description"
-            content={`${title} de ${chapter.work.name}`}
-          />
-          <meta
-            property="og:title"
-            content={`${title} - ${config.APP_TITLE}`}
-          />
-          <meta
-            property="og:image"
-            content={getChapterPageUrl(
-              chapter.work,
-              chapter,
-              chapter.thumbnail
-            )}
-          />
-        </Helmet>
+      const nextChapter =
+        chapterIndex + 1 !== data.chaptersByWork.length ? chapterIndex + 1 : -1;
+      const prevChapter = chapterIndex - 1 !== 0 ? chapterIndex - 1 : -1;
+      return (
         <ReaderBar
           chapter={chapter}
-          chapters={chapters}
+          chapters={data.chaptersByWork}
           work={chapter.work}
-          prevChapter={this.state.prevChapter}
-          nextChapter={this.state.nextChapter}
+          prevChapter={prevChapter}
+          nextChapter={nextChapter}
         />
-        <ImagesList
-          id={chapter.id}
-          loading={isLoading}
-          onChapterChange={this.handleChapterChange}
-          pages={chapter.pages}
-          chapter={chapter}
-        />
-        <Comments
-          id={this.state.disqusConfig.id}
-          title={this.state.disqusConfig.title}
-          path={this.state.disqusConfig.path}
-        />
-      </div>
-    );
-  }
+      );
+    }}
+  </Query>
+);
 
-  render() {
-    if (!this.props.isLoading && this.props.chapter) {
-      return this.renderChapter();
-    } else {
-      return <ReaderEmpty />;
-    }
-  }
+function ReaderContainer({ match }) {
+  const { stub, chapter, subchapter, volume, lang } = match.params;
+  const variables = {
+    workStub: stub,
+    language: languageNameToId(lang),
+    volume: parseInt(volume, 0),
+    chapter: parseInt(chapter, 0),
+    subchapter: parseInt(subchapter, 0)
+  };
+  return (
+    <div className="Read">
+      <Query query={FETCH_CHAPTER} variables={variables}>
+        {({ loading, error, data }) => {
+          if (loading) return <p id="loading">Loading...</p>;
+          if (error) return <p id="error_releases">Error :(</p>;
+
+          const actualChapter = data.chapterByWorkAndChapter;
+
+          const disqusConfig = {
+            id: `${actualChapter.work.uniqid}-${actualChapter.uniqid}`,
+            path: `read/${actualChapter.work.stub}/${languageIdToName(
+              actualChapter.language
+            )}/${actualChapter.volume}/${actualChapter.chapter}.${
+              actualChapter.subchapter
+            }`,
+            title: `${actualChapter.work.name} - Capítulo ${
+              actualChapter.chapter
+            } | ${languageIdToName(actualChapter.language).toUpperCase()} `
+          };
+
+          return (
+            <>
+              <Metatag chapter={actualChapter} />
+              <Chapters
+                chapter={actualChapter}
+                workStub={stub}
+                language={languageNameToId(lang)}
+              />
+              <ImagesList
+                id={actualChapter.id}
+                pages={actualChapter.pages}
+                chapter={actualChapter}
+              />
+              <Suspense fallback={'Loading comments...'}>
+                <Comments
+                  id={disqusConfig.id}
+                  title={disqusConfig.title}
+                  path={disqusConfig.path}
+                />
+              </Suspense>
+            </>
+          );
+        }}
+      </Query>
+    </div>
+  );
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state, own) => {
   return {
-    chapters: state.reader.chapters,
-    chapter: state.reader.chapter,
-    isLoading: state.reader.readerIsLoading,
-    hasErrored: state.reader.readerHasErrored,
-    match: state.match || ownProps.match,
-    language: state.layout.language
+    language: state.layout.language,
+    match: own.match
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getChapters: (lang, stub) => dispatch(fetchChapters(lang, stub)),
-    selectChapter: chapter => dispatch(readerSelectChapter(chapter))
-  };
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ReaderContainer)
-);
+export default connect(mapStateToProps)(ReaderContainer);

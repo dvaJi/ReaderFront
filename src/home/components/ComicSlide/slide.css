@@ -84,12 +84,7 @@
 .comic-slide-wrapper .comic-slide-list-block {
   margin: 0;
   padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   height: 334px;
   background-position: center;
@@ -106,9 +101,7 @@
 }
 .comic-slide-wrapper .comic-slide-list-block li {
   position: relative;
-  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
 }
 .comic-slide-wrapper .comic-slide-list-block li a {
@@ -120,20 +113,10 @@
   background-position: center;
   min-width: 50px;
   min-height: 50px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: end;
   align-items: flex-end;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
   justify-content: center;
   outline: none;
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
 .comic-slide-wrapper .comic-slide-list-block li a.is-adult::before {
@@ -157,7 +140,6 @@
   padding: 8px 10%;
   box-sizing: border-box;
   z-index: 1;
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
 }
 .comic-slide-wrapper .comic-slide-list-block li a:not(:hover) span {
@@ -218,7 +200,6 @@
   height: 163px;
   margin-bottom: 8px;
   margin-left: 25px;
-  -webkit-mask-image: url('/static/images/koma_block_2_1.png');
   mask-image: url('/static/images/koma_block_2_1.png');
 }
 @media screen and (max-width: 602px) {
@@ -235,7 +216,6 @@
 .comic-slide-wrapper .comic-slide-list-block.block2 li:nth-child(2) {
   width: 320px;
   height: 163px;
-  -webkit-mask-image: url('/static/images/koma_block_2_2.png');
   mask-image: url('/static/images/koma_block_2_2.png');
 }
 @media screen and (max-width: 602px) {
@@ -264,7 +244,6 @@
   height: 111px;
   margin-bottom: 8px;
   margin-left: 33px;
-  -webkit-mask-image: url('/static/images/koma_block_3_1.png');
   mask-image: url('/static/images/koma_block_3_1.png');
 }
 @media screen and (max-width: 602px) {
@@ -289,7 +268,6 @@
   height: 111px;
   margin-bottom: 8px;
   margin-left: -8px;
-  -webkit-mask-image: url('/static/images/koma_block_3_2.png');
   mask-image: url('/static/images/koma_block_3_2.png');
 }
 @media screen and (max-width: 602px) {
@@ -312,7 +290,6 @@
 .comic-slide-wrapper .comic-slide-list-block.block3 li:nth-child(3) {
   width: 430px;
   height: 215px;
-  -webkit-mask-image: url('/static/images/koma_block_3_3.png');
   mask-image: url('/static/images/koma_block_3_3.png');
 }
 @media screen and (max-width: 602px) {
@@ -343,7 +320,6 @@
   height: 184px;
   margin-bottom: 8px;
   margin-left: 22px;
-  -webkit-mask-image: url('/static/images/koma_block_5_1.png');
   mask-image: url('/static/images/koma_block_5_1.png');
 }
 @media screen and (max-width: 602px) {
@@ -362,7 +338,6 @@
   height: 184px;
   margin-left: -19px;
   margin-bottom: 8px;
-  -webkit-mask-image: url('/static/images/koma_block_5_2.png');
   mask-image: url('/static/images/koma_block_5_2.png');
 }
 @media screen and (max-width: 602px) {
@@ -379,7 +354,6 @@
 .comic-slide-wrapper .comic-slide-list-block.block5 li:nth-child(3) {
   width: 210px;
   height: 142px;
-  -webkit-mask-image: url('/static/images/koma_block_5_3.png');
   mask-image: url('/static/images/koma_block_5_3.png');
 }
 @media screen and (max-width: 602px) {
@@ -395,7 +369,6 @@
   width: 210px;
   height: 142px;
   margin-left: -13px;
-  -webkit-mask-image: url('/static/images/koma_block_5_4.png');
   mask-image: url('/static/images/koma_block_5_4.png');
 }
 @media screen and (max-width: 602px) {
@@ -412,7 +385,6 @@
   width: 210px;
   height: 142px;
   margin-left: -13px;
-  -webkit-mask-image: url('/static/images/koma_block_5_5.png');
   mask-image: url('/static/images/koma_block_5_5.png');
 }
 @media screen and (max-width: 602px) {
@@ -432,11 +404,9 @@
 .comic-slide-wrapper-svg .comic-slide-list-block.block2 li,
 .comic-slide-wrapper-svg .comic-slide-list-block.block3 li,
 .comic-slide-wrapper-svg .comic-slide-list-block.block5 li {
-  -webkit-mask-image: none !important;
   mask-image: none !important;
 }
 .block-1 {
-  -webkit-clip-path: url(#koma-svg-1);
   clip-path: url(#koma-svg-1);
 }
 .block-2-1,
@@ -444,11 +414,9 @@
   width: 326px;
 }
 .block-2-1 {
-  -webkit-clip-path: url(#koma-svg-2-1);
   clip-path: url(#koma-svg-2-1);
 }
 .block-2-2 {
-  -webkit-clip-path: url(#koma-svg-2-2);
   clip-path: url(#koma-svg-2-2);
 }
 .block-3-1,
@@ -456,15 +424,12 @@
   width: 222px;
 }
 .block-3-1 {
-  -webkit-clip-path: url(#koma-svg-3-1);
   clip-path: url(#koma-svg-3-1);
 }
 .block-3-2 {
-  -webkit-clip-path: url(#koma-svg-3-2);
   clip-path: url(#koma-svg-3-2);
 }
 .block-3-3 {
-  -webkit-clip-path: url(#koma-svg-3-3);
   clip-path: url(#koma-svg-3-3);
 }
 .block-5-1,
@@ -477,22 +442,17 @@
   width: 283px;
 }
 .block-5-1 {
-  -webkit-clip-path: url(#koma-svg-5-1);
   clip-path: url(#koma-svg-5-1);
 }
 .block-5-2 {
-  -webkit-clip-path: url(#koma-svg-5-2);
   clip-path: url(#koma-svg-5-2);
 }
 .block-5-3 {
-  -webkit-clip-path: url(#koma-svg-5-3);
   clip-path: url(#koma-svg-5-3);
 }
 .block-5-4 {
-  -webkit-clip-path: url(#koma-svg-5-4);
   clip-path: url(#koma-svg-5-4);
 }
 .block-5-5 {
-  -webkit-clip-path: url(#koma-svg-5-5);
   clip-path: url(#koma-svg-5-5);
 }

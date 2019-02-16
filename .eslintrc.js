@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['eslint:recommended', 'prettier', 'react-app'],
+  extends: ['plugin:prettier/recommended', 'react-app'],
   env: {
     browser: true,
     node: true,
@@ -16,6 +16,11 @@ module.exports = {
     ],
     eqeqeq: ['error', 'always'],
     'no-console': ['error', { allow: ['warn', 'info', 'error'] }]
+  },
+  settings: {
+    react: {
+      version: 'detect'
+    }
   },
   parser: 'babel-eslint',
   parserOptions: {

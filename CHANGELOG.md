@@ -1,8 +1,3 @@
-# Change Log
-
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
-
-<a name="4.1.0"></a>
 # [4.1.0](https://github.com/dvaJi/ReaderFront/compare/v4.0.0...v4.1.0) (2018-11-11)
 
 
@@ -21,7 +16,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="4.0.0"></a>
 # [4.0.0](https://github.com/dvaJi/ReaderFront/compare/v3.5.0...v4.0.0) (2018-10-14)
 
 
@@ -53,7 +47,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.5.0"></a>
 # [3.5.0](https://github.com/dvaJi/ReaderFront/compare/v3.4.2...v3.5.0) (2018-07-15)
 
 
@@ -71,7 +64,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.4.2"></a>
 ## [3.4.2](https://github.com/dvaJi/ReaderFront/compare/v3.4.1...v3.4.2) (2018-05-16)
 
 
@@ -82,7 +74,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.4.1"></a>
 ## [3.4.1](https://github.com/dvaJi/ReaderFront/compare/v3.4.0...v3.4.1) (2018-05-01)
 
 
@@ -92,7 +83,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.4.0"></a>
 # [3.4.0](https://github.com/dvaJi/ReaderFront/compare/v3.3.0...v3.4.0) (2018-04-30)
 
 
@@ -102,7 +92,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.3.0"></a>
 # [3.3.0](https://github.com/dvaJi/ReaderFront/compare/v3.2.0...v3.3.0) (2018-04-07)
 
 
@@ -119,7 +108,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.2.0"></a>
 # [3.2.0](https://github.com/dvaJi/ReaderFront/compare/v3.1.0...v3.2.0) (2018-03-27)
 
 
@@ -135,7 +123,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.1.0"></a>
 # [3.1.0](https://github.com/dvaJi/ReaderFront/compare/v3.0.1...v3.1.0) (2018-03-06)
 
 
@@ -151,7 +138,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.0.1"></a>
 ## [3.0.1](https://github.com/dvaJi/ReaderFront/compare/v3.0.0...v3.0.1) (2018-02-15)
 
 
@@ -161,8 +147,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
-<a name="3.0.0"></a>
-# [3.0.0](https://github.com/dvaJi/ReaderFront/compare/2.1.2...3.0.0) (2018-01-24)
+# [3.0.0](https://github.com/dvaJi/ReaderFront/compare/2.1.2...v3.0.0) (2018-01-24)
 
 
 ### Features
@@ -173,3 +158,34 @@ All notable changes to this project will be documented in this file. See [standa
 ### BREAKING CHANGES
 
 * `Ahora está hecho en React, por lo que cambiaron prácticamente todas las dependencias.
+
+
+
+## [2.1.2](https://github.com/dvaJi/ReaderFront/compare/2.1.1...2.1.2) (2017-09-09)
+
+
+
+## [2.1.1](https://github.com/dvaJi/ReaderFront/compare/2.1.0...2.1.1) (2017-08-15)
+
+
+
+# [2.1.0](https://github.com/dvaJi/ReaderFront/compare/2.0.0...2.1.0) (2017-08-05)
+
+
+
+# [2.0.0](https://github.com/dvaJi/ReaderFront/compare/1.1.0...2.0.0) (2017-07-08)
+
+
+
+# [1.0.0](https://github.com/dvaJi/ReaderFront/compare/0.1.0...1.0.0) (2017-05-28)
+
+
+
+# [0.1.0](https://github.com/dvaJi/ReaderFront/compare/0.0.7...0.1.0) (2017-05-21)
+
+
+
+## 0.0.7 (2017-04-30)
+
+
+
