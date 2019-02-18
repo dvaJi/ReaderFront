@@ -4,7 +4,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import { IntlProvider } from 'react-intl-redux';
 import store, { history } from './store';
 import { addLocaleData } from 'react-intl';
-import { updateIntl } from 'react-intl-redux';
 import { ApolloProvider } from 'react-apollo';
 import ReactGA from 'react-ga';
 
@@ -22,21 +21,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
-import translations from './i18n/locales';
 
 addLocaleData([...en, ...es]);
-
-// Language
-const langNav = navigator.language || navigator.userLanguage;
-const language = langNav
-  ? langNav.split('-')[0]
-  : window.localStorage.getItem('rf_language') || 'en';
-store.dispatch(
-  updateIntl({
-    locale: language,
-    messages: translations[language]
-  })
-);
 
 // User Authentication
 const token = window.localStorage.getItem('token');

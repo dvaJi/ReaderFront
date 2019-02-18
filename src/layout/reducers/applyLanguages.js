@@ -1,8 +1,22 @@
 function getDefaultLanguage() {
-  if (localStorage.getItem('rf_language') === null) {
-    localStorage.setItem('rf_language', 'en');
+  const navigatorLang = navigator.language || navigator.userLanguage || 'en';
+  const localLang = window.localStorage.getItem('rf_language');
+
+  let language = '';
+  if (localLang) {
+    language = localLang;
+  } else {
+    const validLanguages = ['es', 'en'];
+    const navigatorValue = navigatorLang.split('-')[0];
+    const isValidLanguage = validLanguages.indexOf(navigatorValue) > -1;
+    language = isValidLanguage ? navigatorValue : 'en';
   }
-  return localStorage.getItem('rf_language') || 'en';
+
+  if (localStorage.getItem('rf_language') !== language) {
+    localStorage.setItem('rf_language', language);
+  }
+
+  return language;
 }
 
 let initialState = getDefaultLanguage();
