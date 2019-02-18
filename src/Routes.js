@@ -67,9 +67,16 @@ const ACPDashboard = Loadable({
   modules: ['dashboard']
 });
 
+const ACPWorkEdit = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPWorkEdit" */ './admin/works/CreateOrEdit/EditWork'),
+  loading: () => null,
+  modules: ['ACPWorkEdit']
+});
+
 const ACPWorkCreate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPWorkCreate" */ './admin/works/CreateOrEdit'),
+    import(/* webpackChunkName: "ACPWorkCreate" */ './admin/works/CreateOrEdit/CreateWork'),
   loading: () => null,
   modules: ['ACPWorkCreate']
 });
@@ -167,7 +174,7 @@ export default (
     <RoutePrivate
       path="/admincp/work/edit/:stub"
       exact
-      component={withTracker(ACPWorkCreate)}
+      component={withTracker(ACPWorkEdit)}
     />
     <RoutePrivate
       path="/admincp/work/:workId/:stub"

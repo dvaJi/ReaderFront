@@ -111,6 +111,17 @@ global.createPasteEvent = function createPasteEvent(html) {
   };
 };
 
+if (global.document) {
+  document.createRange = () => ({
+    setStart: () => {},
+    setEnd: () => {},
+    commonAncestorContainer: {
+      nodeName: 'BODY',
+      ownerDocument: document
+    }
+  });
+}
+
 // Setup Mocks
 global.rfMocks = {
   releases: {

@@ -43,7 +43,7 @@
   "file_uploaded": "File uploaded successfully.",
   "gender_bender": "Gender Bender",
   "genres": "Genres",
-  "go_back": "Go back",
+  "go_back": "Back",
   "harem": "Harem",
   "hentai": "Hentai",
   "hidden": "Hidden",
@@ -121,5 +121,7 @@
   "reader.title": "{workName} :: Chapter {chapter} :: {appTitle}",
   "blog.description": "All blog posts by {title}",
   "people.rol.author": "Author",
-  "people.rol.artist": "Artist"
+  "people.rol.artist": "Artist",
+  "delete": "Delete",
+  "add_language": "Add language"
 }

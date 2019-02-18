@@ -116,6 +116,16 @@ export function workStatusIdToName(statusId) {
   return status !== undefined ? status.name : null;
 }
 
+// Work Helpers
+export const workTypes = Object.keys(params.works.types).map(
+  s => params.works.types[s]
+);
+
+export function workTypesIdToName(typeId) {
+  const type = workTypes.find(type => type.id === typeId);
+  return type !== undefined ? type.name : null;
+}
+
 export const genresDemographic = Object.keys(params.genres.demographic).map(
   d => params.genres.demographic[d]
 );
