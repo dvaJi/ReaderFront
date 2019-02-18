@@ -1,233 +1,194 @@
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
+  Input,
   Button,
   ButtonGroup,
   Container,
   Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   UncontrolledTooltip
 } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Query, graphql } from 'react-apollo';
 
 // App Imports
-import {
-  fetchWorks as getWorks,
-  getAggregates
-} from '../../works/actions/doWorks';
-import { remove as removeWork } from '../../work/actions/doWork';
-import params from '../../params';
+import { MetaTagList } from './ACPWorksMetaTags';
+import { FETCH_WORKS } from './query';
+import { REMOVE_WORK } from './mutation';
+import { languageIdToName } from '../../utils/common';
 
-class List extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      error: null,
-      success: null,
-      check: null,
-      modal: false,
-      page: 0,
-      perPage: 20,
-      languages: Object.keys(params.global.languages).map(
-        k => params.global.languages[k]
-      )
-    };
-  }
-
-  componentDidMount() {
-    this.props.getAggregates(undefined, undefined, undefined, true);
-    this.props.getWorks(
-      undefined,
-      'ASC',
-      this.state.perPage,
-      'name',
-      this.state.page,
-      true
-    );
-  }
-
-  handlePagination(page) {
-    this.setState({ page: page });
-    this.props.getWorks(
-      undefined,
-      'ASC',
-      this.state.perPage,
-      'name',
-      page * this.state.perPage,
-      true
-    );
-  }
-
-  remove = id => {
+function List({ intl, mutate }) {
+  const [searchText, setText] = useState('');
+  const remove = async id => {
     if (id > 0) {
       let check = window.confirm(
-        this.props.intl.formatMessage({
-          id: 'confirm_delete_chapter',
-          defaultMessage: 'confirm_delete_chapter'
+        intl.formatMessage({
+          id: 'confirm_delete_work',
+          defaultMessage: 'Are you sure to delete this work?'
         })
       );
 
       if (check) {
-        this.props
-          .removeWork({ id })
-          .then(response => {
-            if (response.status === 200) {
-              if (response.data.errors && response.data.errors.length > 0) {
-                console.error(response.data.errors[0].message);
-              } else {
-                this.props.getWorks(
-                  undefined,
-                  'ASC',
-                  5,
-                  'name',
-                  this.state.page,
-                  true
-                );
-              }
+        await mutate({
+          variables: { id: id },
+          refetchQueries: [
+            {
+              query: FETCH_WORKS
             }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+          ]
+        });
       }
     }
   };
 
-  render() {
-    return (
-      <Container>
-        <div>
-          <Button tag={Link} to={'/admincp/work/add'}>
+  return (
+    <Container>
+      <MetaTagList />
+      <div>
+        <div style={{ margin: '10px 5px' }}>
+          <Button color="primary" tag={Link} to={'/admincp/work/add'}>
+            <FontAwesomeIcon icon={faPlus} className="mr-1" />
             <FormattedMessage id="add_work" defaultMessage="Add Work" />
           </Button>
 
-          <div>
-            <Table bordered hover>
-              <thead>
-                <tr>
-                  <th>
-                    <FormattedMessage id="name" defaultMessage="Name" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="type" defaultMessage="Type" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="language" defaultMessage="Language" />
-                  </th>
-                  <th>
-                    <FormattedMessage
-                      id="created_at"
-                      defaultMessage="Created at"
-                    />
-                  </th>
-                  <th>
-                    <FormattedMessage
-                      id="updated_at"
-                      defaultMessage="Updated at"
-                    />
-                  </th>
-                  <th style={{ textAlign: 'center' }}>
-                    <FormattedMessage id="actions" defaultMessage="Actions" />
-                  </th>
-                </tr>
-              </thead>
+          <Input
+            type="input"
+            name="search-work"
+            id="search-work"
+            className="float-right"
+            placeholder={intl.formatMessage({
+              id: 'search_work',
+              defaultMessage: 'Search...'
+            })}
+            value={searchText}
+            onChange={e => setText(e.target.value)}
+            style={{ width: 250 }}
+          />
+        </div>
 
-              <tbody>
-                {this.props.isLoading ? (
-                  <tr>
-                    <td colSpan="7">
-                      <FormattedMessage
-                        id="loading"
-                        defaultMessage="Loading..."
-                      />
-                    </td>
-                  </tr>
-                ) : this.props.works.length > 0 ? (
-                  this.props.works.map(
-                    ({
-                      id,
-                      stub,
-                      uniqid,
-                      type,
-                      works_descriptions,
-                      name,
-                      createdAt,
-                      updatedAt
-                    }) => (
-                      <tr key={id}>
-                        <td>
-                          <Link to={'/admincp/work/' + id + '/' + stub}>
-                            {name}
-                          </Link>
-                        </td>
+        <Table bordered hover>
+          <thead>
+            <tr>
+              <th>
+                <FormattedMessage id="name" defaultMessage="Name" />
+              </th>
+              <th>
+                <FormattedMessage id="type" defaultMessage="Type" />
+              </th>
+              <th>
+                <FormattedMessage id="language" defaultMessage="Language" />
+              </th>
+              <th>
+                <FormattedMessage id="created_at" defaultMessage="Created at" />
+              </th>
+              <th>
+                <FormattedMessage id="updated_at" defaultMessage="Updated at" />
+              </th>
+              <th style={{ textAlign: 'center' }}>
+                <FormattedMessage id="actions" defaultMessage="Actions" />
+              </th>
+            </tr>
+          </thead>
 
-                        <td>{type}</td>
+          <tbody>
+            <Query query={FETCH_WORKS} variables={{ language: -1 }}>
+              {({ loading, error, data }) => {
+                if (loading)
+                  return (
+                    <tr>
+                      <td colSpan="7">
+                        <FormattedMessage
+                          id="loading"
+                          defaultMessage="Loading..."
+                        />
+                      </td>
+                    </tr>
+                  );
+                if (error) return <p id="error_releases">Error :(</p>;
+                return data.works.length > 0 ? (
+                  data.works
+                    .filter(work =>
+                      work.name
+                        .toUpperCase()
+                        .startsWith(searchText.toUpperCase())
+                    )
+                    .map(
+                      ({
+                        id,
+                        stub,
+                        type,
+                        works_descriptions,
+                        name,
+                        createdAt,
+                        updatedAt
+                      }) => (
+                        <tr key={id}>
+                          <td>
+                            <Link to={'/admincp/work/' + id + '/' + stub}>
+                              {name}
+                            </Link>
+                          </td>
 
-                        <td style={{ textAlign: 'center' }}>
-                          {works_descriptions.length > 0 ? (
-                            works_descriptions.map((desc, i) => {
-                              const comma = i !== 0 ? ', ' : '';
-                              return (
-                                comma +
-                                this.state.languages.find(
-                                  pl => pl.id === desc.language
-                                ).name
-                              );
-                            })
-                          ) : (
-                            <span>
-                              <FontAwesomeIcon
-                                id={'noDescWarn-' + id}
-                                title="asdasd"
-                                color="#f2a900"
-                                icon={faExclamationCircle}
-                              />
-                              <UncontrolledTooltip
-                                placement="bottom"
-                                target={'noDescWarn-' + id}
+                          <td>{type}</td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            {works_descriptions.length > 0 ? (
+                              works_descriptions.map((desc, i) => {
+                                const comma = i !== 0 ? ', ' : '';
+                                return comma + languageIdToName(desc.language);
+                              })
+                            ) : (
+                              <span>
+                                <FontAwesomeIcon
+                                  id={'noDescWarn-' + id}
+                                  title="asdasd"
+                                  color="#f2a900"
+                                  icon={faExclamationCircle}
+                                />
+                                <UncontrolledTooltip
+                                  placement="bottom"
+                                  target={'noDescWarn-' + id}
+                                >
+                                  <FormattedMessage
+                                    id="work_no_desc_added"
+                                    defaultMessage="This work will not be displayed, please add a description"
+                                  />
+                                </UncontrolledTooltip>
+                              </span>
+                            )}
+                          </td>
+
+                          <td>{new Date(createdAt).toDateString()}</td>
+
+                          <td>{new Date(updatedAt).toDateString()}</td>
+
+                          <td style={{ textAlign: 'center' }}>
+                            <ButtonGroup size="sm">
+                              <Button
+                                tag={Link}
+                                to={'/admincp/work/edit/' + stub}
                               >
                                 <FormattedMessage
-                                  id="work_no_desc_added"
-                                  defaultMessage="This work will not be displayed, please add a description"
+                                  id="edit"
+                                  defaultMessage="Edit"
                                 />
-                              </UncontrolledTooltip>
-                            </span>
-                          )}
-                        </td>
-
-                        <td>{new Date(createdAt).toDateString()}</td>
-
-                        <td>{new Date(updatedAt).toDateString()}</td>
-
-                        <td style={{ textAlign: 'center' }}>
-                          <ButtonGroup size="sm">
-                            <Button
-                              tag={Link}
-                              to={'/admincp/work/edit/' + stub}
-                            >
-                              <FormattedMessage
-                                id="edit"
-                                defaultMessage="Edit"
-                              />
-                            </Button>
-                            <Button onClick={this.remove.bind(this, id)}>
-                              <FormattedMessage
-                                id="remove"
-                                defaultMessage="Remove"
-                              />
-                            </Button>
-                          </ButtonGroup>
-                        </td>
-                      </tr>
+                              </Button>
+                              <Button
+                                key={'delete-' + id}
+                                onClick={() => remove(id)}
+                              >
+                                <FormattedMessage
+                                  id="remove"
+                                  defaultMessage="Remove"
+                                />
+                              </Button>
+                            </ButtonGroup>
+                          </td>
+                        </tr>
+                      )
                     )
-                  )
                 ) : (
                   <tr>
                     <td colSpan="6">
@@ -237,52 +198,14 @@ class List extends PureComponent {
                       />
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </Table>
-          </div>
-        </div>
-        {this.props.worksAgg && this.props.worksAgg.count > this.state.perPage && (
-          <Pagination aria-label="pagination">
-            {new Array(
-              Math.ceil(this.props.worksAgg.count / this.state.perPage)
-            )
-              .fill('pag')
-              .map((pg, index) => (
-                <PaginationItem
-                  key={pg + index}
-                  active={this.state.page === index}
-                >
-                  <PaginationLink onClick={e => this.handlePagination(index)}>
-                    {index + 1}
-                  </PaginationLink>
-                </PaginationItem>
-              ))}
-          </Pagination>
-        )}
-      </Container>
-    );
-  }
+                );
+              }}
+            </Query>
+          </tbody>
+        </Table>
+      </div>
+    </Container>
+  );
 }
 
-// Component Properties
-List.propTypes = {
-  works: PropTypes.array.isRequired,
-  getWorks: PropTypes.func.isRequired
-};
-
-// Component State
-function listState(state) {
-  return {
-    works: state.works.works,
-    isLoading: state.works.worksIsLoading,
-    worksAgg: state.works.aggregates
-  };
-}
-
-export default injectIntl(
-  connect(
-    listState,
-    { getWorks, getAggregates, removeWork }
-  )(List)
-);
+export default graphql(REMOVE_WORK)(injectIntl(List));

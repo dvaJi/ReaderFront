@@ -5,8 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import { APP_TITLE } from '../../config';
 import { getWorkThumb, genreTypeIdToName } from '../../utils/common';
 
-// TODO: Add genres to metatag
-
 const MetaTag = ({ work, language }) => {
   const workDir = work.stub + '_' + work.uniqid;
   return (

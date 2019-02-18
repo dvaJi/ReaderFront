@@ -43,7 +43,7 @@
   "file_uploaded": "Archivo subido exitosamente.",
   "gender_bender": "Cambio de Sexo",
   "genres": "Géneros",
-  "go_back": "Volver atrás",
+  "go_back": "Volver",
   "harem": "Harem",
   "hentai": "Hentai",
   "hidden": "Oculto",
@@ -121,5 +121,7 @@
   "reader.title": "{workName} :: Capítulo {chapter} :: {appTitle}",
   "blog.description": "Publicaciones en el blog mas recientes de {title}",
   "people.rol.author": "Guión",
-  "people.rol.artist": "Artista"
+  "people.rol.artist": "Artista",
+  "delete": "Eliminar",
+  "add_language": "Añadir Idioma"
 }

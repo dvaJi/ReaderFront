@@ -1,133 +1,97 @@
 import React from 'react';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
-import { Provider } from 'react-redux';
+import { MockedProvider } from 'react-apollo/test-utils';
 import { mountWithIntl } from 'enzyme-react-intl';
-import { Button, ButtonGroup } from 'reactstrap';
-import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
-import { getReleases } from '../../utils/mocks/getReleasesMock';
+
+import { FETCH_CHAPTERS, FETCH_WORK } from './query';
 import Detail from './Detail';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const chapters = getReleases(2);
+const chapters = global.rfMocks.releases.getReleases;
+const work = global.rfMocks.work.work;
 const params = {
   params: {
-    workId: 0,
-    stub: ''
+    workId: 1,
+    stub: 'infection'
   }
 };
 
-beforeEach(function() {
-  moxios.install();
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
-
-// TODO: Improve this test with moxios
-
-it('should render without throwing an error', () => {
-  const store = mockStore({
-    reader: {
-      chapters: chapters,
-      readerIsLoading: false
+const mocks = [
+  {
+    request: {
+      query: FETCH_CHAPTERS,
+      variables: { language: -1, workStub: params.params.stub }
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    result: {
+      data: {
+        chaptersByWork: chapters
+      }
     }
-  });
+  },
+  {
+    request: {
+      query: FETCH_WORK,
+      variables: { language: -1, stub: params.params.stub }
+    },
+    result: {
+      data: {
+        work: work
+      }
+    }
+  }
+];
 
+it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
-    <Provider store={store}>
+    <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <Detail match={params} />
       </MemoryRouter>
-    </Provider>
+    </MockedProvider>
   );
+
+  await global.wait(0);
 
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
-it('should render when is loading without throwing an error', () => {
-  const store = mockStore({
-    reader: {
-      chapters: [],
-      readerIsLoading: true
+it('should show a message when works list is empty without throwing an error', async () => {
+  const emptyMocks = [
+    {
+      request: {
+        query: FETCH_CHAPTERS,
+        variables: { language: -1, workStub: params.params.stub }
+      },
+      result: {
+        data: {
+          chaptersByWork: []
+        }
+      }
     },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
+    {
+      request: {
+        query: FETCH_WORK,
+        variables: { language: -1, stub: params.params.stub }
+      },
+      result: {
+        data: {
+          work: { ...work, hidden: true }
+        }
+      }
     }
-  });
-
+  ];
   const wrapper = mountWithIntl(
-    <Provider store={store}>
+    <MockedProvider mocks={emptyMocks} addTypename={false}>
       <MemoryRouter>
         <Detail match={params} />
       </MemoryRouter>
-    </Provider>
+    </MockedProvider>
   );
+
+  await global.wait(0);
+
+  expect(wrapper.find('#chapters_empty')).toBeDefined();
 
   expect(wrapper).toBeTruthy();
-  wrapper.unmount();
-});
-
-it('should show a message when works list is empty without throwing an error', () => {
-  const store = mockStore({
-    reader: {
-      chapters: [],
-      readerIsLoading: false
-    },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
-    }
-  });
-
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <Detail match={params} />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
-});
-
-it('should call remove() when Remove button is clicked without throwing an error', () => {
-  const store = mockStore({
-    reader: {
-      chapters: chapters,
-      readerIsLoading: false
-    },
-    i18nState: {
-      lang: 'es',
-      translations: {},
-      forceRefresh: false
-    }
-  });
-
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <Detail match={params} />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  global.confirm = () => true;
-  const buttons = wrapper.find(ButtonGroup);
-  const actionButtons = buttons.first().find(Button);
-  actionButtons.last().simulate('click');
   wrapper.unmount();
 });

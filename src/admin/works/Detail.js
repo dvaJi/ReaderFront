@@ -1,246 +1,208 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
+import { Query, graphql } from 'react-apollo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App Imports
-import { fetchChapters as getChapters } from '../../reader/actions/doReader';
-import { remove as removeChapter } from '../../releases/actions/doReleases';
-import params from '../../params';
+import WorkInfo from './WorkInfo';
+import { FETCH_CHAPTERS } from './query';
+import { REMOVE_CHAPTER } from './mutation';
+import { languageIdToName } from '../../utils/common';
 
-class Detail extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      error: null,
-      success: null,
-      check: null,
-      modal: false,
-      page: 0,
-      languages: Object.keys(params.global.languages).map(
-        k => params.global.languages[k]
-      )
-    };
-  }
-
-  componentDidMount() {
-    this.props.getChapters(undefined, this.props.match.params.stub, true);
-  }
-
-  remove = id => {
+function Detail({ intl, match, mutate }) {
+  const remove = async id => {
     if (id > 0) {
       let check = window.confirm(
-        this.props.intl.formatMessage({
+        intl.formatMessage({
           id: 'confirm_delete_chapter',
           defaultMessage: 'confirm_delete_chapter'
         })
       );
 
       if (check) {
-        this.props
-          .removeChapter({ id })
-          .then(response => {
-            if (response.status === 200) {
-              if (response.data.errors && response.data.errors.length > 0) {
-                console.error(response.data.errors[0].message);
-              } else {
-                this.props.getChapters(
-                  undefined,
-                  this.props.match.params.stub,
-                  true
-                );
+        await mutate({
+          variables: { id: id },
+          refetchQueries: [
+            {
+              query: FETCH_CHAPTERS,
+              variables: {
+                language: -1,
+                workStub: match.params.stub
               }
             }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+          ]
+        });
       }
     }
   };
 
-  render() {
-    return (
-      <Container>
-        <div>
+  return (
+    <Container>
+      <>
+        <WorkInfo stub={match.params.stub} />
+
+        <div className="m-1 mb-2">
           <Button tag={Link} to={'/admincp/work/manage'}>
+            <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
             <FormattedMessage id="go_back" defaultMessage="Go back" />
           </Button>
           <Button
+            color="primary"
+            className="ml-1"
             tag={Link}
             to={
               '/admincp/work/' +
-              this.props.match.params.workId +
+              match.params.workId +
               '/' +
-              this.props.match.params.stub +
+              match.params.stub +
               '/chapter/add'
             }
           >
+            <FontAwesomeIcon icon={faPlus} className="mr-1" />
             <FormattedMessage id="add_chapter" defaultMessage="Add chapter" />
           </Button>
-
-          <div>
-            <Table bordered hover>
-              <thead>
-                <tr>
-                  <th>
-                    <FormattedMessage id="volume" defaultMessage="Volume" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="chapter" defaultMessage="Chapter" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="name" defaultMessage="Name" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="language" defaultMessage="Language" />
-                  </th>
-                  <th>
-                    <FormattedMessage
-                      id="created_at"
-                      defaultMessage="Created at"
-                    />
-                  </th>
-                  <th>
-                    <FormattedMessage
-                      id="updated_at"
-                      defaultMessage="Updated at"
-                    />
-                  </th>
-                  <th style={{ textAlign: 'center' }}>
-                    <FormattedMessage id="actions" defaultMessage="Actions" />
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {this.props.isLoading ? (
-                  <tr>
-                    <td colSpan="7">
-                      <FormattedMessage
-                        id="loading"
-                        defaultMessage="Loading..."
-                      />
-                    </td>
-                  </tr>
-                ) : this.props.chapters.length > 0 ? (
-                  this.props.chapters
-                    .sort((ch1, ch2) => ch2.chapter - ch1.chapter)
-                    .map(
-                      ({
-                        id,
-                        stub,
-                        uniqid,
-                        name,
-                        chapter,
-                        subchapter,
-                        volume,
-                        language,
-                        createdAt,
-                        updatedAt
-                      }) => (
-                        <tr key={id}>
-                          <td>{volume}</td>
-                          <td>
-                            <Link
-                              to={
-                                '/admincp/work/' +
-                                this.props.match.params.workId +
-                                '/' +
-                                this.props.match.params.stub +
-                                '/chapter/' +
-                                id
-                              }
-                            >
-                              {chapter}.{subchapter}
-                            </Link>
-                          </td>
-
-                          <td>{name}</td>
-
-                          <td style={{ textAlign: 'center' }}>
-                            {
-                              this.state.languages.find(
-                                pl => pl.id === language
-                              ).name
-                            }
-                          </td>
-
-                          <td>{new Date(createdAt).toDateString()}</td>
-
-                          <td>{new Date(updatedAt).toDateString()}</td>
-
-                          <td style={{ textAlign: 'center' }}>
-                            <ButtonGroup size="sm">
-                              <Button
-                                id={'edit-' + id}
-                                tag={Link}
-                                to={
-                                  '/admincp/work/' +
-                                  this.props.match.params.workId +
-                                  '/' +
-                                  this.props.match.params.stub +
-                                  '/chapter/edit/' +
-                                  id
-                                }
-                              >
-                                <FormattedMessage
-                                  id="edit"
-                                  defaultMessage="Edit"
-                                />
-                              </Button>
-                              <Button
-                                id={'remove-' + id}
-                                onClick={this.remove.bind(this, id)}
-                              >
-                                <FormattedMessage
-                                  id="delete"
-                                  defaultMessage="Delete"
-                                />
-                              </Button>
-                            </ButtonGroup>
-                          </td>
-                        </tr>
-                      )
-                    )
-                ) : (
-                  <tr>
-                    <td colSpan="6">
-                      <FormattedMessage
-                        id="chapters_empty"
-                        defaultMessage="Chapters empty"
-                      />
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </div>
         </div>
-      </Container>
-    );
-  }
+
+        <div className="my-3 p-3 bg-white rounded shadow-sm">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>
+                  <FormattedMessage id="volume" defaultMessage="Volume" />
+                </th>
+                <th>
+                  <FormattedMessage id="chapter" defaultMessage="Chapter" />
+                </th>
+                <th>
+                  <FormattedMessage id="name" defaultMessage="Name" />
+                </th>
+                <th>
+                  <FormattedMessage id="language" defaultMessage="Language" />
+                </th>
+                <th>
+                  <FormattedMessage
+                    id="created_at"
+                    defaultMessage="Created at"
+                  />
+                </th>
+                <th style={{ textAlign: 'center' }}>
+                  <FormattedMessage id="actions" defaultMessage="Actions" />
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <Query
+                query={FETCH_CHAPTERS}
+                variables={{
+                  language: -1,
+                  workStub: match.params.stub
+                }}
+              >
+                {({ loading, error, data }) => {
+                  if (loading)
+                    return (
+                      <tr>
+                        <td colSpan="7">
+                          <FormattedMessage
+                            id="loading"
+                            defaultMessage="Loading..."
+                          />
+                        </td>
+                      </tr>
+                    );
+                  if (error) return <p id="error_releases">Error :(</p>;
+                  const chapterBaseUrl =
+                    '/admincp/work/' +
+                    match.params.workId +
+                    '/' +
+                    match.params.stub +
+                    '/chapter/';
+                  return data.chaptersByWork.length > 0 ? (
+                    data.chaptersByWork
+                      .sort((ch1, ch2) => ch2.chapter - ch1.chapter)
+                      .map(
+                        ({
+                          id,
+                          name,
+                          chapter,
+                          subchapter,
+                          volume,
+                          language,
+                          createdAt
+                        }) => (
+                          <tr key={id}>
+                            <td>{volume}</td>
+                            <td>
+                              <Link to={chapterBaseUrl + id}>
+                                {chapter}.{subchapter}
+                              </Link>
+                            </td>
+
+                            <td>
+                              <Link to={chapterBaseUrl + id}>{name}</Link>
+                            </td>
+
+                            <td style={{ textAlign: 'center' }}>
+                              {languageIdToName(language)}
+                            </td>
+
+                            <td>{new Date(createdAt).toDateString()}</td>
+
+                            <td style={{ textAlign: 'center' }}>
+                              <ButtonGroup size="sm">
+                                <Button
+                                  id={'edit-' + id}
+                                  tag={Link}
+                                  to={
+                                    '/admincp/work/' +
+                                    match.params.workId +
+                                    '/' +
+                                    match.params.stub +
+                                    '/chapter/edit/' +
+                                    id
+                                  }
+                                >
+                                  <FormattedMessage
+                                    id="edit"
+                                    defaultMessage="Edit"
+                                  />
+                                </Button>
+                                <Button
+                                  id={'remove-' + id}
+                                  onClick={() => remove(id)}
+                                >
+                                  <FormattedMessage
+                                    id="delete"
+                                    defaultMessage="Delete"
+                                  />
+                                </Button>
+                              </ButtonGroup>
+                            </td>
+                          </tr>
+                        )
+                      )
+                  ) : (
+                    <tr>
+                      <td colSpan="6">
+                        <FormattedMessage
+                          id="chapters_empty"
+                          defaultMessage="Chapters empty"
+                        />
+                      </td>
+                    </tr>
+                  );
+                }}
+              </Query>
+            </tbody>
+          </Table>
+        </div>
+      </>
+    </Container>
+  );
 }
 
-// Component Properties
-Detail.propTypes = {
-  chapters: PropTypes.array.isRequired
-};
-
-// Component State
-function detailState(state) {
-  return {
-    chapters: state.reader.chapters,
-    isLoading: state.reader.readerIsLoading
-  };
-}
-
-export default injectIntl(
-  connect(
-    detailState,
-    { getChapters, removeChapter }
-  )(Detail)
-);
+export default graphql(REMOVE_CHAPTER)(memo(injectIntl(Detail)));
