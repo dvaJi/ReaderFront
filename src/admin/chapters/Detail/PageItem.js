@@ -10,7 +10,7 @@ import {
   faImage
 } from '@fortawesome/free-solid-svg-icons';
 
-import { StyledSpinner, PageListItem, PageListItemAction } from './styles';
+import { StyledSpinner, PageListItem, PageListItemAction } from '../styles';
 
 const getColor = ({ isUploading, isUploaded, isDefaultPage, hasError }) => {
   if (isDefaultPage) {
@@ -99,11 +99,13 @@ function PagesItem({
         />
       )}
       <div className="float-right">
-        <animated.span style={uploadSpring}>
-          <PageListItemAction onClick={() => handleUpload(page)}>
-            <FontAwesomeIcon icon={faFileUpload} />
-          </PageListItemAction>
-        </animated.span>
+        {!hasError && (
+          <animated.span style={uploadSpring}>
+            <PageListItemAction onClick={() => handleUpload(page)}>
+              <FontAwesomeIcon icon={faFileUpload} />
+            </PageListItemAction>
+          </animated.span>
+        )}
         <PageListItemAction onClick={() => handleRemovePage(page)}>
           <FontAwesomeIcon icon={faTimes} />
         </PageListItemAction>

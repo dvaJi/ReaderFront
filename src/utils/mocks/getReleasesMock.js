@@ -15,6 +15,7 @@ export function getReleases(amount = 4) {
       volume: is ? 1 : 0,
       uniqid: is ? 'asd' + index : 'qwery' + index,
       chapter: index * 2,
+      description: '',
       name: is ? 'Test ' + index : null,
       stub: 'test-' + index,
       thumbnail: 'thumb ' + index + '.png',
@@ -36,6 +37,7 @@ export function getRelease() {
     uniqid: 'test-1',
     language: 1,
     volume: 0,
+    description: '',
     chapter: 0,
     name: 'Test 1',
     stub: 'test-1',
@@ -68,6 +70,7 @@ export function getPagesAsFiles(amount = 2) {
       uploaded: false,
       height: 100,
       width: 80,
+      size: 8090,
       file: {
         preview: 'page_0' + index + '.jpg',
         size: 8090,

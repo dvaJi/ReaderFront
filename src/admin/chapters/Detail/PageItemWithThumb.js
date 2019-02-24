@@ -10,7 +10,7 @@ import {
   faImage
 } from '@fortawesome/free-solid-svg-icons';
 
-import { StyledSpinner, RoundedButton } from './styles';
+import { StyledSpinner, RoundedButton } from '../styles';
 
 const CardOverlay = styled.div`
   position: absolute;
