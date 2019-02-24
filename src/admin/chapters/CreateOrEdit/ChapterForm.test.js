@@ -89,21 +89,6 @@ it('should throw an error is user is not authenticated', () => {
   wrapper.unmount();
 });
 
-it('should fill the form with the chapter given', async () => {
-  localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
-    <ChapterForm chapter={chapter} onSubmit={handleOnSubmit} />
-  );
-
-  await global.wait(0);
-  await global.wait(0);
-
-  const inputTitle = wrapper.find('input[name="name"]');
-  expect(inputTitle.props().value).toBe('Test 1');
-
-  wrapper.unmount();
-});
-
 it('should normalize object before submit', async () => {
   let _chapter = {};
   const cHandleOnSubmit = (e, chapter) => {

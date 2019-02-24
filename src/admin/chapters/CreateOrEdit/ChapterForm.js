@@ -25,7 +25,7 @@ class ChapterForm extends Component {
       chapter[event.target.name] = parseInt(event.target.value, 0);
     }
 
-    if (event.target.name === 'title') {
+    if (event.target.name === 'name') {
       chapter.stub = slugify(event.target.value);
     }
 
