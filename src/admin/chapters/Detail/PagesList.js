@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { ListGroup } from 'reactstrap';
 
-import { renderIf, hashCode } from '../../utils/helpers';
-import { getChapterPageUrl } from '../../utils/common';
+import { renderIf, hashCode } from '../../../utils/helpers';
+import { getChapterPageUrl } from '../../../utils/common';
 import PageItemWithThumb from './PageItemWithThumb';
 import PageItem from './PageItem';
 

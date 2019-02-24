@@ -123,5 +123,7 @@
   "people.rol.author": "Guión",
   "people.rol.artist": "Artista",
   "delete": "Eliminar",
-  "add_language": "Añadir Idioma"
+  "add_language": "Añadir Idioma",
+  "chapter_uploaded": "Capítulo subido",
+  "read_chapter": "Leer capítulo"
 }

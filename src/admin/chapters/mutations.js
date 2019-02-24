@@ -1,0 +1,137 @@
+import gql from 'graphql-tag';
+
+export const CREATE_PAGE = gql`
+  mutation PageCreate(
+    $chapterId: Int
+    $filename: String
+    $hidden: Boolean
+    $height: Int
+    $width: Int
+    $size: Int
+    $mime: String
+  ) {
+    pageCreate(
+      chapterId: $chapterId
+      filename: $filename
+      hidden: $hidden
+      height: $height
+      width: $width
+      size: $size
+      mime: $mime
+    ) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_PAGE = gql`
+  mutation PageUpdate(
+    $id: Int
+    $chapterId: Int
+    $filename: String
+    $hidden: Boolean
+    $height: Int
+    $width: Int
+    $size: Int
+    $mime: String
+  ) {
+    pageUpdate(
+      id: $id
+      chapterId: $chapterId
+      filename: $filename
+      hidden: $hidden
+      height: $height
+      width: $width
+      size: $size
+      mime: $mime
+    ) {
+      id
+    }
+  }
+`;
+
+export const REMOVE_PAGE = gql`
+  mutation PageRemove($id: Int) {
+    pageRemove(id: $id) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_DEFAULT_PAGE = gql`
+  mutation ChapterThumbUpdate($id: Int, $thumbnail: String) {
+    chapterThumbUpdate(id: $id, thumbnail: $thumbnail) {
+      id
+    }
+  }
+`;
+
+export const CREATE_CHAPTER = gql`
+  mutation ChapterCreate(
+    $workId: Int
+    $chapter: Int
+    $subchapter: Int
+    $volume: Int
+    $language: Int
+    $name: String
+    $stub: String
+    $uniqid: String
+    $hidden: Boolean
+    $description: String
+    $thumbnail: String
+    $releaseDate: String
+  ) {
+    chapterCreate(
+      workId: $workId
+      chapter: $chapter
+      subchapter: $subchapter
+      volume: $volume
+      language: $language
+      name: $name
+      stub: $stub
+      uniqid: $uniqid
+      hidden: $hidden
+      description: $description
+      thumbnail: $thumbnail
+      releaseDate: $releaseDate
+    ) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_CHAPTER = gql`
+  mutation ChapterUpdate(
+    $id: Int
+    $workId: Int
+    $chapter: Int
+    $subchapter: Int
+    $volume: Int
+    $language: Int
+    $name: String
+    $stub: String
+    $uniqid: String
+    $hidden: Boolean
+    $description: String
+    $thumbnail: String
+    $releaseDate: String
+  ) {
+    chapterUpdate(
+      id: $id
+      workId: $workId
+      chapter: $chapter
+      subchapter: $subchapter
+      volume: $volume
+      language: $language
+      name: $name
+      stub: $stub
+      uniqid: $uniqid
+      hidden: $hidden
+      description: $description
+      thumbnail: $thumbnail
+      releaseDate: $releaseDate
+    ) {
+      id
+    }
+  }
+`;
