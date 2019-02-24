@@ -2,14 +2,16 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { IntlProvider } from 'react-intl-redux';
-import store, { history } from './store';
 import { addLocaleData } from 'react-intl';
 import { ApolloProvider } from 'react-apollo';
 import ReactGA from 'react-ga';
 
 // App imports
+import { getDefaultLanguage } from './utils/common';
+import { doChangeLanguage } from './layout/actions/doChangeLanguage';
 import apolloClient from './setupApollo';
-import * as config from './config';
+import store, { history } from './store';
+import { GA_ID } from './config';
 import Routes from './Routes';
 import Header from './layout/header';
 import {
@@ -23,6 +25,9 @@ import en from 'react-intl/locale-data/en';
 import es from 'react-intl/locale-data/es';
 
 addLocaleData([...en, ...es]);
+
+// Language
+store.dispatch(doChangeLanguage(getDefaultLanguage()));
 
 // User Authentication
 const token = window.localStorage.getItem('token');
@@ -38,7 +43,7 @@ if (token && token !== 'undefined' && token !== '') {
 
 class App extends Component {
   render() {
-    ReactGA.initialize(config.GA_ID, {
+    ReactGA.initialize(GA_ID, {
       debug: process.env.NODE_ENV === 'development'
     });
     ReactGA.pageview(window.location.pathname + window.location.search);
