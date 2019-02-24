@@ -8,7 +8,7 @@ export const FETCH_WORKS = gql`
       sortBy: "stub"
       first: 120
       offset: 0
-      showHidden: false
+      showHidden: true
     ) {
       id
       name

@@ -18,6 +18,8 @@ function getDefaultLanguage() {
 
   return language;
 }
+// TODO: revisar porque no funciona correctamente al inicio de la app, aparece seleccionado ES pero el idioma que aparece sigue siendo inglés
+// ES PORQUE ES EL REDUCER DEL LAYOUR Y NO DE react-intl
 
 let initialState = getDefaultLanguage();
 

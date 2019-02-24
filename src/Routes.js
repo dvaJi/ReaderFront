@@ -97,9 +97,16 @@ const ACPWorkDetail = Loadable({
 
 const ACPChapterCreate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPChapterCreate" */ './admin/chapters/CreateOrEdit'),
+    import(/* webpackChunkName: "ACPChapterCreate" */ './admin/chapters/CreateOrEdit/CreateChapter'),
   loading: () => null,
   modules: ['ACPChapterCreate']
+});
+
+const ACPChapterEdit = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "ACPChapterEdit" */ './admin/chapters/CreateOrEdit/EditChapter'),
+  loading: () => null,
+  modules: ['ACPChapterEdit']
 });
 
 const ACPChapterDetail = Loadable({
@@ -189,7 +196,7 @@ export default (
     <RoutePrivate
       path="/admincp/work/:workId/:stub/chapter/edit/:chapterId"
       exact
-      component={withTracker(ACPChapterCreate)}
+      component={withTracker(ACPChapterEdit)}
     />
     <RoutePrivate
       path="/admincp/work/:workId/:stub/chapter/:chapterId"
