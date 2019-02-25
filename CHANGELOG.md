@@ -1,3 +1,47 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+# [4.2.0](https://github.com/dvaJi/ReaderFront/compare/v4.1.0...v4.2.0) (2019-02-25)
+
+
+### Bug Fixes
+
+* fix simple-slugify-string import ([8278304](https://github.com/dvaJi/ReaderFront/commit/8278304))
+* language detection didn't work correctly ([#233](https://github.com/dvaJi/ReaderFront/issues/233)) ([0e5eecf](https://github.com/dvaJi/ReaderFront/commit/0e5eecf))
+* reader is not updating the actual chapter ([#196](https://github.com/dvaJi/ReaderFront/issues/196)) ([3bea6fd](https://github.com/dvaJi/ReaderFront/commit/3bea6fd))
+* **Reader:** next and previous buttons were giving the id instead of the name of the language ([#210](https://github.com/dvaJi/ReaderFront/issues/210)) ([ccb7a5c](https://github.com/dvaJi/ReaderFront/commit/ccb7a5c))
+* refactor layout reducer and action to use intl ([#237](https://github.com/dvaJi/ReaderFront/issues/237)) ([0499e19](https://github.com/dvaJi/ReaderFront/commit/0499e19))
+* **admincp:** use FileReader to create a preview before upload and update the filename from server ([#172](https://github.com/dvaJi/ReaderFront/issues/172)) ([bb3420e](https://github.com/dvaJi/ReaderFront/commit/bb3420e))
+* **ci:** add new workflow to handle deploy only on tags ([#230](https://github.com/dvaJi/ReaderFront/issues/230)) ([457a749](https://github.com/dvaJi/ReaderFront/commit/457a749))
+* the markdown editor wasn't updating properly ([d559d1c](https://github.com/dvaJi/ReaderFront/commit/d559d1c))
+* use status instead statusText to check if response is ok ([#166](https://github.com/dvaJi/ReaderFront/issues/166)) ([42a482e](https://github.com/dvaJi/ReaderFront/commit/42a482e))
+* **home:** adapt new styles to small covers ([#228](https://github.com/dvaJi/ReaderFront/issues/228)) ([3d5ad96](https://github.com/dvaJi/ReaderFront/commit/3d5ad96))
+* **releases:** chapters were not correctly assigned ([#214](https://github.com/dvaJi/ReaderFront/issues/214)) ([e53dfc8](https://github.com/dvaJi/ReaderFront/commit/e53dfc8))
+
+
+### Features
+
+* add a new editor and add urls to post ([#199](https://github.com/dvaJi/ReaderFront/issues/199)) ([4f74497](https://github.com/dvaJi/ReaderFront/commit/4f74497))
+* **home:** refactor Home ([#215](https://github.com/dvaJi/ReaderFront/issues/215)) ([70e236e](https://github.com/dvaJi/ReaderFront/commit/70e236e))
+* new view to upload pages ([#192](https://github.com/dvaJi/ReaderFront/issues/192)) ([43d6dcb](https://github.com/dvaJi/ReaderFront/commit/43d6dcb))
+* **admincp:** refactor admin chapters ([#236](https://github.com/dvaJi/ReaderFront/issues/236)) ([56ae03a](https://github.com/dvaJi/ReaderFront/commit/56ae03a))
+* refactor releases ([#203](https://github.com/dvaJi/ReaderFront/issues/203)) ([fffd2c2](https://github.com/dvaJi/ReaderFront/commit/fffd2c2))
+* use rich-markdown-editor lib instead of custom component ([#197](https://github.com/dvaJi/ReaderFront/issues/197)) ([6b5ca49](https://github.com/dvaJi/ReaderFront/commit/6b5ca49))
+* **admincp:** refactor work ([#231](https://github.com/dvaJi/ReaderFront/issues/231)) ([e1f6c21](https://github.com/dvaJi/ReaderFront/commit/e1f6c21))
+* **Blog:** refactor blog module, now it uses react-apollo to fetch data ([#209](https://github.com/dvaJi/ReaderFront/issues/209)) ([d176aed](https://github.com/dvaJi/ReaderFront/commit/d176aed))
+* **ci:** add new configuration to continuous deployment ([#176](https://github.com/dvaJi/ReaderFront/issues/176)) ([efc1022](https://github.com/dvaJi/ReaderFront/commit/efc1022))
+* **reader:** refactor Reader ([#220](https://github.com/dvaJi/ReaderFront/issues/220)) ([1acd51f](https://github.com/dvaJi/ReaderFront/commit/1acd51f))
+* **work:** refactor work, new design ([#226](https://github.com/dvaJi/ReaderFront/issues/226)) ([a301da4](https://github.com/dvaJi/ReaderFront/commit/a301da4))
+* **works:** refactor Works ([#218](https://github.com/dvaJi/ReaderFront/issues/218)) ([96f2e0c](https://github.com/dvaJi/ReaderFront/commit/96f2e0c))
+
+
+### Performance Improvements
+
+* **core:** use a better config for LazyLoad and add some advice from lighthouse ([#180](https://github.com/dvaJi/ReaderFront/issues/180)) ([2947fd0](https://github.com/dvaJi/ReaderFront/commit/2947fd0))
+
+
+
 # [4.1.0](https://github.com/dvaJi/ReaderFront/compare/v4.0.0...v4.1.0) (2018-11-11)
 
 
