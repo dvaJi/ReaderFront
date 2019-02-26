@@ -31,7 +31,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
-    "apollo-boost": "^0.1.28",
+    "apollo-boost": "^0.3.0",
     "apollo-link-context": "^1.0.14",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
