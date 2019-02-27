@@ -76,7 +76,7 @@
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-react-intl": "^2.0.3",
     "eslint": "5.12.0",
-    "eslint-config-prettier": "4.0.0",
+    "eslint-config-prettier": "4.1.0",
     "eslint-config-react-app": "^3.0.7",
     "eslint-plugin-flowtype": "^3.4.2",
     "eslint-plugin-import": "^2.16.0",
