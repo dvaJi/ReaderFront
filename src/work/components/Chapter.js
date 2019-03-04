@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
-import * as config from '../../config';
+import { READER_PATH, ANONYMIZER_DOWNLOADS } from '../../config';
 
 export const ChapterLi = styled.div`
   list-style-type: none;
@@ -20,7 +20,6 @@ function Chapter({ work, chapter, language, intl }) {
   const dir = `${work.stub}/${language.name}/${chapter.volume}/${
     chapter.chapter
   }.${chapter.subchapter}`;
-  let url = `${config.READER_PATH}download/${chapter.id}`;
   return (
     <ChapterLi className="clearfix">
       <Link to={`/read/${dir}`} className="Chapter">
@@ -32,7 +31,7 @@ function Chapter({ work, chapter, language, intl }) {
       <div className="float-right">
         <a
           className="Download"
-          href={url}
+          href={`${ANONYMIZER_DOWNLOADS + READER_PATH}download/${chapter.id}`}
           target="_blank"
           rel="noopener noreferrer"
           title={intl.formatMessage({

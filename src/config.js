@@ -8,3 +8,6 @@ export const GA_ID = process.env.REACT_APP_GA_ID;
 export const DISCORD_URL = process.env.REACT_APP_DISCORD_URL;
 export const DISCORD_ID = process.env.REACT_APP_DISCORD_ID;
 export const PATREON_URL = process.env.REACT_APP_PATREON_URL;
+export const ANONYMIZER_DOWNLOADS = process.env.REACT_APP_ANONYMIZER_DOWNLOADS
+  ? process.env.REACT_APP_ANONYMIZER_DOWNLOADS
+  : '';

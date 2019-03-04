@@ -8,7 +8,7 @@ import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 import Button from './Button';
 import { languageIdToName } from '../../utils/common';
-import * as config from '../../config';
+import { READER_PATH, ANONYMIZER_DOWNLOADS } from '../../config';
 
 const ReaderBarStyle = styled.div`
   min-height: 30px;
@@ -47,7 +47,7 @@ class ReaderBar extends PureComponent {
 
   downloadChapter() {
     const { id, chapter, subchapter, pages } = this.props.chapter;
-    let url = `${config.READER_PATH}download/${id}`;
+    let url = `${ANONYMIZER_DOWNLOADS + READER_PATH}download/${id}`;
     return pages && pages.length > 0 ? (
       <DownloadIcon
         href={url}
