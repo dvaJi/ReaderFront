@@ -6,12 +6,7 @@
       "request": "launch",
       "name": "Jest Tests",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
-      "args": [
-        "test",
-        "--env=jsdom",
-        "--runInBand",
-        "-i"
-      ],
+      "args": ["test", "--env=jsdom", "--runInBand", "--maxWorkers=2", "-i"],
       "cwd": "${workspaceRoot}",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"

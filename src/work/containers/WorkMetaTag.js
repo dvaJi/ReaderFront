@@ -3,10 +3,10 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 
 import { APP_TITLE } from '../../config';
-import { getWorkThumb, genreTypeIdToName } from '../../utils/common';
+import { genreTypeIdToName } from '../../utils/common';
+import { getImage } from '../../common/Image';
 
 const MetaTag = ({ work, language }) => {
-  const workDir = work.stub + '_' + work.uniqid;
   return (
     <>
       <Helmet>
@@ -21,10 +21,17 @@ const MetaTag = ({ work, language }) => {
               .description
           }
         />
-        <meta
-          property="og:image"
-          content={getWorkThumb(workDir, work.thumbnail, 'medium')}
-        />
+        {work.thumbnail !== '' && (
+          <meta
+            property="og:image"
+            content={getImage(
+              `works/${work.uniqid}/${work.thumbnail}`,
+              500,
+              500,
+              1
+            )}
+          />
+        )}
       </Helmet>
       {work.works_genres.map(g => {
         const genre = genreTypeIdToName(g.genreId);

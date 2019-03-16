@@ -15,11 +15,11 @@ import {
 } from 'reactstrap';
 
 // App imports
+import Image from '../../../common/Image';
 import { renderIf, slugify } from '../../../utils/helpers';
 import {
   languages,
   uploadImage,
-  getWorkThumb,
   workStatus,
   workTypes,
   genresDemographic
@@ -342,15 +342,13 @@ class PostForm extends Component {
             this.props.work.stub === work.stub &&
             !isRecentUpload,
           () => (
-            <img
+            <Image
               id="work_thumbnail"
-              src={getWorkThumb(
-                `${work.stub}_${work.uniqid}`,
-                work.thumbnail,
-                'small'
-              )}
+              src={`works/${work.uniqid}/${work.thumbnail}`}
+              height={200}
+              width={170}
               alt={work.name}
-              style={{ width: 170, marginTop: '1em' }}
+              index={1}
             />
           )
         )}

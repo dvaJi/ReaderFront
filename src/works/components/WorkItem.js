@@ -5,6 +5,7 @@ import Lazyload from 'react-lazyload';
 
 import styled from 'styled-components';
 import WorkCover from './WorkCover';
+import getImage from '../../common/Image/function';
 
 const Card = styled.div`
   background-color: #fff;
@@ -83,15 +84,38 @@ const CoverWrapper = styled.span`
     props.size !== 'small' ? 'height: 212px; width: 150px; float: left;' : ''}
 `;
 
-function WorkItem({ work, truncate, thumbUrl, size, statusTag, intl }) {
+const getThumbSize = size => {
+  if (size === 'small') {
+    return { height: 350, width: 345 };
+  } else {
+    return { height: 220, width: 150 };
+  }
+};
+
+function WorkItem({ work, truncate, size, statusTag, intl }) {
   const status = statusTag(work.status);
+  const thumbSize = getThumbSize(size);
+  const thumbnail =
+    work.thumbnail !== ''
+      ? getImage(
+          `works/${work.uniqid}/${work.thumbnail}`,
+          thumbSize.height,
+          thumbSize.width,
+          work.id
+        )
+      : '/static/images/default-cover.png';
   return (
     <Link to={'/work/' + work.stub}>
       <Card>
         <CoverWrapper size={size}>
-          <Lazyload height={150} once debounce={false}>
+          <Lazyload
+            height={150}
+            once
+            debounce={false}
+            placeholder={<WorkCover size={size} />}
+          >
             <WorkCover
-              cover={thumbUrl(work)}
+              cover={thumbnail}
               name={work.name}
               size={size}
               status={intl.formatMessage({

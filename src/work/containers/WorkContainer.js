@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 
 // App Imports
-import { getWorkThumb } from '../../utils/common';
 import params from '../../params.json';
-
 import MetaTag from './WorkMetaTag';
 import Cover from '../components/Cover';
 import Info from '../components/Info';
@@ -28,16 +26,12 @@ class WorkContainer extends Component {
           if (loading) return <WorkEmpty />;
           if (error) return <p id="error_releases">Error :(</p>;
 
-          const workDir = data.work.stub + '_' + data.work.uniqid;
           return (
             <>
               <MetaTag work={data.work} language={language} />
               <div className="row">
                 <div className="col-md-4">
-                  <Cover
-                    cover={getWorkThumb(workDir, data.work.thumbnail, 'medium')}
-                    name={data.work.name}
-                  />
+                  <Cover work={data.work} name={data.work.name} />
                 </div>
                 <Info
                   work={data.work}

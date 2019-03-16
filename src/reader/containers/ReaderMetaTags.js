@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 
 import { APP_TITLE } from '../../config';
-import { getChapterPageUrl } from '../../utils/common';
+import { getImage } from '../../common/Image';
 
 const MetaTag = ({ chapter }) => {
   return (
@@ -12,7 +12,13 @@ const MetaTag = ({ chapter }) => {
         <meta charSet="utf-8" />
         <meta
           property="og:image"
-          content={getChapterPageUrl(chapter.work, chapter, chapter.thumbnail)}
+          content={getImage(
+            `works/${chapter.work.uniqid}/${chapter.uniqid}/${
+              chapter.thumbnail
+            }`,
+            500,
+            500
+          )}
         />
         <meta property="og:type" content="article" />
         <meta property="article:published_time" content={chapter.createdAt} />

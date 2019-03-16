@@ -138,11 +138,6 @@ it('should fill the form with the work given', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
   const wrapper = mountWithIntl(<Form work={work} onSubmit={handleOnSubmit} />);
 
-  await global.wait(0);
-  const thumbnail = wrapper.find('img[id="work_thumbnail"]');
-  expect(thumbnail).toBeTruthy();
-  expect(thumbnail.prop('src')).toContain(work.thumbnail);
-
   const inputTitle = wrapper.find('input[name="name"]');
   expect(inputTitle.props().value).toBe(work.name);
 

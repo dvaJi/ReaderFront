@@ -3,11 +3,7 @@ import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { forceCheck } from 'react-lazyload';
 import WorkItem from './WorkItem';
-import {
-  workStatusIdToName,
-  getStatusTagStyle,
-  getWorkThumb
-} from '../../utils/common';
+import { workStatusIdToName, getStatusTagStyle } from '../../utils/common';
 
 const redirectTo = () => {
   return `work/infection`;
@@ -30,11 +26,6 @@ const statusTag = statusId => {
   };
 };
 
-const thumbUrl = work => {
-  const dir = work.stub + '_' + work.uniqid;
-  return getWorkThumb(dir, work.covers);
-};
-
 it('renders without crashing', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
@@ -42,7 +33,6 @@ it('renders without crashing', () => {
         redirectTo={redirectTo}
         truncate={truncate}
         work={work}
-        thumbUrl={thumbUrl}
         statusTag={statusTag}
       />
     </MemoryRouter>

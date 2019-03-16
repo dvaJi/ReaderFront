@@ -133,9 +133,6 @@ it('should fill the form with the post given', async () => {
   const wrapper = mountWithIntl(<Form post={post} onSubmit={handleOnSubmit} />);
 
   await global.wait(0);
-  const thumbnail = wrapper.find('img[id="post_thumbnail"]');
-  expect(thumbnail).toBeTruthy();
-  expect(thumbnail.prop('src')).toContain(post.thumbnail);
 
   const inputTitle = wrapper.find('input[name="title"]');
   expect(inputTitle.props().value).toBe('Lorem Ipsum 1');
