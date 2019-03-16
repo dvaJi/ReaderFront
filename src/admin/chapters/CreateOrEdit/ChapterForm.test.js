@@ -10,7 +10,6 @@ const userStorage = {
   name: 'The Admin',
   role: 'ADMIN'
 };
-const chapter = global.rfMocks.releases.getReleases[0];
 let chapterEmpty = {};
 
 beforeEach(() => {
