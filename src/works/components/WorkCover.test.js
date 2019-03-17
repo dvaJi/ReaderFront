@@ -2,11 +2,7 @@ import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
 import WorkCover, { Cover } from './WorkCover';
-import {
-  workStatusIdToName,
-  getStatusTagStyle,
-  getWorkThumb
-} from '../../utils/common';
+import { workStatusIdToName, getStatusTagStyle } from '../../utils/common';
 
 const work = {
   thumb2: 'portada.jpg',
@@ -19,16 +15,10 @@ const statusTag = {
   name: workStatusIdToName(1)
 };
 
-const thumbUrl = work => {
-  const dir = work.stub + '_' + work.uniqid;
-  return getWorkThumb(dir, work.covers);
-};
-
 it('renders a "normal" cover without crashing', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <WorkCover
-        cover={thumbUrl(work)}
         name={work.name}
         size={'normal'}
         status={statusTag.name}
@@ -45,7 +35,7 @@ it('renders a "small" cover without crashing', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <WorkCover
-        cover={thumbUrl(work)}
+        cover={work.thumbnail}
         name={work.name}
         size={'small'}
         status={statusTag.name}
@@ -58,7 +48,7 @@ it('renders a "small" cover without crashing', () => {
   wrapper.unmount();
 });
 
-it('renders a default thumbnail if cover is null', () => {
+it('should not add the background-image style rule if the thumbnail is null or undefined', () => {
   const wrapper = mountWithIntl(
     <MemoryRouter>
       <WorkCover
@@ -73,7 +63,7 @@ it('renders a default thumbnail if cover is null', () => {
 
   expect(wrapper).toBeTruthy();
   const cover = wrapper.find(Cover);
-  expect(cover).toHaveStyleRule(
+  expect(cover).not.toHaveStyleRule(
     'background-image',
     'url(/static/images/default-cover.png)'
   );

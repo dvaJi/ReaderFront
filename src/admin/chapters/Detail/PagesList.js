@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { ListGroup } from 'reactstrap';
 
 import { renderIf, hashCode } from '../../../utils/helpers';
-import { getChapterPageUrl } from '../../../utils/common';
+import { getImage } from '../../../common/Image';
 import PageItemWithThumb from './PageItemWithThumb';
 import PageItem from './PageItem';
 
@@ -31,7 +31,13 @@ class PagesList extends PureComponent {
           const thumb =
             f.file !== undefined
               ? f.file
-              : getChapterPageUrl(chapter.work, chapter, f.filename);
+              : getImage(
+                  `works/${chapter.work.uniqid}/${chapter.uniqid}/${
+                    f.filename
+                  }`,
+                  230,
+                  230
+                );
           return (
             <PageItemWithThumb
               index={pageHash}
@@ -68,7 +74,11 @@ class PagesList extends PureComponent {
           const isUploading = f.isUploading ? true : false;
           const pageHash = hashCode(filename);
           const isDefault = filename === defaultPage;
-          const thumb = getChapterPageUrl(chapter.work, chapter, f.filename);
+          const thumb = getImage(
+            `works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
+            230,
+            230
+          );
 
           return (
             <PageItem

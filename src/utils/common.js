@@ -15,38 +15,6 @@ export function getStatusTagStyle(statusId) {
   }
 }
 
-// Get the work thumbnail url
-export function getWorkThumb(dir, filename, size = 'small') {
-  if (!filenameIsValid(filename)) {
-    return '/static/images/default-cover.png';
-  }
-
-  const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-  return `${READER_PATH}covers/works/${dir}/${filename}?size=${size}${isWebp}`;
-}
-
-export function getChapterPageUrl(work, chapter, filename, size = 'small') {
-  if (!filenameIsValid(filename)) {
-    return '/static/images/default-cover.png';
-  }
-
-  const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-  return `${READER_PATH}covers/chapter/${work.stub}_${work.uniqid}/${
-    chapter.stub
-  }_${chapter.uniqid}/${filename}?size=${size}${isWebp}`;
-}
-
-// Get the post thumbnail url
-export function getPostThumb(dir, filename, size = 'small') {
-  if (!filenameIsValid(filename)) {
-    return '/static/images/default-cover.png';
-  }
-
-  const isWebp = canUseWebP() ? '&lowQuality=true' : '';
-
-  return `${READER_PATH}covers/blog/${dir}/${filename}?size=${size}${isWebp}`;
-}
-
 export function canUseWebP() {
   try {
     const elem =
@@ -164,7 +132,8 @@ export async function uploadImage(data) {
 }
 
 export function getDefaultLanguage() {
-  const navigatorLang = navigator.language || navigator.userLanguage || 'en';
+  const navigatorLang =
+    navigator.browserLanguage || navigator.language || navigator.userLanguage;
   const localLang = window.localStorage.getItem('rf_language');
 
   let language = '';
@@ -182,8 +151,4 @@ export function getDefaultLanguage() {
   }
 
   return language;
-}
-
-function filenameIsValid(filename) {
-  return filename !== null && filename !== undefined && filename !== '';
 }

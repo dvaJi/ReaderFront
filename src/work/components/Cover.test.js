@@ -2,7 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import Cover from './Cover';
 
+const work = global.rfMocks.work.work;
+
 it('renders without crashing', () => {
-  const wrapper = mount(<Cover key={1} cover="portada.jps" name="infection" />);
+  const wrapper = mount(<Cover key={1} work={work} name="infection" />);
   wrapper.unmount();
 });

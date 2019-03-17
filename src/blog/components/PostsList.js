@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 
 import { CardWrapper, ListRows } from './styles';
 import PostCard from './PostCard';
-import { getPostThumb } from '../../utils/common';
+import { getImage } from '../../common/Image';
 import { subString } from '../../utils/helpers';
 
 export default class PostsList extends PureComponent {
@@ -66,23 +66,23 @@ export default class PostsList extends PureComponent {
     this.props.doSelect(e);
   }
 
-  thumbUrl(post) {
-    const dir = post.stub + '_' + post.uniqid;
-    return getPostThumb(dir, post.thumbnail, 'medium');
-  }
-
   render() {
     const { posts } = this.props;
 
     return (
       <div className="container--grid">
         <ListRows id="posts_list" layout="rows top-left">
-          {posts.map(post => (
+          {posts.map((post, index) => (
             <CardWrapper key={post.uniqid}>
               <PostCard
                 onClick={this.doSelect}
                 post={post}
-                thumbnail={this.thumbUrl(post)}
+                thumbnail={getImage(
+                  `images/blog/${post.uniqid}/${post.thumbnail}`,
+                  305,
+                  305,
+                  index
+                )}
               >
                 <ReactMarkdown
                   source={subString(post.content, 150)}
