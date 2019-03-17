@@ -7,6 +7,9 @@ import { genreTypeIdToName } from '../../utils/common';
 import { getImage } from '../../common/Image';
 
 const MetaTag = ({ work, language }) => {
+  const workDescription = work.works_descriptions.find(
+    e => e.language === language.id
+  );
   return (
     <>
       <Helmet>
@@ -16,10 +19,7 @@ const MetaTag = ({ work, language }) => {
         <meta property="og:type" content="book" />
         <meta
           name="description"
-          content={
-            work.works_descriptions.find(e => e.language === language.id)
-              .description
-          }
+          content={workDescription ? workDescription.description : ''}
         />
         {work.thumbnail !== '' && (
           <meta

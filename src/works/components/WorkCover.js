@@ -64,10 +64,8 @@ const Overlay = styled.div`
 `;
 
 const Tag = styled(animated.div)`
-  background-color: ${props => props.statusColorBg};
   border-radius: 2px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.22);
-  color: ${props => props.statusColorTxt};
   display: inline-block;
   font-size: 8px;
   font-weight: 500;
@@ -84,7 +82,10 @@ const Tag = styled(animated.div)`
 function WorkCover({ name, cover, size, statusTag, status }) {
   const tagProps = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
-    from: { opacity: 0.2, transform: 'translate3d(10px,0,0)' }
+    from: {
+      opacity: 0.2,
+      transform: 'translate3d(10px,0,0)'
+    }
   });
   const coverProps = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
@@ -101,9 +102,11 @@ function WorkCover({ name, cover, size, statusTag, status }) {
       </Cover>
       {size !== 'small' && statusTag && (
         <Tag
-          style={tagProps}
-          statusColorBg={statusTag.background}
-          statusColorTxt={statusTag.color}
+          style={{
+            ...tagProps,
+            backgroundColor: statusTag ? statusTag.background : '',
+            color: statusTag ? statusTag.color : ''
+          }}
         >
           {status}
         </Tag>
