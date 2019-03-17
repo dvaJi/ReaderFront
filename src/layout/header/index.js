@@ -139,9 +139,6 @@ class Header extends Component {
             <RouteNavItem to="/admincp/blog">
               <FormattedMessage id="blog" defaultMessage="Blog" />
             </RouteNavItem>
-            <RouteNavItem to="/admincp/preferences" exact>
-              <FormattedMessage id="settings" defaultMessage="Settings" />
-            </RouteNavItem>
           </Nav>
         </Collapse>
       </Navbar>
