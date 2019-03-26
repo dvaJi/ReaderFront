@@ -86,7 +86,7 @@ const CoverWrapper = styled.span`
 
 const getThumbSize = size => {
   if (size === 'small') {
-    return { height: 350, width: 345 };
+    return { height: 180, width: 345 };
   } else {
     return { height: 220, width: 150 };
   }
@@ -101,7 +101,8 @@ function WorkItem({ work, truncate, size, statusTag, intl }) {
           `works/${work.uniqid}/${work.thumbnail}`,
           thumbSize.height,
           thumbSize.width,
-          work.id
+          work.id,
+          true
         )
       : '/static/images/default-cover.png';
   return (
@@ -112,7 +113,17 @@ function WorkItem({ work, truncate, size, statusTag, intl }) {
             height={150}
             once
             debounce={false}
-            placeholder={<WorkCover size={size} />}
+            placeholder={
+              <WorkCover
+                name={work.name}
+                size={size}
+                status={intl.formatMessage({
+                  id: status.name,
+                  defaultMessage: status.name
+                })}
+                statusTag={status.style}
+              />
+            }
           >
             <WorkCover
               cover={thumbnail}

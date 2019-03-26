@@ -7,7 +7,6 @@ import Image from '../../common/Image';
 const CoverStyle = styled(Image)`
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.18);
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
 function Cover({ work, name }) {
@@ -26,6 +25,7 @@ function Cover({ work, name }) {
       width={340}
       height={510}
       style={props}
+      crop={true}
       alt={name}
     />
   );

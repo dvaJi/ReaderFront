@@ -80,7 +80,13 @@ function RecommendedWork({ work, isLoading, description }) {
   });
   const thumbail =
     work !== null && work.thumbnail !== null
-      ? getImage(`works/${work.uniqid}/${work.thumbnail}`, 350, 350, work.id)
+      ? getImage(
+          `works/${work.uniqid}/${work.thumbnail}`,
+          350,
+          350,
+          work.id,
+          true
+        )
       : '/static/images/default-cover.png';
   return (
     <div className="Recommended mb-4">

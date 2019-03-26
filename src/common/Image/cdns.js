@@ -16,10 +16,14 @@ export function google(item, index) {
 export function photon(item, index) {
   const ele = parseUri(item.href);
   const quality = getQuality();
+  const crop =
+    item.crop && item.height
+      ? `&crop=0px,0px,${item.width}px,${item.height}px`
+      : '';
   return `https://i${hash(ele.host, index, 0, 2)}.wp.com/${ele.authority +
     ele.path}?strip=all&quality=${quality}${
     item.width ? '&w=' + item.width : ''
-  }`;
+  }${crop}`;
 }
 
 export function staticaly(item) {

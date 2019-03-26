@@ -29,7 +29,7 @@ const Card = styled.div`
 
 export default memo(function PostView({ post, onClickBack }) {
   const { title, content, uniqid, thumbnail } = post;
-  const portrait = getImage(`images/blog/${uniqid}/${thumbnail}`, 1, 1);
+  const portrait = getImage(`images/blog/${uniqid}/${thumbnail}`);
   const heroTransition = useTransition([portrait], null, {
     from: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' },
     enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },

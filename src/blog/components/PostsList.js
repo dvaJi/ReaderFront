@@ -79,9 +79,10 @@ export default class PostsList extends PureComponent {
                 post={post}
                 thumbnail={getImage(
                   `images/blog/${post.uniqid}/${post.thumbnail}`,
+                  310,
                   305,
-                  305,
-                  index
+                  index,
+                  true
                 )}
               >
                 <ReactMarkdown
