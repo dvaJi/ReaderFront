@@ -8,6 +8,7 @@ export default function Image({
   alt,
   height,
   width,
+  crop = false,
   index = 1,
   tag: Tag = 'img',
   ...props
@@ -16,7 +17,8 @@ export default function Image({
   const item = {
     href,
     height,
-    width
+    width,
+    crop
   };
   const finalUrl = IS_PROD ? getImage(item, index) : href;
   return <Tag src={finalUrl} alt={alt} {...useWidth(width)} {...props} />;
