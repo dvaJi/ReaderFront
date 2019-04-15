@@ -48,7 +48,7 @@ function ReaderContainer({ match }) {
     <div className="Read">
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
-          if (loading) return <p id="loading">Loading...</p>;
+          if (loading) return <ReaderBarEmpty />;
           if (error) return <p id="error_releases">Error :(</p>;
 
           const actualChapter = data.chapterByWorkAndChapter;

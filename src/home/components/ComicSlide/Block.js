@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getChapterPageUrl, languageIdToName } from '../../../utils/common';
+import { getImage } from '../../../common/Image';
+import { languageIdToName } from '../../../utils/common';
 
 const Image = styled(Link)`
   background-image: url('${props => props.image}');
@@ -20,22 +21,22 @@ export default class Block extends PureComponent {
   }
 
   imageToDisplay(blockId, index, chapter) {
-    if (blockId <= 2 || (blockId === 3 && index > 1)) {
-      return getChapterPageUrl(
-        chapter.work,
-        chapter,
-        chapter.thumbnail,
-        'medium'
-      );
+    const thumbPath =
+      chapter.thumbnail !== ''
+        ? `works/${chapter.work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
+        : '/static/images/default-cover.png';
+    if (blockId === 1) {
+      return getImage(thumbPath, 334, 332, index, true);
+    } else if (blockId === 2) {
+      return getImage(thumbPath, 163, 320, index, true);
+    } else if (blockId === 3 && index > 1) {
+      return getImage(thumbPath, 215, 430, index, true);
     } else if (blockId === 5 && index <= 1) {
-      return getChapterPageUrl(
-        chapter.work,
-        chapter,
-        chapter.thumbnail,
-        'medium'
-      );
+      return getImage(thumbPath, 184, 315, index, true);
+    } else if (blockId === 5 && index > 1) {
+      return getImage(thumbPath, 145, 210, index, true);
     } else {
-      return getChapterPageUrl(chapter.work, chapter, chapter.thumbnail);
+      return getImage(thumbPath, 111, 212, index, true);
     }
   }
 

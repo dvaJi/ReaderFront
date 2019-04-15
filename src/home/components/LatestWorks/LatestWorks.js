@@ -4,11 +4,7 @@ import styled from 'styled-components';
 import Card from '../../../works/components/WorkItem';
 import CardLoading from '../../../works/components/WorkItemEmpty';
 import { subString } from '../../../utils/helpers';
-import {
-  getStatusTagStyle,
-  getWorkThumb,
-  workStatusIdToName
-} from '../../../utils/common';
+import { getStatusTagStyle, workStatusIdToName } from '../../../utils/common';
 
 const WorksList = styled.div`
   margin-top: 30px;
@@ -25,11 +21,6 @@ export default class LatestWork extends PureComponent {
 
   handleRedirectTo = work => {
     return `/work/${work.stub}`;
-  };
-
-  handleThumbUrl = work => {
-    const dir = work.stub + '_' + work.uniqid;
-    return getWorkThumb(dir, work.thumbnail, 'medium');
   };
 
   handleStatusTag = statusId => {
@@ -56,7 +47,6 @@ export default class LatestWork extends PureComponent {
                   key={work.id}
                   truncate={this.handleTruncate}
                   redirectTo={this.handleRedirectTo}
-                  thumbUrl={this.handleThumbUrl}
                   statusTag={this.handleStatusTag}
                   work={work}
                   size={'small'}

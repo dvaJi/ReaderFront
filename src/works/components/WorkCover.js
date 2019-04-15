@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 
 const CardMedia = styled.div`
@@ -17,9 +18,9 @@ const CardMedia = styled.div`
   }
 `;
 
-export const Cover = styled.div`
+export const Cover = styled(animated.div)`
   background-color: #eee;
-  background-image: url(${props => props.thumb});
+  ${props => `background-image: url(${props.thumb});`}
   background-position: 50% 50%;
   background-size: cover;
   border-radius: ${props =>
@@ -62,11 +63,9 @@ const Overlay = styled.div`
   }
 `;
 
-const Tag = styled.div`
-  background-color: ${props => props.statusColorBg};
+const Tag = styled(animated.div)`
   border-radius: 2px;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.22);
-  color: ${props => props.statusColorTxt};
   display: inline-block;
   font-size: 8px;
   font-weight: 500;
@@ -81,10 +80,20 @@ const Tag = styled.div`
 `;
 
 function WorkCover({ name, cover, size, statusTag, status }) {
-  const coverUrl = cover ? cover : '/static/images/default-cover.png';
+  const tagProps = useSpring({
+    to: { opacity: 1, transform: 'translate3d(0,0,0)' },
+    from: {
+      opacity: 0.2,
+      transform: 'translate3d(10px,0,0)'
+    }
+  });
+  const coverProps = useSpring({
+    to: { opacity: 1, transform: 'translate3d(0,0,0)' },
+    from: { opacity: 0.8, transform: 'translate3d(0,2px,0)' }
+  });
   return (
     <CardMedia size={size}>
-      <Cover size={size} thumb={coverUrl}>
+      <Cover style={coverProps} size={size} thumb={cover}>
         {size === 'small' && (
           <Overlay>
             <span className="title">{name}</span>
@@ -93,8 +102,11 @@ function WorkCover({ name, cover, size, statusTag, status }) {
       </Cover>
       {size !== 'small' && statusTag && (
         <Tag
-          statusColorBg={statusTag.background}
-          statusColorTxt={statusTag.color}
+          style={{
+            ...tagProps,
+            backgroundColor: statusTag ? statusTag.background : '',
+            color: statusTag ? statusTag.color : ''
+          }}
         >
           {status}
         </Tag>

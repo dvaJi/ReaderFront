@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import { Link } from 'react-router-dom';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated, useTransition } from 'react-spring';
 import { Button, Container } from 'reactstrap';
-import styled from 'styled-components';
-import { getPostThumb } from '../../utils/common';
+
+import { getImage } from '../../common/Image';
 import { HeroBg, HeroContainer } from './styles';
 
 const Card = styled.div`
@@ -27,15 +28,14 @@ const Card = styled.div`
 `;
 
 export default memo(function PostView({ post, onClickBack }) {
-  const { title, content, stub, uniqid, thumbnail } = post;
-  const dir = stub + '_' + uniqid;
-  const portrait = getPostThumb(dir, thumbnail, 'medium');
-  const heroTransition = useTransition([portrait], item => item.id, {
+  const { title, content, uniqid, thumbnail } = post;
+  const portrait = getImage(`images/blog/${uniqid}/${thumbnail}`);
+  const heroTransition = useTransition([portrait], null, {
     from: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' },
     enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },
     leave: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' }
   });
-  const titleTransition = useTransition([title], item => item.id, {
+  const titleTransition = useTransition([title], null, {
     from: { transform: 'translate3d(0,5px,0)', opacity: '0.4' },
     enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },
     leave: { transform: 'translate3d(0,5px,0)', opacity: '0.4' }

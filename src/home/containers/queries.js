@@ -20,6 +20,7 @@ export const FETCH_RELEASES = gql`
       thumbnail
       releaseDate
       work {
+        id
         stub
         name
         uniqid

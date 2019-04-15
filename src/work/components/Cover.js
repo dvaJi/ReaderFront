@@ -2,18 +2,33 @@ import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
-const CoverStyle = styled(animated.img)`
+import Image from '../../common/Image';
+
+const CoverStyle = styled(Image)`
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.18);
   border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
-function Cover({ cover, name }) {
+function Cover({ work, name }) {
   const props = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: { opacity: 0, transform: 'translate3d(0,10px,0)' }
   });
-  return <CoverStyle src={cover} style={props} alt={name} />;
+  const thumbnail =
+    work.thumbnail !== ''
+      ? `works/${work.uniqid}/${work.thumbnail}`
+      : 'images/default-cover.png';
+  return (
+    <CoverStyle
+      src={thumbnail}
+      tag={animated.img}
+      width={340}
+      height={510}
+      style={props}
+      crop={true}
+      alt={name}
+    />
+  );
 }
 
 export default memo(Cover);

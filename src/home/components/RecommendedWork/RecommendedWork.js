@@ -1,8 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { memo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { getWorkThumb } from '../../../utils/common';
+import { useSpring, animated } from 'react-spring';
+
+import { getImage } from '../../../common/Image';
 
 const Overlay = styled.div`
   background: rgba(31, 38, 49, 0.8);
@@ -70,32 +72,48 @@ const LoadingCover = styled.div`
   justify-content: flex-end;
 `;
 
-export default class RecommendedWork extends PureComponent {
-  getCover(work) {
-    const dir = work ? work.stub + '_' + work.uniqid : '';
-    return work
-      ? getWorkThumb(dir, work.thumbnail, 'medium')
+function RecommendedWork({ work, isLoading, description }) {
+  const [isHover, setHover] = useState(false);
+  const props = useSpring({
+    opacity: isHover ? 1 : 0.3,
+    transform: isHover ? 'translate3d(0,0,0)' : 'translate3d(0,10px,0)'
+  });
+  const thumbail =
+    work !== null && work.thumbnail !== null
+      ? getImage(
+          `works/${work.uniqid}/${work.thumbnail}`,
+          350,
+          350,
+          work.id,
+          true
+        )
       : '/static/images/default-cover.png';
-  }
-
-  render() {
-    const { work, isLoading, description } = this.props;
-    return (
-      <div className="Recommended mb-4">
-        <h3>
-          <FormattedMessage id="random" defaultMessage="Random" />
-        </h3>
-        {!isLoading ? (
-          <Serie to={`work/${work.stub}`} cover={this.getCover(work)}>
-            <Overlay>
-              <span className="title">{work.name}</span>
-              <span className="desc">{description}</span>
-            </Overlay>
-          </Serie>
-        ) : (
-          <LoadingCover className="show-loading-animation" />
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className="Recommended mb-4">
+      <h3>
+        <FormattedMessage id="random" defaultMessage="Random" />
+      </h3>
+      {!isLoading ? (
+        <Serie
+          to={`work/${work.stub}`}
+          cover={thumbail}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          <Overlay>
+            <animated.span style={props} className="title">
+              {work.name}
+            </animated.span>
+            <animated.span style={props} className="desc">
+              {description}
+            </animated.span>
+          </Overlay>
+        </Serie>
+      ) : (
+        <LoadingCover className="show-loading-animation" />
+      )}
+    </div>
+  );
 }
+
+export default memo(RecommendedWork);

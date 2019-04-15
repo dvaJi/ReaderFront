@@ -11,9 +11,9 @@ import {
   blogCategories,
   languages,
   postsStatus,
-  getPostThumb,
   uploadImage
 } from '../../../utils/common';
+import { getImage } from '../../../common/Image';
 
 class PostForm extends Component {
   constructor(props) {
@@ -200,10 +200,10 @@ class PostForm extends Component {
         {renderIf(post.thumbnail !== '' && !isRecentUpload, () => (
           <img
             id="post_thumbnail"
-            src={getPostThumb(
-              post.stub + '_' + post.uniqid,
-              post.thumbnail,
-              'medium'
+            src={getImage(
+              `images/blog/${post.uniqid}/${post.thumbnail}`,
+              250,
+              250
             )}
             alt={post.title}
             style={{ width: 200, marginTop: '1em' }}
