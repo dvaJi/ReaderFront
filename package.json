@@ -58,7 +58,7 @@
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-rte": "^0.16.1",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.0",
     "react-spring": "^8.0.14",
     "react-test-renderer": "^16.8.4",
     "react-transition-group": "^3.0.0",
