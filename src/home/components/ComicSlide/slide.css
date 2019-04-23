@@ -56,16 +56,6 @@
 .comic-slide-wrapper-svg {
   display: block;
 }
-.comic-slide-wrapper {
-  position: relative;
-  min-width: 1004px;
-  background: #e2e2e2;
-  border-top: 1px solid #c8c8c8;
-  border-bottom: 1px solid #c8c8c8;
-  padding: 8px 0;
-  height: 352px;
-  box-sizing: border-box;
-}
 @media screen and (max-width: 1004px) {
   .comic-slide-wrapper {
     min-width: auto;
