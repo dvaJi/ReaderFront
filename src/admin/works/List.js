@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
-  Input,
   Button,
   ButtonGroup,
   Container,
@@ -14,6 +13,7 @@ import { faExclamationCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Query, graphql } from 'react-apollo';
 
 // App Imports
+import { ButtonLink, Input } from '../../common/ui';
 import { MetaTagList } from './ACPWorksMetaTags';
 import { FETCH_WORKS } from './query';
 import { REMOVE_WORK } from './mutation';
@@ -48,10 +48,10 @@ function List({ intl, mutate }) {
       <MetaTagList />
       <div>
         <div style={{ margin: '10px 5px' }}>
-          <Button color="primary" tag={Link} to={'/admincp/work/add'}>
+          <ButtonLink color="primary" to={'/admincp/work/add'}>
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
             <FormattedMessage id="add_work" defaultMessage="Add Work" />
-          </Button>
+          </ButtonLink>
 
           <Input
             type="input"

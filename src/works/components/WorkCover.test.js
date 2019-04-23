@@ -1,7 +1,8 @@
 import React from 'react';
 import { mountWithIntl } from 'enzyme-react-intl';
 import { MemoryRouter } from 'react-router-dom';
-import WorkCover, { Cover } from './WorkCover';
+import WorkCover from './WorkCover';
+import { Cover } from './styles';
 import { workStatusIdToName, getStatusTagStyle } from '../../utils/common';
 
 const work = {
