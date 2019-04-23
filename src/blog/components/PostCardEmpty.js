@@ -1,11 +1,13 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
 
+import { cardBackgroundColor } from '../../themes';
+
 const Card = styled.div`
   display: inline-block;
   position: relative;
   width: 310px;
-  background-color: #ddd;
+  background-color: ${cardBackgroundColor};
   vertical-align: top;
   text-align: left;
   height: 480px;

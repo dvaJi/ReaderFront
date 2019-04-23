@@ -1,5 +1,23 @@
 import styled from 'styled-components';
+import theme from 'styled-theming';
 import { Link } from 'react-router-dom';
+
+import { cardBackgroundColor, background } from '../../themes';
+
+const cardColor = theme('mode', {
+  light: background.light.darkest,
+  dark: background.dark.lightest
+});
+
+const cardContentColor = theme('mode', {
+  light: background.light.darker,
+  dark: background.dark.lighter
+});
+
+const borderColor = theme('mode', {
+  light: background.light.dark,
+  dark: background.dark.normal
+});
 
 export const ListRows = styled.ul`
   text-align: center;
@@ -31,12 +49,12 @@ export const CardOverlay = styled.div`
 `;
 
 export const Card = styled(Link)`
-  color: #4b4f56;
+  color: ${cardColor};
   cursor: pointer;
   display: inline-block;
   position: relative;
   width: 310px;
-  background-color: white;
+  background-color: ${cardBackgroundColor};
   vertical-align: top;
   text-align: left;
   height: 480px;
@@ -58,7 +76,7 @@ export const Card = styled(Link)`
 
 export const CardHero = styled.div`
   background-image: url('${props => props.thumb}');
-  background-color: white;
+  background-color: ${cardBackgroundColor};
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
@@ -88,12 +106,12 @@ export const CardBodyTitle = styled.div`
   font-weight: 400;
   line-height: 32px;
   margin-bottom: 12px;
-  color: #1d2129;
+  color: ${cardColor};
 `;
 
 export const CardBodyDescription = styled.div`
   height: 74px;
-  color: #4b4f56;
+  color: ${cardContentColor};
   display: block;
   display: -webkit-box;
   font-size: 14px;
@@ -120,7 +138,7 @@ export const CardFooter = styled.div`
 export const CardFooterWrapper = styled.div`
   height: 46px;
   line-height: 46px;
-  border-top: 1px solid #e9ebee;
+  border-top: 1px solid ${borderColor};
 `;
 
 export const CardFooterTag = styled.div`
@@ -155,4 +173,21 @@ export const HeroBg = styled.div`
     opacity: 0.4;
     content: '';
   }
+`;
+
+export const CardView = styled.div`
+  background-color: ${cardBackgroundColor};
+  border-radius: 2px;
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  padding: 15px 20px;
+  position: relative;
+  vertical-align: top;
+  white-space: normal;
+  margin-top: -110px;
+  z-index: 2;
 `;
