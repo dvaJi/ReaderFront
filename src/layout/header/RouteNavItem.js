@@ -4,19 +4,21 @@ import { Route } from 'react-router-dom';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import { NavItem, NavLink } from 'reactstrap';
 
+import { cardColor, primaryColor } from '../../themes';
+
 const Item = styled(NavItem)`
   position: relative;
   margin-left: 1rem;
 `;
 
 const Link = styled(NavLink)`
-  -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
   padding: 0.5rem !important;
+  color: ${cardColor} !important;
 
   &:hover,
   &.active {
-    color: #5b3cc4 !important;
+    color: ${primaryColor} !important;
   }
 
   &:hover::after,
@@ -30,13 +32,11 @@ const Link = styled(NavLink)`
     position: absolute;
     width: 0;
     left: 50%;
-    -webkit-transform: translate(-50%);
     transform: translate(-50%);
     height: 2px;
-    background: #5b3cc4;
+    background: ${primaryColor};
     bottom: 0;
-    -webkit-transition: all 0.2s ease;
-    transition: all 0.2s ease;
+    transition: all 0.17s ease;
   }
 `;
 

@@ -1,8 +1,21 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import theme from 'styled-theming';
+
+import { background } from '../../themes';
+
+export const coverBackgroundColor = theme('mode', {
+  light: background.light.normal,
+  dark: background.dark.dark
+});
+
+export const cardBackgroundColor = theme('mode', {
+  light: background.light.light,
+  dark: background.dark.light
+});
 
 const Card = styled.div`
-  background-color: #fff;
+  background-color: ${cardBackgroundColor};
   border-radius: 2px;
   margin-bottom: 65px;
   width: 47%;
@@ -73,7 +86,7 @@ const Cover = styled.div`
   }
 
   .card-media-img {
-    background-color: #ddd;
+    background-color: ${coverBackgroundColor};
     height: ${props => (props.size === 'small' ? '100%' : '212px')};
     width: ${props => (props.size === 'small' ? '100%' : '150px')};
     box-shadow: ${props =>
