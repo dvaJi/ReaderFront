@@ -1,10 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from 'styled-theming';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { background } from '../../themes';
+
+const backgroundCard = theme('mode', {
+  light: background.light.normal,
+  dark: background.dark.dark
+});
+
+const cardColor = theme('mode', {
+  light: background.light.darkest,
+  dark: background.dark.lighter
+});
+
 export const Card = styled(Link)`
-  color: #6c757d;
+  color: ${cardColor} !important;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -15,7 +28,7 @@ export const Card = styled(Link)`
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: ${backgroundCard};
   background-clip: border-box;
   border: 1px solid rgba(24, 28, 33, 0.06);
   border-radius: 0.25rem;
