@@ -49,14 +49,18 @@ const Login = Loadable({
 
 const Signup = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "signup" */ './user/containers/SignupContainer'),
+    import(
+      /* webpackChunkName: "signup" */ './user/containers/SignupContainer'
+    ),
   loading: () => null,
   modules: ['signup']
 });
 
 const Activate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "activate" */ './user/containers/ActivateAccountContainer'),
+    import(
+      /* webpackChunkName: "activate" */ './user/containers/ActivateAccountContainer'
+    ),
   loading: () => null,
   modules: ['activate']
 });
@@ -69,14 +73,18 @@ const ACPDashboard = Loadable({
 
 const ACPWorkEdit = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPWorkEdit" */ './admin/works/CreateOrEdit/EditWork'),
+    import(
+      /* webpackChunkName: "ACPWorkEdit" */ './admin/works/CreateOrEdit/EditWork'
+    ),
   loading: () => null,
   modules: ['ACPWorkEdit']
 });
 
 const ACPWorkCreate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPWorkCreate" */ './admin/works/CreateOrEdit/CreateWork'),
+    import(
+      /* webpackChunkName: "ACPWorkCreate" */ './admin/works/CreateOrEdit/CreateWork'
+    ),
   loading: () => null,
   modules: ['ACPWorkCreate']
 });
@@ -97,35 +105,45 @@ const ACPWorkDetail = Loadable({
 
 const ACPChapterCreate = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPChapterCreate" */ './admin/chapters/CreateOrEdit/CreateChapter'),
+    import(
+      /* webpackChunkName: "ACPChapterCreate" */ './admin/chapters/CreateOrEdit/CreateChapter'
+    ),
   loading: () => null,
   modules: ['ACPChapterCreate']
 });
 
 const ACPChapterEdit = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPChapterEdit" */ './admin/chapters/CreateOrEdit/EditChapter'),
+    import(
+      /* webpackChunkName: "ACPChapterEdit" */ './admin/chapters/CreateOrEdit/EditChapter'
+    ),
   loading: () => null,
   modules: ['ACPChapterEdit']
 });
 
 const ACPChapterDetail = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPChapterDetail" */ './admin/chapters/Detail'),
+    import(
+      /* webpackChunkName: "ACPChapterDetail" */ './admin/chapters/Detail'
+    ),
   loading: () => null,
   modules: ['ACPChapterDetail']
 });
 
 const ACPBlogCreatePost = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPBlogCreatePost" */ './admin/blog/CreateOrEdit/CreatePost'),
+    import(
+      /* webpackChunkName: "ACPBlogCreatePost" */ './admin/blog/CreateOrEdit/CreatePost'
+    ),
   loading: () => null,
   modules: ['ACPBlogCreatePost']
 });
 
 const ACPBlogEdit = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPBlogEdit" */ './admin/blog/CreateOrEdit/EditPost'),
+    import(
+      /* webpackChunkName: "ACPBlogEdit" */ './admin/blog/CreateOrEdit/EditPost'
+    ),
   loading: () => null,
   modules: ['ACPBlogEdit']
 });
