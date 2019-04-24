@@ -1,14 +1,16 @@
 import React from 'react';
-import { NavItem, NavLink } from 'reactstrap';
+import { NavItem } from 'reactstrap';
+
+import { LangNavLink } from './styles';
 
 export default props => (
   <NavItem>
-    <NavLink
+    <LangNavLink
       active={props.cookielang === props.language ? true : false}
       style={{ cursor: 'pointer' }}
       {...props}
     >
       {props.children}
-    </NavLink>
+    </LangNavLink>
   </NavItem>
 );
