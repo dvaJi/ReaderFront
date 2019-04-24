@@ -68,7 +68,7 @@ it('should filter works', async () => {
 
   await global.wait(0);
 
-  const input = wrapper.find('input[name="q"]');
+  const input = wrapper.find('input[name="work-search"]');
   input.instance().value = 'a';
   input.simulate('change');
   wrapper.unmount();

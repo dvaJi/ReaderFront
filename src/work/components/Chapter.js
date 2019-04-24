@@ -1,27 +1,18 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 import { READER_PATH, ANONYMIZER_DOWNLOADS } from '../../config';
-
-export const ChapterLi = styled.div`
-  list-style-type: none;
-  background-color: #fff;
-  line-height: 1.5rem;
-  padding: 10px 20px;
-  margin: 0;
-  border-bottom: 1px solid #e0e0e0;
-`;
+import { ChapterRow } from './styles';
 
 function Chapter({ work, chapter, language, intl }) {
   const dir = `${work.stub}/${language.name}/${chapter.volume}/${
     chapter.chapter
   }.${chapter.subchapter}`;
   return (
-    <ChapterLi className="clearfix">
+    <ChapterRow className="clearfix">
       <Link to={`/read/${dir}`} className="Chapter">
         <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
         {chapter.chapter}
@@ -42,7 +33,7 @@ function Chapter({ work, chapter, language, intl }) {
           <FontAwesomeIcon icon={faDownload} />
         </a>
       </div>
-    </ChapterLi>
+    </ChapterRow>
   );
 }
 
