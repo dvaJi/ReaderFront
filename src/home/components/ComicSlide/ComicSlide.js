@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import NextButton from './NextButton';
 import Block from './Block';
+
+import { SlideWrapper } from './styles';
 import './slide.css';
 
 export default class ComicSlide extends PureComponent {
@@ -51,7 +53,7 @@ export default class ComicSlide extends PureComponent {
 
   render() {
     return (
-      <div className="comic-slide-wrapper">
+      <SlideWrapper className="comic-slide-wrapper">
         <div className="comic-slide-wrapper-css">
           <div className="comic-slide-list">
             <div
@@ -79,7 +81,7 @@ export default class ComicSlide extends PureComponent {
             )}
           </div>
         </div>
-      </div>
+      </SlideWrapper>
     );
   }
 }
