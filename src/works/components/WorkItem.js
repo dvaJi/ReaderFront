@@ -6,9 +6,11 @@ import Lazyload from 'react-lazyload';
 import styled from 'styled-components';
 import WorkCover from './WorkCover';
 import getImage from '../../common/Image/function';
+import { cardBackgroundColor, cardColor } from '../../themes';
 
 const Card = styled.div`
-  background-color: #fff;
+  color: ${cardColor};
+  background-color: ${cardBackgroundColor};
   border-radius: 2px;
   box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
   cursor: pointer;

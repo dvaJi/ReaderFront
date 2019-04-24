@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+
 import ReleaseCategory from './ReleaseCat';
 import ReleaseItem from './ReleaseItem';
-import { FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
-
+import { ReleaseCard } from './styles';
 import { languageIdToName } from '../../utils/common';
 
 export default memo(function ReleasesList({ releases }) {
@@ -17,9 +18,9 @@ export default memo(function ReleasesList({ releases }) {
       const { work } = release;
       if (lastWork !== null && work.stub !== lastWork.stub) {
         rows.push(
-          <div
+          <ReleaseCard
             key={lastWork.stub}
-            className="my-3 p-3 bg-white rounded shadow-sm"
+            className="my-3 p-3 rounded shadow-sm"
           >
             <ReleaseCategory work={lastWork} key={lastWork.stub} />
             {tempRows}
@@ -31,7 +32,7 @@ export default memo(function ReleasesList({ releases }) {
                 />
               </Link>
             </small>
-          </div>
+          </ReleaseCard>
         );
         tempRows = [];
       }
