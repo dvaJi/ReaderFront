@@ -80,7 +80,12 @@ class BlogContainer extends Component {
         >
           {({ loading, error, data, fetchMore }) => {
             if (loading) return <PostCardLoading />;
-            if (error) return <p id="error_blog">Error :(</p>;
+            if (error)
+              return (
+                <p id="error_blog">
+                  <PostCardLoading />
+                </p>
+              );
             return (
               <PostsList
                 onLoadMore={() =>
