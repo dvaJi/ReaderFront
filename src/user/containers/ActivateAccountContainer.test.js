@@ -19,11 +19,24 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
+  const store = mockStore({
+    user: { isLoading: false, error: null },
+    router: {
+      location: {
+        pathname: 'LUL'
+      }
+    },
+    layout: {
+      language: 'es'
+    }
+  });
   const wrapper = shallowWithIntl(
-    <ActivateAccountContainer
-      location={{ search: '?email=test@aa.com&token=t0k3n' }}
-      router={{ location: { pathname: 'AS' } }}
-    />
+    <Provider store={store}>
+      <ActivateAccountContainer
+        location={{ search: '?email=test@aa.com&token=t0k3n' }}
+        router={{ location: { pathname: 'AS' } }}
+      />
+    </Provider>
   );
 
   expect(wrapper).toBeTruthy();

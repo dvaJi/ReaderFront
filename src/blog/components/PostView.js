@@ -1,31 +1,13 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
-import { Link } from 'react-router-dom';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated, useTransition } from 'react-spring';
-import { Button, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 
+import { ButtonLink } from '../../common/ui/Button';
 import { getImage } from '../../common/Image';
-import { HeroBg, HeroContainer } from './styles';
-
-const Card = styled.div`
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
-  display: inline-block;
-  width: 100%;
-  text-align: left;
-  margin-bottom: 15px;
-  margin-top: 10px;
-  padding: 15px 20px;
-  position: relative;
-  vertical-align: top;
-  white-space: normal;
-  margin-top: -110px;
-  z-index: 2;
-`;
+import { HeroBg, HeroContainer, CardView } from './styles';
 
 export default memo(function PostView({ post, onClickBack }) {
   const { title, content, uniqid, thumbnail } = post;
@@ -51,23 +33,22 @@ export default memo(function PostView({ post, onClickBack }) {
         </animated.div>
       ))}
       <Container>
-        <Card>
-          <Button
-            tag={Link}
+        <CardView>
+          <ButtonLink
             color="primary"
             size="sm"
             onClick={onClickBack}
             to={'/blog'}
           >
             <FontAwesomeIcon icon={faArrowLeft} /> Volver
-          </Button>
+          </ButtonLink>
           {titleTransition.map(({ item, key, props }) => (
             <animated.div key={key} style={props}>
               <h1 id="post_title">{item}</h1>
             </animated.div>
           ))}
           <ReactMarkdown source={content} escapeHtml={true} />
-        </Card>
+        </CardView>
       </Container>
     </div>
   );
