@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
 import { getImage } from '../../../common/Image';
+import { cardBackgroundColor } from '../../../themes';
 
 const Overlay = styled.div`
   background: rgba(31, 38, 49, 0.8);
@@ -64,7 +65,7 @@ const Serie = styled(Link)`
 `;
 
 const LoadingCover = styled.div`
-  background-color: #ddd;
+  background-color: ${cardBackgroundColor};
   min-height: 350px;
   position: relative;
   display: flex;
