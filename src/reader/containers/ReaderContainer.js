@@ -21,7 +21,7 @@ const Chapters = ({ workStub, language, chapter }) => (
       );
       const nextChapter =
         chapterIndex + 1 !== data.chaptersByWork.length ? chapterIndex + 1 : -1;
-      const prevChapter = chapterIndex - 1 !== 0 ? chapterIndex - 1 : -1;
+      const prevChapter = chapterIndex !== 0 ? chapterIndex - 1 : -1;
       return (
         <ReaderBar
           chapter={chapter}

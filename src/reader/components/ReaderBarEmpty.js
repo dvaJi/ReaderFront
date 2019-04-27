@@ -1,5 +1,13 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
+import theme from 'styled-theming';
+
+import { primaryColor, background } from '../../themes';
+
+export const cardBackgroundColor = theme('mode', {
+  light: background.light.dark,
+  dark: background.dark.light
+});
 
 const Bar = styled.div`
   height: 38px;
@@ -7,7 +15,7 @@ const Bar = styled.div`
 `;
 
 const Text = styled.div`
-  background-color: #ddd;
+  background-color: ${cardBackgroundColor};
   width: 64%;
   display: inline-block;
   margin-right: 8%;
@@ -15,7 +23,7 @@ const Text = styled.div`
 `;
 
 const Button = styled.div`
-  background-color: #007bff;
+  background-color: ${primaryColor};
   width: 13%;
   display: inline-block;
   margin-left: 5px;
