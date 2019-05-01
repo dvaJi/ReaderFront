@@ -49,7 +49,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^9.0.0",
     "react-ga": "^2.5.7",
-    "react-helmet": "^5.2.0",
+    "react-helmet": "^5.2.1",
     "react-hooks-global-state": "^0.9.0",
     "react-intl": "^2.8.0",
     "react-intl-redux": "^2.1.1",
