@@ -72,7 +72,7 @@
   "devDependencies": {
     "@anilanar/moxios": "^0.9.0",
     "@commitlint/cli": "^7.5.2",
-    "@commitlint/config-conventional": "^7.5.0",
+    "@commitlint/config-conventional": "^7.6.0",
     "@types/react-intl": "^2.3.17",
     "babel-eslint": "^10.0.1",
     "enzyme": "^3.9.0",
