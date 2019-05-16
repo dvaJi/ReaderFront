@@ -124,7 +124,7 @@ it('should fill with the chapter given', async () => {
   const selectLanguage = wrapper.find('select[name="language"]').instance()
     .value;
 
-  expect(inputName || '').toBe(releases[0].name);
+  expect(inputName).toBe(releases[0].name || '');
   expect(parseInt(inputVolume, 0)).toBe(releases[0].volume);
   expect(parseInt(inputChapter, 0)).toBe(releases[0].chapter);
   expect(parseInt(inputSubchapter, 0)).toBe(releases[0].subchapter);
