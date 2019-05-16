@@ -20,9 +20,9 @@ export function getReleases(amount = 4) {
       stub: 'test-' + index,
       thumbnail: 'thumb ' + index + '.png',
       subchapter: is ? 0 : 1,
-      releaseDate: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      releaseDate: '2019-05-15T02:44:47.000Z',
+      createdAt: '2019-05-15T02:44:47.000Z',
+      updatedAt: '2019-05-15T02:44:47.000Z',
       work: work
     };
     releases.push(chapter);
