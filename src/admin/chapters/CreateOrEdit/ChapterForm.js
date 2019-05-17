@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import { parse as parseDate } from 'date-fns';
 import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
@@ -180,7 +181,7 @@ class ChapterForm extends Component {
             <FormattedMessage id="releaseDate" defaultMessage="Release date" />
           </Label>
           <DatePicker
-            selected={chapter.releaseDate}
+            selected={parseDate(chapter.releaseDate)}
             onChange={this.handleOnChangeDate}
             className="form-control"
           />

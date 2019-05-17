@@ -3,6 +3,8 @@ import { mountWithIntl } from 'enzyme-react-intl';
 
 import ChapterForm from './ChapterForm';
 
+const releases = global.rfMocks.releases.getReleases;
+
 const handleOnSubmit = jest.fn();
 const userStorage = {
   email: 'admin@weeabo.com',
@@ -106,4 +108,27 @@ it('should normalize object before submit', async () => {
   expect(_chapter.hidden).not.toBeNull();
 
   wrapper.unmount();
+});
+
+it('should fill with the chapter given', async () => {
+  localStorage.setItem('user', JSON.stringify(userStorage));
+  const wrapper = mountWithIntl(
+    <ChapterForm chapter={releases[0]} onSubmit={handleOnSubmit} />
+  );
+
+  const inputName = wrapper.find('input[name="name"]').instance().value;
+  const inputVolume = wrapper.find('input[name="volume"]').instance().value;
+  const inputChapter = wrapper.find('input[name="chapter"]').instance().value;
+  const inputSubchapter = wrapper.find('input[name="subchapter"]').instance()
+    .value;
+  const selectLanguage = wrapper.find('select[name="language"]').instance()
+    .value;
+
+  expect(inputName).toBe(releases[0].name || '');
+  expect(parseInt(inputVolume, 0)).toBe(releases[0].volume);
+  expect(parseInt(inputChapter, 0)).toBe(releases[0].chapter);
+  expect(parseInt(inputSubchapter, 0)).toBe(releases[0].subchapter);
+  expect(parseInt(selectLanguage, 0)).toBe(releases[0].language);
+
+  await wrapper.unmount();
 });
