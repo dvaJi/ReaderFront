@@ -33,7 +33,7 @@
     "@fortawesome/react-fontawesome": "^0.1.4",
     "apollo-boost": "^0.3.1",
     "apollo-link-context": "^1.0.17",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
     "connected-react-router": "^6.4.0",
     "date-fns": "^1.30.1",
