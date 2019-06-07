@@ -57,7 +57,7 @@
     "react-loadable": "^5.5.0",
     "react-markdown": "^4.0.8",
     "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
+    "react-router-dom": "^5.0.1",
     "react-rte": "^0.16.1",
     "react-scripts": "^3.0.1",
     "react-spring": "^8.0.20",
