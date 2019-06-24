@@ -43,9 +43,7 @@ export default class Block extends PureComponent {
   render() {
     return (
       <ul
-        className={`comic-slide-list-block ${
-          this.props.blockStyle
-        } comic-slide-fr-slide`}
+        className={`comic-slide-list-block ${this.props.blockStyle} comic-slide-fr-slide`}
         aria-hidden="true"
         tabIndex="-1"
       >

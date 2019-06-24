@@ -32,9 +32,7 @@ class PagesList extends PureComponent {
             f.file !== undefined
               ? f.file
               : getImage(
-                  `works/${chapter.work.uniqid}/${chapter.uniqid}/${
-                    f.filename
-                  }`,
+                  `works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
                   230,
                   230
                 );
