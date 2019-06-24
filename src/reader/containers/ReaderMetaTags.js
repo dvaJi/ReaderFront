@@ -13,9 +13,7 @@ const MetaTag = ({ chapter }) => {
         <meta
           property="og:image"
           content={getImage(
-            `works/${chapter.work.uniqid}/${chapter.uniqid}/${
-              chapter.thumbnail
-            }`,
+            `works/${chapter.work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`,
             500,
             500
           )}

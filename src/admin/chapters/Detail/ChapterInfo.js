@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 function ChapterInfo({ lang, chapter }) {
-  const chapterPath = `/read/${chapter.work.stub}/${lang}/${chapter.volume}/${
-    chapter.chapter
-  }.${chapter.subchapter}`;
+  const chapterPath = `/read/${chapter.work.stub}/${lang}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
   return (
     <div className="my-3 p-3 bg-white rounded shadow-sm">
       <h5 className="pb-2 mb-0">
