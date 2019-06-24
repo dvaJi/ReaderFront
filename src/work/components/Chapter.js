@@ -8,9 +8,7 @@ import { READER_PATH, ANONYMIZER_DOWNLOADS } from '../../config';
 import { ChapterRow } from './styles';
 
 function Chapter({ work, chapter, language, intl }) {
-  const dir = `${work.stub}/${language.name}/${chapter.volume}/${
-    chapter.chapter
-  }.${chapter.subchapter}`;
+  const dir = `${work.stub}/${language.name}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
   return (
     <ChapterRow className="clearfix">
       <Link to={`/read/${dir}`} className="Chapter">
