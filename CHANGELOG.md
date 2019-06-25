@@ -1,6 +1,27 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [4.3.0](https://github.com/dvaJi/ReaderFront/compare/v4.2.0...v4.3.0) (2019-06-25)
+
+
+### Bug Fixes
+
+* **admincp:** datepicker failed because needs parsed date ([#301](https://github.com/dvaJi/ReaderFront/issues/301)) ([417471b](https://github.com/dvaJi/ReaderFront/commit/417471b))
+* **reader:** prev button is deactivated in the second chapter ([#284](https://github.com/dvaJi/ReaderFront/issues/284)) ([c820e43](https://github.com/dvaJi/ReaderFront/commit/c820e43))
+* chapters are not being filtered by language in Work view ([#250](https://github.com/dvaJi/ReaderFront/issues/250)) ([62fa66c](https://github.com/dvaJi/ReaderFront/commit/62fa66c))
+* **package:** update apollo-boost to version 0.3 ([dd4a314](https://github.com/dvaJi/ReaderFront/commit/dd4a314))
+
+
+### Features
+
+* add support for Netlify ([#280](https://github.com/dvaJi/ReaderFront/issues/280)) ([b0c6564](https://github.com/dvaJi/ReaderFront/commit/b0c6564))
+* **core:** add a dark theme ([#268](https://github.com/dvaJi/ReaderFront/issues/268)) ([6616ece](https://github.com/dvaJi/ReaderFront/commit/6616ece))
+* add anonymizer to chapter downloads ([#246](https://github.com/dvaJi/ReaderFront/issues/246)) ([df86709](https://github.com/dvaJi/ReaderFront/commit/df86709))
+* implement usage of CDNs for images ([#249](https://github.com/dvaJi/ReaderFront/issues/249)) ([a404b62](https://github.com/dvaJi/ReaderFront/commit/a404b62))
+* optimize images using the crop parameter in photon cdn ([#253](https://github.com/dvaJi/ReaderFront/issues/253)) ([bd67971](https://github.com/dvaJi/ReaderFront/commit/bd67971))
+
+
 
 # [4.2.0](https://github.com/dvaJi/ReaderFront/compare/v4.1.0...v4.2.0) (2019-02-25)
 
