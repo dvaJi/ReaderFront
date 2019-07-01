@@ -60,7 +60,7 @@
     "react-router-dom": "^5.0.1",
     "react-rte": "^0.16.1",
     "react-scripts": "^3.0.1",
-    "react-spring": "^8.0.25",
+    "react-spring": "^8.0.27",
     "react-test-renderer": "^16.8.6",
     "react-transition-group": "^4.1.1",
     "reactstrap": "^8.0.0",
