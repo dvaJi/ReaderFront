@@ -5717,10 +5717,10 @@ graphql-tag@^2.4.2:
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.0.tgz#87da024be863e357551b2b8700e496ee2d4353ae"
   integrity sha512-9FD6cw976TLLf9WYIUPCaaTpniawIjHWZSwIRZSjrfufJamcXbVVYfN2TWvJYbw0Xf2JjYbl1/f2+wDnBVw3/w==
 
-graphql@^14.4.0:
-  version "14.4.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.4.0.tgz#e97086acfc0338e4fdc8f7dba519c6b8a6badfd9"
-  integrity sha512-E55z1oK6e4cGxCqlSsRWytYDPcIUxky3XkbuQUf6TIjCmn6C7CuBJpmkMF1066q95yPAGOZVPTVT7jABKbRFSA==
+graphql@^14.4.1:
+  version "14.4.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-14.4.1.tgz#7a7818d3f63f66b9528ba5416b6c88460db62280"
+  integrity sha512-g4HUH26CohlMjaHneXMAtvG3QtO6peJIUTFxrPW4g5LNnXkUuFoBI6Bk1c14Q5kW8+FyjM/tTbePTgpiVB/2hQ==
   dependencies:
     iterall "^1.2.2"
 
@@ -9939,10 +9939,10 @@ react-is@^16.8.6:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.8.6.tgz#5bbc1e2d29141c9fbdfed456343fe2bc430a6a16"
   integrity sha512-aUk3bHfZ2bRSVFFbbeVS4i+lNPZr3/WM5jT2J5omUVV1zzcs1nAaf3l51ctA5FFvCRbhrH0bdAsRRQddFJZPtA==
 
-react-lazyload@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-2.6.1.tgz#666d4ca39a30589340dbaff98e9b205efe94ab30"
-  integrity sha512-DLQ8R47t6cryyZ5D/qzKuJ3dXu4N8gUwxYlcmk17UvgwG+nVjj9Riq82vWMRC01OGAT9uMNY+md4Ucpn9PmRAg==
+react-lazyload@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-2.6.2.tgz#6a1660de6e8653632797539189d19d64e924482c"
+  integrity sha512-zbFiwI3H7W0/Qvb6T/ew2NiGe2wj+soYNW7vv5Dte1eZuJDvvyUOHo8GpYfEeWoP5x4Rree2Hwop+lCISalBwg==
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
