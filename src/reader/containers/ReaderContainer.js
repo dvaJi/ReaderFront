@@ -4,6 +4,8 @@ import { Query } from 'react-apollo';
 
 // App imports
 import { languageNameToId, languageIdToName } from '../../utils/common';
+import ErrorGeneral from '../../common/ErrorGeneral';
+import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
 import ReaderBar from '../components/ReaderBar';
 import ReaderBarEmpty from '../components/ReaderBarEmpty';
@@ -49,7 +51,8 @@ function ReaderContainer({ match }) {
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <ReaderBarEmpty />;
-          if (error) return <p id="error_releases">Error :(</p>;
+          if (error) return <ErrorGeneral />;
+          if (!data.chapterByWorkAndChapter) return <ErrorNotFound />;
 
           const actualChapter = data.chapterByWorkAndChapter;
 
