@@ -125,5 +125,9 @@
   "delete": "Delete",
   "add_language": "Add language",
   "chapter_uploaded": "Chapter Uploaded",
-  "read_chapter": "Read chapter"
+  "read_chapter": "Read chapter",
+  "error_not_found": "Not Found",
+  "error_not_found_description": "This link you followed probably broken or the page has been removed.",
+  "error_general": "Internal Server Error",
+  "error_general_description": "Oops. something went wrong. Try to refresh this page or feel free to contact us if the problem persists."
 }

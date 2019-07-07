@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
-import { parse as parseDate } from 'date-fns';
 import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
@@ -45,9 +44,9 @@ class ChapterForm extends Component {
     });
   };
 
-  onChangeDate = value => {
+  handleOnChangeDate = value => {
     let chapter = this.state.chapter;
-    chapter.releaseDate = value.toDate();
+    chapter.releaseDate = value.toString();
     this.setState({
       chapter
     });
@@ -181,8 +180,13 @@ class ChapterForm extends Component {
             <FormattedMessage id="releaseDate" defaultMessage="Release date" />
           </Label>
           <DatePicker
-            selected={parseDate(chapter.releaseDate)}
+            selected={new Date(chapter.releaseDate)}
             onChange={this.handleOnChangeDate}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={60}
+            dateFormat="MMMM d, yyyy h:mm aa"
+            timeCaption="time"
             className="form-control"
           />
         </FormGroup>
