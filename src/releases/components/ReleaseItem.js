@@ -27,6 +27,7 @@ const chapterTitle = ({ name, chapter, subchapter, volume }) => (
 );
 
 export default function ReleaseItem({ release, url }) {
+  const releaseDate = new Date(release.releaseDate);
   return (
     <ReleaseRow to={url}>
       <div className="media text-muted pt-3">
@@ -35,7 +36,7 @@ export default function ReleaseItem({ release, url }) {
         </ReleaseChapterBlock>
         <ReleaseContent className="media-body pb-3 mb-0 small lh-125">
           <strong className="d-block">{chapterTitle(release)}</strong>
-          {formatDate(release.releaseDate, 'DD/MM/YYYY')}
+          {formatDate(releaseDate, 'dd/MM/yyyy')}
         </ReleaseContent>
       </div>
     </ReleaseRow>
