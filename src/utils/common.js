@@ -2,7 +2,7 @@ import axios from 'axios/index';
 
 // Common functions
 import params from '../params.json';
-import { READER_PATH } from '../config';
+import { READER_PATH, LANGUAGES } from '../config';
 
 // Return an object with styles
 export function getStatusTagStyle(statusId) {
@@ -32,6 +32,10 @@ export function canUseWebP() {
 // Language helpers
 export const languages = Object.keys(params.global.languages).map(
   k => params.global.languages[k]
+);
+
+export const languagesAvailables = languages.filter(lang =>
+  LANGUAGES.includes(lang.name)
 );
 
 export function languageIdToName(langId) {
@@ -132,6 +136,13 @@ export async function uploadImage(data) {
 }
 
 export function getDefaultLanguage() {
+  if (LANGUAGES.length === 1) {
+    if (localStorage.getItem('rf_language') !== LANGUAGES[0]) {
+      localStorage.setItem('rf_language', LANGUAGES[0]);
+    }
+    return LANGUAGES[0];
+  }
+
   const navigatorLang =
     navigator.browserLanguage || navigator.language || navigator.userLanguage;
   const localLang = window.localStorage.getItem('rf_language');
@@ -140,9 +151,8 @@ export function getDefaultLanguage() {
   if (localLang) {
     language = localLang;
   } else {
-    const validLanguages = ['es', 'en'];
     const navigatorValue = navigatorLang.split('-')[0];
-    const isValidLanguage = validLanguages.indexOf(navigatorValue) > -1;
+    const isValidLanguage = !!LANGUAGES.find(lang => lang === navigatorValue);
     language = isValidLanguage ? navigatorValue : 'en';
   }
 

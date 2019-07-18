@@ -8,8 +8,8 @@ import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 // App imports
 import { renderIf, slugify } from '../../../utils/helpers';
 import {
+  languagesAvailables,
   blogCategories,
-  languages,
   postsStatus,
   uploadImage
 } from '../../../utils/common';
@@ -76,7 +76,8 @@ class PostForm extends Component {
       throw new Error('User not authenticated');
     }
     const post = Object.assign({}, this.state.post);
-    post.language = post.language === 0 ? languages[0].id : post.language;
+    post.language =
+      post.language === 0 ? languagesAvailables[0].id : post.language;
     post.category = post.category === 0 ? blogCategories[0].id : post.category;
     post.status = post.status === 0 ? postsStatus[0].id : post.status;
     post.userId = user.id;
@@ -115,28 +116,30 @@ class PostForm extends Component {
           </Label>
           <RichTextEditor value={mdeState} onChange={this.handleMdeChange} />
         </FormGroup>
-        <FormGroup>
-          <Label for="language">
-            <FormattedMessage id="language" defaultMessage="Language" />
-          </Label>
-          <Input
-            type="select"
-            name="language"
-            id="language"
-            required="required"
-            value={post.language}
-            onChange={this.handleOnChangeSelect}
-          >
-            {languages.map(lang => (
-              <option key={lang.id + lang.name} value={lang.id}>
-                {intl.formatMessage({
-                  id: lang.name + '_full',
-                  defaultMessage: lang.name
-                })}
-              </option>
-            ))}
-          </Input>
-        </FormGroup>
+        {languagesAvailables.length > 1 && (
+          <FormGroup>
+            <Label for="language">
+              <FormattedMessage id="language" defaultMessage="Language" />
+            </Label>
+            <Input
+              type="select"
+              name="language"
+              id="language"
+              required="required"
+              value={post.language}
+              onChange={this.handleOnChangeSelect}
+            >
+              {languagesAvailables.map(lang => (
+                <option key={lang.id + lang.name} value={lang.id}>
+                  {intl.formatMessage({
+                    id: lang.name + '_full',
+                    defaultMessage: lang.name
+                  })}
+                </option>
+              ))}
+            </Input>
+          </FormGroup>
+        )}
         <FormGroup>
           <Label for="status">
             <FormattedMessage id="status" defaultMessage="Status" />
