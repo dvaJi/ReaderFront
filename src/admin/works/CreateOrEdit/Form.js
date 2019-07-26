@@ -15,15 +15,16 @@ import {
 } from 'reactstrap';
 
 // App imports
-import Image from '../../../common/Image';
-import { renderIf, slugify } from '../../../utils/helpers';
+import Image from 'common/Image';
+import { renderIf, slugify } from 'utils/helpers';
 import {
+  languagesAvailables as toLang,
   languages,
   uploadImage,
   workStatus,
   workTypes,
   genresDemographic
-} from '../../../utils/common';
+} from 'utils/common';
 
 class PostForm extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class PostForm extends Component {
     this.state = {
       work: props.work,
       isRecentUpload: props.work.id > 0 ? false : true,
-      languagesAvailables: languages.filter(
+      languagesAvailables: toLang.filter(
         lang =>
           !props.work.works_descriptions.find(desc => desc.language === lang.id)
       ),
@@ -83,7 +84,7 @@ class PostForm extends Component {
       ...work.works_descriptions,
       { language: lang.id, description: '' }
     ];
-    const langAvailables = languages.filter(
+    const langAvailables = toLang.filter(
       lang => !work.works_descriptions.find(desc => desc.language === lang.id)
     );
     this.setState({
@@ -97,11 +98,9 @@ class PostForm extends Component {
     work.works_descriptions = work.works_descriptions.filter(
       wd => wd.language !== description.language
     );
-    const langAvailables = this.state.languages.filter(
-      () =>
-        !work.works_descriptions.find(
-          desc => desc.language === description.language
-        )
+    const workLanguages = work.works_descriptions.map(wd => wd.language);
+    const langAvailables = toLang.filter(
+      lang => !workLanguages.includes(lang.id)
     );
     this.setState({
       languagesAvailables: langAvailables,
@@ -201,30 +200,32 @@ class PostForm extends Component {
           </Input>
         </FormGroup>
         <FormGroup>
-          <ButtonDropdown
-            isOpen={this.state.langDropdownOpen}
-            toggle={this.toggleDescriptionsDropdown}
-          >
-            <DropdownToggle id="add_language" caret size="sm">
-              <FormattedMessage
-                id="add_language"
-                defaultMessage="Add language"
-              />
-            </DropdownToggle>
-            <DropdownMenu>
-              {this.state.languagesAvailables.map(lang => (
-                <DropdownItem
-                  key={'drop-' + lang.id}
-                  onClick={e => this.handleSelectLanguage(lang)}
-                >
-                  <FormattedMessage
-                    id={lang.name + '_full'}
-                    defaultMessage={lang.name}
-                  />
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </ButtonDropdown>
+          {this.state.languagesAvailables.length > 0 && (
+            <ButtonDropdown
+              isOpen={this.state.langDropdownOpen}
+              toggle={this.toggleDescriptionsDropdown}
+            >
+              <DropdownToggle id="add_language" caret size="sm">
+                <FormattedMessage
+                  id="add_language"
+                  defaultMessage="Add language"
+                />
+              </DropdownToggle>
+              <DropdownMenu>
+                {this.state.languagesAvailables.map(lang => (
+                  <DropdownItem
+                    key={'drop-' + lang.id}
+                    onClick={e => this.handleSelectLanguage(lang)}
+                  >
+                    <FormattedMessage
+                      id={lang.name + '_full'}
+                      defaultMessage={lang.name}
+                    />
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </ButtonDropdown>
+          )}
           <br />
           {work.works_descriptions.map((desc, index) => {
             const lang = languages.find(lang => lang.id === desc.language).name;
