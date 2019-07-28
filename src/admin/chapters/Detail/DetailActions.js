@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { Button, ButtonGroup } from 'reactstrap';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,6 +8,7 @@ import {
   faList
 } from '@fortawesome/free-solid-svg-icons';
 
+import { Button, ButtonGroup } from 'common/ui';
 import { DetailActionsBar } from '../styles';
 
 function DetailActions({ actualView, changeView, uploadAll, deleteAll }) {

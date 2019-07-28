@@ -22,9 +22,35 @@ const GlobalStyle = createGlobalStyle`
     color: ${primaryColor} !important;
   }
 
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
   ::-webkit-scrollbar-thumb {
     background: ${scrollBackground};
     border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background: ${primaryColor};
+    }
+  }
+
+  .show-loading-animation {
+    animation: react-placeholder-pulse 1.5s infinite;
+  }
+  
+  @keyframes react-placeholder-pulse {
+    0% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
   }
 `;
 

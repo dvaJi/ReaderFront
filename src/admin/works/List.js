@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import {
-  Button,
-  ButtonGroup,
-  Container,
-  Table,
-  UncontrolledTooltip
-} from 'reactstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Query, graphql } from 'react-apollo';
 
 // App Imports
-import { ButtonLink, Input } from '../../common/ui';
+import {
+  Container,
+  ButtonLink,
+  Input,
+  Table,
+  Button,
+  ButtonGroup
+} from 'common/ui';
 import { MetaTagList } from './ACPWorksMetaTags';
 import { FETCH_WORKS } from './query';
 import { REMOVE_WORK } from './mutation';
-import { languageIdToName } from '../../utils/common';
+import { languageIdToName } from 'utils/common';
 
 function List({ intl, mutate }) {
   const [searchText, setText] = useState('');
@@ -166,17 +167,19 @@ function List({ intl, mutate }) {
 
                           <td style={{ textAlign: 'center' }}>
                             <ButtonGroup size="sm">
-                              <Button
+                              <ButtonLink
                                 tag={Link}
+                                size="sm"
                                 to={'/admincp/work/edit/' + stub}
                               >
                                 <FormattedMessage
                                   id="edit"
                                   defaultMessage="Edit"
                                 />
-                              </Button>
+                              </ButtonLink>
                               <Button
                                 key={'delete-' + id}
+                                size="sm"
                                 onClick={() => remove(id)}
                               >
                                 <FormattedMessage
