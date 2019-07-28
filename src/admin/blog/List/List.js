@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
-import {
-  Button,
-  Container,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { Query, graphql } from 'react-apollo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 // App Imports
+import { Container, ButtonLink, Table } from 'common/ui';
 import PostRow from './PostRow';
 import { MetaTagList } from '../ABlogMetatag';
 import { FETCH_ALL_POSTS_WITH_AGG } from '../queries';
 import { REMOVE_POST } from '../mutations';
-import { blogCategories, postsStatus, languages } from '../../../utils/common';
+import { blogCategories, postsStatus, languages } from 'utils/common';
 
 class List extends Component {
   constructor(props) {
@@ -64,15 +57,14 @@ class List extends Component {
     return (
       <Container>
         <MetaTagList />
-        <div>
-          <Button
-            tag={Link}
+        <div style={{ margin: '10px 5px' }}>
+          <ButtonLink
             to={'/admincp/blog/add_post'}
             style={{ marginBottom: 10 }}
           >
             <FontAwesomeIcon icon={faPlus} />{' '}
             <FormattedMessage id="add_post" defaultMessage="Add Post" />
-          </Button>
+          </ButtonLink>
           <Query
             query={FETCH_ALL_POSTS_WITH_AGG}
             variables={{ first: perPage, offset: offset }}

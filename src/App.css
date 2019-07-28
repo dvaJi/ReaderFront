@@ -1,28 +1,3 @@
-.navbar-nav li a svg {
-  margin-right: 5px;
-}
-
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
 .container {
   margin-top: 30px;
-}
-
-.show-loading-animation {
-  animation: react-placeholder-pulse 1.5s infinite;
-}
-
-@keyframes react-placeholder-pulse {
-  0% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.6;
-  }
 }

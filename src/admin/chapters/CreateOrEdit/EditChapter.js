@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Query, graphql } from 'react-apollo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +7,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import ChapterForm from './ChapterForm';
-import { Card } from '../../common/UI';
+import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagEdit } from '../ACPChaptersMetaTags';
 import { FETCH_CHAPTER } from '../query';
 import { FETCH_CHAPTERS } from '../../works/query';
@@ -38,59 +36,53 @@ class EditChapter extends Component {
 
   render() {
     const { match } = this.props;
+    const workPath = `/admincp/work/${match.params.workId}/${match.params.stub}`;
     return (
-      <div className="container">
+      <Container>
         <MetaTagEdit />
+        <div style={{ marginTop: '1rem' }}>
+          <ButtonLink to={workPath}>
+            <FontAwesomeIcon icon={faArrowLeft} />{' '}
+            <FormattedMessage id="go_back" defaultMessage="Back" />
+          </ButtonLink>
+        </div>
         <Card>
-          <Container>
-            <Link
-              to={
-                '/admincp/work/' + match.params.workId + '/' + match.params.stub
-              }
-            >
-              <Button>
-                <FontAwesomeIcon icon={faArrowLeft} />{' '}
-                <FormattedMessage id="go_back" defaultMessage="Back" />
-              </Button>
-            </Link>
-
-            <h4>
-              <FormattedMessage id="edit" defaultMessage="Edit" />{' '}
-              <FormattedMessage id="chapter" defaultMessage="Chapter" />
-            </h4>
-            <Query
-              query={FETCH_CHAPTER}
-              variables={{ chapterId: parseInt(match.params.chapterId, 0) }}
-            >
-              {({ loading, error, data }) => {
-                if (loading)
-                  return (
-                    <div>
-                      <FormattedMessage
-                        id="loading"
-                        defaultMessage="Loading..."
-                      />
-                    </div>
-                  );
-                if (error) return <p id="error_edit_chapter">Error :(</p>;
+          <h4>
+            <FormattedMessage id="edit" defaultMessage="Edit" />{' '}
+            <FormattedMessage id="chapter" defaultMessage="Chapter" />
+          </h4>
+          <Query
+            query={FETCH_CHAPTER}
+            variables={{ chapterId: parseInt(match.params.chapterId, 0) }}
+          >
+            {({ loading, error, data }) => {
+              if (loading)
                 return (
                   <div>
-                    <MetaTagEdit chapterTitle={data.chapterById.title} />
-                    <ChapterForm
-                      chapter={{
-                        ...data.chapterById,
-                        workId: parseInt(match.params.workId, 0)
-                      }}
-                      onSubmit={this.onSubmit}
-                      intl={this.props.intl}
+                    <FormattedMessage
+                      id="loading"
+                      defaultMessage="Loading..."
                     />
                   </div>
                 );
-              }}
-            </Query>
-          </Container>
+              if (error) return <p id="error_edit_chapter">Error :(</p>;
+              return (
+                <div>
+                  <MetaTagEdit chapterTitle={data.chapterById.title} />
+                  <ChapterForm
+                    chapter={{
+                      ...data.chapterById,
+                      workId: parseInt(match.params.workId, 0)
+                    }}
+                    onSubmit={this.onSubmit}
+                    intl={this.props.intl}
+                  />
+                </div>
+              );
+            }}
+          </Query>
         </Card>
-      </div>
+      </Container>
     );
   }
 }

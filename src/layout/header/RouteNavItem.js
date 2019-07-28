@@ -16,6 +16,10 @@ const Link = styled(NavLink)`
   padding: 0.5rem !important;
   color: ${cardColor} !important;
 
+  svg {
+    margin-right: 5px;
+  }
+
   &:hover,
   &.active {
     color: ${primaryColor} !important;
