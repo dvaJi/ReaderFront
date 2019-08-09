@@ -41,7 +41,7 @@
     "graphql-tag": "^2.10.1",
     "history": "^4.9.0",
     "http-proxy-middleware": "^0.19.1",
-    "js-cookie": "^2.2.0",
+    "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-apollo": "^2.5.8",
