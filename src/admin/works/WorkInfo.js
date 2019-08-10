@@ -11,7 +11,8 @@ import {
   rolIdToName,
   workStatusIdToName,
   genreDemographicIdToName
-} from '../../utils/common';
+} from 'utils/common';
+import { Card } from 'common/ui';
 
 const InfoTitle = styled.p`
   background-color: #ddd;
@@ -63,7 +64,7 @@ const WorkLoading = () => (
 
 const WorkInfo = ({ stub }) => {
   return (
-    <div className="my-3 p-3 bg-white rounded shadow-sm">
+    <Card>
       <Query
         query={FETCH_WORK}
         variables={{
@@ -147,7 +148,7 @@ const WorkInfo = ({ stub }) => {
           );
         }}
       </Query>
-    </div>
+    </Card>
   );
 };
 

@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import { Query } from 'react-apollo';
-import { Button, Container, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
+import { ButtonLink, Container } from 'common/ui';
 import { MetaTagDetail } from '../ACPChaptersMetaTags';
 import DropImages from './DropImages';
 import ChapterInfo from './ChapterInfo';
 import { FETCH_CHAPTER } from '../query';
-import { languageIdToName } from '../../../utils/common';
+import { languageIdToName } from 'utils/common';
 
 function Detail(props) {
   const { params } = props.match;
   const [isModalOpen, toggleModal] = useState(false);
   return (
     <Container>
-      <Link to={'/admincp/work/' + params.workId + '/' + params.stub}>
-        <Button>
+      <div style={{ marginTop: '1rem' }}>
+        <ButtonLink to={'/admincp/work/' + params.workId + '/' + params.stub}>
           <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
           <FormattedMessage id="go_back" defaultMessage="Back" />
-        </Button>
-      </Link>
+        </ButtonLink>
+      </div>
       <Query
         query={FETCH_CHAPTER}
         variables={{ chapterId: parseInt(params.chapterId, 0) }}
