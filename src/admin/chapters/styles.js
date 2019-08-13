@@ -70,6 +70,7 @@ export const RoundedButton = styled.div`
 
   &:hover {
     border: 2px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     opacity: 1;
   }
 `;

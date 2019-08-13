@@ -14,7 +14,7 @@ import {
   faSun,
   faMoon
 } from "@fortawesome/free-solid-svg-icons";
-import { APP_TITLE, DISCORD_URL, PATREON_URL } from "../../config";
+import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from "../../config";
 import { isAuthRoute, isAdminRoute } from "../../utils/helpers";
 
 import { ChangeTheme, Navbar, ToggleTheme } from "./styles";
@@ -30,20 +30,16 @@ function LangNav({ language, onChangeLanguage, isThemeLight }) {
   };
   return (
     <Nav className="ml-auto" navbar style={{ display: "contents" }}>
-      <LangNavItem
-        cookielang={language}
-        language="es"
-        onClick={() => onChangeLanguage("es")}
-      >
-        ES
-      </LangNavItem>
-      <LangNavItem
-        cookielang={language}
-        language="en"
-        onClick={() => onChangeLanguage("en")}
-      >
-        EN
-      </LangNavItem>
+      {LANGUAGES.length > 1 && LANGUAGES.map(lang =>
+        <LangNavItem
+          key={`nav-${lang}`}
+          cookielang={language}
+          language={lang}
+          onClick={() => onChangeLanguage(lang)}
+        >
+          {lang.toUpperCase()}
+        </LangNavItem>
+      )}
       <ChangeTheme>
         <ToggleTheme
           type="switch"

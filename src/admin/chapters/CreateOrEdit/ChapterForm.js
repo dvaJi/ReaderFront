@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
-import { parse as parseDate } from 'date-fns';
 import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 
 // App imports
-import { slugify } from '../../../utils/helpers';
-import { languages } from '../../../utils/common';
+import { slugify } from 'utils/helpers';
+import { languagesAvailables } from 'utils/common';
 
 class ChapterForm extends Component {
   constructor(props) {
@@ -45,9 +44,9 @@ class ChapterForm extends Component {
     });
   };
 
-  onChangeDate = value => {
+  handleOnChangeDate = value => {
     let chapter = this.state.chapter;
-    chapter.releaseDate = value.toDate();
+    chapter.releaseDate = value.toString();
     this.setState({
       chapter
     });
@@ -71,7 +70,7 @@ class ChapterForm extends Component {
     const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
     chapter.stub = chStubNumber + (chapter.stub === null ? '' : chapter.stub);
     chapter.language =
-      chapter.language === 0 ? languages[0].id : chapter.language;
+      chapter.language === 0 ? languagesAvailables[0].id : chapter.language;
     chapter.hidden = chapter.hidden ? true : false;
     delete chapter.pages;
 
@@ -154,35 +153,42 @@ class ChapterForm extends Component {
             onChange={this.handleOnChange}
           />
         </FormGroup>
-        <FormGroup>
-          <Label for="language">
-            <FormattedMessage id="language" defaultMessage="Language" />
-          </Label>
-          <Input
-            type="select"
-            name="language"
-            id="language"
-            required="required"
-            value={chapter.language}
-            onChange={this.handleOnChangeSelect}
-          >
-            {languages.map(lang => (
-              <option key={lang.id + lang.name} value={lang.id}>
-                {intl.formatMessage({
-                  id: lang.name + '_full',
-                  defaultMessage: lang.name
-                })}
-              </option>
-            ))}
-          </Input>
-        </FormGroup>
+        {languagesAvailables.length > 1 && (
+          <FormGroup>
+            <Label for="language">
+              <FormattedMessage id="language" defaultMessage="Language" />
+            </Label>
+            <Input
+              type="select"
+              name="language"
+              id="language"
+              required="required"
+              value={chapter.language}
+              onChange={this.handleOnChangeSelect}
+            >
+              {languagesAvailables.map(lang => (
+                <option key={lang.id + lang.name} value={lang.id}>
+                  {intl.formatMessage({
+                    id: lang.name + '_full',
+                    defaultMessage: lang.name
+                  })}
+                </option>
+              ))}
+            </Input>
+          </FormGroup>
+        )}
         <FormGroup>
           <Label for="releaseDate">
             <FormattedMessage id="releaseDate" defaultMessage="Release date" />
           </Label>
           <DatePicker
-            selected={parseDate(chapter.releaseDate)}
+            selected={new Date(chapter.releaseDate)}
             onChange={this.handleOnChangeDate}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={60}
+            dateFormat="MMMM d, yyyy h:mm aa"
+            timeCaption="time"
             className="form-control"
           />
         </FormGroup>

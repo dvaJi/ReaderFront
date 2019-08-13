@@ -155,6 +155,13 @@ const ACPBlogManage = Loadable({
   modules: ['ACPBlogManage']
 });
 
+const NotFound = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "notFound" */ './common/ErrorNotFound'),
+  loading: () => null,
+  modules: ['notFound']
+});
+
 export default (
   <Switch>
     <Route path="/" exact component={withTracker(Homepage)} />
@@ -237,5 +244,6 @@ export default (
       exact
       component={withTracker(ACPBlogEdit)}
     />
+    <Route component={NotFound} />
   </Switch>
 );

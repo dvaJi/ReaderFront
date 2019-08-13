@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
-import { Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+
+import { Card, ButtonLink } from 'common/ui';
 
 function ChapterInfo({ lang, chapter }) {
   const chapterPath = `/read/${chapter.work.stub}/${lang}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
   return (
-    <div className="my-3 p-3 bg-white rounded shadow-sm">
-      <h5 className="pb-2 mb-0">
+    <Card>
+      <h5>
         <FormattedMessage id="volume" defaultMessage="Volume" />{' '}
         {chapter.volume}{' '}
         <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
@@ -20,17 +20,16 @@ function ChapterInfo({ lang, chapter }) {
             <FormattedMessage id={'hidden'} defaultMessage={'Hidden'} />
           </span>
         )}
-        <Button
-          tag={Link}
+        <ButtonLink
           to={chapterPath}
           color="primary"
           className="float-right"
           size="sm"
         >
           <FormattedMessage id="read_chapter" defaultMessage="Read chapter" />
-        </Button>
+        </ButtonLink>
       </h5>
-    </div>
+    </Card>
   );
 }
 

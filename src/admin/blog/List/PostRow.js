@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
-import { Button, ButtonGroup } from 'reactstrap';
+
+import { Button, ButtonLink, ButtonGroup } from 'common/ui';
 
 export default memo(function Row({
   post,
@@ -47,11 +48,11 @@ export default memo(function Row({
       <td>{new Date(updatedAt).toDateString()}</td>
 
       <td style={{ textAlign: 'center' }}>
-        <ButtonGroup size="sm">
-          <Button tag={Link} to={'/admincp/blog/edit_post/' + stub}>
+        <ButtonGroup>
+          <ButtonLink size="sm" to={'/admincp/blog/edit_post/' + stub}>
             <FormattedMessage id="edit" defaultMessage="Edit" />
-          </Button>
-          <Button onClick={() => onRemove(id)}>
+          </ButtonLink>
+          <Button size="sm" onClick={() => onRemove(id)}>
             <FormattedMessage id="remove" defaultMessage="Remove" />
           </Button>
         </ButtonGroup>

@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import PostForm from './Form';
-import { Card } from '../../common/UI';
+import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ABlogMetatag';
 import { FETCH_ALL_POSTS_WITH_AGG } from '../queries';
 import { CREATE_POST } from '../mutations';
@@ -48,31 +46,28 @@ class CreateOrEdit extends Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <MetaTagCreate />
+        <div style={{ marginTop: '1rem' }}>
+          <ButtonLink to={'/admincp/blog/manage'}>
+            <FontAwesomeIcon icon={faArrowLeft} />{' '}
+            <FormattedMessage id="go_back" defaultMessage="Go back" />
+          </ButtonLink>
+        </div>
         <Card>
-          <Container>
-            <Link to={'/admincp/blog/manage'}>
-              <Button>
-                <FontAwesomeIcon icon={faArrowLeft} />{' '}
-                <FormattedMessage id="go_back" defaultMessage="Go back" />
-              </Button>
-            </Link>
-
-            <h4>
-              <FormattedMessage id="create" defaultMessage="Create" />{' '}
-              <FormattedMessage id="post" defaultMessage="Post" />
-            </h4>
-            <div>
-              <PostForm
-                post={postEmpty}
-                onSubmit={this.onSubmit}
-                intl={this.props.intl}
-              />
-            </div>
-          </Container>
+          <h4>
+            <FormattedMessage id="create" defaultMessage="Create" />{' '}
+            <FormattedMessage id="post" defaultMessage="Post" />
+          </h4>
+          <div>
+            <PostForm
+              post={postEmpty}
+              onSubmit={this.onSubmit}
+              intl={this.props.intl}
+            />
+          </div>
         </Card>
-      </div>
+      </Container>
     );
   }
 }

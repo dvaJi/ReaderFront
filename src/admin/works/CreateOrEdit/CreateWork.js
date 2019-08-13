@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import WorkForm from './Form';
-import { Card } from '../../common/UI';
+import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ACPWorksMetaTags';
 import { FETCH_WORKS } from '../query';
 import { CREATE_WORK } from '../mutation';
@@ -47,32 +45,28 @@ class CreateWork extends Component {
 
   render() {
     return (
-      <div className="container">
+      <Container>
         <MetaTagCreate />
-        <div className="m-1">
-          <Link to={'/admincp/work/manage'}>
-            <Button>
-              <FontAwesomeIcon icon={faArrowLeft} />{' '}
-              <FormattedMessage id="go_back" defaultMessage="Go back" />
-            </Button>
-          </Link>
+        <div style={{ marginTop: '1rem' }}>
+          <ButtonLink to={'/admincp/work/manage'}>
+            <FontAwesomeIcon icon={faArrowLeft} />{' '}
+            <FormattedMessage id="go_back" defaultMessage="Go back" />
+          </ButtonLink>
         </div>
         <Card>
-          <Container>
-            <h4>
-              <FormattedMessage id="create" defaultMessage="Create" />{' '}
-              <FormattedMessage id="work" defaultMessage="Work" />
-            </h4>
-            <div>
-              <WorkForm
-                work={postEmpty}
-                onSubmit={this.onSubmit}
-                intl={this.props.intl}
-              />
-            </div>
-          </Container>
+          <h4>
+            <FormattedMessage id="create" defaultMessage="Create" />{' '}
+            <FormattedMessage id="work" defaultMessage="Work" />
+          </h4>
+          <div>
+            <WorkForm
+              work={postEmpty}
+              onSubmit={this.onSubmit}
+              intl={this.props.intl}
+            />
+          </div>
         </Card>
-      </div>
+      </Container>
     );
   }
 }

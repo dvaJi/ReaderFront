@@ -125,5 +125,9 @@
   "delete": "Eliminar",
   "add_language": "Añadir Idioma",
   "chapter_uploaded": "Capítulo subido",
-  "read_chapter": "Leer capítulo"
+  "read_chapter": "Leer capítulo",
+  "error_not_found": "Página no encontrada",
+  "error_not_found_description": "Este enlace que has seguido probablemente está roto o la página ha sido eliminada.",
+  "error_general": "Internal Server Error",
+  "error_general_description": "Ups. algo salió mal. Intente actualizar esta página o no dude en contactarnos si el problema persiste."
 }

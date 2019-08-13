@@ -13,3 +13,6 @@ export const ANONYMIZER_DOWNLOADS = process.env.REACT_APP_ANONYMIZER_DOWNLOADS
   ? process.env.REACT_APP_ANONYMIZER_DOWNLOADS
   : '';
 export const CDN = process.env.REACT_APP_CDNS;
+export const LANGUAGES = process.env.REACT_APP_LANGUAGES
+  ? process.env.REACT_APP_LANGUAGES.split(',')
+  : ['en'];

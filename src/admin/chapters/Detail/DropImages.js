@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
-import { slugify, forEachSeries } from '../../../utils/helpers';
-import { uploadImage } from '../../../utils/common';
+import { Card } from 'common/ui';
+import { slugify, forEachSeries } from 'utils/helpers';
+import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
 import { WithMutation } from './DropImagesMutation';
@@ -218,7 +219,7 @@ class DropImages extends Component {
           changeView={this.handleSetPageView}
           actualView={pageView}
         />
-        <div className="my-1 p-3 bg-white rounded shadow-sm">
+        <Card>
           <Dropzone
             id="dropzone-pages"
             accept="image/jpeg, image/png, image/gif"
@@ -254,7 +255,7 @@ class DropImages extends Component {
             handleSelectDefaultPage={this.handleSetDefaultPage}
             handleRemovePage={this.handleRemoveFile}
           />
-        </div>
+        </Card>
       </>
     );
   }
