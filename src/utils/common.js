@@ -99,7 +99,7 @@ export function workTypesIdToName(typeId) {
 }
 
 export const genresDemographic = Object.keys(params.genres.demographic).map(
-  d => params.genres.demographic[d]
+  d => ({ ...params.genres.demographic[d], key: d })
 );
 
 export function genreDemographicIdToName(demographicId) {
