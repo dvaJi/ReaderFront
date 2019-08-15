@@ -22,6 +22,9 @@ export const FETCH_WORKS = gql`
         description
         language
       }
+      works_genres {
+        genreId
+      }
     }
   }
 `;

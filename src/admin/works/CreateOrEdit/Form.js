@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 
 // App imports
+import { GenresWrapper } from './styles';
 import Image from 'common/Image';
 import { renderIf, slugify } from 'utils/helpers';
 import {
@@ -23,7 +24,8 @@ import {
   uploadImage,
   workStatus,
   workTypes,
-  genresDemographic
+  genresDemographic,
+  genresTypes
 } from 'utils/common';
 
 class PostForm extends Component {
@@ -62,6 +64,23 @@ class PostForm extends Component {
   onChangeCheckbox = event => {
     let work = this.state.work;
     work[event.target.name] = !work[event.target.name];
+
+    this.setState({
+      work
+    });
+  };
+
+  onSelectGenre = event => {
+    const genreIdSelected = Number(event.target.value);
+    let work = this.state.work;
+
+    if (work.works_genres.find(g => g.genreId === genreIdSelected)) {
+      work.works_genres = work.works_genres.filter(
+        genre => genre.genreId !== genreIdSelected
+      );
+    } else {
+      work.works_genres.push({ genreId: genreIdSelected });
+    }
 
     this.setState({
       work
@@ -147,7 +166,6 @@ class PostForm extends Component {
     work.demographicId =
       work.demographicId === 0 ? genresDemographic[0].id : work.demographicId;
     delete work.people_works;
-    delete work.works_genres;
     delete work.genres;
     delete work.createdAt;
 
@@ -289,15 +307,44 @@ class PostForm extends Component {
             {genresDemographic.map(st => (
               <option key={st.id + st.name} value={st.id}>
                 {intl.formatMessage({
-                  id: st.name,
+                  id: st.key,
                   defaultMessage: st.name
                 })}
               </option>
             ))}
           </Input>
         </FormGroup>
-
-        <FormGroup check>
+        <FormGroup>
+          <Label>
+            <FormattedMessage id="genres" defaultMessage="Genres" />
+          </Label>
+          <GenresWrapper>
+            {genresTypes.map(genre => (
+              <CustomInput
+                type="checkbox"
+                defaultChecked={work.works_genres.find(
+                  wg => wg.genreId === genre.id
+                )}
+                id={'genre_' + genre.name}
+                name={'genre_' + genre.name}
+                key={'genre_' + genre.name}
+                label={intl.formatMessage({
+                  id: genre.name,
+                  defaultMessage: genre.name
+                })}
+                value={genre.id}
+                onChange={this.onSelectGenre}
+              />
+            ))}
+          </GenresWrapper>
+        </FormGroup>
+        <FormGroup>
+          <Label>
+            <FormattedMessage
+              id="additional_information"
+              defaultMessage="Additional Information"
+            />
+          </Label>
           <CustomInput
             type="checkbox"
             id="adult"
@@ -321,7 +368,6 @@ class PostForm extends Component {
             onChange={this.onChangeCheckbox}
           />
         </FormGroup>
-
         <FormGroup>
           <Label for="uploadCover">
             <FormattedMessage id="cover" defaultMessage="Cover" />
