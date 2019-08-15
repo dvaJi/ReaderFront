@@ -168,7 +168,6 @@ function List({ intl, mutate }) {
                           <td style={{ textAlign: 'center' }}>
                             <ButtonGroup size="sm">
                               <ButtonLink
-                                tag={Link}
                                 size="sm"
                                 to={'/admincp/work/edit/' + stub}
                               >

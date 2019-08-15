@@ -29,6 +29,7 @@ export const CREATE_WORK = gql`
     $visits: Int
     $thumbnail: String
     $works_descriptions: String
+    $works_genres: JSON
   ) {
     workCreate(
       name: $name
@@ -42,6 +43,7 @@ export const CREATE_WORK = gql`
       visits: $visits
       thumbnail: $thumbnail
       works_descriptions: $works_descriptions
+      works_genres: $works_genres
     ) {
       id
     }
@@ -62,6 +64,7 @@ export const UPDATE_WORK = gql`
     $visits: Int
     $thumbnail: String
     $works_descriptions: String
+    $works_genres: JSON
   ) {
     workUpdate(
       id: $id
@@ -76,6 +79,7 @@ export const UPDATE_WORK = gql`
       visits: $visits
       thumbnail: $thumbnail
       works_descriptions: $works_descriptions
+      works_genres: $works_genres
     ) {
       id
     }

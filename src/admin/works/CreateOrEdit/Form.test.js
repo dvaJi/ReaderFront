@@ -28,7 +28,8 @@ beforeEach(() => {
     adult: false,
     visits: 0,
     thumbnail: '',
-    works_descriptions: []
+    works_descriptions: [],
+    works_genres: []
   };
 });
 
