@@ -13,7 +13,7 @@ export default function Image({
   tag: Tag = 'img',
   ...props
 }) {
-  const href = READER_PATH + src;
+  const href = READER_PATH + (src || 'images/default-cover.png');
   const item = {
     href,
     height,
