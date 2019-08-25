@@ -144,5 +144,15 @@
   "error_general": "Internal Server Error",
   "error_general_description": "Oops. something went wrong. Try to refresh this page or feel free to contact us if the problem persists.",
   "work.create.title": "Create work :: {title}",
-  "additional_information": "Additional Information"
+  "additional_information": "Additional Information",
+  "create_person": "Create Person",
+  "search_person": "Search Person",
+  "select_role": "Select Role",
+  "person_name": "Person Name",
+  "person_name_kanji": "Person Name Kanji",
+  "person_twitter": "Person Twitter",
+  "person_description": "Person Description",
+  "staff": "Staff",
+  "add_staff": "Add Staff",
+  "no_staff": "No Staff"
 }
