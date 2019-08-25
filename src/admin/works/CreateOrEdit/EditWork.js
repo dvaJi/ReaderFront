@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Query, graphql } from 'react-apollo';
@@ -6,17 +6,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
-import PostForm from './Form';
+import WorkForm from './Form';
+import CreatePersonModal from '../CreatePersonModal';
 import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagEdit } from '../ACPWorksMetaTags';
 import { FETCH_WORK, FETCH_WORKS } from '../query';
 import { UPDATE_WORK } from '../mutation';
 
-class EditPost extends Component {
-  onSubmit = async (event, work) => {
+function EditWork({ match, intl, mutate, history }) {
+  const [isCreatePersonModal, toggleCreatePersonModal] = useState(false);
+  const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await this.props.mutate({
+    await mutate({
       variables: { ...work },
       refetchQueries: [
         {
@@ -25,12 +27,11 @@ class EditPost extends Component {
       ]
     });
 
-    this.props.history.push('/admincp/work/manage');
+    history.push('/admincp/work/manage');
   };
 
-  render() {
-    const { match } = this.props;
-    return (
+  return (
+    <>
       <Container>
         <MetaTagEdit />
         <div style={{ marginTop: '1rem' }}>
@@ -62,10 +63,11 @@ class EditPost extends Component {
               return (
                 <div>
                   <MetaTagEdit workName={data.work.name} />
-                  <PostForm
+                  <WorkForm
                     work={data.work}
-                    onSubmit={this.onSubmit}
-                    intl={this.props.intl}
+                    onSubmit={onSubmit}
+                    onCreatePersonModal={toggleCreatePersonModal}
+                    intl={intl}
                   />
                 </div>
               );
@@ -73,8 +75,12 @@ class EditPost extends Component {
           </Query>
         </Card>
       </Container>
-    );
-  }
+      <CreatePersonModal
+        isOpen={isCreatePersonModal}
+        toggleModal={toggleCreatePersonModal}
+      />
+    </>
+  );
 }
 
-export default graphql(UPDATE_WORK)(injectIntl(withRouter(EditPost)));
+export default graphql(UPDATE_WORK)(injectIntl(withRouter(EditWork)));
