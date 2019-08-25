@@ -27,7 +27,7 @@
     "manage:translations": "node ./translationRunner.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
@@ -80,7 +80,7 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-react-intl": "^2.0.5",
     "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-prettier": "^6.1.0",
     "eslint-config-react-app": "^5.0.1",
     "eslint-plugin-flowtype": "^4.2.0",
     "eslint-plugin-import": "^2.18.2",
@@ -88,7 +88,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.1",
     "husky": "^2.7.0",
     "jest-localstorage-mock": "^2.4.0",
     "jest-styled-components": "^6.3.3",
