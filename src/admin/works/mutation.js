@@ -30,6 +30,7 @@ export const CREATE_WORK = gql`
     $thumbnail: String
     $works_descriptions: String
     $works_genres: JSON
+    $people_works: JSON
   ) {
     workCreate(
       name: $name
@@ -44,6 +45,7 @@ export const CREATE_WORK = gql`
       thumbnail: $thumbnail
       works_descriptions: $works_descriptions
       works_genres: $works_genres
+      people_works: $people_works
     ) {
       id
     }
@@ -65,6 +67,7 @@ export const UPDATE_WORK = gql`
     $thumbnail: String
     $works_descriptions: String
     $works_genres: JSON
+    $people_works: JSON
   ) {
     workUpdate(
       id: $id
@@ -80,6 +83,27 @@ export const UPDATE_WORK = gql`
       thumbnail: $thumbnail
       works_descriptions: $works_descriptions
       works_genres: $works_genres
+      people_works: $people_works
+    ) {
+      id
+    }
+  }
+`;
+
+export const CREATE_PERSON = gql`
+  mutation PersonCreate(
+    $name: String
+    $name_kanji: String
+    $description: String
+    $twitter: String
+    $thumbnail: String
+  ) {
+    peopleCreate(
+      name: $name
+      name_kanji: $name_kanji
+      description: $description
+      twitter: $twitter
+      thumbnail: $thumbnail
     ) {
       id
     }

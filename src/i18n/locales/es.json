@@ -144,5 +144,15 @@
   "error_general": "Internal Server Error",
   "error_general_description": "Ups. algo salió mal. Intente actualizar esta página o no dude en contactarnos si el problema persiste.",
   "work.create.title": "Crear work :: {title}",
-  "additional_information": "Información Adicional"
+  "additional_information": "Información Adicional",
+  "create_person": "Crear Persona",
+  "search_person": "Buscar Persona",
+  "select_role": "Seleccionar Rol",
+  "person_name": "Nombre de Persona",
+  "person_name_kanji": "Nombre de Persona Kanji",
+  "person_twitter": "Twitter",
+  "person_description": "Descripción",
+  "staff": "Staff",
+  "add_staff": "Añadir Staff",
+  "no_staff": "No hay Staff"
 }
