@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -7,6 +7,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import WorkForm from './Form';
+import CreatePersonModal from '../CreatePersonModal';
 import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ACPWorksMetaTags';
 import { FETCH_WORKS } from '../query';
@@ -24,15 +25,18 @@ export const postEmpty = {
   adult: false,
   visits: 0,
   thumbnail: '',
+  people_works: [],
   works_descriptions: [],
   works_genres: []
 };
 
-class CreateWork extends Component {
-  onSubmit = async (event, work) => {
+function CreateWork({ intl, mutate, history }) {
+  const [isCreatePersonModal, toggleCreatePersonModal] = useState(false);
+
+  const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await this.props.mutate({
+    await mutate({
       variables: { ...work },
       refetchQueries: [
         {
@@ -41,11 +45,11 @@ class CreateWork extends Component {
       ]
     });
 
-    this.props.history.push('/admincp/work/manage');
+    history.push('/admincp/work/manage');
   };
 
-  render() {
-    return (
+  return (
+    <>
       <Container>
         <MetaTagCreate />
         <div style={{ marginTop: '1rem' }}>
@@ -62,14 +66,19 @@ class CreateWork extends Component {
           <div>
             <WorkForm
               work={postEmpty}
-              onSubmit={this.onSubmit}
-              intl={this.props.intl}
+              onSubmit={onSubmit}
+              onCreatePersonModal={toggleCreatePersonModal}
+              intl={intl}
             />
           </div>
         </Card>
       </Container>
-    );
-  }
+      <CreatePersonModal
+        isOpen={isCreatePersonModal}
+        toggleModal={toggleCreatePersonModal}
+      />
+    </>
+  );
 }
 
 export default graphql(CREATE_WORK)(injectIntl(withRouter(CreateWork)));

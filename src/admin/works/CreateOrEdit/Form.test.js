@@ -29,7 +29,8 @@ beforeEach(() => {
     visits: 0,
     thumbnail: '',
     works_descriptions: [],
-    works_genres: []
+    works_genres: [],
+    people_works: []
   };
 });
 
