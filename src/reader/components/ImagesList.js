@@ -14,6 +14,7 @@ const Image = styled(ImageOp)`
   margin: 0% auto;
   max-width: 100%;
   margin-bottom: 10px;
+  min-height: 700px;
 `;
 
 const getHeight = h => (h > 0 ? h : 800);
