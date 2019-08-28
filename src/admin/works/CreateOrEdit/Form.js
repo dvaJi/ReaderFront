@@ -185,8 +185,10 @@ class PostForm extends Component {
   assignPerson(staff) {
     let work = this.state.work;
     const isEqPerson = (a, c) => a.rol === c.rol && a.people.id === c.people.id;
-    work.people_works = [...work.people_works, ...staff].reduce(
-      (map, current) => {
+    work.people_works = [...work.people_works, ...staff];
+
+    if (work.people_works.length > 1) {
+      work.people_works = work.people_works.reduce((map, current) => {
         if (map.length) {
           if (!map.find(mp => isEqPerson(mp, current))) {
             return [...map, current];
@@ -198,8 +200,8 @@ class PostForm extends Component {
         }
 
         return map;
-      }
-    );
+      });
+    }
 
     this.setState({
       work
