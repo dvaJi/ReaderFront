@@ -4489,10 +4489,10 @@ enzyme-adapter-utils@^1.12.0:
     prop-types "^15.7.2"
     semver "^5.6.0"
 
-enzyme-react-intl@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/enzyme-react-intl/-/enzyme-react-intl-2.0.5.tgz#a291692f9706310e12e9c14ac1cadb41fc1e41e0"
-  integrity sha512-40h7/xmHJQ+fWnkkWPIVAgzjUZxpgf5DowHQhyQeQZSLjWl2Fdg20Vtgu+bM3uluStgItgHbT+uBjBu3fwhQjg==
+enzyme-react-intl@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/enzyme-react-intl/-/enzyme-react-intl-2.0.6.tgz#f708fb9015233893e4f6715c5163dad6c37e3012"
+  integrity sha512-pA4pUqDK//bTRWVc97hh7nfwANEX0ROhty6sW0ZKrq7ohOeyTAN45CuVQu0viRZBNyqHcEtCudo3/tl8HkXYWg==
   optionalDependencies:
     jsonfile "^4.0.0"
 
