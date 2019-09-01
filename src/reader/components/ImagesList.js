@@ -1,23 +1,19 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import Lazyload from 'react-lazyload';
 
-import ImageOp from '../../common/Image';
+import { LazyImage } from '../../common/Image';
 
 const ImageList = styled.div`
   text-align: center;
   min-height: 1000px;
 `;
-const Image = styled(ImageOp)`
+const Image = styled(LazyImage)`
   display: block;
   vertical-align: middle;
   margin: 0% auto;
   max-width: 100%;
   margin-bottom: 10px;
-  min-height: 700px;
 `;
-
-const getHeight = h => (h > 0 ? h : 800);
 
 function ImagesList({ chapter, pages }) {
   window.scrollTo(0, 0);
@@ -25,31 +21,15 @@ function ImagesList({ chapter, pages }) {
   return (
     <ImageList>
       {pages.map(page => (
-        <Lazyload
-          key={page.id}
-          height={getHeight(page.height)}
-          placeholder={
-            <div
-              style={{
-                display: 'block',
-                width: 10,
-                height: getHeight(page.height)
-              }}
-            >
-              {' '}
-            </div>
-          }
-          once
-        >
-          <Image
-            src={thumbPath + page.filename}
-            height={page.height}
-            width={page.width}
-            index={page.id}
-            alt={page.filename}
-            title={page.filename}
-          />
-        </Lazyload>
+        <Image
+          src={thumbPath + page.filename}
+          key={page.filename}
+          height={page.height}
+          width={page.width}
+          index={page.id}
+          alt={page.filename}
+          title={page.filename}
+        />
       ))}
     </ImageList>
   );
