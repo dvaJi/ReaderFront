@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import Chapter from './Chapter';
 
 import { ChapterListStyle, Title, List } from './styles';
@@ -15,7 +15,7 @@ function ChapterList({ work, language }) {
         {work.chapters
           .sort((a, b) => b.chapter - a.chapter)
           .map(chapter => (
-            <div>
+            <div key={chapter.uniqid}>
               <Chapter
                 key={chapter.id}
                 work={work}
@@ -29,4 +29,4 @@ function ChapterList({ work, language }) {
   );
 }
 
-export default injectIntl(ChapterList);
+export default ChapterList;
