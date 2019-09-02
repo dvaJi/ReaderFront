@@ -26,11 +26,12 @@ import es from 'react-intl/locale-data/es';
 
 addLocaleData([...en, ...es]);
 
-ReactGA.initialize(GA_ID, {
-  debug: process.env.NODE_ENV === 'development'
-});
-ReactGA.pageview(window.location.pathname + window.location.search);
-
+if (GA_ID && GA_ID !== '') {
+  ReactGA.initialize(GA_ID, {
+    debug: process.env.NODE_ENV === 'development'
+  });
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 // Language
 store.dispatch(doChangeLanguage(getDefaultLanguage()));
 
