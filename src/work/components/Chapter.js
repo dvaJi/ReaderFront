@@ -9,12 +9,18 @@ import { ChapterRow } from './styles';
 
 function Chapter({ work, chapter, language, intl }) {
   const dir = `${work.stub}/${language.name}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
+  const subchapter = chapter.subchapter !== 0 ? '.' + chapter.subchapter : '';
+  const volumeText = intl.formatMessage({
+    id: 'volume',
+    defaultMessage: 'Volume'
+  });
+  const volume = chapter.volume > 0 ? `${volumeText} ${chapter.volume} ` : '';
   return (
     <ChapterRow className="clearfix">
       <Link to={`/read/${dir}`} className="Chapter">
-        <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
+        {volume} <FormattedMessage id="chapter" defaultMessage="Chapter" />{' '}
         {chapter.chapter}
-        {chapter.subchapter !== 0 ? '.' + chapter.subchapter : ''}
+        {subchapter}
         {chapter.name !== '' ? `: ${chapter.name}` : ''}
       </Link>
       <div className="float-right">

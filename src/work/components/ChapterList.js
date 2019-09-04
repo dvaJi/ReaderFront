@@ -3,7 +3,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Chapter from './Chapter';
 
-import { ChapterListStyle, Title, List } from './styles';
+import { ChapterListStyle, Title, List, NoChapters } from './styles';
 
 function ChapterList({ work, language }) {
   return (
@@ -11,20 +11,22 @@ function ChapterList({ work, language }) {
       <Title>
         <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
       </Title>
-      <List>
-        {work.chapters
-          .sort((a, b) => b.chapter - a.chapter)
-          .map(chapter => (
-            <div key={chapter.uniqid}>
-              <Chapter
-                key={chapter.id}
-                work={work}
-                chapter={chapter}
-                language={language}
-              />
-            </div>
+      {work.chapters.length > 0 ? (
+        <List>
+          {work.chapters.map(chapter => (
+            <Chapter
+              key={chapter.id}
+              work={work}
+              chapter={chapter}
+              language={language}
+            />
           ))}
-      </List>
+        </List>
+      ) : (
+        <NoChapters>
+          <FormattedMessage id="no_chapters" defaultMessage="No chapters" />
+        </NoChapters>
+      )}
     </ChapterListStyle>
   );
 }
