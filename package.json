@@ -46,7 +46,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-apollo": "^2.5.8",
-    "react-datepicker": "^2.9.4",
+    "react-datepicker": "^2.9.6",
     "react-dom": "^16.9.0",
     "react-dropzone": "^10.1.8",
     "react-ga": "^2.6.0",
