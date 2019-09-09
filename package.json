@@ -32,7 +32,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "apollo-boost": "^0.3.1",
-    "apollo-link-context": "^1.0.18",
+    "apollo-link-context": "^1.0.19",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "connected-react-router": "^6.5.2",
