@@ -6,6 +6,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // App Imports
 import { Button, Input, Textarea, Label, FormGroup } from 'common/ui';
 import { CREATE_PERSON } from './mutation';
+import { SEARCH_PEOPLE } from './query';
 
 function CreatePersonModal({ isOpen, toggleModal, intl }) {
   const [personName, setPersonName] = useState('');
@@ -14,6 +15,13 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
   const [twitter, setTwitter] = useState('');
   const [thumbnail] = useState(null);
   const toggle = () => toggleModal(!isOpen);
+  const onCompleted = () => {
+    toggle();
+    setPersonName('');
+    setPersonNameKanji('');
+    setDescription('');
+    setTwitter('');
+  };
   const isIncomplete = !personName;
 
   return (
@@ -99,6 +107,7 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
       <ModalFooter>
         <Mutation
           mutation={CREATE_PERSON}
+          refetchQueries={SEARCH_PEOPLE}
           variables={{
             name: personName,
             name_kanji: personNameKanji,
@@ -106,7 +115,7 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
             twitter,
             thumbnail
           }}
-          onCompleted={toggle}
+          onCompleted={onCompleted}
         >
           {createPerson => (
             <Button

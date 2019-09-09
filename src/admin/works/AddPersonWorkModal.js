@@ -21,7 +21,11 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
   const [person, setPerson] = useState(null);
   const [roles, setRoles] = useState(null);
   const isIncomplete = !person || person === '' || !roles || roles === '';
-  const toggle = () => toggleModal(!isOpen);
+  const toggle = () => {
+    toggleModal(!isOpen);
+    setPerson(null);
+    setRoles(null);
+  };
   const handleOnSubmit = info => () => {
     const staff = info.roles.map(rol => {
       return {
