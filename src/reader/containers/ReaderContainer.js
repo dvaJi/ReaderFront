@@ -7,35 +7,12 @@ import { languageNameToId, languageIdToName } from '../../utils/common';
 import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
-import ReaderBar from '../components/ReaderBar';
+import ReaderControls from './ReaderControls';
 import ReaderBarEmpty from '../components/ReaderBarEmpty';
 import ImagesList from '../components/ImagesList';
-import { FETCH_CHAPTERS, FETCH_CHAPTER } from './queries';
+import { FETCH_CHAPTER } from './queries';
 
 const Comments = React.lazy(() => import('../components/Comments'));
-
-const Chapters = ({ workStub, language, chapter }) => (
-  <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
-    {({ loading, error, data }) => {
-      if (loading || error) return <ReaderBarEmpty />;
-      const chapterIndex = data.chaptersByWork.indexOf(
-        data.chaptersByWork.find(c => c.id === chapter.id)
-      );
-      const nextChapter =
-        chapterIndex + 1 !== data.chaptersByWork.length ? chapterIndex + 1 : -1;
-      const prevChapter = chapterIndex !== 0 ? chapterIndex - 1 : -1;
-      return (
-        <ReaderBar
-          chapter={chapter}
-          chapters={data.chaptersByWork}
-          work={chapter.work}
-          prevChapter={prevChapter}
-          nextChapter={nextChapter}
-        />
-      );
-    }}
-  </Query>
-);
 
 function ReaderContainer({ match }) {
   const { stub, chapter, subchapter, volume, lang } = match.params;
@@ -71,9 +48,9 @@ function ReaderContainer({ match }) {
           return (
             <>
               <Metatag chapter={actualChapter} />
-              <Chapters
+              <ReaderControls
+                work={actualChapter.work}
                 chapter={actualChapter}
-                workStub={stub}
                 language={languageNameToId(lang)}
               />
               <ImagesList
