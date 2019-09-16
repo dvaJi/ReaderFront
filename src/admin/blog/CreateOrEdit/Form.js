@@ -20,7 +20,7 @@ class PostForm extends Component {
     super(props);
     this.state = {
       post: props.post,
-      isRecentUpload: props.post.id > 0 ? false : true,
+      isRecentUpload: props.post.id > 0,
       mdeState:
         props.post.id > 0
           ? RichTextEditor.createValueFromString(props.post.content, 'markdown')

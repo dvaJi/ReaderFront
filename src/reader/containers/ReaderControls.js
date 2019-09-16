@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
@@ -15,8 +15,10 @@ import {
   ReaderControlsActions
 } from '../components/styles';
 import { Button } from 'common/ui';
+import ReaderSettings from '../components/ReaderSettings';
 
 function ReaderControls({ work, language, chapter, intl }) {
+  const [showSettings, toggleShowSettings] = useState(false);
   let workUrl = `/work/${work.stub}`;
   return (
     <ReaderControlsContainer>
@@ -41,8 +43,7 @@ function ReaderControls({ work, language, chapter, intl }) {
               <Button
                 title="Reader settings"
                 id="settings-button"
-                data-toggle="modal"
-                data-target="#modal-settings"
+                onClick={() => toggleShowSettings(!showSettings)}
               >
                 <FontAwesomeIcon icon="cog" />
               </Button>
@@ -58,6 +59,7 @@ function ReaderControls({ work, language, chapter, intl }) {
               </Button>
             </div>
           </ReaderControlsActions>
+          {showSettings && <ReaderSettings />}
         </ReaderControlsCol>
       </ReaderControlsWrapper>
     </ReaderControlsContainer>
