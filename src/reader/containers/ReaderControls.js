@@ -59,7 +59,7 @@ function ReaderControls({ work, language, chapter, intl }) {
               </Button>
             </div>
           </ReaderControlsActions>
-          {showSettings && <ReaderSettings />}
+          <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
         </ReaderControlsCol>
       </ReaderControlsWrapper>
     </ReaderControlsContainer>

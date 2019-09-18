@@ -111,3 +111,21 @@ export const ReaderControlsActions = styled.div`
     margin: 0.25rem !important;
   }
 `;
+
+export const ReaderMain = styled.div`
+  max-width: none;
+  max-height: none;
+  min-height: calc(100vh - 3.5rem);
+  min-width: 100%;
+
+  ${props =>
+    props.fitVertical &&
+    `height: calc(100vh - 3.5rem);
+  max-height: calc(100vh - 3.5rem);`}
+
+  ${props =>
+    props.fitVertical &&
+    props.headerHidden &&
+    `height: 100vh;
+    max-height: 100vh;`}
+`;

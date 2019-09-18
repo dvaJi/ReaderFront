@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 
 // App imports
+import { useGlobalState } from 'state';
 import { languageNameToId, languageIdToName } from '../../utils/common';
 import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
@@ -11,10 +12,16 @@ import ReaderControls from './ReaderControls';
 import ReaderBarEmpty from '../components/ReaderBarEmpty';
 import ImagesList from '../components/ImagesList';
 import { FETCH_CHAPTER } from './queries';
+import { ReaderMain } from '../components/styles';
 
 const Comments = React.lazy(() => import('../components/Comments'));
 
 function ReaderContainer({ match }) {
+  const [displaySettings] = useGlobalState('displaySettings');
+  const [layoutSettings] = useGlobalState('layoutSettings');
+  const { fitDisplay, pageRendering } = displaySettings;
+  const fitVertical = fitDisplay === 'container' || fitDisplay === 'height';
+  const fitHorizontal = fitDisplay === 'container' || fitDisplay === 'width';
   const { stub, chapter, subchapter, volume, lang } = match.params;
   const variables = {
     workStub: stub,
@@ -24,7 +31,11 @@ function ReaderContainer({ match }) {
     subchapter: parseInt(subchapter, 0)
   };
   return (
-    <div className="Read">
+    <ReaderMain
+      fitVertical={fitVertical}
+      fitHorizontal={fitHorizontal}
+      headerHidden={!layoutSettings.header}
+    >
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <ReaderBarEmpty />;
@@ -58,18 +69,19 @@ function ReaderContainer({ match }) {
                 pages={actualChapter.pages}
                 chapter={actualChapter}
               />
+              {/* SHOW ONLY IF BUTTON IS SELECTED, OPTIONS: MODAL OR NEW PAGE
               <Suspense fallback={'Loading comments...'}>
                 <Comments
                   id={disqusConfig.id}
                   title={disqusConfig.title}
                   path={disqusConfig.path}
                 />
-              </Suspense>
+              </Suspense> */}
             </>
           );
         }}
       </Query>
-    </div>
+    </ReaderMain>
   );
 }
 
