@@ -17,7 +17,7 @@ import {
 import { Button } from 'common/ui';
 import ReaderSettings from '../components/ReaderSettings';
 
-function ReaderControls({ work, language, chapter, intl }) {
+function ReaderControls({ work, language, chapter, toggleComments, intl }) {
   const [showSettings, toggleShowSettings] = useState(false);
   let workUrl = `/work/${work.stub}`;
   return (
@@ -50,11 +50,7 @@ function ReaderControls({ work, language, chapter, intl }) {
               <Button title="Hide header" id="hide-header-button">
                 <FontAwesomeIcon icon="window-maximize" />
               </Button>
-              <Button
-                title="Report"
-                data-toggle="modal"
-                data-target="#modal-report"
-              >
+              <Button title="Report" onClick={() => toggleComments(true)}>
                 <FontAwesomeIcon icon="flag" />
               </Button>
             </div>

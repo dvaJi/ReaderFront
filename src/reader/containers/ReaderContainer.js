@@ -1,25 +1,26 @@
-import React, { Suspense } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
+import { injectIntl } from 'react-intl';
 
 // App imports
 import { useGlobalState } from 'state';
-import { languageNameToId, languageIdToName } from '../../utils/common';
+import { languageNameToId, chapterTitle, chapterUrl } from '../../utils/common';
 import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
 import ReaderControls from './ReaderControls';
 import ReaderBarEmpty from '../components/ReaderBarEmpty';
 import ImagesList from '../components/ImagesList';
+import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
 import { ReaderMain } from '../components/styles';
 
-const Comments = React.lazy(() => import('../components/Comments'));
-
-function ReaderContainer({ match }) {
+function ReaderContainer({ match, intl }) {
+  const [showComments, toggleComments] = useState(false);
   const [displaySettings] = useGlobalState('displaySettings');
   const [layoutSettings] = useGlobalState('layoutSettings');
-  const { fitDisplay, pageRendering } = displaySettings;
+  const { fitDisplay } = displaySettings;
   const fitVertical = fitDisplay === 'container' || fitDisplay === 'height';
   const fitHorizontal = fitDisplay === 'container' || fitDisplay === 'width';
   const { stub, chapter, subchapter, volume, lang } = match.params;
@@ -46,14 +47,8 @@ function ReaderContainer({ match }) {
 
           const disqusConfig = {
             id: `${actualChapter.work.uniqid}-${actualChapter.uniqid}`,
-            path: `read/${actualChapter.work.stub}/${languageIdToName(
-              actualChapter.language
-            )}/${actualChapter.volume}/${actualChapter.chapter}.${
-              actualChapter.subchapter
-            }`,
-            title: `${actualChapter.work.name} - Capítulo ${
-              actualChapter.chapter
-            } | ${languageIdToName(actualChapter.language).toUpperCase()} `
+            path: chapterUrl(actualChapter, actualChapter.work),
+            title: chapterTitle({ chapter: actualChapter, intl })
           };
 
           return (
@@ -63,20 +58,20 @@ function ReaderContainer({ match }) {
                 work={actualChapter.work}
                 chapter={actualChapter}
                 language={languageNameToId(lang)}
+                toggleComments={toggleComments}
               />
               <ImagesList
                 id={actualChapter.id}
                 pages={actualChapter.pages}
                 chapter={actualChapter}
               />
-              {/* SHOW ONLY IF BUTTON IS SELECTED, OPTIONS: MODAL OR NEW PAGE
-              <Suspense fallback={'Loading comments...'}>
-                <Comments
-                  id={disqusConfig.id}
-                  title={disqusConfig.title}
-                  path={disqusConfig.path}
-                />
-              </Suspense> */}
+              <Comments
+                id={disqusConfig.id}
+                title={disqusConfig.title}
+                path={disqusConfig.path}
+                isOpen={showComments}
+                toggle={toggleComments}
+              />
             </>
           );
         }}
@@ -92,4 +87,4 @@ const mapStateToProps = (state, own) => {
   };
 };
 
-export default connect(mapStateToProps)(ReaderContainer);
+export default connect(mapStateToProps)(injectIntl(ReaderContainer));

@@ -3,8 +3,7 @@ import { createGlobalState } from 'react-hooks-global-state';
 const displaySettingsLS = getLSItem('displaySettings');
 const displaySettings = {
   fitDisplay: 'width', // container|width|height|no resize
-  pageRendering: 'longstrip', //single|double|longstrip
-  direction: 'right' //left|right
+  pageRendering: 'longstrip' //single|double|longstrip
 };
 
 const layoutSettingsLS = getLSItem('layoutSettings');
