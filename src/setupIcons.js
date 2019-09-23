@@ -5,11 +5,19 @@ import {
   faAngleLeft,
   faAngleRight,
   faFlag,
-  faWindowMaximize
+  faWindowMaximize,
+  faDownload
 } from '@fortawesome/free-solid-svg-icons';
 
 function setupIcons() {
-  library.add(faCog, faAngleLeft, faAngleRight, faFlag, faWindowMaximize);
+  library.add(
+    faCog,
+    faAngleLeft,
+    faAngleRight,
+    faFlag,
+    faWindowMaximize,
+    faDownload
+  );
 }
 
 export default setupIcons;

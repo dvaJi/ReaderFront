@@ -84,11 +84,11 @@ function AdminNav({ changeLanguage, language, themeSelected }) {
   );
 }
 
-function PublicNav({ changeLanguage, language, themeSelected }) {
+function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const isThemeLight = themeSelected === "light";
   return (
-    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
+    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md" style={{display: hidden ? 'none': 'initial'}}>
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
       <LangNav
@@ -134,9 +134,7 @@ function PublicNav({ changeLanguage, language, themeSelected }) {
 
 function Header({ route, language, doChangeLanguage }) {
   const [themeSelected] = useGlobalState("theme");
-  const [layoutSettings] = useGlobalState("layoutSettings");
-  const hidePublicInReader = isReaderRoute(route) && !layoutSettings.header;
-  const showPublicNav = !isAuthRoute(route) && !isAdminRoute(route) && !hidePublicInReader;
+  const showPublicNav = !isAuthRoute(route) && !isAdminRoute(route);
   const showAdminNav = !isAuthRoute(route) && isAdminRoute(route);
 
   return (
@@ -145,6 +143,7 @@ function Header({ route, language, doChangeLanguage }) {
         themeSelected={themeSelected}
         language={language}
         changeLanguage={doChangeLanguage}
+        hidden={isReaderRoute(route)}
       />
     )) ||
     (showAdminNav && (

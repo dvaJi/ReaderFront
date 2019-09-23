@@ -5,6 +5,7 @@ import { useGlobalState } from 'state';
 import LazyImage from '../../common/Image';
 
 const ImageList = styled.div`
+  background-color: #212121;
   position: relative;
   display: flex;
   flex: 0 0 auto;
@@ -16,36 +17,10 @@ const ImageList = styled.div`
   width: auto;
   width: -webkit-fill-available;
   min-width: 100%;
-  max-width: none;
+  max-width: 100%;
 	max-height: none
   padding-left: 0;
   flex-direction: column;
-
-  ${props =>
-    props.pageRendering === 'longstrip'
-      ? 'flex-direction: column;'
-      : 'justify-content: center;'}
-
-  ${props =>
-    props.fitDisplay === 'noresize' &&
-    `box-sizing: content-box;
-    min-width: auto;`}
-
-  ${props =>
-    props.fitVertical &&
-    `max-height: 100%;
-    height: calc(100% - 15px);
-  width: inherit;`}
-
-  ${props => props.fitHorizontal && `max-width: 100%;`}
-
-  ${props =>
-    props.fitVertical &&
-    props.pageRendering !== 'longstrip' &&
-    `flex: 0 1 auto;`}
-
-  ${props =>
-    props.fitVertical && props.pageRendering === 'longstrip' && `height: 100%;`}
 `;
 
 const ImageWrapper = styled.div`
@@ -61,33 +36,13 @@ const ImageWrapper = styled.div`
   margin-bottom: auto !important;
   user-select: none;
   user-drag: none;
-  max-width: none;
+  max-width: 100%;
 	max-height: none
   flex: 0 0 auto;
   display: block;
   height: auto !important;
-  padding: 2px 0;
 
-  ${props => props.fitVertical && `height: 100%;max-height: 100%;`}
-
-  ${props => props.fitHorizontal && `max-width: 100%;`}
-
-  ${props =>
-    props.fitVertical &&
-    props.pageRendering !== 'longstrip' &&
-    `flex: 0 1 auto;`}
-
-  ${props =>
-    props.pageRendering === 'longstrip' &&
-    `flex: 0 0 auto;
-      display: block;
-      height: auto!important;`}
-
-  ${props =>
-    props.fitVertical &&
-    props.pageRendering === 'longstrip' &&
-    `display: block;
-	max-height: 100%!important;`}
+  ${props => props.readingMode === 'manga' && 'padding-bottom: 10px;'}
 
   img {
     vertical-align: middle;
@@ -99,52 +54,26 @@ const ImageWrapper = styled.div`
     width: auto;
     margin: auto;
     object-fit: scale-down;
-    max-width: none;
+    max-width: 100%;
     max-height: none
-
-    ${props => props.fitVertical && `max-height: 100%;`}
-    ${props => props.fitHorizontal && `max-width: 100%;`}
-
-    ${props => props.pageRendering === 'single' && `margin: auto;`}
-    ${props => props.pageRendering === 'double' && `max-width: 50%;`}
-
-    ${props =>
-      props.fitVertical &&
-      props.pageRendering !== 'longstrip' &&
-      `flex: 0 1 auto;`}
-    
-    ${props =>
-      props.fitVertical &&
-      props.pageRendering === 'longstrip' &&
-      `object-fit: scale-down;
-      max-height: -webkit-fill-available;`}
   }
 `;
 
 function ImagesList({ chapter, pages }) {
   const [displaySettings] = useGlobalState('displaySettings');
-  const { fitDisplay, pageRendering } = displaySettings;
-  window.scrollTo(0, 0);
-  const thumbPath = `works/${chapter.work.uniqid}/${chapter.uniqid}/`;
-  const fitVertical = fitDisplay === 'container' || fitDisplay === 'height';
-  const fitHorizontal = fitDisplay === 'container' || fitDisplay === 'width';
+  const { readingMode } = displaySettings;
+  const thumbPath = filename =>
+    `works/${chapter.work.uniqid}/${chapter.uniqid}/${filename}`;
+  const refs = [];
   return (
-    <ImageList
-      fitVertical={fitVertical}
-      fitHorizontal={fitHorizontal}
-      pageRendering={pageRendering}
-      fitDisplay={fitDisplay}
-    >
+    <ImageList>
       {pages.map(page => (
-        <ImageWrapper
-          key={page.filename}
-          fitVertical={fitVertical}
-          fitHorizontal={fitHorizontal}
-          pageRendering={pageRendering}
-          fitDisplay={fitDisplay}
-        >
+        <ImageWrapper key={page.filename} readingMode={readingMode}>
           <LazyImage
-            src={thumbPath + page.filename}
+            src={thumbPath(page.filename)}
+            ref={ref => {
+              refs[page.filename] = ref;
+            }}
             key={page.filename}
             height={page.height}
             width={page.width}

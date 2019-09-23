@@ -1,68 +1,51 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-import {
-  useGlobalState,
-  setDisplaySettings,
-  setLayoutSettings,
-  setCoreSettings
-} from 'state';
+import { useGlobalState, setDisplaySettings, setCoreSettings } from 'state';
 import { Button, Container } from 'common/ui';
 
 function ReaderSettings({ isOpen, toggle }) {
   const [displaySettings] = useGlobalState('displaySettings');
-  const [layoutSettings] = useGlobalState('layoutSettings');
   const [coreSettings] = useGlobalState('coreSettings');
 
-  const updateFitDisplay = fitDisplay => () =>
-    setDisplaySettings({ ...displaySettings, fitDisplay });
+  const readingModeRendering = readingMode => () =>
+    setDisplaySettings({ ...displaySettings, readingMode });
   const updatePageRendering = pageRendering => () =>
     setDisplaySettings({ ...displaySettings, pageRendering });
-  const updateHeader = header => () =>
-    setLayoutSettings({ ...layoutSettings, header });
-  const updateSidebar = sidebar => () =>
-    setLayoutSettings({ ...layoutSettings, sidebar });
+  const readingDirectionRendering = readingDirection => () =>
+    setDisplaySettings({ ...displaySettings, readingDirection });
   const updatePreload = e =>
     setCoreSettings({ ...coreSettings, preloadImages: e.target.value });
   const updateQuality = e =>
     setCoreSettings({ ...coreSettings, qualityImage: e.target.value });
   return (
-    <Modal isOpen={isOpen} toggle={() => toggle(false)} size="lg">
+    <Modal
+      isOpen={isOpen}
+      toggle={() => toggle(false)}
+      size="md"
+      centered={true}
+    >
       <ModalHeader toggle={() => toggle(false)}>Reader Settings</ModalHeader>
       <ModalBody>
         <Container>
           <h5>Display settings</h5>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Fit display to</label>
+            <label className="col-sm-4 col-form-label">Reading Mode</label>
             <div className="col">
               <div className="row">
                 <Button
-                  active={displaySettings.fitDisplay === 'container'}
-                  onClick={updateFitDisplay('container')}
+                  active={displaySettings.readingMode === 'manga'}
+                  onClick={readingModeRendering('manga')}
                   className="col px-2"
                 >
-                  Container
+                  Manga
                 </Button>
                 <Button
-                  active={displaySettings.fitDisplay === 'width'}
-                  onClick={updateFitDisplay('width')}
+                  active={displaySettings.readingMode === 'webtoon'}
+                  onClick={readingModeRendering('webtoon')}
                   className="col px-2"
                 >
-                  Width
-                </Button>
-                <Button
-                  active={displaySettings.fitDisplay === 'height'}
-                  onClick={updateFitDisplay('height')}
-                  className="col px-2"
-                >
-                  Height
-                </Button>
-                <Button
-                  active={displaySettings.fitDisplay === 'noresize'}
-                  onClick={updateFitDisplay('noresize')}
-                  className="col px-2"
-                >
-                  No resize
+                  Webtoon
                 </Button>
               </div>
             </div>
@@ -72,69 +55,39 @@ function ReaderSettings({ isOpen, toggle }) {
             <div className="col">
               <div className="row">
                 <Button
-                  active={displaySettings.pageRendering === 'single'}
-                  onClick={updatePageRendering('single')}
+                  active={displaySettings.pageRendering === 'horizontal'}
+                  onClick={updatePageRendering('horizontal')}
                   className="col px-2"
                 >
-                  Single
+                  Horizontal
                 </Button>
                 <Button
-                  active={displaySettings.pageRendering === 'double'}
-                  onClick={updatePageRendering('double')}
+                  active={displaySettings.pageRendering === 'vertical'}
+                  onClick={updatePageRendering('vertical')}
                   className="col px-2"
                 >
-                  Double
-                </Button>
-                <Button
-                  active={displaySettings.pageRendering === 'longstrip'}
-                  onClick={updatePageRendering('longstrip')}
-                  className="col px-2"
-                >
-                  Long strip
-                </Button>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <h5>Layout settings</h5>
-          <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Header</label>
-            <div className="col">
-              <div className="row">
-                <Button
-                  active={layoutSettings.header}
-                  onClick={updateHeader(true)}
-                  className="col px-2"
-                >
-                  Visible
-                </Button>
-                <Button
-                  active={!layoutSettings.header}
-                  onClick={updateHeader(false)}
-                  className="col px-2"
-                >
-                  Hidden
+                  Vertical
                 </Button>
               </div>
             </div>
           </div>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Sidebar</label>
+            <label className="col-sm-4 col-form-label">Reading Direction</label>
             <div className="col">
               <div className="row">
                 <Button
-                  active={layoutSettings.sidebar}
-                  onClick={updateSidebar(true)}
+                  active={displaySettings.readingDirection === 'left'}
+                  onClick={readingDirectionRendering('left')}
                   className="col px-2"
                 >
-                  Visible
+                  Left
                 </Button>
                 <Button
-                  active={!layoutSettings.sidebar}
-                  onClick={updateSidebar(false)}
+                  active={displaySettings.readingDirection === 'right'}
+                  onClick={readingDirectionRendering('right')}
                   className="col px-2"
                 >
-                  Hidden
+                  Right
                 </Button>
               </div>
             </div>

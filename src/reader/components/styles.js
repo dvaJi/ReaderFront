@@ -1,90 +1,186 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const ReaderControlsContainer = styled.div`
-  padding: 0 !important;
+  background-image: linear-gradient(180deg, #000, transparent);
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  margin-right: auto;
-  margin-left: auto;
+  height: 100px;
+  padding: 18px 0;
+  z-index: 4000;
 `;
 
 export const ReaderControlsWrapper = styled.div`
-  z-index: 1;
-  flex-wrap: nowrap !important;
+  padding-left: 10px;
+  padding-right: 10px;
   display: flex;
-  margin-right: 0;
-  margin-left: 0;
-  order: 1;
-
-  & > div {
-    position: relative;
-  }
+  justify-content: space-between;
+  align-items: center;
 `;
 
-export const ReaderControlsCol = styled.div`
+export const ReaderControlsInfo = styled.div`
   display: flex;
-  width: 100%;
-  min-height: 1px;
-  margin-right: 0;
-  margin-left: 0;
-  flex-basis: 0;
-  flex-grow: 1;
+`;
+
+export const ReaderControlsLogo = styled.div`
+  padding: 0 20px;
+  color: #fff;
+  font-size: x-large;
+  font-weight: 700;
+  width: 130px;
+  text-align: center;
+  margin-top: -5px;
+  line-height: 25px;
+`;
+
+export const ReaderControlsChapterInfo = styled.div`
+  display: flex;
+  -webkit-box-orient: vertical;
+  flex-direction: column;
+`;
+
+export const ReaderControlsWork = styled(Link)`
+  transition: color 0.15s ease;
+  display: block;
+  line-height: 1;
+  font-size: 16px;
+  color: #fff !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 100%;
-  flex-direction: column !important;
-  flex-wrap: nowrap !important;
-  padding-right: 0;
-  padding-left: 0;
-
-  & > div {
-    position: relative;
-  }
-`;
-
-export const ReaderControlsTitle = styled.div`
-  text-align: center !important;
-  padding: 0.5rem !important;
-  flex: 0 0 auto;
-  width: auto;
-  max-width: none;
-  min-height: 1px;
+  font-weight: 500;
 `;
 
 export const ReaderControlsChapters = styled.div`
-  border-top: 1px solid rgba(128, 128, 128, 0.5);
-  padding-right: 0;
-  padding-left: 0;
-  align-items: center !important;
-  flex: 0 0 auto;
-  width: auto;
-  max-width: none;
-  min-height: 1px;
-  margin-right: 0;
-  margin-left: 0;
-  display: flex;
-  flex-wrap: wrap;
+  border-radius: 2px;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  max-width: 100%;
 
-  .chapter-link {
+  &::after {
+    border-left: 0.35em solid transparent;
+    border-right: 0.35em solid transparent;
+    border-top: 0.35em solid;
+    content: ' ';
+    display: block;
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+
+  & > select {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    outline: none;
+    min-height: 100%;
+    min-width: 100%;
+    padding: 4px 20px 4px 10px;
+    font-size: 16px;
     position: relative;
-    min-height: 1px;
-    flex: 0 0 auto;
-    width: auto;
-    max-width: none;
-    padding-right: 5px;
-    padding-left: 5px;
-    font-size: 30px;
+    z-index: 1;
+    padding-left: 0;
+    padding-right: 25px;
+    cursor: pointer;
+    width: 100%;
+    text-overflow: ellipsis;
+    color: #fff;
+
+    & > option {
+      background: #fff;
+      color: rgba(0, 0, 0, 0.87);
+      text-overflow: ellipsis;
+    }
   }
 `;
 
 export const ReaderControlsActions = styled.div`
-  padding: 0.25rem !important;
+  display: flex;
+  justify-content: space-between;
+  width: 110px;
+  margin-right: 15px;
 
-  button {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
+  & > button {
+    border-radius: 50%;
+    outline: none !important;
+    transition-duration: 0.4s !important;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+    color: rgb(255, 255, 255, 0.9);
+    height: 34px;
+    width: 34px;
+    margin-right: 5px;
+
+    &:hover {
+      background: rgb(255, 255, 255, 0.15);
+      color: rgb(255, 255, 255);
+    }
+  }
+`;
+
+export const ReaderControlsPagination = styled.div`
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  background: rgba(0, 0, 0, 0.2);
+  border: 0;
+  color: #fff;
+  height: 48px;
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+  z-index: 4000;
+
+  &::after {
+    border-left: 0.35em solid transparent;
+    border-right: 0.35em solid transparent;
+    border-top: 0.35em solid;
+    content: ' ';
+    display: block;
+    height: 0;
+    width: 0;
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+    border-top: 0;
+    border-bottom: 0.35em solid;
+    right: 1em;
+  }
+
+  & > select {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    outline: none;
+    min-height: 100%;
+    min-width: 100%;
+    font-size: 16px;
     position: relative;
-    width: 100%;
-    min-height: 1px;
-    margin: 0.25rem !important;
+    z-index: 1;
+    cursor: pointer;
+    line-height: 1.5;
+    height: 100%;
+    padding: 14px 35px 15px 20px;
+    color: #fff;
+
+    & > option {
+      background: #fff;
+      color: rgba(0, 0, 0, 0.87);
+    }
   }
 `;
 
@@ -93,15 +189,4 @@ export const ReaderMain = styled.div`
   max-height: none;
   min-height: calc(100vh - 3.5rem);
   min-width: 100%;
-
-  ${props =>
-    props.fitVertical &&
-    `height: calc(100vh - 3.5rem);
-  max-height: calc(100vh - 3.5rem);`}
-
-  ${props =>
-    props.fitVertical &&
-    props.headerHidden &&
-    `height: 100vh;
-    max-height: 100vh;`}
 `;

@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { injectIntl } from 'react-intl';
 
 // App imports
-import { useGlobalState } from 'state';
 import { languageNameToId, chapterTitle, chapterUrl } from '../../utils/common';
 import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
@@ -16,13 +15,16 @@ import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
 import { ReaderMain } from '../components/styles';
 
-function ReaderContainer({ match, intl }) {
+function ReaderContainer({ match, history, intl }) {
   const [showComments, toggleComments] = useState(false);
-  const [displaySettings] = useGlobalState('displaySettings');
-  const [layoutSettings] = useGlobalState('layoutSettings');
-  const { fitDisplay } = displaySettings;
-  const fitVertical = fitDisplay === 'container' || fitDisplay === 'height';
-  const fitHorizontal = fitDisplay === 'container' || fitDisplay === 'width';
+  const [showNav, toggleNav] = useState(true);
+  useEffect(() => {
+    let timer1 = setTimeout(() => toggleNav(false), 5000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [showNav]);
   const { stub, chapter, subchapter, volume, lang } = match.params;
   const variables = {
     workStub: stub,
@@ -32,11 +34,7 @@ function ReaderContainer({ match, intl }) {
     subchapter: parseInt(subchapter, 0)
   };
   return (
-    <ReaderMain
-      fitVertical={fitVertical}
-      fitHorizontal={fitHorizontal}
-      headerHidden={!layoutSettings.header}
-    >
+    <ReaderMain onMouseMove={() => toggleNav(true)}>
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
           if (loading) return <ReaderBarEmpty />;
@@ -59,6 +57,8 @@ function ReaderContainer({ match, intl }) {
                 chapter={actualChapter}
                 language={languageNameToId(lang)}
                 toggleComments={toggleComments}
+                showNav={showNav}
+                history={history}
               />
               <ImagesList
                 id={actualChapter.id}

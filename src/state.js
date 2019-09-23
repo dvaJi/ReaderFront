@@ -2,14 +2,9 @@ import { createGlobalState } from 'react-hooks-global-state';
 
 const displaySettingsLS = getLSItem('displaySettings');
 const displaySettings = {
-  fitDisplay: 'width', // container|width|height|no resize
-  pageRendering: 'longstrip' //single|double|longstrip
-};
-
-const layoutSettingsLS = getLSItem('layoutSettings');
-const layoutSettings = {
-  header: true,
-  sidebar: true
+  readingMode: 'manga', // manga|webtoon
+  pageRendering: 'vertical', //horizontal|vertical
+  readingDirection: 'right' // right|left
 };
 
 const coreSettingsLS = getLSItem('coreSettings');
@@ -19,10 +14,9 @@ const coreSettings = {
 };
 
 const initialState = {
-  theme: window.localStorage.getItem('theme') || 'light',
+  theme: getLSItem('theme') || 'light',
   language: 'es',
   displaySettings: displaySettingsLS || displaySettings,
-  layoutSettings: layoutSettingsLS || layoutSettings,
   coreSettings: coreSettingsLS || coreSettings
 };
 
@@ -44,11 +38,6 @@ export const setLanguage = language => {
 export const setDisplaySettings = displaySettings => {
   setLSItem('displaySettings', displaySettings);
   setGlobalState('displaySettings', displaySettings);
-};
-
-export const setLayoutSettings = layoutSettings => {
-  setLSItem('layoutSettings', layoutSettings);
-  setGlobalState('layoutSettings', layoutSettings);
 };
 
 export const setCoreSettings = coreSettings => {
