@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import { UncontrolledTooltip } from 'reactstrap';
 import { injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { animated, useSpring } from 'react-spring';
 
-import { APP_TITLE } from '../../config';
+import { APP_TITLE, ANONYMIZER_DOWNLOADS, READER_PATH } from '../../config';
 import { chapterTitle, chapterUrl } from 'utils/common';
 import { FETCH_CHAPTERS } from './queries';
 import {
@@ -31,18 +31,23 @@ function ReaderControls({
   showNav
 }) {
   const [showSettings, toggleShowSettings] = useState(false);
-  const navStyles = useSpring({
-    opacity: showNav ? 1 : 0,
-    visibility: showNav ? 'visible' : 'hidden'
-  });
-
-  let workUrl = `/work/${work.stub}`;
+  const workUrl = `/work/${work.stub}`;
+  const chapterDownload = `${ANONYMIZER_DOWNLOADS + READER_PATH}download/${
+    chapter.id
+  }`;
   return (
-    <animated.div style={navStyles}>
+    <div
+      style={{
+        opacity: showNav ? 1 : 0,
+        visibility: showNav ? 'visible' : 'hidden'
+      }}
+    >
       <ReaderControlsContainer>
         <ReaderControlsWrapper>
           <ReaderControlsInfo>
-            <ReaderControlsLogo>{APP_TITLE}</ReaderControlsLogo>
+            <ReaderControlsLogo>
+              <Link to="/">{APP_TITLE}</Link>
+            </ReaderControlsLogo>
             <ReaderControlsChapterInfo>
               <ReaderControlsWork to={workUrl} title={work.name}>
                 {work.name}
@@ -60,6 +65,18 @@ function ReaderControls({
             </ReaderControlsChapterInfo>
           </ReaderControlsInfo>
           <ReaderControlsActions>
+            <a
+              title="Download chapter"
+              id="download-chapter"
+              href={chapterDownload}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon icon="download" size="lg" />
+            </a>
+            <UncontrolledTooltip placement="bottom" target="download-chapter">
+              Download Chapter
+            </UncontrolledTooltip>
             <button
               title="Reader settings"
               id="settings-button"
@@ -70,13 +87,7 @@ function ReaderControls({
             <UncontrolledTooltip placement="bottom" target="settings-button">
               Reader Settings
             </UncontrolledTooltip>
-            <button title="Download chapter" id="download-chapter">
-              <FontAwesomeIcon icon="download" size="lg" />
-            </button>
-            <UncontrolledTooltip placement="bottom" target="download-chapter">
-              Download Chapter
-            </UncontrolledTooltip>
-            <button
+            {/* <button
               title="Report"
               id="report-chapter"
               onClick={() => toggleComments(true)}
@@ -85,7 +96,7 @@ function ReaderControls({
             </button>
             <UncontrolledTooltip placement="bottom" target="report-chapter">
               Report Issue
-            </UncontrolledTooltip>
+            </UncontrolledTooltip> */}
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>
         </ReaderControlsWrapper>
@@ -99,7 +110,7 @@ function ReaderControls({
           ))}
         </select>
       </ReaderControlsPagination>
-    </animated.div>
+    </div>
   );
 }
 

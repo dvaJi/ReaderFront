@@ -88,7 +88,7 @@ function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const isThemeLight = themeSelected === "light";
   return (
-    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md" style={{display: hidden ? 'none': 'initial'}}>
+    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md" style={{display: hidden ? 'none': 'flex'}}>
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
       <LangNav

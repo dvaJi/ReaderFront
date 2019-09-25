@@ -33,6 +33,11 @@ export const ReaderControlsLogo = styled.div`
   text-align: center;
   margin-top: -5px;
   line-height: 25px;
+
+  a {
+    color: #fff !important;
+    text-shadow: 0 0 5px black;
+  }
 `;
 
 export const ReaderControlsChapterInfo = styled.div`
@@ -111,7 +116,17 @@ export const ReaderControlsActions = styled.div`
   width: 110px;
   margin-right: 15px;
 
+  & > a {
+    padding: 0 5px;
+
+    & > svg {
+      margin-bottom: -4px;
+    }
+  }
+
+  & > a,
   & > button {
+    color: #fff !important;
     border-radius: 50%;
     outline: none !important;
     transition-duration: 0.4s !important;
