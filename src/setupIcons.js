@@ -6,7 +6,8 @@ import {
   faAngleRight,
   faFlag,
   faWindowMaximize,
-  faDownload
+  faDownload,
+  faComments
 } from '@fortawesome/free-solid-svg-icons';
 
 function setupIcons() {
@@ -16,7 +17,8 @@ function setupIcons() {
     faAngleRight,
     faFlag,
     faWindowMaximize,
-    faDownload
+    faDownload,
+    faComments
   );
 }
 

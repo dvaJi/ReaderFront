@@ -8,7 +8,12 @@ import DisqusThread from '../../common/DisqusComments';
 
 function Comments({ id, title, path, isOpen, toggle }) {
   return (
-    <Modal isOpen={isOpen} toggle={() => toggle(false)} size="lg">
+    <Modal
+      isOpen={isOpen}
+      toggle={() => toggle(false)}
+      size="lg"
+      centered={true}
+    >
       <ModalHeader toggle={() => toggle(false)}>
         <FormattedMessage id="comments" defaultMessage="Comments" />
       </ModalHeader>

@@ -65,6 +65,16 @@ function ReaderControls({
             </ReaderControlsChapterInfo>
           </ReaderControlsInfo>
           <ReaderControlsActions>
+            <button
+              title="Show Comments"
+              id="show-comments"
+              onClick={() => toggleComments(true)}
+            >
+              <FontAwesomeIcon icon="comments" size="lg" />
+            </button>
+            <UncontrolledTooltip placement="bottom" target="show-comments">
+              Show Comments
+            </UncontrolledTooltip>
             <a
               title="Download chapter"
               id="download-chapter"
@@ -87,16 +97,6 @@ function ReaderControls({
             <UncontrolledTooltip placement="bottom" target="settings-button">
               Reader Settings
             </UncontrolledTooltip>
-            {/* <button
-              title="Report"
-              id="report-chapter"
-              onClick={() => toggleComments(true)}
-            >
-              <FontAwesomeIcon icon="flag" size="lg" />
-            </button>
-            <UncontrolledTooltip placement="bottom" target="report-chapter">
-              Report Issue
-            </UncontrolledTooltip> */}
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>
         </ReaderControlsWrapper>
