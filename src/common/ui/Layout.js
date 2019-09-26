@@ -22,4 +22,12 @@ export const Container = styled.div`
   @media (min-width: 1200px) {
     max-width: 1140px;
   }
+
+  ${fluid =>
+    fluid &&
+    `width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;`}
 `;

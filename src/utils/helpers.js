@@ -103,6 +103,18 @@ export function isAdminRoute(location) {
   return false;
 }
 
+export function isReaderRoute(location) {
+  if (location === null || location.pathname === null) {
+    return false;
+  }
+
+  if (location.pathname.startsWith('/read', 0)) {
+    return true;
+  }
+
+  return false;
+}
+
 // Substring with ...
 export function subString(string, length = 0) {
   if (typeof string !== 'string') {
