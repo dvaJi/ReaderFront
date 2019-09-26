@@ -5,6 +5,7 @@ import { ThemeProvider, createGlobalStyle } from 'styled-components';
 // App imports
 import { READER_PATH, APP_VERSION, CDN } from 'config';
 import { getDefaultLanguage } from 'utils/common';
+import setupIcons from './setupIcons';
 import Routes from './Routes';
 import Header from './layout/header';
 import { useGlobalState } from './state';
@@ -56,6 +57,8 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 `;
+
+setupIcons();
 
 function App() {
   const [themeSelected] = useGlobalState('theme');
