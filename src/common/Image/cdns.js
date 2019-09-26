@@ -15,7 +15,7 @@ export function google(item, index) {
 
 export function photon(item, index) {
   const ele = parseUri(item.href);
-  const quality = getQuality();
+  const quality = item.quality || getLSQuality() || getQuality();
   const crop =
     item.crop && item.height
       ? `&crop=0px,0px,${item.width}px,${item.height}px`
@@ -36,10 +36,21 @@ export function staticaly(item) {
 function getQuality() {
   switch (networkType()) {
     case 1: // Medium network
-      return 90;
+      return 60;
     case 2: // Slow network
-      return 85;
+      return 40;
     default:
-      return 95;
+      return 100;
+  }
+}
+
+function getLSQuality() {
+  try {
+    const coreSettings = JSON.parse(
+      window.localStorage.getItem('coreSettings')
+    );
+    return coreSettings.qualityImage;
+  } catch (err) {
+    return null;
   }
 }

@@ -1,57 +1,89 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Lazyload from 'react-lazyload';
 
-import ImageOp from '../../common/Image';
+import { useGlobalState } from 'state';
+import LazyImage from '../../common/Image';
 
 const ImageList = styled.div`
-  text-align: center;
-  min-height: 1000px;
-`;
-const Image = styled(ImageOp)`
-  display: block;
-  vertical-align: middle;
-  margin: 0% auto;
+  background-color: #212121;
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: nowrap !important;
+  margin: auto !important;
+  text-align: center !important;
+  cursor: pointer;
+  min-height: auto;
+  width: auto;
+  width: -webkit-fill-available;
+  min-width: 100%;
   max-width: 100%;
-  margin-bottom: 10px;
-  min-height: 700px;
+	max-height: none
+  padding-left: 0;
+  flex-direction: column;
 `;
 
-const getHeight = h => (h > 0 ? h : 800);
+const ImageWrapper = styled.div`
+  flex-wrap: wrap;
+  margin-right: 0;
+  margin-left: 0;
+  position: relative;
+  min-height: 1px;
+  width: auto;
+  justify-content: center !important;
+  align-items: center !important;
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  user-select: none;
+  user-drag: none;
+  max-width: 100%;
+	max-height: none
+  flex: 0 0 auto;
+  display: block;
+  height: auto !important;
+
+  ${props => props.readingMode === 'manga' && 'padding-bottom: 10px;'}
+
+  img {
+    vertical-align: middle;
+    border-style: none;
+    cursor: pointer;
+    user-select: none;
+    user-drag: none;
+    height: auto;
+    width: auto;
+    margin: auto;
+    object-fit: scale-down;
+    max-width: 100%;
+    max-height: none
+  }
+`;
 
 function ImagesList({ chapter, pages }) {
-  window.scrollTo(0, 0);
-  const thumbPath = `works/${chapter.work.uniqid}/${chapter.uniqid}/`;
+  const [displaySettings] = useGlobalState('displaySettings');
+  const { readingMode } = displaySettings;
+  const thumbPath = filename =>
+    `works/${chapter.work.uniqid}/${chapter.uniqid}/${filename}`;
+  const refs = [];
   return (
     <ImageList>
       {pages.map(page => (
-        <Lazyload
-          key={page.id}
-          height={getHeight(page.height)}
-          placeholder={
-            <div
-              style={{
-                display: 'block',
-                width: 10,
-                height: getHeight(page.height)
-              }}
-            >
-              {' '}
-            </div>
-          }
-          once
-        >
-          <Image
-            src={thumbPath + page.filename}
+        <ImageWrapper key={page.filename} readingMode={readingMode}>
+          <LazyImage
+            src={thumbPath(page.filename)}
+            ref={ref => {
+              refs[page.filename] = ref;
+            }}
+            key={page.filename}
             height={page.height}
             width={page.width}
             index={page.id}
             alt={page.filename}
             title={page.filename}
           />
-        </Lazyload>
+        </ImageWrapper>
       ))}
     </ImageList>
   );
 }
-export default memo(ImagesList);
+export default ImagesList;

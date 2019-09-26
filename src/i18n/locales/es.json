@@ -13,6 +13,7 @@
   "chapter_saved": "El capítulo fue guardado exitosamente",
   "chapters_empty": "No hay capítulos",
   "chapters_list": "Capítulos",
+  "no_chapters": "No hay capítulos",
   "comedy": "Comedia",
   "comments": "Comentarios",
   "completed": "Completado",
@@ -154,5 +155,10 @@
   "person_description": "Descripción",
   "staff": "Staff",
   "add_staff": "Añadir Staff",
-  "no_staff": "No hay Staff"
+  "no_staff": "No hay Staff",
+  "show_comments": "Mostrar Comentarios",
+  "reader_settings": "Configuraciones del Lector",
+  "display_settings": "Configuraciones de pantalla",
+  "reading_mode": "Modo de lectura",
+  "close": "Cerrar"
 }

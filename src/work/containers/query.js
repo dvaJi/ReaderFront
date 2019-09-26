@@ -13,6 +13,7 @@ export const FETCH_WORK = gql`
       adult
       thumbnail
       createdAt
+      updatedAt
       chapters {
         id
         chapter
