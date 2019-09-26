@@ -35,6 +35,19 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
+  // Append a div to test our UncontrolledTooltip
+  const commentsTooltip = document.createElement('div');
+  commentsTooltip.setAttribute('id', 'show-comments');
+  document.body.appendChild(commentsTooltip);
+
+  const commentsDownload = document.createElement('div');
+  commentsDownload.setAttribute('id', 'download-chapter');
+  document.body.appendChild(commentsDownload);
+
+  const commentsSettings = document.createElement('div');
+  commentsSettings.setAttribute('id', 'settings-button');
+  document.body.appendChild(commentsSettings);
+
   const store = mockStore({
     layout: {
       language: 'es'
