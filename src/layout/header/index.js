@@ -15,7 +15,7 @@ import {
   faMoon
 } from "@fortawesome/free-solid-svg-icons";
 import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from "../../config";
-import { isAuthRoute, isAdminRoute } from "../../utils/helpers";
+import { isAuthRoute, isAdminRoute, isReaderRoute } from "../../utils/helpers";
 
 import { ChangeTheme, Navbar, ToggleTheme } from "./styles";
 import { useGlobalState, setTheme } from "../../state";
@@ -84,11 +84,11 @@ function AdminNav({ changeLanguage, language, themeSelected }) {
   );
 }
 
-function PublicNav({ changeLanguage, language, themeSelected }) {
+function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const isThemeLight = themeSelected === "light";
   return (
-    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
+    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md" style={{display: hidden ? 'none': 'flex'}}>
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
       <LangNav
@@ -143,6 +143,7 @@ function Header({ route, language, doChangeLanguage }) {
         themeSelected={themeSelected}
         language={language}
         changeLanguage={doChangeLanguage}
+        hidden={isReaderRoute(route)}
       />
     )) ||
     (showAdminNav && (
