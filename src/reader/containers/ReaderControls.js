@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import { UncontrolledTooltip } from 'reactstrap';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TITLE, ANONYMIZER_DOWNLOADS, READER_PATH } from '../../config';
@@ -72,7 +72,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="comments" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="show-comments">
-              Show Comments
+              <FormattedMessage
+                id="show_comments"
+                defaultMessage="Show Comments"
+              />
             </UncontrolledTooltip>
             <a
               title="Download chapter"
@@ -84,7 +87,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="download" size="lg" />
             </a>
             <UncontrolledTooltip placement="bottom" target="download-chapter">
-              Download Chapter
+              <FormattedMessage
+                id="download_chapter"
+                defaultMessage="Download Chapter"
+              />
             </UncontrolledTooltip>
             <button
               title="Reader settings"
@@ -94,7 +100,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="cog" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="settings-button">
-              Reader Settings
+              <FormattedMessage
+                id="reader_settings"
+                defaultMessage="Reader Settings"
+              />
             </UncontrolledTooltip>
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>

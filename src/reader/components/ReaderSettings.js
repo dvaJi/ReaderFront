@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { useGlobalState, setDisplaySettings } from 'state';
@@ -16,12 +17,27 @@ function ReaderSettings({ isOpen, toggle }) {
       size="md"
       centered={true}
     >
-      <ModalHeader toggle={() => toggle(false)}>Reader Settings</ModalHeader>
+      <ModalHeader toggle={() => toggle(false)}>
+        <FormattedMessage
+          id="reader_settings"
+          defaultMessage="Reader Settings"
+        />
+      </ModalHeader>
       <ModalBody>
         <Container>
-          <h5>Display settings</h5>
+          <h5>
+            <FormattedMessage
+              id="display_settings"
+              defaultMessage="Display settings"
+            />
+          </h5>
           <div className="form-group row">
-            <label className="col-sm-4 col-form-label">Reading Mode</label>
+            <label className="col-sm-4 col-form-label">
+              <FormattedMessage
+                id="reading_mode"
+                defaultMessage="Reading Mode"
+              />
+            </label>
             <div className="col">
               <div className="row">
                 <Button
@@ -45,7 +61,7 @@ function ReaderSettings({ isOpen, toggle }) {
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={() => toggle(false)}>
-          Close
+          <FormattedMessage id="close" defaultMessage="Close" />
         </Button>
       </ModalFooter>
     </Modal>
