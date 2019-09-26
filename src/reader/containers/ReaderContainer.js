@@ -9,7 +9,7 @@ import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
 import ReaderControls from './ReaderControls';
-import ReaderLoading from '.../components/ReaderLoading';
+import ReaderLoading from '../components/ReaderLoading';
 import ImagesList from '../components/ImagesList';
 import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
@@ -29,9 +29,9 @@ function ReaderContainer({ match, history, intl }) {
   const variables = {
     workStub: stub,
     language: languageNameToId(lang),
-    volume: parseInt(volume, 0),
-    chapter: parseInt(chapter, 0),
-    subchapter: parseInt(subchapter, 0)
+    volume: Number(volume),
+    chapter: Number(chapter),
+    subchapter: Number(subchapter)
   };
   return (
     <ReaderMain onMouseMove={() => toggleNav(true)}>
