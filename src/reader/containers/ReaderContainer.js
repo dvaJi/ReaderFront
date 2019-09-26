@@ -9,7 +9,7 @@ import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
 import ReaderControls from './ReaderControls';
-import ReaderBarEmpty from '../components/ReaderBarEmpty';
+import ReaderLoading from '.../components/ReaderLoading';
 import ImagesList from '../components/ImagesList';
 import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
@@ -37,7 +37,7 @@ function ReaderContainer({ match, history, intl }) {
     <ReaderMain onMouseMove={() => toggleNav(true)}>
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
-          if (loading) return <ReaderBarEmpty />;
+          if (loading) return <ReaderLoading />;
           if (error) return <ErrorGeneral />;
           if (!data.chapterByWorkAndChapter) return <ErrorNotFound />;
 

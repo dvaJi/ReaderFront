@@ -13,7 +13,7 @@ import {
   ReaderControlsChapters
 } from './styles';
 
-function ReaderBarEmpty() {
+function ReaderLoading() {
   return (
     <>
       <div
@@ -47,4 +47,4 @@ function ReaderBarEmpty() {
   );
 }
 
-export default memo(ReaderBarEmpty);
+export default memo(ReaderLoading);
