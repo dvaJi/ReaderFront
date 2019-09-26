@@ -1,42 +1,49 @@
 import React, { memo } from 'react';
-import styled from 'styled-components';
-import theme from 'styled-theming';
+import { Link } from 'react-router-dom';
+import { Spinner } from 'reactstrap';
 
-import { primaryColor, background } from '../../themes';
-
-export const cardBackgroundColor = theme('mode', {
-  light: background.light.dark,
-  dark: background.dark.light
-});
-
-const Bar = styled.div`
-  height: 38px;
-  margin-bottom: 15px;
-`;
-
-const Text = styled.div`
-  background-color: ${cardBackgroundColor};
-  width: 64%;
-  display: inline-block;
-  margin-right: 8%;
-  height: 38px;
-`;
-
-const Button = styled.div`
-  background-color: ${primaryColor};
-  width: 13%;
-  display: inline-block;
-  margin-left: 5px;
-  height: 38px;
-`;
+import { APP_TITLE } from '../../config';
+import {
+  ReaderControlsContainer,
+  ReaderControlsWrapper,
+  ReaderControlsInfo,
+  ReaderControlsActions,
+  ReaderControlsLogo,
+  ReaderControlsChapterInfo,
+  ReaderControlsChapters
+} from './styles';
 
 function ReaderBarEmpty() {
   return (
-    <Bar>
-      <Text className="show-loading-animation">{'\u00A0'}</Text>
-      <Button className="show-loading-animation">{'\u00A0'}</Button>
-      <Button className="show-loading-animation">{'\u00A0'}</Button>
-    </Bar>
+    <>
+      <div
+        style={{
+          opacity: 1,
+          visibility: 'visible'
+        }}
+      >
+        <ReaderControlsContainer>
+          <ReaderControlsWrapper>
+            <ReaderControlsInfo>
+              <ReaderControlsLogo>
+                <Link to="/">{APP_TITLE}</Link>
+              </ReaderControlsLogo>
+              <ReaderControlsChapterInfo>
+                <ReaderControlsChapters></ReaderControlsChapters>
+              </ReaderControlsChapterInfo>
+            </ReaderControlsInfo>
+            <ReaderControlsActions></ReaderControlsActions>
+          </ReaderControlsWrapper>
+        </ReaderControlsContainer>
+      </div>
+      <div style={{ paddingTop: 'calc(40vh)', textAlign: 'center' }}>
+        <Spinner
+          style={{ width: '10rem', height: '10rem' }}
+          type="grow"
+          color="dark"
+        />
+      </div>
+    </>
   );
 }
 

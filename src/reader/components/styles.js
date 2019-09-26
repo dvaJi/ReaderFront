@@ -47,10 +47,9 @@ export const ReaderControlsChapterInfo = styled.div`
 `;
 
 export const ReaderControlsWork = styled(Link)`
-  transition: color 0.15s ease;
   display: block;
   line-height: 1;
-  font-size: 16px;
+  font-size: 1.1em;
   color: #fff !important;
   white-space: nowrap;
   overflow: hidden;
@@ -202,6 +201,7 @@ export const ReaderControlsPagination = styled.div`
 export const ReaderMain = styled.div`
   max-width: none;
   max-height: none;
-  min-height: calc(100vh - 3.5rem);
+  min-height: calc(100vh);
   min-width: 100%;
+  background-color: #212121;
 `;

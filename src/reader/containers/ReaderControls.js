@@ -10,7 +10,6 @@ import { chapterTitle, chapterUrl } from 'utils/common';
 import { FETCH_CHAPTERS } from './queries';
 import {
   ReaderControlsContainer,
-  ReaderControlsPagination,
   ReaderControlsWrapper,
   ReaderControlsInfo,
   ReaderControlsActions,
@@ -101,7 +100,7 @@ function ReaderControls({
           </ReaderControlsActions>
         </ReaderControlsWrapper>
       </ReaderControlsContainer>
-      <ReaderControlsPagination>
+      {/* <ReaderControlsPagination>
         <select>
           {chapter.pages.map((page, index) => (
             <option key={page.filename} value={index}>
@@ -109,7 +108,7 @@ function ReaderControls({
             </option>
           ))}
         </select>
-      </ReaderControlsPagination>
+      </ReaderControlsPagination> */}
     </div>
   );
 }
