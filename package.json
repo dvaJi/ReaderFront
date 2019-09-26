@@ -68,7 +68,7 @@
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^4.3.2",
+    "styled-components": "^4.4.0",
     "styled-theming": "^2.2.0"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-react-intl": "^2.0.6",
-    "eslint": "^6.3.0",
+    "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-config-react-app": "^5.0.1",
     "eslint-plugin-flowtype": "^4.3.0",

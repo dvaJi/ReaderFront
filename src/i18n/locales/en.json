@@ -155,5 +155,10 @@
   "person_description": "Person Description",
   "staff": "Staff",
   "add_staff": "Add Staff",
-  "no_staff": "No Staff"
+  "no_staff": "No Staff",
+  "show_comments": "Show Comments",
+  "reader_settings": "Reader Settings",
+  "display_settings": "Display settings",
+  "reading_mode": "Reading Mode",
+  "close": "Close"
 }

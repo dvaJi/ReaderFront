@@ -1,56 +1,43 @@
-import React, { Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
+import { injectIntl } from 'react-intl';
 
 // App imports
-import { languageNameToId, languageIdToName } from '../../utils/common';
+import { languageNameToId, chapterTitle, chapterUrl } from '../../utils/common';
 import ErrorGeneral from '../../common/ErrorGeneral';
 import ErrorNotFound from '../../common/ErrorNotFound';
 import Metatag from './ReaderMetaTags';
-import ReaderBar from '../components/ReaderBar';
-import ReaderBarEmpty from '../components/ReaderBarEmpty';
+import ReaderControls from './ReaderControls';
+import ReaderLoading from '../components/ReaderLoading';
 import ImagesList from '../components/ImagesList';
-import { FETCH_CHAPTERS, FETCH_CHAPTER } from './queries';
+import Comments from '../components/Comments';
+import { FETCH_CHAPTER } from './queries';
+import { ReaderMain } from '../components/styles';
 
-const Comments = React.lazy(() => import('../components/Comments'));
+function ReaderContainer({ match, history, intl }) {
+  const [showComments, toggleComments] = useState(false);
+  const [showNav, toggleNav] = useState(true);
+  useEffect(() => {
+    let timer1 = setTimeout(() => toggleNav(false), 5000);
 
-const Chapters = ({ workStub, language, chapter }) => (
-  <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
-    {({ loading, error, data }) => {
-      if (loading || error) return <ReaderBarEmpty />;
-      const chapterIndex = data.chaptersByWork.indexOf(
-        data.chaptersByWork.find(c => c.id === chapter.id)
-      );
-      const nextChapter =
-        chapterIndex + 1 !== data.chaptersByWork.length ? chapterIndex + 1 : -1;
-      const prevChapter = chapterIndex !== 0 ? chapterIndex - 1 : -1;
-      return (
-        <ReaderBar
-          chapter={chapter}
-          chapters={data.chaptersByWork}
-          work={chapter.work}
-          prevChapter={prevChapter}
-          nextChapter={nextChapter}
-        />
-      );
-    }}
-  </Query>
-);
-
-function ReaderContainer({ match }) {
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [showNav]);
   const { stub, chapter, subchapter, volume, lang } = match.params;
   const variables = {
     workStub: stub,
     language: languageNameToId(lang),
-    volume: parseInt(volume, 0),
-    chapter: parseInt(chapter, 0),
-    subchapter: parseInt(subchapter, 0)
+    volume: Number(volume),
+    chapter: Number(chapter),
+    subchapter: Number(subchapter)
   };
   return (
-    <div className="Read">
+    <ReaderMain onMouseMove={() => toggleNav(true)}>
       <Query query={FETCH_CHAPTER} variables={variables}>
         {({ loading, error, data }) => {
-          if (loading) return <ReaderBarEmpty />;
+          if (loading) return <ReaderLoading />;
           if (error) return <ErrorGeneral />;
           if (!data.chapterByWorkAndChapter) return <ErrorNotFound />;
 
@@ -58,41 +45,38 @@ function ReaderContainer({ match }) {
 
           const disqusConfig = {
             id: `${actualChapter.work.uniqid}-${actualChapter.uniqid}`,
-            path: `read/${actualChapter.work.stub}/${languageIdToName(
-              actualChapter.language
-            )}/${actualChapter.volume}/${actualChapter.chapter}.${
-              actualChapter.subchapter
-            }`,
-            title: `${actualChapter.work.name} - Capítulo ${
-              actualChapter.chapter
-            } | ${languageIdToName(actualChapter.language).toUpperCase()} `
+            path: chapterUrl(actualChapter, actualChapter.work),
+            title: chapterTitle({ chapter: actualChapter, intl })
           };
 
           return (
             <>
               <Metatag chapter={actualChapter} />
-              <Chapters
+              <ReaderControls
+                work={actualChapter.work}
                 chapter={actualChapter}
-                workStub={stub}
                 language={languageNameToId(lang)}
+                toggleComments={toggleComments}
+                showNav={showNav}
+                history={history}
               />
               <ImagesList
                 id={actualChapter.id}
                 pages={actualChapter.pages}
                 chapter={actualChapter}
               />
-              <Suspense fallback={'Loading comments...'}>
-                <Comments
-                  id={disqusConfig.id}
-                  title={disqusConfig.title}
-                  path={disqusConfig.path}
-                />
-              </Suspense>
+              <Comments
+                id={disqusConfig.id}
+                title={disqusConfig.title}
+                path={disqusConfig.path}
+                isOpen={showComments}
+                toggle={toggleComments}
+              />
             </>
           );
         }}
       </Query>
-    </div>
+    </ReaderMain>
   );
 }
 
@@ -103,4 +87,4 @@ const mapStateToProps = (state, own) => {
   };
 };
 
-export default connect(mapStateToProps)(ReaderContainer);
+export default connect(mapStateToProps)(injectIntl(ReaderContainer));

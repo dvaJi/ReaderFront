@@ -162,3 +162,24 @@ export function getDefaultLanguage() {
 
   return language;
 }
+
+export function chapterTitle({ chapter, intl }) {
+  const subchapter = chapter.subchapter !== 0 ? '.' + chapter.subchapter : '';
+  const volumeTxt = intl.formatMessage({
+    id: 'volume',
+    defaultMessage: 'Volume'
+  });
+  const chapterTxt = intl.formatMessage({
+    id: 'chapter',
+    defaultMessage: 'Chapter'
+  });
+  const volume = chapter.volume > 0 ? `${volumeTxt} ${chapter.volume} ` : '';
+  return `${volume}${chapterTxt} ${chapter.chapter}${subchapter}${
+    chapter.name !== '' ? `: ${chapter.name}` : ''
+  }`;
+}
+
+export function chapterUrl(chapter, work) {
+  const language = languageIdToName(chapter.language);
+  return `/read/${work.stub}/${language}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
+}
