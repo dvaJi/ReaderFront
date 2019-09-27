@@ -4578,10 +4578,10 @@ dotgitignore@2.1.0:
     find-up "^3.0.0"
     minimatch "^3.0.4"
 
-downshift@^3.3.1:
-  version "3.3.1"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.3.1.tgz#429ce98be43115664d2ea54f841d80059007b883"
-  integrity sha512-PdbDQIq7hVE9HO2fHMZA1JaoVKClNHkXIcDZAlCmXksCd7cU+demBjuYhYIXUml/8n6RejXbvXakg2mK1pbUyw==
+downshift@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.3.2.tgz#1071243b52e7d377b31e1007a0267b35f5e742e7"
+  integrity sha512-p/m1efIu+MF5kWwOxtvozFAtjwDZR3MPM4hFzYklCsyGuw6/sUbie+SNhbcNLv9wDN3ix72+S6BpvnXeTA4mRA==
   dependencies:
     "@babel/runtime" "^7.4.5"
     "@reach/auto-id" "^0.2.0"
