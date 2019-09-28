@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
+import { APP_TITLE } from 'config';
+
 const Root = styled.div`
   background-color: #0747a6;
   color: #ffffff;
@@ -129,7 +131,7 @@ class AuthContainer extends Component {
           <Layout>
             <Container>
               <Header>
-                <h1>Reader Front</h1>
+                <h1>{APP_TITLE}</h1>
               </Header>
               <Main>
                 <Card>{this.props.children}</Card>
