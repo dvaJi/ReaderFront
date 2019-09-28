@@ -4,6 +4,8 @@ import { Route, Switch, Redirect } from 'react-router';
 import withTracker from './common/WithTracker';
 import RoutePrivate from './auth/RoutePrivate';
 
+import { logout } from 'user/actions/doUser';
+
 const Homepage = Loadable({
   loader: () => import(/* webpackChunkName: "homepage" */ './home'),
   loading: () => null,
@@ -178,6 +180,14 @@ export default (
     <Route path="/auth/login" exact component={withTracker(Login)} />
     <Route path="/auth/signup" exact component={withTracker(Signup)} />
     <Route
+      path="/auth/logout"
+      exact
+      render={() => {
+        logout();
+        return <Redirect push to="/auth/login" />;
+      }}
+    />
+    <Route
       path="/auth/activate_account"
       exact
       component={withTracker(Activate)}
@@ -187,6 +197,7 @@ export default (
       exact
       component={withTracker(Activate)}
     />
+    <Redirect exact from="/admincp" to="/admincp/dashboard" />
     <RoutePrivate
       path="/admincp/dashboard"
       exact

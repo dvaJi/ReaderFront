@@ -5,16 +5,10 @@ import { connect } from 'react-redux';
 
 // Component
 const RoutePrivate = props =>
-  props.user.isAuthenticated ? (
-    props.role ? (
-      props.user.details.role === props.role ? (
-        <Route {...props} component={props.component} />
-      ) : (
-        <Redirect to={'/auth/login'} />
-      )
-    ) : (
-      <Route {...props} component={props.component} />
-    )
+  props.user.isAuthenticated &&
+  props.user.details.role &&
+  props.user.details.role === 'ADMIN' ? (
+    <Route {...props} component={props.component} />
   ) : (
     <Redirect to={'/auth/login'} />
   );
