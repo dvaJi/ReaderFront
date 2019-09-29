@@ -1,8 +1,8 @@
 {
   "action": "Action",
   "actions": "Actions",
-  "add_chapter": "Add chapter",
-  "add_work": "Add Work",
+  "create_chapter": "Create chapter",
+  "create_work": "Create Work",
   "adult": "Adult",
   "adult_": "Adult?",
   "adventure": "Adventure",
@@ -160,5 +160,7 @@
   "reader_settings": "Reader Settings",
   "display_settings": "Display settings",
   "reading_mode": "Reading Mode",
-  "close": "Close"
+  "close": "Close",
+  "not_authenticated": "Not authenticated",
+  "no_valid_chapter": "The chapter number must be greater than 0"
 }

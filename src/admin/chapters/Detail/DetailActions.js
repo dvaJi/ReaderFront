@@ -11,10 +11,22 @@ import {
 import { Button, ButtonGroup } from 'common/ui';
 import { DetailActionsBar } from '../styles';
 
-function DetailActions({ actualView, changeView, uploadAll, deleteAll }) {
+function DetailActions({
+  actualView,
+  changeView,
+  uploadAll,
+  deleteAll,
+  pages = []
+}) {
+  const pagesToupload = pages.filter(p => !p.uploaded);
   return (
     <DetailActionsBar>
-      <Button id="upload-all-pages" type="button" onClick={uploadAll}>
+      <Button
+        id="upload-all-pages"
+        type="button"
+        onClick={uploadAll}
+        disabled={pagesToupload.length === 0}
+      >
         <FontAwesomeIcon icon={faFileUpload} />{' '}
         <FormattedMessage
           id="upload_selected"
@@ -22,7 +34,12 @@ function DetailActions({ actualView, changeView, uploadAll, deleteAll }) {
         />
       </Button>
       {'  '}
-      <Button id="delete-all-pages" type="button" onClick={deleteAll}>
+      <Button
+        id="delete-all-pages"
+        type="button"
+        onClick={deleteAll}
+        disabled={pages.length === 0}
+      >
         <FontAwesomeIcon icon={faTimes} />{' '}
         <FormattedMessage id="delete_all" defaultMessage="Delete all" />
       </Button>

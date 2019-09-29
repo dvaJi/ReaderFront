@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
+import { compose, graphql } from 'react-apollo';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { Card } from 'common/ui';
@@ -7,7 +8,12 @@ import { slugify, forEachSeries } from 'utils/helpers';
 import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
-import { WithMutation } from './DropImagesMutation';
+import {
+  CREATE_PAGE,
+  REMOVE_PAGE,
+  UPDATE_PAGE,
+  UPDATE_DEFAULT_PAGE
+} from '../mutations';
 
 class DropImages extends Component {
   constructor(props) {
@@ -218,6 +224,7 @@ class DropImages extends Component {
           deleteAll={this.handleRemoveAll}
           changeView={this.handleSetPageView}
           actualView={pageView}
+          pages={pages}
         />
         <Card>
           <Dropzone
@@ -261,4 +268,9 @@ class DropImages extends Component {
   }
 }
 
-export default injectIntl(WithMutation(DropImages));
+export default compose(
+  graphql(CREATE_PAGE, { name: 'createPage' }),
+  graphql(REMOVE_PAGE, { name: 'removePage' }),
+  graphql(UPDATE_PAGE, { name: 'updatePage' }),
+  graphql(UPDATE_DEFAULT_PAGE, { name: 'updateDefaultPage' })
+)(injectIntl(DropImages));

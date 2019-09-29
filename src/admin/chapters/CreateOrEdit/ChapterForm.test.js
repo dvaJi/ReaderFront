@@ -78,15 +78,22 @@ it('should fill the form without throwing an error', async () => {
   await wrapper.unmount();
 });
 
-it('should throw an error is user is not authenticated', () => {
-  console.error = jest.fn();
-  const wrapper = mountWithIntl(
-    <ChapterForm chapter={chapterEmpty} onSubmit={handleOnSubmit} />
-  );
+it('should show an error if user is not authenticated', async () => {
+  const wrapper = mountWithIntl(<ChapterForm chapter={chapterEmpty} />);
+  wrapper.find('button[id="submit_chapter"]').simulate('click');
+  await global.wait(0);
 
-  expect(() => {
-    wrapper.find('button[id="submit_chapter"]').simulate('click');
-  }).toThrowError('User not authenticated');
+  expect(wrapper.find('#error_msg')).toBeTruthy();
+  wrapper.unmount();
+});
+
+it('should show an error if chapters is not greater than 0', async () => {
+  localStorage.setItem('user', JSON.stringify(userStorage));
+  const wrapper = mountWithIntl(<ChapterForm chapter={chapterEmpty} />);
+  wrapper.find('button[id="submit_chapter"]').simulate('click');
+
+  await global.wait(0);
+  expect(wrapper.find('#error_msg')).toBeTruthy();
   wrapper.unmount();
 });
 
@@ -100,11 +107,15 @@ it('should normalize object before submit', async () => {
     <ChapterForm chapter={chapterEmpty} onSubmit={cHandleOnSubmit} />
   );
 
+  const inputChapter = wrapper.find('input[name="chapter"]');
+  inputChapter.simulate('change', {
+    target: { value: '1', name: 'chapter' }
+  });
   wrapper.find('button[id="submit_chapter"]').simulate('click');
 
   await global.wait(0);
   expect(_chapter.language).toBe(1);
-  expect(_chapter.stub).toBe('0-0_');
+  expect(_chapter.stub).toBe('1-0_');
   expect(_chapter.hidden).not.toBeNull();
 
   wrapper.unmount();
