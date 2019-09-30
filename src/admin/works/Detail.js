@@ -42,13 +42,14 @@ function Detail({ intl, match, mutate }) {
   return (
     <Container>
       <>
-        <WorkInfo stub={match.params.stub} />
-
-        <div className="m-1 mb-2">
+        <div className="m-1">
           <ButtonLink to={'/admincp/work/manage'}>
             <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
             <FormattedMessage id="go_back" defaultMessage="Go back" />
           </ButtonLink>
+        </div>
+        <WorkInfo stub={match.params.stub} />
+        <div className="m-1 mb-2">
           <ButtonLink
             color="primary"
             className="ml-1"
@@ -61,7 +62,10 @@ function Detail({ intl, match, mutate }) {
             }
           >
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            <FormattedMessage id="add_chapter" defaultMessage="Add chapter" />
+            <FormattedMessage
+              id="create_chapter"
+              defaultMessage="Create chapter"
+            />
           </ButtonLink>
         </div>
 

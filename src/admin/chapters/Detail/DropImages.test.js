@@ -138,8 +138,8 @@ it('should upload all pages', async () => {
           hidden: false,
           height: 0,
           width: 0,
-          size: 8090,
-          mime: 'jpg'
+          size: 13,
+          mime: 'image/jpeg'
         }
       },
       result: {
@@ -161,7 +161,7 @@ it('should upload all pages', async () => {
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <MemoryRouter>
         <DropImages
-          chapter={{ ...releases[0], pages: [pagesAsFile[0]] }}
+          chapter={{ ...releases[0], pages: [] }}
           toggleModal={toggleModalMock}
         />
       </MemoryRouter>
@@ -169,6 +169,14 @@ it('should upload all pages', async () => {
   );
 
   await global.wait(0);
+
+  //Create a non-null file
+  const fileContents = 'file contents';
+  const file = new Blob([fileContents], { type: 'image/jpeg' });
+  wrapper
+    .find('#dropzone-pages')
+    .props()
+    .onDrop([file]);
   const uploadAllButton = await wrapper.find('button[id="upload-all-pages"]');
   uploadAllButton.simulate('click');
 
