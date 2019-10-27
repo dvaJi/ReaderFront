@@ -80,7 +80,7 @@
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-react-intl": "^2.0.6",
-    "eslint": "^6.5.1",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.4.0",
     "eslint-config-react-app": "^5.0.2",
     "eslint-plugin-flowtype": "^4.3.0",
