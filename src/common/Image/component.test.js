@@ -53,7 +53,7 @@ it('should render a img using the photon cdn', () => {
   const img = wrapper.find('img');
 
   expect(img.prop('src')).toBe(
-    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=95&w=200`
+    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=100&w=200`
   );
   wrapper.unmount();
 });
@@ -66,7 +66,7 @@ it('should render a img using the photon cdn with the original size', () => {
   const img = wrapper.find('img');
 
   expect(img.prop('src')).toBe(
-    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=95`
+    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=100`
   );
   wrapper.unmount();
 });

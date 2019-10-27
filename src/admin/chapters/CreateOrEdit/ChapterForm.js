@@ -3,7 +3,14 @@ import DatePicker from 'react-datepicker';
 import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
-import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
+import {
+  Alert,
+  Button,
+  CustomInput,
+  FormGroup,
+  Label,
+  Input
+} from 'reactstrap';
 
 // App imports
 import { slugify } from 'utils/helpers';
@@ -13,7 +20,8 @@ class ChapterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chapter: props.chapter
+      chapter: props.chapter,
+      error: null
     };
   }
 
@@ -62,9 +70,26 @@ class ChapterForm extends Component {
   };
 
   handleOnSubmit = ev => {
+    const { intl, onSubmit } = this.props;
     const user = JSON.parse(window.localStorage.getItem('user'));
     if (!user) {
-      throw new Error('User not authenticated');
+      this.setState({
+        error: intl.formatMessage({
+          id: 'not_authenticated',
+          defaultMessage: 'Not authenticated'
+        })
+      });
+      return;
+    }
+
+    if (!this.state.chapter.chapter || this.state.chapter.chapter <= 0) {
+      this.setState({
+        error: intl.formatMessage({
+          id: 'no_valid_chapter',
+          defaultMessage: 'The chapter number must be greater than 0'
+        })
+      });
+      return;
     }
     const chapter = Object.assign({}, this.state.chapter);
     const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
@@ -74,14 +99,20 @@ class ChapterForm extends Component {
     chapter.hidden = chapter.hidden ? true : false;
     delete chapter.pages;
 
-    this.props.onSubmit(ev, chapter);
+    this.setState({ error: null });
+    onSubmit(ev, chapter);
   };
 
   render() {
     const { intl } = this.props;
-    const { chapter } = this.state;
+    const { error, chapter } = this.state;
     return (
       <>
+        {error && (
+          <Alert id="error_msg" color="danger">
+            {error}
+          </Alert>
+        )}
         <FormGroup>
           <Label for="name">
             <FormattedMessage id="name" defaultMessage="Name" />
@@ -123,7 +154,7 @@ class ChapterForm extends Component {
           </Label>
           <Input
             id="chapter"
-            type="text"
+            type="number"
             placeholder={intl.formatMessage({
               id: 'chapter',
               defaultMessage: 'Chapter'

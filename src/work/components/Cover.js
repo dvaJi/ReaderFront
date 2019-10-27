@@ -2,9 +2,9 @@ import React, { memo } from 'react';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
-import Image from '../../common/Image';
+import { LazyImage } from '../../common/Image';
 
-const CoverStyle = styled(Image)`
+const CoverStyle = styled(LazyImage)`
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.18);
   border-radius: 4px;
 `;

@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 
 // App imports
+import { GenresWrapper } from './styles';
 import Image from 'common/Image';
 import { renderIf, slugify } from 'utils/helpers';
 import {
@@ -23,14 +24,18 @@ import {
   uploadImage,
   workStatus,
   workTypes,
-  genresDemographic
+  genresDemographic,
+  genresTypes
 } from 'utils/common';
+import AddPersonWorkModal from '../AddPersonWorkModal';
+import Staff from './Staff';
 
 class PostForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       work: props.work,
+      isAddPersonWorkModal: false,
       isRecentUpload: props.work.id > 0 ? false : true,
       languagesAvailables: toLang.filter(
         lang =>
@@ -38,6 +43,10 @@ class PostForm extends Component {
       ),
       langDropdownOpen: false
     };
+
+    this.toggleAddPersonWorkModal = this.toggleAddPersonWorkModal.bind(this);
+    this.assignPerson = this.assignPerson.bind(this);
+    this.handleOnRemoveStaff = this.handleOnRemoveStaff.bind(this);
   }
 
   toggleDescriptionsDropdown = () => {
@@ -62,6 +71,23 @@ class PostForm extends Component {
   onChangeCheckbox = event => {
     let work = this.state.work;
     work[event.target.name] = !work[event.target.name];
+
+    this.setState({
+      work
+    });
+  };
+
+  onSelectGenre = event => {
+    const genreIdSelected = Number(event.target.value);
+    let work = this.state.work;
+
+    if (work.works_genres.find(g => g.genreId === genreIdSelected)) {
+      work.works_genres = work.works_genres.filter(
+        genre => genre.genreId !== genreIdSelected
+      );
+    } else {
+      work.works_genres.push({ genreId: genreIdSelected });
+    }
 
     this.setState({
       work
@@ -146,19 +172,63 @@ class PostForm extends Component {
     work.status = work.status === 0 ? workStatus[0].id : work.status;
     work.demographicId =
       work.demographicId === 0 ? genresDemographic[0].id : work.demographicId;
-    delete work.people_works;
-    delete work.works_genres;
     delete work.genres;
     delete work.createdAt;
 
     this.props.onSubmit(ev, work);
   };
 
+  toggleAddPersonWorkModal() {
+    this.setState({ isAddPersonWorkModal: !this.state.isAddPersonWorkModal });
+  }
+
+  assignPerson(staff) {
+    let work = this.state.work;
+    const isEqPerson = (a, c) => a.rol === c.rol && a.people.id === c.people.id;
+    work.people_works = [...work.people_works, ...staff];
+
+    if (work.people_works.length > 1) {
+      work.people_works = work.people_works.reduce((map, current) => {
+        if (map.length) {
+          if (!map.find(mp => isEqPerson(mp, current))) {
+            return [...map, current];
+          }
+        } else {
+          if (!isEqPerson(map, current)) {
+            return [map, current];
+          }
+        }
+
+        return map;
+      });
+    }
+
+    this.setState({
+      work
+    });
+  }
+
+  handleOnRemoveStaff(staff) {
+    let work = this.state.work;
+    work.people_works = work.people_works.filter(
+      rol => !(rol.rol === staff.rol && rol.people.id === staff.id)
+    );
+
+    this.setState({
+      work
+    });
+  }
+
   render() {
-    const { intl } = this.props;
-    const { work, isRecentUpload } = this.state;
+    const { onCreatePersonModal, intl } = this.props;
+    const { work, isRecentUpload, isAddPersonWorkModal } = this.state;
     return (
       <>
+        <AddPersonWorkModal
+          isOpen={isAddPersonWorkModal}
+          toggleModal={this.toggleAddPersonWorkModal}
+          onSubmit={this.assignPerson}
+        />
         <FormGroup>
           <Label for="name">
             <FormattedMessage id="main_name" defaultMessage="Main name" />
@@ -176,6 +246,38 @@ class PostForm extends Component {
             value={work.name}
             onChange={this.handleOnChange}
           />
+        </FormGroup>
+        <FormGroup>
+          <Label>
+            <FormattedMessage id="staff" defaultMessage="Staff" />
+          </Label>
+          <div>
+            <Button size="sm" onClick={this.toggleAddPersonWorkModal}>
+              <FormattedMessage id="add_staff" defaultMessage="Add Staff" />
+            </Button>
+            <Button
+              className="float-right"
+              size="sm"
+              onClick={onCreatePersonModal}
+            >
+              <FormattedMessage
+                id="create_person"
+                defaultMessage="Create Person"
+              />
+            </Button>
+            <div>
+              {work.people_works.length > 0 ? (
+                <Staff
+                  staff={work.people_works}
+                  onRemove={this.handleOnRemoveStaff}
+                />
+              ) : (
+                <span>
+                  <FormattedMessage id="no_staff" defaultMessage="No staff" />
+                </span>
+              )}
+            </div>
+          </div>
         </FormGroup>
         <FormGroup>
           <Label for="status">
@@ -289,15 +391,44 @@ class PostForm extends Component {
             {genresDemographic.map(st => (
               <option key={st.id + st.name} value={st.id}>
                 {intl.formatMessage({
-                  id: st.name,
+                  id: st.key,
                   defaultMessage: st.name
                 })}
               </option>
             ))}
           </Input>
         </FormGroup>
-
-        <FormGroup check>
+        <FormGroup>
+          <Label>
+            <FormattedMessage id="genres" defaultMessage="Genres" />
+          </Label>
+          <GenresWrapper>
+            {genresTypes.map(genre => (
+              <CustomInput
+                type="checkbox"
+                defaultChecked={work.works_genres.find(
+                  wg => wg.genreId === genre.id
+                )}
+                id={'genre_' + genre.name}
+                name={'genre_' + genre.name}
+                key={'genre_' + genre.name}
+                label={intl.formatMessage({
+                  id: genre.name,
+                  defaultMessage: genre.name
+                })}
+                value={genre.id}
+                onChange={this.onSelectGenre}
+              />
+            ))}
+          </GenresWrapper>
+        </FormGroup>
+        <FormGroup>
+          <Label>
+            <FormattedMessage
+              id="additional_information"
+              defaultMessage="Additional Information"
+            />
+          </Label>
           <CustomInput
             type="checkbox"
             id="adult"
@@ -321,7 +452,6 @@ class PostForm extends Component {
             onChange={this.onChangeCheckbox}
           />
         </FormGroup>
-
         <FormGroup>
           <Label for="uploadCover">
             <FormattedMessage id="cover" defaultMessage="Cover" />

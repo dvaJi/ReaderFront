@@ -10,7 +10,7 @@ const borderColor = theme('mode', {
 
 export const ChapterListStyle = styled.div`
   text-align: left;
-  margin: 3rem 0 1rem 0;
+  margin: 2rem 0 1rem 0;
 `;
 
 export const List = styled.div`
@@ -22,6 +22,11 @@ export const List = styled.div`
   position: relative;
   padding-left: 0;
   list-style-type: none;
+`;
+
+export const NoChapters = styled.div`
+  font-size: 1.5rem;
+  margin-left: 10px;
 `;
 
 export const Title = styled.h2`

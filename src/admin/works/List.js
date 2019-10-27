@@ -51,7 +51,7 @@ function List({ intl, mutate }) {
         <div style={{ margin: '10px 5px' }}>
           <ButtonLink color="primary" to={'/admincp/work/add'}>
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            <FormattedMessage id="add_work" defaultMessage="Add Work" />
+            <FormattedMessage id="create_work" defaultMessage="Create Work" />
           </ButtonLink>
 
           <Input
@@ -168,7 +168,6 @@ function List({ intl, mutate }) {
                           <td style={{ textAlign: 'center' }}>
                             <ButtonGroup size="sm">
                               <ButtonLink
-                                tag={Link}
                                 size="sm"
                                 to={'/admincp/work/edit/' + stub}
                               >

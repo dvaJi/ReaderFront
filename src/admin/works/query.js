@@ -22,6 +22,9 @@ export const FETCH_WORKS = gql`
         description
         language
       }
+      works_genres {
+        genreId
+      }
     }
   }
 `;
@@ -49,6 +52,7 @@ export const FETCH_WORK = gql`
         people {
           id
           name
+          thumbnail
         }
       }
       works_genres {
@@ -72,6 +76,17 @@ export const FETCH_CHAPTERS = gql`
       releaseDate
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const SEARCH_PEOPLE = gql`
+  query SearchPeopleByName($name: String, $first: Int, $offset: Int) {
+    searchPeopleByName(name: $name, first: $first, offset: $offset) {
+      id
+      name
+      name_kanji
+      thumbnail
     }
   }
 `;
