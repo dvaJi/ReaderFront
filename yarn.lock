@@ -7186,10 +7186,10 @@ jest-message-util@^24.9.0:
     slash "^2.0.0"
     stack-utils "^1.0.1"
 
-jest-mock-axios@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/jest-mock-axios/-/jest-mock-axios-3.1.1.tgz#e8776c06a929b11ee8861c6a24dcf5ca7926f03a"
-  integrity sha512-3GCDj4aMk9+tRbU4wKZCHrewMdmyI/SuNF/2/ezzxRNAct+herwvy44Seeq7iLTAeFBiuEcL7gVfyf4TV+hUwg==
+jest-mock-axios@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jest-mock-axios/-/jest-mock-axios-3.1.2.tgz#06b036ddf6adb9de4611fb6c8d4ceb47fe5c733d"
+  integrity sha512-N+G5qaBe3XNykJa6Pc13N3uFIR+5tDkdT2AV7ca3ZActHwyy5/NGgmmPraJyBXp3VxBqkSLg1NoAu0o6MWnYgg==
   dependencies:
     synchronous-promise "^2.0.10"
 
