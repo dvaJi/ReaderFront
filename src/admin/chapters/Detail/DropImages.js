@@ -21,6 +21,7 @@ class DropImages extends Component {
 
     this.state = {
       error: null,
+      isUploading: false,
       pages: props.chapter.pages.map(pag => ({ ...pag, uploaded: true })),
       defaultPage: props.chapter.thumbnail,
       pageView: 'list'
@@ -56,7 +57,8 @@ class DropImages extends Component {
     const { intl, createPage, chapter } = this.props;
     const { pages } = this.state;
 
-    await this.setState({
+    this.setState({
+      isUploading: true,
       pages: [
         ...pages.filter(p => p.filename !== file.filename),
         { ...file, isUploading: true, hasError: false }
@@ -107,11 +109,10 @@ class DropImages extends Component {
             }
           ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-          this.setState({ pages: newPages });
+          this.setState({ pages: newPages, isUploading: false });
           return file;
         }
       } catch (err) {
-        console.error(err);
         const newPages = [
           ...this.state.pages.filter(p => p.filename !== file.filename),
           { ...file, isUploading: false, hasError: true }
@@ -122,12 +123,12 @@ class DropImages extends Component {
             id: 'unknown_error',
             defaultMessage: 'There was some error. Please try again.'
           }),
+          isUploading: false,
           pages: newPages
         });
         return null;
       }
     } catch (err) {
-      console.error(err);
       const newPages = [
         ...this.state.pages.filter(p => p.filename !== file.filename),
         { ...file, isUploading: false, hasError: true }
@@ -138,6 +139,7 @@ class DropImages extends Component {
           id: 'unknown_error',
           defaultMessage: 'There was some error. Please try again.'
         }),
+        isUploading: false,
         pages: newPages
       });
       return null;
@@ -215,7 +217,7 @@ class DropImages extends Component {
   };
 
   render() {
-    const { pageView, pages, defaultPage } = this.state;
+    const { isUploading, pageView, pages, defaultPage } = this.state;
     const { chapter } = this.props;
     return (
       <>
@@ -223,6 +225,7 @@ class DropImages extends Component {
           uploadAll={this.handleUploadAll}
           deleteAll={this.handleRemoveAll}
           changeView={this.handleSetPageView}
+          isUploading={isUploading}
           actualView={pageView}
           pages={pages}
         />
