@@ -16,6 +16,7 @@ function DetailActions({
   changeView,
   uploadAll,
   deleteAll,
+  isUploading = false,
   pages = []
 }) {
   const pagesToupload = pages.filter(p => !p.uploaded);
@@ -25,7 +26,7 @@ function DetailActions({
         id="upload-all-pages"
         type="button"
         onClick={uploadAll}
-        disabled={pagesToupload.length === 0}
+        disabled={isUploading || pagesToupload.length === 0}
       >
         <FontAwesomeIcon icon={faFileUpload} />{' '}
         <FormattedMessage
@@ -38,7 +39,7 @@ function DetailActions({
         id="delete-all-pages"
         type="button"
         onClick={deleteAll}
-        disabled={pages.length === 0}
+        disabled={isUploading || pages.length === 0}
       >
         <FontAwesomeIcon icon={faTimes} />{' '}
         <FormattedMessage id="delete_all" defaultMessage="Delete all" />
