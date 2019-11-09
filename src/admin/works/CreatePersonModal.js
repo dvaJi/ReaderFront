@@ -6,7 +6,6 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 // App Imports
 import { Button, Input, Textarea, Label, FormGroup } from 'common/ui';
 import { CREATE_PERSON } from './mutation';
-import { SEARCH_PEOPLE } from './query';
 
 function CreatePersonModal({ isOpen, toggleModal, intl }) {
   const [personName, setPersonName] = useState('');
@@ -107,7 +106,7 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
       <ModalFooter>
         <Mutation
           mutation={CREATE_PERSON}
-          refetchQueries={SEARCH_PEOPLE}
+          refetchQueries={['SearchPeopleByName']}
           variables={{
             name: personName,
             name_kanji: personNameKanji,
