@@ -2,16 +2,21 @@ import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 import { chapterTitle } from 'utils/common';
+import { useChapterSeen } from 'common/useChapterSeen';
 import { READER_PATH, ANONYMIZER_DOWNLOADS } from '../../config';
-import { ChapterRow } from './styles';
+import { ChapterRow, ChapterIsSeen } from './styles';
 
 function Chapter({ work, chapter, language, intl }) {
   const dir = `${work.stub}/${language.name}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
+  const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
+
   return (
-    <ChapterRow className="clearfix">
+    <ChapterRow className="clearfix" isSeen={isSeen}>
+      <ChapterIsSeen onClick={() => setIsSeen(!isSeen)}>
+        <FontAwesomeIcon icon={isSeen ? 'eye-slash' : 'eye'} />
+      </ChapterIsSeen>
       <Link to={`/read/${dir}`} className="Chapter">
         {chapterTitle({ chapter, intl })}
       </Link>
@@ -26,7 +31,7 @@ function Chapter({ work, chapter, language, intl }) {
             defaultMessage: 'Download chapter'
           })}
         >
-          <FontAwesomeIcon icon={faDownload} />
+          <FontAwesomeIcon icon="download" />
         </a>
       </div>
     </ChapterRow>

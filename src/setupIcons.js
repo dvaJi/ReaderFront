@@ -7,7 +7,9 @@ import {
   faFlag,
   faWindowMaximize,
   faDownload,
-  faComments
+  faComments,
+  faEye,
+  faEyeSlash
 } from '@fortawesome/free-solid-svg-icons';
 
 function setupIcons() {
@@ -18,7 +20,9 @@ function setupIcons() {
     faFlag,
     faWindowMaximize,
     faDownload,
-    faComments
+    faComments,
+    faEye,
+    faEyeSlash
   );
 }
 

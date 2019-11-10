@@ -15,7 +15,7 @@ import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
 import { ReaderMain } from '../components/styles';
 
-function ReaderContainer({ match, history, intl }) {
+function ReaderContainer({ match, intl }) {
   const [showComments, toggleComments] = useState(false);
   const [showNav, toggleNav] = useState(true);
   useEffect(() => {
@@ -58,7 +58,6 @@ function ReaderContainer({ match, history, intl }) {
                 language={languageNameToId(lang)}
                 toggleComments={toggleComments}
                 showNav={showNav}
-                history={history}
               />
               <ImagesList
                 id={actualChapter.id}
