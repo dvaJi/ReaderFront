@@ -1,25 +1,22 @@
-import { useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useState, useEffect } from 'react';
 
-export function useLocalStorage(key, initialValue) {
+export function useLocalStorage(key, defaultValue) {
   const [storedValue, setStoredValue] = useState(() => {
+    let value;
     try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
+      value = JSON.parse(
+        window.localStorage.getItem(key) || String(defaultValue)
+      );
     } catch (error) {
-      return initialValue;
+      value = defaultValue;
     }
+    return value;
   });
 
-  const setValue = value => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      //console.log(error);
-    }
-  };
+  useEffect(() => {
+    window.localStorage.setItem(key, JSON.stringify(storedValue));
+  }, [storedValue]);
 
-  return [storedValue, setValue];
+  return [storedValue, setStoredValue];
 }
