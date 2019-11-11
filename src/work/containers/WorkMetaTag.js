@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { APP_TITLE, APP_VERSION, APP_URL } from '../../config';
-import { genreTypeIdToName } from '../../utils/common';
 import { getImage } from '../../common/Image';
 
 const MetaTag = ({ work, language, intl }) => {
@@ -73,11 +72,11 @@ const MetaTag = ({ work, language, intl }) => {
                 "dateCreated": "${work.createdAt}",
                 "dateModified": "${work.updatedAt}",
                 "genre": [
-                  ${work.works_genres.map(
+                  ${work.genres.map(
                     g =>
                       `"${intl.formatMessage({
-                        id: genreTypeIdToName(g.genreId),
-                        defaultMessage: genreTypeIdToName(g.genreId)
+                        id: g.name,
+                        defaultMessage: g.name
                       })}"`
                   )}
                 ],
@@ -89,18 +88,15 @@ const MetaTag = ({ work, language, intl }) => {
           }`}
         </script>
       </Helmet>
-      {work.works_genres.map(g => {
-        const genre = genreTypeIdToName(g.genreId);
-        return (
-          <FormattedMessage id={genre} key={genre} defaultMessage={genre}>
-            {genre => (
-              <Helmet>
-                <meta property="book:tag" content={genre} />
-              </Helmet>
-            )}
-          </FormattedMessage>
-        );
-      })}
+      {work.genres.map(g => (
+        <FormattedMessage id={g.name} key={g.name} defaultMessage={g.name}>
+          {genre => (
+            <Helmet>
+              <meta property="book:tag" content={genre} />
+            </Helmet>
+          )}
+        </FormattedMessage>
+      ))}
       <FormattedMessage
         id="cover_alt"
         defaultMessage="Cover for {workName}"

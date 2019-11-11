@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Query, graphql } from 'react-apollo';
+import { compose, Query, graphql } from 'react-apollo';
 
 // App Imports
 import {
@@ -18,14 +18,15 @@ import {
 import { MetaTagList } from './ACPWorksMetaTags';
 import { FETCH_WORKS } from './query';
 import { REMOVE_WORK } from './mutation';
-import { languageIdToName } from 'utils/common';
 
 function List({ intl, mutate }) {
+  const { formatMessage: f } = useIntl();
   const [searchText, setText] = useState('');
+
   const remove = async id => {
     if (id > 0) {
       let check = window.confirm(
-        intl.formatMessage({
+        f({
           id: 'confirm_delete_work',
           defaultMessage: 'Are you sure to delete this work?'
         })
@@ -51,7 +52,7 @@ function List({ intl, mutate }) {
         <div style={{ margin: '10px 5px' }}>
           <ButtonLink color="primary" to={'/admincp/work/add'}>
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            <FormattedMessage id="create_work" defaultMessage="Create Work" />
+            {f({ id: 'create_work', defaultMessage: 'Create Work' })}
           </ButtonLink>
 
           <Input
@@ -59,7 +60,7 @@ function List({ intl, mutate }) {
             name="search-work"
             id="search-work"
             className="float-right"
-            placeholder={intl.formatMessage({
+            placeholder={f({
               id: 'search_work',
               defaultMessage: 'Search...'
             })}
@@ -72,23 +73,11 @@ function List({ intl, mutate }) {
         <Table bordered hover>
           <thead>
             <tr>
-              <th>
-                <FormattedMessage id="name" defaultMessage="Name" />
-              </th>
-              <th>
-                <FormattedMessage id="type" defaultMessage="Type" />
-              </th>
-              <th>
-                <FormattedMessage id="language" defaultMessage="Language" />
-              </th>
-              <th>
-                <FormattedMessage id="created_at" defaultMessage="Created at" />
-              </th>
-              <th>
-                <FormattedMessage id="updated_at" defaultMessage="Updated at" />
-              </th>
+              <th>{f({ id: 'name', defaultMessage: 'Name' })}</th>
+              <th>{f({ id: 'type', defaultMessage: 'Type' })}</th>
+              <th>{f({ id: 'language', defaultMessage: 'Language' })}</th>
               <th style={{ textAlign: 'center' }}>
-                <FormattedMessage id="actions" defaultMessage="Actions" />
+                {f({ id: 'actions', defaultMessage: 'Actions' })}
               </th>
             </tr>
           </thead>
@@ -100,10 +89,7 @@ function List({ intl, mutate }) {
                   return (
                     <tr>
                       <td colSpan="7">
-                        <FormattedMessage
-                          id="loading"
-                          defaultMessage="Loading..."
-                        />
+                        {f({ id: 'loading', defaultMessage: 'Loading...' })}
                       </td>
                     </tr>
                   );
@@ -115,89 +101,66 @@ function List({ intl, mutate }) {
                         .toUpperCase()
                         .startsWith(searchText.toUpperCase())
                     )
-                    .map(
-                      ({
-                        id,
-                        stub,
-                        type,
-                        works_descriptions,
-                        name,
-                        createdAt,
-                        updatedAt
-                      }) => (
-                        <tr key={id}>
-                          <td>
-                            <Link to={'/admincp/work/' + id + '/' + stub}>
-                              {name}
-                            </Link>
-                          </td>
+                    .map(({ id, stub, type, languages, name }) => (
+                      <tr key={id}>
+                        <td>
+                          <Link to={'/admincp/work/' + id + '/' + stub}>
+                            {name}
+                          </Link>
+                        </td>
 
-                          <td>{type}</td>
+                        <td>{type}</td>
 
-                          <td style={{ textAlign: 'center' }}>
-                            {works_descriptions.length > 0 ? (
-                              works_descriptions.map((desc, i) => {
-                                const comma = i !== 0 ? ', ' : '';
-                                return comma + languageIdToName(desc.language);
-                              })
-                            ) : (
-                              <span>
-                                <FontAwesomeIcon
-                                  id={'noDescWarn-' + id}
-                                  title="asdasd"
-                                  color="#f2a900"
-                                  icon={faExclamationCircle}
-                                />
-                                <UncontrolledTooltip
-                                  placement="bottom"
-                                  target={'noDescWarn-' + id}
-                                >
-                                  <FormattedMessage
-                                    id="work_no_desc_added"
-                                    defaultMessage="This work will not be displayed, please add a description"
-                                  />
-                                </UncontrolledTooltip>
-                              </span>
-                            )}
-                          </td>
-
-                          <td>{new Date(createdAt).toDateString()}</td>
-
-                          <td>{new Date(updatedAt).toDateString()}</td>
-
-                          <td style={{ textAlign: 'center' }}>
-                            <ButtonGroup size="sm">
-                              <ButtonLink
-                                size="sm"
-                                to={'/admincp/work/edit/' + stub}
+                        <td style={{ textAlign: 'center' }}>
+                          {languages.length > 0 ? (
+                            languages
+                              .map(desc => f({ id: `${desc.name}_full` }))
+                              .join(', ')
+                          ) : (
+                            <span>
+                              <FontAwesomeIcon
+                                id={'noDescWarn-' + id}
+                                title="asdasd"
+                                color="#f2a900"
+                                icon={faExclamationCircle}
+                              />
+                              <UncontrolledTooltip
+                                placement="bottom"
+                                target={'noDescWarn-' + id}
                               >
-                                <FormattedMessage
-                                  id="edit"
-                                  defaultMessage="Edit"
-                                />
-                              </ButtonLink>
-                              <Button
-                                key={'delete-' + id}
-                                size="sm"
-                                onClick={() => remove(id)}
-                              >
-                                <FormattedMessage
-                                  id="remove"
-                                  defaultMessage="Remove"
-                                />
-                              </Button>
-                            </ButtonGroup>
-                          </td>
-                        </tr>
-                      )
-                    )
+                                {f({
+                                  id: 'work_no_desc_added',
+                                  defaultMessage:
+                                    'This work will not be displayed, please add a description'
+                                })}
+                              </UncontrolledTooltip>
+                            </span>
+                          )}
+                        </td>
+
+                        <td style={{ textAlign: 'center' }}>
+                          <ButtonGroup size="sm">
+                            <ButtonLink
+                              size="sm"
+                              to={'/admincp/work/edit/' + stub}
+                            >
+                              {f({ id: 'edit', defaultMessage: 'Edit' })}
+                            </ButtonLink>
+                            <Button
+                              key={'delete-' + id}
+                              size="sm"
+                              onClick={() => remove(id)}
+                            >
+                              {f({ id: 'remove', defaultMessage: 'Remove' })}
+                            </Button>
+                          </ButtonGroup>
+                        </td>
+                      </tr>
+                    ))
                 ) : (
                   <tr>
                     <td colSpan="6">
-                      <FormattedMessage
-                        id="works_empty"
-                        defaultMessage="Works empty"
-                      />
+                      {f({ id: 'works_empty', defaultMessage: 'Works empty' })}
                     </td>
                   </tr>
                 );
@@ -210,4 +173,4 @@ function List({ intl, mutate }) {
   );
 }
 
-export default graphql(REMOVE_WORK)(injectIntl(List));
+export default compose(graphql(REMOVE_WORK, { name: 'removeWork' }))(List);
