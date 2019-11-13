@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Query } from 'react-apollo';
 import { UncontrolledTooltip } from 'reactstrap';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TITLE, ANONYMIZER_DOWNLOADS, READER_PATH } from '../../config';
@@ -22,14 +22,8 @@ import {
 } from '../components/styles';
 import ReaderSettings from '../components/ReaderSettings';
 
-function ReaderControls({
-  work,
-  language,
-  chapter,
-  toggleComments,
-  intl,
-  showNav
-}) {
+function ReaderControls({ work, language, chapter, toggleComments, showNav }) {
+  const { formatMessage: f } = useIntl();
   const [showSettings, toggleShowSettings] = useState(false);
   const workUrl = `/work/${work.stub}`;
   const chapterDownload = `${ANONYMIZER_DOWNLOADS + READER_PATH}download/${
@@ -64,7 +58,6 @@ function ReaderControls({
                   language={language}
                   chapter={chapter}
                   work={work}
-                  intl={intl}
                 />
               </ReaderControlsChapters>
             </ReaderControlsChapterInfo>
@@ -78,10 +71,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="comments" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="show-comments">
-              <FormattedMessage
-                id="show_comments"
-                defaultMessage="Show Comments"
-              />
+              {f({
+                id: 'show_comments',
+                defaultMessage: 'Show Comments'
+              })}
             </UncontrolledTooltip>
             <a
               title="Download chapter"
@@ -93,10 +86,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="download" size="lg" />
             </a>
             <UncontrolledTooltip placement="bottom" target="download-chapter">
-              <FormattedMessage
-                id="download_chapter"
-                defaultMessage="Download Chapter"
-              />
+              {f({
+                id: 'download_chapter',
+                defaultMessage: 'Download Chapter'
+              })}
             </UncontrolledTooltip>
             <button
               title="Reader settings"
@@ -106,10 +99,7 @@ function ReaderControls({
               <FontAwesomeIcon icon="cog" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="settings-button">
-              <FormattedMessage
-                id="reader_settings"
-                defaultMessage="Reader Settings"
-              />
+              {f({ id: 'reader_settings', defaultMessage: 'Reader Settings' })}
             </UncontrolledTooltip>
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>
@@ -128,7 +118,8 @@ function ReaderControls({
   );
 }
 
-const ChaptersSelects = ({ workStub, language, chapter, work, intl }) => {
+const ChaptersSelects = ({ workStub, language, chapter, work }) => {
+  const { formatMessage: f } = useIntl();
   const history = useHistory();
   return (
     <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
@@ -148,7 +139,7 @@ const ChaptersSelects = ({ workStub, language, chapter, work, intl }) => {
           >
             {data.chaptersByWork.map(ch => (
               <option value={ch.id} key={`select-${ch.id}`}>
-                {chapterTitle({ chapter: ch, intl })}
+                {chapterTitle({ chapter: ch, f })}
               </option>
             ))}
           </select>
@@ -158,4 +149,4 @@ const ChaptersSelects = ({ workStub, language, chapter, work, intl }) => {
   );
 };
 
-export default injectIntl(ReaderControls);
+export default ReaderControls;

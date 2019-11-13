@@ -11,7 +11,7 @@ export const FETCH_WORK = gql`
       demographicId
       status
       adult
-      thumbnail
+      thumbnail_path
       createdAt
       updatedAt
       chapters {

@@ -77,13 +77,7 @@ export default class PostsList extends PureComponent {
               <PostCard
                 onClick={this.doSelect}
                 post={post}
-                thumbnail={getImage(
-                  `images/blog/${post.uniqid}/${post.thumbnail}`,
-                  310,
-                  305,
-                  index,
-                  true
-                )}
+                thumbnail={getImage(post.thumbnail_path, 310, 305, index, true)}
               >
                 <ReactMarkdown
                   source={subString(post.content, 150)}

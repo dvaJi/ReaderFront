@@ -21,22 +21,18 @@ export default class Block extends PureComponent {
   }
 
   imageToDisplay(blockId, index, chapter) {
-    const thumbPath =
-      chapter.thumbnail !== ''
-        ? `works/${chapter.work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
-        : '/static/images/default-cover.png';
     if (blockId === 1) {
-      return getImage(thumbPath, 334, 332, index, true);
+      return getImage(chapter.thumbnail_path, 334, 332, index, true);
     } else if (blockId === 2) {
-      return getImage(thumbPath, 163, 320, index, true);
+      return getImage(chapter.thumbnail_path, 163, 320, index, true);
     } else if (blockId === 3 && index > 1) {
-      return getImage(thumbPath, 215, 430, index, true);
+      return getImage(chapter.thumbnail_path, 215, 430, index, true);
     } else if (blockId === 5 && index <= 1) {
-      return getImage(thumbPath, 184, 315, index, true);
+      return getImage(chapter.thumbnail_path, 184, 315, index, true);
     } else if (blockId === 5 && index > 1) {
-      return getImage(thumbPath, 145, 210, index, true);
+      return getImage(chapter.thumbnail_path, 145, 210, index, true);
     } else {
-      return getImage(thumbPath, 111, 212, index, true);
+      return getImage(chapter.thumbnail_path, 111, 212, index, true);
     }
   }
 

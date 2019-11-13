@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import { useIntl } from 'react-intl';
 import ReactMarkdown from 'react-markdown';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,8 +11,9 @@ import { getImage } from '../../common/Image';
 import { HeroBg, HeroContainer, CardView } from './styles';
 
 export default memo(function PostView({ post, onClickBack }) {
-  const { title, content, uniqid, thumbnail } = post;
-  const portrait = getImage(`images/blog/${uniqid}/${thumbnail}`);
+  const { title, content, thumbnail_path } = post;
+  const portrait = getImage(thumbnail_path);
+  const { formatMessage: f } = useIntl();
   const heroTransition = useTransition([portrait], null, {
     from: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' },
     enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },
@@ -40,7 +42,8 @@ export default memo(function PostView({ post, onClickBack }) {
             onClick={onClickBack}
             to={'/blog'}
           >
-            <FontAwesomeIcon icon={faArrowLeft} /> Volver
+            <FontAwesomeIcon icon={faArrowLeft} />
+            {f({ id: 'go_back', defaultMessage: 'Back' })}
           </ButtonLink>
           {titleTransition.map(({ item, key, props }) => (
             <animated.div key={key} style={props}>

@@ -1,7 +1,12 @@
 import gql from 'graphql-tag';
 
 export const FETCH_RELEASES = gql`
-  query Chapters($language: Int, $orderBy: String, $first: Int, $offset: Int) {
+  query HomeChapters(
+    $language: Int
+    $orderBy: String
+    $first: Int
+    $offset: Int
+  ) {
     chapters(
       language: $language
       orderBy: $orderBy
@@ -17,7 +22,7 @@ export const FETCH_RELEASES = gql`
       name
       stub
       uniqid
-      thumbnail
+      thumbnail_path
       releaseDate
       work {
         id
@@ -48,7 +53,7 @@ export const FETCH_LATEST_WORKS = gql`
       demographicId
       status
       adult
-      thumbnail
+      thumbnail_path
       works_descriptions {
         description
       }
@@ -67,7 +72,7 @@ export const FETCH_RANDOM_WORK = gql`
       demographicId
       status
       adult
-      thumbnail
+      thumbnail_path
       works_descriptions {
         description
       }

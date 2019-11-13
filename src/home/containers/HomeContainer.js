@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 
 import params from '../../params.json';
 import * as config from '../../config';
-import { subString } from '../../utils/helpers';
+import { subString } from 'utils/helpers';
 import {
   FETCH_RELEASES,
   FETCH_LATEST_WORKS,
@@ -16,6 +16,7 @@ import HomeMetaTags from './HomeMetaTags';
 import ComicSlide from '../components/ComicSlide';
 import DiscordWidget from '../components/DiscordWidget';
 import RecommendedWork from '../components/RecommendedWork';
+import RecommendedWorkLoading from '../components/RecommendedWork/RecommendedWorkLoading';
 import LatestWorks from '../components/LatestWorks';
 
 const generateRandomBlock = previousBlock => {
@@ -57,7 +58,7 @@ const LatestReleases = ({ language }) => (
   >
     {({ loading, error, data }) => {
       if (loading) return <ComicSlide blocks={[]} isLoading={true} />;
-      if (error) return <p id="error_releases">Error :(</p>;
+      if (error) return <ComicSlide blocks={[]} isLoading={true} />;
 
       return (
         <ComicSlide blocks={createBlocks(data.chapters)} isLoading={false} />
@@ -70,7 +71,7 @@ const LatestWorksAdded = ({ language }) => (
   <Query query={FETCH_LATEST_WORKS} variables={{ language }}>
     {({ loading, error, data }) => {
       if (loading) return <LatestWorks blocks={[]} isLoading={true} />;
-      if (error) return <p id="error_releases">Error :(</p>;
+      if (error) return <LatestWorks blocks={[]} isLoading={true} />;
 
       return <LatestWorks works={data.works} isLoading={false} />;
     }}
@@ -80,11 +81,8 @@ const LatestWorksAdded = ({ language }) => (
 const RandomWork = ({ language }) => (
   <Query query={FETCH_RANDOM_WORK} variables={{ language }}>
     {({ loading, error, data }) => {
-      if (loading)
-        return (
-          <RecommendedWork isLoading={true} work={null} description={''} />
-        );
-      if (error) return <p id="error_releases">Error :(</p>;
+      if (loading) return <RecommendedWorkLoading />;
+      if (error) return <RecommendedWorkLoading />;
 
       const description =
         data.workRandom !== null

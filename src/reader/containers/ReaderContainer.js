@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 // App imports
 import { languageNameToId, chapterTitle, chapterUrl } from '../../utils/common';
@@ -15,9 +15,10 @@ import Comments from '../components/Comments';
 import { FETCH_CHAPTER } from './queries';
 import { ReaderMain } from '../components/styles';
 
-function ReaderContainer({ match, intl }) {
+function ReaderContainer({ match }) {
   const [showComments, toggleComments] = useState(false);
   const [showNav, toggleNav] = useState(true);
+  const { formatMessage: f } = useIntl();
   useEffect(() => {
     let timer1 = setTimeout(() => toggleNav(false), 5000);
 
@@ -46,7 +47,7 @@ function ReaderContainer({ match, intl }) {
           const disqusConfig = {
             id: `${actualChapter.work.uniqid}-${actualChapter.uniqid}`,
             path: chapterUrl(actualChapter, actualChapter.work),
-            title: chapterTitle({ chapter: actualChapter, intl })
+            title: chapterTitle({ chapter: actualChapter, f })
           };
 
           return (
@@ -86,4 +87,4 @@ const mapStateToProps = (state, own) => {
   };
 };
 
-export default connect(mapStateToProps)(injectIntl(ReaderContainer));
+export default connect(mapStateToProps)(ReaderContainer);
