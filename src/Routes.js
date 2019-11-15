@@ -182,8 +182,8 @@ export default (
     <Route
       path="/auth/logout"
       exact
-      render={() => {
-        logout();
+      render={async () => {
+        await logout();
         return <Redirect push to="/auth/login" />;
       }}
     />

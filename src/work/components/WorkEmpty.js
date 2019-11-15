@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import theme from 'styled-theming';
 import { InfoStyle } from './Info';
@@ -46,68 +46,68 @@ const Cover = styled.div`
   min-height: 300px;
 `;
 
-export default class SerieEmpty extends PureComponent {
-  render() {
-    return (
-      <div className="SerieEmpty shimme-serie row">
-        <div className="col-md-4">
-          <Cover className="show-loading-animation">{'\u00A0'}</Cover>
-        </div>
-        <div className="col-md-8 col-md-offset-1">
-          <Info>
-            <Description>
-              <h4>
-                <InfoTitle className="show-loading-animation">
-                  {'\u00A0'}
-                </InfoTitle>
-              </h4>
-              <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
-            </Description>
-            <Description>
-              <h4>
-                <InfoTitle className="show-loading-animation">
-                  {'\u00A0'}
-                </InfoTitle>
-              </h4>
-              <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
-              <h4>
-                <InfoTitle className="show-loading-animation">
-                  {'\u00A0'}
-                </InfoTitle>
-              </h4>
-              <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
-            </Description>
-          </Info>
-        </div>
-        <ChapterListStyle className="col-md-12">
-          <h2>
-            <TextTitle className="show-loading-animation">{'\u00A0'}</TextTitle>
-          </h2>
-          <ChaptersList>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-            <ChapterRow>
-              <Text className="show-loading-animation">{'\u00A0'}</Text>
-            </ChapterRow>
-          </ChaptersList>
-        </ChapterListStyle>
+function SerieEmpty() {
+  return (
+    <div className="SerieEmpty shimme-serie row">
+      <div className="col-md-4">
+        <Cover className="show-loading-animation">{'\u00A0'}</Cover>
       </div>
-    );
-  }
+      <div className="col-md-8 col-md-offset-1">
+        <Info>
+          <Description>
+            <h4>
+              <InfoTitle className="show-loading-animation">
+                {'\u00A0'}
+              </InfoTitle>
+            </h4>
+            <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
+          </Description>
+          <Description>
+            <h4>
+              <InfoTitle className="show-loading-animation">
+                {'\u00A0'}
+              </InfoTitle>
+            </h4>
+            <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
+            <h4>
+              <InfoTitle className="show-loading-animation">
+                {'\u00A0'}
+              </InfoTitle>
+            </h4>
+            <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
+          </Description>
+        </Info>
+      </div>
+      <ChapterListStyle className="col-md-12">
+        <h2>
+          <TextTitle className="show-loading-animation">{'\u00A0'}</TextTitle>
+        </h2>
+        <ChaptersList>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+          <ChapterRow>
+            <Text className="show-loading-animation">{'\u00A0'}</Text>
+          </ChapterRow>
+        </ChaptersList>
+      </ChapterListStyle>
+    </div>
+  );
 }
+
+export default memo(SerieEmpty);

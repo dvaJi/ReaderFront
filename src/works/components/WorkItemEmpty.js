@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import theme from 'styled-theming';
 
@@ -112,34 +112,30 @@ const Cover = styled.div`
   }
 `;
 
-export default class WorkItemEmpty extends PureComponent {
-  render() {
-    return (
-      <Card className="shimme-card">
-        <Cover size={this.props.size}>
-          <div className="card-media-img show-loading-animation" />
-        </Cover>
-        <CardBody size={this.props.size}>
-          {this.props.size !== 'small' && (
-            <h2 className="card-body-heading shimme-title">
-              <div className="shimme-text show-loading-animation">
-                {'\u00A0'}
-              </div>
-            </h2>
-          )}
-          <ul className="card-body-description">
-            <div className="shimme-text shimme-desc show-loading-animation">
-              {'\u00A0'}
-            </div>
-            <div className="shimme-text shimme-desc show-loading-animation">
-              {'\u00A0'}
-            </div>
-            <div className="shimme-text shimme-desc show-loading-animation">
-              {'\u00A0'}
-            </div>
-          </ul>
-        </CardBody>
-      </Card>
-    );
-  }
+export default function WorkItemEmpty({ size }) {
+  return (
+    <Card className="shimme-card">
+      <Cover size={size}>
+        <div className="card-media-img show-loading-animation" />
+      </Cover>
+      <CardBody size={size}>
+        {size !== 'small' && (
+          <h2 className="card-body-heading shimme-title">
+            <div className="shimme-text show-loading-animation">{'\u00A0'}</div>
+          </h2>
+        )}
+        <ul className="card-body-description">
+          <div className="shimme-text shimme-desc show-loading-animation">
+            {'\u00A0'}
+          </div>
+          <div className="shimme-text shimme-desc show-loading-animation">
+            {'\u00A0'}
+          </div>
+          <div className="shimme-text shimme-desc show-loading-animation">
+            {'\u00A0'}
+          </div>
+        </ul>
+      </CardBody>
+    </Card>
+  );
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -10,14 +10,8 @@ const Content = styled.span`
   transition: all 0.2s ease;
   border-radius: 5px;
   padding: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
 `;
 
@@ -32,6 +26,8 @@ const Button = styled.button`
   transition: all 0.2s ease;
   overflow: hidden;
   position: absolute;
+  width: 60px;
+  height: 60px;
   margin: 5px;
   bottom: -41px;
   right: 40px;
@@ -56,18 +52,14 @@ const NextIcon = styled(FontAwesomeIcon)`
   font-size: 30px;
 `;
 
-export default class NextButton extends PureComponent {
-  render() {
-    return (
-      <Button
-        onClick={e => this.props.handleClick()}
-        aria-label="Next"
-        type="button"
-      >
-        <Content>
-          <NextIcon icon={faArrowRight} />
-        </Content>
-      </Button>
-    );
-  }
+function NextButton({ handleClick }) {
+  return (
+    <Button onClick={() => handleClick()} aria-label="Next" type="button">
+      <Content>
+        <NextIcon icon={faArrowRight} />
+      </Content>
+    </Button>
+  );
 }
+
+export default NextButton;

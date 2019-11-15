@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { getImage } from '../../../common/Image';
-import { languageIdToName } from '../../../utils/common';
+import { getImage } from 'common/Image';
 
 const Image = styled(Link)`
   background-image: url('${props => props.image}');
@@ -13,14 +12,8 @@ const Image = styled(Link)`
   }
 `;
 
-export default class Block extends PureComponent {
-  chapterUrl(block) {
-    return `read/${block.work.stub}/${languageIdToName(block.language)}/${
-      block.volume
-    }/${block.chapter}.${block.subchapter}`;
-  }
-
-  imageToDisplay(blockId, index, chapter) {
+export default function Block({ blockId, blocks, blockStyle }) {
+  const imageToDisplay = (index, chapter) => {
     if (blockId === 1) {
       return getImage(chapter.thumbnail_path, 334, 332, index, true);
     } else if (blockId === 2) {
@@ -34,33 +27,29 @@ export default class Block extends PureComponent {
     } else {
       return getImage(chapter.thumbnail_path, 111, 212, index, true);
     }
-  }
+  };
 
-  render() {
-    return (
-      <ul
-        className={`comic-slide-list-block ${this.props.blockStyle} comic-slide-fr-slide`}
-        aria-hidden="true"
-        tabIndex="-1"
-      >
-        {this.props.blocks.map((chapter, index) => (
-          <li key={index}>
-            <Image
-              to={this.chapterUrl(chapter)}
-              image={this.imageToDisplay(this.props.blockId, index, chapter)}
-              tabIndex="-1"
-              className={chapter.work.adult ? 'is-adult' : ''}
-            >
-              <span>
-                {chapter.work.name} - Cap. {chapter.chapter}
-                {Number(chapter.subchapter) !== 0
-                  ? '.' + chapter.subchapter
-                  : ''}
-              </span>
-            </Image>
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  return (
+    <ul
+      className={`comic-slide-list-block ${blockStyle} comic-slide-fr-slide`}
+      aria-hidden="true"
+      tabIndex="-1"
+    >
+      {blocks.map((chapter, index) => (
+        <li key={index}>
+          <Image
+            to={chapter.read_path}
+            image={imageToDisplay(index, chapter)}
+            tabIndex="-1"
+            className={chapter.work.adult ? 'is-adult' : ''}
+          >
+            <span>
+              {chapter.work.name} - Cap. {chapter.chapter}
+              {Number(chapter.subchapter) !== 0 ? '.' + chapter.subchapter : ''}
+            </span>
+          </Image>
+        </li>
+      ))}
+    </ul>
+  );
 }

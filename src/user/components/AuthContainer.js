@@ -89,7 +89,7 @@ const Footer = styled.footer`
   }
 `;
 
-function AuthContainer() {
+function AuthContainer({ children, route }) {
   const { formatMessage: f } = useIntl();
   return (
     <Root>
@@ -100,9 +100,9 @@ function AuthContainer() {
               <h1>{APP_TITLE}</h1>
             </Header>
             <Main>
-              <Card>{this.props.children}</Card>
+              <Card>{children}</Card>
             </Main>
-            {this.props.route.pathname !== '/signup' && (
+            {route.pathname !== '/signup' && (
               <Footer>
                 <div>
                   <Link

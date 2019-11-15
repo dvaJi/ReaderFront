@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 
 import {
   Card,
@@ -12,17 +13,20 @@ import {
   CardFooterWrapper,
   CardFooterTag
 } from './styles';
-import { blogCategoriesIdToName } from '../../utils/common';
+import { blogCategoriesIdToName } from 'utils/common';
 
 function PostCard({ post, children, thumbnail, onClick }) {
   const category = blogCategoriesIdToName(post.category);
   const { formatMessage: f } = useIntl();
+  const history = useHistory();
 
   return (
     <Card
       id={'post_card_' + post.id}
-      to={'/blog/' + post.stub}
-      onClick={() => onClick(post)}
+      onClick={() => {
+        onClick(post);
+        history.push('/blog/' + post.stub);
+      }}
     >
       <CardHero thumb={thumbnail}>
         <CardOverlay>
