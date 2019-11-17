@@ -1,120 +1,103 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { login } from '../actions/doUser';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 
-// Component
-class Login extends Component {
-  constructor(props) {
-    super(props);
+const USER = {
+  email: '',
+  password: ''
+};
 
-    this.state = {
-      user: {
-        email: '',
-        password: ''
-      },
-      error: null
-    };
-  }
+function Login({ user, login }) {
+  const [localUser, setLocalUser] = useState(USER);
+  const [localError, setLocalError] = useState(null);
+  const location = useLocation();
+  const { formatMessage: f } = useIntl();
 
-  onChange = event => {
-    let user = this.state.user;
+  const onChange = event => {
+    let user = { ...localUser };
     user[event.target.name] = event.target.value;
 
-    this.setState({
-      user
-    });
+    setLocalUser(user);
   };
 
-  onSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault();
 
-    this.props
-      .login(this.state.user)
+    login(localUser)
       .then(response => {
-        if (this.props.user.error && this.props.user.error.length > 0) {
-          this.setState({ error: this.props.user.error });
+        if (user.error && user.error.length > 0) {
+          setLocalError(user.error);
         } else {
-          this.setState({ error: null });
+          setLocalError(null);
         }
       })
       .catch(error => {
-        this.setState({ error: this.props.user.error });
+        setLocalError(user.error);
       });
   };
 
-  render() {
-    const { isLoading, error } = this.props.user;
+  const { isLoading, error } = user;
 
-    return (
-      <AuthContainer route={this.props.router.location}>
-        {this.state.error && <Alert color="danger">{error}</Alert>}
-        <Form onSubmit={this.onSubmit}>
-          <FormGroup>
-            <Label for="email">
-              <FormattedMessage id="email" defaultMessage="Email" />
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              placeholder={this.props.intl.formatMessage({
-                id: 'email',
-                defaultMessage: 'Email'
-              })}
-              required="required"
-              value={this.state.user.email}
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">
-              <FormattedMessage id="password" defaultMessage="Password" />
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder={this.props.intl.formatMessage({
-                id: 'password',
-                defaultMessage: 'Password'
-              })}
-              required="required"
-              name="password"
-              value={this.state.user.password}
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <Button type="submit" size="lg" block disabled={isLoading}>
-            <FormattedMessage id="login" defaultMessage="Login" />
-          </Button>
-        </Form>
-        <AuthCheck />
-      </AuthContainer>
-    );
-  }
+  return (
+    <AuthContainer route={location}>
+      {localError && <Alert color="danger">{error}</Alert>}
+      <Form onSubmit={onSubmit}>
+        <FormGroup>
+          <Label for="email">
+            {f({ id: 'email', defaultMessage: 'Email' })}
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder={f({
+              id: 'email',
+              defaultMessage: 'Email'
+            })}
+            required="required"
+            value={localUser.email}
+            onChange={onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="password">
+            {f({ id: 'password', defaultMessage: 'Password' })}
+          </Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder={f({
+              id: 'password',
+              defaultMessage: 'Password'
+            })}
+            required="required"
+            name="password"
+            value={localUser.password}
+            onChange={onChange}
+          />
+        </FormGroup>
+        <Button type="submit" size="lg" block disabled={isLoading}>
+          {f({ id: 'login', defaultMessage: 'Login' })}
+        </Button>
+      </Form>
+      <AuthCheck />
+    </AuthContainer>
+  );
 }
-
-Login.propTypes = {
-  user: PropTypes.object.isRequired,
-  login: PropTypes.func.isRequired
-};
 
 function loginState(state) {
   return {
-    user: state.user,
-    router: state.router
+    user: state.user
   };
 }
 
-export default injectIntl(
-  connect(
-    loginState,
-    { login }
-  )(withRouter(Login))
-);
+export default connect(
+  loginState,
+  { login }
+)(Login);

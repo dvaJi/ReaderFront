@@ -1,93 +1,60 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { Alert } from 'reactstrap';
+import { useLocation } from 'react-router-dom';
+import { Alert, Spinner } from 'reactstrap';
+
 import { getQueryParams } from '../../utils/helpers';
 import { activate } from '../actions/doUser';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 
-class ActivateAccount extends Component {
-  constructor(props) {
-    super(props);
+function ActivateAccount({ activate, searchLocation, history }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const location = useLocation();
 
-    this.state = {
-      error: '',
-      success: '',
-      isLoading: false,
-      user: {
-        email: '',
-        token: ''
-      }
-    };
-  }
-
-  componentDidMount = () => {
-    this.setState({
-      isLoading: true
-    });
-    const params = getQueryParams(this.props.searchLocation);
+  useEffect(() => {
+    setIsLoading(true);
+    const params = getQueryParams(location.search);
     const userActivate = {
       email: params.email,
       activatedToken: params.token
     };
-
-    this.props
-      .activate(userActivate)
+    activate(userActivate)
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setIsLoading(false);
 
         if (response.data.errors && response.data.errors.length > 0) {
-          this.setState({
-            error: response.data.errors[0].message
-          });
+          setError(response.data.errors[0].message);
         } else {
-          this.setState({
-            success: 'Account activated.'
-          });
-          this.props.history.push('/auth/login');
+          setSuccess('Account activated.');
+          history.push('/auth/login');
         }
       })
       .catch(error => {
-        this.setState({
-          isLoading: false,
-          error: 'There was some error. Please try again.'
-        });
+        console.error(error);
+        setError('There was some error. Please try again.');
+        setIsLoading(false);
       });
-  };
+  }, [activate, searchLocation]);
 
-  render() {
-    return (
-      <AuthContainer route={this.props.router.location}>
-        {this.state.error && (
-          <Alert id="activate-account_error_alert" color="danger">
-            {this.state.error}
-          </Alert>
-        )}
-        {this.state.success && (
-          <Alert color="success">{this.state.success}</Alert>
-        )}
-        <AuthCheck />
-      </AuthContainer>
-    );
-  }
+  return (
+    <AuthContainer route={location}>
+      {error && (
+        <Alert id="activate-account_error_alert" color="danger">
+          {error}
+        </Alert>
+      )}
+      {success && <Alert color="success">{success}</Alert>}
+      {isLoading && <Spinner />}
+      <AuthCheck />
+    </AuthContainer>
+  );
 }
 
-ActivateAccount.propTypes = {
-  activate: PropTypes.func.isRequired
-};
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    searchLocation: ownProps.location.search,
-    router: state.router
-  };
-};
-
 export default connect(
-  mapStateToProps,
+  null,
   { activate }
-)(withRouter(ActivateAccount));
+)(ActivateAccount);

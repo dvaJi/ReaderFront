@@ -99,7 +99,7 @@ class PostForm extends Component {
           <Input
             id="title"
             type="text"
-            placeholder={intl.formatMessage({
+            placeholder={intl({
               id: 'title',
               defaultMessage: 'Title'
             })}
@@ -131,7 +131,7 @@ class PostForm extends Component {
             >
               {languagesAvailables.map(lang => (
                 <option key={lang.id + lang.name} value={lang.id}>
-                  {intl.formatMessage({
+                  {intl({
                     id: lang.name + '_full',
                     defaultMessage: lang.name
                   })}
@@ -154,7 +154,7 @@ class PostForm extends Component {
           >
             {postsStatus.map(status => (
               <option key={status.id + status.name} value={status.id}>
-                {intl.formatMessage({
+                {intl({
                   id: status.name,
                   defaultMessage: status.name
                 })}
@@ -176,7 +176,7 @@ class PostForm extends Component {
           >
             {blogCategories.map(category => (
               <option key={category.id + category.name} value={category.id}>
-                {intl.formatMessage({
+                {intl({
                   id: category.name,
                   defaultMessage: category.name
                 })}
@@ -192,7 +192,7 @@ class PostForm extends Component {
             type="file"
             id="uploadCover"
             name="cover"
-            label={intl.formatMessage({
+            label={intl({
               id: 'upload_cover',
               defaultMessage: 'Upload cover'
             })}

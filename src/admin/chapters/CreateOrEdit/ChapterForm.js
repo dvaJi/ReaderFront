@@ -74,7 +74,7 @@ class ChapterForm extends Component {
     const user = JSON.parse(window.localStorage.getItem('user'));
     if (!user) {
       this.setState({
-        error: intl.formatMessage({
+        error: intl({
           id: 'not_authenticated',
           defaultMessage: 'Not authenticated'
         })
@@ -84,7 +84,7 @@ class ChapterForm extends Component {
 
     if (!this.state.chapter.chapter || this.state.chapter.chapter <= 0) {
       this.setState({
-        error: intl.formatMessage({
+        error: intl({
           id: 'no_valid_chapter',
           defaultMessage: 'The chapter number must be greater than 0'
         })
@@ -120,7 +120,7 @@ class ChapterForm extends Component {
           <Input
             id="name"
             type="text"
-            placeholder={intl.formatMessage({
+            placeholder={intl({
               id: 'name',
               defaultMessage: 'Name'
             })}
@@ -137,7 +137,7 @@ class ChapterForm extends Component {
           <Input
             id="volume"
             type="text"
-            placeholder={intl.formatMessage({
+            placeholder={intl({
               id: 'volume',
               defaultMessage: 'Volume'
             })}
@@ -155,7 +155,7 @@ class ChapterForm extends Component {
           <Input
             id="chapter"
             type="number"
-            placeholder={intl.formatMessage({
+            placeholder={intl({
               id: 'chapter',
               defaultMessage: 'Chapter'
             })}
@@ -173,7 +173,7 @@ class ChapterForm extends Component {
           <Input
             id="subchapter"
             type="text"
-            placeholder={intl.formatMessage({
+            placeholder={intl({
               id: 'subchapter',
               defaultMessage: 'Subchapter'
             })}
@@ -199,7 +199,7 @@ class ChapterForm extends Component {
             >
               {languagesAvailables.map(lang => (
                 <option key={lang.id + lang.name} value={lang.id}>
-                  {intl.formatMessage({
+                  {intl({
                     id: lang.name + '_full',
                     defaultMessage: lang.name
                   })}
@@ -228,7 +228,7 @@ class ChapterForm extends Component {
             type="checkbox"
             id="hidden"
             name="hidden"
-            label={intl.formatMessage({
+            label={intl({
               id: 'hidden',
               defaultMessage: 'Hidden'
             })}

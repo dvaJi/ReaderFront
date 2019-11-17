@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { graphql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,49 +27,48 @@ export const postEmpty = {
   thumbnail: ''
 };
 
-class CreateOrEdit extends Component {
-  onSubmit = async (event, post) => {
-    event.preventDefault();
+function CreateOrEdit({ createPost }) {
+  const history = useHistory();
+  const { formatMessage: f } = useIntl();
 
-    await this.props.mutate({
-      variables: { ...post },
-      refetchQueries: [
-        {
-          query: FETCH_ALL_POSTS_WITH_AGG,
-          variables: { first: 20, offset: 0 }
-        }
-      ]
-    });
+  return (
+    <Container>
+      <MetaTagCreate />
+      <div style={{ marginTop: '1rem' }}>
+        <ButtonLink to={'/admincp/blog/manage'}>
+          <FontAwesomeIcon icon={faArrowLeft} />{' '}
+          {f({ id: 'go_back', defaultMessage: 'Go back' })}
+        </ButtonLink>
+      </div>
+      <Card>
+        <h4>
+          {f({ id: 'create', defaultMessage: 'Create' })}{' '}
+          {f({ id: 'post', defaultMessage: 'Go Post' })}
+        </h4>
+        <div>
+          <PostForm
+            post={postEmpty}
+            onSubmit={async (event, post) => {
+              event.preventDefault();
 
-    this.props.history.push('/admincp/blog/manage');
-  };
+              await createPost({
+                variables: { ...post },
+                refetchQueries: [
+                  {
+                    query: FETCH_ALL_POSTS_WITH_AGG,
+                    variables: { first: 20, offset: 0 }
+                  }
+                ]
+              });
 
-  render() {
-    return (
-      <Container>
-        <MetaTagCreate />
-        <div style={{ marginTop: '1rem' }}>
-          <ButtonLink to={'/admincp/blog/manage'}>
-            <FontAwesomeIcon icon={faArrowLeft} />{' '}
-            <FormattedMessage id="go_back" defaultMessage="Go back" />
-          </ButtonLink>
+              history.push('/admincp/blog/manage');
+            }}
+            intl={f}
+          />
         </div>
-        <Card>
-          <h4>
-            <FormattedMessage id="create" defaultMessage="Create" />{' '}
-            <FormattedMessage id="post" defaultMessage="Post" />
-          </h4>
-          <div>
-            <PostForm
-              post={postEmpty}
-              onSubmit={this.onSubmit}
-              intl={this.props.intl}
-            />
-          </div>
-        </Card>
-      </Container>
-    );
-  }
+      </Card>
+    </Container>
+  );
 }
 
-export default graphql(CREATE_POST)(injectIntl(withRouter(CreateOrEdit)));
+export default graphql(CREATE_POST, { name: 'createPost' })(CreateOrEdit);

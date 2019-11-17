@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 
-import params from '../../params.json';
-import * as config from '../../config';
+import { DISCORD_ID } from '../../config';
 import { subString } from 'utils/helpers';
+import { languageNameToId } from 'utils/common';
 import {
   FETCH_RELEASES,
   FETCH_LATEST_WORKS,
@@ -100,34 +100,29 @@ const RandomWork = ({ language }) => (
   </Query>
 );
 
-class HomeContainer extends Component {
-  render() {
-    const { language } = this.props;
-    return (
-      <div className="Home">
-        <HomeMetaTags />
-        <LatestReleases language={params.global.languages[language].id} />
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-              <LatestWorksAdded
-                language={params.global.languages[language].id}
-              />
-            </div>
-            <div className="col-md-4">
-              <RandomWork language={params.global.languages[language].id} />
-              <DiscordWidget discordId={config.DISCORD_ID} />
-            </div>
+function HomeContainer({ language }) {
+  return (
+    <div className="Home">
+      <HomeMetaTags />
+      <LatestReleases language={language} />
+      <div className="container">
+        <div className="row">
+          <div className="col-md-8">
+            <LatestWorksAdded language={language} />
+          </div>
+          <div className="col-md-4">
+            <RandomWork language={language} />
+            <DiscordWidget discordId={DISCORD_ID} />
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const mapStateToProps = state => {
   return {
-    language: state.layout.language
+    language: languageNameToId(state.layout.language)
   };
 };
 
