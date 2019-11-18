@@ -67,7 +67,6 @@ function EditWork({ match, intl, mutate, history }) {
                     work={data.work}
                     onSubmit={onSubmit}
                     onCreatePersonModal={toggleCreatePersonModal}
-                    intl={intl}
                   />
                 </div>
               );

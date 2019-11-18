@@ -80,7 +80,6 @@ function CreateChapter({ createChapter }) {
               workId: parseInt(params.workId, 0)
             }}
             onSubmit={onSubmit}
-            intl={f}
           />
         </div>
       </Card>

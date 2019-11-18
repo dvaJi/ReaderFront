@@ -43,7 +43,7 @@ function CreateOrEdit({ createPost }) {
       <Card>
         <h4>
           {f({ id: 'create', defaultMessage: 'Create' })}{' '}
-          {f({ id: 'post', defaultMessage: 'Go Post' })}
+          {f({ id: 'post', defaultMessage: 'Post' })}
         </h4>
         <div>
           <PostForm
@@ -63,7 +63,6 @@ function CreateOrEdit({ createPost }) {
 
               history.push('/admincp/blog/manage');
             }}
-            intl={f}
           />
         </div>
       </Card>

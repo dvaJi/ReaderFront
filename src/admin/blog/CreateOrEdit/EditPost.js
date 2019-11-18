@@ -58,7 +58,6 @@ function EditPost({ updatePost }) {
 
                     history.push('/admincp/blog/manage');
                   }}
-                  intl={f}
                 />
               </div>
             );

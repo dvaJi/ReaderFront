@@ -68,7 +68,6 @@ function CreateWork({ intl, mutate, history }) {
               work={postEmpty}
               onSubmit={onSubmit}
               onCreatePersonModal={toggleCreatePersonModal}
-              intl={intl}
             />
           </div>
         </Card>

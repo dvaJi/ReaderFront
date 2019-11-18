@@ -69,7 +69,6 @@ function EditChapter({ updateChapter }) {
                     workId: parseInt(params.workId, 0)
                   }}
                   onSubmit={onSubmit}
-                  intl={f}
                 />
               </div>
             );
