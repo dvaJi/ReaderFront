@@ -19,6 +19,7 @@ export function getReleases(amount = 4) {
       name: is ? 'Test ' + index : null,
       stub: 'test-' + index,
       thumbnail: 'thumb ' + index + '.png',
+      thumbnail_path: '/test/thumb ' + index + '.png',
       subchapter: is ? 0 : 1,
       releaseDate: '2019-05-15T02:44:47.000Z',
       createdAt: '2019-05-15T02:44:47.000Z',
@@ -42,6 +43,7 @@ export function getRelease() {
     name: 'Test 1',
     stub: 'test-1',
     thumbnail: 'thumb.png',
+    thumbnail_path: '/test/thumb.png',
     subchapter: 1,
     work: work
   };

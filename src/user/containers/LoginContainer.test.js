@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
@@ -20,7 +20,19 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
-  const wrapper = shallow(<LoginContainer />);
+  const store = mockStore({
+    user: { isLoading: false, error: null },
+    layout: {
+      language: 'es'
+    }
+  });
+  const wrapper = mount(
+    <Provider store={store}>
+      <MemoryRouter>
+        <LoginContainer />
+      </MemoryRouter>
+    </Provider>
+  );
 
   expect(wrapper).toBeTruthy();
 });
@@ -28,11 +40,6 @@ it('should render without throwing an error', () => {
 it('should render without throwing an error', async () => {
   const store = mockStore({
     user: { isLoading: false, error: null },
-    router: {
-      location: {
-        pathname: 'LUL'
-      }
-    },
     layout: {
       language: 'es'
     }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { compose, graphql } from 'react-apollo';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Card } from 'common/ui';
 import { useLocalStorage } from 'common/useLocalStorage';
@@ -22,8 +22,7 @@ function DropImages({
   removePage,
   updatePage,
   updateDefaultPage,
-  toggleModal,
-  intl
+  toggleModal
 }) {
   const [error, setError] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -32,6 +31,8 @@ function DropImages({
   );
   const [defaultPage, setDefaultPage] = useState(chapter.thumbnail);
   const [pageView, setPageView] = useLocalStorage('acpUploadView', 'list');
+
+  const { formatMessage: f } = useIntl();
 
   const handleOnDrop = files => {
     const filenames = pages.map(p => p.filename);
@@ -117,7 +118,7 @@ function DropImages({
 
         setPages(newPages);
         setError(
-          intl.formatMessage({
+          f({
             id: 'unknown_error',
             defaultMessage: 'There was some error. Please try again.'
           })
@@ -133,7 +134,7 @@ function DropImages({
 
       setPages(newPages);
       setError(
-        intl.formatMessage({
+        f({
           id: 'unknown_error',
           defaultMessage: 'There was some error. Please try again.'
         })
@@ -239,10 +240,10 @@ function DropImages({
             >
               <input {...getInputProps()} />
               <p style={{ paddingTop: '40px' }}>
-                <FormattedMessage
-                  id="drop_or_browse_files"
-                  defaultMessage="Drop or Browse images"
-                />
+                {f({
+                  id: 'drop_or_browse_files',
+                  defaultMessage: 'Drop or Browse images'
+                })}
               </p>
             </div>
           )}
@@ -266,4 +267,4 @@ export default compose(
   graphql(REMOVE_PAGE, { name: 'removePage' }),
   graphql(UPDATE_PAGE, { name: 'updatePage' }),
   graphql(UPDATE_DEFAULT_PAGE, { name: 'updateDefaultPage' })
-)(injectIntl(DropImages));
+)(DropImages);

@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import Downshift from 'downshift';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Query } from 'react-apollo';
 import {
   Input,
@@ -17,9 +17,10 @@ import { Button, FormGroup } from 'common/ui';
 import { SEARCH_PEOPLE } from './query';
 import { workRoles } from 'utils/common';
 
-function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
+function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
   const [person, setPerson] = useState(null);
   const [roles, setRoles] = useState(null);
+  const { formatMessage: f } = useIntl();
   const isIncomplete = !person || person === '' || !roles || roles === '';
   const toggle = () => {
     toggleModal(!isOpen);
@@ -57,7 +58,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>
-        <FormattedMessage id="create_person" defaultMessage="Create Person" />
+        {f({ id: 'create_person', defaultMessage: 'Create Person' })}
       </ModalHeader>
       <ModalBody>
         <FormGroup>
@@ -77,10 +78,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
             }) => (
               <div style={{ position: 'relative' }}>
                 <Label {...getLabelProps()}>
-                  <FormattedMessage
-                    id="search_person"
-                    defaultMessage="Search Person"
-                  />
+                  {f({ id: 'search_person', defaultMessage: 'Search Person' })}
                 </Label>
                 <Input {...getInputProps()} />
                 <AutocompleteList {...getMenuProps()}>
@@ -93,10 +91,10 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
                         if (loading)
                           return (
                             <div>
-                              <FormattedMessage
-                                id="loading"
-                                defaultMessage="Loading..."
-                              />
+                              {f({
+                                id: 'loading',
+                                defaultMessage: 'Loading...'
+                              })}
                             </div>
                           );
                         if (error) return <p>Error :(</p>;
@@ -136,7 +134,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
         </FormGroup>
         <FormGroup>
           <Label for="selectRole">
-            <FormattedMessage id="select_role" defaultMessage="Select roles" />
+            {f({ id: 'select_role', defaultMessage: 'Select roles' })}
           </Label>
           <Input
             type="select"
@@ -147,7 +145,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
           >
             {workRoles.map(role => (
               <option key={`people.rol.${role.name}`} value={role.id}>
-                {intl.formatMessage({
+                {f({
                   id: `people.rol.${role.name}`,
                   defaultMessage: role.name
                 })}
@@ -162,14 +160,14 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
           color="primary"
           onClick={handleOnSubmit({ person, roles })}
         >
-          <FormattedMessage id="create" defaultMessage="Create" />
+          {f({ id: 'create', defaultMessage: 'Create' })}
         </Button>{' '}
         <Button color="secondary" onClick={toggle}>
-          <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          {f({ id: 'cancel', defaultMessage: 'Cancel' })}
         </Button>
       </ModalFooter>
     </Modal>
   );
 }
 
-export default memo(injectIntl(AddPersonWorkModal));
+export default memo(AddPersonWorkModal);

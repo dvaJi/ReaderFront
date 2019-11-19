@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimes,
@@ -19,6 +19,7 @@ function DetailActions({
   isUploading = false,
   pages = []
 }) {
+  const { formatMessage: f } = useIntl();
   const pagesToupload = pages.filter(p => !p.uploaded);
   return (
     <DetailActionsBar>
@@ -29,10 +30,7 @@ function DetailActions({
         disabled={isUploading || pagesToupload.length === 0}
       >
         <FontAwesomeIcon icon={faFileUpload} />{' '}
-        <FormattedMessage
-          id="upload_selected"
-          defaultMessage="Upload selected"
-        />
+        {f({ id: 'upload_selected', defaultMessage: 'Upload selected' })}
       </Button>
       {'  '}
       <Button
@@ -42,7 +40,7 @@ function DetailActions({
         disabled={isUploading || pages.length === 0}
       >
         <FontAwesomeIcon icon={faTimes} />{' '}
-        <FormattedMessage id="delete_all" defaultMessage="Delete all" />
+        {f({ id: 'delete_all', defaultMessage: 'Delete all' })}
       </Button>
       <ButtonGroup className="float-right">
         <Button
@@ -66,4 +64,4 @@ function DetailActions({
   );
 }
 
-export default memo(injectIntl(DetailActions));
+export default memo(DetailActions);

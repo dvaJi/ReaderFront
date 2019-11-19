@@ -82,9 +82,9 @@ function RenderPostList({ language, onSelect }) {
           if (loading) return <PostCardLoading />;
           if (error)
             return (
-              <p id="error_blog">
+              <div id="error_blog">
                 <PostCardLoading />
-              </p>
+              </div>
             );
           return (
             <PostsList

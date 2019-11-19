@@ -1,5 +1,5 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MockedProvider } from 'react-apollo/test-utils';
@@ -154,11 +154,14 @@ it('should render the post selected', async () => {
     location: {},
     history: {}
   };
+
   const wrapper = mount(
     <MockedProvider mocks={mocksStub} addTypename={false}>
       <Provider store={store}>
-        <MemoryRouter>
-          <BlogContainer {...routeProps} />
+        <MemoryRouter initialEntries={['blog/lorem-ipsum']}>
+          <Route path="blog/:stub">
+            <BlogContainer {...routeProps} />
+          </Route>
         </MemoryRouter>
       </Provider>
     </MockedProvider>

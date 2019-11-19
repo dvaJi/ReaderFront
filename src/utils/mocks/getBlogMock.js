@@ -20,6 +20,7 @@ export function getPosts(amount = 2) {
       sticky: false,
       language: 1,
       thumbnail: 'cover_awesomepost.png',
+      thumbnail_path: '/test/cover_awesomepost.png',
       createdAt: new Date('2018-07-20'),
       updatedAt: new Date('2018-07-20')
     };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { graphql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
@@ -30,13 +30,15 @@ export const postEmpty = {
   works_genres: []
 };
 
-function CreateWork({ intl, mutate, history }) {
+function CreateWork({ createWork }) {
   const [isCreatePersonModal, toggleCreatePersonModal] = useState(false);
+  const history = useHistory();
+  const { formatMessage: f } = useIntl();
 
   const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await mutate({
+    await createWork({
       variables: { ...work },
       refetchQueries: [
         {
@@ -55,13 +57,13 @@ function CreateWork({ intl, mutate, history }) {
         <div style={{ marginTop: '1rem' }}>
           <ButtonLink to={'/admincp/work/manage'}>
             <FontAwesomeIcon icon={faArrowLeft} />{' '}
-            <FormattedMessage id="go_back" defaultMessage="Go back" />
+            {f({ id: 'go_back', defaultMessage: 'Go back' })}
           </ButtonLink>
         </div>
         <Card>
           <h4>
-            <FormattedMessage id="create" defaultMessage="Create" />{' '}
-            <FormattedMessage id="work" defaultMessage="Work" />
+            {f({ id: 'create', defaultMessage: 'Create' })}{' '}
+            {f({ id: 'work', defaultMessage: 'Work' })}
           </h4>
           <div>
             <WorkForm
@@ -80,4 +82,4 @@ function CreateWork({ intl, mutate, history }) {
   );
 }
 
-export default graphql(CREATE_WORK)(injectIntl(withRouter(CreateWork)));
+export default graphql(CREATE_WORK, { name: 'createWork' })(CreateWork);

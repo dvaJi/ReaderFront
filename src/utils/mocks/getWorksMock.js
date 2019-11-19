@@ -12,6 +12,7 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: null,
+    thumbnail_path: '/images/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [],
@@ -29,6 +30,7 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: 'thumb_00_cover.png',
+    thumbnail_path: '/images/thumb_00_cover.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [],
@@ -62,6 +64,7 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: null,
+    thumbnail_path: '/images/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [
@@ -84,6 +87,7 @@ export const getWork = {
   adult: false,
   hidden: false,
   thumbnail: 'thumb_00_cover.png',
+  thumbnail_path: '/images/thumb_00_cover.png',
   createdAt: new Date(),
   updatedAt: new Date(),
   works_descriptions: [

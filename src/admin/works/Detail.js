@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Query, graphql } from 'react-apollo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -12,18 +12,19 @@ import { FETCH_CHAPTERS } from './query';
 import { REMOVE_CHAPTER } from './mutation';
 import { languageIdToName } from 'utils/common';
 
-function Detail({ intl, match, mutate }) {
+function Detail({ match, removeChapter }) {
+  const { formatMessage: f } = useIntl();
   const remove = async id => {
     if (id > 0) {
       let check = window.confirm(
-        intl.formatMessage({
+        f({
           id: 'confirm_delete_chapter',
           defaultMessage: 'confirm_delete_chapter'
         })
       );
 
       if (check) {
-        await mutate({
+        await removeChapter({
           variables: { id: id },
           refetchQueries: [
             {
@@ -45,7 +46,7 @@ function Detail({ intl, match, mutate }) {
         <div className="m-1">
           <ButtonLink to={'/admincp/work/manage'}>
             <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
-            <FormattedMessage id="go_back" defaultMessage="Go back" />
+            {f({ id: 'go_back', defaultMessage: 'Go back' })}
           </ButtonLink>
         </div>
         <WorkInfo stub={match.params.stub} />
@@ -62,33 +63,20 @@ function Detail({ intl, match, mutate }) {
             }
           >
             <FontAwesomeIcon icon={faPlus} className="mr-1" />
-            <FormattedMessage
-              id="create_chapter"
-              defaultMessage="Create chapter"
-            />
+            {f({ id: 'create_chapter', defaultMessage: 'Create chapter' })}
           </ButtonLink>
         </div>
 
         <Table>
           <thead>
             <tr>
-              <th>
-                <FormattedMessage id="volume" defaultMessage="Volume" />
-              </th>
-              <th>
-                <FormattedMessage id="chapter" defaultMessage="Chapter" />
-              </th>
-              <th>
-                <FormattedMessage id="name" defaultMessage="Name" />
-              </th>
-              <th>
-                <FormattedMessage id="language" defaultMessage="Language" />
-              </th>
-              <th>
-                <FormattedMessage id="created_at" defaultMessage="Created at" />
-              </th>
+              <th>{f({ id: 'volume', defaultMessage: 'Volume' })}</th>
+              <th>{f({ id: 'chapter', defaultMessage: 'Chapter' })}</th>
+              <th>{f({ id: 'name', defaultMessage: 'Name' })}</th>
+              <th>{f({ id: 'language', defaultMessage: 'Language' })}</th>
+              <th>{f({ id: 'created_at', defaultMessage: 'Created at' })}</th>
               <th style={{ textAlign: 'center' }}>
-                <FormattedMessage id="actions" defaultMessage="Actions" />
+                {f({ id: 'actions', defaultMessage: 'Actions' })}
               </th>
             </tr>
           </thead>
@@ -106,10 +94,7 @@ function Detail({ intl, match, mutate }) {
                   return (
                     <tr>
                       <td colSpan="7">
-                        <FormattedMessage
-                          id="loading"
-                          defaultMessage="Loading..."
-                        />
+                        {f({ id: 'loading', defaultMessage: 'Loading...' })}
                       </td>
                     </tr>
                   );
@@ -165,20 +150,14 @@ function Detail({ intl, match, mutate }) {
                                   id
                                 }
                               >
-                                <FormattedMessage
-                                  id="edit"
-                                  defaultMessage="Edit"
-                                />
+                                {f({ id: 'edit', defaultMessage: 'Edit' })}
                               </ButtonLink>
                               <Button
                                 id={'remove-' + id}
                                 size="sm"
                                 onClick={() => remove(id)}
                               >
-                                <FormattedMessage
-                                  id="delete"
-                                  defaultMessage="Delete"
-                                />
+                                {f({ id: 'delete', defaultMessage: 'Delete' })}
                               </Button>
                             </ButtonGroup>
                           </td>
@@ -188,10 +167,10 @@ function Detail({ intl, match, mutate }) {
                 ) : (
                   <tr>
                     <td colSpan="6">
-                      <FormattedMessage
-                        id="chapters_empty"
-                        defaultMessage="Chapters empty"
-                      />
+                      {f({
+                        id: 'chapters_empty',
+                        defaultMessage: 'Chapters empty'
+                      })}
                     </td>
                   </tr>
                 );
@@ -204,4 +183,4 @@ function Detail({ intl, match, mutate }) {
   );
 }
 
-export default graphql(REMOVE_CHAPTER)(memo(injectIntl(Detail)));
+export default graphql(REMOVE_CHAPTER, { name: 'removeChapter' })(memo(Detail));
