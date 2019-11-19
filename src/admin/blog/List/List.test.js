@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -27,8 +27,8 @@ afterEach(() => {
   console.error = global.originalError;
 });
 
-it("should show an error message if it can't fetch data", async () => {
-  const wrapper = await mountWithIntl(
+it('should show a list of post', async () => {
+  const wrapper = await mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -54,7 +54,7 @@ it('should show pagination and change page state', async () => {
       }
     }
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={[mocksPagination]} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -75,7 +75,7 @@ it("should show an error message if it can't fetch data", async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <MemoryRouter>
         <List />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 import Dropzone from 'react-dropzone';
@@ -31,7 +31,7 @@ it('should render the chapter with pages', async () => {
   div.setAttribute('id', 'select-default-1298337316');
   document.body.appendChild(div);
 
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <Detail
@@ -65,7 +65,7 @@ it("should show an error message if it can't fetch data", async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <MemoryRouter>
         <Detail
@@ -100,7 +100,7 @@ it('should allow to add pages', async () => {
       }
     }
   ];
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={mocksAddPages} addTypename={false}>
       <MemoryRouter>
         <Detail

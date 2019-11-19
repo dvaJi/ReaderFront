@@ -1,6 +1,6 @@
 import React from 'react';
 import moxios from '@anilanar/moxios';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 
 import Form from './Form';
 
@@ -41,18 +41,14 @@ afterEach(() => {
 });
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
-    <Form work={workEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form work={workEmpty} onSubmit={handleOnSubmit} />);
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
 it('should fill the form without throwing an error', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
-    <Form work={workEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form work={workEmpty} onSubmit={handleOnSubmit} />);
 
   await global.wait(0);
 
@@ -88,9 +84,7 @@ it('should fill the form without throwing an error', async () => {
 
 it('should throw an error is user is not authenticated', () => {
   console.error = jest.fn();
-  const wrapper = mountWithIntl(
-    <Form work={workEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form work={workEmpty} onSubmit={handleOnSubmit} />);
 
   expect(() => {
     wrapper.find('button[id="submit_work"]').simulate('click');
@@ -106,9 +100,7 @@ it('should allow to upload an image', async () => {
     type: 'image/jpeg'
   };
 
-  const wrapper = mountWithIntl(
-    <Form work={workEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form work={workEmpty} onSubmit={handleOnSubmit} />);
 
   const fileContents = image;
   const file = new Blob([fileContents], { type: 'text/plain' });
@@ -138,7 +130,7 @@ it('should allow to upload an image', async () => {
 
 it('should fill the form with the work given', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(<Form work={work} onSubmit={handleOnSubmit} />);
+  const wrapper = mount(<Form work={work} onSubmit={handleOnSubmit} />);
 
   const inputTitle = wrapper.find('input[name="name"]');
   expect(inputTitle.props().value).toBe(work.name);
@@ -152,9 +144,7 @@ it('should normalize object before submit', async () => {
     _work = work;
   };
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
-    <Form work={workEmpty} onSubmit={cHandleOnSubmit} />
-  );
+  const wrapper = mount(<Form work={workEmpty} onSubmit={cHandleOnSubmit} />);
 
   wrapper.find('button[id="submit_work"]').simulate('click');
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
+import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
@@ -30,7 +30,7 @@ it('should render without throwing an error', () => {
       language: 'es'
     }
   });
-  const wrapper = shallowWithIntl(
+  const wrapper = shallow(
     <Provider store={store}>
       <ActivateAccountContainer
         location={{ search: '?email=test@aa.com&token=t0k3n' }}
@@ -54,7 +54,7 @@ it('should show a success message if account is activated', async () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter>
         <ActivateAccountContainer
@@ -95,7 +95,7 @@ it('should show an error message if account can not be activated', async () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter>
         <ActivateAccountContainer

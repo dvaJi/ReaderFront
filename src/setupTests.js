@@ -122,6 +122,27 @@ if (global.document) {
   });
 }
 
+// Mock useIntl hook
+jest.mock('react-intl', () => {
+  const reactIntl = require.requireActual('react-intl');
+  const messages = require('./i18n/locales/en.json');
+  const intlProvider = new reactIntl.IntlProvider(
+    {
+      locale: 'en',
+      defaultLocale: 'en',
+      messages
+    },
+    {}
+  );
+
+  return {
+    ...reactIntl,
+    useIntl: () => {
+      return intlProvider.state.intl;
+    }
+  };
+});
+
 // Setup Mocks
 global.rfMocks = {
   releases: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -31,7 +31,7 @@ it('should render without throwing an error', async () => {
   div2.setAttribute('id', 'noDescWarn-2');
   document.body.appendChild(div2);
 
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -64,7 +64,7 @@ it('should show a message when works list is empty without throwing an error', a
   div.setAttribute('id', 'noDescWarn');
   document.body.appendChild(div);
 
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={emptyMocks} addTypename={false}>
       <MemoryRouter>
         <List />

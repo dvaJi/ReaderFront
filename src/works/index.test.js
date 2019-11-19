@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -24,7 +24,7 @@ const mocks = [
 ];
 
 it('should render without throwing an error', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <Series />

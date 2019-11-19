@@ -1,22 +1,27 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import ReleasesList from './ReleasesList';
 
 const releases = global.rfMocks.releases.getReleases;
 
 it('renders without crashing', () => {
-  mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <ReleasesList releases={[]} />
     </BrowserRouter>
   );
+
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });
 
 it('should render releases without crashing', () => {
-  mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <ReleasesList releases={releases} />
     </BrowserRouter>
   );
+  expect(wrapper).toBeTruthy();
+  wrapper.unmount();
 });

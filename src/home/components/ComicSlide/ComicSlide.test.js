@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
 import NextButton from './NextButton';
@@ -7,7 +7,7 @@ import NextButton from './NextButton';
 const releases = global.rfMocks.releases.getReleases;
 
 it('renders while loading without crashing', async () => {
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MemoryRouter>
       <ComicSlide blocks={[]} isLoading={true} />
     </MemoryRouter>
@@ -19,7 +19,7 @@ it('renders while loading without crashing', async () => {
 
 it('renders without crashing', async () => {
   const blocks = createBlocks(releases);
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <ComicSlide blocks={blocks} isLoading={false} />
     </MemoryRouter>
@@ -30,7 +30,7 @@ it('renders without crashing', async () => {
 
 it('should update state when NextButton is clicked', async () => {
   const blocks = createBlocks(releases);
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <ComicSlide blocks={blocks} isLoading={false} />
     </MemoryRouter>

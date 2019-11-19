@@ -1,6 +1,6 @@
 import React from 'react';
 import moxios from '@anilanar/moxios';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -44,7 +44,7 @@ it('should allow to set a page as default in with thumbnail view', async () => {
     }
   ];
 
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={mocksPagesUploaded} addTypename={false}>
       <MemoryRouter>
         <DropImages
@@ -106,7 +106,7 @@ it('should delete all pages', async () => {
   div.setAttribute('id', 'select-default-1298337316');
   document.body.appendChild(div);
 
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <MemoryRouter>
         <DropImages
@@ -157,7 +157,7 @@ it('should upload all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const wrapper = await mountWithIntl(
+  const wrapper = await mount(
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <MemoryRouter>
         <DropImages

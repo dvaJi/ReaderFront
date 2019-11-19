@@ -6,7 +6,7 @@ import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 
 // App imports
-import { renderIf, slugify } from 'utils/helpers';
+import { slugify } from 'utils/helpers';
 import {
   languagesAvailables,
   blogCategories,
@@ -17,7 +17,6 @@ import { getImage } from 'common/Image';
 
 function PostForm({ post, onSubmit }) {
   const [localPost, setLocalPost] = useState(post);
-  const [isRecentUpload, setIsRecentUpload] = useState(post.id > 0);
   const [mdeState, setMdeState] = useState(
     post.id > 0
       ? RichTextEditor.createValueFromString(post.content, 'markdown')
@@ -59,7 +58,6 @@ function PostForm({ post, onSubmit }) {
       const response = await uploadImage(data);
       const post = { ...localPost, thumbnail: response.data.file };
       setLocalPost(post);
-      setIsRecentUpload(true);
     } catch (err) {
       console.error(err);
     }
@@ -181,6 +179,7 @@ function PostForm({ post, onSubmit }) {
         <CustomInput
           type="file"
           id="uploadCover"
+          data-testid="uploadCover"
           name="cover"
           label={f({
             id: 'upload_cover',
@@ -190,9 +189,10 @@ function PostForm({ post, onSubmit }) {
           required={localPost.id === 0}
         />
       </FormGroup>
-      {renderIf(localPost.thumbnail !== '' && !isRecentUpload, () => (
+      {localPost.thumbnail !== '' && (
         <img
           id="post_thumbnail"
+          data-testid="post_thumbnail"
           src={getImage(
             `images/blog/${localPost.uniqid}/${localPost.thumbnail}`,
             250,
@@ -201,7 +201,7 @@ function PostForm({ post, onSubmit }) {
           alt={localPost.title}
           style={{ width: 200, marginTop: '1em' }}
         />
-      ))}
+      )}
       <FormGroup>
         <Button
           id="submit_post"

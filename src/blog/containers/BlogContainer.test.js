@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MockedProvider } from 'react-apollo/test-utils';
 import configureMockStore from 'redux-mock-store';
@@ -42,7 +42,7 @@ it('should render without throwing an error', async () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>
@@ -62,7 +62,7 @@ it('should render new items if user scroll to bottom', async () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>
@@ -103,7 +103,7 @@ it('should select a post and render it', async () => {
       }
     }
   ];
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={[...mocks, ...mocksStub]} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>
@@ -154,7 +154,7 @@ it('should render the post selected', async () => {
     location: {},
     history: {}
   };
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocksStub} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>

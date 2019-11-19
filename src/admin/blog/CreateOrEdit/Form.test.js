@@ -1,6 +1,7 @@
 import React from 'react';
 import moxios from '@anilanar/moxios';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
 import Form from './Form';
 
@@ -39,18 +40,14 @@ afterEach(() => {
 });
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
-    <Form post={postEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form post={postEmpty} onSubmit={handleOnSubmit} />);
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });
 
 it('should fill the form without throwing an error', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
-    <Form post={postEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form post={postEmpty} onSubmit={handleOnSubmit} />);
 
   const inputTitle = wrapper.find('input[name="title"]');
   inputTitle.simulate('change', {
@@ -81,9 +78,7 @@ it('should fill the form without throwing an error', async () => {
 
 it('should throw an error is user is not authenticated', () => {
   console.error = jest.fn();
-  const wrapper = mountWithIntl(
-    <Form post={postEmpty} onSubmit={handleOnSubmit} />
-  );
+  const wrapper = mount(<Form post={postEmpty} onSubmit={handleOnSubmit} />);
 
   expect(() => {
     wrapper.find('button[id="submit_post"]').simulate('click');
@@ -98,19 +93,23 @@ it('should allow to upload an image', async () => {
     type: 'image/jpeg'
   };
 
-  const wrapper = mountWithIntl(
-    <Form post={postEmpty} onSubmit={handleOnSubmit} />
+  const { queryByTestId } = render(
+    <Form
+      post={{ ...postEmpty, uniqid: 'test.123' }}
+      onSubmit={handleOnSubmit}
+    />
   );
+
+  expect(queryByTestId('post_thumbnail')).toBeNull();
 
   const fileContents = image;
   const file = new Blob([fileContents], { type: 'text/plain' });
 
-  const fileInput = wrapper.find('input[id="uploadCover"]');
-  fileInput.simulate('change', {
-    target: {
-      files: file
-    }
+  Object.defineProperty(queryByTestId('uploadCover'), 'files', {
+    value: [file]
   });
+
+  fireEvent.change(queryByTestId('uploadCover'));
 
   await global.wait(0);
   let request = moxios.requests.mostRecent();
@@ -123,14 +122,15 @@ it('should allow to upload an image', async () => {
   });
 
   await global.wait(0);
-  expect(wrapper.state().post.thumbnail).toBe('plot_updated.jpg');
 
-  wrapper.unmount();
+  expect(queryByTestId('post_thumbnail').getAttribute('src')).toBe(
+    'http://localhost:8000/images/blog/test.123/plot_updated.jpg'
+  );
 });
 
 it('should fill the form with the post given', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(<Form post={post} onSubmit={handleOnSubmit} />);
+  const wrapper = mount(<Form post={post} onSubmit={handleOnSubmit} />);
 
   await global.wait(0);
 
@@ -146,9 +146,7 @@ it('should normalize object before submit', async () => {
     _post = post;
   };
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
-    <Form post={postEmpty} onSubmit={cHandleOnSubmit} />
-  );
+  const wrapper = mount(<Form post={postEmpty} onSubmit={cHandleOnSubmit} />);
 
   wrapper.find('button[id="submit_post"]').simulate('click');
 

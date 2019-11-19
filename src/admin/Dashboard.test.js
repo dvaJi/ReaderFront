@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import Dashboard from './Dashboard';
@@ -21,7 +21,7 @@ it('should render without throwing an error', () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter>
         <Dashboard />

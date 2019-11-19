@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
+import { shallow, mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
@@ -20,7 +20,7 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
-  const wrapper = shallowWithIntl(<LoginContainer />);
+  const wrapper = shallow(<LoginContainer />);
 
   expect(wrapper).toBeTruthy();
 });
@@ -37,7 +37,7 @@ it('should render without throwing an error', async () => {
       language: 'es'
     }
   });
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter>
         <LoginContainer
@@ -90,7 +90,7 @@ it('should render an error if login not match', async () => {
     }
   };
   const store = mockStore(state);
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <Provider store={store}>
       <MemoryRouter>
         <LoginContainer

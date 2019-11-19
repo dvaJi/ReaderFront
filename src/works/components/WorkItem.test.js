@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { forceCheck } from 'react-lazyload';
 import WorkItem from './WorkItem';
@@ -27,7 +27,7 @@ const statusTag = statusId => {
 };
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorkItem
         redirectTo={redirectTo}
