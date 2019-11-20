@@ -1,11 +1,12 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { APP_TITLE, APP_VERSION, APP_URL } from '../../config';
 import { getImage } from '../../common/Image';
 
-const MetaTag = ({ work, language, intl }) => {
+const MetaTag = ({ work, language }) => {
+  const intl = useIntl();
   const workDescription = work.works_descriptions.find(
     e => e.language === language.id
   );
@@ -114,4 +115,4 @@ const MetaTag = ({ work, language, intl }) => {
   );
 };
 
-export default injectIntl(MetaTag);
+export default MetaTag;
