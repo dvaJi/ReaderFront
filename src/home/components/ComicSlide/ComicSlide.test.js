@@ -2,7 +2,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import ComicSlide from './ComicSlide';
-import NextButton from './NextButton';
 
 const releases = global.rfMocks.releases.getReleases;
 
@@ -25,25 +24,6 @@ it('renders without crashing', async () => {
     </MemoryRouter>
   );
   expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
-});
-
-it('should update state when NextButton is clicked', async () => {
-  const blocks = createBlocks(releases);
-  const wrapper = mount(
-    <MemoryRouter>
-      <ComicSlide blocks={blocks} isLoading={false} />
-    </MemoryRouter>
-  );
-
-  const oldState = wrapper.find(ComicSlide).instance().state._transform;
-  wrapper
-    .find(NextButton)
-    .first()
-    .simulate('click');
-  wrapper.update();
-  const newState = wrapper.find(ComicSlide).instance().state._transform;
-  expect(oldState).toBeGreaterThan(newState);
   await wrapper.unmount();
 });
 

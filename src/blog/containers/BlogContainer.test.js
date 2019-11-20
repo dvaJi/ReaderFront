@@ -6,6 +6,7 @@ import { MockedProvider } from 'react-apollo/test-utils';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import waitForExpect from 'wait-for-expect';
+import { render, fireEvent, waitForElement } from '@testing-library/react';
 
 import BlogContainer from './BlogContainer';
 import { FETCH_ALL_POSTS_WITH_AGG, FIND_BY_STUB } from './queries';
@@ -103,7 +104,7 @@ it('should select a post and render it', async () => {
       }
     }
   ];
-  const wrapper = mount(
+  const { queryByTestId, getByTestId } = render(
     <MockedProvider mocks={[...mocks, ...mocksStub]} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>
@@ -114,20 +115,12 @@ it('should select a post and render it', async () => {
   );
 
   await global.wait(0);
-  await wrapper.update();
 
-  wrapper.update();
-  const firstPost = wrapper.find('#post_card_2');
-  firstPost.last().simulate('click');
+  fireEvent.click(getByTestId('post_card_2'));
 
-  await global.wait(0);
-  await wrapper.update();
+  await waitForElement(() => getByTestId('post_view_2'));
 
-  const BlogContainerWrapper = wrapper.find('BlogContainer');
-
-  expect(BlogContainerWrapper.instance().state.postSelected).toEqual(posts[0]);
-
-  wrapper.unmount();
+  expect(queryByTestId('post_view_2')).toBeTruthy();
 });
 
 it('should render the post selected', async () => {

@@ -4,7 +4,6 @@ import { Query } from 'react-apollo';
 import { useParams } from 'react-router-dom';
 
 // App Imports
-import params from '../../params.json';
 import MetaTag from './WorkMetaTag';
 import Cover from '../components/Cover';
 import Info from '../components/Info';
@@ -13,9 +12,8 @@ import WorkEmpty from '../components/WorkEmpty';
 import { FETCH_WORK } from './query';
 import { languageNameToId } from 'utils/common';
 
-function WorkContainer({ language: plang }) {
+function WorkContainer({ language }) {
   const { stub } = useParams();
-  const language = params.global.languages[plang];
   return (
     <Query
       query={FETCH_WORK}
@@ -52,7 +50,10 @@ function WorkContainer({ language: plang }) {
 
 const mapStateToProps = state => {
   return {
-    language: languageNameToId(state.layout.language)
+    language: {
+      id: state.layout.language,
+      name: languageNameToId(state.layout.language)
+    }
   };
 };
 

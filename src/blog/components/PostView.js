@@ -26,7 +26,7 @@ export default memo(function PostView({ post, onClickBack }) {
   });
 
   return (
-    <div>
+    <div data-testid={'post_view_' + post.id}>
       {heroTransition.map(({ item, key, props }) => (
         <animated.div key={key} style={props}>
           <HeroContainer style={props}>

@@ -80,14 +80,13 @@ function RecommendedWork({ work, isLoading, description }) {
     opacity: isHover ? 1 : 0.3,
     transform: isHover ? 'translate3d(0,0,0)' : 'translate3d(0,10px,0)'
   });
-  const thumbail = getImage(work.thumbnail_path, 350, 350, work.id, true);
   return (
     <div className="Recommended mb-4">
       <h3>{f({ id: 'random', defaultMessage: 'Random' })}</h3>
       {!isLoading ? (
         <Serie
           to={`work/${work.stub}`}
-          cover={thumbail}
+          cover={getImage(work.thumbnail_path, 350, 350, work.id, true)}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >

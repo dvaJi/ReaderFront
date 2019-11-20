@@ -23,6 +23,7 @@ function PostCard({ post, children, thumbnail, onClick }) {
   return (
     <Card
       id={'post_card_' + post.id}
+      data-testid={'post_card_' + post.id}
       onClick={() => {
         onClick(post);
         history.push('/blog/' + post.stub);

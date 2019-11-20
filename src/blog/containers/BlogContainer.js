@@ -18,7 +18,7 @@ function BlogContainer({ language }) {
   const [postSelected, setPostSelected] = useState(null);
   const { stub } = useParams();
 
-  return stub !== undefined ? (
+  return stub !== undefined || postSelected ? (
     <RenderPostDetail
       stub={stub}
       postSelected={postSelected}

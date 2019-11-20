@@ -33,7 +33,6 @@ import Staff from './Staff';
 function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);
   const [isAddPersonWorkModal, setIsAddPersonWorkModal] = useState(false);
-  const [isRecentUpload, setIsRecentUpload] = useState(work.id > 0);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [languagesAvailables, setLanguagesAvailables] = useState(
     toLang.filter(
@@ -130,7 +129,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       const response = await uploadImage(data);
       const work = { ...localWork, thumbnail: response.data.file };
 
-      setIsRecentUpload(true);
       setLocalWork(work);
     } catch (err) {
       console.error(err);
@@ -411,6 +409,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         <CustomInput
           type="file"
           id="uploadCover"
+          data-testid="uploadCover"
           name="cover"
           label={f({
             id: 'upload_cover',
@@ -420,21 +419,17 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           required={localWork.id === 0}
         />
       </FormGroup>
-      {renderIf(
-        localWork.thumbnail !== '' &&
-          localWork.stub === work.stub &&
-          !isRecentUpload,
-        () => (
-          <Image
-            id="work_thumbnail"
-            src={`works/${localWork.uniqid}/${localWork.thumbnail}`}
-            height={200}
-            width={170}
-            alt={localWork.name}
-            index={1}
-          />
-        )
-      )}
+      {renderIf(localWork.thumbnail !== '', () => (
+        <Image
+          id="work_thumbnail"
+          data-testid="work_thumbnail"
+          src={`works/${localWork.uniqid}/${localWork.thumbnail}`}
+          height={200}
+          width={170}
+          alt={localWork.name}
+          index={1}
+        />
+      ))}
       <FormGroup>
         <Button
           id="submit_work"

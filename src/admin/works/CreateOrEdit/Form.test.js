@@ -1,6 +1,7 @@
 import React from 'react';
 import moxios from '@anilanar/moxios';
 import { mount } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 
 import Form from './Form';
 
@@ -100,17 +101,23 @@ it('should allow to upload an image', async () => {
     type: 'image/jpeg'
   };
 
-  const wrapper = mount(<Form work={workEmpty} onSubmit={handleOnSubmit} />);
+  const { queryByTestId } = render(
+    <Form
+      work={{ ...workEmpty, uniqid: 'test-work' }}
+      onSubmit={handleOnSubmit}
+    />
+  );
+
+  expect(queryByTestId('work_thumbnail')).toBeNull();
 
   const fileContents = image;
   const file = new Blob([fileContents], { type: 'text/plain' });
 
-  const fileInput = wrapper.find('input[id="uploadCover"]');
-  fileInput.simulate('change', {
-    target: {
-      files: file
-    }
+  Object.defineProperty(queryByTestId('uploadCover'), 'files', {
+    value: [file]
   });
+
+  fireEvent.change(queryByTestId('uploadCover'));
 
   await global.wait(0);
   let request = moxios.requests.mostRecent();
@@ -123,9 +130,10 @@ it('should allow to upload an image', async () => {
   });
 
   await global.wait(0);
-  expect(wrapper.state().work.thumbnail).toBe('plot_updated.jpg');
 
-  wrapper.unmount();
+  expect(queryByTestId('work_thumbnail').getAttribute('src')).toBe(
+    'http://localhost:8000/works/test-work/plot_updated.jpg'
+  );
 });
 
 it('should fill the form with the work given', async () => {

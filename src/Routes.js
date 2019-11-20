@@ -93,7 +93,7 @@ const ACPWorkCreate = Loadable({
 
 const ACPWorkManage = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPWorkManage" */ './admin/works/List'),
+    import(/* webpackChunkName: "ACPWorkManage" */ './admin/works/AWorksList'),
   loading: () => null,
   modules: ['ACPWorkManage']
 });

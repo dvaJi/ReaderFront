@@ -1,9 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { MemoryRouter } from 'react-router-dom';
+import { mountWithIntl } from 'utils/enzyme-intl';
 
-import List from './List';
+import List from './AWorksList';
 import { FETCH_WORKS } from './query';
 
 const works = global.rfMocks.work.works;
@@ -31,7 +31,7 @@ it('should render without throwing an error', async () => {
   div2.setAttribute('id', 'noDescWarn-2');
   document.body.appendChild(div2);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -59,12 +59,13 @@ it('should show a message when works list is empty without throwing an error', a
       }
     }
   ];
+
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
   div.setAttribute('id', 'noDescWarn');
   document.body.appendChild(div);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={emptyMocks} addTypename={false}>
       <MemoryRouter>
         <List />
