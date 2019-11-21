@@ -11,8 +11,6 @@ import {
 } from './utils/mocks/getReleasesMock';
 import { getPosts } from './utils/mocks/getBlogMock';
 import { getWork, getWorks } from './utils/mocks/getWorksMock';
-import { normalizePost } from './utils/normalizeBlog';
-import { normalizeWork } from './utils/normalizeWork';
 import 'jest-styled-components';
 
 configure({ adapter: new Adapter() });
