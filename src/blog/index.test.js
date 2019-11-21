@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { Provider } from 'react-redux';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { MemoryRouter } from 'react-router-dom';
@@ -14,7 +14,7 @@ const routeProps = {
 };
 
 it('should render without throwing an error', () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[]} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>

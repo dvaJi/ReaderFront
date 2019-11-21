@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
@@ -44,7 +44,7 @@ it('should render without throwing an error', async () => {
       language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <ReleasesContainer />
@@ -69,7 +69,7 @@ it('should render an error if cannot fetch data', async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mount(
+  const wrapper = await mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>

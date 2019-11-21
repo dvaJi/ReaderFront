@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
@@ -34,7 +34,7 @@ it('should render without throwing an error', async () => {
       language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>
@@ -56,7 +56,7 @@ it('should filter works', async () => {
       language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>

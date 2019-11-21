@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -28,7 +28,7 @@ afterEach(() => {
 });
 
 it('should show a list of post', async () => {
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -38,7 +38,7 @@ it('should show a list of post', async () => {
 
   await global.wait(0);
   expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+  wrapper.unmount();
 });
 
 it('should show pagination and change page state', async () => {
@@ -54,7 +54,7 @@ it('should show pagination and change page state', async () => {
       }
     }
   };
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[mocksPagination]} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -63,7 +63,7 @@ it('should show pagination and change page state', async () => {
   );
 
   // TODO: Handle PaginationLink onClick event
-  await wrapper.unmount();
+  wrapper.unmount();
 });
 
 it("should show an error message if it can't fetch data", async () => {
@@ -75,7 +75,7 @@ it("should show an error message if it can't fetch data", async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -85,5 +85,5 @@ it("should show an error message if it can't fetch data", async () => {
 
   await global.wait(0);
   expect(wrapper.text()).toContain('Error');
-  await wrapper.unmount();
+  wrapper.unmount();
 });

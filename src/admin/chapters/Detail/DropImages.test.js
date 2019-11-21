@@ -1,6 +1,7 @@
 import React from 'react';
 import moxios from '@anilanar/moxios';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -44,7 +45,7 @@ it('should allow to set a page as default in with thumbnail view', async () => {
     }
   ];
 
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksPagesUploaded} addTypename={false}>
       <MemoryRouter>
         <DropImages
@@ -57,19 +58,21 @@ it('should allow to set a page as default in with thumbnail view', async () => {
 
   await global.wait(0);
 
-  const changeView = await wrapper.find('button#thumbnails-view');
-  await changeView.simulate('click');
+  await actions(wrapper, async () => {
+    const changeView = await wrapper.find('button#thumbnails-view');
+    changeView.simulate('click');
 
-  const selectAsDefault = await wrapper.find('div#select-default-0');
-  await selectAsDefault.simulate('click');
+    const selectAsDefault = await wrapper.find('div#select-default-0');
+    selectAsDefault.simulate('click');
 
-  const props = await wrapper.find(DropImages).props();
-  await global.wait(0);
+    const props = await wrapper.find(DropImages).props();
+    await global.wait(0);
 
-  expect(props).toBeDefined();
+    expect(props).toBeDefined();
 
-  expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should delete all pages', async () => {
@@ -106,7 +109,7 @@ it('should delete all pages', async () => {
   div.setAttribute('id', 'select-default-1298337316');
   document.body.appendChild(div);
 
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <MemoryRouter>
         <DropImages
@@ -119,12 +122,14 @@ it('should delete all pages', async () => {
 
   await global.wait(0);
 
-  // Click delete all pages button
-  await wrapper.find('button[id="delete-all-pages"]').simulate('click');
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    // Click delete all pages button
+    wrapper.find('button[id="delete-all-pages"]').simulate('click');
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should upload all pages', async () => {
@@ -157,7 +162,7 @@ it('should upload all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const wrapper = await mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <MemoryRouter>
         <DropImages
@@ -170,35 +175,39 @@ it('should upload all pages', async () => {
 
   await global.wait(0);
 
-  //Create a non-null file
-  const fileContents = 'file contents';
-  const file = new Blob([fileContents], { type: 'image/jpeg' });
-  wrapper
-    .find('#dropzone-pages')
-    .props()
-    .onDrop([file]);
-  const uploadAllButton = await wrapper.find('button[id="upload-all-pages"]');
-  uploadAllButton.simulate('click');
+  await actions(wrapper, async () => {
+    //Create a non-null file
+    const fileContents = 'file contents';
+    const file = new Blob([fileContents], { type: 'image/jpeg' });
+    wrapper
+      .find('#dropzone-pages')
+      .props()
+      .onDrop([file]);
+    const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
+    uploadAllButton.simulate('click');
 
-  await wrapper.update();
+    wrapper.update();
 
-  const props = await wrapper.find(DropImages).props();
+    const props = wrapper.find(DropImages).props();
 
-  expect(props).toBeDefined();
+    expect(props).toBeDefined();
 
-  await setTimeout(() => {}, 1000);
+    setTimeout(() => {}, 1000);
 
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 200,
-    statusText: 'OK',
-    response: {
-      file: pagesAsFile[0].filename
-    }
+    await global.wait(0);
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      statusText: 'OK',
+      response: {
+        file: pagesAsFile[0].filename
+      }
+    });
+
+    await global.wait(0);
+
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
   });
-
-  await global.wait(0);
-
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
 });

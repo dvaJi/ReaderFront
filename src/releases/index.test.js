@@ -1,7 +1,7 @@
 import React from 'react';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { Provider } from 'react-redux';
 
@@ -22,7 +22,7 @@ it('should render without throwing an error', () => {
       language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[]} addTypename={false}>
       <Provider store={store}>
         <Releases />

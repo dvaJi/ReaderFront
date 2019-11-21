@@ -1,18 +1,22 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import ReleasePagination from './ReleasePagination';
 
 const onChange = jest.fn();
 
 it('renders without crashing', () => {
-  const wrapper = mount(<ReleasePagination page={1} onPageChange={onChange} />);
+  const wrapper = mountWithIntl(
+    <ReleasePagination page={1} onPageChange={onChange} />
+  );
   expect(wrapper).toBeTruthy();
 
   wrapper.unmount();
 });
 
 it('should disable the previous button if the page is 0', () => {
-  const wrapper = mount(<ReleasePagination page={0} onPageChange={onChange} />);
+  const wrapper = mountWithIntl(
+    <ReleasePagination page={0} onPageChange={onChange} />
+  );
 
   const prevButton = wrapper.find('button#prev_page');
   expect(prevButton.props()['disabled']).toBe(true);
@@ -24,7 +28,7 @@ it('should increment page value', async () => {
   const changePage = newPage => {
     page = newPage;
   };
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <ReleasePagination page={page} onPageChange={changePage} />
   );
 
@@ -39,7 +43,7 @@ it('should decrement page value', async () => {
   const changePage = newPage => {
     page = newPage;
   };
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <ReleasePagination page={page} onPageChange={changePage} />
   );
 

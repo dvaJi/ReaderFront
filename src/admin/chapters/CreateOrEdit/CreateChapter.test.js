@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -23,7 +23,7 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <CreateChapter />

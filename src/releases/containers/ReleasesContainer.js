@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Query } from 'react-apollo';
 
 // App imports
@@ -30,15 +30,11 @@ const LatestReleases = ({ language, orderBy, first, offset }) => (
 function ReleasesContainer({ language }) {
   const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(0);
+  const { formatMessage: f } = useIntl();
 
   return (
     <div className="Releases">
-      <h2>
-        <FormattedMessage
-          id="latest_releases"
-          defaultMessage="Latest Releases"
-        />
-      </h2>
+      <h2>{f({ id: 'latest_releases', defaultMessage: 'Latest Releases' })}</h2>
       <MetaTag />
       <LatestReleases
         language={language}

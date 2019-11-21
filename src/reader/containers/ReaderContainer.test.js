@@ -1,12 +1,12 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
-import ReaderContainer from './ReaderContainer';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
+import ReaderContainer from './ReaderContainer';
 import { FETCH_CHAPTER } from './queries';
 
 const middlewares = [thunk];
@@ -53,7 +53,7 @@ it('should render without throwing an error', async () => {
       language: 'es'
     }
   });
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <Provider store={store}>
         <MemoryRouter>

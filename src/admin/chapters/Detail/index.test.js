@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from 'react-apollo/test-utils';
 
@@ -31,7 +31,7 @@ it('should render without throwing an error', async () => {
   div.setAttribute('id', 'select-default-1298337316');
   document.body.appendChild(div);
 
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <Detail
@@ -49,5 +49,5 @@ it('should render without throwing an error', async () => {
 
   await global.wait(0);
   expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+  wrapper.unmount();
 });

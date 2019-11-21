@@ -154,12 +154,12 @@ global.rfMocks = {
   posts: {
     getPost: getPosts()[0],
     getPosts: getPosts(),
-    getPostsNormalized: getPosts().map(post => normalizePost(post))
+    getPostsNormalized: getPosts()
   },
   work: {
     work: getWork,
-    workNormalized: normalizeWork(getWork),
+    workNormalized: getWork,
     works: getWorks,
-    worksNormalized: getWorks.map(work => normalizeWork(work))
+    worksNormalized: getWorks
   }
 };

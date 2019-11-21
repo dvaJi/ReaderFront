@@ -1,8 +1,7 @@
 import React from 'react';
 import { MockedProvider } from 'react-apollo/test-utils';
-import { mount } from 'enzyme';
-import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { MemoryRouter } from 'react-router-dom';
 
 import { FETCH_CHAPTERS, FETCH_WORK } from './query';
 import Detail from './Detail';
@@ -42,7 +41,7 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <Detail match={params} />
@@ -81,7 +80,7 @@ it('should show a message when works list is empty without throwing an error', a
       }
     }
   ];
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={emptyMocks} addTypename={false}>
       <MemoryRouter>
         <Detail match={params} />
