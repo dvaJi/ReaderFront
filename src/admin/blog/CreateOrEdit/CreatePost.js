@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,9 +27,10 @@ export const postEmpty = {
   thumbnail: ''
 };
 
-function CreateOrEdit({ createPost }) {
+function CreateOrEdit() {
   const history = useHistory();
   const { formatMessage: f } = useIntl();
+  const [createPost] = useMutation(CREATE_POST);
 
   return (
     <Container>
@@ -70,4 +71,4 @@ function CreateOrEdit({ createPost }) {
   );
 }
 
-export default graphql(CREATE_POST, { name: 'createPost' })(CreateOrEdit);
+export default CreateOrEdit;

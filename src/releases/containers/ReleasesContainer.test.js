@@ -1,28 +1,12 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
+import { MockedProvider } from '@apollo/react-testing';
 
-// App imports
 import ReleasesContainer from './ReleasesContainer';
 import { FETCH_RELEASES } from './query';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 const releases = global.rfMocks.releases.getReleases;
-
-beforeEach(function() {
-  moxios.install();
-  global.window.resizeTo(1024);
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
 
 const mocks = [
   {
@@ -39,16 +23,9 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <ReleasesContainer />
-      </Provider>
+      <ReleasesContainer />
     </MockedProvider>
   );
 
@@ -57,11 +34,6 @@ it('should render without throwing an error', async () => {
 });
 
 it('should render an error if cannot fetch data', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const errorMock = {
     request: {
       query: FETCH_RELEASES,
@@ -71,11 +43,9 @@ it('should render an error if cannot fetch data', async () => {
   };
   const wrapper = await mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <ReleasesContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <ReleasesContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 

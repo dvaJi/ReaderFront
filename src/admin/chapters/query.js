@@ -27,6 +27,7 @@ export const FETCH_CHAPTER = gql`
       description
       thumbnail
       releaseDate
+      read_path
       createdAt
       updatedAt
     }

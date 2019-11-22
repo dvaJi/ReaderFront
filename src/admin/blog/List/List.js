@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
-import { Query, graphql } from 'react-apollo';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,9 +14,7 @@ import { REMOVE_POST } from '../mutations';
 
 const PER_PAGE = 20;
 
-function List({ removePost }) {
-  const [page, setPage] = useState(0);
-  const [offset, setOffset] = useState(0);
+function List() {
   const { formatMessage: f } = useIntl();
 
   return (
@@ -27,99 +25,96 @@ function List({ removePost }) {
           <FontAwesomeIcon icon={faPlus} />{' '}
           {f({ id: 'add_post', defaultMessage: 'Add Post' })}
         </ButtonLink>
-        <Query
-          query={FETCH_ALL_POSTS_WITH_AGG}
-          variables={{ first: PER_PAGE, offset: offset }}
-        >
-          {({ loading, error, data }) => {
-            if (loading)
-              return (
-                <div>{f({ id: 'loading', defaultMessage: 'Loading...' })}</div>
-              );
-            if (error) return <p id="error_releases">Error :(</p>;
-
-            return (
-              <div>
-                <Table bordered hover>
-                  <thead>
-                    <tr>
-                      <th>{f({ id: 'title', defaultMessage: 'Title' })}</th>
-                      <th>
-                        {f({ id: 'category', defaultMessage: 'Category' })}
-                      </th>
-                      <th>{f({ id: 'status', defaultMessage: 'Status' })}</th>
-                      <th>
-                        {f({ id: 'language', defaultMessage: 'Language' })}
-                      </th>
-                      <th style={{ textAlign: 'center' }}>
-                        {f({ id: 'actions', defaultMessage: 'Actions' })}
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {data.posts.length > 0 ? (
-                      data.posts.map(post => {
-                        return (
-                          <PostRow
-                            key={post.uniqid}
-                            post={post}
-                            onRemove={async id => {
-                              if (id > 0) {
-                                let check = window.confirm(
-                                  f({
-                                    id: 'confirm_delete_post',
-                                    defaultMessage: 'confirm_delete_post'
-                                  })
-                                );
-
-                                if (check) {
-                                  await removePost({
-                                    variables: { id: id },
-                                    refetchQueries: [
-                                      {
-                                        query: FETCH_ALL_POSTS_WITH_AGG,
-                                        variables: {
-                                          first: PER_PAGE,
-                                          offset: offset
-                                        }
-                                      }
-                                    ]
-                                  });
-                                }
-                              }
-                            }}
-                          />
-                        );
-                      })
-                    ) : (
-                      <tr>
-                        <td colSpan="7">
-                          {f({
-                            id: 'posts_empty',
-                            defaultMessage: 'Posts empty'
-                          })}
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
-                {data.postsAggregates.count > PER_PAGE && (
-                  <BlogPagination
-                    data={data.postsAggregates}
-                    page={page}
-                    handleOnClick={page => {
-                      setPage(page);
-                      setOffset(page * PER_PAGE);
-                    }}
-                  />
-                )}
-              </div>
-            );
-          }}
-        </Query>
+        <PostsTable />
       </div>
     </Container>
+  );
+}
+
+function PostsTable() {
+  const [page, setPage] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const { formatMessage: f } = useIntl();
+  const { loading, error, data } = useQuery(FETCH_ALL_POSTS_WITH_AGG, {
+    variables: { first: PER_PAGE, offset: offset }
+  });
+  const [removePost] = useMutation(REMOVE_POST);
+
+  if (loading)
+    return <div>{f({ id: 'loading', defaultMessage: 'Loading...' })}</div>;
+  if (error) return <p id="error_releases">Error :(</p>;
+
+  return (
+    <div>
+      <Table bordered hover>
+        <thead>
+          <tr>
+            <th>{f({ id: 'title', defaultMessage: 'Title' })}</th>
+            <th>{f({ id: 'category', defaultMessage: 'Category' })}</th>
+            <th>{f({ id: 'status', defaultMessage: 'Status' })}</th>
+            <th>{f({ id: 'language', defaultMessage: 'Language' })}</th>
+            <th style={{ textAlign: 'center' }}>
+              {f({ id: 'actions', defaultMessage: 'Actions' })}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {data.posts.length > 0 ? (
+            data.posts.map(post => (
+              <PostRow
+                key={post.uniqid}
+                post={post}
+                onRemove={async id => {
+                  if (id > 0) {
+                    let check = window.confirm(
+                      f({
+                        id: 'confirm_delete_post',
+                        defaultMessage: 'confirm_delete_post'
+                      })
+                    );
+
+                    if (check) {
+                      await removePost({
+                        variables: { id: id },
+                        refetchQueries: [
+                          {
+                            query: FETCH_ALL_POSTS_WITH_AGG,
+                            variables: {
+                              first: PER_PAGE,
+                              offset: offset
+                            }
+                          }
+                        ]
+                      });
+                    }
+                  }
+                }}
+              />
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7">
+                {f({
+                  id: 'posts_empty',
+                  defaultMessage: 'Posts empty'
+                })}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
+      {data.postsAggregates.count > PER_PAGE && (
+        <BlogPagination
+          data={data.postsAggregates}
+          page={page}
+          handleOnClick={page => {
+            setPage(page);
+            setOffset(page * PER_PAGE);
+          }}
+        />
+      )}
+    </div>
   );
 }
 
@@ -143,4 +138,4 @@ function BlogPagination({ data, page, handleOnClick }) {
   );
 }
 
-export default graphql(REMOVE_POST, { name: 'removePost' })(List);
+export default List;

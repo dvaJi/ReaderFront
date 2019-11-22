@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Dropzone from 'react-dropzone';
-import { compose, graphql } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { useIntl } from 'react-intl';
+import Dropzone from 'react-dropzone';
 
 import { Card } from 'common/ui';
 import { useLocalStorage } from 'common/useLocalStorage';
@@ -9,21 +9,9 @@ import { slugify, forEachSeries } from 'utils/helpers';
 import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
-import {
-  CREATE_PAGE,
-  REMOVE_PAGE,
-  UPDATE_PAGE,
-  UPDATE_DEFAULT_PAGE
-} from '../mutations';
+import { CREATE_PAGE, REMOVE_PAGE, UPDATE_DEFAULT_PAGE } from '../mutations';
 
-function DropImages({
-  chapter,
-  createPage,
-  removePage,
-  updatePage,
-  updateDefaultPage,
-  toggleModal
-}) {
+function DropImages({ chapter, toggleModal }) {
   const [error, setError] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [pages, setPages] = useState(
@@ -33,6 +21,9 @@ function DropImages({
   const [pageView, setPageView] = useLocalStorage('acpUploadView', 'list');
 
   const { formatMessage: f } = useIntl();
+  const [createPage] = useMutation(CREATE_PAGE);
+  const [removePage] = useMutation(REMOVE_PAGE);
+  const [updateDefaultPage] = useMutation(UPDATE_DEFAULT_PAGE);
 
   const handleOnDrop = files => {
     const filenames = pages.map(p => p.filename);
@@ -238,7 +229,7 @@ function DropImages({
                 margin: 10
               }}
             >
-              <input {...getInputProps()} />
+              <input {...getInputProps()} data-testid="dropzone-pages" />
               <p style={{ paddingTop: '40px' }}>
                 {f({
                   id: 'drop_or_browse_files',
@@ -262,9 +253,4 @@ function DropImages({
   );
 }
 
-export default compose(
-  graphql(CREATE_PAGE, { name: 'createPage' }),
-  graphql(REMOVE_PAGE, { name: 'removePage' }),
-  graphql(UPDATE_PAGE, { name: 'updatePage' }),
-  graphql(UPDATE_DEFAULT_PAGE, { name: 'updateDefaultPage' })
-)(DropImages);
+export default DropImages;

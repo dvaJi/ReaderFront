@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 // App Imports
 import MetaTag from './WorkMetaTag';
@@ -12,49 +12,37 @@ import WorkEmpty from '../components/WorkEmpty';
 import { FETCH_WORK } from './query';
 import { languageNameToId } from 'utils/common';
 
-function WorkContainer({ language }) {
+function WorkContainer() {
   const { stub } = useParams();
-  return (
-    <Query
-      query={FETCH_WORK}
-      variables={{
-        language: language.id,
-        stub
-      }}
-    >
-      {({ loading, error, data }) => {
-        if (loading) return <WorkEmpty />;
-        if (error) return <p id="error_releases">Error :(</p>;
+  const { locale } = useIntl();
+  const language = {
+    id: languageNameToId(locale),
+    name: locale
+  };
+  const { loading, error, data } = useQuery(FETCH_WORK, {
+    variables: { language: language.id, stub }
+  });
 
-        return (
-          <>
-            <MetaTag work={data.work} language={language} />
-            <div className="row">
-              <div className="col-md-4">
-                <Cover work={data.work} name={data.work.name} />
-              </div>
-              <Info
-                work={data.work}
-                description={data.work.works_descriptions.find(
-                  e => e.language === language.id
-                )}
-              />
-              <ChapterList work={data.work} language={language} />
-            </div>
-          </>
-        );
-      }}
-    </Query>
+  if (loading) return <WorkEmpty />;
+  if (error) return <p id="error_releases">Error :(</p>;
+
+  return (
+    <>
+      <MetaTag work={data.work} language={language} />
+      <div className="row">
+        <div className="col-md-4">
+          <Cover work={data.work} name={data.work.name} />
+        </div>
+        <Info
+          work={data.work}
+          description={data.work.works_descriptions.find(
+            e => e.language === language.id
+          )}
+        />
+        <ChapterList work={data.work} language={language} />
+      </div>
+    </>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    language: {
-      id: state.layout.language,
-      name: languageNameToId(state.layout.language)
-    }
-  };
-};
-
-export default connect(mapStateToProps)(WorkContainer);
+export default WorkContainer;

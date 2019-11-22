@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { IntlProvider } from 'react-intl-redux';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import ReactGA from 'react-ga';
 
 // App imports

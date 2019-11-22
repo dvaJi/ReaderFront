@@ -1,16 +1,10 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { Provider } from 'react-redux';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { MockedProvider } from '@apollo/react-testing';
 
 import { FETCH_WORK } from './containers/query';
 import Serie from './';
 import { MemoryRouter } from 'react-router-dom';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 const chapters = global.rfMocks.releases.getReleases;
 const work = global.rfMocks.work.work;
@@ -30,25 +24,17 @@ const mocks = [
 ];
 
 it('should render without throwing an error', () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
-
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <Serie
-            match={{
-              params: {
-                stub: 'infection'
-              }
-            }}
-          />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <Serie
+          match={{
+            params: {
+              stub: 'infection'
+            }
+          }}
+        />
+      </MemoryRouter>
     </MockedProvider>
   );
 

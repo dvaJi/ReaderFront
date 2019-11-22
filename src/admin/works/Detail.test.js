@@ -1,5 +1,5 @@
 import React from 'react';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
 

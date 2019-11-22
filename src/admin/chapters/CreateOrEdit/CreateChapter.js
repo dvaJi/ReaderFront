@@ -1,11 +1,10 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-// App imports
 import ChapterForm from './ChapterForm';
 import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ACPChaptersMetaTags';
@@ -29,10 +28,11 @@ export const chapterEmpty = {
   releaseDate: new Date()
 };
 
-function CreateChapter({ createChapter }) {
+function CreateChapter() {
   const params = useParams();
   const history = useHistory();
   const { formatMessage: f } = useIntl();
+  const [createChapter] = useMutation(CREATE_CHAPTER);
 
   const onSubmit = async (event, chapter) => {
     event.preventDefault();
@@ -87,6 +87,4 @@ function CreateChapter({ createChapter }) {
   );
 }
 
-export default graphql(CREATE_CHAPTER, { name: 'createChapter' })(
-  CreateChapter
-);
+export default CreateChapter;

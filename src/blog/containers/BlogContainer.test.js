@@ -1,25 +1,20 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { Provider } from 'react-redux';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { MockedProvider } from '@apollo/react-testing';
 import waitForExpect from 'wait-for-expect';
 import { render, fireEvent, waitForElement } from '@testing-library/react';
 
 import BlogContainer from './BlogContainer';
 import { FETCH_ALL_POSTS_WITH_AGG, FIND_BY_STUB } from './queries';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 const posts = global.rfMocks.posts.getPosts;
 
 const mocks = [
   {
     request: {
       query: FETCH_ALL_POSTS_WITH_AGG,
-      variables: { first: 9, offset: 0, language: 1 }
+      variables: { first: 9, offset: 0, language: 2 }
     },
     result: {
       data: {
@@ -38,18 +33,11 @@ const routeProps = {
 };
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <BlogContainer {...routeProps} />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <BlogContainer {...routeProps} />
+      </MemoryRouter>
     </MockedProvider>
   );
   await global.wait(0);
@@ -58,18 +46,11 @@ it('should render without throwing an error', async () => {
 });
 
 it('should render new items if user scroll to bottom', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <BlogContainer {...routeProps} />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <BlogContainer {...routeProps} />
+      </MemoryRouter>
     </MockedProvider>
   );
 
@@ -86,11 +67,6 @@ it('should render new items if user scroll to bottom', async () => {
 });
 
 it('should select a post and render it', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const mocksStub = [
     {
       request: {
@@ -106,11 +82,9 @@ it('should select a post and render it', async () => {
   ];
   const { queryByTestId, getByTestId } = render(
     <MockedProvider mocks={[...mocks, ...mocksStub]} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <BlogContainer {...routeProps} />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <BlogContainer {...routeProps} />
+      </MemoryRouter>
     </MockedProvider>
   );
 
@@ -124,11 +98,6 @@ it('should select a post and render it', async () => {
 });
 
 it('should render the post selected', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const mocksStub = [
     {
       request: {
@@ -150,13 +119,11 @@ it('should render the post selected', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksStub} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter initialEntries={['blog/lorem-ipsum']}>
-          <Route path="blog/:stub">
-            <BlogContainer {...routeProps} />
-          </Route>
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter initialEntries={['blog/lorem-ipsum']}>
+        <Route path="blog/:stub">
+          <BlogContainer {...routeProps} />
+        </Route>
+      </MemoryRouter>
     </MockedProvider>
   );
 

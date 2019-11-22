@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -121,31 +121,30 @@ function ReaderControls({ work, language, chapter, toggleComments, showNav }) {
 const ChaptersSelects = ({ workStub, language, chapter, work }) => {
   const { formatMessage: f } = useIntl();
   const history = useHistory();
+
+  const { loading, error, data } = useQuery(FETCH_CHAPTERS, {
+    variables: { workStub, language }
+  });
+
+  if (loading || error) return null;
   return (
-    <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
-      {({ loading, error, data }) => {
-        if (loading || error) return null;
-        return (
-          <select
-            id="jump-chapter"
-            name="jump-chapter"
-            defaultValue={chapter.id}
-            onChange={e => {
-              const selCh = data.chaptersByWork.find(
-                ch => ch.id === Number(e.target.value)
-              );
-              history.push(chapterUrl(selCh, work));
-            }}
-          >
-            {data.chaptersByWork.map(ch => (
-              <option value={ch.id} key={`select-${ch.id}`}>
-                {chapterTitle({ chapter: ch, f })}
-              </option>
-            ))}
-          </select>
+    <select
+      id="jump-chapter"
+      name="jump-chapter"
+      defaultValue={chapter.id}
+      onChange={e => {
+        const selCh = data.chaptersByWork.find(
+          ch => ch.id === Number(e.target.value)
         );
+        history.push(chapterUrl(selCh, work));
       }}
-    </Query>
+    >
+      {data.chaptersByWork.map(ch => (
+        <option value={ch.id} key={`select-${ch.id}`}>
+          {chapterTitle({ chapter: ch, f })}
+        </option>
+      ))}
+    </select>
   );
 };
 

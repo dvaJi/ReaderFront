@@ -141,6 +141,18 @@ jest.mock('react-intl', () => {
   };
 });
 
+global.createFile = (name, size, type) => {
+  const file = new File([], name, { type });
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size;
+    }
+  });
+  return file;
+};
+
+global.flushPromises = () => new Promise(resolve => setImmediate(resolve));
+
 // Setup Mocks
 global.rfMocks = {
   releases: {

@@ -1,16 +1,11 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { MockedProvider } from '@apollo/react-testing';
 
 import ReaderContainer from './ReaderContainer';
 import { FETCH_CHAPTER } from './queries';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 const releases = global.rfMocks.releases.getReleases;
 const pages = global.rfMocks.releases.getPages;
 
@@ -48,28 +43,21 @@ it('should render without throwing an error', async () => {
   commentsSettings.setAttribute('id', 'settings-button');
   document.body.appendChild(commentsSettings);
 
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <ReaderContainer
-            match={{
-              params: {
-                stub: 'Infection',
-                chapter: '1',
-                subchapter: '0',
-                volume: '0',
-                lang: 'es'
-              }
-            }}
-          />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <ReaderContainer
+          match={{
+            params: {
+              stub: 'Infection',
+              chapter: '1',
+              subchapter: '0',
+              volume: '0',
+              lang: 'es'
+            }
+          }}
+        />
+      </MemoryRouter>
     </MockedProvider>
   );
 

@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 import Downshift from 'downshift';
 import { useIntl } from 'react-intl';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import {
   Input,
   Label,
@@ -83,49 +83,12 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
                 <Input {...getInputProps()} />
                 <AutocompleteList {...getMenuProps()}>
                   {isOpen && inputValue ? (
-                    <Query
-                      query={SEARCH_PEOPLE}
-                      variables={{ name: inputValue, first: 10, offset: 0 }}
-                    >
-                      {({ loading, error, data }) => {
-                        if (loading)
-                          return (
-                            <div>
-                              {f({
-                                id: 'loading',
-                                defaultMessage: 'Loading...'
-                              })}
-                            </div>
-                          );
-                        if (error) return <p>Error :(</p>;
-                        if (data.searchPeopleByName.length === 0)
-                          return 'NO RESULTS';
-
-                        return (
-                          <>
-                            {data.searchPeopleByName.map((item, index) => (
-                              <div
-                                {...getItemProps({
-                                  key: item.id,
-                                  index,
-                                  item,
-                                  style: {
-                                    backgroundColor:
-                                      highlightedIndex === index
-                                        ? 'lightgray'
-                                        : 'white',
-                                    fontWeight:
-                                      selectedItem === item ? 'bold' : 'normal'
-                                  }
-                                })}
-                              >
-                                {item.name}
-                              </div>
-                            ))}
-                          </>
-                        );
-                      }}
-                    </Query>
+                    <PeopleList
+                      textSearch={inputValue}
+                      highlightedIndex={highlightedIndex}
+                      selectedItem={selectedItem}
+                      getItemProps={getItemProps}
+                    />
                   ) : null}
                 </AutocompleteList>
               </div>
@@ -167,6 +130,51 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
         </Button>
       </ModalFooter>
     </Modal>
+  );
+}
+
+function PeopleList({
+  textSearch,
+  highlightedIndex,
+  selectedItem,
+  getItemProps
+}) {
+  const { formatMessage: f } = useIntl();
+  const { loading, error, data } = useQuery(SEARCH_PEOPLE, {
+    variables: { name: textSearch, first: 10, offset: 0 }
+  });
+
+  if (loading)
+    return (
+      <div>
+        {f({
+          id: 'loading',
+          defaultMessage: 'Loading...'
+        })}
+      </div>
+    );
+  if (error) return <p>Error :(</p>;
+  if (data.searchPeopleByName.length === 0) return 'NO RESULTS';
+
+  return (
+    <>
+      {data.searchPeopleByName.map((item, index) => (
+        <div
+          {...getItemProps({
+            key: item.id,
+            index,
+            item,
+            style: {
+              backgroundColor:
+                highlightedIndex === index ? 'lightgray' : 'white',
+              fontWeight: selectedItem === item ? 'bold' : 'normal'
+            }
+          })}
+        >
+          {item.name}
+        </div>
+      ))}
+    </>
   );
 }
 

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { useIntl } from 'react-intl';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 
-// App imports
 import MetaTag from './ReleaseMetaTags';
 import ReleasePagination from '../components/ReleasePagination';
 import ReleasesList from '../components/ReleasesList';
@@ -13,24 +11,22 @@ import { languageNameToId } from 'utils/common';
 
 const PER_PAGE = 20;
 
-const LatestReleases = ({ language, orderBy, first, offset }) => (
-  <Query
-    query={FETCH_RELEASES}
-    variables={{ language, orderBy, first, offset }}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <ReleaseCardEmpty />;
-      if (error) return <p id="error_releases">Error :(</p>;
+const LatestReleases = ({ language, orderBy, first, offset }) => {
+  const { loading, error, data } = useQuery(FETCH_RELEASES, {
+    variables: { language, orderBy, first, offset }
+  });
 
-      return <ReleasesList releases={data.chapters} />;
-    }}
-  </Query>
-);
+  if (loading) return <ReleaseCardEmpty />;
+  if (error) return <p id="error_releases">Error :(</p>;
 
-function ReleasesContainer({ language }) {
+  return <ReleasesList releases={data.chapters} />;
+};
+
+function ReleasesContainer() {
   const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(0);
-  const { formatMessage: f } = useIntl();
+  const { formatMessage: f, locale } = useIntl();
+  const language = languageNameToId(locale);
 
   return (
     <div className="Releases">
@@ -53,10 +49,4 @@ function ReleasesContainer({ language }) {
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    language: languageNameToId(state.layout.language)
-  };
-};
-
-export default connect(mapStateToProps)(ReleasesContainer);
+export default ReleasesContainer;

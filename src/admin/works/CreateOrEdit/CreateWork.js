@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { graphql } from 'react-apollo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// App imports
 import WorkForm from './Form';
 import CreatePersonModal from '../CreatePersonModal';
 import { Card, ButtonLink, Container } from 'common/ui';
@@ -29,10 +28,11 @@ export const postEmpty = {
   works_genres: []
 };
 
-function CreateWork({ createWork }) {
+function CreateWork() {
   const [isCreatePersonModal, toggleCreatePersonModal] = useState(false);
   const history = useHistory();
   const { formatMessage: f } = useIntl();
+  const [createWork] = useMutation(CREATE_WORK);
 
   const onSubmit = async (event, work) => {
     event.preventDefault();
@@ -81,4 +81,4 @@ function CreateWork({ createWork }) {
   );
 }
 
-export default graphql(CREATE_WORK, { name: 'createWork' })(CreateWork);
+export default CreateWork;

@@ -1,9 +1,8 @@
 import React, { memo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { Mutation } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-// App Imports
 import { Button, Input, Textarea, Label, FormGroup } from 'common/ui';
 import { CREATE_PERSON } from './mutation';
 
@@ -15,6 +14,7 @@ function CreatePersonModal({ isOpen, toggleModal }) {
   const [thumbnail] = useState(null);
   const { formatMessage: f } = useIntl();
   const toggle = () => toggleModal(!isOpen);
+  const [createPerson] = useMutation(CREATE_PERSON);
   const onCompleted = () => {
     toggle();
     setPersonName('');
@@ -102,28 +102,26 @@ function CreatePersonModal({ isOpen, toggleModal }) {
         </FormGroup>
       </ModalBody>
       <ModalFooter>
-        <Mutation
-          mutation={CREATE_PERSON}
-          refetchQueries={['SearchPeopleByName']}
-          variables={{
-            name: personName,
-            name_kanji: personNameKanji,
-            description,
-            twitter,
-            thumbnail
+        <Button
+          disabled={isIncomplete}
+          color="primary"
+          onClick={async event => {
+            event.preventDefault();
+            await createPerson({
+              variables: {
+                name: personName,
+                name_kanji: personNameKanji,
+                description,
+                twitter,
+                thumbnail
+              },
+              refetchQueries: ['SearchPeopleByName']
+            });
+            onCompleted();
           }}
-          onCompleted={onCompleted}
         >
-          {createPerson => (
-            <Button
-              disabled={isIncomplete}
-              color="primary"
-              onClick={createPerson}
-            >
-              {f({ id: 'create', defaultMessage: 'Create' })}
-            </Button>
-          )}
-        </Mutation>{' '}
+          {f({ id: 'create', defaultMessage: 'Create' })}
+        </Button>{' '}
         <Button color="secondary" onClick={toggle}>
           {f({ id: 'cancel', defaultMessage: 'Cancel' })}
         </Button>

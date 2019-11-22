@@ -3,7 +3,8 @@ import moxios from '@anilanar/moxios';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
+import { render, fireEvent } from '@testing-library/react';
 
 // App imports
 import DropImages from './DropImages';
@@ -162,52 +163,64 @@ it('should upload all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const wrapper = mountWithIntl(
-    <MockedProvider mocks={mocksDeletPage} addTypename={false}>
-      <MemoryRouter>
-        <DropImages
-          chapter={{ ...releases[0], pages: [] }}
-          toggleModal={toggleModalMock}
-        />
-      </MemoryRouter>
+  const { getByTestId } = render(
+    <MockedProvider mocks={mocksDeletPage}>
+      <DropImages
+        chapter={{ ...releases[0], pages: [] }}
+        toggleModal={toggleModalMock}
+      />
     </MockedProvider>
   );
 
   await global.wait(0);
 
-  await actions(wrapper, async () => {
-    //Create a non-null file
-    const fileContents = 'file contents';
-    const file = new Blob([fileContents], { type: 'image/jpeg' });
-    wrapper
-      .find('#dropzone-pages')
-      .props()
-      .onDrop([file]);
-    const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
-    uploadAllButton.simulate('click');
+  //Create a non-null file
+  const IMAGES = [global.createFile('page_01.jpg', 1234, 'image/jpeg')];
 
-    wrapper.update();
-
-    const props = wrapper.find(DropImages).props();
-
-    expect(props).toBeDefined();
-
-    setTimeout(() => {}, 1000);
-
-    await global.wait(0);
-
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
-        file: pagesAsFile[0].filename
-      }
-    });
-
-    await global.wait(0);
-
-    expect(wrapper).toBeTruthy();
-    wrapper.unmount();
+  fireEvent.drop(getByTestId('dropzone-pages'), {
+    target: { files: IMAGES }
   });
+
+  await global.wait(0);
+
+  fireEvent.click(getByTestId('upload-all-pages'));
+
+  await global.wait(0);
+
+  let request = moxios.requests.mostRecent();
+  await request.respondWith({
+    status: 200,
+    statusText: 'OK',
+    response: {
+      file: pagesAsFile[0].filename
+    }
+  });
+
+  // wrapper
+  //   .find('#dropzone-pages')
+  //   .props()
+  //   .onDrop([file]);
+  // const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
+  // uploadAllButton.simulate('click');
+
+  // wrapper.update();
+
+  // const props = wrapper.find(DropImages).props();
+
+  // expect(props).toBeDefined();
+
+  // setTimeout(() => {}, 1000);
+
+  // await global.wait(0);
+
+  // let request = moxios.requests.mostRecent();
+  // await request.respondWith({
+  //   status: 200,
+  //   statusText: 'OK',
+  //   response: {
+  //     file: pagesAsFile[0].filename
+  //   }
+  // });
+
+  // await global.wait(0);
 });

@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import NextButton from './NextButton';
 import Block from './Block';
 
 import { SlideWrapper } from './styles';
 import './slide.css';
 
-export default function ComicSlide({ blocks, isLoading }) {
+export default function ComicSlide({ chapters, isLoading }) {
+  const blocks = useMemo(() => createBlocks(chapters), [chapters]);
   const [carrouselStyle, setCarrouselStyle] = useState({
     opacity: '1',
     width: '30000px',
@@ -66,3 +67,35 @@ export default function ComicSlide({ blocks, isLoading }) {
     </SlideWrapper>
   );
 }
+
+const createBlocks = chapters => {
+  const blocks = [];
+  let blockNumber = generateRandomBlock();
+
+  chapters.forEach((chapter, index) => {
+    if (chapters.length <= 5 && chapters.length !== 4) {
+      blocks.push({ chapters: [chapter], block: chapters.length });
+    } else if (blocks.length === 0) {
+      blocks.push({ chapters: [chapter], block: blockNumber });
+    } else if (
+      blocks[blocks.length - 1].chapters.length <
+      blocks[blocks.length - 1].block
+    ) {
+      blocks[blocks.length - 1].chapters.push(chapter);
+    } else {
+      do {
+        blockNumber = generateRandomBlock(blockNumber);
+      } while (blockNumber > chapters.length - index);
+      blocks.push({ chapters: [chapter], block: blockNumber });
+    }
+  });
+
+  return blocks;
+};
+
+const generateRandomBlock = previousBlock => {
+  const numbers = [1, 2, 3, 5];
+  const index = numbers.indexOf(previousBlock);
+  const nextIndex = numbers.length - 1 === index ? 0 : index + 1;
+  return numbers[nextIndex];
+};

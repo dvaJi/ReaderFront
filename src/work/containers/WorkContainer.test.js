@@ -1,16 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { MockedProvider } from '@apollo/react-testing';
 
 import { FETCH_WORK } from './query';
 import WorkContainer from './WorkContainer';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 const chapters = global.rfMocks.releases.getReleases;
 const work = global.rfMocks.work.work;
@@ -30,24 +24,17 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorkContainer
-            match={{
-              params: {
-                stub: 'infection'
-              }
-            }}
-          />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorkContainer
+          match={{
+            params: {
+              stub: 'infection'
+            }
+          }}
+        />
+      </MemoryRouter>
     </MockedProvider>
   );
 
@@ -57,24 +44,17 @@ it('should render without throwing an error', async () => {
 });
 
 it('should render without throwing an error', () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorkContainer
-            match={{
-              params: {
-                stub: 'infection'
-              }
-            }}
-          />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorkContainer
+          match={{
+            params: {
+              stub: 'infection'
+            }
+          }}
+        />
+      </MemoryRouter>
     </MockedProvider>
   );
 

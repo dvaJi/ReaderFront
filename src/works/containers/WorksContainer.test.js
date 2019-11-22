@@ -1,24 +1,19 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
+import { render, fireEvent } from '@testing-library/react';
 
 import WorksContainer from './WorksContainer';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import { FETCH_WORKS } from './query';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 const works = global.rfMocks.work.works;
 
 const mocks = [
   {
     request: {
       query: FETCH_WORKS,
-      variables: { language: 1 }
+      variables: { language: 2 }
     },
     result: {
       data: {
@@ -29,18 +24,11 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorksContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorksContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
@@ -51,25 +39,20 @@ it('should render without throwing an error', async () => {
 });
 
 it('should filter works', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
-  const wrapper = mountWithIntl(
+  const { queryByTestId } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorksContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorksContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
   await global.wait(0);
 
-  const input = wrapper.find('input[name="work-search"]');
-  input.instance().value = 'a';
-  input.simulate('change');
-  wrapper.unmount();
+  expect(queryByTestId('works-list').childElementCount).toBe(3);
+
+  fireEvent.change(queryByTestId('work-search'), { target: { value: 'a' } });
+  await global.wait(0);
+
+  expect(queryByTestId('works-list').childElementCount).toBe(1);
 });

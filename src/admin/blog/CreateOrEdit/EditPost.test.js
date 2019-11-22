@@ -1,7 +1,7 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
 import EditPost from './EditPost';
