@@ -97,7 +97,4 @@ function loginState(state) {
   };
 }
 
-export default connect(
-  loginState,
-  { login }
-)(Login);
+export default connect(loginState, { login })(Login);

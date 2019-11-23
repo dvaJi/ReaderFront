@@ -54,7 +54,4 @@ function ActivateAccount({ activate, searchLocation, history }) {
   );
 }
 
-export default connect(
-  null,
-  { activate }
-)(ActivateAccount);
+export default connect(null, { activate })(ActivateAccount);
