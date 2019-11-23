@@ -1,9 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import ErrorGeneral from './ErrorGeneral';
 
 it('should render without throwing an error', () => {
-  const wrapper = mount(<ErrorGeneral />);
+  const wrapper = mountWithIntl(<ErrorGeneral />);
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });

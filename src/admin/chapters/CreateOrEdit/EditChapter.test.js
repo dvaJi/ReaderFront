@@ -1,7 +1,9 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
+
+import { MemoryRouter, Route } from 'react-router-dom';
+import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
 import EditChapter from './EditChapter';
@@ -17,7 +19,7 @@ const mocks = [
     },
     result: {
       data: {
-        chapterById: releases[0]
+        chapterById: { ...releases[0], pages: [] }
       }
     }
   },
@@ -37,13 +39,19 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <EditChapter />
+      <MemoryRouter
+        initialEntries={['/admincp/work/1/infection/chapter/edit/1']}
+      >
+        <Route path="/admincp/work/:workId/:stub/chapter/edit/:chapterId">
+          <EditChapter />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

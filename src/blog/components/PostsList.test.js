@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import PostsList from './PostsList';
 import PostCard from './PostCard';
 import PostCardEmpty from './PostCardEmpty';
@@ -9,12 +9,12 @@ const posts = global.rfMocks.posts.getPostsNormalized;
 const postsCard = generatePostCard(posts);
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(<PostsList loading={true} posts={[]} />);
+  const wrapper = mount(<PostsList loading={true} posts={[]} />);
   wrapper.unmount();
 });
 
 it('should render posts without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <PostsList loading={false} posts={posts} />
     </BrowserRouter>
@@ -24,7 +24,7 @@ it('should render posts without crashing', () => {
 });
 
 it('renders PostCard without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <PostsList loading={false} posts={posts} />
     </BrowserRouter>
@@ -34,7 +34,7 @@ it('renders PostCard without crashing', () => {
 });
 
 it('renders PostCard and fetching data without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <PostsList loading={false} posts={posts} />
     </BrowserRouter>
@@ -44,7 +44,7 @@ it('renders PostCard and fetching data without crashing', () => {
 });
 
 it('renders PostCard and add PostCardEmpty while is loading without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <PostsList loading={true} posts={posts} />
     </BrowserRouter>
@@ -54,7 +54,7 @@ it('renders PostCard and add PostCardEmpty while is loading without crashing', (
 });
 
 it('renders PostCardEmpty without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <BrowserRouter>
       <PostsList loading={true} posts={[]} />
     </BrowserRouter>

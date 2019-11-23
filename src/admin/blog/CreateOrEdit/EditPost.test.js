@@ -1,7 +1,8 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route } from 'react-router-dom';
+import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
 import EditPost from './EditPost';
@@ -13,7 +14,7 @@ const mocks = [
   {
     request: {
       query: FIND_BY_STUB,
-      variables: { stub: 'lel' }
+      variables: { stub: 'my-post' }
     },
     result: {
       data: {
@@ -37,15 +38,19 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <EditPost />
+      <MemoryRouter initialEntries={['/admincp/blog/edit_post/my-post']}>
+        <Route path="/admincp/blog/edit_post/:stub">
+          <EditPost />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 // TODO: Cover onSubmit  event

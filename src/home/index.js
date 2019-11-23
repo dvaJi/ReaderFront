@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import HomeContainer from "./containers/HomeContainer";
 
-export default class HomePage extends Component {
-  render() {
-    return <HomeContainer />;
-  }
+export default function HomePage() {
+  return <HomeContainer />;
 }

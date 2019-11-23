@@ -1,13 +1,9 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { MockedProvider } from '@apollo/react-testing';
 
 import Series from './';
 import { FETCH_WORKS } from './containers/query';
-import store from '../store';
-
-const works = global.rfMocks.work.works;
 
 const mocks = [
   {
@@ -17,7 +13,7 @@ const mocks = [
     },
     result: {
       data: {
-        chapters: works
+        chapters: global.rfMocks.work.works
       }
     }
   }
@@ -26,9 +22,7 @@ const mocks = [
 it('should render without throwing an error', () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <Series />
-      </Provider>
+      <Series />
     </MockedProvider>
   );
   wrapper.unmount();

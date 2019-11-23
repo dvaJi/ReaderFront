@@ -1,38 +1,35 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { Query } from 'react-apollo';
+import React, { memo, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useQuery } from '@apollo/react-hooks';
 import { forceCheck } from 'react-lazyload';
 
 import MetaTags from './WorksMetatags';
 import WorksList from '../components/WorksList';
 import WorksListLoading from '../components/WorksListLoading';
 import FilterCard from '../components/FilterCard';
+import { languageNameToId } from 'utils/common';
 import { FETCH_WORKS } from './query';
-import params from '../../params.json';
 
-function WorksContainer({ language }) {
+function WorksContainer() {
   const [textFilter, setTextFilter] = useState('');
-  const languageId = params.global.languages[language].id;
+  const { locale } = useIntl();
+  const language = languageNameToId(locale);
+
+  const { loading, error, data } = useQuery(FETCH_WORKS, {
+    variables: { language }
+  });
+  if (loading) return <WorksListLoading />;
+  if (error) return <p id="error_releases">Error :(</p>;
+
+  forceCheck();
+
   return (
     <div className="Works">
       <MetaTags />
       <FilterCard filter={textFilter} onFilterTextChange={setTextFilter} />
-      <Query query={FETCH_WORKS} variables={{ language: languageId }}>
-        {({ loading, error, data }) => {
-          if (loading) return <WorksListLoading />;
-          if (error) return <p id="error_releases">Error :(</p>;
-          forceCheck();
-          return <WorksList works={data.works} filterText={textFilter} />;
-        }}
-      </Query>
+      <WorksList works={data.works} filterText={textFilter} />
     </div>
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    language: state.layout.language
-  };
-};
-
-export default connect(mapStateToProps)(WorksContainer);
+export default memo(WorksContainer);

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const FETCH_WORKS = gql`
-  query Works($language: Int) {
+  query PublicWorks($language: Int) {
     works(
       language: $language
       orderBy: "ASC"
@@ -18,7 +18,7 @@ export const FETCH_WORKS = gql`
       demographicId
       status
       adult
-      thumbnail
+      thumbnail_path
       createdAt
       updatedAt
       works_descriptions {
