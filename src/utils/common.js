@@ -98,9 +98,9 @@ export function workTypesIdToName(typeId) {
   return type !== undefined ? type.name : null;
 }
 
-export const genresDemographic = Object.keys(params.genres.demographic).map(
-  d => ({ ...params.genres.demographic[d], key: d })
-);
+export const genresDemographic = Object.keys(
+  params.genres.demographic
+).map(d => ({ ...params.genres.demographic[d], key: d }));
 
 export function genreDemographicIdToName(demographicId) {
   const status = genresDemographic.find(

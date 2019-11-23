@@ -25,7 +25,4 @@ function authCheckState(state) {
   };
 }
 
-export default connect(
-  authCheckState,
-  {}
-)(AuthCheck);
+export default connect(authCheckState, {})(AuthCheck);
