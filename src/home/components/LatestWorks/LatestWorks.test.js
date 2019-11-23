@@ -1,11 +1,11 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import { getWorks } from '../../../utils/mocks/getWorksMock';
 import LatestWorks from './LatestWorks';
 
 it('renders while loading without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <LatestWorks title={'Test 1'} works={[]} isLoading={true} />
     </MemoryRouter>
@@ -16,7 +16,7 @@ it('renders while loading without crashing', () => {
 
 it('renders without crashing', () => {
   const works = getWorks;
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <LatestWorks title={'Test 2'} works={works} isLoading={false} />
     </MemoryRouter>

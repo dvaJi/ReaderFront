@@ -1,27 +1,13 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
+import { actions } from 'utils/enzyme-actions';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { MockedProvider } from '@apollo/react-testing';
 
 import { FETCH_RELEASES } from './queries';
 import HomeContainer from './HomeContainer';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
 const releases = global.rfMocks.releases.getReleases;
-
-beforeEach(function() {
-  moxios.install();
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
 
 const mocks = [
   {
@@ -38,23 +24,17 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
-
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <HomeContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <HomeContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

@@ -1,42 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
+import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
-import { compose, graphql } from 'react-apollo';
-import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { Card } from 'common/ui';
+import { useLocalStorage } from 'common/useLocalStorage';
 import { slugify, forEachSeries } from 'utils/helpers';
 import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
-import {
-  CREATE_PAGE,
-  REMOVE_PAGE,
-  UPDATE_PAGE,
-  UPDATE_DEFAULT_PAGE
-} from '../mutations';
+import { CREATE_PAGE, REMOVE_PAGE, UPDATE_DEFAULT_PAGE } from '../mutations';
 
-class DropImages extends Component {
-  constructor(props) {
-    super(props);
+function DropImages({ chapter, toggleModal }) {
+  const [error, setError] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [pages, setPages] = useState(
+    chapter.pages.map(pag => ({ ...pag, uploaded: true }))
+  );
+  const [defaultPage, setDefaultPage] = useState(chapter.thumbnail);
+  const [pageView, setPageView] = useLocalStorage('acpUploadView', 'list');
 
-    this.state = {
-      error: null,
-      isUploading: false,
-      pages: props.chapter.pages.map(pag => ({ ...pag, uploaded: true })),
-      defaultPage: props.chapter.thumbnail,
-      pageView: 'list'
-    };
-  }
+  const { formatMessage: f } = useIntl();
+  const [createPage] = useMutation(CREATE_PAGE);
+  const [removePage] = useMutation(REMOVE_PAGE);
+  const [updateDefaultPage] = useMutation(UPDATE_DEFAULT_PAGE);
 
-  handleSetPageView = view => {
-    this.setState({ pageView: view });
-  };
-
-  handleOnDrop = files => {
-    const filenames = this.state.pages.map(p => p.filename);
+  const handleOnDrop = files => {
+    const filenames = pages.map(p => p.filename);
     const nonDuplicates = files.filter(f => !filenames.includes(f.name));
     const newPages = [
-      ...this.state.pages,
+      ...pages,
       ...nonDuplicates.map(f => ({
         filename: f.name,
         file: f,
@@ -48,22 +41,17 @@ class DropImages extends Component {
       slugify(p1.filename).localeCompare(slugify(p2.filename))
     );
 
-    this.setState({
-      pages: newPages
-    });
+    setPages(newPages);
   };
 
-  handleUploadFile = async file => {
-    const { intl, createPage, chapter } = this.props;
-    const { pages } = this.state;
-
-    this.setState({
-      isUploading: true,
-      pages: [
+  const handleUploadFile = async file => {
+    setIsUploading(true);
+    setPages(
+      [
         ...pages.filter(p => p.filename !== file.filename),
         { ...file, isUploading: true, hasError: false }
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
-    });
+    );
 
     let data = new FormData();
     data.append('file', file.file);
@@ -93,10 +81,10 @@ class DropImages extends Component {
           createResponse.data.errors &&
           createResponse.data.errors.length > 0
         ) {
-          this.setState({ error: createResponse.data.errors[0].message });
+          setError(createResponse.data.errors[0].message);
         } else {
           const newPages = [
-            ...this.state.pages.filter(p => p.filename !== file.filename),
+            ...pages.filter(p => p.filename !== file.filename),
             {
               ...file,
               id: createResponse.data.pageCreate.id,
@@ -109,53 +97,52 @@ class DropImages extends Component {
             }
           ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-          this.setState({ pages: newPages, isUploading: false });
+          setPages(newPages);
+          setIsUploading(false);
           return file;
         }
       } catch (err) {
         const newPages = [
-          ...this.state.pages.filter(p => p.filename !== file.filename),
+          ...pages.filter(p => p.filename !== file.filename),
           { ...file, isUploading: false, hasError: true }
         ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-        this.setState({
-          error: this.props.intl.formatMessage({
+        setPages(newPages);
+        setError(
+          f({
             id: 'unknown_error',
             defaultMessage: 'There was some error. Please try again.'
-          }),
-          isUploading: false,
-          pages: newPages
-        });
+          })
+        );
+        setIsUploading(false);
         return null;
       }
     } catch (err) {
       const newPages = [
-        ...this.state.pages.filter(p => p.filename !== file.filename),
+        ...pages.filter(p => p.filename !== file.filename),
         { ...file, isUploading: false, hasError: true }
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-      this.setState({
-        error: intl.formatMessage({
+      setPages(newPages);
+      setError(
+        f({
           id: 'unknown_error',
           defaultMessage: 'There was some error. Please try again.'
-        }),
-        isUploading: false,
-        pages: newPages
-      });
+        })
+      );
+      setIsUploading(false);
       return null;
     }
   };
 
-  handleUploadAll = async () => {
-    const { chapter } = this.props;
-    const { pages } = this.state;
+  const handleUploadAll = async () => {
     const pagesToUpload = pages.filter(
       page => page.file !== undefined && !page.hasError
     );
 
     if (pagesToUpload.length > 0) {
       await forEachSeries(pagesToUpload, async page => {
-        await this.handleUploadFile(page);
+        await handleUploadFile(page);
       });
 
       if (
@@ -163,117 +150,107 @@ class DropImages extends Component {
         pages.length > 0
       ) {
         const index = pages.length < 3 ? 0 : 2;
-        await this.handleSetDefaultPage(pages[index]);
+        await handleSetDefaultPage(pages[index]);
       }
 
-      this.props.toggleModal(true);
+      toggleModal(true);
     }
   };
 
-  handleRemoveFile = async page => {
+  const handleRemoveFile = async page => {
     const id = page.id;
     if (page.uploaded) {
-      await this.props.removePage({ variables: { id } });
+      await removePage({ variables: { id } });
 
-      if (page.filename === this.props.chapter.thumbnail) {
-        await this.props.updateDefaultPage({
-          variables: { id: this.props.chapter.id, thumbnail: null }
+      if (page.filename === chapter.thumbnail) {
+        await updateDefaultPage({
+          variables: { id: chapter.id, thumbnail: null }
         });
       }
     }
 
     const newPagesList = [
-      ...this.state.pages.filter(p => p.filename !== page.filename)
+      ...pages.filter(p => p.filename !== page.filename)
     ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-    await this.setState({
-      pages: newPagesList
-    });
+    await setPages(newPagesList);
   };
 
-  handleRemoveAll = async () => {
-    await forEachSeries(this.state.pages, async page => {
-      await this.handleRemoveFile(page);
+  const handleRemoveAll = async () => {
+    await forEachSeries(pages, async page => {
+      await handleRemoveFile(page);
     });
 
-    if (
-      this.props.chapter.thumbnail !== null ||
-      this.props.chapter.thumbnail !== ''
-    ) {
-      await this.props.updateDefaultPage({
-        variables: { id: this.props.chapter.id, thumbnail: null }
+    if (chapter.thumbnail !== null || chapter.thumbnail !== '') {
+      await updateDefaultPage({
+        variables: { id: chapter.id, thumbnail: null }
       });
     }
 
-    this.setState({ pages: [] });
+    setPages([]);
   };
 
-  handleSetDefaultPage = async file => {
-    await this.props.updateDefaultPage({
-      variables: { id: this.props.chapter.id, thumbnail: file.filename }
-    });
-
-    this.setState({ defaultPage: file.filename });
+  const handleSetDefaultPage = async file => {
+    setDefaultPage(file.filename);
+    try {
+      await updateDefaultPage({
+        variables: { id: chapter.id, thumbnail: file.filename }
+      });
+    } catch (err) {
+      setDefaultPage(null);
+    }
   };
 
-  render() {
-    const { isUploading, pageView, pages, defaultPage } = this.state;
-    const { chapter } = this.props;
-    return (
-      <>
-        <DetailActions
-          uploadAll={this.handleUploadAll}
-          deleteAll={this.handleRemoveAll}
-          changeView={this.handleSetPageView}
-          isUploading={isUploading}
-          actualView={pageView}
+  return (
+    <>
+      <DetailActions
+        uploadAll={handleUploadAll}
+        deleteAll={handleRemoveAll}
+        changeView={setPageView}
+        isUploading={isUploading}
+        actualView={pageView}
+        pages={pages}
+      />
+      {error}
+      <Card>
+        <Dropzone
+          id="dropzone-pages"
+          accept="image/jpeg, image/png, image/gif"
+          onDrop={handleOnDrop}
+        >
+          {({ getRootProps, getInputProps }) => (
+            <div
+              {...getRootProps()}
+              style={{
+                background: '#edf0f4',
+                height: 100,
+                textAlign: 'center',
+                borderRadius: 5,
+                margin: 10
+              }}
+            >
+              <input {...getInputProps()} data-testid="dropzone-pages" />
+              <p style={{ paddingTop: '40px' }}>
+                {f({
+                  id: 'drop_or_browse_files',
+                  defaultMessage: 'Drop or Browse images'
+                })}
+              </p>
+            </div>
+          )}
+        </Dropzone>
+        <PagesList
           pages={pages}
+          chapter={chapter}
+          defaultPage={defaultPage}
+          actualView={pageView}
+          handleUpload={handleUploadFile}
+          handleSelectDefaultPage={handleSetDefaultPage}
+          handleRemovePage={handleRemoveFile}
         />
-        <Card>
-          <Dropzone
-            id="dropzone-pages"
-            accept="image/jpeg, image/png, image/gif"
-            onDrop={this.handleOnDrop}
-          >
-            {({ getRootProps, getInputProps }) => (
-              <div
-                {...getRootProps()}
-                style={{
-                  background: '#edf0f4',
-                  height: 100,
-                  textAlign: 'center',
-                  borderRadius: 5,
-                  margin: 10
-                }}
-              >
-                <input {...getInputProps()} />
-                <p style={{ paddingTop: '40px' }}>
-                  <FormattedMessage
-                    id="drop_or_browse_files"
-                    defaultMessage="Drop or Browse images"
-                  />
-                </p>
-              </div>
-            )}
-          </Dropzone>
-          <PagesList
-            pages={pages}
-            chapter={chapter}
-            defaultPage={defaultPage}
-            actualView={pageView}
-            handleUpload={this.handleUploadFile}
-            handleSelectDefaultPage={this.handleSetDefaultPage}
-            handleRemovePage={this.handleRemoveFile}
-          />
-        </Card>
-      </>
-    );
-  }
+      </Card>
+    </>
+  );
 }
 
-export default compose(
-  graphql(CREATE_PAGE, { name: 'createPage' }),
-  graphql(REMOVE_PAGE, { name: 'removePage' }),
-  graphql(UPDATE_PAGE, { name: 'updatePage' }),
-  graphql(UPDATE_DEFAULT_PAGE, { name: 'updateDefaultPage' })
-)(injectIntl(DropImages));
+export default DropImages;

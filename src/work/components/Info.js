@@ -1,10 +1,9 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { useSpring, animated } from 'react-spring';
 
 import {
-  genreTypeIdToName,
   rolIdToName,
   workStatusIdToName,
   getStatusTagStyle,
@@ -40,6 +39,7 @@ export const GenreBadge = styled.span`
 `;
 
 function Info({ work, description }) {
+  const { formatMessage: f } = useIntl();
   const props = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: { opacity: 0.5, transform: 'translate3d(0,20px,0)' }
@@ -58,32 +58,35 @@ function Info({ work, description }) {
             ...getStatusTagStyle(work.status)
           }}
         >
-          <FormattedMessage
-            id={workStatusIdToName(work.status)}
-            defaultMessage={workStatusIdToName(work.status)}
-          />
+          {f({
+            id: workStatusIdToName(work.status),
+            defaultMessage: workStatusIdToName(work.status)
+          })}
         </StatusBadge>
       </h4>
       <div className="Description">
         {description !== undefined ? description.description : ''}
       </div>
       <div className="Genres">
-        {work.works_genres.length > 0 && (
+        {work.genres.length > 0 && (
           <h4>
-            <FormattedMessage id="genres" defaultMessage="Genres" />
+            {f({
+              id: 'genres',
+              defaultMessage: 'Genres'
+            })}
           </h4>
         )}
-        {work.works_genres.map(g => {
-          const genre = genreTypeIdToName(g.genreId);
-          return (
-            <GenreBadge
-              key={genre}
-              className="badge badge-pill badge-secondary"
-            >
-              <FormattedMessage id={genre} defaultMessage={genre} />
-            </GenreBadge>
-          );
-        })}
+        {work.genres.map(genre => (
+          <GenreBadge
+            key={genre.name}
+            className="badge badge-pill badge-secondary"
+          >
+            {f({
+              id: genre.name,
+              defaultMessage: genre.name
+            })}
+          </GenreBadge>
+        ))}
       </div>
       <div className="People">
         {work.people_works.map(peopleWork => {
@@ -91,10 +94,10 @@ function Info({ work, description }) {
           return (
             <People key={peopleWork.rol + peopleWork.people.id}>
               <h4>
-                <FormattedMessage
-                  id={'people.rol.' + rol}
-                  defaultMessage={rol}
-                />
+                {f({
+                  id: 'people.rol.' + rol,
+                  defaultMessage: rol
+                })}
               </h4>
               <span>{peopleWork.people.name}</span>
             </People>

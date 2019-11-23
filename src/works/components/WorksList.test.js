@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderWithIntl, mountWithIntl } from 'enzyme-react-intl';
+import { render, mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import WorksList from './WorksList';
 import WorkItem from './WorkItem';
@@ -10,17 +10,19 @@ const works = getWorks;
 
 it('renders without crashing', () => {
   let filterText = '';
-  renderWithIntl(
+  const wrapper = render(
     <MemoryRouter>
       <WorksList loading="false" works={works} filterText={filterText} />
     </MemoryRouter>
   );
+
+  expect(wrapper).toBeTruthy();
 });
 
 it('should displays WorkItemEmpty', () => {
   let filterText = '';
 
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={true} works={[]} filterText={filterText} />
     </MemoryRouter>
@@ -31,7 +33,7 @@ it('should displays WorkItemEmpty', () => {
 
 it('should displays WorkItem', () => {
   let filterText = '';
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />
     </MemoryRouter>
@@ -42,7 +44,7 @@ it('should displays WorkItem', () => {
 
 it('should filter works', () => {
   let filterText = 'aka';
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorksList loading={false} works={works} filterText={filterText} />
     </MemoryRouter>

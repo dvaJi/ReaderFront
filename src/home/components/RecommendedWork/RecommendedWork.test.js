@@ -1,13 +1,13 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import RecommendedWork from './RecommendedWork';
 
 const work = global.rfMocks.work.work;
 const workNormalized = global.rfMocks.work.workNormalized;
 
 it('renders while loading without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <RecommendedWork
       title={'Test 1'}
       work={null}
@@ -20,7 +20,7 @@ it('renders while loading without crashing', () => {
 });
 
 it('renders the work', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <RecommendedWork
         title={'Test 2'}
@@ -35,7 +35,7 @@ it('renders the work', () => {
 });
 
 it('renders the work without cover', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <RecommendedWork
         title={'Test 2'}

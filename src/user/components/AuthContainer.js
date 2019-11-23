@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { APP_TITLE } from 'config';
 
@@ -21,8 +21,6 @@ const Box = styled.div`
 
 const Layout = styled.div`
   flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  -webkit-flex: 1 1 auto;
   position: relative;
   z-index: 1;
 `;
@@ -91,43 +89,42 @@ const Footer = styled.footer`
   }
 `;
 
-class AuthContainer extends Component {
-  render() {
-    return (
-      <Root>
-        <Box>
-          <Layout>
-            <Container>
-              <Header>
-                <h1>{APP_TITLE}</h1>
-              </Header>
-              <Main>
-                <Card>{this.props.children}</Card>
-              </Main>
-              {this.props.route.pathname !== '/signup' && (
-                <Footer>
-                  <div>
-                    <Link
-                      id="signup"
-                      className="primary-action"
-                      to="/auth/signup"
-                    >
-                      <span>
-                        <FormattedMessage
-                          id="auth.signup_message"
-                          defaultMessage="Sign up for an account"
-                        />
-                      </span>
-                    </Link>
-                  </div>
-                </Footer>
-              )}
-            </Container>
-          </Layout>
-        </Box>
-      </Root>
-    );
-  }
+function AuthContainer({ children, route }) {
+  const { formatMessage: f } = useIntl();
+  return (
+    <Root>
+      <Box>
+        <Layout>
+          <Container>
+            <Header>
+              <h1>{APP_TITLE}</h1>
+            </Header>
+            <Main>
+              <Card>{children}</Card>
+            </Main>
+            {route.pathname !== '/signup' && (
+              <Footer>
+                <div>
+                  <Link
+                    id="signup"
+                    className="primary-action"
+                    to="/auth/signup"
+                  >
+                    <span>
+                      {f({
+                        id: 'auth.signup_message',
+                        defaultMessage: 'Sign up for an account'
+                      })}
+                    </span>
+                  </Link>
+                </div>
+              </Footer>
+            )}
+          </Container>
+        </Layout>
+      </Box>
+    </Root>
+  );
 }
 
 export default AuthContainer;

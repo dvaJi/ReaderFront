@@ -1,20 +1,20 @@
 import React, { memo, useState } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Mutation } from 'react-apollo';
+import { useIntl } from 'react-intl';
+import { useMutation } from '@apollo/react-hooks';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-// App Imports
 import { Button, Input, Textarea, Label, FormGroup } from 'common/ui';
 import { CREATE_PERSON } from './mutation';
-import { SEARCH_PEOPLE } from './query';
 
-function CreatePersonModal({ isOpen, toggleModal, intl }) {
+function CreatePersonModal({ isOpen, toggleModal }) {
   const [personName, setPersonName] = useState('');
   const [personNameKanji, setPersonNameKanji] = useState('');
   const [description, setDescription] = useState('');
   const [twitter, setTwitter] = useState('');
   const [thumbnail] = useState(null);
+  const { formatMessage: f } = useIntl();
   const toggle = () => toggleModal(!isOpen);
+  const [createPerson] = useMutation(CREATE_PERSON);
   const onCompleted = () => {
     toggle();
     setPersonName('');
@@ -27,18 +27,18 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>
-        <FormattedMessage id="create_person" defaultMessage="Create Person" />
+        {f({ id: 'create_person', defaultMessage: 'Create Person' })}
       </ModalHeader>
       <ModalBody>
         <FormGroup>
           <Label>
-            <FormattedMessage id="person_name" defaultMessage="Person Name" />
+            {f({ id: 'person_name', defaultMessage: 'Person Name' })}
           </Label>
           <Input
             type="input"
             name="person-name"
             id="person-name"
-            placeholder={intl.formatMessage({
+            placeholder={f({
               id: 'person_name',
               defaultMessage: 'Person Name'
             })}
@@ -48,16 +48,16 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
         </FormGroup>
         <FormGroup>
           <Label>
-            <FormattedMessage
-              id="person_name_kanji"
-              defaultMessage="Person Name Kanji"
-            />
+            {f({
+              id: 'person_name_kanji',
+              defaultMessage: 'Person Name Kanji'
+            })}
           </Label>
           <Input
             type="input"
             name="person-name-kanji"
             id="person-name-kanji"
-            placeholder={intl.formatMessage({
+            placeholder={f({
               id: 'person_name_kanji',
               defaultMessage: 'Person Name Kanji'
             })}
@@ -67,16 +67,13 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
         </FormGroup>
         <FormGroup>
           <Label>
-            <FormattedMessage
-              id="person_twitter"
-              defaultMessage="Person Twitter"
-            />
+            {f({ id: 'person_twitter', defaultMessage: 'Person Twitter' })}
           </Label>
           <Input
             type="input"
             name="person-twitter"
             id="person-twitter"
-            placeholder={intl.formatMessage({
+            placeholder={f({
               id: 'person_twitter',
               defaultMessage: 'Person Twitter'
             })}
@@ -86,16 +83,16 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
         </FormGroup>
         <FormGroup>
           <Label>
-            <FormattedMessage
-              id="person_description"
-              defaultMessage="Person Description"
-            />
+            {f({
+              id: 'person_description',
+              defaultMessage: 'Person Description'
+            })}
           </Label>
           <Textarea
             type="textarea"
             name="person_description"
             id="person_description"
-            placeholder={intl.formatMessage({
+            placeholder={f({
               id: 'person_description',
               defaultMessage: 'Person Description'
             })}
@@ -105,34 +102,32 @@ function CreatePersonModal({ isOpen, toggleModal, intl }) {
         </FormGroup>
       </ModalBody>
       <ModalFooter>
-        <Mutation
-          mutation={CREATE_PERSON}
-          refetchQueries={SEARCH_PEOPLE}
-          variables={{
-            name: personName,
-            name_kanji: personNameKanji,
-            description,
-            twitter,
-            thumbnail
+        <Button
+          disabled={isIncomplete}
+          color="primary"
+          onClick={async event => {
+            event.preventDefault();
+            await createPerson({
+              variables: {
+                name: personName,
+                name_kanji: personNameKanji,
+                description,
+                twitter,
+                thumbnail
+              },
+              refetchQueries: ['SearchPeopleByName']
+            });
+            onCompleted();
           }}
-          onCompleted={onCompleted}
         >
-          {createPerson => (
-            <Button
-              disabled={isIncomplete}
-              color="primary"
-              onClick={createPerson}
-            >
-              <FormattedMessage id="create" defaultMessage="Create" />
-            </Button>
-          )}
-        </Mutation>{' '}
+          {f({ id: 'create', defaultMessage: 'Create' })}
+        </Button>{' '}
         <Button color="secondary" onClick={toggle}>
-          <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          {f({ id: 'cancel', defaultMessage: 'Cancel' })}
         </Button>
       </ModalFooter>
     </Modal>
   );
 }
 
-export default memo(injectIntl(CreatePersonModal));
+export default memo(CreatePersonModal);

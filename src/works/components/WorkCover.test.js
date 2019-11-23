@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import WorkCover from './WorkCover';
 import { Cover } from './styles';
@@ -17,7 +17,7 @@ const statusTag = {
 };
 
 it('renders a "normal" cover without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorkCover
         name={work.name}
@@ -33,7 +33,7 @@ it('renders a "normal" cover without crashing', () => {
 });
 
 it('renders a "small" cover without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorkCover
         cover={work.thumbnail}
@@ -50,7 +50,7 @@ it('renders a "small" cover without crashing', () => {
 });
 
 it('should not add the background-image style rule if the thumbnail is null or undefined', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <WorkCover
         cover={null}

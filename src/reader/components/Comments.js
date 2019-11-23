@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Lazyload from 'react-lazyload';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -7,6 +7,7 @@ import { Button } from 'common/ui';
 import DisqusThread from '../../common/DisqusComments';
 
 function Comments({ id, title, path, isOpen, toggle }) {
+  const { formatMessage: f } = useIntl();
   return (
     <Modal
       isOpen={isOpen}
@@ -15,7 +16,7 @@ function Comments({ id, title, path, isOpen, toggle }) {
       centered={true}
     >
       <ModalHeader toggle={() => toggle(false)}>
-        <FormattedMessage id="comments" defaultMessage="Comments" />
+        {f({ id: 'comments', defaultMessage: 'Comments' })}
       </ModalHeader>
       <ModalBody>
         <Lazyload throttle={200} height={300}>
@@ -24,7 +25,7 @@ function Comments({ id, title, path, isOpen, toggle }) {
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={() => toggle(false)}>
-          Close
+          {f({ id: 'close', defaultMessage: 'Close' })}
         </Button>
       </ModalFooter>
     </Modal>

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -16,17 +16,13 @@ import {
 import { slugify } from 'utils/helpers';
 import { languagesAvailables } from 'utils/common';
 
-class ChapterForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chapter: props.chapter,
-      error: null
-    };
-  }
+function ChapterForm({ chapter, onSubmit }) {
+  const [localChapter, setLocalChapter] = useState(chapter);
+  const [error, setError] = useState('');
+  const { formatMessage: f } = useIntl();
 
-  handleOnChange = event => {
-    let chapter = this.state.chapter;
+  const handleOnChange = event => {
+    let chapter = { ...localChapter };
     if (isNaN(event.target.value) || event.target.value === '') {
       chapter[event.target.name] = event.target.value.toString();
     } else {
@@ -37,61 +33,54 @@ class ChapterForm extends Component {
       chapter.stub = slugify(event.target.value);
     }
 
-    this.setState({
-      chapter
-    });
+    setLocalChapter(chapter);
   };
 
-  handleOnChangeSelect = event => {
-    let chapter = this.state.chapter;
+  const handleOnChangeSelect = event => {
+    let chapter = { ...localChapter };
     chapter[event.target.name] = isNaN(event.target.value)
       ? event.target.value
       : parseInt(event.target.value, 0);
-    this.setState({
-      chapter
-    });
+    setLocalChapter(chapter);
   };
 
-  handleOnChangeDate = value => {
-    let chapter = this.state.chapter;
+  const handleOnChangeDate = value => {
+    let chapter = { ...localChapter };
     chapter.releaseDate = value.toString();
-    this.setState({
-      chapter
-    });
+
+    setLocalChapter(chapter);
   };
 
-  handleOnChangeCheckbox = event => {
-    let chapter = this.state.chapter;
+  const handleOnChangeCheckbox = event => {
+    let chapter = { ...localChapter };
     chapter[event.target.name] = !chapter[event.target.name];
 
-    this.setState({
-      chapter
-    });
+    setLocalChapter(chapter);
   };
 
-  handleOnSubmit = ev => {
-    const { intl, onSubmit } = this.props;
+  const handleOnSubmit = ev => {
     const user = JSON.parse(window.localStorage.getItem('user'));
     if (!user) {
-      this.setState({
-        error: intl.formatMessage({
+      setError(
+        f({
           id: 'not_authenticated',
           defaultMessage: 'Not authenticated'
         })
-      });
+      );
+
       return;
     }
 
-    if (!this.state.chapter.chapter || this.state.chapter.chapter <= 0) {
-      this.setState({
-        error: intl.formatMessage({
+    if (!localChapter.chapter || localChapter.chapter <= 0) {
+      setError(
+        f({
           id: 'no_valid_chapter',
           defaultMessage: 'The chapter number must be greater than 0'
         })
-      });
+      );
       return;
     }
-    const chapter = Object.assign({}, this.state.chapter);
+    const chapter = { ...localChapter };
     const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
     chapter.stub = chStubNumber + (chapter.stub === null ? '' : chapter.stub);
     chapter.language =
@@ -99,157 +88,151 @@ class ChapterForm extends Component {
     chapter.hidden = chapter.hidden ? true : false;
     delete chapter.pages;
 
-    this.setState({ error: null });
+    setError(null);
     onSubmit(ev, chapter);
   };
 
-  render() {
-    const { intl } = this.props;
-    const { error, chapter } = this.state;
-    return (
-      <>
-        {error && (
-          <Alert id="error_msg" color="danger">
-            {error}
-          </Alert>
-        )}
+  return (
+    <>
+      {error && (
+        <Alert id="error_msg" color="danger">
+          {error}
+        </Alert>
+      )}
+      <FormGroup>
+        <Label for="name">{f({ id: 'name', defaultMessage: 'Name' })}</Label>
+        <Input
+          id="name"
+          type="text"
+          placeholder={f({
+            id: 'name',
+            defaultMessage: 'Name'
+          })}
+          name="name"
+          autoComplete="off"
+          value={localChapter.name}
+          onChange={handleOnChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label for="volume">
+          {f({ id: 'volume', defaultMessage: 'Volume' })}
+        </Label>
+        <Input
+          id="volume"
+          type="text"
+          placeholder={f({
+            id: 'volume',
+            defaultMessage: 'Volume'
+          })}
+          required="required"
+          name="volume"
+          autoComplete="off"
+          value={localChapter.volume}
+          onChange={handleOnChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label for="chapter">
+          {f({ id: 'chapter', defaultMessage: 'Chapter' })}
+        </Label>
+        <Input
+          id="chapter"
+          type="number"
+          placeholder={f({
+            id: 'chapter',
+            defaultMessage: 'Chapter'
+          })}
+          required="required"
+          name="chapter"
+          autoComplete="off"
+          value={localChapter.chapter}
+          onChange={handleOnChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label for="subchapter">
+          {f({ id: 'subchapter', defaultMessage: 'Subchapter' })}
+        </Label>
+        <Input
+          id="subchapter"
+          type="text"
+          placeholder={f({
+            id: 'subchapter',
+            defaultMessage: 'Subchapter'
+          })}
+          required="required"
+          name="subchapter"
+          autoComplete="off"
+          value={localChapter.subchapter}
+          onChange={handleOnChange}
+        />
+      </FormGroup>
+      {languagesAvailables.length > 1 && (
         <FormGroup>
-          <Label for="name">
-            <FormattedMessage id="name" defaultMessage="Name" />
+          <Label for="language">
+            {f({ id: 'language', defaultMessage: 'Language' })}
           </Label>
           <Input
-            id="name"
-            type="text"
-            placeholder={intl.formatMessage({
-              id: 'name',
-              defaultMessage: 'Name'
-            })}
-            name="name"
-            autoComplete="off"
-            value={chapter.name}
-            onChange={this.handleOnChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="volume">
-            <FormattedMessage id="volume" defaultMessage="Volume" />
-          </Label>
-          <Input
-            id="volume"
-            type="text"
-            placeholder={intl.formatMessage({
-              id: 'volume',
-              defaultMessage: 'Volume'
-            })}
+            type="select"
+            name="language"
+            id="language"
             required="required"
-            name="volume"
-            autoComplete="off"
-            value={chapter.volume}
-            onChange={this.handleOnChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="chapter">
-            <FormattedMessage id="chapter" defaultMessage="Chapter" />
-          </Label>
-          <Input
-            id="chapter"
-            type="number"
-            placeholder={intl.formatMessage({
-              id: 'chapter',
-              defaultMessage: 'Chapter'
-            })}
-            required="required"
-            name="chapter"
-            autoComplete="off"
-            value={chapter.chapter}
-            onChange={this.handleOnChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="subchapter">
-            <FormattedMessage id="subchapter" defaultMessage="Subchapter" />
-          </Label>
-          <Input
-            id="subchapter"
-            type="text"
-            placeholder={intl.formatMessage({
-              id: 'subchapter',
-              defaultMessage: 'Subchapter'
-            })}
-            required="required"
-            name="subchapter"
-            autoComplete="off"
-            value={chapter.subchapter}
-            onChange={this.handleOnChange}
-          />
-        </FormGroup>
-        {languagesAvailables.length > 1 && (
-          <FormGroup>
-            <Label for="language">
-              <FormattedMessage id="language" defaultMessage="Language" />
-            </Label>
-            <Input
-              type="select"
-              name="language"
-              id="language"
-              required="required"
-              value={chapter.language}
-              onChange={this.handleOnChangeSelect}
-            >
-              {languagesAvailables.map(lang => (
-                <option key={lang.id + lang.name} value={lang.id}>
-                  {intl.formatMessage({
-                    id: lang.name + '_full',
-                    defaultMessage: lang.name
-                  })}
-                </option>
-              ))}
-            </Input>
-          </FormGroup>
-        )}
-        <FormGroup>
-          <Label for="releaseDate">
-            <FormattedMessage id="releaseDate" defaultMessage="Release date" />
-          </Label>
-          <DatePicker
-            selected={new Date(chapter.releaseDate)}
-            onChange={this.handleOnChangeDate}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={60}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            timeCaption="time"
-            className="form-control"
-          />
-        </FormGroup>
-        <FormGroup check>
-          <CustomInput
-            type="checkbox"
-            id="hidden"
-            name="hidden"
-            label={intl.formatMessage({
-              id: 'hidden',
-              defaultMessage: 'Hidden'
-            })}
-            value={chapter.hidden}
-            onChange={this.handleOnChangeCheckbox}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Button
-            id="submit_chapter"
-            type="button"
-            theme="secondary"
-            onClick={this.handleOnSubmit}
+            value={localChapter.language}
+            onChange={handleOnChangeSelect}
           >
-            <FontAwesomeIcon icon={faSave} />{' '}
-            <FormattedMessage id="save" defaultMessage="Save" />
-          </Button>
+            {languagesAvailables.map(lang => (
+              <option key={lang.id + lang.name} value={lang.id}>
+                {f({
+                  id: lang.name + '_full',
+                  defaultMessage: lang.name
+                })}
+              </option>
+            ))}
+          </Input>
         </FormGroup>
-      </>
-    );
-  }
+      )}
+      <FormGroup>
+        <Label for="releaseDate">
+          {f({ id: 'releaseDate', defaultMessage: 'Release date' })}
+        </Label>
+        <DatePicker
+          selected={new Date(localChapter.releaseDate)}
+          onChange={handleOnChangeDate}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={60}
+          dateFormat="MMMM d, yyyy h:mm aa"
+          timeCaption="time"
+          className="form-control"
+        />
+      </FormGroup>
+      <FormGroup check>
+        <CustomInput
+          type="checkbox"
+          id="hidden"
+          name="hidden"
+          label={f({
+            id: 'hidden',
+            defaultMessage: 'Hidden'
+          })}
+          value={localChapter.hidden}
+          onChange={handleOnChangeCheckbox}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Button
+          id="submit_chapter"
+          type="button"
+          theme="secondary"
+          onClick={handleOnSubmit}
+        >
+          <FontAwesomeIcon icon={faSave} />{' '}
+          {f({ id: 'save', defaultMessage: 'Save' })}
+        </Button>
+      </FormGroup>
+    </>
+  );
 }
 
 export default ChapterForm;

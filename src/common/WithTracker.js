@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import ReactGA from 'react-ga';
 
 export default function withTracker(WrappedComponent, options = {}) {
@@ -10,24 +10,12 @@ export default function withTracker(WrappedComponent, options = {}) {
     ReactGA.pageview(page);
   };
 
-  const HOC = class extends Component {
-    componentDidMount() {
-      const page = this.props.location.pathname;
-      trackPage(page);
-    }
+  const HOC = props => {
+    useEffect(() => trackPage(props.location.pathname), [
+      props.location.pathname
+    ]);
 
-    componentWillReceiveProps(nextProps) {
-      const currentPage = this.props.location.pathname;
-      const nextPage = nextProps.location.pathname;
-
-      if (currentPage !== nextPage) {
-        trackPage(nextPage);
-      }
-    }
-
-    render() {
-      return <WrappedComponent {...this.props} />;
-    }
+    return <WrappedComponent {...props} />;
   };
 
   return HOC;

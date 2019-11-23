@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Query } from 'react-apollo';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 import { UncontrolledTooltip } from 'reactstrap';
-import { injectIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TITLE, ANONYMIZER_DOWNLOADS, READER_PATH } from '../../config';
+import { useChapterSeen } from 'common/useChapterSeen';
 import { chapterTitle, chapterUrl } from 'utils/common';
 import { FETCH_CHAPTERS } from './queries';
 import {
@@ -20,20 +22,19 @@ import {
 } from '../components/styles';
 import ReaderSettings from '../components/ReaderSettings';
 
-function ReaderControls({
-  work,
-  language,
-  chapter,
-  toggleComments,
-  intl,
-  history,
-  showNav
-}) {
+function ReaderControls({ work, language, chapter, toggleComments, showNav }) {
+  const { formatMessage: f } = useIntl();
   const [showSettings, toggleShowSettings] = useState(false);
   const workUrl = `/work/${work.stub}`;
   const chapterDownload = `${ANONYMIZER_DOWNLOADS + READER_PATH}download/${
     chapter.id
   }`;
+  const { setIsSeen } = useChapterSeen(chapter.id);
+
+  useEffect(() => {
+    setIsSeen(true);
+  }, [chapter]);
+
   return (
     <div
       style={{
@@ -57,8 +58,6 @@ function ReaderControls({
                   language={language}
                   chapter={chapter}
                   work={work}
-                  intl={intl}
-                  history={history}
                 />
               </ReaderControlsChapters>
             </ReaderControlsChapterInfo>
@@ -72,10 +71,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="comments" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="show-comments">
-              <FormattedMessage
-                id="show_comments"
-                defaultMessage="Show Comments"
-              />
+              {f({
+                id: 'show_comments',
+                defaultMessage: 'Show Comments'
+              })}
             </UncontrolledTooltip>
             <a
               title="Download chapter"
@@ -87,10 +86,10 @@ function ReaderControls({
               <FontAwesomeIcon icon="download" size="lg" />
             </a>
             <UncontrolledTooltip placement="bottom" target="download-chapter">
-              <FormattedMessage
-                id="download_chapter"
-                defaultMessage="Download Chapter"
-              />
+              {f({
+                id: 'download_chapter',
+                defaultMessage: 'Download Chapter'
+              })}
             </UncontrolledTooltip>
             <button
               title="Reader settings"
@@ -100,10 +99,7 @@ function ReaderControls({
               <FontAwesomeIcon icon="cog" size="lg" />
             </button>
             <UncontrolledTooltip placement="bottom" target="settings-button">
-              <FormattedMessage
-                id="reader_settings"
-                defaultMessage="Reader Settings"
-              />
+              {f({ id: 'reader_settings', defaultMessage: 'Reader Settings' })}
             </UncontrolledTooltip>
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>
@@ -122,38 +118,34 @@ function ReaderControls({
   );
 }
 
-const ChaptersSelects = ({
-  workStub,
-  language,
-  chapter,
-  work,
-  intl,
-  history
-}) => (
-  <Query query={FETCH_CHAPTERS} variables={{ workStub, language }}>
-    {({ loading, error, data }) => {
-      if (loading || error) return null;
-      return (
-        <select
-          id="jump-chapter"
-          name="jump-chapter"
-          defaultValue={chapter.id}
-          onChange={e => {
-            const selCh = data.chaptersByWork.find(
-              ch => ch.id === Number(e.target.value)
-            );
-            history.push(chapterUrl(selCh, work));
-          }}
-        >
-          {data.chaptersByWork.map(ch => (
-            <option value={ch.id} key={`select-${ch.id}`}>
-              {chapterTitle({ chapter: ch, intl })}
-            </option>
-          ))}
-        </select>
-      );
-    }}
-  </Query>
-);
+const ChaptersSelects = ({ workStub, language, chapter, work }) => {
+  const { formatMessage: f } = useIntl();
+  const history = useHistory();
 
-export default injectIntl(ReaderControls);
+  const { loading, error, data } = useQuery(FETCH_CHAPTERS, {
+    variables: { workStub, language }
+  });
+
+  if (loading || error) return null;
+  return (
+    <select
+      id="jump-chapter"
+      name="jump-chapter"
+      defaultValue={chapter.id}
+      onChange={e => {
+        const selCh = data.chaptersByWork.find(
+          ch => ch.id === Number(e.target.value)
+        );
+        history.push(chapterUrl(selCh, work));
+      }}
+    >
+      {data.chaptersByWork.map(ch => (
+        <option value={ch.id} key={`select-${ch.id}`}>
+          {chapterTitle({ chapter: ch, f })}
+        </option>
+      ))}
+    </select>
+  );
+};
+
+export default ReaderControls;

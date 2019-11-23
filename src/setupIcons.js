@@ -4,10 +4,14 @@ import {
   faCog,
   faAngleLeft,
   faAngleRight,
+  faArrowLeft,
   faFlag,
   faWindowMaximize,
   faDownload,
-  faComments
+  faComments,
+  faEye,
+  faEyeSlash,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
 
 function setupIcons() {
@@ -15,10 +19,14 @@ function setupIcons() {
     faCog,
     faAngleLeft,
     faAngleRight,
+    faArrowLeft,
     faFlag,
     faWindowMaximize,
     faDownload,
-    faComments
+    faComments,
+    faEye,
+    faEyeSlash,
+    faTimes
   );
 }
 

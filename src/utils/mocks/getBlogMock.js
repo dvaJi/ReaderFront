@@ -16,10 +16,14 @@ export function getPosts(amount = 2) {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam elit odio.',
       user: user,
       category: 3,
+      category_name: 'tutorial',
       status: 1,
+      status_name: 'published',
       sticky: false,
       language: 1,
+      language_name: 'en',
       thumbnail: 'cover_awesomepost.png',
+      thumbnail_path: '/test/cover_awesomepost.png',
       createdAt: new Date('2018-07-20'),
       updatedAt: new Date('2018-07-20')
     };

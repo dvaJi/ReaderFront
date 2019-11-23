@@ -1,9 +1,10 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter } from 'react-router-dom';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 
-import List from './List';
+import List from './AWorksList';
 import { FETCH_WORKS } from './query';
 
 const works = global.rfMocks.work.works;
@@ -39,10 +40,12 @@ it('should render without throwing an error', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should show a message when works list is empty without throwing an error', async () => {
@@ -59,6 +62,7 @@ it('should show a message when works list is empty without throwing an error', a
       }
     }
   ];
+
   // Append a div to test our UncontrolledTooltip
   const div = document.createElement('div');
   div.setAttribute('id', 'noDescWarn');
@@ -72,10 +76,12 @@ it('should show a message when works list is empty without throwing an error', a
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper.find('#works_empty')).toBeDefined();
+    expect(wrapper.find('#works_empty')).toBeDefined();
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

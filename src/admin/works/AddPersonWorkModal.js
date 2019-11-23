@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 import Downshift from 'downshift';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import { Query } from 'react-apollo';
+import { useIntl } from 'react-intl';
+import { useQuery } from '@apollo/react-hooks';
 import {
   Input,
   Label,
@@ -17,9 +17,10 @@ import { Button, FormGroup } from 'common/ui';
 import { SEARCH_PEOPLE } from './query';
 import { workRoles } from 'utils/common';
 
-function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
+function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
   const [person, setPerson] = useState(null);
   const [roles, setRoles] = useState(null);
+  const { formatMessage: f } = useIntl();
   const isIncomplete = !person || person === '' || !roles || roles === '';
   const toggle = () => {
     toggleModal(!isOpen);
@@ -57,7 +58,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <ModalHeader toggle={toggle}>
-        <FormattedMessage id="create_person" defaultMessage="Create Person" />
+        {f({ id: 'create_person', defaultMessage: 'Create Person' })}
       </ModalHeader>
       <ModalBody>
         <FormGroup>
@@ -77,57 +78,17 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
             }) => (
               <div style={{ position: 'relative' }}>
                 <Label {...getLabelProps()}>
-                  <FormattedMessage
-                    id="search_person"
-                    defaultMessage="Search Person"
-                  />
+                  {f({ id: 'search_person', defaultMessage: 'Search Person' })}
                 </Label>
                 <Input {...getInputProps()} />
                 <AutocompleteList {...getMenuProps()}>
                   {isOpen && inputValue ? (
-                    <Query
-                      query={SEARCH_PEOPLE}
-                      variables={{ name: inputValue, first: 10, offset: 0 }}
-                    >
-                      {({ loading, error, data }) => {
-                        if (loading)
-                          return (
-                            <div>
-                              <FormattedMessage
-                                id="loading"
-                                defaultMessage="Loading..."
-                              />
-                            </div>
-                          );
-                        if (error) return <p>Error :(</p>;
-                        if (data.searchPeopleByName.length === 0)
-                          return 'NO RESULTS';
-
-                        return (
-                          <>
-                            {data.searchPeopleByName.map((item, index) => (
-                              <div
-                                {...getItemProps({
-                                  key: item.id,
-                                  index,
-                                  item,
-                                  style: {
-                                    backgroundColor:
-                                      highlightedIndex === index
-                                        ? 'lightgray'
-                                        : 'white',
-                                    fontWeight:
-                                      selectedItem === item ? 'bold' : 'normal'
-                                  }
-                                })}
-                              >
-                                {item.name}
-                              </div>
-                            ))}
-                          </>
-                        );
-                      }}
-                    </Query>
+                    <PeopleList
+                      textSearch={inputValue}
+                      highlightedIndex={highlightedIndex}
+                      selectedItem={selectedItem}
+                      getItemProps={getItemProps}
+                    />
                   ) : null}
                 </AutocompleteList>
               </div>
@@ -136,7 +97,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
         </FormGroup>
         <FormGroup>
           <Label for="selectRole">
-            <FormattedMessage id="select_role" defaultMessage="Select roles" />
+            {f({ id: 'select_role', defaultMessage: 'Select roles' })}
           </Label>
           <Input
             type="select"
@@ -147,7 +108,7 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
           >
             {workRoles.map(role => (
               <option key={`people.rol.${role.name}`} value={role.id}>
-                {intl.formatMessage({
+                {f({
                   id: `people.rol.${role.name}`,
                   defaultMessage: role.name
                 })}
@@ -162,14 +123,59 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit, intl }) {
           color="primary"
           onClick={handleOnSubmit({ person, roles })}
         >
-          <FormattedMessage id="create" defaultMessage="Create" />
+          {f({ id: 'create', defaultMessage: 'Create' })}
         </Button>{' '}
         <Button color="secondary" onClick={toggle}>
-          <FormattedMessage id="cancel" defaultMessage="Cancel" />
+          {f({ id: 'cancel', defaultMessage: 'Cancel' })}
         </Button>
       </ModalFooter>
     </Modal>
   );
 }
 
-export default memo(injectIntl(AddPersonWorkModal));
+function PeopleList({
+  textSearch,
+  highlightedIndex,
+  selectedItem,
+  getItemProps
+}) {
+  const { formatMessage: f } = useIntl();
+  const { loading, error, data } = useQuery(SEARCH_PEOPLE, {
+    variables: { name: textSearch, first: 10, offset: 0 }
+  });
+
+  if (loading)
+    return (
+      <div>
+        {f({
+          id: 'loading',
+          defaultMessage: 'Loading...'
+        })}
+      </div>
+    );
+  if (error) return <p>Error :(</p>;
+  if (data.searchPeopleByName.length === 0) return 'NO RESULTS';
+
+  return (
+    <>
+      {data.searchPeopleByName.map((item, index) => (
+        <div
+          {...getItemProps({
+            key: item.id,
+            index,
+            item,
+            style: {
+              backgroundColor:
+                highlightedIndex === index ? 'lightgray' : 'white',
+              fontWeight: selectedItem === item ? 'bold' : 'normal'
+            }
+          })}
+        >
+          {item.name}
+        </div>
+      ))}
+    </>
+  );
+}
+
+export default memo(AddPersonWorkModal);
