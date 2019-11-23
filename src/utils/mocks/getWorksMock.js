@@ -42,7 +42,10 @@ export const getWorks = [
     works_descriptions: [],
     languages: [],
     works_genres: [{ genreId: 3 }, { genreId: 6 }],
-    genres: [{ id: 3, name: 'fantasy' }, { id: 6, name: 'horror' }],
+    genres: [
+      { id: 3, name: 'fantasy' },
+      { id: 6, name: 'horror' }
+    ],
     works_covers: [
       {
         id: 1,
@@ -112,7 +115,10 @@ export const getWork = {
     { id: 2, name: 'en', description: 'some vampires' }
   ],
   works_genres: [{ genreId: 1 }, { genreId: 2 }],
-  genres: [{ id: 1, name: 'action' }, { id: 2, name: 'drama' }],
+  genres: [
+    { id: 1, name: 'action' },
+    { id: 2, name: 'drama' }
+  ],
   people_works: [{ rol: 1, people: getPeople() }],
   works_covers: [
     {

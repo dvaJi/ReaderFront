@@ -132,7 +132,4 @@ function Signup({ register }) {
   );
 }
 
-export default connect(
-  null,
-  { register }
-)(Signup);
+export default connect(null, { register })(Signup);
