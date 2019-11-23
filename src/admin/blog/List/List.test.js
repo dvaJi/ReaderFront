@@ -1,7 +1,7 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
 import List from './List';
@@ -27,8 +27,8 @@ afterEach(() => {
   console.error = global.originalError;
 });
 
-it("should show an error message if it can't fetch data", async () => {
-  const wrapper = await mountWithIntl(
+it('should show a list of post', async () => {
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -38,7 +38,7 @@ it("should show an error message if it can't fetch data", async () => {
 
   await global.wait(0);
   expect(wrapper).toBeTruthy();
-  await wrapper.unmount();
+  wrapper.unmount();
 });
 
 it('should show pagination and change page state', async () => {
@@ -54,7 +54,7 @@ it('should show pagination and change page state', async () => {
       }
     }
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[mocksPagination]} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -63,7 +63,7 @@ it('should show pagination and change page state', async () => {
   );
 
   // TODO: Handle PaginationLink onClick event
-  await wrapper.unmount();
+  wrapper.unmount();
 });
 
 it("should show an error message if it can't fetch data", async () => {
@@ -75,7 +75,7 @@ it("should show an error message if it can't fetch data", async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <MemoryRouter>
         <List />
@@ -85,5 +85,5 @@ it("should show an error message if it can't fetch data", async () => {
 
   await global.wait(0);
   expect(wrapper.text()).toContain('Error');
-  await wrapper.unmount();
+  wrapper.unmount();
 });

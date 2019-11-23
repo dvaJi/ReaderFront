@@ -162,5 +162,7 @@
   "reading_mode": "Modo de lectura",
   "close": "Cerrar",
   "not_authenticated": "No Autenticado",
-  "no_valid_chapter": "El número del capítulo debe ser mayor que 0"
+  "no_valid_chapter": "El número del capítulo debe ser mayor que 0",
+  "manga": "Manga",
+  "webtoon": "Webtoon"
 }

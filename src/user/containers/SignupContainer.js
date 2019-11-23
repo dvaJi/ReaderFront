@@ -1,165 +1,135 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import { register } from '../actions/doUser';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 
-class Signup extends Component {
-  constructor(props) {
-    super(props);
+const USER = {
+  name: '',
+  email: '',
+  password: ''
+};
 
-    this.state = {
-      error: '',
-      success: '',
-      isLoading: false,
-      user: {
-        name: '',
-        email: '',
-        password: ''
-      }
-    };
-  }
+function Signup({ register }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [user, setUser] = useState(USER);
+  const { formatMessage: f } = useIntl();
+  const location = useLocation();
+  const history = useHistory();
 
-  onChange = event => {
-    let user = this.state.user;
-    user[event.target.name] = event.target.value;
+  const onChange = event => {
+    let luser = { ...user };
+    luser[event.target.name] = event.target.value;
 
-    this.setState({
-      user
-    });
+    setUser(luser);
   };
 
-  onSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault();
 
-    this.setState({
-      isLoading: true
-    });
+    setIsLoading(true);
 
-    this.props
-      .register(this.state.user)
+    register(user)
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setIsLoading(false);
 
         if (response.data.errors && response.data.errors.length > 0) {
-          this.setState({
-            error: response.data.errors[0].message
-          });
+          setError(response.data.errors[0].message);
         } else {
-          this.setState({
-            success: this.props.intl.formatMessage({
+          setSuccess(
+            f({
               id: 'success_signup',
               defaultMessage: 'Signed up successfully.'
             })
-          });
-          this.props.history.push('/login');
+          );
+          history.push('/login');
         }
       })
       .catch(error => {
-        this.setState({
-          isLoading: false,
-          error: this.props.intl.formatMessage({
+        setIsLoading(false);
+        setError(
+          f({
             id: 'uknown_error_signup',
             defaultMessage:
               'There was some error signing you up. Please try again.'
           })
-        });
+        );
       });
   };
 
-  render() {
-    return (
-      <AuthContainer route={this.props.router.location}>
-        {this.state.error && (
-          <Alert id="signup_error_alert" color="danger">
-            {this.state.error}
-          </Alert>
-        )}
-        {this.state.success && (
-          <Alert color="success">{this.state.success}</Alert>
-        )}
-        <Form onSubmit={this.onSubmit}>
-          <FormGroup>
-            <Label for="username">
-              <FormattedMessage id="username" defaultMessage="Username" />
-            </Label>
-            <Input
-              id="username"
-              type="text"
-              placeholder={this.props.intl.formatMessage({
-                id: 'username',
-                defaultMessage: 'Username'
-              })}
-              required="required"
-              name="name"
-              value={this.state.user.name}
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="email">
-              <FormattedMessage id="email" defaultMessage="Email" />
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              name="email"
-              placeholder={this.props.intl.formatMessage({
-                id: 'email',
-                defaultMessage: 'Email'
-              })}
-              required="required"
-              value={this.state.user.email}
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">
-              <FormattedMessage id="password" defaultMessage="Password" />
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder={this.props.intl.formatMessage({
-                id: 'password',
-                defaultMessage: 'Password'
-              })}
-              required="required"
-              name="password"
-              value={this.state.user.password}
-              onChange={this.onChange}
-            />
-          </FormGroup>
-          <Button type="submit" size="lg" block disabled={this.state.isLoading}>
-            <FormattedMessage id="signup" defaultMessage="Signup" />
-          </Button>
-        </Form>
-        <AuthCheck />
-      </AuthContainer>
-    );
-  }
+  return (
+    <AuthContainer route={location}>
+      {error && (
+        <Alert id="signup_error_alert" color="danger">
+          {error}
+        </Alert>
+      )}
+      {success && <Alert color="success">{success}</Alert>}
+      <Form onSubmit={onSubmit}>
+        <FormGroup>
+          <Label for="username">
+            {f({ id: 'username', defaultMessage: 'Username' })}
+          </Label>
+          <Input
+            id="username"
+            type="text"
+            placeholder={f({
+              id: 'username',
+              defaultMessage: 'Username'
+            })}
+            required="required"
+            name="name"
+            value={user.name}
+            onChange={onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="email">
+            {f({ id: 'email', defaultMessage: 'Email' })}
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            name="email"
+            placeholder={f({
+              id: 'email',
+              defaultMessage: 'Email'
+            })}
+            required="required"
+            value={user.email}
+            onChange={onChange}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="password">
+            {f({ id: 'password', defaultMessage: 'Password' })}
+          </Label>
+          <Input
+            id="password"
+            type="password"
+            placeholder={f({
+              id: 'password',
+              defaultMessage: 'Password'
+            })}
+            required="required"
+            name="password"
+            value={user.password}
+            onChange={onChange}
+          />
+        </FormGroup>
+        <Button type="submit" size="lg" block disabled={isLoading}>
+          {f({ id: 'signup', defaultMessage: 'Signup' })}
+        </Button>
+      </Form>
+      <AuthCheck />
+    </AuthContainer>
+  );
 }
 
-Signup.propTypes = {
-  register: PropTypes.func.isRequired
-};
-
-function signUpState(state) {
-  return {
-    router: state.router
-  };
-}
-
-export default injectIntl(
-  connect(
-    signUpState,
-    { register }
-  )(withRouter(Signup))
-);
+export default connect(null, { register })(Signup);

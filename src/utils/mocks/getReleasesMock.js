@@ -12,15 +12,19 @@ export function getReleases(amount = 4) {
     let chapter = {
       id: index,
       language: 1,
+      language_name: 'es',
       volume: is ? 1 : 0,
       uniqid: is ? 'asd' + index : 'qwery' + index,
       chapter: index * 2,
       description: '',
-      name: is ? 'Test ' + index : null,
+      name: is ? 'Test ' + index : '',
       stub: 'test-' + index,
       thumbnail: 'thumb ' + index + '.png',
+      thumbnail_path: '/test/thumb ' + index + '.png',
+      download_href: 'https://localhost:3000/download/' + index,
       subchapter: is ? 0 : 1,
       releaseDate: '2019-05-15T02:44:47.000Z',
+      read_path: 'read/asd/' + index * 2,
       createdAt: '2019-05-15T02:44:47.000Z',
       updatedAt: '2019-05-15T02:44:47.000Z',
       work: work
@@ -42,6 +46,7 @@ export function getRelease() {
     name: 'Test 1',
     stub: 'test-1',
     thumbnail: 'thumb.png',
+    thumbnail_path: '/test/thumb.png',
     subchapter: 1,
     work: work
   };

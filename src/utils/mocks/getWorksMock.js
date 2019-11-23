@@ -12,10 +12,17 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: null,
+    thumbnail_path: '/images/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [],
+    languages: [],
     works_genres: [{ genreId: 5 }, { genreId: 8 }, { genreId: 1 }],
+    genres: [
+      { id: 5, name: 'action' },
+      { id: 8, name: 'drama' },
+      { id: 1, name: 'drama' }
+    ],
     works_covers: []
   },
   {
@@ -29,10 +36,16 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: 'thumb_00_cover.png',
+    thumbnail_path: '/images/thumb_00_cover.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [],
+    languages: [],
     works_genres: [{ genreId: 3 }, { genreId: 6 }],
+    genres: [
+      { id: 3, name: 'fantasy' },
+      { id: 6, name: 'horror' }
+    ],
     works_covers: [
       {
         id: 1,
@@ -62,13 +75,19 @@ export const getWorks = [
     adult: false,
     hidden: false,
     thumbnail: null,
+    thumbnail_path: '/images/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
     works_descriptions: [
-      { description: 'Zombis y rikura', language: 1 },
+      { description: 'Zombis y fanservice', language: 1 },
       { description: 'zombies and ecchi', language: 2 }
     ],
+    languages: [
+      { id: 1, name: 'es', description: 'Zombis y fanservice' },
+      { id: 2, name: 'en', description: 'zombies and ecchi' }
+    ],
     works_genres: [],
+    genres: [],
     works_covers: []
   }
 ];
@@ -84,13 +103,22 @@ export const getWork = {
   adult: false,
   hidden: false,
   thumbnail: 'thumb_00_cover.png',
+  thumbnail_path: '/images/thumb_00_cover.png',
   createdAt: new Date(),
   updatedAt: new Date(),
   works_descriptions: [
     { description: 'some vampires', language: 2 },
     { description: 'vampiros', language: 1 }
   ],
+  languages: [
+    { id: 1, name: 'es', description: 'vampiros' },
+    { id: 2, name: 'en', description: 'some vampires' }
+  ],
   works_genres: [{ genreId: 1 }, { genreId: 2 }],
+  genres: [
+    { id: 1, name: 'action' },
+    { id: 2, name: 'drama' }
+  ],
   people_works: [{ rol: 1, people: getPeople() }],
   works_covers: [
     {

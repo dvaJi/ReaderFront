@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl } from 'utils/enzyme-intl';
 
 import Staff from './Staff';
 

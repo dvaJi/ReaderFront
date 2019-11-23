@@ -23,7 +23,4 @@ function routePrivateState(state) {
   };
 }
 
-export default connect(
-  routePrivateState,
-  {}
-)(RoutePrivate);
+export default connect(routePrivateState, {})(RoutePrivate);

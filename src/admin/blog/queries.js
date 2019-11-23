@@ -21,10 +21,10 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
         name
         role
       }
-      category
-      status
+      category_name
+      status_name
       sticky
-      language
+      language_name
       thumbnail
       createdAt
       updatedAt
