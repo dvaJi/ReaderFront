@@ -1,6 +1,7 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MemoryRouter } from 'react-router-dom';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 import Dropzone from 'react-dropzone';
 
@@ -33,23 +34,19 @@ it('should render the chapter with pages', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <Detail
-          match={{
-            params: {
-              workId: '1',
-              stub: 'Infection',
-              chapterId: '1'
-            }
-          }}
-        />
+      <MemoryRouter initialEntries={['/admincp/work/1/infection/chapter/1']}>
+        <Route path="/admincp/work/:workId/:stub/chapter/:chapterId">
+          <Detail />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it("should show an error message if it can't fetch data", async () => {
@@ -67,23 +64,19 @@ it("should show an error message if it can't fetch data", async () => {
   };
   const wrapper = mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
-      <MemoryRouter>
-        <Detail
-          match={{
-            params: {
-              workId: '1',
-              stub: 'Infection',
-              chapterId: '1'
-            }
-          }}
-        />
+      <MemoryRouter initialEntries={['/admincp/work/1/infection/chapter/1']}>
+        <Route path="/admincp/work/:workId/:stub/chapter/:chapterId">
+          <Detail />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper.text()).toContain('Error');
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper.text()).toContain('Error');
+    wrapper.unmount();
+  });
 });
 
 it('should allow to add pages', async () => {
@@ -102,39 +95,43 @@ it('should allow to add pages', async () => {
   ];
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksAddPages} addTypename={false}>
-      <MemoryRouter>
-        <Detail
-          match={{
-            params: {
-              workId: '1',
-              stub: 'Infection',
-              chapterId: '1'
-            }
-          }}
-        />
+      <MemoryRouter initialEntries={['/admincp/work/1/infection/chapter/1']}>
+        <Route path="/admincp/work/:workId/:stub/chapter/:chapterId">
+          <Detail
+            match={{
+              params: {
+                workId: '1',
+                stub: 'Infection',
+                chapterId: '1'
+              }
+            }}
+          />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  let image = {
-    name: 'plot.jpg',
-    size: 1000,
-    type: 'image/jpeg'
-  };
+    let image = {
+      name: 'plot.jpg',
+      size: 1000,
+      type: 'image/jpeg'
+    };
 
-  const fileContents = image;
-  const file = new Blob([fileContents], { type: 'text/plain' });
-  expect(file).toBeDefined();
+    const fileContents = image;
+    const file = new Blob([fileContents], { type: 'text/plain' });
+    expect(file).toBeDefined();
 
-  await global.wait(0);
+    await global.wait(0);
 
-  const drop = wrapper.find(Dropzone);
-  expect(drop).toBeDefined();
+    const drop = wrapper.find(Dropzone);
+    expect(drop).toBeDefined();
 
-  await global.wait(0);
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

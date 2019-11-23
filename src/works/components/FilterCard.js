@@ -17,7 +17,6 @@ function FilterCard({ filterText, onFilterTextChange }) {
           defaultMessage: 'Search...'
         })}
         id="work-search"
-        data-testid="work-search"
         value={filterText}
         onChange={e => {
           onFilterTextChange(e.target.value);

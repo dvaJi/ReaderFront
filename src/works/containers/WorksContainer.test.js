@@ -1,8 +1,8 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
-import { render, fireEvent } from '@testing-library/react';
 
 import WorksContainer from './WorksContainer';
 import { FETCH_WORKS } from './query';
@@ -32,14 +32,16 @@ it('should render without throwing an error', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should filter works', async () => {
-  const { queryByTestId } = render(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
         <WorksContainer />
@@ -47,12 +49,17 @@ it('should filter works', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(queryByTestId('works-list').childElementCount).toBe(3);
+    expect(wrapper.find('#works-list > *').length).toBe(3);
 
-  fireEvent.change(queryByTestId('work-search'), { target: { value: 'a' } });
-  await global.wait(0);
+    wrapper
+      .find('input[id="work-search"]')
+      .simulate('change', { target: { value: 'a', name: 'work-search' } });
 
-  expect(queryByTestId('works-list').childElementCount).toBe(1);
+    await global.wait(0);
+
+    expect(wrapper.find('#works-list > *').length).toBe(1);
+  });
 });

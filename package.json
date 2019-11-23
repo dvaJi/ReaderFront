@@ -120,6 +120,13 @@
       "!src/registerServiceWorker.js",
       "!src/common/WithTracker.js",
       "!src/App.js",
+      "!src/rootReducer.js",
+      "!src/setupApollo.js",
+      "!src/setupProxy.js",
+      "!src/state.js",
+      "!src/store.js",
+      "!src/theme.js",
+      "!src/Root.js",
       "!src/utils/mocks/*.{js}"
     ],
     "coverageThreshold": {

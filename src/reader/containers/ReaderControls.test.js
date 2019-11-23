@@ -1,36 +1,33 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MemoryRouter, Route } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
-import ReaderContainer from './ReaderContainer';
-import { FETCH_CHAPTER } from './queries';
+import ReaderControls from './ReaderControls';
+import { FETCH_CHAPTERS } from './queries';
 
 const releases = global.rfMocks.releases.getReleases;
-const pages = global.rfMocks.releases.getPages;
 
 const mocks = [
   {
     request: {
-      query: FETCH_CHAPTER,
+      query: FETCH_CHAPTERS,
       variables: {
-        workStub: 'infection',
-        language: 2,
-        volume: 1,
-        chapter: 1,
-        subchapter: 0
+        workStub: 'bob1',
+        language: 1
       }
     },
     result: {
       data: {
-        chapterByWorkAndChapter: { ...releases[0], pages }
+        chaptersByWork: releases
       }
     }
   }
 ];
 
 it('should render without throwing an error', async () => {
+  const toggleCommentsMock = jest.fn();
   // Append a div to test our UncontrolledTooltip
   const commentsTooltip = document.createElement('div');
   commentsTooltip.setAttribute('id', 'show-comments');
@@ -46,10 +43,14 @@ it('should render without throwing an error', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter initialEntries={['/read/infection/en/1/1.0']}>
-        <Route path="/read/:stub/:lang/:volume/:chapter.:subchapter">
-          <ReaderContainer />
-        </Route>
+      <MemoryRouter>
+        <ReaderControls
+          work={releases[0].work}
+          language={1}
+          chapter={releases[0]}
+          toggleComments={toggleCommentsMock}
+          showNav={true}
+        />
       </MemoryRouter>
     </MockedProvider>
   );
@@ -60,23 +61,8 @@ it('should render without throwing an error', async () => {
   });
 });
 
-it('should render an error page', async () => {
-  const errormocks = [
-    {
-      request: {
-        query: FETCH_CHAPTER,
-        variables: {
-          workStub: 'infection',
-          language: 2,
-          volume: 1,
-          chapter: 1,
-          subchapter: 0
-        }
-      },
-      error: new Error('Nope')
-    }
-  ];
-
+it('should render without throwing an error', async () => {
+  const toggleCommentsMock = jest.fn();
   // Append a div to test our UncontrolledTooltip
   const commentsTooltip = document.createElement('div');
   commentsTooltip.setAttribute('id', 'show-comments');
@@ -91,11 +77,15 @@ it('should render an error page', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <MockedProvider mocks={errormocks} addTypename={false}>
-      <MemoryRouter initialEntries={['/read/infection/en/1/1.0']}>
-        <Route path="/read/:stub/:lang/:volume/:chapter.:subchapter">
-          <ReaderContainer />
-        </Route>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter>
+        <ReaderControls
+          work={releases[0].work}
+          language={1}
+          chapter={releases[0]}
+          toggleComments={toggleCommentsMock}
+          showNav={false}
+        />
       </MemoryRouter>
     </MockedProvider>
   );
@@ -103,7 +93,5 @@ it('should render an error page', async () => {
   await actions(wrapper, async () => {
     await global.wait(0);
     expect(wrapper).toBeTruthy();
-
-    expect(wrapper.find('#error_general')).toBeTruthy();
   });
 });

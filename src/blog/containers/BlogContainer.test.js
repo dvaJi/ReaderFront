@@ -1,9 +1,8 @@
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MockedProvider } from '@apollo/react-testing';
-import waitForExpect from 'wait-for-expect';
-import { render, fireEvent, waitForElement } from '@testing-library/react';
 
 import BlogContainer from './BlogContainer';
 import { FETCH_ALL_POSTS_WITH_AGG, FIND_BY_STUB } from './queries';
@@ -26,44 +25,44 @@ const mocks = [
     }
   }
 ];
-const routeProps = {
-  match: { params: {} },
-  location: {},
-  history: {}
-};
 
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
-        <BlogContainer {...routeProps} />
+        <BlogContainer />
       </MemoryRouter>
     </MockedProvider>
   );
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should render new items if user scroll to bottom', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemoryRouter>
-        <BlogContainer {...routeProps} />
+        <BlogContainer />
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  document.body.scrollTop = 140;
-  window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
+    document.body.scrollTop = 140;
+    window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
 
-  await global.wait(0);
+    await global.wait(0);
 
-  await wrapper.update();
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    await wrapper.update();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should select a post and render it', async () => {
@@ -80,21 +79,24 @@ it('should select a post and render it', async () => {
       }
     }
   ];
-  const { queryByTestId, getByTestId } = render(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[...mocks, ...mocksStub]} addTypename={false}>
       <MemoryRouter>
-        <BlogContainer {...routeProps} />
+        <BlogContainer />
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  fireEvent.click(getByTestId('post_card_2'));
+    const postCard = wrapper.find('#post_card_2').first();
+    postCard.simulate('click');
 
-  await waitForElement(() => getByTestId('post_view_2'));
+    await global.wait(0);
 
-  expect(queryByTestId('post_view_2')).toBeTruthy();
+    expect(wrapper.find('#post_view_2')).toBeTruthy();
+  });
 });
 
 it('should render the post selected', async () => {
@@ -111,28 +113,23 @@ it('should render the post selected', async () => {
       }
     }
   ];
-  const routeProps = {
-    match: { params: { stub: 'lorem-ipsum' } },
-    location: {},
-    history: {}
-  };
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksStub} addTypename={false}>
       <MemoryRouter initialEntries={['blog/lorem-ipsum']}>
         <Route path="blog/:stub">
-          <BlogContainer {...routeProps} />
+          <BlogContainer />
         </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await waitForExpect(() => {
+  await actions(wrapper, async () => {
     wrapper.update();
 
     const postTitle = wrapper.find('#post_title');
     expect(postTitle.text()).toBe('Lorem Ipsum 1');
-  });
 
-  wrapper.unmount();
+    wrapper.unmount();
+  });
 });

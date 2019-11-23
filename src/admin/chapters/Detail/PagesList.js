@@ -1,8 +1,8 @@
 import React from 'react';
 import { ListGroup } from 'reactstrap';
 
-import { hashCode } from '../../../utils/helpers';
-import { getImage } from '../../../common/Image';
+import { hashCode } from 'utils/helpers';
+import { getImage } from 'common/Image';
 import PageItemWithThumb from './PageItemWithThumb';
 import PageItem from './PageItem';
 

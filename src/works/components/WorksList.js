@@ -6,7 +6,7 @@ import { subString } from 'utils/helpers';
 
 function WorkList({ works, filterText }) {
   return (
-    <div data-testid="works-list">
+    <div id="works-list">
       {works
         .filter(work =>
           work.name.toUpperCase().startsWith(filterText.toUpperCase())

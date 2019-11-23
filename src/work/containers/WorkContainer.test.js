@@ -1,6 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
-import { MemoryRouter } from 'react-router-dom';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
 import { FETCH_WORK } from './query';
@@ -13,7 +14,7 @@ const mocks = [
   {
     request: {
       query: FETCH_WORK,
-      variables: { language: 1, stub: 'infection' }
+      variables: { language: 2, stub: 'infection' }
     },
     result: {
       data: {
@@ -24,40 +25,18 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <WorkContainer
-          match={{
-            params: {
-              stub: 'infection'
-            }
-          }}
-        />
+      <MemoryRouter initialEntries={['/work/infection']}>
+        <Route path="/work/:stub">
+          <WorkContainer />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
-
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
-});
-
-it('should render without throwing an error', () => {
-  const wrapper = mount(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <WorkContainer
-          match={{
-            params: {
-              stub: 'infection'
-            }
-          }}
-        />
-      </MemoryRouter>
-    </MockedProvider>
-  );
-
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

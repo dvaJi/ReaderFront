@@ -1,25 +1,20 @@
 import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MemoryRouter } from 'react-router-dom';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route } from 'react-router-dom';
 
 import { FETCH_CHAPTERS, FETCH_WORK } from './query';
 import Detail from './Detail';
 
 const chapters = global.rfMocks.releases.getReleases;
 const work = global.rfMocks.work.work;
-const params = {
-  params: {
-    workId: 1,
-    stub: 'infection'
-  }
-};
 
 const mocks = [
   {
     request: {
       query: FETCH_CHAPTERS,
-      variables: { language: -1, workStub: params.params.stub }
+      variables: { language: -1, workStub: 'infection' }
     },
     result: {
       data: {
@@ -30,7 +25,7 @@ const mocks = [
   {
     request: {
       query: FETCH_WORK,
-      variables: { language: -1, stub: params.params.stub }
+      variables: { language: -1, stub: 'infection' }
     },
     result: {
       data: {
@@ -43,16 +38,20 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <Detail match={params} />
+      <MemoryRouter initialEntries={['/admincp/work/1/infection']}>
+        <Route path="/admincp/work/:workId/:stub">
+          <Detail />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should show a message when works list is empty without throwing an error', async () => {
@@ -60,7 +59,7 @@ it('should show a message when works list is empty without throwing an error', a
     {
       request: {
         query: FETCH_CHAPTERS,
-        variables: { language: -1, workStub: params.params.stub }
+        variables: { language: -1, workStub: 'infection' }
       },
       result: {
         data: {
@@ -71,7 +70,7 @@ it('should show a message when works list is empty without throwing an error', a
     {
       request: {
         query: FETCH_WORK,
-        variables: { language: -1, stub: params.params.stub }
+        variables: { language: -1, stub: 'infection' }
       },
       result: {
         data: {
@@ -82,16 +81,20 @@ it('should show a message when works list is empty without throwing an error', a
   ];
   const wrapper = mountWithIntl(
     <MockedProvider mocks={emptyMocks} addTypename={false}>
-      <MemoryRouter>
-        <Detail match={params} />
+      <MemoryRouter initialEntries={['/admincp/work/1/infection']}>
+        <Route path="/admincp/work/:workId/:stub">
+          <Detail />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper.find('#chapters_empty')).toBeDefined();
+    expect(wrapper.find('#chapters_empty')).toBeDefined();
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

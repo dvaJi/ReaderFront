@@ -1,5 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
+import { actions } from 'utils/enzyme-actions';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { MockedProvider } from '@apollo/react-testing';
 
@@ -31,7 +32,9 @@ it('should render without throwing an error', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

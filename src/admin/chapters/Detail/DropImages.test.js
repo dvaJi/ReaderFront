@@ -2,26 +2,36 @@ import React from 'react';
 import moxios from '@anilanar/moxios';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
-import { render, fireEvent } from '@testing-library/react';
 
 // App imports
 import DropImages from './DropImages';
 import { UPDATE_DEFAULT_PAGE, REMOVE_PAGE, CREATE_PAGE } from '../mutations';
+
+class MockFileReader {
+  onerror() {}
+  onload() {}
+  readAsDataURL() {
+    this.result = 'result';
+    this.onload();
+  }
+}
 
 const releases = global.rfMocks.releases.getReleases;
 const pagesUploaded = global.rfMocks.releases.getPagesUploaded;
 const pagesAsFile = global.rfMocks.releases.getPagesAsFiles;
 
 const toggleModalMock = jest.fn();
+const originalFileReader = FileReader;
 
 beforeEach(() => {
   moxios.install();
+  window.FileReader = MockFileReader;
 });
 
 afterEach(() => {
   moxios.uninstall();
+  window.FileReader = originalFileReader;
 });
 
 it('should allow to set a page as default in with thumbnail view', async () => {
@@ -48,25 +58,27 @@ it('should allow to set a page as default in with thumbnail view', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksPagesUploaded} addTypename={false}>
-      <MemoryRouter>
-        <DropImages
-          chapter={{ ...releases[0], pages: pagesAsFile }}
-          toggleModal={toggleModalMock}
-        />
-      </MemoryRouter>
+      <DropImages
+        chapter={{ ...releases[0], pages: pagesAsFile }}
+        toggleModal={toggleModalMock}
+      />
     </MockedProvider>
   );
 
-  await global.wait(0);
-
   await actions(wrapper, async () => {
-    const changeView = await wrapper.find('button#thumbnails-view');
+    await global.wait(0);
+
+    const changeView = wrapper.find('button#thumbnails-view');
     changeView.simulate('click');
 
-    const selectAsDefault = await wrapper.find('div#select-default-0');
+    await global.wait(0);
+
+    const selectAsDefault = wrapper.find('div#select-default-0');
     selectAsDefault.simulate('click');
 
-    const props = await wrapper.find(DropImages).props();
+    await global.wait(0);
+
+    const props = wrapper.find(DropImages).props();
     await global.wait(0);
 
     expect(props).toBeDefined();
@@ -112,18 +124,15 @@ it('should delete all pages', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocksDeletPage} addTypename={false}>
-      <MemoryRouter>
-        <DropImages
-          chapter={{ ...releases[0], pages: pagesUploaded }}
-          toggleModal={toggleModalMock}
-        />
-      </MemoryRouter>
+      <DropImages
+        chapter={{ ...releases[0], pages: pagesUploaded }}
+        toggleModal={toggleModalMock}
+      />
     </MockedProvider>
   );
 
-  await global.wait(0);
-
   await actions(wrapper, async () => {
+    await global.wait(0);
     // Click delete all pages button
     wrapper.find('button[id="delete-all-pages"]').simulate('click');
     await global.wait(0);
@@ -144,7 +153,7 @@ it('should upload all pages', async () => {
           hidden: false,
           height: 0,
           width: 0,
-          size: 13,
+          size: 1234,
           mime: 'image/jpeg'
         }
       },
@@ -163,8 +172,8 @@ it('should upload all pages', async () => {
   div.setAttribute('id', 'select-default-0');
   document.body.appendChild(div);
 
-  const { getByTestId } = render(
-    <MockedProvider mocks={mocksDeletPage}>
+  const wrapper = mountWithIntl(
+    <MockedProvider mocks={mocksDeletPage} addTypename={false}>
       <DropImages
         chapter={{ ...releases[0], pages: [] }}
         toggleModal={toggleModalMock}
@@ -177,50 +186,35 @@ it('should upload all pages', async () => {
   //Create a non-null file
   const IMAGES = [global.createFile('page_01.jpg', 1234, 'image/jpeg')];
 
-  fireEvent.drop(getByTestId('dropzone-pages'), {
-    target: { files: IMAGES }
+  await actions(wrapper, async () => {
+    wrapper
+      .find('#dropzone-pages')
+      .props()
+      .onDrop(IMAGES);
+    const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
+    uploadAllButton.simulate('click');
+
+    wrapper.update();
+
+    const props = wrapper.find(DropImages).props();
+
+    expect(props).toBeDefined();
+
+    setTimeout(() => {}, 1000);
+
+    await global.wait(0);
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      statusText: 'OK',
+      response: {
+        file: pagesAsFile[0].filename
+      }
+    });
+
+    await global.wait(0);
+
+    wrapper.unmount();
   });
-
-  await global.wait(0);
-
-  fireEvent.click(getByTestId('upload-all-pages'));
-
-  await global.wait(0);
-
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 200,
-    statusText: 'OK',
-    response: {
-      file: pagesAsFile[0].filename
-    }
-  });
-
-  // wrapper
-  //   .find('#dropzone-pages')
-  //   .props()
-  //   .onDrop([file]);
-  // const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
-  // uploadAllButton.simulate('click');
-
-  // wrapper.update();
-
-  // const props = wrapper.find(DropImages).props();
-
-  // expect(props).toBeDefined();
-
-  // setTimeout(() => {}, 1000);
-
-  // await global.wait(0);
-
-  // let request = moxios.requests.mostRecent();
-  // await request.respondWith({
-  //   status: 200,
-  //   statusText: 'OK',
-  //   response: {
-  //     file: pagesAsFile[0].filename
-  //   }
-  // });
-
-  // await global.wait(0);
 });

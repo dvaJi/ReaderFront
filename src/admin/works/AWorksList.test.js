@@ -2,6 +2,7 @@ import React from 'react';
 import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 
 import List from './AWorksList';
 import { FETCH_WORKS } from './query';
@@ -39,10 +40,12 @@ it('should render without throwing an error', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should show a message when works list is empty without throwing an error', async () => {
@@ -73,10 +76,12 @@ it('should show a message when works list is empty without throwing an error', a
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper.find('#works_empty')).toBeDefined();
+    expect(wrapper.find('#works_empty')).toBeDefined();
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

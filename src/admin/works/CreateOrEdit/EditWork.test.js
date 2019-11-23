@@ -1,6 +1,7 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MemoryRouter } from 'react-router-dom';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
@@ -17,7 +18,7 @@ const mocks = [
     },
     result: {
       data: {
-        postByStub: work
+        work: work
       }
     }
   },
@@ -28,7 +29,7 @@ const mocks = [
     },
     result: {
       data: {
-        createPost: { id: 1 }
+        workUpdate: { id: 1 }
       }
     }
   }
@@ -37,13 +38,17 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <EditWork />
+      <MemoryRouter initialEntries={['/admincp/work/edit/infection']}>
+        <Route path="/admincp/work/edit/:stub">
+          <EditWork />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });

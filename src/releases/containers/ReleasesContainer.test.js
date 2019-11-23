@@ -1,5 +1,6 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
@@ -12,7 +13,7 @@ const mocks = [
   {
     request: {
       query: FETCH_RELEASES,
-      variables: { language: 1, orderBy: 'DESC', first: 20, offset: 0 }
+      variables: { language: 2, orderBy: 'DESC', first: 20, offset: 0 }
     },
     result: {
       data: {
@@ -25,12 +26,16 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <ReleasesContainer />
+      <MemoryRouter>
+        <ReleasesContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+  await actions(wrapper, async () => {
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should render an error if cannot fetch data', async () => {
@@ -41,7 +46,7 @@ it('should render an error if cannot fetch data', async () => {
     },
     error: new Error('Nope')
   };
-  const wrapper = await mountWithIntl(
+  const wrapper = mountWithIntl(
     <MockedProvider mocks={[errorMock]} addTypename={false}>
       <MemoryRouter>
         <ReleasesContainer />
@@ -49,8 +54,10 @@ it('should render an error if cannot fetch data', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper.text()).toContain('Error :(');
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper.text()).toContain('Error :(');
 
-  wrapper.unmount();
+    wrapper.unmount();
+  });
 });

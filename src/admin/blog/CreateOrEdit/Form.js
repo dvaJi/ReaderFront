@@ -179,7 +179,6 @@ function PostForm({ post, onSubmit }) {
         <CustomInput
           type="file"
           id="uploadCover"
-          data-testid="uploadCover"
           name="cover"
           label={f({
             id: 'upload_cover',
@@ -192,7 +191,6 @@ function PostForm({ post, onSubmit }) {
       {localPost.thumbnail !== '' && (
         <img
           id="post_thumbnail"
-          data-testid="post_thumbnail"
           src={getImage(
             `images/blog/${localPost.uniqid}/${localPost.thumbnail}`,
             250,
