@@ -1,17 +1,19 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 function ErrorNotFound() {
+  const { formatMessage } = useIntl();
   return (
-    <div class="col-md-12 p-lg-5 mx-auto my-5">
-      <h1 class="display-4 font-weight-normal">
-        <FormattedMessage id="error_not_found" defaultMessage="Not Found" />
+    <div className="col-md-12 p-lg-5 mx-auto my-5">
+      <h1 className="display-4 font-weight-normal">
+        {formatMessage({ id: 'error_not_found', defaultMessage: 'Not Found' })}
       </h1>
-      <p class="lead font-weight-normal">
-        <FormattedMessage
-          id="error_not_found_description"
-          defaultMessage="This link you followed probably broken or the page has been removed."
-        />
+      <p className="lead font-weight-normal">
+        {formatMessage({
+          id: 'error_not_found_description',
+          defaultMessage:
+            'This link you followed probably broken or the page has been removed.'
+        })}
       </p>
     </div>
   );

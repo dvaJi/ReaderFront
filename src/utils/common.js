@@ -163,13 +163,13 @@ export function getDefaultLanguage() {
   return language;
 }
 
-export function chapterTitle({ chapter, intl }) {
+export function chapterTitle({ chapter, f }) {
   const subchapter = chapter.subchapter !== 0 ? '.' + chapter.subchapter : '';
-  const volumeTxt = intl.formatMessage({
+  const volumeTxt = f({
     id: 'volume',
     defaultMessage: 'Volume'
   });
-  const chapterTxt = intl.formatMessage({
+  const chapterTxt = f({
     id: 'chapter',
     defaultMessage: 'Chapter'
   });

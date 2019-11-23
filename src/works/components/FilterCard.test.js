@@ -1,11 +1,11 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import FilterCard from './FilterCard';
 
 let handleFilterTextChange = jest.fn();
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <FilterCard filter={''} onFilterTextChange={handleFilterTextChange} />
   );
 

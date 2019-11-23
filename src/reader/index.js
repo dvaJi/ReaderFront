@@ -1,12 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 
 import ReaderContainer from "./containers/ReaderContainer";
 
-class Reader extends Component {
-  
-  render() {
-    return <ReaderContainer match={this.props.match} history={this.props.history}/>;
-  }
+function Reader({ match, history }) {
+  return <ReaderContainer match={match} history={history}/>;
 }
 
 export default Reader;
