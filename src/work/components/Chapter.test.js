@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter } from 'react-router-dom';
 import Chapter from './Chapter';
 
@@ -17,7 +17,7 @@ const chapter = {
 };
 
 it('renders without crashing', () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -40,7 +40,7 @@ it('renders with subchapter without crashing', () => {
     name: 'dis way',
     download_href: '/download/infection'
   };
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -63,7 +63,7 @@ it('renders without name without crashing', () => {
     name: '',
     download_href: '/download/infection'
   };
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -79,7 +79,7 @@ it('renders without name without crashing', () => {
 
 it('should create an valid href', () => {
   const onButtonClick = jest.fn();
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -95,5 +95,24 @@ it('should create an valid href', () => {
     .first()
     .children();
   expect(link.props().href).toBe('/read/infection/es/1/30.0');
+  wrapper.unmount();
+});
+
+it('should show a badge if the chapter is the end', () => {
+  const onButtonClick = jest.fn();
+  const wrapper = mountWithIntl(
+    <MemoryRouter>
+      <Chapter
+        key={1}
+        work={work}
+        onclick={onButtonClick}
+        chapter={chapter}
+        language={{ id: 1, name: 'es' }}
+        isEnd={true}
+      />
+    </MemoryRouter>
+  );
+
+  expect(wrapper.find('#end_chapter')).toBeTruthy();
   wrapper.unmount();
 });
