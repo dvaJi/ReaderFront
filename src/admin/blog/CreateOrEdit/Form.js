@@ -186,6 +186,7 @@ function PostForm({ post, onSubmit }) {
           })}
           onChange={handleUploadFile}
           required={localPost.id === 0}
+          multiple
         />
       </FormGroup>
       {localPost.thumbnail !== '' && (
