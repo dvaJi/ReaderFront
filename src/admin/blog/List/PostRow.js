@@ -4,14 +4,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { Button, ButtonLink, ButtonGroup } from 'common/ui';
 
-export default memo(function Row({
-  post,
-  statusTxt,
-  categoryTxt,
-  languageTxt,
-  onRemove
-}) {
-  const { id, title, stub, createdAt, updatedAt } = post;
+export default memo(function PostRow({ post, onRemove }) {
+  const { id, title, stub, category_name, status_name, language_name } = post;
   return (
     <tr key={id}>
       <td>
@@ -19,33 +13,19 @@ export default memo(function Row({
       </td>
 
       <td>
-        {categoryTxt !== undefined && (
-          <FormattedMessage
-            id={categoryTxt.name}
-            defaultMessage={categoryTxt.name}
-          />
-        )}
+        <FormattedMessage id={category_name} defaultMessage={category_name} />
       </td>
 
       <td>
-        {statusTxt !== undefined && (
-          <FormattedMessage
-            id={statusTxt.name}
-            defaultMessage={statusTxt.name}
-          />
-        )}
+        <FormattedMessage id={status_name} defaultMessage={status_name} />
       </td>
 
       <td style={{ textAlign: 'center' }}>
         <FormattedMessage
-          id={languageTxt.name + '_full'}
-          defaultMessage={languageTxt.name}
+          id={language_name + '_full'}
+          defaultMessage={language_name}
         />
       </td>
-
-      <td>{new Date(createdAt).toDateString()}</td>
-
-      <td>{new Date(updatedAt).toDateString()}</td>
 
       <td style={{ textAlign: 'center' }}>
         <ButtonGroup>

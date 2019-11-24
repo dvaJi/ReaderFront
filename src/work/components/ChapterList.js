@@ -1,16 +1,15 @@
 import React from 'react';
 
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Chapter from './Chapter';
 
 import { ChapterListStyle, Title, List, NoChapters } from './styles';
 
 function ChapterList({ work, language }) {
+  const { formatMessage: f } = useIntl();
   return (
     <ChapterListStyle className="col-md-12">
-      <Title>
-        <FormattedMessage id="chapters_list" defaultMessage="Chapters" />
-      </Title>
+      <Title>{f({ id: 'chapters_list', defaultMessage: 'Chapters' })}</Title>
       {work.chapters.length > 0 ? (
         <List>
           {work.chapters.map(chapter => (
@@ -24,7 +23,7 @@ function ChapterList({ work, language }) {
         </List>
       ) : (
         <NoChapters>
-          <FormattedMessage id="no_chapters" defaultMessage="No chapters" />
+          {f({ id: 'no_chapters', defaultMessage: 'No chapters' })}
         </NoChapters>
       )}
     </ChapterListStyle>

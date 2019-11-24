@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 
 import ChapterForm from './ChapterForm';
 
@@ -37,7 +37,7 @@ afterEach(() => {
 });
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <ChapterForm chapter={chapterEmpty} onSubmit={handleOnSubmit} />
   );
   expect(wrapper).toBeTruthy();
@@ -46,7 +46,7 @@ it('renders without crashing', () => {
 
 it('should fill the form without throwing an error', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <ChapterForm chapter={chapterEmpty} onSubmit={handleOnSubmit} />
   );
 
@@ -79,7 +79,7 @@ it('should fill the form without throwing an error', async () => {
 });
 
 it('should show an error if user is not authenticated', async () => {
-  const wrapper = mountWithIntl(<ChapterForm chapter={chapterEmpty} />);
+  const wrapper = mount(<ChapterForm chapter={chapterEmpty} />);
   wrapper.find('button[id="submit_chapter"]').simulate('click');
   await global.wait(0);
 
@@ -89,7 +89,7 @@ it('should show an error if user is not authenticated', async () => {
 
 it('should show an error if chapters is not greater than 0', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(<ChapterForm chapter={chapterEmpty} />);
+  const wrapper = mount(<ChapterForm chapter={chapterEmpty} />);
   wrapper.find('button[id="submit_chapter"]').simulate('click');
 
   await global.wait(0);
@@ -103,7 +103,7 @@ it('should normalize object before submit', async () => {
     _chapter = chapter;
   };
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <ChapterForm chapter={chapterEmpty} onSubmit={cHandleOnSubmit} />
   );
 
@@ -123,7 +123,7 @@ it('should normalize object before submit', async () => {
 
 it('should fill with the chapter given', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <ChapterForm chapter={releases[0]} onSubmit={handleOnSubmit} />
   );
 

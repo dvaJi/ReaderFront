@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 import { useGlobalState, setDisplaySettings } from 'state';
@@ -7,6 +7,7 @@ import { Button, Container } from 'common/ui';
 
 function ReaderSettings({ isOpen, toggle }) {
   const [displaySettings] = useGlobalState('displaySettings');
+  const { formatMessage: f } = useIntl();
 
   const readingModeRendering = readingMode => () =>
     setDisplaySettings({ ...displaySettings, readingMode });
@@ -18,25 +19,16 @@ function ReaderSettings({ isOpen, toggle }) {
       centered={true}
     >
       <ModalHeader toggle={() => toggle(false)}>
-        <FormattedMessage
-          id="reader_settings"
-          defaultMessage="Reader Settings"
-        />
+        {f({ id: 'reader_settings', defaultMessage: 'Reader Settings' })}
       </ModalHeader>
       <ModalBody>
         <Container>
           <h5>
-            <FormattedMessage
-              id="display_settings"
-              defaultMessage="Display settings"
-            />
+            {f({ id: 'display_settings', defaultMessage: 'Display settings' })}
           </h5>
           <div className="form-group row">
             <label className="col-sm-4 col-form-label">
-              <FormattedMessage
-                id="reading_mode"
-                defaultMessage="Reading Mode"
-              />
+              {f({ id: 'reading_mode', defaultMessage: 'Reading Mode' })}
             </label>
             <div className="col">
               <div className="row">
@@ -45,14 +37,14 @@ function ReaderSettings({ isOpen, toggle }) {
                   onClick={readingModeRendering('manga')}
                   className="col px-2"
                 >
-                  Manga
+                  {f({ id: 'manga', defaultMessage: 'Manga' })}
                 </Button>
                 <Button
                   active={displaySettings.readingMode === 'webtoon'}
                   onClick={readingModeRendering('webtoon')}
                   className="col px-2"
                 >
-                  Webtoon
+                  {f({ id: 'webtoon', defaultMessage: 'Webtoon' })}
                 </Button>
               </div>
             </div>
@@ -61,7 +53,7 @@ function ReaderSettings({ isOpen, toggle }) {
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={() => toggle(false)}>
-          <FormattedMessage id="close" defaultMessage="Close" />
+          {f({ id: 'close', defaultMessage: 'Close' })}
         </Button>
       </ModalFooter>
     </Modal>

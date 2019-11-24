@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import Lazyload from 'react-lazyload';
 
@@ -94,19 +94,17 @@ const getThumbSize = size => {
   }
 };
 
-function WorkItem({ work, truncate, size, statusTag, intl }) {
+function WorkItem({ work, truncate, size, statusTag }) {
+  const { formatMessage: f } = useIntl();
   const status = statusTag(work.status);
   const thumbSize = getThumbSize(size);
-  const thumbnail =
-    work.thumbnail !== ''
-      ? getImage(
-          `works/${work.uniqid}/${work.thumbnail}`,
-          thumbSize.height,
-          thumbSize.width,
-          work.id,
-          true
-        )
-      : '/static/images/default-cover.png';
+  const thumbnail = getImage(
+    work.thumbnail_path,
+    thumbSize.height,
+    thumbSize.width,
+    work.id,
+    true
+  );
   return (
     <Link to={'/work/' + work.stub}>
       <Card>
@@ -119,7 +117,7 @@ function WorkItem({ work, truncate, size, statusTag, intl }) {
               <WorkCover
                 name={work.name}
                 size={size}
-                status={intl.formatMessage({
+                status={f({
                   id: status.name,
                   defaultMessage: status.name
                 })}
@@ -131,7 +129,7 @@ function WorkItem({ work, truncate, size, statusTag, intl }) {
               cover={thumbnail}
               name={work.name}
               size={size}
-              status={intl.formatMessage({
+              status={f({
                 id: status.name,
                 defaultMessage: status.name
               })}
@@ -151,4 +149,4 @@ function WorkItem({ work, truncate, size, statusTag, intl }) {
   );
 }
 
-export default memo(injectIntl(WorkItem));
+export default memo(WorkItem);

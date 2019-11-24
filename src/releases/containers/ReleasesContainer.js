@@ -1,73 +1,52 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import { Query } from 'react-apollo';
+import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useQuery } from '@apollo/react-hooks';
 
-// App imports
 import MetaTag from './ReleaseMetaTags';
 import ReleasePagination from '../components/ReleasePagination';
 import ReleasesList from '../components/ReleasesList';
 import ReleaseCardEmpty from '../components/ReleaseCardEmpty';
-import params from '../../params.json';
 import { FETCH_RELEASES } from './query';
+import { languageNameToId } from 'utils/common';
 
-const LatestReleases = ({ language, orderBy, first, offset }) => (
-  <Query
-    query={FETCH_RELEASES}
-    variables={{ language, orderBy, first, offset }}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <ReleaseCardEmpty />;
-      if (error) return <p id="error_releases">Error :(</p>;
+const PER_PAGE = 20;
 
-      return <ReleasesList releases={data.chapters} />;
-    }}
-  </Query>
-);
+const LatestReleases = ({ language, orderBy, first, offset }) => {
+  const { loading, error, data } = useQuery(FETCH_RELEASES, {
+    variables: { language, orderBy, first, offset }
+  });
 
-class ReleasesContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: 0,
-      offset: 0,
-      perPage: 20
-    };
-    this.handlePageChange = this.handlePageChange.bind(this);
-  }
+  if (loading) return <ReleaseCardEmpty />;
+  if (error) return <p id="error_releases">Error :(</p>;
 
-  handlePageChange(page) {
-    this.setState({ page, offset: page * this.state.perPage });
-  }
-
-  render() {
-    const { language } = this.props;
-    const { page, perPage, offset } = this.state;
-    return (
-      <div className="Releases">
-        <h2>
-          <FormattedMessage
-            id="latest_releases"
-            defaultMessage="Latest Releases"
-          />
-        </h2>
-        <MetaTag />
-        <LatestReleases
-          language={params.global.languages[language].id}
-          orderBy={'DESC'}
-          first={perPage}
-          offset={offset}
-        />
-        <ReleasePagination page={page} onPageChange={this.handlePageChange} />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    language: state.layout.language
-  };
+  return <ReleasesList releases={data.chapters} />;
 };
 
-export default connect(mapStateToProps)(ReleasesContainer);
+function ReleasesContainer() {
+  const [page, setPage] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const { formatMessage: f, locale } = useIntl();
+  const language = languageNameToId(locale);
+
+  return (
+    <div className="Releases">
+      <h2>{f({ id: 'latest_releases', defaultMessage: 'Latest Releases' })}</h2>
+      <MetaTag />
+      <LatestReleases
+        language={language}
+        orderBy={'DESC'}
+        first={PER_PAGE}
+        offset={offset}
+      />
+      <ReleasePagination
+        page={page}
+        onPageChange={page => {
+          setPage(page);
+          setOffset(page * PER_PAGE);
+        }}
+      />
+    </div>
+  );
+}
+
+export default ReleasesContainer;

@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { graphql } from 'react-apollo';
-import { withRouter } from 'react-router-dom';
-import { FormattedMessage, injectIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useMutation } from '@apollo/react-hooks';
+import { useHistory } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
-// App imports
 import WorkForm from './Form';
 import CreatePersonModal from '../CreatePersonModal';
 import { Card, ButtonLink, Container } from 'common/ui';
@@ -30,13 +28,16 @@ export const postEmpty = {
   works_genres: []
 };
 
-function CreateWork({ intl, mutate, history }) {
+function CreateWork() {
   const [isCreatePersonModal, toggleCreatePersonModal] = useState(false);
+  const history = useHistory();
+  const { formatMessage: f } = useIntl();
+  const [createWork] = useMutation(CREATE_WORK);
 
   const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await mutate({
+    await createWork({
       variables: { ...work },
       refetchQueries: [
         {
@@ -54,21 +55,20 @@ function CreateWork({ intl, mutate, history }) {
         <MetaTagCreate />
         <div style={{ marginTop: '1rem' }}>
           <ButtonLink to={'/admincp/work/manage'}>
-            <FontAwesomeIcon icon={faArrowLeft} />{' '}
-            <FormattedMessage id="go_back" defaultMessage="Go back" />
+            <FontAwesomeIcon icon="arrow-left" />{' '}
+            {f({ id: 'go_back', defaultMessage: 'Go back' })}
           </ButtonLink>
         </div>
         <Card>
           <h4>
-            <FormattedMessage id="create" defaultMessage="Create" />{' '}
-            <FormattedMessage id="work" defaultMessage="Work" />
+            {f({ id: 'create', defaultMessage: 'Create' })}{' '}
+            {f({ id: 'work', defaultMessage: 'Work' })}
           </h4>
           <div>
             <WorkForm
               work={postEmpty}
               onSubmit={onSubmit}
               onCreatePersonModal={toggleCreatePersonModal}
-              intl={intl}
             />
           </div>
         </Card>
@@ -81,4 +81,4 @@ function CreateWork({ intl, mutate, history }) {
   );
 }
 
-export default graphql(CREATE_WORK)(injectIntl(withRouter(CreateWork)));
+export default CreateWork;

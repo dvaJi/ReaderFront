@@ -93,7 +93,7 @@ const ACPWorkCreate = Loadable({
 
 const ACPWorkManage = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "ACPWorkManage" */ './admin/works/List'),
+    import(/* webpackChunkName: "ACPWorkManage" */ './admin/works/AWorksList'),
   loading: () => null,
   modules: ['ACPWorkManage']
 });
@@ -182,8 +182,8 @@ export default (
     <Route
       path="/auth/logout"
       exact
-      render={() => {
-        logout();
+      render={async () => {
+        await logout();
         return <Redirect push to="/auth/login" />;
       }}
     />

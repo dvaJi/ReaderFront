@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import { Button } from 'reactstrap';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { Paginator } from './styles';
 
 export default memo(function ReleasePagination({ page, onPageChange }) {
+  const { formatMessage: f } = useIntl();
   return (
     <Paginator>
       <Button
@@ -14,7 +15,7 @@ export default memo(function ReleasePagination({ page, onPageChange }) {
         disabled={page === 0}
         onClick={() => onPageChange(page - 1)}
       >
-        <FormattedMessage id="previous" defaultMessage="Previous" />
+        {f({ id: 'previous', defaultMessage: 'Previous' })}
       </Button>
       <Button
         id="next_page"
@@ -22,7 +23,7 @@ export default memo(function ReleasePagination({ page, onPageChange }) {
         className="float-right"
         onClick={() => onPageChange(page + 1)}
       >
-        <FormattedMessage id="next" defaultMessage="Next" />
+        {f({ id: 'next', defaultMessage: 'Next' })}
       </Button>
     </Paginator>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import Chapter from './Chapter';
 
@@ -17,7 +17,7 @@ const chapter = {
 };
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -40,7 +40,7 @@ it('renders with subchapter without crashing', () => {
     name: 'dis way',
     download_href: '/download/infection'
   };
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -63,7 +63,7 @@ it('renders without name without crashing', () => {
     name: '',
     download_href: '/download/infection'
   };
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <Chapter
         key={1}
@@ -79,7 +79,7 @@ it('renders without name without crashing', () => {
 
 it('should create an valid href', () => {
   const onButtonClick = jest.fn();
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MemoryRouter>
       <Chapter
         key={1}

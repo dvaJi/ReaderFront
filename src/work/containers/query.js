@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const FETCH_WORK = gql`
-  query Work($language: Int, $stub: String) {
+  query PublicWork($language: Int, $stub: String) {
     work(language: $language, stub: $stub, showHidden: false) {
       id
       name
@@ -11,7 +11,7 @@ export const FETCH_WORK = gql`
       demographicId
       status
       adult
-      thumbnail
+      thumbnail_path
       createdAt
       updatedAt
       chapters {
@@ -20,10 +20,12 @@ export const FETCH_WORK = gql`
         subchapter
         volume
         language
+        language_name
         name
         stub
         uniqid
         thumbnail
+        download_href
       }
       works_descriptions {
         description
@@ -41,8 +43,9 @@ export const FETCH_WORK = gql`
           description
         }
       }
-      works_genres {
-        genreId
+      genres {
+        id
+        name
       }
     }
   }

@@ -1,13 +1,13 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Image from 'common/Image';
 import { rolIdToName } from 'utils/common';
 import { StaffWrapper, StaffRole, StaffDetail } from './styles';
 
 function Staff({ staff, onRemove }) {
+  const { formatMessage: f } = useIntl();
   let roles = {};
   staff.forEach(s => {
     if (!roles[s.rol]) {
@@ -24,10 +24,7 @@ function Staff({ staff, onRemove }) {
         return (
           <StaffRole key={rolName}>
             <span className="title">
-              <FormattedMessage
-                id={`people.rol.${rolName}`}
-                defaultMessage={rolName}
-              />
+              {f({ id: `people.rol.${rolName}`, defaultMessage: rolName })}
             </span>
             <div>
               {roles[rol].map(people => (
@@ -39,7 +36,7 @@ function Staff({ staff, onRemove }) {
                       onRemove({ id: people.id, rol: Number(rol) })
                     }
                   >
-                    <FontAwesomeIcon icon={faTimes} />
+                    <FontAwesomeIcon icon="times" />
                   </button>
                 </StaffDetail>
               ))}
