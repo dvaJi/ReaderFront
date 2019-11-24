@@ -53,3 +53,8 @@ export const ChapterIsSeen = styled.button`
     color: ${primaryColor};
   }
 `;
+
+export const EndBadge = styled.span`
+  margin-left: 5px;
+  text-transform: uppercase;
+`;

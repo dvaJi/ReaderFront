@@ -164,5 +164,6 @@
   "not_authenticated": "Not authenticated",
   "no_valid_chapter": "The chapter number must be greater than 0",
   "manga": "Manga",
-  "webtoon": "Webtoon"
+  "webtoon": "Webtoon",
+  "end": "End"
 }

@@ -7,6 +7,7 @@ import { ChapterListStyle, Title, List, NoChapters } from './styles';
 
 function ChapterList({ work, language }) {
   const { formatMessage: f } = useIntl();
+  const workIsCompleted = work.status === 2;
   return (
     <ChapterListStyle className="col-md-12">
       <Title>{f({ id: 'chapters_list', defaultMessage: 'Chapters' })}</Title>
@@ -18,6 +19,7 @@ function ChapterList({ work, language }) {
               work={work}
               chapter={chapter}
               language={language}
+              isEnd={workIsCompleted && chapter.id === work.chapters[0].id}
             />
           ))}
         </List>

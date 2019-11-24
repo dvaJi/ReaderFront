@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { chapterTitle } from 'utils/common';
 import { useChapterSeen } from 'common/useChapterSeen';
 import { ANONYMIZER_DOWNLOADS } from '../../config';
-import { ChapterRow, ChapterIsSeen } from './styles';
+import { ChapterRow, ChapterIsSeen, EndBadge } from './styles';
 
-function Chapter({ work, chapter, language }) {
+function Chapter({ work, chapter, language, isEnd }) {
   const { formatMessage: f } = useIntl();
   const dir = `${work.stub}/${language.name}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
@@ -20,6 +20,14 @@ function Chapter({ work, chapter, language }) {
       </ChapterIsSeen>
       <Link to={`/read/${dir}`} className="Chapter">
         {chapterTitle({ chapter, f })}
+        {isEnd && (
+          <EndBadge
+            id="end_chapter"
+            className="badge badge-pill badge-secondary"
+          >
+            {f({ id: 'end', defaultMessage: 'End' })}
+          </EndBadge>
+        )}
       </Link>
       <div className="float-right">
         <a
