@@ -10434,10 +10434,10 @@ react-hooks-global-state@^0.9.0:
   resolved "https://registry.yarnpkg.com/react-hooks-global-state/-/react-hooks-global-state-0.9.0.tgz#72faae48e1489241af399f91ef5402f21861af9c"
   integrity sha512-zG77NerUAk2HbLlDahkFdKpuTZFsnkuuZ48hzPSEtLStp5ydFO5CGItFG/uqJ5X+QTPbqSCqRH/X562ghQnaGQ==
 
-react-intl-redux@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-2.1.1.tgz#5d4ce9ee519130a9b3888fb0a4a1ae11041a3fb6"
-  integrity sha512-wnW6z4wcA5Qybrf36YXX87m+sLJKpPmjJsTqOFdJ2IzkePEGc3D5z1S3ehb66h9fP+z2YNQWlYGhPkUPitWtcg==
+react-intl-redux@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-2.2.0.tgz#7187865c86931f7d69d88a243c1143cfc06f1bf0"
+  integrity sha512-coiNaVbc6Wy9S98oI3cohjsRRkBYu9O0Os0IRGcBVYfHek4u1i8VKXa3rVQM52UzOpCIchcmXMHvC8znLStuWg==
   dependencies:
     prop-types "^15.7.2"
 
