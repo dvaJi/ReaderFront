@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import React, { useState, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { Col, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { StyledSpinner, RoundedButton } from '../styles';
+import { bytesToSize } from 'utils/helpers';
 
 const CardOverlay = styled.div`
   position: absolute;
@@ -158,172 +159,122 @@ const CardOverlayMessage = styled.div`
   text-shadow: 0px 1px 8px rgba(0, 0, 0, 0.8);
 `;
 
-class PageItemWithThumb extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      thumb: null
-    };
+function PageItemWithThumb({
+  thumb,
+  index,
+  isUploaded,
+  isUploading,
+  isDefaultPage,
+  hasError,
+  page,
+  handleRemovePage,
+  handleSelectDefault,
+  handleUpload
+}) {
+  const [_thumb, setThumb] = useState(null);
+  const { formatMessage: f } = useIntl();
 
-    this.updateThumb = this.updateThumb.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
-  }
-
-  componentDidMount() {
-    const { thumb } = this.props;
+  useEffect(() => {
     if (typeof thumb === 'object' && thumb instanceof Blob) {
       let reader = new FileReader();
       reader.onloadend = () => {
-        this.setState({ thumb: reader.result });
+        setThumb(reader.result);
       };
       reader.readAsDataURL(thumb);
     } else {
-      this.setState({ thumb: thumb });
+      setThumb(thumb);
     }
-  }
+  }, [thumb, isUploaded, isUploading, isDefaultPage, hasError, page]);
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextProps.thumb !== this.props.thumb ||
-      nextState.thumb !== this.state.thumb ||
-      nextProps.isUploaded !== this.props.isUploaded ||
-      nextProps.isUploading !== this.props.isUploading ||
-      nextProps.isDefaultPage !== this.props.isDefaultPage ||
-      nextProps.hasError !== this.props.hasError ||
-      nextProps.page !== this.props.page
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  bytesToSize(bytes, fixed = 0) {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes === undefined || bytes === 0) return 0;
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
-    if (i === 0) return `${bytes} ${sizes[i]}`;
-    return `${(bytes / 1024 ** i).toFixed(fixed)} ${sizes[i]}`;
-  }
-
-  updateThumb(thumb) {
-    if (typeof thumb === 'object' && thumb instanceof Blob) {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        this.setState({ thumb: reader.result });
-      };
-      reader.readAsDataURL(thumb);
-    } else {
-      this.setState({ thumb: thumb });
-    }
-  }
-
-  render() {
-    const {
-      index,
-      isUploaded,
-      isUploading,
-      isDefaultPage,
-      hasError,
-      page,
-      handleRemovePage,
-      handleSelectDefault,
-      handleUpload,
-      intl
-    } = this.props;
-
-    const size = page.file !== undefined ? page.file.size : page.size;
-    return (
-      <Card
-        id={'page-preview-' + index}
-        isuploaded={isUploaded}
-        hasError={hasError}
-      >
-        <CardHero thumb={this.state.thumb}>
-          {!isDefaultPage && isUploaded && !isUploading && (
-            <OverlaySelectDefault className="row">
-              <RoundedButton
-                id={'select-default-' + index}
-                onClick={e => handleSelectDefault(page)}
-              >
-                <FontAwesomeIcon icon={faImage} size="6x" />
-              </RoundedButton>
-            </OverlaySelectDefault>
-          )}
-          {isDefaultPage && (
-            <OverlaySelectDefault isActive={true} className="row">
-              <RoundedButton isActive={true}>
-                {isUploading ? (
-                  <StyledSpinner icon={faSpinner} size="xs" />
-                ) : (
-                  <FontAwesomeIcon icon={faImage} size="6x" />
-                )}
-              </RoundedButton>
-            </OverlaySelectDefault>
-          )}
-          <CardOverlay
-            className="row"
-            isuploaded={isUploaded}
-            hasError={hasError}
-          >
-            <CardOverlayInfo>
-              <span className="main">{page.filename}</span>
-              <span className="sub">{this.bytesToSize(size)}</span>
-            </CardOverlayInfo>
-            <CardOverlayStatus>
-              <RoundedButton
-                title={intl.formatMessage({
-                  id: 'delete_page',
-                  defaultMessage: 'Delete page'
-                })}
-                onClick={e => handleRemovePage(page)}
-              >
-                <FontAwesomeIcon icon={faTimes} size="xs" />
-              </RoundedButton>
-              {!isUploaded && isUploading && (
-                <RoundedButton>
-                  <StyledSpinner icon={faSpinner} size="xs" />
-                </RoundedButton>
-              )}
-              {!isUploaded && !isUploading && size <= 2411724 && (
-                <RoundedButton
-                  title={intl.formatMessage({
-                    id: 'upload_page',
-                    defaultMessage: 'Upload page'
-                  })}
-                  onClick={e => handleUpload(page)}
-                >
-                  <FontAwesomeIcon icon={faFileUpload} size="xs" />
-                </RoundedButton>
-              )}
-            </CardOverlayStatus>
-            <CardOverlayMessage>
-              {size > 2411724 ? (
-                <FormattedMessage
-                  id="error_size_limit"
-                  defaultMessage="Error: This file exceeds the maximum upload size"
-                />
-              ) : (
-                ''
-              )}
-            </CardOverlayMessage>
-          </CardOverlay>
-        </CardHero>
+  const size = page.file !== undefined ? page.file.size : page.size;
+  return (
+    <Card
+      id={'page-preview-' + index}
+      isuploaded={isUploaded}
+      hasError={hasError}
+    >
+      <CardHero thumb={_thumb}>
         {!isDefaultPage && isUploaded && !isUploading && (
-          <UncontrolledTooltip
-            placement="bottom"
-            target={'select-default-' + index}
-          >
-            <FormattedMessage
-              id="select_page_as_default"
-              defaultMessage="Select page as default"
-            />
-          </UncontrolledTooltip>
+          <OverlaySelectDefault className="row">
+            <RoundedButton
+              id={'select-default-' + index}
+              onClick={() => handleSelectDefault(page)}
+            >
+              <FontAwesomeIcon icon={faImage} size="6x" />
+            </RoundedButton>
+          </OverlaySelectDefault>
         )}
-      </Card>
-    );
-  }
+        {isDefaultPage && (
+          <OverlaySelectDefault isActive={true} className="row">
+            <RoundedButton isActive={true}>
+              {isUploading ? (
+                <StyledSpinner icon={faSpinner} size="xs" />
+              ) : (
+                <FontAwesomeIcon icon={faImage} size="6x" />
+              )}
+            </RoundedButton>
+          </OverlaySelectDefault>
+        )}
+        <CardOverlay
+          className="row"
+          isuploaded={isUploaded}
+          hasError={hasError}
+        >
+          <CardOverlayInfo>
+            <span className="main">{page.filename}</span>
+            <span className="sub">{bytesToSize(size)}</span>
+          </CardOverlayInfo>
+          <CardOverlayStatus>
+            <RoundedButton
+              title={f({
+                id: 'delete_page',
+                defaultMessage: 'Delete page'
+              })}
+              onClick={() => handleRemovePage(page)}
+            >
+              <FontAwesomeIcon icon={faTimes} size="xs" />
+            </RoundedButton>
+            {!isUploaded && isUploading && (
+              <RoundedButton>
+                <StyledSpinner icon={faSpinner} size="xs" />
+              </RoundedButton>
+            )}
+            {!isUploaded && !isUploading && size <= 2411724 && (
+              <RoundedButton
+                title={f({
+                  id: 'upload_page',
+                  defaultMessage: 'Upload page'
+                })}
+                onClick={() => handleUpload(page)}
+              >
+                <FontAwesomeIcon icon={faFileUpload} size="xs" />
+              </RoundedButton>
+            )}
+          </CardOverlayStatus>
+          <CardOverlayMessage>
+            {size > 2411724
+              ? f({
+                  id: 'error_size_limit',
+                  defaultMessage:
+                    'Error: This file exceeds the maximum upload size'
+                })
+              : ''}
+          </CardOverlayMessage>
+        </CardOverlay>
+      </CardHero>
+      {!isDefaultPage && isUploaded && !isUploading && (
+        <UncontrolledTooltip
+          placement="bottom"
+          target={'select-default-' + index}
+        >
+          {f({
+            id: 'select_page_as_default',
+            defaultMessage: 'Select page as default'
+          })}
+        </UncontrolledTooltip>
+      )}
+    </Card>
+  );
 }
 
-export default injectIntl(PageItemWithThumb);
+export default PageItemWithThumb;

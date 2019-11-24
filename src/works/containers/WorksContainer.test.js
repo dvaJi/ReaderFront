@@ -1,24 +1,19 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 
 import WorksContainer from './WorksContainer';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import { FETCH_WORKS } from './query';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 const works = global.rfMocks.work.works;
 
 const mocks = [
   {
     request: {
       query: FETCH_WORKS,
-      variables: { language: 1 }
+      variables: { language: 2 }
     },
     result: {
       data: {
@@ -29,47 +24,42 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorksContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorksContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  expect(wrapper).toBeTruthy();
-  wrapper.unmount();
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
 });
 
 it('should filter works', async () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <WorksContainer />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <WorksContainer />
+      </MemoryRouter>
     </MockedProvider>
   );
 
-  await global.wait(0);
+  await actions(wrapper, async () => {
+    await global.wait(0);
 
-  const input = wrapper.find('input[name="work-search"]');
-  input.instance().value = 'a';
-  input.simulate('change');
-  wrapper.unmount();
+    expect(wrapper.find('#works-list > *').length).toBe(3);
+
+    wrapper
+      .find('input[id="work-search"]')
+      .simulate('change', { target: { value: 'a', name: 'work-search' } });
+
+    await global.wait(0);
+
+    expect(wrapper.find('#works-list > *').length).toBe(1);
+  });
 });

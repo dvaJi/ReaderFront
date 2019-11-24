@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { UncontrolledTooltip } from 'reactstrap';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTimes,
@@ -46,6 +46,7 @@ function PagesItem({
     hasError
   });
   const size = page.file !== undefined ? page.file.size : page.size;
+  const { formatMessage: f } = useIntl();
   const spinnerSpring = useSpring({
     opacity: isUploading ? 1 : 0,
     display: isUploading ? 'initial' : 'none'
@@ -73,10 +74,10 @@ function PagesItem({
       </animated.span>
       {!isDefaultPage && isUploaded && !isUploading && (
         <UncontrolledTooltip placement="top" target={'select-default-' + index}>
-          <FormattedMessage
-            id="select_page_as_default"
-            defaultMessage="Select page as default"
-          />
+          {f({
+            id: 'select_page_as_default',
+            defaultMessage: 'Select page as default'
+          })}
         </UncontrolledTooltip>
       )}
       {'  '}
@@ -92,12 +93,11 @@ function PagesItem({
       ) : (
         filename
       )}
-      {size > 2411724 && (
-        <FormattedMessage
-          id="error_size_limit"
-          defaultMessage="Error: This file exceeds the maximum upload size"
-        />
-      )}
+      {size > 2411724 &&
+        f({
+          id: 'error_size_limit',
+          defaultMessage: 'Error: This file exceeds the maximum upload size'
+        })}
       <div className="float-right">
         {!hasError && (
           <animated.span style={uploadSpring}>
@@ -114,4 +114,4 @@ function PagesItem({
   );
 }
 
-export default memo(injectIntl(PagesItem));
+export default memo(PagesItem);

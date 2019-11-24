@@ -122,22 +122,20 @@ export function activate(userDetails) {
 }
 
 // Log out user and remove token from localStorage
-export function logout() {
-  return dispatch => {
-    logoutUnsetUserLocalStorageAndCookie();
+export async function logout() {
+  try {
+    // Remove token
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
 
-    dispatch(authLogout());
-  };
-}
+    // Remove cookie
+    cookie.remove('auth');
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
 
-// Unset user token and info in localStorage and cookie
-export function logoutUnsetUserLocalStorageAndCookie() {
-  // Remove token
-  window.localStorage.removeItem('token');
-  window.localStorage.removeItem('user');
-
-  // Remove cookie
-  cookie.remove('auth');
+  return true;
 }
 
 // Get user gender

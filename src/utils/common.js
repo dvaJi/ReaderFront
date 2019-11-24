@@ -98,9 +98,9 @@ export function workTypesIdToName(typeId) {
   return type !== undefined ? type.name : null;
 }
 
-export const genresDemographic = Object.keys(params.genres.demographic).map(
-  d => ({ ...params.genres.demographic[d], key: d })
-);
+export const genresDemographic = Object.keys(
+  params.genres.demographic
+).map(d => ({ ...params.genres.demographic[d], key: d }));
 
 export function genreDemographicIdToName(demographicId) {
   const status = genresDemographic.find(
@@ -163,13 +163,13 @@ export function getDefaultLanguage() {
   return language;
 }
 
-export function chapterTitle({ chapter, intl }) {
+export function chapterTitle({ chapter, f }) {
   const subchapter = chapter.subchapter !== 0 ? '.' + chapter.subchapter : '';
-  const volumeTxt = intl.formatMessage({
+  const volumeTxt = f({
     id: 'volume',
     defaultMessage: 'Volume'
   });
-  const chapterTxt = intl.formatMessage({
+  const chapterTxt = f({
     id: 'chapter',
     defaultMessage: 'Chapter'
   });

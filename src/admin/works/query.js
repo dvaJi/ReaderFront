@@ -18,6 +18,11 @@ export const FETCH_WORKS = gql`
       adult
       createdAt
       updatedAt
+      languages {
+        id
+        name
+        description
+      }
       works_descriptions {
         description
         language

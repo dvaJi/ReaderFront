@@ -1,13 +1,14 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import ReleaseCategory from './ReleaseCat';
 import ReleaseItem from './ReleaseItem';
 import { ReleaseCard } from './styles';
-import { languageIdToName } from '../../utils/common';
+import { languageIdToName } from 'utils/common';
 
 export default memo(function ReleasesList({ releases }) {
+  const { formatMessage: f } = useIntl();
   const rows = [];
   let tempRows = [];
   let lastWork = null;
@@ -26,10 +27,7 @@ export default memo(function ReleasesList({ releases }) {
             {tempRows}
             <small className="d-block text-right mt-3">
               <Link to={`/work/${lastWork.stub}`}>
-                <FormattedMessage
-                  id="all_chapters"
-                  defaultMessage="All chapters"
-                />
+                {f({ id: 'all_chapters', defaultMessage: 'All chapters' })}
               </Link>
             </small>
           </ReleaseCard>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { FormattedMessage, injectIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 import { APP_TITLE, APP_URL, APP_VERSION } from '../../config';
 import { getImage } from '../../common/Image';
 import { languageIdToName } from 'utils/common';
 
-const MetaTag = ({ chapter, intl }) => {
+const MetaTag = ({ chapter }) => {
+  const intl = useIntl();
   const chapterThumb = getImage(
     `works/${chapter.work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
   );
@@ -108,4 +109,4 @@ const MetaTag = ({ chapter, intl }) => {
   );
 };
 
-export default injectIntl(MetaTag);
+export default MetaTag;

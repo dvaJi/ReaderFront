@@ -25,7 +25,7 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
       status
       sticky
       language
-      thumbnail
+      thumbnail_path
       createdAt
       updatedAt
     }

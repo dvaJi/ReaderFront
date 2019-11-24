@@ -1,11 +1,14 @@
 import React from 'react';
+import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { shallowWithIntl, mountWithIntl } from 'enzyme-react-intl';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
+import { MemoryRouter, Route, Router } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from '@anilanar/moxios';
+
 import ActivateAccountContainer from './ActivateAccountContainer';
-import { MemoryRouter } from 'react-router-dom';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -19,6 +22,7 @@ afterEach(function() {
 });
 
 it('should render without throwing an error', () => {
+  const history = createMemoryHistory();
   const store = mockStore({
     user: { isLoading: false, error: null },
     router: {
@@ -30,12 +34,17 @@ it('should render without throwing an error', () => {
       language: 'es'
     }
   });
-  const wrapper = shallowWithIntl(
+
+  const wrapper = mountWithIntl(
     <Provider store={store}>
-      <ActivateAccountContainer
-        location={{ search: '?email=test@aa.com&token=t0k3n' }}
-        router={{ location: { pathname: 'AS' } }}
-      />
+      <MemoryRouter>
+        <Router history={history}>
+          <ActivateAccountContainer
+            location={{ search: '?email=test@aa.com&token=t0k3n' }}
+            router={{ location: { pathname: 'AS' } }}
+          />
+        </Router>
+      </MemoryRouter>
     </Provider>
   );
 
@@ -56,31 +65,39 @@ it('should show a success message if account is activated', async () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <MemoryRouter>
-        <ActivateAccountContainer
-          router={{ location: { pathname: 'AS' } }}
-          location={{ search: '?email=test@aa.com&token=t0k3n' }}
-        />
+      <MemoryRouter
+        initialEntries={[
+          '/auth/activate_account?email=test@aa.com&token=t0k3n'
+        ]}
+      >
+        <Route path="/auth/activate_account">
+          <ActivateAccountContainer
+            router={{ location: { pathname: 'AS' } }}
+            location={{ search: '?email=test@aa.com&token=t0k3n' }}
+          />
+        </Route>
       </MemoryRouter>
     </Provider>
   );
 
-  await wrapper.update();
+  await actions(wrapper, async () => {
+    wrapper.update();
 
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 200,
-    statusText: 'OK',
-    response: {
-      data: {
-        userActivate: {
-          email: 'test@aa.com'
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      statusText: 'OK',
+      response: {
+        data: {
+          userActivate: {
+            email: 'test@aa.com'
+          }
         }
       }
-    }
-  });
+    });
 
-  wrapper.unmount();
+    wrapper.unmount();
+  });
 });
 
 it('should show an error message if account can not be activated', async () => {
@@ -97,7 +114,11 @@ it('should show an error message if account can not be activated', async () => {
   });
   const wrapper = mountWithIntl(
     <Provider store={store}>
-      <MemoryRouter>
+      <MemoryRouter
+        initialEntries={[
+          '/auth/activate_account?email=test@aa.com&token=t0k3n'
+        ]}
+      >
         <ActivateAccountContainer
           router={{ location: { pathname: 'AS' } }}
           location={{ search: '?email=test@aa.com&token=t0k3n' }}
@@ -106,20 +127,24 @@ it('should show an error message if account can not be activated', async () => {
     </Provider>
   );
 
-  await wrapper.update();
+  await actions(wrapper, async () => {
+    wrapper.update();
 
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 500,
-    statusText: 'ERROR',
-    response: {
-      data: {
-        error: ':<'
+    await global.wait(0);
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 500,
+      statusText: 'ERROR',
+      response: {
+        data: {
+          error: ':<'
+        }
       }
-    }
+    });
+
+    expect(wrapper.find('#activate-account_error_alert')).toBeDefined();
+
+    wrapper.unmount();
   });
-
-  expect(wrapper.find('#activate-account_error_alert')).toBeDefined();
-
-  wrapper.unmount();
 });

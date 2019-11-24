@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
@@ -75,29 +75,18 @@ const LoadingCover = styled.div`
 
 function RecommendedWork({ work, isLoading, description }) {
   const [isHover, setHover] = useState(false);
+  const { formatMessage: f } = useIntl();
   const props = useSpring({
     opacity: isHover ? 1 : 0.3,
     transform: isHover ? 'translate3d(0,0,0)' : 'translate3d(0,10px,0)'
   });
-  const thumbail =
-    work !== null && work.thumbnail !== null
-      ? getImage(
-          `works/${work.uniqid}/${work.thumbnail}`,
-          350,
-          350,
-          work.id,
-          true
-        )
-      : '/static/images/default-cover.png';
   return (
     <div className="Recommended mb-4">
-      <h3>
-        <FormattedMessage id="random" defaultMessage="Random" />
-      </h3>
+      <h3>{f({ id: 'random', defaultMessage: 'Random' })}</h3>
       {!isLoading ? (
         <Serie
           to={`work/${work.stub}`}
-          cover={thumbail}
+          cover={getImage(work.thumbnail_path, 350, 350, work.id, true)}
           onMouseEnter={() => setHover(true)}
           onMouseLeave={() => setHover(false)}
         >

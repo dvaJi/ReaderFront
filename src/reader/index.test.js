@@ -1,16 +1,10 @@
 import React from 'react';
-import { mountWithIntl } from 'enzyme-react-intl';
-import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from 'react-apollo/test-utils';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { MockedProvider } from '@apollo/react-testing';
 
 import Reader from './';
 import { FETCH_CHAPTER } from './containers/queries';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 const releases = global.rfMocks.releases.getReleases;
 const pages = global.rfMocks.releases.getPages;
@@ -36,29 +30,21 @@ const mocks = [
 ];
 
 it('should render without throwing an error', () => {
-  const store = mockStore({
-    layout: {
-      language: 'es'
-    }
-  });
-
-  const wrapper = mountWithIntl(
+  const wrapper = mount(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <Provider store={store}>
-        <MemoryRouter>
-          <Reader
-            match={{
-              params: {
-                stub: 'Infection',
-                chapter: '1',
-                subchapter: '0',
-                volume: '0',
-                lang: 'es'
-              }
-            }}
-          />
-        </MemoryRouter>
-      </Provider>
+      <MemoryRouter>
+        <Reader
+          match={{
+            params: {
+              stub: 'Infection',
+              chapter: '1',
+              subchapter: '0',
+              volume: '0',
+              lang: 'es'
+            }
+          }}
+        />
+      </MemoryRouter>
     </MockedProvider>
   );
   wrapper.unmount();

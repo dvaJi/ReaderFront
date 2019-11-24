@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import theme from 'styled-theming';
-import { Link } from 'react-router-dom';
 
 import { cardBackgroundColor, background } from '../../themes';
 
@@ -48,7 +47,7 @@ export const CardOverlay = styled.div`
   }
 `;
 
-export const Card = styled(Link)`
+export const Card = styled.div`
   color: ${cardColor};
   cursor: pointer;
   display: inline-block;
@@ -190,4 +189,11 @@ export const CardView = styled.div`
   white-space: normal;
   margin-top: -110px;
   z-index: 2;
+`;
+
+export const LoadingContainer = styled.div`
+  height: 4.2rem;
+  width: 100%;
+  text-align: center;
+  opacity: 0.5;
 `;

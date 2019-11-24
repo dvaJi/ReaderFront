@@ -11,8 +11,6 @@ import {
 } from './utils/mocks/getReleasesMock';
 import { getPosts } from './utils/mocks/getBlogMock';
 import { getWork, getWorks } from './utils/mocks/getWorksMock';
-import { normalizePost } from './utils/normalizeBlog';
-import { normalizeWork } from './utils/normalizeWork';
 import 'jest-styled-components';
 
 configure({ adapter: new Adapter() });
@@ -122,6 +120,39 @@ if (global.document) {
   });
 }
 
+// Mock useIntl hook
+jest.mock('react-intl', () => {
+  const reactIntl = require.requireActual('react-intl');
+  const messages = require('./i18n/locales/en.json');
+  const intlProvider = new reactIntl.IntlProvider(
+    {
+      locale: 'en',
+      defaultLocale: 'en',
+      messages
+    },
+    {}
+  );
+
+  return {
+    ...reactIntl,
+    useIntl: () => {
+      return intlProvider.state.intl;
+    }
+  };
+});
+
+global.createFile = (name, size, type) => {
+  const file = new File([], name, { type });
+  Object.defineProperty(file, 'size', {
+    get() {
+      return size;
+    }
+  });
+  return file;
+};
+
+global.flushPromises = () => new Promise(resolve => setImmediate(resolve));
+
 // Setup Mocks
 global.rfMocks = {
   releases: {
@@ -133,12 +164,12 @@ global.rfMocks = {
   posts: {
     getPost: getPosts()[0],
     getPosts: getPosts(),
-    getPostsNormalized: getPosts().map(post => normalizePost(post))
+    getPostsNormalized: getPosts()
   },
   work: {
     work: getWork,
-    workNormalized: normalizeWork(getWork),
+    workNormalized: getWork,
     works: getWorks,
-    worksNormalized: getWorks.map(work => normalizeWork(work))
+    worksNormalized: getWorks
   }
 };
