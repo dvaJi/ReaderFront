@@ -17,7 +17,7 @@
   "scripts": {
     "lint": "eslint src",
     "prettier": "pretty-quick --staged",
-    "analyze": "yarn build && source-map-explorer build/static/js/*.js",
+    "analyze": "npm build && source-map-explorer build/static/js/*.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -108,7 +108,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "yarn prettier && yarn lint"
+      "pre-commit": "npm run prettier && npm run lint"
     }
   },
   "jest": {

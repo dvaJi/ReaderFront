@@ -1,15 +1,16 @@
 language: node_js
 node_js:
-  - 8.11.3
+  - 12
 
 cache:
-  yarn: true
   directories:
     - node_modules
 
 jobs:
   include:
     - stage: test
-      script: yarn test:ci --maxWorkers=2
+      script: npm run test:ci -- --maxWorkers=2
+    - stage: lint
+      script: npm run lint
     - stage: build project
-      script: yarn build
+      script: npm build

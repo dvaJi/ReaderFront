@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/reader-front
   docker:
-    - image: circleci/node:8.14-browsers
+    - image: circleci/node:12.13.1-browsers
   environment:
     TZ: '/usr/share/zoneinfo/America/Los_Angeles'
 
@@ -13,28 +13,27 @@ aliases:
     keys:
       # Find a cache corresponding to this specific package.json checksum
       # when this file is changed, this key will fail
-      - reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
-      - reader-front-{{ checksum "yarn.lock" }}
+      - reader-front-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
+      - reader-front-{{ checksum "package-lock.json" }}
       # Find the most recent cache used from any branch
       - reader-front-
   - &save-cache
-      key: reader-front-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+      key: reader-front-{{ checksum "package-lock.json" }}-{{ checksum ".circleci/config.yml" }}
       paths:
-        - ~/.cache/yarn
-        - node_modules
-  # Yarn commands
-  - &yarn
+        - $HOME/.npm
+  # NPM commands
+  - &install-dep
     name: Install Dependencies
-    command: yarn install --frozen-lockfile --non-interactive --cache-folder=~/.cache/yarn
+    command: npm ci
   - &lint
     name: Lint
-    command: yarn lint
+    command: npm run lint
   - &test
     name: Test
-    command: yarn test:ci --maxWorkers=2
+    command: npm run test:ci -- --maxWorkers=2
   - &build-app
     name: Building app
-    command: yarn build
+    command: npm build
   - &deploy
     name: Deploy
     command: curl $SECRET_HOST_RS?id=$SECRET_TOKEN_RS
@@ -46,7 +45,7 @@ jobs:
       - checkout
       - restore_cache: *restore-cache
       - run: date
-      - run: *yarn
+      - run: *install-dep
       - save_cache: *save-cache
       - persist_to_workspace:
           root: .
