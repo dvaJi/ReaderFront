@@ -4,6 +4,18 @@ on: [push, pull_request]
 
 env:
   CI: true
+  REACT_APP_APP_URL: http://localhost:3000/
+  REACT_APP_READER_PATH: http://localhost:8000/
+  REACT_APP_APP_PATH: /
+  REACT_APP_APP_TITLE: Reader Front
+  REACT_APP_DISQUS_SHORTNAME: your_disqus_shortname_id
+  REACT_APP_GA_ID: UA-XXXXXXXXX-X
+  REACT_APP_DISCORD_URL: https://discord.gg/YOUR_CODE
+  REACT_APP_DISCORD_ID: YOUR_DISCORD_ID
+  REACT_APP_PATREON_URL: https://www.patreon.com/YOUR_URL
+  REACT_APP_ANONYMIZER_DOWNLOADS: http://ouo.io/qs/pOVcb6fU?s=
+  REACT_APP_CDNS: photon
+  REACT_APP_LANGUAGES: en,es
 
 jobs:
   run:
