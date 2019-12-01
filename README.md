@@ -10,19 +10,18 @@
 - Prerequisites
   - [API](https://github.com/dvaJi/ReaderFront-API)
   - [Node.js 8.11.x](https://nodejs.org/)
-  - [Yarn](https://yarnpkg.com)
 - Clone repo `git clone git@github.com:dvaJi/ReaderFront.git ReaderFront`
 - Switch to `ReaderFront` directory `cd ReaderFront`
 - Configurations
   - Modify `/.env.example` to configurate the app (IMPORTANT) (you should rename it to `/.env`)
 - Setup
-  - Webapp: Install dependencies `yarn install`
+  - Webapp: Install dependencies `npm install`
 - Development
-  - Run [API](https://github.com/dvaJi/ReaderFront-API) `go to ReaderFront-API directory` and `yarn start`, browse GraphiQL at http://localhost:8000/
-  - Run Webapp `yarn start`, browse webapp at http://localhost:3000/
+  - Run [API](https://github.com/dvaJi/ReaderFront-API) `go to ReaderFront-API directory` and `npm start`, browse GraphiQL at http://localhost:8000/
+  - Run Webapp `npm start`, browse webapp at http://localhost:3000/
 - Production
-  - Run [API](https://github.com/dvaJi/ReaderFront-API) `go to ReaderFront-API directory` and `yarn start:prod`, creates an optimized build in `build` directory and runs the server
-  - Run Webapp `yarn build`, creates an optimized build in `build` directory
+  - Run [API](https://github.com/dvaJi/ReaderFront-API) `go to ReaderFront-API directory` and `npm run start:prod`, creates an optimized build in `build` directory and runs the server
+  - Run Webapp `npm build`, creates an optimized build in `build` directory
 
 ## Core Structure
 
