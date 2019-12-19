@@ -100,7 +100,7 @@
     "react-intl-translations-manager": "^5.0.3",
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
-    "redux-mock-store": "^1.5.3",
+    "redux-mock-store": "^1.5.4",
     "source-map-explorer": "^1.8.0",
     "standard-version": "^6.0.1",
     "wait-for-expect": "^1.3.0"
