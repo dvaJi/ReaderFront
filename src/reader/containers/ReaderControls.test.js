@@ -6,6 +6,7 @@ import { MockedProvider } from '@apollo/react-testing';
 
 import ReaderControls from './ReaderControls';
 import { FETCH_CHAPTERS } from './queries';
+import { GlobalStateProvider } from 'state';
 
 const releases = global.rfMocks.releases.getReleases;
 
@@ -42,23 +43,27 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <ReaderControls
-          work={releases[0].work}
-          language={1}
-          chapter={releases[0]}
-          toggleComments={toggleCommentsMock}
-          showNav={true}
-        />
-      </MemoryRouter>
-    </MockedProvider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter>
+          <ReaderControls
+            work={releases[0].work}
+            language={1}
+            chapter={releases[0]}
+            toggleComments={toggleCommentsMock}
+            showNav={true}
+          />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
     await global.wait(0);
     expect(wrapper).toBeTruthy();
   });
+
+  wrapper.unmount();
 });
 
 it('should render without throwing an error', async () => {
@@ -77,21 +82,25 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <ReaderControls
-          work={releases[0].work}
-          language={1}
-          chapter={releases[0]}
-          toggleComments={toggleCommentsMock}
-          showNav={false}
-        />
-      </MemoryRouter>
-    </MockedProvider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter>
+          <ReaderControls
+            work={releases[0].work}
+            language={1}
+            chapter={releases[0]}
+            toggleComments={toggleCommentsMock}
+            showNav={false}
+          />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
     await global.wait(0);
     expect(wrapper).toBeTruthy();
   });
+
+  wrapper.unmount();
 });

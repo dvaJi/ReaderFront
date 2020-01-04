@@ -1,5 +1,6 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
@@ -36,8 +37,11 @@ it('should show a list of post', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper).toBeTruthy();
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+  });
+
   wrapper.unmount();
 });
 
@@ -63,6 +67,11 @@ it('should show pagination and change page state', async () => {
   );
 
   // TODO: Handle PaginationLink onClick event
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+  });
+
   wrapper.unmount();
 });
 
@@ -83,7 +92,10 @@ it("should show an error message if it can't fetch data", async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
-  expect(wrapper.text()).toContain('Error');
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper.text()).toContain('Error');
+  });
+
   wrapper.unmount();
 });

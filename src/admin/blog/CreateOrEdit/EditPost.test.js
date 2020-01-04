@@ -49,8 +49,9 @@ it('should render without throwing an error', async () => {
   await actions(wrapper, async () => {
     await global.wait(0);
     expect(wrapper).toBeTruthy();
-    wrapper.unmount();
   });
+
+  wrapper.unmount();
 });
 
 // TODO: Cover onSubmit  event
