@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ListGroup } from 'reactstrap';
 
 import { hashCode } from 'utils/helpers';
@@ -100,4 +100,4 @@ function RenderList({
   );
 }
 
-export default PagesList;
+export default memo(PagesList);
