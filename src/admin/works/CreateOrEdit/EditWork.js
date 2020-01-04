@@ -25,7 +25,8 @@ function EditWork() {
       variables: { ...work },
       refetchQueries: [
         {
-          query: FETCH_WORKS
+          query: FETCH_WORKS,
+          variables: { language: -1 }
         }
       ]
     });

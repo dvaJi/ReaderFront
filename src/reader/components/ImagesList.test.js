@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import ImagesList from './ImagesList';
 import { getRelease } from '../../utils/mocks/getReleasesMock';
+import { GlobalStateProvider } from 'state';
 
 function handleChapterChange(chapter) {
   //
@@ -22,15 +23,17 @@ const pages = [
 
 it('should render while loading and cascade mode without throwing an error', () => {
   const wrapper = shallow(
-    <ImagesList
-      loading={true}
-      cascade={true}
-      pageSelected={1}
-      onPageSelected={2}
-      onChapterChange={handleChapterChange}
-      chapter={chapter}
-      pages={pages}
-    />
+    <GlobalStateProvider>
+      <ImagesList
+        loading={true}
+        cascade={true}
+        pageSelected={1}
+        onPageSelected={2}
+        onChapterChange={handleChapterChange}
+        chapter={chapter}
+        pages={pages}
+      />
+    </GlobalStateProvider>
   );
 
   expect(wrapper).toBeTruthy();
@@ -38,15 +41,17 @@ it('should render while loading and cascade mode without throwing an error', () 
 
 it('should render loaded with cascade mode without throwing an error', () => {
   const wrapper = shallow(
-    <ImagesList
-      loading={false}
-      cascade={true}
-      pageSelected={1}
-      onPageSelected={2}
-      onChapterChange={handleChapterChange}
-      chapter={chapter}
-      pages={pages}
-    />
+    <GlobalStateProvider>
+      <ImagesList
+        loading={false}
+        cascade={true}
+        pageSelected={1}
+        onPageSelected={2}
+        onChapterChange={handleChapterChange}
+        chapter={chapter}
+        pages={pages}
+      />
+    </GlobalStateProvider>
   );
 
   expect(wrapper).toBeTruthy();
@@ -54,15 +59,17 @@ it('should render loaded with cascade mode without throwing an error', () => {
 
 it('should render loaded without cascade mode without throwing an error', () => {
   const wrapper = shallow(
-    <ImagesList
-      loading={false}
-      cascade={false}
-      pageSelected={1}
-      onPageSelected={2}
-      onChapterChange={handleChapterChange}
-      chapter={chapter}
-      pages={pages}
-    />
+    <GlobalStateProvider>
+      <ImagesList
+        loading={false}
+        cascade={false}
+        pageSelected={1}
+        onPageSelected={2}
+        onChapterChange={handleChapterChange}
+        chapter={chapter}
+        pages={pages}
+      />
+    </GlobalStateProvider>
   );
 
   expect(wrapper).toBeTruthy();
