@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import PostForm from './Form';
@@ -37,7 +36,7 @@ function CreateOrEdit() {
       <MetaTagCreate />
       <div style={{ marginTop: '1rem' }}>
         <ButtonLink to={'/admincp/blog/manage'}>
-          <FontAwesomeIcon icon={faArrowLeft} />{' '}
+          <FontAwesomeIcon icon="arrow-left" />{' '}
           {f({ id: 'go_back', defaultMessage: 'Go back' })}
         </ButtonLink>
       </div>

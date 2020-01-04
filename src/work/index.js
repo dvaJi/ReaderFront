@@ -1,7 +1,7 @@
-import React from "react";
-import { Container } from "reactstrap";
+import React from 'react';
+import { Container } from 'reactstrap';
 
-import WorkContainer from "./containers/WorkContainer";
+import WorkContainer from './containers/WorkContainer';
 import ErrorBoundary from '../utils/ErrorBoundary';
 
 function Work() {

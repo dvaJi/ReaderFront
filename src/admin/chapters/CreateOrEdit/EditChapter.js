@@ -3,7 +3,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App imports
 import ChapterForm from './ChapterForm';
@@ -42,7 +41,7 @@ function EditChapter() {
       <MetaTagEdit />
       <div style={{ marginTop: '1rem' }}>
         <ButtonLink to={workPath}>
-          <FontAwesomeIcon icon={faArrowLeft} />{' '}
+          <FontAwesomeIcon icon="arrow-left" />{' '}
           {f({ id: 'go_back', defaultMessage: 'Back' })}
         </ButtonLink>
       </div>

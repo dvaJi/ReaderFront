@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 // App Imports
 import { Container, ButtonLink, Table } from 'common/ui';
@@ -22,7 +21,7 @@ function List() {
       <MetaTagList />
       <div style={{ margin: '10px 5px' }}>
         <ButtonLink to={'/admincp/blog/add_post'} style={{ marginBottom: 10 }}>
-          <FontAwesomeIcon icon={faPlus} />{' '}
+          <FontAwesomeIcon icon="plus" />{' '}
           {f({ id: 'add_post', defaultMessage: 'Add Post' })}
         </ButtonLink>
         <PostsTable />

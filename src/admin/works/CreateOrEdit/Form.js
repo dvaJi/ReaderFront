@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
 import {
   Button,
   CustomInput,
@@ -437,7 +436,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           theme="secondary"
           onClick={handleOnSubmit}
         >
-          <FontAwesomeIcon className="mr-1" icon={faSave} />
+          <FontAwesomeIcon className="mr-1" icon="save" />
           {f({ id: 'save', defaultMessage: 'Save' })}
         </Button>
       </FormGroup>

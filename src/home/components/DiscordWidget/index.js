@@ -1,1 +1,1 @@
-export { default } from "./DiscordWidget";
+export { default } from './DiscordWidget';

@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { CounterCard } from './common/CounterCard';
-import { faDatabase, faPen, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 function Dashboard() {
   return (
@@ -11,7 +10,7 @@ function Dashboard() {
             color="#02BC77"
             title="Ver listado de works"
             total="Ir al listado"
-            icon={faDatabase}
+            icon="database"
             to={'/admincp/work/manage'}
           />
         </div>
@@ -20,7 +19,7 @@ function Dashboard() {
             color="#28c3d7"
             title="Añadir work"
             total="Ir al formulario"
-            icon={faTasks}
+            icon="tasks"
             to={'/admincp/work/add'}
           />
         </div>
@@ -29,7 +28,7 @@ function Dashboard() {
             color="#d9534f"
             title="Añadir publicación"
             total="Ir al formulario"
-            icon={faPen}
+            icon="pen"
             to={'/admincp/blog/add_post'}
           />
         </div>

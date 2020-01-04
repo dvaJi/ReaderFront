@@ -1,6 +1,6 @@
-import React from "react";
-import { Container } from "reactstrap";
-import ReleasesContainer from "./containers/ReleasesContainer";
+import React from 'react';
+import { Container } from 'reactstrap';
+import ReleasesContainer from './containers/ReleasesContainer';
 
 function Releases() {
   return (

@@ -3,7 +3,6 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExclamationCircle, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 // App Imports
@@ -29,7 +28,7 @@ function List() {
       <div>
         <div style={{ margin: '10px 5px' }}>
           <ButtonLink color="primary" to={'/admincp/work/add'}>
-            <FontAwesomeIcon icon={faPlus} className="mr-1" />
+            <FontAwesomeIcon icon="plus" className="mr-1" />
             {f({ id: 'create_work', defaultMessage: 'Create Work' })}
           </ButtonLink>
 
@@ -107,7 +106,7 @@ function WorksTable({ searchText }) {
                   id={'noDescWarn-' + id}
                   title="asdasd"
                   color="#f2a900"
-                  icon={faExclamationCircle}
+                  icon="exclamation-circle"
                 />
                 <UncontrolledTooltip
                   placement="bottom"

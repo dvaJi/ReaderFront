@@ -3,7 +3,6 @@ import { useMutation } from '@apollo/react-hooks';
 import { useParams, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import ChapterForm from './ChapterForm';
 import { Card, ButtonLink, Container } from 'common/ui';
@@ -64,7 +63,7 @@ function CreateChapter() {
       <MetaTagCreate />
       <div style={{ marginTop: '1rem' }}>
         <ButtonLink to={workPath}>
-          <FontAwesomeIcon icon={faArrowLeft} />{' '}
+          <FontAwesomeIcon icon="arrow-left" />{' '}
           {f({ id: 'go_back', defaultMessage: 'Back' })}
         </ButtonLink>
       </div>

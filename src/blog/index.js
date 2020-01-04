@@ -4,7 +4,7 @@ import BlogContainer from './containers/BlogContainer';
 export default memo(function Blog(props) {
   return (
     <div id="Blog">
-        <BlogContainer {...props} />
+      <BlogContainer {...props} />
     </div>
   );
-})
+});

@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { useIntl } from 'react-intl';
 import ReactMarkdown from 'react-markdown';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated, useTransition } from 'react-spring';
 import { Container } from 'reactstrap';
@@ -42,7 +41,7 @@ export default memo(function PostView({ post, onClickBack }) {
             onClick={onClickBack}
             to={'/blog'}
           >
-            <FontAwesomeIcon icon={faArrowLeft} />
+            <FontAwesomeIcon icon="arrow-left" />
             {f({ id: 'go_back', defaultMessage: 'Back' })}
           </ButtonLink>
           {titleTransition.map(({ item, key, props }) => (

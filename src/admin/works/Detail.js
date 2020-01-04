@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 // App Imports
 import { Container, Button, ButtonLink, ButtonGroup, Table } from 'common/ui';
@@ -21,7 +20,7 @@ function Detail() {
       <>
         <div className="m-1">
           <ButtonLink to={'/admincp/work/manage'}>
-            <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
+            <FontAwesomeIcon icon="arrow-left" className="mr-1" />
             {f({ id: 'go_back', defaultMessage: 'Go back' })}
           </ButtonLink>
         </div>
@@ -32,7 +31,7 @@ function Detail() {
             className="ml-1"
             to={'/admincp/work/' + workId + '/' + stub + '/chapter/add'}
           >
-            <FontAwesomeIcon icon={faPlus} className="mr-1" />
+            <FontAwesomeIcon icon="plus" className="mr-1" />
             {f({ id: 'create_chapter', defaultMessage: 'Create chapter' })}
           </ButtonLink>
         </div>

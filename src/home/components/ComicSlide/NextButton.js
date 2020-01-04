@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const Content = styled.span`
   color: #fff;
@@ -56,7 +55,7 @@ function NextButton({ handleClick }) {
   return (
     <Button onClick={() => handleClick()} aria-label="Next" type="button">
       <Content>
-        <NextIcon icon={faArrowRight} />
+        <NextIcon icon="arrow-right" />
       </Content>
     </Button>
   );

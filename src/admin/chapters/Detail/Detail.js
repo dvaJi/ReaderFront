@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 import { ButtonLink, Container } from 'common/ui';
 import { MetaTagDetail } from '../ACPChaptersMetaTags';
@@ -21,7 +20,7 @@ function Detail() {
     <Container>
       <div style={{ marginTop: '1rem' }}>
         <ButtonLink to={'/admincp/work/' + workId + '/' + stub}>
-          <FontAwesomeIcon icon={faArrowLeft} className="mr-1" />
+          <FontAwesomeIcon icon="arrow-left" className="mr-1" />
           {f({ id: 'go_back', defaultMessage: 'Back' })}
         </ButtonLink>
         <ChapterDetail />

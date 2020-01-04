@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import RichTextEditor from 'react-rte';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
 import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 
 // App imports
@@ -208,7 +207,7 @@ function PostForm({ post, onSubmit }) {
           theme="secondary"
           onClick={handleOnSubmit}
         >
-          <FontAwesomeIcon icon={faSave} />{' '}
+          <FontAwesomeIcon icon="save" />{' '}
           {f({ id: 'save', defaultMessage: 'Save' })}
         </Button>
       </FormGroup>

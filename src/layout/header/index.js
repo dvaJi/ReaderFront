@@ -1,45 +1,39 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
-import { doChangeLanguage } from "../actions/doChangeLanguage";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Collapse, NavbarToggler, NavbarBrand, Nav } from "reactstrap";
-import { faDiscord, faPatreon } from "@fortawesome/free-brands-svg-icons";
-import {
-  faBook,
-  faThList,
-  faRss,
-  faHome,
-  faSun,
-  faMoon
-} from "@fortawesome/free-solid-svg-icons";
-import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from "../../config";
-import { isAuthRoute, isAdminRoute, isReaderRoute } from "../../utils/helpers";
+import { connect } from 'react-redux';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { doChangeLanguage } from '../actions/doChangeLanguage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 
-import { ChangeTheme, Navbar, ToggleTheme } from "./styles";
-import { useGlobalState, setTheme } from "../../state";
-import RouteNavItem from "./RouteNavItem";
-import LangNavItem from "./LangNavItem";
+import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from '../../config';
+import { isAuthRoute, isAdminRoute, isReaderRoute } from '../../utils/helpers';
+
+import { ChangeTheme, Navbar, ToggleTheme } from './styles';
+import { useGlobalState, setTheme } from '../../state';
+import RouteNavItem from './RouteNavItem';
+import LangNavItem from './LangNavItem';
 
 function LangNav({ language, onChangeLanguage, isThemeLight }) {
   const [lighTheme, changeTheme] = useState(isThemeLight);
   const toggleTheme = () => {
     changeTheme(!lighTheme);
-    setTheme(!lighTheme ? "light" : "dark");
+    setTheme(!lighTheme ? 'light' : 'dark');
   };
   return (
-    <Nav className="ml-auto" navbar style={{ display: "contents" }}>
-      {LANGUAGES.length > 1 && LANGUAGES.map(lang =>
-        <LangNavItem
-          key={`nav-${lang}`}
-          cookielang={language}
-          language={lang}
-          onClick={() => onChangeLanguage(lang)}
-        >
-          {lang.toUpperCase()}
-        </LangNavItem>
-      )}
+    <Nav className="ml-auto" navbar style={{ display: 'contents' }}>
+      {LANGUAGES.length > 1 &&
+        LANGUAGES.map(lang => (
+          <LangNavItem
+            key={`nav-${lang}`}
+            cookielang={language}
+            language={lang}
+            onClick={() => onChangeLanguage(lang)}
+          >
+            {lang.toUpperCase()}
+          </LangNavItem>
+        ))}
       <ChangeTheme>
         <ToggleTheme
           type="switch"
@@ -48,8 +42,8 @@ function LangNav({ language, onChangeLanguage, isThemeLight }) {
           defaultChecked={lighTheme}
           onChange={toggleTheme}
         />
-        {lighTheme && <FontAwesomeIcon icon={faSun} />}
-        {!lighTheme && <FontAwesomeIcon icon={faMoon} />}
+        {lighTheme && <FontAwesomeIcon icon="sun" />}
+        {!lighTheme && <FontAwesomeIcon icon="moon" />}
       </ChangeTheme>
     </Nav>
   );
@@ -57,7 +51,7 @@ function LangNav({ language, onChangeLanguage, isThemeLight }) {
 
 function AdminNav({ changeLanguage, language, themeSelected }) {
   const [isCollapse, toggleCollapse] = useState(false);
-  const isThemeLight = themeSelected === "light";
+  const isThemeLight = themeSelected === 'light';
   return (
     <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
@@ -86,9 +80,15 @@ function AdminNav({ changeLanguage, language, themeSelected }) {
 
 function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   const [isCollapse, toggleCollapse] = useState(false);
-  const isThemeLight = themeSelected === "light";
+  const isThemeLight = themeSelected === 'light';
   return (
-    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md" style={{display: hidden ? 'none': 'flex'}}>
+    <Navbar
+      dark={!isThemeLight}
+      light={isThemeLight}
+      fixed="true"
+      expand="md"
+      style={{ display: hidden ? 'none' : 'flex' }}
+    >
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
       <LangNav
@@ -99,30 +99,30 @@ function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
       <Collapse isOpen={isCollapse} navbar>
         <Nav className="ml-auto" navbar>
           <RouteNavItem to="/" exact>
-            <FontAwesomeIcon icon={faHome} />
+            <FontAwesomeIcon icon="home" />
             <FormattedMessage id="home" defaultMessage="Home" />
           </RouteNavItem>
           <RouteNavItem to="/releases">
-            <FontAwesomeIcon icon={faThList} />
+            <FontAwesomeIcon icon="th-list" />
             <FormattedMessage id="releases" defaultMessage="Releases" />
           </RouteNavItem>
           <RouteNavItem to="/work/all">
-            <FontAwesomeIcon icon={faBook} />
+            <FontAwesomeIcon icon="book" />
             <FormattedMessage id="projects" defaultMessage="Projects" />
           </RouteNavItem>
           <RouteNavItem to="/blog">
-            <FontAwesomeIcon icon={faRss} />
+            <FontAwesomeIcon icon="rss" />
             Blog
           </RouteNavItem>
           {DISCORD_URL && (
             <RouteNavItem to={DISCORD_URL} target="_blank" rel="noopener">
-              <FontAwesomeIcon icon={faDiscord} />
+              <FontAwesomeIcon icon={['fab', 'discord']} />
               Discord
             </RouteNavItem>
           )}
           {PATREON_URL && (
             <RouteNavItem to={PATREON_URL} target="_blank" rel="noopener">
-              <FontAwesomeIcon icon={faPatreon} />
+              <FontAwesomeIcon icon={['fab', 'patreon']} />
               Patreon
             </RouteNavItem>
           )}
@@ -132,36 +132,31 @@ function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   );
 }
 
-function Header({ route, language, doChangeLanguage }) {
-  const [themeSelected] = useGlobalState("theme");
-  const showPublicNav = !isAuthRoute(route) && !isAdminRoute(route);
-  const showAdminNav = !isAuthRoute(route) && isAdminRoute(route);
+function Header({ doChangeLanguage }) {
+  const [themeSelected] = useGlobalState('theme');
+  const location = useLocation();
+  const { locale } = useIntl();
+  const showPublicNav = !isAuthRoute(location) && !isAdminRoute(location);
+  const showAdminNav = !isAuthRoute(location) && isAdminRoute(location);
 
   return (
     (showPublicNav && (
       <PublicNav
         themeSelected={themeSelected}
-        language={language}
+        language={locale}
         changeLanguage={doChangeLanguage}
-        hidden={isReaderRoute(route)}
+        hidden={isReaderRoute(location)}
       />
     )) ||
     (showAdminNav && (
       <AdminNav
         themeSelected={themeSelected}
-        language={language}
+        language={locale}
         changeLanguage={doChangeLanguage}
       />
     ))
   );
 }
-
-const mapStateToProps = state => {
-  return {
-    language: state.layout.language,
-    route: state.router.location
-  };
-};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -169,11 +164,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  null,
-  {
-    pure: false
-  }
-)(Header);
+export default connect(null, mapDispatchToProps, null, {
+  pure: false
+})(Header);

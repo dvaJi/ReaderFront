@@ -1,6 +1,6 @@
-import React from "react";
-import { Container } from "reactstrap";
-import SeriesContainer from "./containers/WorksContainer";
+import React from 'react';
+import { Container } from 'reactstrap';
+import SeriesContainer from './containers/WorksContainer';
 
 function Series() {
   return (
