@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { Col, UncontrolledTooltip } from 'reactstrap';
 import styled from 'styled-components';
@@ -277,4 +277,4 @@ function PageItemWithThumb({
   );
 }
 
-export default PageItemWithThumb;
+export default memo(PageItemWithThumb);
