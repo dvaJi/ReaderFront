@@ -6,6 +6,7 @@ import { MockedProvider } from '@apollo/react-testing';
 
 import ReaderContainer from './ReaderContainer';
 import { FETCH_CHAPTER } from './queries';
+import { GlobalStateProvider } from 'state';
 
 const releases = global.rfMocks.releases.getReleases;
 const pages = global.rfMocks.releases.getPages;
@@ -45,19 +46,23 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter initialEntries={['/read/infection/en/1/1.0']}>
-        <Route path="/read/:stub/:lang/:volume/:chapter.:subchapter">
-          <ReaderContainer />
-        </Route>
-      </MemoryRouter>
-    </MockedProvider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter initialEntries={['/read/infection/en/1/1.0']}>
+          <Route path="/read/:stub/:lang/:volume/:chapter.:subchapter">
+            <ReaderContainer />
+          </Route>
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
     await global.wait(0);
     expect(wrapper).toBeTruthy();
   });
+
+  wrapper.unmount();
 });
 
 it('should render an error page', async () => {
@@ -106,4 +111,6 @@ it('should render an error page', async () => {
 
     expect(wrapper.find('#error_general')).toBeTruthy();
   });
+
+  wrapper.unmount();
 });
