@@ -9,6 +9,7 @@ import { slugify, forEachSeries } from 'utils/helpers';
 import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
+import { FETCH_CHAPTER } from '../query';
 import { CREATE_PAGE, REMOVE_PAGE, UPDATE_DEFAULT_PAGE } from '../mutations';
 
 function DropImages({ chapter, toggleModal }) {
@@ -81,7 +82,41 @@ function DropImages({ chapter, toggleModal }) {
 
       try {
         const createResponse = await createPage({
-          variables: { ...pageToUpload }
+          variables: { ...pageToUpload },
+          update(cache, { data: { pageCreate } }) {
+            const { chapterById } = cache.readQuery({
+              query: FETCH_CHAPTER,
+              variables: { chapterId: chapter.id }
+            });
+            cache.writeQuery({
+              query: FETCH_CHAPTER,
+              variables: { chapterId: chapter.id },
+              data: {
+                chapterById: {
+                  ...chapterById,
+                  pages: [
+                    ...pages
+                      .filter(p => p.filename !== file.filename)
+                      .map(p => ({
+                        ...p,
+                        uploaded:
+                          p.uploaded || pagesUploaded.includes(p.filename)
+                      })),
+                    {
+                      ...file,
+                      id: pageCreate.id,
+                      uploaded: true,
+                      isUploading: false,
+                      hasError: false,
+                      size: file.file.size,
+                      file: undefined,
+                      filename: uploadResponse.data.file
+                    }
+                  ]
+                }
+              }
+            });
+          }
         });
         if (
           createResponse.data.errors &&
