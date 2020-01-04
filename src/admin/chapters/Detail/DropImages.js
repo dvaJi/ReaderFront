@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
@@ -44,11 +44,17 @@ function DropImages({ chapter, toggleModal }) {
     setPages(newPages);
   };
 
-  const handleUploadFile = async file => {
+  const handleUploadFile = async (file, pagesUploaded) => {
+    const actualPages = pages
+      .filter(p => p.filename !== file.filename)
+      .map(p => ({
+        ...p,
+        uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+      }));
     setIsUploading(true);
     setPages(
       [
-        ...pages.filter(p => p.filename !== file.filename),
+        ...actualPages,
         { ...file, isUploading: true, hasError: false }
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
     );
@@ -84,7 +90,12 @@ function DropImages({ chapter, toggleModal }) {
           setError(createResponse.data.errors[0].message);
         } else {
           const newPages = [
-            ...pages.filter(p => p.filename !== file.filename),
+            ...pages
+              .filter(p => p.filename !== file.filename)
+              .map(p => ({
+                ...p,
+                uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+              })),
             {
               ...file,
               id: createResponse.data.pageCreate.id,
@@ -103,7 +114,12 @@ function DropImages({ chapter, toggleModal }) {
         }
       } catch (err) {
         const newPages = [
-          ...pages.filter(p => p.filename !== file.filename),
+          ...pages
+            .filter(p => p.filename !== file.filename)
+            .map(p => ({
+              ...p,
+              uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+            })),
           { ...file, isUploading: false, hasError: true }
         ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
@@ -119,7 +135,12 @@ function DropImages({ chapter, toggleModal }) {
       }
     } catch (err) {
       const newPages = [
-        ...pages.filter(p => p.filename !== file.filename),
+        ...pages
+          .filter(p => p.filename !== file.filename)
+          .map(p => ({
+            ...p,
+            uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+          })),
         { ...file, isUploading: false, hasError: true }
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
@@ -140,9 +161,11 @@ function DropImages({ chapter, toggleModal }) {
       page => page.file !== undefined && !page.hasError
     );
 
+    let pagesUploaded = [];
     if (pagesToUpload.length > 0) {
       await forEachSeries(pagesToUpload, async page => {
-        await handleUploadFile(page);
+        await handleUploadFile(page, pagesUploaded);
+        pagesUploaded.push(page.filename);
       });
 
       if (
@@ -253,4 +276,4 @@ function DropImages({ chapter, toggleModal }) {
   );
 }
 
-export default DropImages;
+export default memo(DropImages);
