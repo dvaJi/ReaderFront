@@ -22,7 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "react-scripts test --coverage --watchAll",
+    "test:ci": "react-scripts test --coverage",
     "test:debug": "react-scripts --inspect-brk test --runInBand",
     "release": "standard-version",
     "manage:translations": "node ./translationRunner.js"
