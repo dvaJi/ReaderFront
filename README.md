@@ -28,18 +28,15 @@
       │── public                static files
       │── src
       │   ├── blog              module directory
-      │   │   ├── actions       redux actions
       │   │   ├── components    presentational components
       │   │   ├── containers    container component
-      │   │   ├── reducers      reducers
       │   │   └── index.js      page
       │   ... others modules ...
       │   ├── App.js
       │   ├── Routes.js
       │   ├── config.js
-      │   ├── rootReducer.js
       │   ├── setupTest.js
-      │   ├── store
+      │   ├── state
       │   └── index.js
       │── package.json
       ├── .gitignore

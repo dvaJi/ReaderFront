@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { connect } from 'react-redux';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { doChangeLanguage } from '../actions/doChangeLanguage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 
 import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from '../../config';
-import { isAuthRoute, isAdminRoute, isReaderRoute } from '../../utils/helpers';
+import { isAuthRoute, isAdminRoute, isReaderRoute } from 'utils/helpers';
 
 import { ChangeTheme, Navbar, ToggleTheme } from './styles';
-import { useGlobalState, setTheme } from '../../state';
+import { useGlobalState, setTheme, setLanguage } from 'state';
 import RouteNavItem from './RouteNavItem';
 import LangNavItem from './LangNavItem';
 
-function LangNav({ language, onChangeLanguage, isThemeLight }) {
+function LangNav({ language, isThemeLight }) {
   const [lighTheme, changeTheme] = useState(isThemeLight);
   const toggleTheme = () => {
     changeTheme(!lighTheme);
@@ -29,7 +27,7 @@ function LangNav({ language, onChangeLanguage, isThemeLight }) {
             key={`nav-${lang}`}
             cookielang={language}
             language={lang}
-            onClick={() => onChangeLanguage(lang)}
+            onClick={() => setLanguage(lang)}
           >
             {lang.toUpperCase()}
           </LangNavItem>
@@ -49,18 +47,14 @@ function LangNav({ language, onChangeLanguage, isThemeLight }) {
   );
 }
 
-function AdminNav({ changeLanguage, language, themeSelected }) {
+function AdminNav({ language, themeSelected }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const isThemeLight = themeSelected === 'light';
   return (
     <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
-      <LangNav
-        isThemeLight={isThemeLight}
-        language={language}
-        onChangeLanguage={changeLanguage}
-      />
+      <LangNav isThemeLight={isThemeLight} language={language} />
       <Collapse isOpen={isCollapse} navbar>
         <Nav className="ml-auto" navbar>
           <RouteNavItem to="/admincp/dashboard" exact>
@@ -78,7 +72,7 @@ function AdminNav({ changeLanguage, language, themeSelected }) {
   );
 }
 
-function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
+function PublicNav({ language, themeSelected, hidden }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const isThemeLight = themeSelected === 'light';
   return (
@@ -91,11 +85,7 @@ function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
     >
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
-      <LangNav
-        isThemeLight={isThemeLight}
-        language={language}
-        onChangeLanguage={changeLanguage}
-      />
+      <LangNav isThemeLight={isThemeLight} language={language} />
       <Collapse isOpen={isCollapse} navbar>
         <Nav className="ml-auto" navbar>
           <RouteNavItem to="/" exact>
@@ -132,7 +122,7 @@ function PublicNav({ changeLanguage, language, themeSelected, hidden }) {
   );
 }
 
-function Header({ doChangeLanguage }) {
+function Header() {
   const [themeSelected] = useGlobalState('theme');
   const location = useLocation();
   const { locale } = useIntl();
@@ -144,26 +134,13 @@ function Header({ doChangeLanguage }) {
       <PublicNav
         themeSelected={themeSelected}
         language={locale}
-        changeLanguage={doChangeLanguage}
         hidden={isReaderRoute(location)}
       />
     )) ||
     (showAdminNav && (
-      <AdminNav
-        themeSelected={themeSelected}
-        language={locale}
-        changeLanguage={doChangeLanguage}
-      />
+      <AdminNav themeSelected={themeSelected} language={locale} />
     ))
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    doChangeLanguage: lang => dispatch(doChangeLanguage(lang))
-  };
-};
-
-export default connect(null, mapDispatchToProps, null, {
-  pure: false
-})(Header);
+export default Header;

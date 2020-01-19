@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { useMutation } from '@apollo/react-hooks';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import gql from 'graphql-tag';
 
-import { register } from '../actions/doUser';
-import AuthCheck from '../../auth/AuthCheck';
+import AuthCheck from 'auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 
-const USER = {
-  name: '',
-  email: '',
-  password: ''
-};
+export const SIGNUP = gql`
+  mutation UserSignup($name: String, $email: String, $password: String) {
+    userSignup(name: $name, email: $email, password: $password) {
+      id
+      name
+      email
+    }
+  }
+`;
 
-function Signup({ register }) {
+function Signup() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [user, setUser] = useState(USER);
+  const [user, setUser] = useState({ name: '', email: '', password: '' });
+  const [signup] = useMutation(SIGNUP);
   const { formatMessage: f } = useIntl();
   const location = useLocation();
   const history = useHistory();
@@ -30,37 +35,34 @@ function Signup({ register }) {
     setUser(luser);
   };
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
 
     setIsLoading(true);
 
-    register(user)
-      .then(response => {
-        setIsLoading(false);
-
-        if (response.data.errors && response.data.errors.length > 0) {
-          setError(response.data.errors[0].message);
-        } else {
-          setSuccess(
-            f({
-              id: 'success_signup',
-              defaultMessage: 'Signed up successfully.'
-            })
-          );
-          history.push('/login');
-        }
-      })
-      .catch(error => {
-        setIsLoading(false);
-        setError(
+    try {
+      const { data } = await signup({ variables: user });
+      if (data.errors && data.errors.length > 0) {
+        setError(data.errors[0].message);
+      } else if (data.userLogin.token !== '') {
+        setError(null);
+        setSuccess(
           f({
-            id: 'uknown_error_signup',
-            defaultMessage:
-              'There was some error signing you up. Please try again.'
+            id: 'success_signup',
+            defaultMessage: 'Signed up successfully.'
           })
         );
-      });
+        history.push('/login');
+      }
+    } catch (err) {
+      setError(
+        f({
+          id: 'uknown_error_signup',
+          defaultMessage:
+            'There was some error signing you up. Please try again.'
+        })
+      );
+    }
   };
 
   return (
@@ -70,7 +72,11 @@ function Signup({ register }) {
           {error}
         </Alert>
       )}
-      {success && <Alert color="success">{success}</Alert>}
+      {success && (
+        <Alert id="signup_success_alert" color="success">
+          {success}
+        </Alert>
+      )}
       <Form onSubmit={onSubmit}>
         <FormGroup>
           <Label for="username">
@@ -132,4 +138,4 @@ function Signup({ register }) {
   );
 }
 
-export default connect(null, { register })(Signup);
+export default Signup;

@@ -1,44 +1,54 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Spinner } from 'reactstrap';
+import gql from 'graphql-tag';
 
 import { getQueryParams } from '../../utils/helpers';
-import { activate } from '../actions/doUser';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
+import { useMutation } from '@apollo/react-hooks';
 
-function ActivateAccount({ activate, searchLocation, history }) {
+export const ACTIVATE = gql`
+  mutation UserActivate($email: String, $activatedToken: String) {
+    userActivate(email: $email, activatedToken: $activatedToken) {
+      email
+      activatedToken
+    }
+  }
+`;
+
+function ActivateAccount() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [activate] = useMutation(ACTIVATE);
   const location = useLocation();
+  const history = useHistory();
 
-  useEffect(() => {
+  useEffect(async () => {
     setIsLoading(true);
     const params = getQueryParams(location.search);
     const userActivate = {
       email: params.email,
       activatedToken: params.token
     };
-    activate(userActivate)
-      .then(response => {
-        setIsLoading(false);
 
-        if (response.data.errors && response.data.errors.length > 0) {
-          setError(response.data.errors[0].message);
-        } else {
-          setSuccess('Account activated.');
-          history.push('/auth/login');
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        setError('There was some error. Please try again.');
-        setIsLoading(false);
-      });
-  }, [activate, searchLocation]);
+    try {
+      const response = await activate({ variables: userActivate });
+      setIsLoading(false);
+      if (response.data.errors && response.data.errors.length > 0) {
+        setError(response.data.errors[0].message);
+      } else {
+        setSuccess('Account activated.');
+        history.push('/auth/login');
+      }
+    } catch (err) {
+      console.error(error);
+      setError('There was some error. Please try again.');
+      setIsLoading(false);
+    }
+  }, [activate]);
 
   return (
     <AuthContainer route={location}>
@@ -47,11 +57,15 @@ function ActivateAccount({ activate, searchLocation, history }) {
           {error}
         </Alert>
       )}
-      {success && <Alert color="success">{success}</Alert>}
+      {success && (
+        <Alert id="activate-account_success" color="success">
+          {success}
+        </Alert>
+      )}
       {isLoading && <Spinner />}
       <AuthCheck />
     </AuthContainer>
   );
 }
 
-export default connect(null, { activate })(ActivateAccount);
+export default ActivateAccount;

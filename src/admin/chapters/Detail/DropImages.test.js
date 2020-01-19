@@ -1,5 +1,4 @@
 import React from 'react';
-import moxios from '@anilanar/moxios';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
 import { MockedProvider } from '@apollo/react-testing';
@@ -25,12 +24,10 @@ const toggleModalMock = jest.fn();
 const originalFileReader = FileReader;
 
 beforeEach(() => {
-  moxios.install();
   window.FileReader = MockFileReader;
 });
 
 afterEach(() => {
-  moxios.uninstall();
   window.FileReader = originalFileReader;
 });
 
@@ -199,21 +196,6 @@ it('should upload all pages', async () => {
     const props = wrapper.find(DropImages).props();
 
     expect(props).toBeDefined();
-
-    setTimeout(() => {}, 1000);
-
-    await global.wait(0);
-
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
-        file: pagesAsFile[0].filename
-      }
-    });
-
-    await global.wait(0);
 
     wrapper.unmount();
   });
