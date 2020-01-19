@@ -1,25 +1,21 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router';
-import { IntlProvider } from 'react-intl-redux';
-import { ApolloProvider } from '@apollo/react-hooks';
 import ReactGA from 'react-ga';
+import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/react-hooks';
 
 // App imports
 import App from './App';
 import { getDefaultLanguage } from './utils/common';
-import { doChangeLanguage } from './layout/actions/doChangeLanguage';
 import apolloClient from './setupApollo';
-import store, { history } from './store';
 import { GA_ID } from './config';
-import {
-  setUser,
-  loginSetUserLocalStorageAndCookie
-} from './user/actions/doUser';
+import { setUser, setLanguage } from 'state';
 import { GlobalStateProvider } from './state';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+
+const history = createBrowserHistory();
 
 if (GA_ID && GA_ID !== '') {
   ReactGA.initialize(GA_ID, {
@@ -28,32 +24,25 @@ if (GA_ID && GA_ID !== '') {
   ReactGA.pageview(window.location.pathname + window.location.search);
 }
 // Language
-store.dispatch(doChangeLanguage(getDefaultLanguage()));
+setLanguage(getDefaultLanguage());
 
 // User Authentication
 const token = window.localStorage.getItem('token');
 if (token && token !== 'undefined' && token !== '') {
   const user = JSON.parse(window.localStorage.getItem('user'));
   if (user) {
-    // Dispatch action
-    store.dispatch(setUser(token, user));
-
-    loginSetUserLocalStorageAndCookie(token, user);
+    setUser(user, token);
   }
 }
 
 function Root() {
   return (
     <ApolloProvider client={apolloClient}>
-      <Provider store={store}>
-        <IntlProvider>
-          <ConnectedRouter history={history}>
-            <GlobalStateProvider>
-              <App />
-            </GlobalStateProvider>
-          </ConnectedRouter>
-        </IntlProvider>
-      </Provider>
+      <BrowserRouter history={history}>
+        <GlobalStateProvider>
+          <App />
+        </GlobalStateProvider>
+      </BrowserRouter>
     </ApolloProvider>
   );
 }

@@ -30,7 +30,7 @@ export const getWorks = [
     name: 'Deathtopia',
     stub: 'deathtopia',
     uniqid: '2jd20dlsda0',
-    status: 2,
+    status: 3,
     demographicId: 3,
     type: 'Manga',
     adult: false,

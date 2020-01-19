@@ -1,12 +1,13 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+import { useGlobalState } from 'state';
 
 // Component
-const AuthCheck = props =>
-  props.user.isAuthenticated ? (
-    props.user.details.role === 'ADMIN' ? (
+const AuthCheck = () => {
+  const [user] = useGlobalState('user');
+  return user ? (
+    user.role === 'ADMIN' ? (
       <Redirect to={'/admincp/dashboard'} />
     ) : (
       <Redirect to={'/'} />
@@ -14,15 +15,6 @@ const AuthCheck = props =>
   ) : (
     ''
   );
-
-AuthCheck.propTypes = {
-  user: PropTypes.object.isRequired
 };
 
-function authCheckState(state) {
-  return {
-    user: state.user
-  };
-}
-
-export default connect(authCheckState, {})(AuthCheck);
+export default AuthCheck;

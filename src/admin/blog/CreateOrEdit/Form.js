@@ -6,16 +6,12 @@ import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 
 // App imports
 import { slugify } from 'utils/helpers';
-import {
-  languagesAvailables,
-  blogCategories,
-  postsStatus,
-  uploadImage
-} from 'utils/common';
 import { getImage } from 'common/Image';
+import { languagesAvailables, blogCategories, postsStatus } from 'utils/common';
 
 function PostForm({ post, onSubmit }) {
   const [localPost, setLocalPost] = useState(post);
+  const [coverPic, setCoverPic] = useState(null);
   const [mdeState, setMdeState] = useState(
     post.id > 0
       ? RichTextEditor.createValueFromString(post.content, 'markdown')
@@ -49,17 +45,13 @@ function PostForm({ post, onSubmit }) {
     setLocalPost(post);
   };
 
-  const handleUploadFile = async event => {
-    let data = new FormData();
-    data.append('file', event.target.files[0]);
-
-    try {
-      const response = await uploadImage(data);
-      const post = { ...localPost, thumbnail: response.data.file };
-      setLocalPost(post);
-    } catch (err) {
-      console.error(err);
+  const handleUploadFile = async ({
+    target: {
+      validity,
+      files: [file]
     }
+  }) => {
+    if (validity.valid) setCoverPic(file);
   };
 
   const handleOnSubmit = ev => {
@@ -73,6 +65,9 @@ function PostForm({ post, onSubmit }) {
     post.category = post.category === 0 ? blogCategories[0].id : post.category;
     post.status = post.status === 0 ? postsStatus[0].id : post.status;
     post.userId = user.id;
+    if (coverPic) {
+      post.thumbnail = coverPic;
+    }
     delete post.createdAt;
     delete post.updatedAt;
 

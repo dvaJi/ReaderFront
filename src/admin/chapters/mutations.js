@@ -1,25 +1,14 @@
 import gql from 'graphql-tag';
 
 export const CREATE_PAGE = gql`
-  mutation PageCreate(
-    $chapterId: Int
-    $filename: String
-    $hidden: Boolean
-    $height: Int
-    $width: Int
-    $size: Int
-    $mime: String
-  ) {
-    pageCreate(
-      chapterId: $chapterId
-      filename: $filename
-      hidden: $hidden
-      height: $height
-      width: $width
-      size: $size
-      mime: $mime
-    ) {
+  mutation PageCreate($chapterId: Int, $file: Upload, $size: Int) {
+    pageCreate(chapterId: $chapterId, file: $file, size: $size) {
       id
+      filename
+      mime
+      height
+      width
+      size
     }
   }
 `;

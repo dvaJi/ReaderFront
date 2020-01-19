@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
+import { useMutation } from '@apollo/react-hooks';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import gql from 'graphql-tag';
 
-import { login } from '../actions/doUser';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
+import { setUser } from 'state';
 
-const USER = {
-  email: '',
-  password: ''
-};
+export const LOGIN = gql`
+  mutation UserLogin($email: String, $password: String) {
+    userLogin(email: $email, password: $password) {
+      user {
+        id
+        name
+        email
+        role
+      }
+      token
+    }
+  }
+`;
 
-function Login({ user, login }) {
-  const [localUser, setLocalUser] = useState(USER);
-  const [localError, setLocalError] = useState(null);
+function Login() {
+  const [localUser, setLocalUser] = useState({ email: '', password: '' });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [login] = useMutation(LOGIN);
   const location = useLocation();
+  const history = useHistory();
   const { formatMessage: f } = useIntl();
 
   const onChange = event => {
@@ -26,27 +39,36 @@ function Login({ user, login }) {
     setLocalUser(user);
   };
 
-  const onSubmit = event => {
+  const onSubmit = async event => {
     event.preventDefault();
+    setIsLoading(true);
 
-    login(localUser)
-      .then(response => {
-        if (user.error && user.error.length > 0) {
-          setLocalError(user.error);
-        } else {
-          setLocalError(null);
-        }
-      })
-      .catch(error => {
-        setLocalError(user.error);
-      });
+    try {
+      const { data } = await login({ variables: localUser });
+      if (data.errors && data.errors.length > 0) {
+        setError(data.errors[0].message);
+      } else if (data.userLogin.token !== '') {
+        setError(null);
+        const { user, token } = data.userLogin;
+
+        setUser(user, token);
+
+        history.push('/admincp/dashboard');
+      }
+    } catch (err) {
+      setError('Incorrect credentials');
+    }
+
+    setIsLoading(false);
   };
-
-  const { isLoading, error } = user;
 
   return (
     <AuthContainer route={location}>
-      {localError && <Alert color="danger">{error}</Alert>}
+      {error && (
+        <Alert id="error_alert" color="danger">
+          {error}
+        </Alert>
+      )}
       <Form onSubmit={onSubmit}>
         <FormGroup>
           <Label for="email">
@@ -91,10 +113,4 @@ function Login({ user, login }) {
   );
 }
 
-function loginState(state) {
-  return {
-    user: state.user
-  };
-}
-
-export default connect(loginState, { login })(Login);
+export default Login;

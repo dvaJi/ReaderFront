@@ -1,62 +1,65 @@
 import React from 'react';
 import { Form } from 'reactstrap';
-import { Provider } from 'react-redux';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import configureMockStore from 'redux-mock-store';
+import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter, Route } from 'react-router-dom';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
 
-import LoginContainer from './LoginContainer';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-beforeEach(function() {
-  moxios.install();
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
-
-it('should render without throwing an error', () => {
-  const store = mockStore({
-    user: { isLoading: false, error: null },
-    layout: {
-      language: 'es'
-    }
-  });
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <LoginContainer />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  expect(wrapper).toBeTruthy();
-});
+import LoginContainer, { LOGIN } from './LoginContainer';
+import { GlobalStateProvider } from 'state';
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    user: { isLoading: false, error: null },
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter initialEntries={['/auth/login']}>
-        <Route path="/auth/login">
-          <LoginContainer
-            router={{ location: { pathname: 'AS' } }}
-            user={{ isLoading: false, error: null }}
-          />
-        </Route>
-      </MemoryRouter>
-    </Provider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <MemoryRouter>
+          <LoginContainer />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
+  );
+
+  await actions(wrapper, async () => {
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
+});
+
+it('should login without throwing an error', async () => {
+  const mocks = [
+    {
+      request: {
+        query: LOGIN,
+        variables: { email: 'iam@god.com', password: 'h4ck3rm4n' }
+      },
+      result: {
+        data: {
+          userLogin: {
+            token: 'f4k3T0k3N',
+            user: {
+              name: 'Admin',
+              email: 'iam@god.com',
+              role: 'admin'
+            }
+          }
+        }
+      }
+    }
+  ];
+
+  const wrapper = mountWithIntl(
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter initialEntries={['/auth/login']}>
+          <Route path="/auth/login">
+            <LoginContainer
+              router={{ location: { pathname: 'AS' } }}
+              user={{ isLoading: false, error: null }}
+            />
+          </Route>
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
@@ -68,52 +71,40 @@ it('should render without throwing an error', async () => {
 
     form.simulate('submit');
 
-    await global.wait(0);
+    wrapper.update();
 
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
-        data: {
-          userLogin: {
-            token: 'f4k3T0k3N',
-            user: {
-              name: 'Admin',
-              email: 'my@email.com',
-              role: 'admin'
-            }
-          }
-        }
-      }
-    });
+    expect(wrapper.find('error_alert').exists()).toBe(false);
 
     wrapper.unmount();
   });
 });
 
 it('should render an error if login not match', async () => {
-  const state = {
-    user: { isLoading: false, error: null },
-    router: {
-      location: {
-        pathname: 'LUL'
+  const mocks = [
+    {
+      request: {
+        query: LOGIN,
+        variables: { email: 'iam@god.com', password: 'h4ck3rm4n2' }
+      },
+      result: {
+        data: {
+          errors: [{ message: 'Invalid Credentials' }]
+        }
       }
-    },
-    layout: {
-      language: 'es'
     }
-  };
-  const store = mockStore(state);
+  ];
+
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <LoginContainer
-          router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
-        />
-      </MemoryRouter>
-    </Provider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter>
+          <LoginContainer
+            router={{ location: { pathname: 'AS' } }}
+            user={{ isLoading: false, error: null }}
+          />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
@@ -125,20 +116,9 @@ it('should render an error if login not match', async () => {
 
     form.simulate('submit');
 
-    await global.wait(0);
+    wrapper.update();
 
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
-        errors: [
-          {
-            message: 'You dont rule here :('
-          }
-        ]
-      }
-    });
+    expect(wrapper.find('error_alert')).toBeTruthy();
 
     wrapper.unmount();
   });

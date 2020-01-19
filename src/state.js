@@ -1,4 +1,5 @@
 import { createGlobalState } from 'react-hooks-global-state';
+import cookie from 'js-cookie';
 
 const displaySettingsLS = getLSItem('displaySettings');
 const displaySettings = {
@@ -13,9 +14,11 @@ const coreSettings = {
   qualityImage: 100
 };
 
+const userLS = getLSItem('user');
 const initialState = {
   theme: getLSItem('theme') || 'light',
   language: 'es',
+  user: userLS,
   displaySettings: displaySettingsLS || displaySettings,
   coreSettings: coreSettingsLS || coreSettings
 };
@@ -32,7 +35,27 @@ export const setTheme = theme => {
 };
 
 export const setLanguage = language => {
+  window.localStorage.setItem('rf_language', language);
   setGlobalState('language', language);
+};
+
+export const setUser = (user, token) => {
+  if (user) {
+    // Update token
+    window.localStorage.setItem('token', token);
+    window.localStorage.setItem('user', JSON.stringify(user));
+
+    // Set cookie for SSR
+    cookie.set('auth', { token, user }, { path: '/' });
+
+    setGlobalState('user', user);
+  } else {
+    // Remove user
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user');
+    cookie.remove('auth');
+    setGlobalState('user', null);
+  }
 };
 
 export const setDisplaySettings = displaySettings => {

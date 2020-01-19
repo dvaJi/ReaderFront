@@ -1,7 +1,5 @@
 import React from 'react';
-import moxios from '@anilanar/moxios';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { render, fireEvent } from '@testing-library/react';
 
 import Form from './Form';
 
@@ -16,7 +14,6 @@ const work = global.rfMocks.work.work;
 let workEmpty = {};
 
 beforeEach(() => {
-  moxios.install();
   workEmpty = {
     id: 0,
     name: '',
@@ -38,7 +35,6 @@ beforeEach(() => {
 afterEach(() => {
   localStorage.clear();
   console.error = global.originalError;
-  moxios.uninstall();
 });
 
 it('renders without crashing', () => {
@@ -97,49 +93,6 @@ it('should throw an error is user is not authenticated', () => {
     wrapper.find('button[id="submit_work"]').simulate('click');
   }).toThrowError('User not authenticated');
   wrapper.unmount();
-});
-
-it('should allow to upload an image', async () => {
-  localStorage.setItem('user', JSON.stringify(userStorage));
-  const image = {
-    name: 'plot.jpg',
-    size: 1000,
-    type: 'image/jpeg'
-  };
-
-  const { queryByTestId } = render(
-    <Form
-      work={{ ...workEmpty, uniqid: 'test-work' }}
-      onSubmit={handleOnSubmit}
-    />
-  );
-
-  expect(queryByTestId('work_thumbnail')).toBeNull();
-
-  const fileContents = image;
-  const file = new Blob([fileContents], { type: 'text/plain' });
-
-  Object.defineProperty(queryByTestId('uploadCover'), 'files', {
-    value: [file]
-  });
-
-  fireEvent.change(queryByTestId('uploadCover'));
-
-  await global.wait(0);
-  let request = moxios.requests.mostRecent();
-  await request.respondWith({
-    status: 200,
-    statusText: 'OK',
-    response: {
-      file: 'plot_updated.jpg'
-    }
-  });
-
-  await global.wait(0);
-
-  expect(queryByTestId('work_thumbnail').getAttribute('src')).toBe(
-    'http://localhost:8000/works/test-work/plot_updated.jpg'
-  );
 });
 
 it('should fill the form with the work given', async () => {
