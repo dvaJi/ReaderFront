@@ -48,7 +48,7 @@ function ActivateAccount() {
       setError('There was some error. Please try again.');
       setIsLoading(false);
     }
-  }, [activate, location]);
+  }, [activate]);
 
   return (
     <AuthContainer route={location}>

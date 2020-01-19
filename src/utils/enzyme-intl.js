@@ -1,6 +1,3 @@
-import React from 'react';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import { mount, shallow } from 'enzyme';
 
@@ -26,24 +23,6 @@ export function shallowWithIntl(node) {
       locale,
       defaultLocale,
       messages
-    }
-  });
-}
-
-export function mountWithRouter(
-  node,
-  {
-    route = '/',
-    history = createMemoryHistory({ initialEntries: [route] })
-  } = {}
-) {
-  const Wrapper = ({ children }) => (
-    <Router history={history}>{children}</Router>
-  );
-  return mount(node, {
-    wrappingComponent: Wrapper,
-    wrappingComponentProps: {
-      history
     }
   });
 }

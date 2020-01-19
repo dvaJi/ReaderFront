@@ -51,16 +51,6 @@ export const postsStatus = Object.keys(params.blog.status).map(
   k => params.blog.status[k]
 );
 
-export function postsStatusIdToName(statusId) {
-  const status = postsStatus.find(status => status.id === statusId);
-  return status !== undefined ? status.name : null;
-}
-
-export function postsStatusNameToId(statusName) {
-  const status = postsStatus.find(status => status.name === statusName);
-  return status !== undefined ? status.id : null;
-}
-
 // Blog Categories helpers
 export const blogCategories = Object.keys(params.blog.categories).map(
   k => params.blog.categories[k]
@@ -69,11 +59,6 @@ export const blogCategories = Object.keys(params.blog.categories).map(
 export function blogCategoriesIdToName(categoryId) {
   const category = blogCategories.find(cat => cat.id === categoryId);
   return category !== undefined ? category.name : null;
-}
-
-export function blogCategoriesNameToId(categoryName) {
-  const category = blogCategories.find(cat => cat.name === categoryName);
-  return category !== undefined ? category.id : null;
 }
 
 // Work Helpers
@@ -90,11 +75,6 @@ export function workStatusIdToName(statusId) {
 export const workTypes = Object.keys(params.works.types).map(
   s => params.works.types[s]
 );
-
-export function workTypesIdToName(typeId) {
-  const type = workTypes.find(type => type.id === typeId);
-  return type !== undefined ? type.name : null;
-}
 
 export const genresDemographic = Object.keys(
   params.genres.demographic

@@ -12,9 +12,11 @@ it('should render without throwing an error', async () => {
     <GlobalStateProvider>
       <MockedProvider mocks={[]} addTypename={false}>
         <MemoryRouter
-          initialEntries={['/auth/activate?email=test@aa.com&token=t0k3n']}
+          initialEntries={[
+            '/auth/activate_account?email=test@aa.com&token=t0k3n'
+          ]}
         >
-          <Route path="/auth/activate?email=test@aa.com&token=t0k3n">
+          <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
             <ActivateAccountContainer />
           </Route>
         </MemoryRouter>
