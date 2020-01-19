@@ -4,7 +4,7 @@ import { Route, Switch, Redirect } from 'react-router';
 import withTracker from './common/WithTracker';
 import RoutePrivate from './auth/RoutePrivate';
 
-import { logout } from 'user/actions/doUser';
+import { setUser } from 'state';
 
 const Homepage = Loadable({
   loader: () => import(/* webpackChunkName: "homepage" */ './home'),
@@ -182,9 +182,9 @@ export default (
     <Route
       path="/auth/logout"
       exact
-      render={async () => {
-        await logout();
-        return <Redirect push to="/auth/login" />;
+      render={() => {
+        setUser(null);
+        return <Redirect push to="/" />;
       }}
     />
     <Route

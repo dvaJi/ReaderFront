@@ -1,78 +1,42 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { mountWithIntl } from 'utils/enzyme-intl';
-import { actions } from 'utils/enzyme-actions';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import moxios from '@anilanar/moxios';
-import SignupContainer from './SignupContainer';
 import { Form } from 'reactstrap';
 import { MemoryRouter } from 'react-router-dom';
+import { MockedProvider } from '@apollo/react-testing';
 
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-
-beforeEach(function() {
-  moxios.install();
-});
-
-afterEach(function() {
-  moxios.uninstall();
-});
-
-it('should render without throwing an error', () => {
-  const store = mockStore({
-    user: {}
-  });
-  const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <SignupContainer />
-      </MemoryRouter>
-    </Provider>
-  );
-
-  expect(wrapper).toBeTruthy();
-});
+import { GlobalStateProvider } from 'state';
+import { mountWithIntl } from 'utils/enzyme-intl';
+import { actions } from 'utils/enzyme-actions';
+import SignupContainer, { SIGNUP } from './SignupContainer';
 
 it('should render without throwing an error', async () => {
-  const store = mockStore({
-    user: { isLoading: false, error: null },
-    router: {
-      location: {
-        pathname: 'LUL'
-      }
-    },
-    layout: {
-      language: 'es'
-    }
-  });
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <SignupContainer router={{ location: { pathname: 'AS' } }} />
-      </MemoryRouter>
-    </Provider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <MemoryRouter>
+          <SignupContainer />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
-    const form = wrapper.find(Form);
-    const inputUsername = form.find('input[name="name"]');
-    inputUsername.simulate('change', { target: { value: 'user01' } });
+    expect(wrapper).toBeTruthy();
+    wrapper.unmount();
+  });
+});
 
-    const inputEmail = form.find('input[name="email"]');
-    inputEmail.simulate('change', { target: { value: 'test@example.com' } });
-
-    const inputPasword = form.find('input[name="password"]');
-    inputPasword.simulate('change', { target: { value: '123456' } });
-
-    await form.simulate('submit');
-
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
+it('should render without throwing an error', async () => {
+  const mocks = [
+    {
+      request: {
+        query: SIGNUP,
+        variables: {
+          name: 'user01',
+          email: 'test@example.com',
+          password: '123456'
+        }
+      },
+      result: {
         data: {
           userSignup: {
             token: 'f4k3T0k3N',
@@ -84,30 +48,17 @@ it('should render without throwing an error', async () => {
           }
         }
       }
-    });
-
-    wrapper.unmount();
-  });
-});
-
-it('should render an error', async () => {
-  const store = mockStore({
-    user: { isLoading: false, error: null },
-    router: {
-      location: {
-        pathname: 'LUL'
-      }
-    },
-    layout: {
-      language: 'es'
     }
-  });
+  ];
+
   const wrapper = mountWithIntl(
-    <Provider store={store}>
-      <MemoryRouter>
-        <SignupContainer router={{ location: { pathname: 'AS' } }} />
-      </MemoryRouter>
-    </Provider>
+    <GlobalStateProvider>
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <MemoryRouter>
+          <SignupContainer router={{ location: { pathname: 'AS' } }} />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
   );
 
   await actions(wrapper, async () => {
@@ -121,18 +72,36 @@ it('should render an error', async () => {
     const inputPasword = form.find('input[name="password"]');
     inputPasword.simulate('change', { target: { value: '123456' } });
 
-    await form.simulate('submit');
+    form.simulate('submit');
 
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 400,
-      statusText: 'ERROR',
-      response: {
-        data: {
-          error: 'Error :('
-        }
-      }
-    });
+    expect(wrapper.find('#signup_success_alert')).toBeDefined();
+    wrapper.unmount();
+  });
+});
+
+it('should render an error', async () => {
+  const wrapper = mountWithIntl(
+    <GlobalStateProvider>
+      <MockedProvider mocks={[]} addTypename={false}>
+        <MemoryRouter>
+          <SignupContainer router={{ location: { pathname: 'AS' } }} />
+        </MemoryRouter>
+      </MockedProvider>
+    </GlobalStateProvider>
+  );
+
+  await actions(wrapper, async () => {
+    const form = wrapper.find(Form);
+    const inputUsername = form.find('input[name="name"]');
+    inputUsername.simulate('change', { target: { value: 'user01' } });
+
+    const inputEmail = form.find('input[name="email"]');
+    inputEmail.simulate('change', { target: { value: 'test@example.com' } });
+
+    const inputPasword = form.find('input[name="password"]');
+    inputPasword.simulate('change', { target: { value: '123456' } });
+
+    form.simulate('submit');
 
     expect(wrapper.find('#signup_error_alert')).toBeDefined();
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import moxios from '@anilanar/moxios';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
 
@@ -16,7 +15,6 @@ const post = global.rfMocks.posts.getPost;
 let postEmpty = {};
 
 beforeEach(() => {
-  moxios.install();
   postEmpty = {
     id: 0,
     userId: 0,
@@ -36,7 +34,6 @@ beforeEach(() => {
 afterEach(() => {
   localStorage.clear();
   console.error = global.originalError;
-  moxios.uninstall();
 });
 
 it('renders without crashing', async () => {
@@ -98,43 +95,6 @@ it('should throw an error is user is not authenticated', async () => {
       wrapper.find('button[id="submit_post"]').simulate('click');
     }).toThrowError('User not authenticated');
     wrapper.unmount();
-  });
-});
-
-it('should allow to upload an image', async () => {
-  const wrapper = mountWithIntl(
-    <Form
-      post={{ ...postEmpty, uniqid: 'test.123' }}
-      onSubmit={handleOnSubmit}
-    />
-  );
-
-  await actions(wrapper, async () => {
-    const IMAGES = [global.createFile('page_01.jpg', 1234, 'image/jpeg')];
-
-    const fileInput = wrapper.find('input[id="uploadCover"]');
-    fileInput.simulate('change', {
-      target: {
-        files: IMAGES
-      }
-    });
-
-    await global.wait(1000);
-
-    let request = moxios.requests.mostRecent();
-    await request.respondWith({
-      status: 200,
-      statusText: 'OK',
-      response: {
-        file: 'plot_updated.jpg'
-      }
-    });
-
-    await global.wait(0);
-
-    expect(wrapper.find('#post_thumbnail').props().src).toBe(
-      'http://localhost:8000/images/blog/test.123/plot_updated.jpg'
-    );
   });
 });
 

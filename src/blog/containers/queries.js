@@ -17,9 +17,7 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
       stub
       content
       user {
-        id
         name
-        role
       }
       category
       status
@@ -54,7 +52,7 @@ export const FIND_BY_STUB = gql`
       status
       sticky
       language
-      thumbnail
+      thumbnail_path
       createdAt
       updatedAt
     }
