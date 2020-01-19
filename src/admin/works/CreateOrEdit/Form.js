@@ -20,7 +20,6 @@ import { renderIf, slugify } from 'utils/helpers';
 import {
   languagesAvailables as toLang,
   languages,
-  uploadImage,
   workStatus,
   workTypes,
   genresDemographic,
@@ -31,6 +30,7 @@ import Staff from './Staff';
 
 function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);
+  const [coverPic, setCoverPic] = useState(null);
   const [isAddPersonWorkModal, setIsAddPersonWorkModal] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [languagesAvailables, setLanguagesAvailables] = useState(
@@ -120,18 +120,13 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     setLocalWork(work);
   };
 
-  const handleUploadFile = async event => {
-    let data = new FormData();
-    data.append('file', event.target.files[0]);
-
-    try {
-      const response = await uploadImage(data);
-      const work = { ...localWork, thumbnail: response.data.file };
-
-      setLocalWork(work);
-    } catch (err) {
-      console.error(err);
+  const handleUploadFile = async ({
+    target: {
+      validity,
+      files: [file]
     }
+  }) => {
+    if (validity.valid) setCoverPic(file);
   };
 
   const handleOnSubmit = ev => {
@@ -146,6 +141,9 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     work.status = work.status === 0 ? workStatus[0].id : work.status;
     work.demographicId =
       work.demographicId === 0 ? genresDemographic[0].id : work.demographicId;
+    if (coverPic) {
+      work.thumbnail = coverPic;
+    }
     delete work.genres;
     delete work.createdAt;
 

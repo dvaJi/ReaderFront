@@ -1,8 +1,6 @@
-import axios from 'axios/index';
-
 // Common functions
 import params from '../params.json';
-import { READER_PATH, LANGUAGES } from '../config';
+import { LANGUAGES } from '../config';
 
 // Return an object with styles
 export function getStatusTagStyle(statusId) {
@@ -125,14 +123,6 @@ export const workRoles = Object.keys(params.works.roles).map(
 export function rolIdToName(rolId) {
   const rol = workRoles.find(rol => rol.id === rolId);
   return rol !== undefined ? rol.name : null;
-}
-
-export async function uploadImage(data) {
-  return await axios.post(READER_PATH + 'uploads', data, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
 }
 
 export function getDefaultLanguage() {

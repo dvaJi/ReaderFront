@@ -1,10 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { IntlProvider } from 'react-intl';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 // App imports
 import { READER_PATH, APP_VERSION, CDN } from 'config';
-import { getDefaultLanguage } from 'utils/common';
 import setupIcons from './setupIcons';
 import Routes from './Routes';
 import Header from './layout/header';
@@ -15,6 +15,7 @@ import {
   bodyBackgroundColor,
   scrollBackground
 } from './themes';
+import translations from 'i18n/locales';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -62,35 +63,37 @@ setupIcons();
 
 function App() {
   const [themeSelected] = useGlobalState('theme');
-  const language = getDefaultLanguage();
+  const [language] = useGlobalState('language');
   return (
-    <ThemeProvider theme={{ mode: themeSelected }}>
-      <>
-        <GlobalStyle />
-        <Helmet defer={false}>
-          <meta name="generator" content={`ReaderFront v${APP_VERSION}`} />
-          <link
-            rel="alternate"
-            type="application/rss+xml"
-            title="RSS Chapter Feed"
-            href={`${READER_PATH}feed/rss/${language}`}
-          />
-          <link
-            rel="alternate"
-            type="application/atom+xml"
-            title="Atom Chapter Feed"
-            href={`${READER_PATH}feed/atom/${language}`}
-          />
-          {CDN === 'photon' && <link rel="preconnect" href="//i0.wp.com" />}
-          {CDN === 'photon' && <link rel="preconnect" href="//i1.wp.com" />}
-          {CDN === 'photon' && <link rel="preconnect" href="//i2.wp.com" />}
-        </Helmet>
-        <div className="App">
-          <Header />
-          {Routes}
-        </div>
-      </>
-    </ThemeProvider>
+    <IntlProvider locale={language} messages={translations[language]}>
+      <ThemeProvider theme={{ mode: themeSelected }}>
+        <>
+          <GlobalStyle />
+          <Helmet defer={false}>
+            <meta name="generator" content={`ReaderFront v${APP_VERSION}`} />
+            <link
+              rel="alternate"
+              type="application/rss+xml"
+              title="RSS Chapter Feed"
+              href={`${READER_PATH}feed/rss/${language}`}
+            />
+            <link
+              rel="alternate"
+              type="application/atom+xml"
+              title="Atom Chapter Feed"
+              href={`${READER_PATH}feed/atom/${language}`}
+            />
+            {CDN === 'photon' && <link rel="preconnect" href="//i0.wp.com" />}
+            {CDN === 'photon' && <link rel="preconnect" href="//i1.wp.com" />}
+            {CDN === 'photon' && <link rel="preconnect" href="//i2.wp.com" />}
+          </Helmet>
+          <div className="App">
+            <Header />
+            {Routes}
+          </div>
+        </>
+      </ThemeProvider>
+    </IntlProvider>
   );
 }
 

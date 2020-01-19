@@ -6,7 +6,6 @@ import Dropzone from 'react-dropzone';
 import { Card } from 'common/ui';
 import { useLocalStorage } from 'common/useLocalStorage';
 import { slugify, forEachSeries } from 'utils/helpers';
-import { uploadImage } from 'utils/common';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
 import { FETCH_CHAPTER } from '../query';
@@ -45,7 +44,7 @@ function DropImages({ chapter, toggleModal }) {
     setPages(newPages);
   };
 
-  const handleUploadFile = async (file, pagesUploaded) => {
+  const handleUploadFile = async (file, pagesUploaded = [], isLast = true) => {
     const actualPages = pages
       .filter(p => p.filename !== file.filename)
       .map(p => ({
@@ -60,86 +59,48 @@ function DropImages({ chapter, toggleModal }) {
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename))
     );
 
-    let data = new FormData();
-    data.append('file', file.file);
-
     try {
-      const uploadResponse = await uploadImage(data);
-
       const newPage = {
         chapterId: chapter.id,
-        filename: uploadResponse.data.file,
-        hidden: false,
-        height: 0,
-        width: 0,
         size: file.file.size,
-        mime: file.file.type,
         file: file.file
       };
 
-      const pageToUpload = Object.assign({}, newPage);
-      delete pageToUpload.file;
-
       try {
-        const createResponse = await createPage({
-          variables: { ...pageToUpload },
-          update(cache, { data: { pageCreate } }) {
-            const { chapterById } = cache.readQuery({
-              query: FETCH_CHAPTER,
-              variables: { chapterId: chapter.id }
-            });
-            cache.writeQuery({
-              query: FETCH_CHAPTER,
-              variables: { chapterId: chapter.id },
-              data: {
-                chapterById: {
-                  ...chapterById,
-                  pages: [
-                    ...pages
-                      .filter(p => p.filename !== file.filename)
-                      .map(p => ({
-                        ...p,
-                        uploaded:
-                          p.uploaded || pagesUploaded.includes(p.filename)
-                      })),
-                    {
-                      ...file,
-                      id: pageCreate.id,
-                      uploaded: true,
-                      isUploading: false,
-                      hasError: false,
-                      size: file.file.size,
-                      file: undefined,
-                      filename: uploadResponse.data.file
-                    }
-                  ]
+        const refetchQueries = isLast
+          ? {
+              refetchQueries: [
+                {
+                  query: FETCH_CHAPTER,
+                  variables: { chapterId: chapter.id }
                 }
-              }
-            });
-          }
+              ]
+            }
+          : {};
+        const { data: createData } = await createPage({
+          variables: { ...newPage },
+          ...refetchQueries
         });
-        if (
-          createResponse.data.errors &&
-          createResponse.data.errors.length > 0
-        ) {
-          setError(createResponse.data.errors[0].message);
+        if (createData.errors && createData.errors.length > 0) {
+          setError(createData.errors[0].message);
         } else {
           const newPages = [
             ...pages
               .filter(p => p.filename !== file.filename)
-              .map(p => ({
-                ...p,
-                uploaded: p.uploaded || pagesUploaded.includes(p.filename)
-              })),
+              .map(p => {
+                return {
+                  ...p,
+                  uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+                };
+              }),
             {
               ...file,
-              id: createResponse.data.pageCreate.id,
+              ...createData.pageCreate,
               uploaded: true,
               isUploading: false,
               hasError: false,
               size: file.file.size,
-              file: undefined,
-              filename: uploadResponse.data.file
+              file: undefined
             }
           ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
@@ -198,8 +159,9 @@ function DropImages({ chapter, toggleModal }) {
 
     let pagesUploaded = [];
     if (pagesToUpload.length > 0) {
-      await forEachSeries(pagesToUpload, async page => {
-        await handleUploadFile(page, pagesUploaded);
+      await forEachSeries(pagesToUpload, async (page, i) => {
+        const isLast = pagesToUpload.length === i + 1;
+        await handleUploadFile(page, pagesUploaded, isLast);
         pagesUploaded.push(page.filename);
       });
 

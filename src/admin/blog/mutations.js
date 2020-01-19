@@ -12,7 +12,7 @@ export const CREATE_POST = gql`
     $status: Int
     $sticky: Boolean
     $language: Int
-    $thumbnail: String
+    $thumbnail: Upload
   ) {
     postCreate(
       userId: $userId
@@ -44,7 +44,7 @@ export const UPDATE_POST = gql`
     $status: Int
     $sticky: Boolean
     $language: Int
-    $thumbnail: String
+    $thumbnail: Upload
     $userId: Int
   ) {
     postUpdate(
