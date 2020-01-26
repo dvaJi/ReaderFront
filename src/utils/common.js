@@ -1,6 +1,6 @@
 // Common functions
-import params from '../params.json';
-import { LANGUAGES } from '../config';
+import params from '../../params.json';
+import { LANGUAGES } from 'lib/config';
 
 // Return an object with styles
 export function getStatusTagStyle(statusId) {
