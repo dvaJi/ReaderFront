@@ -1,4 +1,4 @@
-name: Tests
+name: Web pipeline
 
 on: [push, pull_request]
 
@@ -47,10 +47,10 @@ jobs:
         run: npm run lint
 
       - name: Run build
-        run: npm build
+        run: npm run build
 
       - name: Run tests
-        run: npm test:ci -- --maxWorkers=2
+        run: npm run test:ci -- --maxWorkers=2
 
       - name: Run Coveralls
         uses: coverallsapp/github-action@master

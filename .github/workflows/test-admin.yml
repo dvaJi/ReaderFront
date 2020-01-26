@@ -1,4 +1,4 @@
-name: Tests
+name: Admin pipeline
 
 on: [push, pull_request]
 
@@ -42,10 +42,10 @@ jobs:
         run: npm --prefix ./admin run lint
 
       - name: Run build
-        run: npm --prefix ./admin build
+        run: npm --prefix ./admin run build
 
       - name: Run tests
-        run: npm --prefix ./admin test -- --maxWorkers=2
+        run: npm --prefix ./admin run test -- --maxWorkers=2
 
       - name: Run Coveralls
         uses: coverallsapp/github-action@master
