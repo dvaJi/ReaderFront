@@ -40,9 +40,12 @@ aliases:
           npm run lint
           cd ./admin
           npm run lint
+  - &test
+    name: Test Frontend
+    command: npm run test:ci -- --maxWorkers=2
   - &test-admin
     name: Test Admin
-    command: cd ./admin && npm run test:ci -- --maxWorkers=2
+    command: npm run test:admin -- --maxWorkers=2
   - &build-app
     name: Building app
     command: 
