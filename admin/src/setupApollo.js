@@ -8,7 +8,7 @@ import { READER_PATH } from './config';
 import { setUser } from 'state';
 
 const token = localStorage.getItem('token');
-console.log(token);
+
 const client = new ApolloClient({
   ssrMode: false,
   cache: new InMemoryCache(),
