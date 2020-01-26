@@ -1,0 +1,127 @@
+version: 2.1
+
+defaults: &defaults
+  working_directory: ~/reader-front
+  environment:
+    TZ: '/usr/share/zoneinfo/America/Los_Angeles'
+
+js_defaults: &js_defaults
+  <<: *defaults
+  docker:
+    - image: circleci/node:12.13.1-browsers
+
+aliases:
+  # Circle related commands
+  - &restore-cache
+    keys:
+      # Find a cache corresponding to this specific package.json checksum
+      # when this file is changed, this key will fail
+      - reader-front-{{ arch }}-{{ checksum "package.json" }}
+      - reader-front-{{ arch }}-
+      # Find the most recent cache used from any branch
+      - reader-front-
+  - &save-cache
+      key: reader-front-{{ arch }}-{{ checksum "package.json" }}
+      paths:
+        - $HOME/.npm
+  # NPM commands
+  - &install-dep
+    name: Install Dependencies
+    command:
+        |
+          npm ci
+          cd ./admin
+          npm ci
+  
+  - &lint
+    name: Lint
+    command:
+        |
+          npm run lint
+          cd ./admin
+          npm run lint
+  - &test-admin
+    name: Test Admin
+    command: cd ./admin && npm run test:ci -- --maxWorkers=2
+  - &build-app
+    name: Building app
+    command: 
+        |
+          npm run build
+          cd ./admin
+          npm run build
+
+jobs:
+  install:
+    <<: *js_defaults
+    steps:
+      - checkout
+      - restore_cache: *restore-cache
+      - run: date
+      - run: *install-dep
+      - save_cache: *save-cache
+      - persist_to_workspace:
+        root: .
+        paths: .
+  lint:
+    <<: *js_defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *lint
+  test:
+    <<: *js_defaults
+    parallelism: 4
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *test
+      - run:
+          name: Send Frontend CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY -n frontend
+      - run: *test-admin
+      - run:
+          name: Send Admin CodeCov Results
+          command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_KEY -n admin
+  build:
+    <<: *js_defaults
+    steps:
+      - attach_workspace:
+          at: ~/reader-front
+      - run: *build-app
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+            - build-admin
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - install:
+          filters:
+            tags:
+              only: /.*/
+
+      - lint:
+          requires:
+
+            - install
+          filters:
+            tags:
+              only: /.*/
+
+      - test:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/
+
+      - build:
+          requires:
+            - install
+          filters:
+            tags:
+              only: /.*/

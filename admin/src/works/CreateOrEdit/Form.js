@@ -408,7 +408,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         <CustomInput
           type="file"
           id="uploadCover"
-          data-testid="uploadCover"
           name="cover"
           label={f({
             id: 'upload_cover',
@@ -421,7 +420,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       {renderIf(localWork.thumbnail !== '', () => (
         <Image
           id="work_thumbnail"
-          data-testid="work_thumbnail"
           src={`works/${localWork.uniqid}/${localWork.thumbnail}`}
           height={200}
           width={170}

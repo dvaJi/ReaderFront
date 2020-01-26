@@ -14,6 +14,15 @@ module.exports = {
         trailingComma: 'none'
       }
     ],
+    'jsx-a11y/anchor-is-valid': [
+      'error',
+      {
+        components: ['Link'],
+        specialLink: ['hrefLeft', 'hrefRight'],
+        aspects: ['invalidHref', 'preferButton']
+      }
+    ],
+    'react/react-in-jsx-scope': 'off',
     eqeqeq: ['error', 'always'],
     'no-console': ['error', { allow: ['warn', 'info', 'error'] }]
   },

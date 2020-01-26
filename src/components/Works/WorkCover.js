@@ -18,9 +18,8 @@ function WorkCover({ name, cover, size, statusTag, status }) {
   return (
     <CardMedia size={size}>
       <Cover
-        style={coverProps}
         size={size}
-        style={{ backgroundImage: `url(${cover})` }}
+        style={{ backgroundImage: `url(${cover})`, ...coverProps }}
       >
         {size === 'small' && (
           <Overlay>

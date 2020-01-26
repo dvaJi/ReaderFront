@@ -25,7 +25,6 @@ function DetailActions({
     <DetailActionsBar>
       <Button
         id="upload-all-pages"
-        data-testid="upload-all-pages"
         type="button"
         onClick={uploadAll}
         disabled={isUploading || pagesToupload.length === 0}

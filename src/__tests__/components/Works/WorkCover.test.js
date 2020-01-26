@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import WorkCover from '@components/Works/WorkCover';
-import { Cover } from '@components/Works/styles';
 import { workStatusIdToName, getStatusTagStyle } from 'utils/common';
 
 const work = {

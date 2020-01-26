@@ -26,7 +26,7 @@ function PostView({ post }) {
   });
 
   return (
-    <div data-testid={'post_view_' + post.id}>
+    <div>
       {heroTransition.map(({ item, key, props }) => (
         <animated.div key={key} style={props}>
           <HeroContainer style={props}>

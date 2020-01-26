@@ -16,11 +16,14 @@
     "url": "https://github.com/dvaJi/ReaderFront/issues"
   },
   "scripts": {
-    "dev": "node --icu-data-dir=node_modules/full-icu server.js",
-    "build": "next build && npm run extract",
     "start": "NODE_ENV=production node --icu-data-dir=node_modules/full-icu server.js",
+    "dev": "node --icu-data-dir=node_modules/full-icu server.js",
+    "dev:admin": "cd ./admin && npm run start",
+    "build": "next build && npm run extract",
+    "build:admin": "cd ./admin && npm run build",
     "test": "jest --watchAll --verbose",
     "test:ci": "jest --coverage",
+    "test:admin": "cd ./admin && npm run test:ci",
     "release": "standard-version",
     "lint": "eslint src",
     "prettier": "pretty-quick --staged"
@@ -78,6 +81,8 @@
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "husky": "^4.2.1",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",

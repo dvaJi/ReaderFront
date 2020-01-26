@@ -4,7 +4,6 @@ import cookie from 'js-cookie';
 
 export const login = ({ token }) => {
   cookie.set('token', token, { expires: 1 });
-  Router.push('/profile');
 };
 
 export const auth = ctx => {
@@ -17,7 +16,7 @@ export const withSettingsSync = WrappedComponent => {
   const Wrapper = props => {
     const syncLogout = event => {
       if (event.key === 'logout') {
-        Router.push('/login');
+        // ?
       }
     };
 

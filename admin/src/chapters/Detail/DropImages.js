@@ -249,7 +249,7 @@ function DropImages({ chapter, toggleModal }) {
                 margin: 10
               }}
             >
-              <input {...getInputProps()} data-testid="dropzone-pages" />
+              <input {...getInputProps()} />
               <p style={{ paddingTop: '40px' }}>
                 {f({
                   id: 'drop_or_browse_files',

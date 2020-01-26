@@ -63,6 +63,4 @@ const MetaTagPost = ({ post }) => {
   );
 };
 
-BlogContainer;
-
 export default withApollo(BlogContainer);

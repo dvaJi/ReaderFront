@@ -8,7 +8,7 @@ import { getImage } from '../Image';
 import { subString } from 'utils/helpers';
 import useInfiniteScroll from '@hooks/useInfiniteScroll';
 
-export default function PostsList({ maxPosts, posts, onLoadMore, doSelect }) {
+export default function PostsList({ maxPosts, posts, onLoadMore }) {
   const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
   function fetchMoreListItems() {
@@ -24,7 +24,6 @@ export default function PostsList({ maxPosts, posts, onLoadMore, doSelect }) {
         {posts.map((post, index) => (
           <CardWrapper key={post.uniqid}>
             <PostCard
-              onClick={e => doSelect(e)}
               post={post}
               thumbnail={getImage(post.thumbnail_path, 310, 305, index, true)}
             >

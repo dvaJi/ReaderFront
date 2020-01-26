@@ -53,22 +53,18 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
 const PER_PAGE = 9;
 
 export function BlogContainer() {
-  const [postSelected, setPostSelected] = useState(null);
   const { locale } = useIntl();
   const language = languageNameToId(locale);
 
   return (
     <>
       <MetaTagList />
-      <RenderPostList
-        language={language}
-        onSelect={post => setPostSelected(post)}
-      />
+      <RenderPostList language={language} />
     </>
   );
 }
 
-function RenderPostList({ language, onSelect }) {
+function RenderPostList({ language }) {
   const { loading, error, data, fetchMore } = useQuery(
     FETCH_ALL_POSTS_WITH_AGG,
     {
@@ -106,7 +102,6 @@ function RenderPostList({ language, onSelect }) {
         }
         posts={data.posts}
         maxPosts={data.postsAggregates.count}
-        doSelect={onSelect}
       />
     </Container>
   );

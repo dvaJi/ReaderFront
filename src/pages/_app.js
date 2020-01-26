@@ -11,6 +11,7 @@ import Main from '../components/main';
 
 import '../components/ComicSlide/slide.css';
 import ConnectedIntl from '../lib/connectedIntl';
+import { APP_VERSION } from 'lib/config';
 
 setupIcons();
 
@@ -58,11 +59,7 @@ export default class MyApp extends App {
       locale,
       messages,
       language,
-      theme,
-      token,
-      user,
-      acpUploadView,
-      chaptersSeen
+      theme
     } = this.props;
 
     let preconnect = [];
@@ -117,7 +114,7 @@ export default class MyApp extends App {
               rel: 'sitemap',
               type: 'application/xml',
               title: 'Sitemap',
-              href: `${process.env.REACT_APP_READER_PATH}${sitemap.xml}`
+              href: `${process.env.REACT_APP_READER_PATH}sitemap.xml`
             }
           ]}
         />
