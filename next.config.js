@@ -1,17 +1,16 @@
 require('dotenv').config();
-
-const alias = {
-  static: join(paths, 'src', 'static'),
-  utils: join(paths, 'src', 'utils'),
-  '@hooks': join(paths, 'src', 'hooks'),
-  '@pages': join(paths, 'src', 'pages'),
-  lib: join(paths, 'src', 'lib'),
-  '@components': join(paths, 'src', 'components')
-};
+var join = require('path').join;
 
 module.exports = {
   webpack(config, option) {
-    config.resolve.alias = Object.assign({}, config.resolve.alias, alias);
+    config.resolve.alias = Object.assign({}, config.resolve.alias, {
+      static: join(__dirname, 'src', 'static'),
+      utils: join(__dirname, 'src', 'utils'),
+      '@hooks': join(__dirname, 'src', 'hooks'),
+      '@pages': join(__dirname, 'src', 'pages'),
+      lib: join(__dirname, 'src', 'lib'),
+      '@components': join(__dirname, 'src', 'components')
+    });
     return config;
   },
   env: {

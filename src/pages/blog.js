@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
 import { Container } from 'reactstrap';

@@ -19,7 +19,7 @@
     "start": "NODE_ENV=production node --icu-data-dir=node_modules/full-icu server.js",
     "dev": "node --icu-data-dir=node_modules/full-icu server.js",
     "dev:admin": "cd ./admin && npm run start",
-    "build": "next build && npm run extract",
+    "build": "next build",
     "build:admin": "cd ./admin && npm run build",
     "test": "jest --watchAll --verbose",
     "test:ci": "jest --coverage",
