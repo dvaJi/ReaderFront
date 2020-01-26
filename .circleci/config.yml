@@ -64,8 +64,8 @@ jobs:
       - run: *install-dep
       - save_cache: *save-cache
       - persist_to_workspace:
-        root: .
-        paths: .
+          root: .
+          paths: .
   lint:
     <<: *js_defaults
     steps:
