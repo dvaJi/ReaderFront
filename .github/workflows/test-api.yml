@@ -1,0 +1,61 @@
+name: API pipeline
+
+on: [push, pull_request]
+
+env:
+  CI: true
+  SECRET_KEY: super-secret-key-readerfront-api
+  GRAPHQL_IDE: true
+
+  DB_USER: USER
+  DB_PASS: PASS
+  DB_NAME: DBNAME
+  DB_HOSTNAME: 127.0.0.1
+  DB_DIALECT: mysql
+  APP_URL: http://localhost:3000/
+  API_URL: http://localhost:8000/
+  REACT_APP_APP_TITLE: Reader Front
+  SENDGRID_API: YOUR_API_KEY
+  EMAIL: YOUR_EMAIL
+
+jobs:
+  run:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [12, 13]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 3
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: node --version
+      - run: npm --version
+
+      - name: Install npm dependencies
+        run: cd api && npm ci
+
+      - name: Run lint
+        run: cd api && npm run lint
+
+      - name: Run build
+        run: cd api && npm run build
+
+      - name: Run tests
+        run: cd api && npm run test -- --maxWorkers=2
+
+      - name: Run Coveralls
+        uses: coverallsapp/github-action@master
+        if: matrix.node == 10
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          path-to-lcov: './js/coverage/lcov.info'

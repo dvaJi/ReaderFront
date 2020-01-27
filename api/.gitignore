@@ -1,0 +1,9 @@
+node_modules/
+build/
+public/images/uploads/*
+public/images/blog/*
+public/works/*
+!public/images/uploads/.gitkeep
+content/
+coverage/
+.env

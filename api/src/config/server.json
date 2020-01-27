@@ -1,0 +1,11 @@
+{
+  "port": 8000,
+  "saltRounds": 10,
+  "graphql": {
+    "endpoint": "/",
+    "pretty": true
+  },
+  "upload": {
+    "endpoint": "/uploads"
+  }
+}

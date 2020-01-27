@@ -12,7 +12,7 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/src/__tests__/mocks/'
   ],
-  modulePathIgnorePatterns: ['<rootDir>/admin/*'],
+  modulePathIgnorePatterns: ['<rootDir>/admin/*', '<rootDir>/api/*'],
   collectCoverageFrom: [
     'src/**/*.{js,jsx}',
     '!**/node_modules/**',
