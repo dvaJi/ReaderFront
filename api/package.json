@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint ./src -c ./.eslintrc.js",
     "prettier": "pretty-quick --staged",
     "setup": "npm run setup:install && npm run setup:db",
     "setup:install": "npm run install",
