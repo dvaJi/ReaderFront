@@ -1,5 +1,5 @@
 import { Feed } from 'feed';
-import compareDesc from 'date-fns/compare_desc';
+import compareDesc from 'date-fns/compareDesc';
 
 // App Imports
 import params from '../config/params.json';
