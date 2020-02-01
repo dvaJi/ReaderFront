@@ -30,7 +30,7 @@ const chapterTitle = ({ name, chapter, subchapter, volume }) => (
 export default function ReleaseItem({ release, url }) {
   const releaseDate = new Date(release.releaseDate);
   return (
-    <Link href={url}>
+    <Link href="/read/[slug]/[lang]/[volume]/[chapter]" as={url}>
       <ReleaseRow>
         <div className="media text-muted pt-3">
           <ReleaseChapterBlock className="mr-2 rounded">

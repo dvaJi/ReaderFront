@@ -6,13 +6,13 @@ import Image from '@components/Image/component';
 import * as config from 'lib/config';
 import * as helpers from 'utils/helpers';
 
-const filename = 'image/my.jpg';
+const filename = '/image/my.jpg';
 const readerPath = config.READER_PATH;
 const idProd = config.IS_PROD;
 
 beforeAll(() => {
   config.IS_PROD = true;
-  config.READER_PATH = 'https://img.myawesome.reader/';
+  config.READER_PATH = 'https://img.myawesome.reader';
 });
 
 afterAll(() => {

@@ -106,7 +106,7 @@ function WorkItem({ work, truncate, size, statusTag }) {
     true
   );
   return (
-    <Link href={'/work/' + work.stub}>
+    <Link href="/work/[slug]" as={'/work/' + work.stub}>
       <Card>
         <CoverWrapper size={size}>
           <Lazyload

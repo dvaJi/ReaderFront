@@ -24,7 +24,7 @@ export function getReleases(amount = 4) {
       download_href: 'https://localhost:3000/download/' + index,
       subchapter: is ? 0 : 1,
       releaseDate: '2019-05-15T02:44:47.000Z',
-      read_path: 'read/asd/' + index * 2,
+      read_path: '/read/asd/' + index * 2,
       createdAt: '2019-05-15T02:44:47.000Z',
       updatedAt: '2019-05-15T02:44:47.000Z',
       work: work

@@ -10,7 +10,6 @@ import { ChapterRow, ChapterIsSeen, EndBadge } from './styles';
 
 function Chapter({ work, chapter, language, isEnd }) {
   const { formatMessage: f } = useIntl();
-  const dir = `${work.stub}/${language.name}/${chapter.volume}/${chapter.chapter}.${chapter.subchapter}`;
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
 
   return (
@@ -18,7 +17,10 @@ function Chapter({ work, chapter, language, isEnd }) {
       <ChapterIsSeen onClick={() => setIsSeen(!isSeen)}>
         <FontAwesomeIcon icon={isSeen ? 'eye-slash' : 'eye'} />
       </ChapterIsSeen>
-      <Link href={`/read/${dir}`}>
+      <Link
+        href="/read/[slug]/[lang]/[volume]/[chapter]"
+        as={chapter.read_path}
+      >
         <a className="Chapter">
           {chapterTitle({ chapter, f })}
           {isEnd && (

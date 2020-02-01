@@ -70,13 +70,13 @@ function App({ children, theme }) {
           rel="alternate"
           type="application/rss+xml"
           title="RSS Chapter Feed"
-          href={`${READER_PATH}feed/rss/${language}`}
+          href={`${READER_PATH}/feed/rss/${language}`}
         />
         <link
           rel="alternate"
           type="application/atom+xml"
           title="Atom Chapter Feed"
-          href={`${READER_PATH}feed/atom/${language}`}
+          href={`${READER_PATH}/feed/atom/${language}`}
         />
         {CDN === 'photon' && <link rel="preconnect" href="//i0.wp.com" />}
         {CDN === 'photon' && <link rel="preconnect" href="//i1.wp.com" />}

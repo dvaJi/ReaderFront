@@ -27,6 +27,7 @@ export const ReleaseRow = styled.a`
   display: inherit;
   color: inherit;
   text-decoration: none !important;
+  cursor: pointer;
 
   &:hover {
     background: rgba(${hoverRow}, 0.06);

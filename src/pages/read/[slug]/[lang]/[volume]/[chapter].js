@@ -45,8 +45,10 @@ export const FETCH_CHAPTER = gql`
       subchapter
       volume
       thumbnail_path
+      read_path
       createdAt
       updatedAt
+      download_href
       work {
         id
         stub
@@ -131,7 +133,7 @@ function ReaderContent({ showNav }) {
           <meta property="article:section" content={currentChapter.work.name} />
           <link
             rel="canonical"
-            href={`${APP_URL}read/${currentChapter.work.stub}/${language}/${currentChapter.volume}/${currentChapter.chapter}.${currentChapter.subchapter}`}
+            href={`${APP_URL}${currentChapter.read_path}`}
           />
           <script type="application/ld+json">
             {`{
@@ -139,7 +141,7 @@ function ReaderContent({ showNav }) {
             "@type": "WebPage",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "${APP_URL}work/all?q={search_term_string}",
+              "target": "${APP_URL}/work/all?q={search_term_string}",
               "query-input": "required name=search_term_string"
             },
             "breadcrumb": {

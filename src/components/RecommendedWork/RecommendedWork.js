@@ -82,7 +82,7 @@ function RecommendedWork({ work, isLoading, description }) {
     <div className="Recommended mb-4">
       <h3>{f({ id: 'random', defaultMessage: 'Random' })}</h3>
       {!isLoading ? (
-        <Link href={`work/${work.stub}`}>
+        <Link href="/work/[slug]" as={`/work/${work.stub}`}>
           <Serie
             cover={getImage(work.thumbnail_path, 350, 350, work.id, true)}
             onMouseEnter={() => setHover(true)}

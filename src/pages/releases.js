@@ -31,6 +31,7 @@ export const FETCH_RELEASES = gql`
       uniqid
       thumbnail
       releaseDate
+      read_path
       createdAt
       work {
         id

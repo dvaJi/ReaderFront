@@ -102,19 +102,19 @@ export default class MyApp extends App {
               rel: 'alternate',
               type: 'application/rss+xml',
               title: 'RSS Chapter Feed',
-              href: `${process.env.REACT_APP_READER_PATH}feed/rss/${locale}`
+              href: `${process.env.REACT_APP_READER_PATH}/feed/rss/${locale}`
             },
             {
               rel: 'alternate',
               type: 'application/atom+xml',
               title: 'Atom Chapter Feed',
-              href: `${process.env.REACT_APP_READER_PATH}feed/atom/${locale}`
+              href: `${process.env.REACT_APP_READER_PATH}/feed/atom/${locale}`
             },
             {
               rel: 'sitemap',
               type: 'application/xml',
               title: 'Sitemap',
-              href: `${process.env.REACT_APP_READER_PATH}sitemap.xml`
+              href: `${process.env.REACT_APP_READER_PATH}/sitemap.xml`
             }
           ]}
         />

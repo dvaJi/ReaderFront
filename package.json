@@ -16,7 +16,7 @@
     "url": "https://github.com/dvaJi/ReaderFront/issues"
   },
   "scripts": {
-    "start": "NODE_ENV=production node --icu-data-dir=node_modules/full-icu server.js",
+    "start": "cross-env NODE_ENV=production node --icu-data-dir=node_modules/full-icu server.js",
     "dev": "node --icu-data-dir=node_modules/full-icu server.js",
     "dev:admin": "cd ./admin && npm run start",
     "build": "next build",
@@ -72,6 +72,7 @@
     "babel-eslint": "^10.0.3",
     "babel-plugin-graphql-tag": "^2.5.0",
     "babel-plugin-styled-components": "^1.10.7",
+    "cross-env": "^7.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "eslint": "^6.8.0",

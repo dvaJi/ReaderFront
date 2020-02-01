@@ -36,7 +36,10 @@ export default function Block({ blockId, blocks, blockStyle }) {
     >
       {blocks.map((chapter, index) => (
         <li key={index}>
-          <Link href={chapter.read_path}>
+          <Link
+            href="/read/[slug]/[lang]/[volume]/[chapter]"
+            as={chapter.read_path}
+          >
             <Image
               image={imageToDisplay(index, chapter)}
               tabIndex="-1"

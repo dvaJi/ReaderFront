@@ -18,7 +18,7 @@ export function sendActivateEmail({ siteUrl, to, name, token }) {
   }
 
   // Ex: http://localhost/auth/activate_account?email=example@example.com&token=3x4mpl3t0k3n
-  const activationUrl = `${siteUrl}auth/activate_account?email=${to}&token=${token}`;
+  const activationUrl = `${siteUrl}/auth/activate_account?email=${to}&token=${token}`;
 
   const mailOptions = {
     from: EMAIL,
@@ -34,7 +34,7 @@ export function sendActivateEmail({ siteUrl, to, name, token }) {
 
 export function sendAccountIsActivatedEmail({ siteUrl, to, name }) {
   // Ex: http://localhost/auth/login
-  const activationUrl = `${siteUrl}auth/login`;
+  const activationUrl = `${siteUrl}/auth/login`;
 
   const mailOptions = {
     from: EMAIL,

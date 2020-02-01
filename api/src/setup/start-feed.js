@@ -109,7 +109,7 @@ function generateChapterUrl(chapter, frontendBaseUrl) {
   const lang = languages.find(ln => ln.id === chapter.language);
   return (
     frontendBaseUrl +
-    'read/' +
+    '/read/' +
     chapter.work.stub +
     '/' +
     lang.name +
@@ -124,5 +124,5 @@ function generateChapterUrl(chapter, frontendBaseUrl) {
 
 function generateThumbnailUrl(chapter, baseUrl) {
   const { work, uniqid, thumbnail } = chapter;
-  return `${baseUrl}works/${work.uniqid}/${uniqid}/${thumbnail}`;
+  return `${baseUrl}/works/${work.uniqid}/${uniqid}/${thumbnail}`;
 }

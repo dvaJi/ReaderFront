@@ -13,7 +13,7 @@ export default function Image({
   index = 1,
   ...props
 }) {
-  const href = READER_PATH + (src || 'images/default-cover.png');
+  const href = READER_PATH + (src || '/images/default-cover.png');
   const item = {
     href,
     height,

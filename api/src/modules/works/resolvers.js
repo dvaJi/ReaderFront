@@ -482,8 +482,8 @@ const descriptionJoin = lang =>
 const normalizeWork = work => ({
   ...work,
   thumbnail_path: isValidThumb(work.thumbnail)
-    ? `works/${work.uniqid}/${work.thumbnail}`
-    : 'images/default-cover.png',
+    ? `/works/${work.uniqid}/${work.thumbnail}`
+    : '/images/default-cover.png',
   languages: ld.get(work, 'works_descriptions', []).map(wd => ({
     id: wd.language,
     name: languageIdToName(wd.language),

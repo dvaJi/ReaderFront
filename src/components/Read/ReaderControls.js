@@ -8,7 +8,7 @@ import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gql from 'graphql-tag';
 
-import { APP_TITLE, ANONYMIZER_DOWNLOADS, READER_PATH } from 'lib/config';
+import { APP_TITLE, ANONYMIZER_DOWNLOADS } from 'lib/config';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { chapterTitle, chapterUrl } from 'utils/common';
 import {
@@ -47,10 +47,6 @@ export function ReaderControls({
 }) {
   const { formatMessage: f } = useIntl();
   const [showSettings, toggleShowSettings] = useState(false);
-  const workUrl = `/work/${work.stub}`;
-  const chapterDownload = `${ANONYMIZER_DOWNLOADS + READER_PATH}download/${
-    chapter.id
-  }`;
   const { setIsSeen } = useChapterSeen(chapter.id);
 
   useEffect(() => {
@@ -73,7 +69,7 @@ export function ReaderControls({
               </Link>
             </ReaderControlsLogo>
             <ReaderControlsChapterInfo>
-              <Link href={workUrl}>
+              <Link href="/work/[slug]" as={`/work/${work.stub}`}>
                 <ReaderControlsWork title={work.name}>
                   {work.name}
                 </ReaderControlsWork>
@@ -105,7 +101,7 @@ export function ReaderControls({
             <a
               title="Download chapter"
               id="download-chapter"
-              href={chapterDownload}
+              href={`${ANONYMIZER_DOWNLOADS + chapter.download_href}`}
               target="_blank"
               rel="noopener noreferrer"
             >

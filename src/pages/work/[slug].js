@@ -41,6 +41,7 @@ export const FETCH_WORK = gql`
         uniqid
         thumbnail
         download_href
+        read_path
       }
       works_descriptions {
         description
@@ -115,7 +116,7 @@ export function WorkContainer() {
               "@type": "WebPage",
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": "${APP_URL}work/all?q={search_term_string}",
+                "target": "${APP_URL}/work/all?q={search_term_string}",
                 "query-input": "required name=search_term_string"
               },
               "breadcrumb": {

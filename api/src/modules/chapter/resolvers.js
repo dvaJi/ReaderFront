@@ -271,12 +271,12 @@ const where = (showHidden, language) => {
 
 export const normalizeChapter = (chapter, work) => ({
   ...chapter,
-  download_href: `${API_URL}download/${chapter.id}`,
+  download_href: `${API_URL}/download/${chapter.id}`,
   thumbnail_path: isValidThumb(chapter.thumbnail)
-    ? `works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
-    : 'images/default-cover.png',
+    ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
+    : '/images/default-cover.png',
   language_name: languageIdToName(chapter.language),
-  read_path: `read/${work.stub}/${languageIdToName(chapter.language)}/${
+  read_path: `/read/${work.stub}/${languageIdToName(chapter.language)}/${
     chapter.volume
   }/${chapter.chapter}.${chapter.subchapter}`
 });
