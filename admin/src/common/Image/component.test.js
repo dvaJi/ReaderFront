@@ -53,7 +53,7 @@ it('should render a img using the photon cdn', () => {
   const img = wrapper.find('img');
 
   expect(img.prop('src')).toBe(
-    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=100&w=200`
+    `https://i2.wp.com/${'img.myawesome.reader'}${filename}?strip=all&quality=100&w=200`
   );
   wrapper.unmount();
 });
@@ -66,7 +66,7 @@ it('should render a img using the photon cdn with the original size', () => {
   const img = wrapper.find('img');
 
   expect(img.prop('src')).toBe(
-    `https://i2.wp.com/img.myawesome.reader/${filename}?strip=all&quality=100`
+    `https://i2.wp.com/${'img.myawesome.reader'}${filename}?strip=all&quality=100`
   );
   wrapper.unmount();
 });
@@ -112,7 +112,7 @@ it('should render a img using the staticaly cdn', () => {
   expect(wrapper).toBeTruthy();
   const img = wrapper.find('img');
   expect(img.prop('src')).toBe(
-    `https://cdn.staticaly.com/img/img.myawesome.reader/${filename}?w=200`
+    `https://cdn.staticaly.com/img/${'img.myawesome.reader'}${filename}?w=200`
   );
   wrapper.unmount();
 });
@@ -124,7 +124,7 @@ it('should render a img using the staticaly cdn with the original size', () => {
   expect(wrapper).toBeTruthy();
   const img = wrapper.find('img');
   expect(img.prop('src')).toBe(
-    `https://cdn.staticaly.com/img/img.myawesome.reader/${filename}`
+    `https://cdn.staticaly.com/img/${'img.myawesome.reader'}${filename}`
   );
   wrapper.unmount();
 });

@@ -70,22 +70,6 @@ it('renders without name without crashing', () => {
   wrapper.unmount();
 });
 
-it('should create an valid href', () => {
-  const onButtonClick = jest.fn();
-  const wrapper = mountWithIntl(
-    <Chapter
-      key={1}
-      work={work}
-      onclick={onButtonClick}
-      chapter={chapter}
-      language={{ id: 1, name: 'es' }}
-    />
-  );
-  const link = wrapper.find('.Chapter');
-  expect(link.props().href).toBe('/read/infection/es/1/30.0');
-  wrapper.unmount();
-});
-
 it('should show a badge if the chapter is the end', () => {
   const onButtonClick = jest.fn();
   const wrapper = mountWithIntl(
