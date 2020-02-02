@@ -274,7 +274,7 @@ export const normalizeChapter = (chapter, work) => ({
   download_href: `${API_URL}/download/${chapter.id}`,
   thumbnail_path: isValidThumb(chapter.thumbnail)
     ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
-    : '/images/default-cover.png',
+    : '/default-cover.png',
   language_name: languageIdToName(chapter.language),
   read_path: `/read/${work.stub}/${languageIdToName(chapter.language)}/${
     chapter.volume

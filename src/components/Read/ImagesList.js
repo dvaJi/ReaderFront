@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
 import { useGlobalState } from 'lib/state';
-import LazyImage from '../Image';
+import { LazyImage } from '../Image';
 
 const ImageList = styled.div`
   background-color: #212121;
@@ -44,6 +44,7 @@ const ImageWrapper = styled.div`
 
   ${props => props.readingMode === 'manga' && 'padding-bottom: 10px;'}
 
+  span,
   img {
     vertical-align: middle;
     border-style: none;
@@ -51,11 +52,11 @@ const ImageWrapper = styled.div`
     user-select: none;
     user-drag: none;
     height: auto;
-    width: auto;
+    width: auto !important;
     margin: auto;
     object-fit: scale-down;
     max-width: 100%;
-    max-height: none
+    max-height: none;
   }
 `;
 
@@ -63,17 +64,16 @@ function ImagesList({ chapter, pages }) {
   const [displaySettings] = useGlobalState('displaySettings');
   const { readingMode } = displaySettings;
   const thumbPath = filename =>
-    `works/${chapter.work.uniqid}/${chapter.uniqid}/${filename}`;
-  const refs = [];
+    `/works/${chapter.work.uniqid}/${chapter.uniqid}/${filename}`;
   return (
     <ImageList>
       {pages.map(page => (
-        <ImageWrapper key={page.filename} readingMode={readingMode}>
+        <ImageWrapper
+          key={`${page.filename}-${page.id}`}
+          readingMode={readingMode}
+        >
           <LazyImage
             src={thumbPath(page.filename)}
-            ref={ref => {
-              refs[page.filename] = ref;
-            }}
             key={page.filename}
             height={page.height}
             width={page.width}
@@ -86,4 +86,4 @@ function ImagesList({ chapter, pages }) {
     </ImageList>
   );
 }
-export default ImagesList;
+export default memo(ImagesList);

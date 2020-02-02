@@ -189,7 +189,7 @@ function PostForm({ post, onSubmit }) {
         <img
           id="post_thumbnail"
           src={getImage(
-            `images/blog/${localPost.uniqid}/${localPost.thumbnail}`,
+            `/images/blog/${localPost.uniqid}/${localPost.thumbnail}`,
             250,
             250
           )}

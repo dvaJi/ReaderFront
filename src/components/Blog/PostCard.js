@@ -15,7 +15,7 @@ import {
 } from './styles';
 import { blogCategoriesIdToName } from 'utils/common';
 
-function PostCard({ post, children, thumbnail, onClick }) {
+function PostCard({ post, children, thumbnail }) {
   const category = blogCategoriesIdToName(post.category);
   const { formatMessage: f } = useIntl();
   const router = useRouter();
@@ -24,7 +24,6 @@ function PostCard({ post, children, thumbnail, onClick }) {
     <Card
       id={'post_card_' + post.id}
       onClick={() => {
-        onClick(post);
         router.push('/blog/' + post.stub);
       }}
     >

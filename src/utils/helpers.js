@@ -276,15 +276,19 @@ export function isMobile() {
  * 2 = slow (2G)
  */
 export function networkType() {
-  const connection =
-    navigator.connection ||
-    navigator.mozConnection ||
-    navigator.webkitConnection;
-  if (!connection || !connection.effectiveType) return 0;
-  if (connection.effectiveType.indexOf('2g') >= 0) return 2;
-  if (connection.effectiveType.indexOf('3g') >= 0) return 1;
+  try {
+    const connection =
+      navigator.connection ||
+      navigator.mozConnection ||
+      navigator.webkitConnection;
+    if (!connection || !connection.effectiveType) return 0;
+    if (connection.effectiveType.indexOf('2g') >= 0) return 2;
+    if (connection.effectiveType.indexOf('3g') >= 0) return 1;
 
-  return 0;
+    return 0;
+  } catch (err) {
+    return 0;
+  }
 }
 
 export function hash(host, index, min, max) {

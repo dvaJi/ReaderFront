@@ -42,7 +42,6 @@ export function BlogContainer() {
 
   return (
     <div className="Post">
-      <p>listo</p>
       <MetaTagPost post={data.postByStub} />
       <PostView post={data.postByStub} />
     </div>

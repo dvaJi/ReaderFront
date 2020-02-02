@@ -1,9 +1,10 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-import { IS_PROD, READER_PATH } from 'lib/config';
+// import { IS_PROD, READER_PATH } from 'lib/config';
 import { getImage } from './load';
-
+const IS_PROD = true,
+  READER_PATH = 'https://api.ravens-scans.com';
 export default function Image({
   src,
   alt,
@@ -13,7 +14,7 @@ export default function Image({
   index = 1,
   ...props
 }) {
-  const href = READER_PATH + (src || '/images/default-cover.png');
+  const href = READER_PATH + (src || '/default-cover.png');
   const item = {
     href,
     height,
@@ -38,7 +39,6 @@ export default function Image({
       key={finalUrl}
       placeholderSrc={lowResUrl}
       effect="blur"
-      scrollPosition={'vertical'}
       {...props}
     />
   );

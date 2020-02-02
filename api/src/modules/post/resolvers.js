@@ -254,8 +254,8 @@ const whereCat = (showHidden, language, category) => {
 export const normalizePost = post => ({
   ...post,
   thumbnail_path: isValidThumb(post.thumbnail)
-    ? `images/blog/${post.uniqid}/${post.thumbnail}`
-    : 'images/default-cover.png',
+    ? `/images/blog/${post.uniqid}/${post.thumbnail}`
+    : '/default-cover.png',
   language_name: languageIdToName(post.language),
   category_name: blogCategoriesIdToName(post.category),
   status_name: postsStatusIdToName(post.status)

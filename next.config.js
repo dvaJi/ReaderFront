@@ -1,7 +1,8 @@
 require('dotenv').config();
+var withOffline = require('next-offline');
 var join = require('path').join;
 
-module.exports = {
+var nextConfig = {
   webpack(config, option) {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       static: join(__dirname, 'src', 'static'),
@@ -29,3 +30,5 @@ module.exports = {
     GENERATE_SOURCEMAP: process.env.GENERATE_SOURCEMAP
   }
 };
+
+module.exports = withOffline(nextConfig);
