@@ -1,7 +1,5 @@
 'use strict';
 
-const params = require('../config/params');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert(
@@ -9,19 +7,19 @@ module.exports = {
       [
         {
           workId: 2,
-          genreId: params.genres.types.action.id,
+          genreId: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 2,
-          genreId: params.genres.types.ecchi.id,
+          genreId: 3,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 2,
-          genreId: params.genres.types.supernatural.id,
+          genreId: 4,
           createdAt: new Date(),
           updatedAt: new Date()
         }

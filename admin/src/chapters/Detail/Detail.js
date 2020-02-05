@@ -10,7 +10,6 @@ import { MetaTagDetail } from '../ACPChaptersMetaTags';
 import DropImages from './DropImages';
 import ChapterInfo from './ChapterInfo';
 import { FETCH_CHAPTER } from '../query';
-import { languageIdToName } from 'utils/common';
 import { APP_URL } from '../../config';
 
 function Detail() {
@@ -41,13 +40,12 @@ function ChapterDetail() {
   if (loading) return f({ id: 'loading', defaultMessage: 'Loading...' });
   if (error) return <p id="error_releases">Error :(</p>;
 
-  const langName = languageIdToName(data.chapterById.language);
   const chapterUrl = `${APP_URL}${data.chapterById.read_path}`;
 
   return (
     <>
       <MetaTagDetail chapter={data.chapterById} />
-      <ChapterInfo lang={langName} chapter={data.chapterById} />
+      <ChapterInfo chapter={data.chapterById} />
       <DropImages chapter={data.chapterById} toggleModal={toggleModal} />
       <Modal isOpen={isModalOpen} toggle={() => toggleModal(false)}>
         <ModalHeader toggle={() => toggleModal(false)}>

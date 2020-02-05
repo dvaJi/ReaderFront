@@ -4,6 +4,7 @@
     "paths": {
       "static": ["src/static/*"],
       "utils": ["src/utils/*"],
+      "@shared": ["shared/*"],
       "@hooks": ["src/hooks/*"],
       "@pages": ["src/pages/*"],
       "lib": ["src/lib/*"],

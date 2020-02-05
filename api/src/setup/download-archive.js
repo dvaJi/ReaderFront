@@ -12,7 +12,7 @@ import {
   updateLastDownload,
   remove as removeArchive
 } from '../modules/archive/resolvers';
-import { forEachSeries } from './utils';
+import { asyncForeach } from '@shared/async-foreach';
 import { getLatestPage } from '../modules/page/resolvers';
 
 // File upload configurations and route
@@ -57,7 +57,7 @@ export default function(server) {
     const date = subDays(new Date(), 7);
     const archives = await getByDate(date);
 
-    await forEachSeries(archives, async archive => {
+    await asyncForeach(archives, async archive => {
       await removeArchive(undefined, { id: archive.id });
     });
 

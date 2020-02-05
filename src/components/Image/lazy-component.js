@@ -1,10 +1,9 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-// import { IS_PROD, READER_PATH } from 'lib/config';
+import { IS_PROD, READER_PATH } from 'lib/config';
 import { getImage } from './load';
-const IS_PROD = true,
-  READER_PATH = 'https://api.ravens-scans.com';
+
 export default function Image({
   src,
   alt,

@@ -1,8 +1,8 @@
 import path from 'path';
 
 // App Imports
+import { hasPermision } from '../../setup/utils';
 import { deleteImage, storeImage } from '../../setup/images-helpers';
-import params from '../../config/params';
 import models from '../../setup/models';
 
 const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
@@ -19,7 +19,7 @@ export async function getByChapter(parentValue, { chapterId }) {
 
 // Create page
 export async function create(_, { chapterId, file, size }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     const chapter = await models.Chapter.findOne({
       where: {
         id: chapterId
@@ -59,7 +59,7 @@ export async function update(
   { id, chapterId, filename, hidden, height, width, size, mime },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     return await models.Page.update(
       {
         chapterId,
@@ -79,7 +79,7 @@ export async function update(
 
 // Delete page
 export async function remove(parentValue, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const page = await models.Page.findOne({ where: { id } });
     if (!page) {
       // Page does not exists
@@ -122,5 +122,5 @@ export async function getLatestPage(chapterId) {
 
 // Page types
 export async function getTypes() {
-  return Object.values(params.page.types);
+  return {};
 }

@@ -4,13 +4,13 @@ import { createBrowserHistory } from 'history';
 import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 
-// App imports
-import App from './App';
-import { getDefaultLanguage } from './utils/common';
+import { getDefaultLanguage } from '../../shared/lang/get-language';
 import apolloClient from './setupApollo';
-import { GA_ID } from './config';
+import { GA_ID, LANGUAGES } from './config';
 import { setUser, setLanguage } from 'state';
 import { GlobalStateProvider } from './state';
+
+import App from './App';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
@@ -24,7 +24,7 @@ if (GA_ID && GA_ID !== '') {
   ReactGA.pageview(window.location.pathname + window.location.search);
 }
 // Language
-setLanguage(getDefaultLanguage());
+setLanguage(getDefaultLanguage(LANGUAGES));
 
 // User Authentication
 const token = window.localStorage.getItem('token');

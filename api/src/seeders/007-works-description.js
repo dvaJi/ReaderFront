@@ -1,7 +1,5 @@
 'use strict';
 
-const params = require('../config/params');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert(
@@ -9,21 +7,21 @@ module.exports = {
       [
         {
           workId: 1,
-          language: params.global.languages.es.id,
+          language: 1,
           description: 'Descripción en español.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 1,
-          language: params.global.languages.en.id,
+          language: 2,
           description: 'English description.',
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 2,
-          language: params.global.languages.en.id,
+          language: 2,
           description:
             'Possessing both flexibility and tenacity, Imomushi (Japanese for Caterpillar) is an assassin that does not kill anyone but those who are assigned to her. She seems to have had something happen between her and her older sister in the past, however.',
           createdAt: new Date(),

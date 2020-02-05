@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Image from 'common/Image';
-import { rolIdToName } from 'utils/common';
+import { rolesById } from '../../../../shared/params/works';
 import { StaffWrapper, StaffRole, StaffDetail } from './styles';
 
 function Staff({ staff, onRemove }) {
@@ -19,23 +19,19 @@ function Staff({ staff, onRemove }) {
 
   return (
     <StaffWrapper>
-      {Object.keys(roles).map(rol => {
-        const rolName = rolIdToName(Number(rol));
+      {Object.keys(roles).map(key => {
+        const rol = rolesById(Number(key));
         return (
-          <StaffRole key={rolName}>
+          <StaffRole key={rol.name}>
             <span className="title">
-              {f({ id: `people.rol.${rolName}`, defaultMessage: rolName })}
+              {f({ id: `people.rol.${rol.name}`, defaultMessage: rol.name })}
             </span>
             <div>
-              {roles[rol].map(people => (
-                <StaffDetail key={rol + people.name}>
-                  <Image src={people.thumbnail} width={40} />
-                  <span>{people.name}</span>
-                  <button
-                    onClick={() =>
-                      onRemove({ id: people.id, rol: Number(rol) })
-                    }
-                  >
+              {roles[key].map(r => (
+                <StaffDetail key={rol.id + r.name}>
+                  <Image src={r.thumbnail} width={40} />
+                  <span>{r.name}</span>
+                  <button onClick={() => onRemove({ id: r.id, rol: rol.id })}>
                     <FontAwesomeIcon icon="times" />
                   </button>
                 </StaffDetail>

@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 
 import PostsList from '@components/Blog/PostsList';
 import PostCardLoading from '@components/Blog/PostCardEmpty';
-import { languageNameToId } from 'utils/common';
+import { languages } from '@shared/params/global';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
 
@@ -30,7 +30,7 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
       user {
         name
       }
-      category
+      category_name
       status
       sticky
       language
@@ -54,12 +54,12 @@ const PER_PAGE = 9;
 
 export function BlogContainer() {
   const { locale } = useIntl();
-  const language = languageNameToId(locale);
+  const language = languages[locale];
 
   return (
     <>
       <MetaTagList />
-      <RenderPostList language={language} />
+      <RenderPostList language={language.id} />
     </>
   );
 }
