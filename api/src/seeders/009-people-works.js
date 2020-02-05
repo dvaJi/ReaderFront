@@ -1,6 +1,6 @@
 'use strict';
 
-const params = require('../config/params');
+const worksParams = require('../shared/params/works');
 
 module.exports = {
   up: queryInterface => {
@@ -10,14 +10,14 @@ module.exports = {
         {
           workId: 1,
           peopleId: 1,
-          rol: params.works.roles.author.id,
+          rol: worksParams.roles.author.id,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 1,
           peopleId: 1,
-          rol: params.works.roles.artist.id,
+          rol: worksParams.roles.artist.id,
           createdAt: new Date(),
           updatedAt: new Date()
         }

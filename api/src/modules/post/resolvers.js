@@ -13,7 +13,7 @@ import {
   postsStatusIdToName,
   blogCategoriesIdToName
 } from '../../setup/utils';
-import params from '../../config/params';
+import { hasPermision } from '../../setup/utils';
 import models from '../../setup/models';
 
 const BLOG_DIR = path.join(
@@ -94,7 +94,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -140,7 +140,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     let newPost = {
       userId,
       type,
@@ -181,7 +181,7 @@ export async function update(
 
 // Delete post
 export async function remove(parentValue, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const post = await models.Post.findOne({ where: { id } });
 
     if (!post) {

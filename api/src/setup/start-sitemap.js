@@ -1,15 +1,11 @@
 import { createSitemap } from 'sitemap';
 
-import params from '../config/params.json';
+import { languages } from './utils';
 import { getAllRSS } from '../modules/chapter/resolvers';
 import { getAll as getAllWorks } from '../modules/works/resolvers';
 import { getAll as getAllPeople } from '../modules/people/resolvers';
 import { getAll as getAllPosts } from '../modules/post/resolvers';
 import { APP_URL } from '../config/env';
-
-const languages = Object.keys(params.global.languages).map(
-  lang => params.global.languages[lang]
-);
 
 export default function(server) {
   console.info('SETUP - Sitemap...');
