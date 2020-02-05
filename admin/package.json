@@ -39,7 +39,7 @@
     "date-fns": "^2.9.0",
     "downshift": "^4.0.8",
     "graphql": "^14.6.0",
-    "graphql-tag": "^2.10.1",
+    "graphql-tag": "^2.10.2",
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
     "js-cookie": "^2.2.1",
