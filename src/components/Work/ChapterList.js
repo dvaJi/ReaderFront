@@ -5,7 +5,7 @@ import Chapter from './Chapter';
 
 import { ChapterListStyle, Title, List, NoChapters } from './styles';
 
-function ChapterList({ work, language }) {
+function ChapterList({ work }) {
   const { formatMessage: f } = useIntl();
   const workIsCompleted = work.status === 2;
   return (
@@ -16,9 +16,7 @@ function ChapterList({ work, language }) {
           {work.chapters.map(chapter => (
             <Chapter
               key={chapter.id}
-              work={work}
               chapter={chapter}
-              language={language}
               isEnd={workIsCompleted && chapter.id === work.chapters[0].id}
             />
           ))}

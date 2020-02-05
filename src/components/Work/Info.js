@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { useSpring, animated } from 'react-spring';
 
-import {
-  rolIdToName,
-  workStatusIdToName,
-  getStatusTagStyle,
-  genreDemographicIdToName
-} from 'utils/common';
+import { statusById } from '@shared/params/works';
 
 export const InfoStyle = styled(animated.div)`
   width: 100%;
@@ -44,23 +39,21 @@ function Info({ work, description }) {
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: { opacity: 0.5, transform: 'translate3d(0,20px,0)' }
   });
+  const status = statusById(work.status);
   return (
     <InfoStyle style={props} className="col-md-8 col-md-offset-1">
       <InfoTitle className="display-4">
-        {work.type.toUpperCase()} -{' '}
-        {genreDemographicIdToName(work.demographicId).toUpperCase()}
+        {`${work.type.toUpperCase()} - ${work.demographic_name.toUpperCase()}`}
       </InfoTitle>
       <h4 className="display-4">
         {work.name}
         <StatusBadge
           className="badge badge-secondary"
-          style={{
-            ...getStatusTagStyle(work.status)
-          }}
+          style={{ background: status.background, color: status.color }}
         >
           {f({
-            id: workStatusIdToName(work.status),
-            defaultMessage: workStatusIdToName(work.status)
+            id: work.status_name,
+            defaultMessage: work.status_name
           })}
         </StatusBadge>
       </h4>
@@ -89,20 +82,17 @@ function Info({ work, description }) {
         ))}
       </div>
       <div className="People">
-        {work.people_works.map(peopleWork => {
-          const rol = rolIdToName(peopleWork.rol);
-          return (
-            <People key={peopleWork.rol + peopleWork.people.id}>
-              <h4>
-                {f({
-                  id: 'people.rol.' + rol,
-                  defaultMessage: rol
-                })}
-              </h4>
-              <span>{peopleWork.people.name}</span>
-            </People>
-          );
-        })}
+        {work.staff.map(staff => (
+          <People key={staff.rol + staff.people.id}>
+            <h4>
+              {f({
+                id: 'people.rol.' + staff.rol_name,
+                defaultMessage: staff.rol_name
+              })}
+            </h4>
+            <span>{staff.people.name}</span>
+          </People>
+        ))}
       </div>
     </InfoStyle>
   );

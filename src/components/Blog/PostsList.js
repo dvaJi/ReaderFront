@@ -5,7 +5,7 @@ import { Spinner } from 'reactstrap';
 import { CardWrapper, ListRows, LoadingContainer } from './styles';
 import PostCard from './PostCard';
 import { getImage } from '../Image';
-import { subString } from 'utils/helpers';
+import { subString } from '@shared/is';
 import useInfiniteScroll from '@hooks/useInfiniteScroll';
 
 export default function PostsList({ maxPosts, posts, onLoadMore }) {

@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { chapterTitle } from 'utils/common';
+import { chapterTitle } from '@shared/lang/chapter-title';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { ANONYMIZER_DOWNLOADS } from 'lib/config';
 import { ChapterRow, ChapterIsSeen, EndBadge } from './styles';
 
-function Chapter({ work, chapter, language, isEnd }) {
+function Chapter({ chapter, isEnd }) {
   const { formatMessage: f } = useIntl();
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
 

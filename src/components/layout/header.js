@@ -5,11 +5,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 
-import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from 'lib/config';
-import { isAuthRoute, isAdminRoute, isReaderRoute } from 'utils/helpers';
-
-import { ChangeTheme, Navbar, ToggleTheme } from './styles';
 import { useGlobalState, setTheme, setLanguage } from 'lib/state';
+import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from 'lib/config';
+import { isAuthRoute, isAdminRoute, isReaderRoute } from '@shared/is';
+import { ChangeTheme, Navbar, ToggleTheme } from './styles';
+
 import RouteNavItem from './RouteNavItem';
 import LangNavItem from './LangNavItem';
 

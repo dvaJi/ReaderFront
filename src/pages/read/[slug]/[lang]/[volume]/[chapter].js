@@ -5,18 +5,15 @@ import { Helmet } from 'react-helmet';
 import { useIntl, FormattedMessage } from 'react-intl';
 import gql from 'graphql-tag';
 
-import {
-  languageNameToId,
-  chapterTitle as genChapterTitle,
-  chapterUrl,
-  languageIdToName
-} from 'utils/common';
+import { chapterTitle as genChapterTitle } from '@shared/lang/chapter-title';
+import { languages } from '@shared/params/global';
 import { getImage } from '@components/Image';
 import ReaderControls from '@components/Read/ReaderControls';
 import ReaderLoading from '@components/Read/ReaderLoading';
 import ImagesList from '@components/Read/ImagesList';
 import Comments from '@components/Read/Comments';
 import { ReaderMain } from '@components/Read/styles';
+
 import { withApollo } from 'lib/apollo';
 import { APP_URL, APP_TITLE, APP_VERSION } from 'lib/config';
 
@@ -89,10 +86,11 @@ function ReaderContent({ showNav }) {
   const { formatMessage: f } = useIntl();
   const router = useRouter();
   const { slug, lang, volume, chapter: chaptersub } = router.query;
+  const language = languages[lang];
   const { loading, error, data } = useQuery(FETCH_CHAPTER, {
     variables: {
       workStub: slug,
-      language: languageNameToId(lang),
+      language: language.id,
       volume: Number(volume),
       chapter: Number(chaptersub.split('.')[0]),
       subchapter: Number(chaptersub.split('.')[1])
@@ -106,12 +104,11 @@ function ReaderContent({ showNav }) {
   const currentChapter = data.chapterByWorkAndChapter;
 
   const chapterThumb = getImage(currentChapter.thumbnail_path);
-  const language = languageIdToName(currentChapter.language);
   const chapterTitle = genChapterTitle({ chapter: currentChapter, f });
 
   const disqusConfig = {
     id: `${currentChapter.work.uniqid}-${currentChapter.uniqid}`,
-    path: chapterUrl(currentChapter, currentChapter.work),
+    path: currentChapter.read_path,
     title: chapterTitle
   };
 
@@ -173,7 +170,7 @@ function ReaderContent({ showNav }) {
               "publisher": [],
               "datePublished": "${currentChapter.createdAt}",
               "dateModified": "${currentChapter.updatedAt}",
-              "inLanguage": "${language}",
+              "inLanguage": "${language.name}",
               "image": "${chapterThumb}",
               "thumbnailUrl": "${chapterThumb}"
             }
@@ -215,7 +212,7 @@ function ReaderContent({ showNav }) {
       <ReaderControls
         work={currentChapter.work}
         chapter={currentChapter}
-        language={languageNameToId(lang)}
+        language={language.id}
         toggleComments={toggleComments}
         showNav={showNav}
       />

@@ -108,6 +108,7 @@
   justify-content: center;
   outline: none;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 .comic-slide-wrapper .comic-slide-list-block li a.is-adult::before {
   background-color: rgba(0, 0, 0, 0.5);

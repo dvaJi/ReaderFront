@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { IntlProvider } from 'react-intl';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
-import { CDN } from 'config';
+import { CDN } from './config';
 import setupIcons from './setupIcons';
 import Routes from './Routes';
 import Header from './layout/header';
@@ -14,7 +14,7 @@ import {
   bodyBackgroundColor,
   scrollBackground
 } from './themes';
-import translations from 'i18n/locales';
+import translations from '../../shared/lang';
 
 const GlobalStyle = createGlobalStyle`
   body {

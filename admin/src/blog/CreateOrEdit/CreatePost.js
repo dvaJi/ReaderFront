@@ -15,14 +15,14 @@ export const postEmpty = {
   id: 0,
   userId: 0,
   content: '',
-  category: 0,
+  category: 1,
   uniqid: '',
   type: 0,
   title: '',
   stub: '',
-  status: 0,
+  status: 1,
   sticky: false,
-  language: 0,
+  language: 1,
   thumbnail: ''
 };
 

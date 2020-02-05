@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import ReleasePagination from '@components/Releases/ReleasePagination';
 import ReleasesList from '@components/Releases/ReleasesList';
 import ReleaseCardEmpty from '@components/Releases/ReleaseCardEmpty';
-import { languageNameToId } from 'utils/common';
+import { languages } from '@shared/params/global';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
 
@@ -60,43 +60,14 @@ export function ReleasesContainer() {
   const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(0);
   const { formatMessage: f, locale } = useIntl();
-  const language = languageNameToId(locale);
+  const language = languages[locale];
 
   return (
     <Container className="Releases">
       <h2>{f({ id: 'latest_releases', defaultMessage: 'Latest Releases' })}</h2>
-      <>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <meta property="og:type" content="website" />
-        </Helmet>
-        <FormattedMessage
-          id="releases.title"
-          defaultMessage="Latest releases :: {title}"
-          values={{ title: APP_TITLE }}
-        >
-          {title => (
-            <Helmet>
-              <title>{title}</title>
-              <meta property="og:title" content={title} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-        <FormattedMessage
-          id="releases.desc"
-          defaultMessage="Latest releases by {title}"
-          values={{ title: APP_TITLE }}
-        >
-          {desc => (
-            <Helmet>
-              <meta name="description" content={desc} />
-              <meta property="og:description" content={desc} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-      </>
+      <ReleasesMetatags />
       <LatestReleases
-        language={language}
+        language={language.language}
         orderBy={'DESC'}
         first={PER_PAGE}
         offset={offset}
@@ -111,4 +82,40 @@ export function ReleasesContainer() {
     </Container>
   );
 }
+
+function ReleasesMetatags() {
+  return (
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <FormattedMessage
+        id="releases.title"
+        defaultMessage="Latest releases :: {title}"
+        values={{ title: APP_TITLE }}
+      >
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+            <meta property="og:title" content={title} />
+          </Helmet>
+        )}
+      </FormattedMessage>
+      <FormattedMessage
+        id="releases.desc"
+        defaultMessage="Latest releases by {title}"
+        values={{ title: APP_TITLE }}
+      >
+        {desc => (
+          <Helmet>
+            <meta name="description" content={desc} />
+            <meta property="og:description" content={desc} />
+          </Helmet>
+        )}
+      </FormattedMessage>
+    </>
+  );
+}
+
 export default withApollo(ReleasesContainer);

@@ -1,7 +1,5 @@
 'use strict';
 
-const params = require('../config/params');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert(
@@ -13,8 +11,8 @@ module.exports = {
           uniqid: '56ff02b19f342',
           hidden: false,
           type: 'Manga',
-          demographicId: params.genres.demographic.shounen.id,
-          status: params.works.status.onGoing.id,
+          demographicId: 4,
+          status: 1,
           statusReason: null,
           adult: false,
           visits: 1000,
@@ -28,8 +26,8 @@ module.exports = {
           uniqid: '57095fed60ed1',
           hidden: false,
           type: 'Manga',
-          demographicId: params.genres.demographic.seinen.id,
-          status: params.works.status.onGoing.id,
+          demographicId: 3,
+          status: 1,
           statusReason: null,
           adult: false,
           visits: 5000,

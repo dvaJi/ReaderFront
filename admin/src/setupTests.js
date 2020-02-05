@@ -8,9 +8,9 @@ import {
   getPagesAsFiles,
   getReleases,
   getPagesUploaded
-} from './utils/mocks/getReleasesMock';
-import { getPosts } from './utils/mocks/getBlogMock';
-import { getWork, getWorks } from './utils/mocks/getWorksMock';
+} from '../../shared/mocks/getReleasesMock';
+import { getPosts } from '../../shared/mocks/getBlogMock';
+import { getWork, getWorks } from '../../shared/mocks/getWorksMock';
 import 'jest-styled-components';
 
 configure({ adapter: new Adapter() });
@@ -123,7 +123,7 @@ if (global.document) {
 // Mock useIntl hook
 jest.mock('react-intl', () => {
   const reactIntl = require.requireActual('react-intl');
-  const messages = require('./i18n/locales/en.json');
+  const messages = require('../../shared/lang/en.json');
   const intlProvider = new reactIntl.IntlProvider(
     {
       locale: 'en',

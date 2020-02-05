@@ -7,6 +7,7 @@ var nextConfig = {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       static: join(__dirname, 'src', 'static'),
       utils: join(__dirname, 'src', 'utils'),
+      '@shared': join(__dirname, 'shared'),
       '@hooks': join(__dirname, 'src', 'hooks'),
       '@pages': join(__dirname, 'src', 'pages'),
       lib: join(__dirname, 'src', 'lib'),
