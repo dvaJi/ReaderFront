@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import gql from 'graphql-tag';
 
 import PostView from '@components/Blog/PostView';
-import { subString } from 'utils/helpers';
+import { subString } from '@shared/is';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
 
@@ -18,7 +18,7 @@ export const FIND_BY_STUB = gql`
       title
       stub
       content
-      category
+      category_name
       status
       sticky
       language

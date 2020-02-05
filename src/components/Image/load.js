@@ -1,5 +1,5 @@
 import { CDN } from 'lib/config';
-import parseUri from 'utils/parseUri';
+import { parseUri } from '@shared/parse-uri';
 import { google, photon, staticaly } from './cdns';
 
 const PRIVATE_IPS = /(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/;

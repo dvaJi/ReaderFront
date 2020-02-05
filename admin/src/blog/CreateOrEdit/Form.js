@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, CustomInput, FormGroup, Label, Input } from 'reactstrap';
 
 // App imports
-import { slugify } from 'utils/helpers';
+import { LANGUAGES } from '../../config';
+import { slugify } from '../../../../shared/slugify';
+import { languagesAvailables } from '../../../../shared/params/global';
+import { get as blogGet } from '../../../../shared/params/blog';
 import { getImage } from 'common/Image';
-import { languagesAvailables, blogCategories, postsStatus } from 'utils/common';
 
 function PostForm({ post, onSubmit }) {
   const [localPost, setLocalPost] = useState(post);
@@ -60,10 +62,6 @@ function PostForm({ post, onSubmit }) {
       throw new Error('User not authenticated');
     }
     const post = { ...localPost };
-    post.language =
-      post.language === 0 ? languagesAvailables[0].id : post.language;
-    post.category = post.category === 0 ? blogCategories[0].id : post.category;
-    post.status = post.status === 0 ? postsStatus[0].id : post.status;
     post.userId = user.id;
     if (coverPic) {
       post.thumbnail = coverPic;
@@ -100,7 +98,7 @@ function PostForm({ post, onSubmit }) {
         </Label>
         <RichTextEditor value={mdeState} onChange={handleMdeChange} />
       </FormGroup>
-      {languagesAvailables.length > 1 && (
+      {languagesAvailables(LANGUAGES).length > 1 && (
         <FormGroup>
           <Label for="language">
             {f({ id: 'language', defaultMessage: 'Language' })}
@@ -113,7 +111,7 @@ function PostForm({ post, onSubmit }) {
             value={localPost.language}
             onChange={handleOnChangeSelect}
           >
-            {languagesAvailables.map(lang => (
+            {languagesAvailables(LANGUAGES).map(lang => (
               <option key={lang.id + lang.name} value={lang.id}>
                 {f({
                   id: lang.name + '_full',
@@ -136,7 +134,7 @@ function PostForm({ post, onSubmit }) {
           value={localPost.status}
           onChange={handleOnChangeSelect}
         >
-          {postsStatus.map(status => (
+          {blogGet('status').map(status => (
             <option key={status.id + status.name} value={status.id}>
               {f({
                 id: status.name,
@@ -158,7 +156,7 @@ function PostForm({ post, onSubmit }) {
           value={localPost.demographicId}
           onChange={handleOnChangeSelect}
         >
-          {blogCategories.map(category => (
+          {blogGet('categories').map(category => (
             <option key={category.id + category.name} value={category.id}>
               {f({
                 id: category.name,

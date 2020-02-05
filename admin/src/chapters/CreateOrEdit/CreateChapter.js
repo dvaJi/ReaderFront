@@ -17,7 +17,7 @@ export const chapterEmpty = {
   chapter: 0,
   subchapter: 0,
   volume: 0,
-  language: 0,
+  language: 1,
   name: '',
   stub: '',
   uniqid: '',
