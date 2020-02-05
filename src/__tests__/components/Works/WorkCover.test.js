@@ -1,7 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from 'utils/enzyme-intl';
 import WorkCover from '@components/Works/WorkCover';
-import { workStatusIdToName, getStatusTagStyle } from 'utils/common';
 
 const work = {
   thumb2: 'portada.jpg',
@@ -9,19 +8,16 @@ const work = {
   status: 1
 };
 
-const statusTag = {
-  style: getStatusTagStyle(1),
-  name: workStatusIdToName(1)
+const status = {
+  id: 1,
+  name: 'on_going',
+  background: '#000',
+  color: '#fff'
 };
 
 it('renders a "normal" cover without crashing', () => {
-  const wrapper = mount(
-    <WorkCover
-      name={work.name}
-      size={'normal'}
-      status={statusTag.name}
-      statusTag={statusTag.style}
-    />
+  const wrapper = mountWithIntl(
+    <WorkCover name={work.name} size={'normal'} status={status} />
   );
 
   expect(wrapper).toBeTruthy();
@@ -29,13 +25,12 @@ it('renders a "normal" cover without crashing', () => {
 });
 
 it('renders a "small" cover without crashing', () => {
-  const wrapper = mount(
+  const wrapper = mountWithIntl(
     <WorkCover
       cover={work.thumbnail}
       name={work.name}
       size={'small'}
-      status={statusTag.name}
-      statusTag={statusTag.style}
+      status={status}
     />
   );
 

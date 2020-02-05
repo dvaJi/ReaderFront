@@ -139,11 +139,11 @@ The footer should contain a [closing reference to an issue](https://help.github.
 Samples: (even more [samples](https://github.com/dvaJi/ReaderFront/commits/master))
 
 ```
-docs(changelog): update dendencies
+docs(core): update packages
 ```
 
 ```
-fix(Reader): download button doesn't work
+fix(admin): Fix cache update after message delete
 
 The version in our package.json gets copied to the one we publish, and users need the latest of these.
 ```
@@ -165,6 +165,7 @@ Must be one of the following:
 - **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - **test**: Adding missing tests or correcting existing tests
 - **translation**: Adding missing translations or correcting existing translations
+- **chore**: A simple task
 
 ### Scope
 
@@ -172,17 +173,10 @@ The scope should be the name of the npm package affected (as perceived by the pe
 
 The following is the list of supported scopes:
 
+- **admin**
+- **web**
+- **api**
 - **core**
-- **common**
-- **blog**
-- **reader**
-- **layout**
-- **home**
-- **work**
-- **works**
-- **releases**
-- **auth**
-- **admincp**
 
 ### Subject
 

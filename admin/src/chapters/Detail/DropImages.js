@@ -3,9 +3,12 @@ import { useMutation } from '@apollo/react-hooks';
 import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
 
-import { Card } from 'common/ui';
+import { slugify } from '../../../../shared/slugify';
+import { asyncForeach } from '../../../../shared/async-foreach';
+
 import { useLocalStorage } from 'common/useLocalStorage';
-import { slugify, forEachSeries } from 'utils/helpers';
+
+import { Card } from 'common/ui';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
 import { FETCH_CHAPTER } from '../query';
@@ -159,7 +162,7 @@ function DropImages({ chapter, toggleModal }) {
 
     let pagesUploaded = [];
     if (pagesToUpload.length > 0) {
-      await forEachSeries(pagesToUpload, async (page, i) => {
+      await asyncForeach(pagesToUpload, async (page, i) => {
         const isLast = pagesToUpload.length === i + 1;
         await handleUploadFile(page, pagesUploaded, isLast);
         pagesUploaded.push(page.filename);
@@ -197,7 +200,7 @@ function DropImages({ chapter, toggleModal }) {
   };
 
   const handleRemoveAll = async () => {
-    await forEachSeries(pages, async page => {
+    await asyncForeach(pages, async page => {
       await handleRemoveFile(page);
     });
 

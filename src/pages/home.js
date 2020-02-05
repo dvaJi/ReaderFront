@@ -5,8 +5,8 @@ import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
 import { DISCORD_ID, APP_TITLE } from 'lib/config';
-import { subString } from 'utils/helpers';
-import { languageNameToId } from 'utils/common';
+import { subString } from '@shared/is';
+import { languages } from '@shared/params/global';
 
 import ComicSlide from '@components/ComicSlide';
 import DiscordWidget from '@components/DiscordWidget';
@@ -141,7 +141,7 @@ const RandomWork = ({ language }) => {
 
 export function HomeContainer() {
   const { locale } = useIntl();
-  const language = languageNameToId(locale);
+  const language = languages[locale];
 
   return (
     <div className="Home">
@@ -169,14 +169,14 @@ export function HomeContainer() {
           )}
         </FormattedMessage>
       </>
-      <LatestReleases language={language} />
+      <LatestReleases language={language.id} />
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-8">
-            <LatestWorksAdded language={language} />
+            <LatestWorksAdded language={language.id} />
           </div>
           <div className="col-md-4">
-            <RandomWork language={language} />
+            <RandomWork language={language.id} />
             <DiscordWidget discordId={DISCORD_ID} />
           </div>
         </div>

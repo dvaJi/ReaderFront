@@ -4,7 +4,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Spinner } from 'reactstrap';
 import gql from 'graphql-tag';
 
-import { getQueryParams } from '../../utils/helpers';
 import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 import { useMutation } from '@apollo/react-hooks';
@@ -28,10 +27,10 @@ function ActivateAccount() {
 
   useEffect(async () => {
     setIsLoading(true);
-    const params = getQueryParams(location.search);
+    const params = new URLSearchParams(location.search);
     const userActivate = {
-      email: params.email,
-      activatedToken: params.token
+      email: params.get('email'),
+      activatedToken: params.get('token')
     };
 
     try {

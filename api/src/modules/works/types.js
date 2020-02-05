@@ -26,6 +26,7 @@ const WorkType = new GraphQLObjectType({
     works_genres: { type: new GraphQLList(WorksGenreType) },
     genres: { type: new GraphQLList(WorksGenre) },
     people_works: { type: new GraphQLList(PeopleWorksType) },
+    staff: { type: new GraphQLList(PeopleWorksType) },
     languages: { type: new GraphQLList(WorksLanguageType) },
     name: { type: GraphQLString },
     stub: { type: GraphQLString },
@@ -33,7 +34,11 @@ const WorkType = new GraphQLObjectType({
     type: { type: GraphQLString },
     hidden: { type: GraphQLBoolean },
     demographicId: { type: GraphQLInt },
+    demographic_name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    description_short: { type: GraphQLString },
     status: { type: GraphQLInt },
+    status_name: { type: GraphQLString },
     statusReason: { type: GraphQLString },
     adult: { type: GraphQLBoolean },
     visits: { type: GraphQLInt },
@@ -85,7 +90,8 @@ const WorksLanguageType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
-    description: { type: GraphQLString }
+    description: { type: GraphQLString },
+    description_short: { type: GraphQLString }
   })
 });
 

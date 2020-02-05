@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 import WorksList from '@components/Works/WorksList';
 import WorksListLoading from '@components/Works/WorksListLoading';
 import FilterCard from '@components/Works/FilterCard';
-import { languageNameToId } from 'utils/common';
+import { languages } from '@shared/params/global';
 import { withApollo } from 'lib/apollo';
 import { APP_TITLE } from 'lib/config';
 
@@ -29,11 +29,14 @@ export const FETCH_WORKS = gql`
       uniqid
       type
       demographicId
+      demographic_name
       status
+      status_name
       adult
       thumbnail_path
       createdAt
       updatedAt
+      description_short
       works_descriptions {
         description
       }
@@ -44,11 +47,12 @@ export const FETCH_WORKS = gql`
 export function WorksContainer() {
   const [textFilter, setTextFilter] = useState('');
   const { locale } = useIntl();
-  const language = languageNameToId(locale);
+  const language = languages[locale];
 
   const { loading, error, data } = useQuery(FETCH_WORKS, {
-    variables: { language }
+    variables: { language: language.id }
   });
+
   if (loading)
     return (
       <Container>
@@ -66,37 +70,43 @@ export function WorksContainer() {
 
   return (
     <Container>
-      <>
-        <Helmet>
-          <meta charSet="utf-8" />
-        </Helmet>
-        <FormattedMessage
-          id="works.title"
-          defaultMessage="Projects List :: {title}"
-          values={{ title: APP_TITLE }}
-        >
-          {title => (
-            <Helmet>
-              <title>{title}</title>
-              <meta property="og:title" content={title} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-        <FormattedMessage
-          id="works.desc"
-          defaultMessage="Projects List for {title}"
-          values={{ title: APP_TITLE }}
-        >
-          {desc => (
-            <Helmet>
-              <meta name="description" content={desc} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-      </>
+      <WorksMetatags />
       <FilterCard filter={textFilter} onFilterTextChange={setTextFilter} />
       <WorksList works={data.works} filterText={textFilter} />
     </Container>
+  );
+}
+
+function WorksMetatags() {
+  return (
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+      </Helmet>
+      <FormattedMessage
+        id="works.title"
+        defaultMessage="Projects List :: {title}"
+        values={{ title: APP_TITLE }}
+      >
+        {title => (
+          <Helmet>
+            <title>{title}</title>
+            <meta property="og:title" content={title} />
+          </Helmet>
+        )}
+      </FormattedMessage>
+      <FormattedMessage
+        id="works.desc"
+        defaultMessage="Projects List for {title}"
+        values={{ title: APP_TITLE }}
+      >
+        {desc => (
+          <Helmet>
+            <meta name="description" content={desc} />
+          </Helmet>
+        )}
+      </FormattedMessage>
+    </>
   );
 }
 

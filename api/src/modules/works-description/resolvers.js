@@ -1,5 +1,5 @@
 // App Imports
-import params from '../../config/params';
+import { hasPermision } from '../../setup/utils';
 import models from '../../setup/models';
 
 // Get worksDescription by work
@@ -37,7 +37,7 @@ export async function create(
   { workId, language, description },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     return await models.WorksDescription.create({
       workId,
       language,
@@ -54,7 +54,7 @@ export async function update(
   { id, workId, language, description },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     return await models.WorksDescription.update(
       {
         workId,
@@ -70,7 +70,7 @@ export async function update(
 
 // Delete worksDescription
 export async function remove(parentValue, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const worksDescription = await models.WorksDescription.findOne({
       where: { id }
     });
@@ -88,5 +88,5 @@ export async function remove(parentValue, { id }, { auth }) {
 
 // WorksDescription types
 export async function getTypes() {
-  return Object.values(params.worksDescription.types);
+  return {};
 }

@@ -1,7 +1,7 @@
 import { IntlProvider } from 'react-intl';
 import { mount, shallow } from 'enzyme';
 
-const messages = require('../lang/en'); // en.json
+const messages = require('../../shared/lang/en'); // en.json
 const defaultLocale = 'en';
 const locale = defaultLocale;
 

@@ -15,7 +15,7 @@ import {
 import { AutocompleteList } from './CreateOrEdit/styles';
 import { Button, FormGroup } from 'common/ui';
 import { SEARCH_PEOPLE } from './query';
-import { workRoles } from 'utils/common';
+import worksParams from '../../../shared/params/works';
 
 function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
   const [person, setPerson] = useState(null);
@@ -106,11 +106,14 @@ function AddPersonWorkModal({ isOpen, toggleModal, onSubmit }) {
             multiple
             onChange={onChange}
           >
-            {workRoles.map(role => (
-              <option key={`people.rol.${role.name}`} value={role.id}>
+            {Object.keys(worksParams.roles).map(role => (
+              <option
+                key={`people.rol.${role}`}
+                value={worksParams.roles[role].id}
+              >
                 {f({
-                  id: `people.rol.${role.name}`,
-                  defaultMessage: role.name
+                  id: `people.rol.${role}`,
+                  defaultMessage: role
                 })}
               </option>
             ))}

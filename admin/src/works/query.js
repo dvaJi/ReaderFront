@@ -44,13 +44,20 @@ export const FETCH_WORK = gql`
       type
       hidden
       demographicId
+      demographic_name
       status
+      status_name
       adult
       thumbnail
       createdAt
       works_descriptions {
         description
         language
+      }
+      languages {
+        name
+        description
+        description_short
       }
       people_works {
         rol
@@ -60,8 +67,21 @@ export const FETCH_WORK = gql`
           thumbnail
         }
       }
+      staff {
+        rol
+        rol_name
+        people {
+          id
+          name
+          thumbnail
+        }
+      }
       works_genres {
         genreId
+      }
+      genres {
+        id
+        name
       }
     }
   }
@@ -75,6 +95,7 @@ export const FETCH_CHAPTERS = gql`
       subchapter
       volume
       language
+      language_name
       name
       stub
       uniqid
