@@ -11,9 +11,9 @@ import {
   Input
 } from 'reactstrap';
 
-// App imports
-import { slugify } from 'utils/helpers';
-import { languagesAvailables } from 'utils/common';
+import { LANGUAGES } from '../../config';
+import { slugify } from '../../../../shared/slugify';
+import { languagesAvailables } from '../../../../shared/params/global';
 
 function ChapterForm({ chapter, onSubmit }) {
   const [localChapter, setLocalChapter] = useState(chapter);
@@ -70,11 +70,12 @@ function ChapterForm({ chapter, onSubmit }) {
       return;
     }
 
-    if (!localChapter.chapter || localChapter.chapter <= 0) {
+    if (!localChapter.chapter || localChapter.chapter < 0) {
       setError(
         f({
           id: 'no_valid_chapter',
-          defaultMessage: 'The chapter number must be greater than 0'
+          defaultMessage:
+            'The chapter number must be greater than or equal to 0'
         })
       );
       return;
@@ -82,9 +83,6 @@ function ChapterForm({ chapter, onSubmit }) {
     const chapter = { ...localChapter };
     const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
     chapter.stub = chStubNumber + (chapter.stub === null ? '' : chapter.stub);
-    chapter.language =
-      chapter.language === 0 ? languagesAvailables[0].id : chapter.language;
-    chapter.hidden = chapter.hidden ? true : false;
     delete chapter.pages;
 
     setError(null);
@@ -167,7 +165,7 @@ function ChapterForm({ chapter, onSubmit }) {
           onChange={handleOnChange}
         />
       </FormGroup>
-      {languagesAvailables.length > 1 && (
+      {languagesAvailables(LANGUAGES).length > 1 && (
         <FormGroup>
           <Label for="language">
             {f({ id: 'language', defaultMessage: 'Language' })}
@@ -180,7 +178,7 @@ function ChapterForm({ chapter, onSubmit }) {
             value={localChapter.language}
             onChange={handleOnChangeSelect}
           >
-            {languagesAvailables.map(lang => (
+            {languagesAvailables(LANGUAGES).map(lang => (
               <option key={lang.id + lang.name} value={lang.id}>
                 {f({
                   id: lang.name + '_full',

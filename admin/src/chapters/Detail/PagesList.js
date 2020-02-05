@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import { ListGroup } from 'reactstrap';
 
-import { hashCode } from 'utils/helpers';
+import { hashCode } from '../../../../shared/hash';
+
 import { getImage } from 'common/Image';
 import PageItemWithThumb from './PageItemWithThumb';
 import PageItem from './PageItem';
@@ -34,7 +35,7 @@ function RenderWithThumbnail({
           f.file !== undefined
             ? f.file
             : getImage(
-                `works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
+                `/works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
                 230,
                 230
               );
@@ -74,7 +75,7 @@ function RenderList({
         const pageHash = hashCode(filename);
         const isDefault = filename === defaultPage;
         const thumb = getImage(
-          `works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
+          `/works/${chapter.work.uniqid}/${chapter.uniqid}/${f.filename}`,
           230,
           230
         );

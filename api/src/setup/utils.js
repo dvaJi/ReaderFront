@@ -1,6 +1,8 @@
 import path from 'path';
 
-import params from '../config/params';
+import globalParams from '@shared/params/global';
+import genresParams from '@shared/params/genres';
+import blogParams from '@shared/params/blog';
 
 /**
  * Generate a path of a chapter, if filename is undefined it will return only the directory
@@ -53,21 +55,6 @@ export const sanitizeFilename = (filename, replacement = '') =>
     .replace(removeWhiteSpace, '_');
 
 /**
- * Same functionality as forEach, but runs only one callback at a time.
- * @param {Array} array - Array to iterate over.
- * @param {Function} callback - Function to apply each item in `array`. Accepts three arguments: `currentValue`, `index` and `array`.
- * @param {Object} [thisArg] - Value to use as *this* when executing the `callback`.
- * @return {Promise} - Returns a Promise with undefined value.
- */
-export async function forEachSeries(array, callback, thisArg) {
-  for (let i = 0; i < array.length; i++) {
-    if (i in array) {
-      await callback.call(thisArg || this, await array[i], i, array);
-    }
-  }
-}
-
-/**
  * Get extension from a file
  * @param {string} filename
  */
@@ -100,9 +87,40 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
+export const hasPermision = (mod = 'read', auth) => {
+  switch (mod) {
+    case 'read':
+      return hasReadPermission(auth);
+    case 'create':
+      return hasCreatePermission(auth);
+    case 'update':
+      return hasUpdatePermission(auth);
+    case 'delete':
+      return hasDeletePermission(auth);
+    default:
+      return false;
+  }
+};
+
+export const hasReadPermission = auth => {
+  return auth.user && auth.user.role === globalParams.user.roles.admin;
+};
+
+export const hasCreatePermission = auth => {
+  return auth.user && auth.user.role === globalParams.user.roles.admin;
+};
+
+export const hasUpdatePermission = auth => {
+  return auth.user && auth.user.role === globalParams.user.roles.admin;
+};
+
+export const hasDeletePermission = auth => {
+  return auth.user && auth.user.role === globalParams.user.roles.admin;
+};
+
 // Language helpers
-export const languages = Object.keys(params.global.languages).map(
-  k => params.global.languages[k]
+export const languages = Object.keys(globalParams.languages).map(
+  k => globalParams.languages[k]
 );
 
 export function languageIdToName(langId) {
@@ -111,8 +129,8 @@ export function languageIdToName(langId) {
 }
 
 // Genres Status helpers
-export const genresTypes = Object.keys(params.genres.types).map(
-  g => params.genres.types[g]
+export const genresTypes = Object.keys(genresParams.genres.types).map(
+  g => genresParams.genres.types[g]
 );
 
 export function genreTypeIdToName(genreId) {
@@ -121,8 +139,8 @@ export function genreTypeIdToName(genreId) {
 }
 
 // Posts Status helpers
-export const postsStatus = Object.keys(params.blog.status).map(
-  k => params.blog.status[k]
+export const postsStatus = Object.keys(blogParams.status).map(
+  k => blogParams.status[k]
 );
 
 export function postsStatusIdToName(statusId) {
@@ -131,8 +149,8 @@ export function postsStatusIdToName(statusId) {
 }
 
 // Blog Categories helpers
-export const blogCategories = Object.keys(params.blog.categories).map(
-  k => params.blog.categories[k]
+export const blogCategories = Object.keys(blogParams.categories).map(
+  k => blogParams.categories[k]
 );
 
 export function blogCategoriesIdToName(categoryId) {

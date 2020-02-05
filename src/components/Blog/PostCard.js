@@ -13,10 +13,8 @@ import {
   CardFooterWrapper,
   CardFooterTag
 } from './styles';
-import { blogCategoriesIdToName } from 'utils/common';
 
 function PostCard({ post, children, thumbnail }) {
-  const category = blogCategoriesIdToName(post.category);
   const { formatMessage: f } = useIntl();
   const router = useRouter();
 
@@ -39,7 +37,7 @@ function PostCard({ post, children, thumbnail }) {
       <CardFooter>
         <CardFooterWrapper layout="row bottom-left">
           <CardFooterTag>
-            {f({ id: category, defaultMessage: category })}
+            {f({ id: post.category_name, defaultMessage: post.category_name })}
           </CardFooterTag>
         </CardFooterWrapper>
       </CardFooter>

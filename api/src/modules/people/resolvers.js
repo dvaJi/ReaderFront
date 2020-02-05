@@ -1,7 +1,7 @@
 import { v1 as uuidv1 } from 'uuid';
 
 // App Imports
-import params from '../../config/params';
+import { hasPermision } from '../../setup/utils';
 import models from '../../setup/models';
 import { sanitizeFilename } from '../../setup/utils';
 
@@ -53,7 +53,7 @@ export async function create(
   { name, name_kanji, description, twitter, thumbnail },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     const uniqid = uuidv1();
     const stub = sanitizeFilename(name);
 
@@ -77,7 +77,7 @@ export async function update(
   { id, name, name_kanji, description, twitter, thumbnail },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     const stub = sanitizeFilename(name);
     return await models.People.update(
       {
@@ -97,7 +97,7 @@ export async function update(
 
 // Delete people
 export async function remove(_, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const people = await models.People.findOne({ where: { id } });
 
     if (!people) {
@@ -113,5 +113,5 @@ export async function remove(_, { id }, { auth }) {
 
 // People Rol types
 export async function getRoles() {
-  return Object.values(params.works.roles);
+  return {};
 }

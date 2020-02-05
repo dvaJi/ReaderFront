@@ -7,9 +7,9 @@ import {
   getPagesAsFiles,
   getReleases,
   getPagesUploaded
-} from './src/__tests__/mocks/getReleasesMock';
-import { getPosts } from './src/__tests__/mocks/getBlogMock';
-import { getWork, getWorks } from './src/__tests__/mocks/getWorksMock';
+} from './shared/mocks/getReleasesMock';
+import { getPosts } from './shared/mocks/getBlogMock';
+import { getWork, getWorks } from './shared/mocks/getWorksMock';
 
 configure({ adapter: new Adapter() });
 

@@ -5,13 +5,6 @@ import styled from 'styled-components';
 
 import { MetaTagDetail } from './ACPWorksMetaTags';
 import { FETCH_WORK } from './query';
-import {
-  languageIdToName,
-  genreTypeIdToName,
-  rolIdToName,
-  workStatusIdToName,
-  genreDemographicIdToName
-} from 'utils/common';
 import { Card } from 'common/ui';
 
 const InfoTitle = styled.p`
@@ -83,56 +76,53 @@ const WorkInfo = ({ stub }) => {
         {data.work.name}
         <span className="badge badge-secondary ml-1">
           {f({
-            id: workStatusIdToName(data.work.status),
-            defaultMessage: workStatusIdToName(data.work.status)
+            id: data.work.status_name,
+            defaultMessage: data.work.status_name
           })}
         </span>
         <span className="badge badge-secondary ml-1">{data.work.type}</span>
         <span className="badge badge-secondary ml-1">
-          {genreDemographicIdToName(data.work.demographicId)}
+          {data.work.demographic_name}
         </span>
       </h5>
       <div className="media text-muted pt-3">
-        {data.work.people_works.map(peopleWork => {
-          const rol = rolIdToName(peopleWork.rol);
-          return (
-            <p
-              className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
-              key={peopleWork.rol + peopleWork.people.id}
-            >
-              <strong className="d-block text-gray-dark">
-                {f({ id: 'people.rol.' + rol, defaultMessage: rol })}
-              </strong>
-              {peopleWork.people.name}
-            </p>
-          );
-        })}
-      </div>
-      <div className="media text-muted pt-3">
-        {data.work.works_descriptions.map(desc => (
+        {data.work.staff.map(staff => (
           <p
             className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
-            key={desc.language}
+            key={staff.rol + staff.people.id}
           >
             <strong className="d-block text-gray-dark">
               {f({
-                id: languageIdToName(desc.language) + '_full',
-                defaultMessage: languageIdToName(desc.language)
+                id: 'people.rol.' + staff.rol_name,
+                defaultMessage: staff.rol_name
               })}
             </strong>
-            {desc.description}
+            {staff.people.name}
+          </p>
+        ))}
+      </div>
+      <div className="media text-muted pt-3">
+        {data.work.languages.map(language => (
+          <p
+            className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
+            key={language.name}
+          >
+            <strong className="d-block text-gray-dark">
+              {f({
+                id: `${language.name}_full`,
+                defaultMessage: language.name
+              })}
+            </strong>
+            {language.description_short}
           </p>
         ))}
       </div>
       <div>
-        {data.work.works_genres.map(g => {
-          const genre = genreTypeIdToName(g.genreId);
-          return (
-            <span key={genre} className="badge badge-pill badge-light">
-              {f({ id: genre, defaultMessage: genre })}
-            </span>
-          );
-        })}
+        {data.work.genres.map(g => (
+          <span key={g.name} className="badge badge-pill badge-light">
+            {f({ id: g.name, defaultMessage: g.name })}
+          </span>
+        ))}
       </div>
     </Card>
   );

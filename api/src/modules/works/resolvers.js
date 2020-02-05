@@ -4,11 +4,11 @@ import { Sequelize, Op } from 'sequelize';
 import ld from 'lodash';
 
 // App Imports
-import {
-  includesField,
-  languageIdToName,
-  genreTypeIdToName
-} from '../../setup/utils';
+import { includesField } from '../../setup/utils';
+import { typesById, demographicById } from '@shared/params/genres';
+import { languageById } from '@shared/params/global';
+import { statusById, rolesById } from '@shared/params/works';
+
 import {
   isValidThumb,
   deleteImage,
@@ -18,7 +18,7 @@ import { normalizeChapter } from '../chapter/resolvers';
 import { createDescriptions } from '../works-description/resolvers';
 import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
-import params from '../../config/params';
+import { hasPermision } from '../../setup/utils';
 import models from '../../setup/models';
 
 const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
@@ -86,9 +86,9 @@ export async function getAll(
 
 // Get works by stub
 export async function getByStub(
-  parentValue,
+  _,
   { stub, language, showHidden },
-  req,
+  __,
   { fieldNodes = [] }
 ) {
   // split queries
@@ -147,9 +147,14 @@ export async function getByStub(
   }
 }
 
-// Get works by ID
-export async function getById(parentValue, { workId, language }) {
-  const works = await models.Works.findOne({
+// Get work by ID
+export async function getById(
+  _,
+  { workId, language },
+  __,
+  { fieldNodes = [] }
+) {
+  const work = await models.Works.findOne({
     where: { id: workId },
     include: [
       descriptionJoin(language),
@@ -169,11 +174,44 @@ export async function getById(parentValue, { workId, language }) {
     ]
   });
 
-  if (!works) {
+  if (!work) {
     // Works does not exists
     throw new Error('The works you are looking for does not exists.');
   } else {
-    return works;
+    const includeChapters = includesField(fieldNodes, ['chapters']);
+    const chapters = includeChapters
+      ? await models.Chapter.findAll({
+          ...whereChapterWId(false, language, work.id),
+          order: [
+            ['chapter', 'DESC'],
+            ['subchapter', 'DESC']
+          ]
+        }).map(el => el.get({ plain: true }))
+      : [];
+
+    const includePeople = includesField(fieldNodes, ['people_works', 'staff']);
+    const people_works = includePeople
+      ? await models.PeopleWorks.findAll({
+          where: { workId: work.id },
+          include: [{ model: models.People }],
+          order: [['rol', 'ASC']]
+        })
+      : [];
+
+    const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
+    const works_genres = includeGenres
+      ? await models.WorksGenres.findAll({
+          where: { workId: work.id },
+          order: [['genreId', 'ASC']]
+        }).map(el => el.get({ plain: true }))
+      : [];
+
+    return normalizeWork({
+      ...work.toJSON(),
+      chapters,
+      people_works,
+      works_genres
+    });
   }
 }
 
@@ -256,7 +294,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     const uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -327,7 +365,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     let newWork = {
       name,
       stub,
@@ -379,7 +417,7 @@ export async function update(
 
 // Delete works
 export async function remove(parentValue, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const works = await models.Works.findOne({ where: { id } });
 
     if (!works) {
@@ -395,7 +433,7 @@ export async function remove(parentValue, { id }, { auth }) {
 
 // Works Status types
 export async function getStatusTypes() {
-  return Object.values(params.works.status);
+  return {};
 }
 
 // Get all work aggregates
@@ -479,21 +517,40 @@ const descriptionJoin = lang =>
         as: 'works_descriptions'
       };
 
-const normalizeWork = work => ({
-  ...work,
-  thumbnail_path: isValidThumb(work.thumbnail)
-    ? `/works/${work.uniqid}/${work.thumbnail}`
-    : '/default-cover.png',
-  languages: ld.get(work, 'works_descriptions', []).map(wd => ({
-    id: wd.language,
-    name: languageIdToName(wd.language),
-    description: wd.description
-  })),
-  genres: ld.get(work, 'works_genres', []).map(genre => ({
-    id: genre.genreId,
-    name: genreTypeIdToName(genre.genreId)
-  })),
-  chapters: ld
-    .get(work, 'chapters', [])
-    .map(chapter => normalizeChapter(chapter, work))
-});
+const normalizeWork = work => {
+  const description = ld.get(work, 'works_descriptions', [
+    { description: '' }
+  ])[0].description;
+  return {
+    ...work,
+    demographic_name: demographicById(work.demographicId).name,
+    status_name: statusById(work.status).name,
+    thumbnail_path: isValidThumb(work.thumbnail)
+      ? `/works/${work.uniqid}/${work.thumbnail}`
+      : '/default-cover.png',
+    languages: ld.get(work, 'works_descriptions', []).map(wd => ({
+      id: wd.language,
+      name: languageById(wd.language).name,
+      description: wd.description,
+      description_short:
+        ld.get(wd, 'description', '').length > 120
+          ? `${ld.get(wd, 'description', '').substr(0, 120)}...`
+          : ld.get(wd, 'description', '')
+    })),
+    description,
+    description_short:
+      description.length > 120
+        ? `${description.substr(0, 120)}...`
+        : description,
+    genres: ld.get(work, 'works_genres', []).map(genre => ({
+      id: genre.genreId,
+      name: typesById(genre.genreId).name
+    })),
+    chapters: ld
+      .get(work, 'chapters', [])
+      .map(chapter => normalizeChapter(chapter, work)),
+    staff: ld
+      .get(work, 'people_works', [])
+      .map(pw => ({ ...pw, rol_name: rolesById(pw.rol).name }))
+  };
+};

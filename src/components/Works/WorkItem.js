@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
-import { useIntl } from 'react-intl';
 import Link from 'next/link';
 import Lazyload from 'react-lazyload';
-
 import styled from 'styled-components';
-import WorkCover from './WorkCover';
+
+import { statusById } from '@shared/params/works';
 import getImage from '@components/Image/function';
 import { cardBackgroundColor, cardColor } from 'lib/theme';
+
+import WorkCover from './WorkCover';
 
 const Card = styled.a`
   color: ${cardColor};
@@ -94,9 +95,8 @@ const getThumbSize = size => {
   }
 };
 
-function WorkItem({ work, truncate, size, statusTag }) {
-  const { formatMessage: f } = useIntl();
-  const status = statusTag(work.status);
+function WorkItem({ work, size }) {
+  const status = statusById(work.status);
   const thumbSize = getThumbSize(size);
   const thumbnail = getImage(
     work.thumbnail_path,
@@ -114,26 +114,14 @@ function WorkItem({ work, truncate, size, statusTag }) {
             once
             debounce={false}
             placeholder={
-              <WorkCover
-                name={work.name}
-                size={size}
-                status={f({
-                  id: status.name,
-                  defaultMessage: status.name
-                })}
-                statusTag={status.style}
-              />
+              <WorkCover name={work.name} size={size} status={status} />
             }
           >
             <WorkCover
               cover={thumbnail}
               name={work.name}
               size={size}
-              status={f({
-                id: status.name,
-                defaultMessage: status.name
-              })}
-              statusTag={status.style}
+              status={status}
             />
           </Lazyload>
         </CoverWrapper>
@@ -142,7 +130,7 @@ function WorkItem({ work, truncate, size, statusTag }) {
           {size !== 'small' && (
             <h2 className="card-body-heading">{work.name}</h2>
           )}
-          <p className="card-body-description">{truncate(work)}</p>
+          <p className="card-body-description">{work.description_short}</p>
         </CardBody>
       </Card>
     </Link>

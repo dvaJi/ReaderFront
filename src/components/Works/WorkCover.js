@@ -1,9 +1,10 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { useSpring } from 'react-spring';
 
 import { CardMedia, Overlay, Cover, Tag } from './styles';
 
-function WorkCover({ name, cover, size, statusTag, status }) {
+function WorkCover({ name, cover, size, status }) {
   const tagProps = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: {
@@ -27,15 +28,15 @@ function WorkCover({ name, cover, size, statusTag, status }) {
           </Overlay>
         )}
       </Cover>
-      {size !== 'small' && statusTag && (
+      {size !== 'small' && status && (
         <Tag
           style={{
             ...tagProps,
-            backgroundColor: statusTag ? statusTag.background : '',
-            color: statusTag ? statusTag.color : ''
+            backgroundColor: status ? status.background : '',
+            color: status ? status.color : ''
           }}
         >
-          {status}
+          <FormattedMessage id={status.name} defaultMessage={status.name} />
         </Tag>
       )}
     </CardMedia>

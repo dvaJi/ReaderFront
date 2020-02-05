@@ -1,9 +1,10 @@
-import parseUri from '../../utils/parseUri';
-import { networkType, hash } from '../../utils/helpers';
+import { hashToNum } from '../../../../shared/hash';
+import { parseUri } from '../../../../shared/parse-uri';
+import { networkType } from '../../../../shared/network-type';
 
 export function google(item, index) {
   const ele = parseUri(item.href);
-  return `https://images${hash(
+  return `https://images${hashToNum(
     ele.host,
     index,
     0,
@@ -20,7 +21,7 @@ export function photon(item, index) {
     item.crop && item.height
       ? `&crop=0px,0px,${item.width}px,${item.height}px`
       : '';
-  return `https://i${hash(ele.host, index, 0, 2)}.wp.com/${ele.authority +
+  return `https://i${hashToNum(ele.host, index, 0, 2)}.wp.com/${ele.authority +
     ele.path}?strip=all&quality=${quality}${
     item.width ? '&w=' + item.width : ''
   }${crop}`;

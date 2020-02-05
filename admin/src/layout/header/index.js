@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 
 import { APP_TITLE, LANGUAGES } from '../../config';
-import { isAuthRoute } from 'utils/helpers';
+import { isAuthRoute } from '../../../../shared/is';
 
 import { ChangeTheme, Navbar, ToggleTheme } from './styles';
 import { useGlobalState, setTheme, setLanguage } from 'state';

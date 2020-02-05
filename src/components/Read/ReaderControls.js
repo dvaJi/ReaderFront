@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 
 import { APP_TITLE, ANONYMIZER_DOWNLOADS } from 'lib/config';
 import { useChapterSeen } from '@hooks/useChapterSeen';
-import { chapterTitle, chapterUrl } from 'utils/common';
+import { chapterTitle } from '@shared/lang/chapter-title';
 import {
   ReaderControlsContainer,
   ReaderControlsWrapper,
@@ -34,6 +34,7 @@ export const FETCH_CHAPTERS = gql`
       name
       stub
       uniqid
+      read_path
     }
   }
 `;
@@ -158,7 +159,7 @@ const ChaptersSelects = ({ workStub, language, chapter, work }) => {
         const selCh = data.chaptersByWork.find(
           ch => ch.id === Number(e.target.value)
         );
-        router.push(chapterUrl(selCh, work));
+        router.push(selCh.read_path);
       }}
     >
       {data.chaptersByWork.map(ch => (
