@@ -63,7 +63,6 @@ const WorkInfo = ({ stub }) => {
 
   if (loading) return <WorkLoading />;
   if (error) return <p id="error_releases">Error :(</p>;
-  console.log({ loading, error, data });
   return (
     <Card>
       <MetaTagDetail work={data.work} />
