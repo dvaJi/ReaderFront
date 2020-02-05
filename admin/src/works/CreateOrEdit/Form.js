@@ -13,20 +13,19 @@ import {
   DropdownToggle
 } from 'reactstrap';
 
-// App imports
+import { LANGUAGES } from '../../config';
 import { GenresWrapper } from './styles';
-import Image from 'common/Image';
-import { renderIf, slugify } from 'utils/helpers';
+import { slugify } from '../../../../shared/slugify';
 import {
-  languagesAvailables as toLang,
-  languages,
-  workStatus,
-  workTypes,
-  genresDemographic,
-  genresTypes
-} from 'utils/common';
-import AddPersonWorkModal from '../AddPersonWorkModal';
+  languageById,
+  languagesAvailables as toLang
+} from '../../../../shared/params/global';
+import { get as workGet } from '../../../../shared/params/works';
+import { get as genresGet } from '../../../../shared/params/genres';
 import Staff from './Staff';
+
+import AddPersonWorkModal from '../AddPersonWorkModal';
+import Image from 'common/Image';
 
 function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);
@@ -34,7 +33,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [isAddPersonWorkModal, setIsAddPersonWorkModal] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [languagesAvailables, setLanguagesAvailables] = useState(
-    toLang.filter(
+    toLang(LANGUAGES).filter(
       lang => !work.works_descriptions.find(desc => desc.language === lang.id)
     )
   );
@@ -88,7 +87,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       ...work.works_descriptions,
       { language: lang.id, description: '' }
     ];
-    const langAvailables = toLang.filter(
+    const langAvailables = toLang(LANGUAGES).filter(
       lang => !work.works_descriptions.find(desc => desc.language === lang.id)
     );
     setLocalWork(work);
@@ -101,7 +100,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       wd => wd.language !== description.language
     );
     const workLanguages = work.works_descriptions.map(wd => wd.language);
-    const langAvailables = toLang.filter(
+    const langAvailables = toLang(LANGUAGES).filter(
       lang => !workLanguages.includes(lang.id)
     );
 
@@ -137,10 +136,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
 
     const work = { ...localWork };
     work.works_descriptions = JSON.stringify(work.works_descriptions);
-    work.type = work.type === '' ? workTypes[0] : work.type;
-    work.status = work.status === 0 ? workStatus[0].id : work.status;
-    work.demographicId =
-      work.demographicId === 0 ? genresDemographic[0].id : work.demographicId;
     if (coverPic) {
       work.thumbnail = coverPic;
     } else {
@@ -148,6 +143,10 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     }
     delete work.genres;
     delete work.createdAt;
+    delete work.demographic_name;
+    delete work.status_name;
+    delete work.staff;
+    delete work.languages;
 
     onSubmit(ev, work);
   };
@@ -222,7 +221,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           <Button
             className="float-right"
             size="sm"
-            onClick={onCreatePersonModal}
+            onClick={() => onCreatePersonModal(true)}
           >
             {f({ id: 'create_person', defaultMessage: 'Create Person' })}
           </Button>
@@ -250,7 +249,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           value={localWork.status}
           onChange={handleOnChangeSelect}
         >
-          {workStatus.map(st => (
+          {workGet('status').map(st => (
             <option key={st.id + st.name} value={st.id}>
               {f({
                 id: st.name,
@@ -283,18 +282,18 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         )}
         <br />
         {localWork.works_descriptions.map((desc, index) => {
-          const lang = languages.find(lang => lang.id === desc.language).name;
+          const lang = languageById(desc.language).name;
           return (
             <div
               id={'textarea-' + desc.language}
               key={'textarea-' + desc.language}
             >
               <Label for={'textarea-' + desc.language}>
-                {f({ id: lang + '_full', defaultMessage: lang })}
+                {f({ id: `${lang}_full`, defaultMessage: lang })}
               </Label>
               <span
                 className="float-right"
-                onClick={e => handleDeselectLanguage(desc)}
+                onClick={() => handleDeselectLanguage(desc)}
               >
                 {f({ id: 'remove', defaultMessage: 'Remove' })}
               </span>
@@ -302,8 +301,8 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
                 type="textarea"
                 value={desc.description}
                 onChange={HandleOnChangeDescription}
-                name={'desc-' + index + '-' + desc.language}
-                id={'textarea-' + desc.language}
+                name={`desc-${index}-${desc.language}`}
+                id={`textarea-${desc.language}`}
               />
             </div>
           );
@@ -319,9 +318,9 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           value={localWork.type}
           onChange={handleOnChangeSelect}
         >
-          {workTypes.map(st => (
-            <option key={st} value={st}>
-              {st}
+          {workGet('types').map(type => (
+            <option key={type} value={type}>
+              {type}
             </option>
           ))}
         </Input>
@@ -339,11 +338,11 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           value={localWork.demographicId}
           onChange={handleOnChangeSelect}
         >
-          {genresDemographic.map(st => (
-            <option key={st.id + st.name} value={st.id}>
+          {genresGet('demographic').map(demo => (
+            <option key={demo.id + demo.name} value={demo.id}>
               {f({
-                id: st.key,
-                defaultMessage: st.name
+                id: demo.name,
+                defaultMessage: demo.name
               })}
             </option>
           ))}
@@ -352,7 +351,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       <FormGroup>
         <Label>{f({ id: 'genres', defaultMessage: 'Genres' })}</Label>
         <GenresWrapper>
-          {genresTypes.map(genre => (
+          {genresGet('types').map(genre => (
             <CustomInput
               type="checkbox"
               defaultChecked={localWork.works_genres.find(
@@ -417,16 +416,16 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
           required={localWork.id === 0}
         />
       </FormGroup>
-      {renderIf(localWork.thumbnail !== '', () => (
+      {localWork.thumbnail !== '' && (
         <Image
           id="work_thumbnail"
-          src={`works/${localWork.uniqid}/${localWork.thumbnail}`}
+          src={`/works/${localWork.uniqid}/${localWork.thumbnail}`}
           height={200}
           width={170}
           alt={localWork.name}
           index={1}
         />
-      ))}
+      )}
       <FormGroup>
         <Button
           id="submit_work"

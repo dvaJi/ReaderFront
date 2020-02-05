@@ -2,7 +2,6 @@
 
 const bcrypt = require('bcryptjs');
 const config = require('../config/server.json');
-const params = require('../config/params.json');
 
 module.exports = {
   up: queryInterface => {
@@ -11,7 +10,7 @@ module.exports = {
         name: 'The Admin',
         email: 'admin@weeabo.com',
         password: bcrypt.hashSync('123456', config.saltRounds),
-        role: params.user.roles.admin,
+        role: 'ADMIN',
         activated: true,
         activatedToken: null,
         banned: false,
@@ -27,7 +26,7 @@ module.exports = {
         name: 'The User',
         email: 'user@otaku.uwu',
         password: bcrypt.hashSync('123456', config.saltRounds),
-        role: params.user.roles.user,
+        role: 'USER',
         activated: true,
         activatedToken: null,
         banned: false,
@@ -43,7 +42,7 @@ module.exports = {
         name: 'The Banned User',
         email: 'user@wotaku.ewe',
         password: bcrypt.hashSync('123456', config.saltRounds),
-        role: params.user.roles.user,
+        role: 'USER',
         activated: true,
         activatedToken: null,
         banned: true,
@@ -59,7 +58,7 @@ module.exports = {
         name: 'Non Activated User',
         email: 'almostuser@wotaku.ewe',
         password: bcrypt.hashSync('123456', config.saltRounds),
-        role: params.user.roles.user,
+        role: 'USER',
         activated: false,
         activatedToken: 's0dfsd0fa90sd9a0ak02913012k',
         banned: false,
@@ -75,7 +74,7 @@ module.exports = {
         name: 'The User Who Forgot His Password',
         email: 'forgetful@user.uwu',
         password: bcrypt.hashSync('123456', config.saltRounds),
-        role: params.user.roles.user,
+        role: 'USER',
         activated: false,
         activatedToken: null,
         banned: false,

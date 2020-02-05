@@ -16,11 +16,11 @@
     "url": "https://github.com/dvaJi/ReaderFront/issues"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:ci": "react-scripts test --coverage",
-    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --no-cache",
+    "test:ci": "react-app-rewired test --coverage",
+    "test:debug": "react-app-rewired --inspect-brk test --runInBand",
     "lint": "eslint ./src"
   },
   "dependencies": {
@@ -75,7 +75,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^5.2.0",
     "eslint-plugin-flowtype": "^4.6.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.0",
@@ -84,20 +84,29 @@
     "jest-localstorage-mock": "^2.4.0",
     "jest-styled-components": "^7.0.0",
     "jsdom-global": "^3.0.2",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "react-app-rewired": "^2.1.5",
+    "symlink-webpack-plugin": "^0.2.0"
   },
   "jest": {
+    "moduleNameMapper": {
+      "^utils(.*)$": "<rootDir>/src/utils$1",
+      "^lib(.*)$": "<rootDir>/src/lib$1",
+      "^@hooks(.*)$": "<rootDir>/src/hooks$1",
+      "^@pages(.*)$": "<rootDir>/src/pages$1",
+      "^@components(.*)$": "<rootDir>/src/components$1"
+    },
     "collectCoverageFrom": [
-      "./src/**/*.{js,jsx}",
+      "<rootDir>/src/**/*.{js,jsx}",
       "!<rootDir>/node_modules/",
-      "!./src/index.js",
-      "!./src/Routes.js",
-      "!./src/registerServiceWorker.js",
-      "!./src/common/WithTracker.js",
+      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/Routes.js",
+      "!<rootDir>/src/registerServiceWorker.js",
+      "!<rootDir>/src/common/WithTracker.js",
       "!<rootDir>/src/(state|themes|config|setupApollo|setupProxy|setupIcons|Root|App).js",
-      "!./src/auth/(AuthCheck|RoutePrivate).js",
-      "!./src/utils/mocks/*.{js}",
-      "!./src/utils/(helpers|common).js"
+      "!<rootDir>/src/auth/(AuthCheck|RoutePrivate).js",
+      "!<rootDir>/src/utils/mocks/*.{js}",
+      "!<rootDir>/src/utils/(helpers|common).js"
     ],
     "coverageThreshold": {
       "global": {

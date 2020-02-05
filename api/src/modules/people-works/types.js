@@ -1,5 +1,5 @@
 // Imports
-import { GraphQLObjectType, GraphQLInt } from 'graphql';
+import { GraphQLObjectType, GraphQLInt, GraphQLString } from 'graphql';
 import GraphQLDate from 'graphql-date';
 
 // App Imports
@@ -16,6 +16,7 @@ const PeopleWorksType = new GraphQLObjectType({
     work: { type: WorkType },
     people: { type: PeopleType },
     rol: { type: GraphQLInt },
+    rol_name: { type: GraphQLString },
     createdAt: { type: GraphQLDate },
     updatedAt: { type: GraphQLDate }
   })

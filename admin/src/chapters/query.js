@@ -20,7 +20,7 @@ export const FETCH_CHAPTER = gql`
         width
         size
       }
-      language
+      language_name
       name
       stub
       uniqid

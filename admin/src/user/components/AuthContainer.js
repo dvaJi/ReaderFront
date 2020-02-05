@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 
-import { APP_TITLE } from 'config';
+import { APP_TITLE } from '../../config';
 
 const Root = styled.div`
   background-color: #0747a6;

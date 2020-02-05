@@ -4,7 +4,13 @@ import { animated } from 'react-spring';
 
 import Image from './component';
 import * as config from '../../config';
-import * as helpers from '../../utils/helpers';
+
+jest.mock('../../../../shared/hash', () => {
+  return {
+    hashToNum: (host, index, min, max) => 2,
+    hashCode: str => '12345'
+  };
+});
 
 const filename = '/image/my.jpg';
 const readerPath = config.READER_PATH;
@@ -45,7 +51,6 @@ it('should render a custom element using tag', () => {
 
 it('should render a img using the photon cdn', () => {
   config.CDN = 'photon';
-  helpers.hash = () => 2;
 
   const wrapper = mount(
     <Image src={filename} alt="My image" height={200} width={200} />
@@ -60,7 +65,6 @@ it('should render a img using the photon cdn', () => {
 
 it('should render a img using the photon cdn with the original size', () => {
   config.CDN = 'photon';
-  helpers.hash = () => 2;
 
   const wrapper = mount(<Image src={filename} alt="My image" />);
   const img = wrapper.find('img');
@@ -73,7 +77,6 @@ it('should render a img using the photon cdn with the original size', () => {
 
 it('should render a img using the google cdn', () => {
   config.CDN = 'google';
-  helpers.hash = () => 1;
 
   const wrapper = mount(
     <Image src={filename} alt="My image" height={200} width={200} />
@@ -81,7 +84,7 @@ it('should render a img using the google cdn', () => {
   expect(wrapper).toBeTruthy();
   const img = wrapper.find('img');
   expect(img.prop('src')).toBe(
-    `https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_w=200&rewriteMime=image/*&url=${encodeURIComponent(
+    `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&resize_w=200&rewriteMime=image/*&url=${encodeURIComponent(
       config.READER_PATH + filename
     )}`
   );
@@ -90,13 +93,12 @@ it('should render a img using the google cdn', () => {
 
 it('should render a img using the google cdn with the original size', () => {
   config.CDN = 'google';
-  helpers.hash = () => 1;
 
   const wrapper = mount(<Image src={filename} alt="My image" />);
   expect(wrapper).toBeTruthy();
   const img = wrapper.find('img');
   expect(img.prop('src')).toBe(
-    `https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&rewriteMime=image/*&url=${encodeURIComponent(
+    `https://images2-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&gadget=a&no_expand=1&rewriteMime=image/*&url=${encodeURIComponent(
       config.READER_PATH + filename
     )}`
   );

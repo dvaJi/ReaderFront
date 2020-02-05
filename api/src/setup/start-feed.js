@@ -2,13 +2,9 @@ import { Feed } from 'feed';
 import compareDesc from 'date-fns/compareDesc';
 
 // App Imports
-import params from '../config/params.json';
+import { languages } from './utils';
 import { getAllRSS } from '../modules/chapter/resolvers';
 import { API_URL, APP_URL, REACT_APP_APP_TITLE } from '../config/env';
-
-const languages = Object.keys(params.global.languages).map(
-  lang => params.global.languages[lang]
-);
 
 // File upload configurations and route
 export default function(server) {

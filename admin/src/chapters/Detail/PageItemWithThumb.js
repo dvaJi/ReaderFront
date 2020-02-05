@@ -11,7 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { StyledSpinner, RoundedButton } from '../styles';
-import { bytesToSize } from 'utils/helpers';
+import { bytesToSize } from '../../../../shared/bytes-to-size';
 
 const CardOverlay = styled.div`
   position: absolute;

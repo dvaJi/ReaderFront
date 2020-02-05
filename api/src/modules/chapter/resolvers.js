@@ -2,15 +2,15 @@ import uuidv1 from 'uuid/v1';
 import { Op } from 'sequelize';
 
 // App Imports
-import { includesField, languageIdToName } from '../../setup/utils';
+import { includesField, hasPermision } from '../../setup/utils';
+import { languageById } from '@shared/params/global';
 import { isValidThumb } from '../../setup/images-helpers';
 import { API_URL } from '../../config/env';
-import params from '../../config/params';
 import models from '../../setup/models';
 
 // Get all chapters
 export async function getAll(
-  parentValue,
+  _,
   {
     language = -1,
     orderBy = 'DESC',
@@ -38,9 +38,9 @@ export async function getAll(
 
 // Get chapter by work
 export async function getByWork(
-  parentValue,
+  _,
   { workStub, language, showHidden },
-  req,
+  __,
   { fieldNodes = [] }
 ) {
   const order = [
@@ -149,7 +149,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('create', auth)) {
     uniqid = uuidv1();
     if (releaseDate === null) {
       releaseDate = new Date();
@@ -193,7 +193,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     return await models.Chapter.update(
       {
         workId,
@@ -222,7 +222,7 @@ export async function updateDefaultThumbnail(
   { id, thumbnail },
   { auth }
 ) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('update', auth)) {
     return await models.Chapter.update(
       {
         thumbnail
@@ -236,7 +236,7 @@ export async function updateDefaultThumbnail(
 
 // Delete chapter
 export async function remove(parentValue, { id }, { auth }) {
-  if (auth.user && auth.user.role === params.user.roles.admin) {
+  if (hasPermision('delete', auth)) {
     const chapter = await models.Chapter.findOne({ where: { id } });
 
     if (!chapter) {
@@ -252,7 +252,7 @@ export async function remove(parentValue, { id }, { auth }) {
 
 // Chapter types
 export async function getTypes() {
-  return Object.values(params.chapter.types);
+  return {};
 }
 
 const where = (showHidden, language) => {
@@ -275,8 +275,8 @@ export const normalizeChapter = (chapter, work) => ({
   thumbnail_path: isValidThumb(chapter.thumbnail)
     ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
     : '/default-cover.png',
-  language_name: languageIdToName(chapter.language),
-  read_path: `/read/${work.stub}/${languageIdToName(chapter.language)}/${
+  language_name: languageById(chapter.language).name,
+  read_path: `/read/${work.stub}/${languageById(chapter.language).name}/${
     chapter.volume
   }/${chapter.chapter}.${chapter.subchapter}`
 });

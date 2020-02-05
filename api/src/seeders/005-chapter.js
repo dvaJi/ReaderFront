@@ -1,7 +1,5 @@
 'use strict';
 
-const params = require('../config/params');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert(
@@ -12,7 +10,7 @@ module.exports = {
           chapter: 1,
           subchapter: 0,
           volume: 0,
-          language: params.global.languages.es.id,
+          language: 1,
           name: 'El Chapter',
           stub: 'el-chapter',
           uniqid: '9a0sda90',
