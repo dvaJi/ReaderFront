@@ -62,7 +62,7 @@
     "react-test-renderer": "^16.12.0",
     "react-transition-group": "^4.3.0",
     "reactstrap": "^8.4.1",
-    "styled-components": "^5.0.0",
+    "styled-components": "^5.0.1",
     "styled-theming": "^2.2.0"
   },
   "devDependencies": {
