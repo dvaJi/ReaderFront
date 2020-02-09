@@ -8,7 +8,7 @@ import {
   unlink,
   createWriteStream
 } from 'fs-extra';
-import { sanitizeFilename } from './utils';
+import { slugify } from '@shared/slugify';
 
 export function isValidThumb(thumb) {
   return thumb !== null && thumb !== '';
@@ -23,7 +23,7 @@ export function isValidThumb(thumb) {
 export async function storeImage(file, filepath, includeMetadata = false) {
   const { createReadStream, filename, mimetype } = await file;
   const stream = createReadStream();
-  const newFilename = sanitizeFilename(filename);
+  const newFilename = slugify(filename);
   const imagepath = path.join(filepath, newFilename);
 
   // Check and create directories

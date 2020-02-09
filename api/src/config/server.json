@@ -4,8 +4,5 @@
   "graphql": {
     "endpoint": "/",
     "pretty": true
-  },
-  "upload": {
-    "endpoint": "/uploads"
   }
 }
