@@ -3,7 +3,7 @@ import { v1 as uuidv1 } from 'uuid';
 // App Imports
 import { hasPermision } from '../../setup/utils';
 import models from '../../setup/models';
-import { sanitizeFilename } from '../../setup/utils';
+import { slugify } from '@shared/slugify';
 
 // Get all peoples
 export async function getAll(
@@ -55,7 +55,7 @@ export async function create(
 ) {
   if (hasPermision('create', auth)) {
     const uniqid = uuidv1();
-    const stub = sanitizeFilename(name);
+    const stub = slugify(name);
 
     return await models.People.create({
       name,
@@ -78,7 +78,7 @@ export async function update(
   { auth }
 ) {
   if (hasPermision('update', auth)) {
-    const stub = sanitizeFilename(name);
+    const stub = slugify(name);
     return await models.People.update(
       {
         name,

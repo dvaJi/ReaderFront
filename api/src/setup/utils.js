@@ -1,6 +1,7 @@
 import path from 'path';
 
 import globalParams from '@shared/params/global';
+import userParams from '@shared/params/user';
 import genresParams from '@shared/params/genres';
 import blogParams from '@shared/params/blog';
 
@@ -35,24 +36,6 @@ export function generateChapterDir(chapter, work, filename) {
     );
   }
 }
-
-const illegalRe = /[\/\?<>\\:\*\|":]/g; //eslint-disable-line no-useless-escape
-const controlRe = /[\x00-\x1f\x80-\x9f]/g; //eslint-disable-line no-control-regex
-const reservedRe = /^\.+$/;
-const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
-const windowsTrailingRe = /[\. ]+$/; //eslint-disable-line no-useless-escape
-const removeWhiteSpace = /\s/g;
-const removeSpecialCharacters = /[[|\]|(|)|'|"|$]/g;
-
-export const sanitizeFilename = (filename, replacement = '') =>
-  filename
-    .replace(illegalRe, replacement)
-    .replace(controlRe, replacement)
-    .replace(reservedRe, replacement)
-    .replace(windowsReservedRe, replacement)
-    .replace(windowsTrailingRe, replacement)
-    .replace(removeSpecialCharacters, replacement)
-    .replace(removeWhiteSpace, '_');
 
 /**
  * Get extension from a file
@@ -103,19 +86,19 @@ export const hasPermision = (mod = 'read', auth) => {
 };
 
 export const hasReadPermission = auth => {
-  return auth.user && auth.user.role === globalParams.user.roles.admin;
+  return auth.user && auth.user.role === userParams.roles.admin;
 };
 
 export const hasCreatePermission = auth => {
-  return auth.user && auth.user.role === globalParams.user.roles.admin;
+  return auth.user && auth.user.role === userParams.roles.admin;
 };
 
 export const hasUpdatePermission = auth => {
-  return auth.user && auth.user.role === globalParams.user.roles.admin;
+  return auth.user && auth.user.role === userParams.roles.admin;
 };
 
 export const hasDeletePermission = auth => {
-  return auth.user && auth.user.role === globalParams.user.roles.admin;
+  return auth.user && auth.user.role === userParams.roles.admin;
 };
 
 // Language helpers
@@ -129,8 +112,8 @@ export function languageIdToName(langId) {
 }
 
 // Genres Status helpers
-export const genresTypes = Object.keys(genresParams.genres.types).map(
-  g => genresParams.genres.types[g]
+export const genresTypes = Object.keys(genresParams.types).map(
+  g => genresParams.types[g]
 );
 
 export function genreTypeIdToName(genreId) {
