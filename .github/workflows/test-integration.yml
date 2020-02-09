@@ -1,0 +1,82 @@
+name: Integration Test
+
+on: [push]
+
+env:
+  CI: true
+  REACT_APP_APP_URL: http://localhost:3000/
+  REACT_APP_READER_PATH: http://localhost:8000/
+  REACT_APP_APP_PATH: /
+  REACT_APP_APP_TITLE: Reader Front
+  REACT_APP_DISQUS_SHORTNAME: your_disqus_shortname_id
+  REACT_APP_GA_ID: UA-XXXXXXXXX-X
+  REACT_APP_DISCORD_URL: https://discord.gg/YOUR_CODE
+  REACT_APP_DISCORD_ID: YOUR_DISCORD_ID
+  REACT_APP_PATREON_URL: https://www.patreon.com/YOUR_URL
+  REACT_APP_ANONYMIZER_DOWNLOADS: http://ouo.io/qs/pOVcb6fU?s=
+  REACT_APP_CDNS: photon
+  REACT_APP_LANGUAGES: en,es
+
+jobs:
+  run:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [12, 13]
+
+    services:
+      postgres:
+        image: mariadb:10.4
+        env:
+          POSTGRES_USER: mariadb
+          POSTGRES_PASSWORD: mariadb
+          POSTGRES_DB: readerfront
+        ports:
+          - 3306:3306
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v1
+        with:
+          fetch-depth: 3
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: node --version
+      - run: npm --version
+
+      - name: Init API
+        env:
+          PORT: 8000
+          NODE_ENV: production
+          SECRET_KEY: my-secret-key
+          GRAPHQL_IDE: true
+          DB_USER: mariadb
+          DB_PASS: mariadb
+          DB_NAME: readerfront
+          DB_HOSTNAME: 127.0.0.1
+          DB_DIALECT: mysql
+          APP_URL: http://localhost:3000/
+          API_URL: http://localhost:8000/
+          SENDGRID_API: YOUR_API_KEY
+          EMAIL: YOUR_EMAIL
+        run: cd ./api && npm ci && npm run setup:db && npm run start:prod
+
+      - name: Init Admin
+        env:
+          PORT: 3001
+        run: cd ./admin && npm ci && npm start
+
+      - name: Init Web
+        run: npm ci && npm run build && npm start
+
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v1
+        with:
+          browser: chrome
+          headless: true
