@@ -24,6 +24,10 @@
     "test": "jest --watchAll --verbose",
     "test:ci": "jest --coverage",
     "test:admin": "cd ./admin && npm run test:ci",
+    "setup:db": "cd ./api && npm run setup:db",
+    "db:migrate": "cd ./api && npm run db:migrate",
+    "db:seed": "cd ./api && npm run db:seed",
+    "db:drop": "cd ./api && npm run db:drop",
     "release": "standard-version",
     "lint": "eslint src",
     "prettier": "pretty-quick --staged"
