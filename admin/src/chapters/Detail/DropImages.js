@@ -12,7 +12,12 @@ import { Card } from 'common/ui';
 import PagesList from './PagesList';
 import DetailActions from './DetailActions';
 import { FETCH_CHAPTER } from '../query';
-import { CREATE_PAGE, REMOVE_PAGE, UPDATE_DEFAULT_PAGE } from '../mutations';
+import {
+  CREATE_PAGE,
+  REMOVE_PAGE,
+  UPDATE_DEFAULT_PAGE,
+  UPDATE_CHAPTER_STATUS
+} from '../mutations';
 
 function DropImages({ chapter, toggleModal }) {
   const [error, setError] = useState(null);
@@ -27,6 +32,7 @@ function DropImages({ chapter, toggleModal }) {
   const [createPage] = useMutation(CREATE_PAGE);
   const [removePage] = useMutation(REMOVE_PAGE);
   const [updateDefaultPage] = useMutation(UPDATE_DEFAULT_PAGE);
+  const [updateChapterStatus] = useMutation(UPDATE_CHAPTER_STATUS);
 
   const handleOnDrop = files => {
     const filenames = pages.map(p => p.filename);
@@ -176,6 +182,8 @@ function DropImages({ chapter, toggleModal }) {
         await handleSetDefaultPage(pages[index]);
       }
 
+      await handlePublishChapter();
+
       toggleModal(true);
     }
   };
@@ -211,6 +219,10 @@ function DropImages({ chapter, toggleModal }) {
     }
 
     setPages([]);
+  };
+
+  const handlePublishChapter = async () => {
+    await updateChapterStatus({ variables: { id: chapter.id, hidden: false } });
   };
 
   const handleSetDefaultPage = async file => {

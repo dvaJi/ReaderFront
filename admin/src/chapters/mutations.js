@@ -124,3 +124,11 @@ export const UPDATE_CHAPTER = gql`
     }
   }
 `;
+
+export const UPDATE_CHAPTER_STATUS = gql`
+  mutation UpdateChapterStatus($id: Int, $hidden: Boolean) {
+    chapterStatusUpdate(id: $id, hidden: $hidden) {
+      id
+    }
+  }
+`;
