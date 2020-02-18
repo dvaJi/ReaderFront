@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  Alert,
-  Button,
-  CustomInput,
-  FormGroup,
-  Label,
-  Input
-} from 'reactstrap';
+import { Alert, Button, FormGroup, Label, Input } from 'reactstrap';
 
 import { LANGUAGES } from '../../config';
 import { slugify } from '../../../../shared/slugify';
@@ -46,13 +39,6 @@ function ChapterForm({ chapter, onSubmit }) {
   const handleOnChangeDate = value => {
     let chapter = { ...localChapter };
     chapter.releaseDate = value.toString();
-
-    setLocalChapter(chapter);
-  };
-
-  const handleOnChangeCheckbox = event => {
-    let chapter = { ...localChapter };
-    chapter[event.target.name] = !chapter[event.target.name];
 
     setLocalChapter(chapter);
   };
@@ -202,19 +188,6 @@ function ChapterForm({ chapter, onSubmit }) {
           dateFormat="MMMM d, yyyy h:mm aa"
           timeCaption="time"
           className="form-control"
-        />
-      </FormGroup>
-      <FormGroup check>
-        <CustomInput
-          type="checkbox"
-          id="hidden"
-          name="hidden"
-          label={f({
-            id: 'hidden',
-            defaultMessage: 'Hidden'
-          })}
-          value={localChapter.hidden}
-          onChange={handleOnChangeCheckbox}
         />
       </FormGroup>
       <FormGroup>
