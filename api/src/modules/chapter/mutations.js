@@ -3,7 +3,13 @@ import { GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
 
 // App Imports
 import { ChapterType } from './types';
-import { create, update, updateDefaultThumbnail, remove } from './resolvers';
+import {
+  create,
+  update,
+  updateDefaultThumbnail,
+  remove,
+  updateStatus
+} from './resolvers';
 
 // Chapter create
 export const chapterCreate = {
@@ -159,6 +165,22 @@ export const chapterThumbUpdate = {
     }
   },
   resolve: updateDefaultThumbnail
+};
+
+export const chapterStatusUpdate = {
+  type: ChapterType,
+  args: {
+    id: {
+      name: 'id',
+      type: GraphQLInt
+    },
+
+    hidden: {
+      name: 'hidden',
+      type: GraphQLBoolean
+    }
+  },
+  resolve: updateStatus
 };
 
 // Chapter remove
