@@ -21,7 +21,7 @@ export const chapterEmpty = {
   name: '',
   stub: '',
   uniqid: '',
-  hidden: false,
+  hidden: true,
   description: '',
   thumbnail: '',
   releaseDate: new Date()
