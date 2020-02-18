@@ -250,6 +250,19 @@ export async function remove(parentValue, { id }, { auth }) {
   }
 }
 
+export async function updateStatus(_, { id, hidden }, { auth }) {
+  if (hasPermision('delete', auth)) {
+    return await models.Chapter.update(
+      {
+        hidden
+      },
+      { where: { id } }
+    );
+  } else {
+    throw new Error('Operation denied.');
+  }
+}
+
 // Chapter types
 export async function getTypes() {
   return {};
