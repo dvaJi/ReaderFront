@@ -5,7 +5,12 @@ import { MockedProvider } from '@apollo/react-testing';
 
 // App imports
 import DropImages from './DropImages';
-import { UPDATE_DEFAULT_PAGE, REMOVE_PAGE, CREATE_PAGE } from '../mutations';
+import {
+  UPDATE_DEFAULT_PAGE,
+  REMOVE_PAGE,
+  CREATE_PAGE,
+  UPDATE_CHAPTER_STATUS
+} from '../mutations';
 
 class MockFileReader {
   onerror() {}
@@ -157,6 +162,22 @@ it('should upload all pages', async () => {
       result: {
         data: {
           pageCreate: {
+            id: 1
+          }
+        }
+      }
+    },
+    {
+      request: {
+        query: UPDATE_CHAPTER_STATUS,
+        variables: {
+          id: 1,
+          hidden: false
+        }
+      },
+      result: {
+        data: {
+          chapterStatusUpdate: {
             id: 1
           }
         }
