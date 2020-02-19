@@ -51,7 +51,7 @@ const ImageWrapper = styled.div`
     cursor: pointer;
     user-select: none;
     user-drag: none;
-    height: auto;
+    height: auto !important;
     width: auto !important;
     margin: auto;
     object-fit: scale-down;
