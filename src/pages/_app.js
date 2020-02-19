@@ -3,17 +3,21 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import nextCookie from 'next-cookies';
 import { createIntlCache } from 'react-intl';
+import { config } from '@fortawesome/fontawesome-svg-core';
 
 import setupIcons from '../lib/icons';
-import 'bootstrap/dist/css/bootstrap.css';
 import { GlobalStateProvider } from '../lib/state';
 import Main from '../components/main';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import '../components/ComicSlide/slide.css';
+
 import ConnectedIntl from '../lib/connectedIntl';
 import { APP_VERSION } from 'lib/config';
 
 setupIcons();
+config.autoAddCss = false;
 
 const cache = createIntlCache();
 
