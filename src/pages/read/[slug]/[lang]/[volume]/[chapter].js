@@ -145,7 +145,7 @@ function ReaderContent({ showNav }) {
               "@type": "BreadcrumbList",
               "itemListElement": [
                 { "@type": "ListItem", "position": 1, "item": "${APP_TITLE}" },
-                { "@type": "ListItem", "position": 2, "item": "${currentChapter.work.name}" }
+                { "@type": "ListItem", "position": 2, "item": "${currentChapter.work.name}" },
                 {
                   "@type": "ListItem",
                   "position": 3,

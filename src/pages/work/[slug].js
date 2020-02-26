@@ -140,7 +140,7 @@ function WorkMetatags({ work, workDescription }) {
       "provider": "ReaderFront v${APP_VERSION}",
       "mainEntity": {
         "@type": "ComicSeries",
-        "identifier": "urn:uuid:${work.uniqid},
+        "identifier": "urn:uuid:${work.uniqid}",
         "name": "${work.name}",
         "about": "${description}",
         "author": [
