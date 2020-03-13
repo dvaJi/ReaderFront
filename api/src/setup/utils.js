@@ -70,7 +70,7 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
-export const hasPermision = (mod = 'read', auth) => {
+export const hasPermission = (mod = 'read', auth) => {
   switch (mod) {
     case 'read':
       return hasReadPermission(auth);
