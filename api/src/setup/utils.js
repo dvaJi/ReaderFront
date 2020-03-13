@@ -94,7 +94,6 @@ export const hasCreatePermission = auth => {
 };
 
 export const hasUpdatePermission = auth => {
-  console.log(auth);
   return auth.user && auth.user.role === userParams.roles.admin;
 };
 
