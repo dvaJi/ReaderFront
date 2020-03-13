@@ -70,7 +70,7 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
-export const hasPermision = (mod = 'read', auth) => {
+export const hasPermission = (mod = 'read', auth) => {
   switch (mod) {
     case 'read':
       return hasReadPermission(auth);
@@ -94,6 +94,7 @@ export const hasCreatePermission = auth => {
 };
 
 export const hasUpdatePermission = auth => {
+  console.log(auth);
   return auth.user && auth.user.role === userParams.roles.admin;
 };
 
