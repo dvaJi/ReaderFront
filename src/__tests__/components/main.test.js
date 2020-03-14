@@ -1,7 +1,6 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 
-import { GlobalStateProvider } from 'lib/state';
 import App from '@components/main';
 
 jest.mock('@components/layout/RouteNavItem', () => ({ children }) => (
@@ -9,10 +8,6 @@ jest.mock('@components/layout/RouteNavItem', () => ({ children }) => (
 ));
 
 it('renders without crashing', () => {
-  const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <App />
-    </GlobalStateProvider>
-  );
+  const wrapper = mountWithIntl(<App />);
   expect(wrapper).toBeTruthy();
 });

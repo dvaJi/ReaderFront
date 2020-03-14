@@ -23,11 +23,7 @@ const initialState = {
   coreSettings: coreSettingsLS || coreSettings
 };
 
-const {
-  GlobalStateProvider,
-  setGlobalState,
-  useGlobalState
-} = createGlobalState(initialState);
+const { setGlobalState, useGlobalState } = createGlobalState(initialState);
 
 export const setTheme = theme => {
   setLSItem('theme', theme);
@@ -86,4 +82,4 @@ function getLSItem(name) {
   }
 }
 
-export { GlobalStateProvider, useGlobalState };
+export { useGlobalState };

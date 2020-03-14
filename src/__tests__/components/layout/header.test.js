@@ -3,18 +3,13 @@ import { mountWithIntl } from 'utils/enzyme-intl';
 import * as nextRouter from 'next/router';
 
 import Header from '@components/layout/header';
-import { GlobalStateProvider } from 'lib/state';
 
 jest.mock('@components/layout/RouteNavItem', () => ({ children }) => (
   <a>{children}</a>
 ));
 
 it('should render Public Nav without throwing an error', () => {
-  const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <Header />
-    </GlobalStateProvider>
-  );
+  const wrapper = mountWithIntl(<Header />);
 
   expect(wrapper.find('nav')).toBeTruthy();
   expect(wrapper.find('nav').prop('style').display).toBe('flex');
@@ -33,11 +28,7 @@ it('should render Admin Nav without throwing an error', () => {
     pathname: '/admincp/dashboard'
   }));
 
-  const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <Header />
-    </GlobalStateProvider>
-  );
+  const wrapper = mountWithIntl(<Header />);
 
   expect(wrapper.find('nav')).toBeTruthy();
   wrapper.unmount();
@@ -55,11 +46,7 @@ it('should hidden if the path is /read without throwing an error', () => {
       chapter: '3.0'
     }
   }));
-  const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <Header />
-    </GlobalStateProvider>
-  );
+  const wrapper = mountWithIntl(<Header />);
 
   expect(wrapper.find('nav')).toBeTruthy();
   expect(wrapper.find('nav').prop('style').display).toBe('none');

@@ -6,7 +6,6 @@ import { createIntlCache } from 'react-intl';
 import { config } from '@fortawesome/fontawesome-svg-core';
 
 import setupIcons from '../lib/icons';
-import { GlobalStateProvider } from '../lib/state';
 import Main from '../components/main';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -122,17 +121,15 @@ export default class MyApp extends App {
             }
           ]}
         />
-        <GlobalStateProvider>
-          <ConnectedIntl
-            locale={language || locale || 'en'}
-            messages={messages}
-            cache={cache}
-          >
-            <Main theme={theme}>
-              <Component {...pageProps} />
-            </Main>
-          </ConnectedIntl>
-        </GlobalStateProvider>
+        <ConnectedIntl
+          locale={language || locale || 'en'}
+          messages={messages}
+          cache={cache}
+        >
+          <Main theme={theme}>
+            <Component {...pageProps} />
+          </Main>
+        </ConnectedIntl>
       </>
     );
   }

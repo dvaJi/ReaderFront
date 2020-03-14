@@ -3,17 +3,14 @@ import { mountWithIntl } from 'utils/enzyme-intl';
 import { MemoryRouter, Route } from 'react-router-dom';
 
 import Header from './index';
-import { GlobalStateProvider } from 'state';
 
 it('should render Admin Nav without throwing an error', () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MemoryRouter initialEntries={['/']}>
-        <Route path="/">
-          <Header />
-        </Route>
-      </MemoryRouter>
-    </GlobalStateProvider>
+    <MemoryRouter initialEntries={['/']}>
+      <Route path="/">
+        <Header />
+      </Route>
+    </MemoryRouter>
   );
 
   expect(wrapper.find('nav')).toBeTruthy();
@@ -22,13 +19,11 @@ it('should render Admin Nav without throwing an error', () => {
 
 it('should hidden if the path is /auth without throwing an error', () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MemoryRouter initialEntries={['/auth/signup']}>
-        <Route path="/auth/signup">
-          <Header />
-        </Route>
-      </MemoryRouter>
-    </GlobalStateProvider>
+    <MemoryRouter initialEntries={['/auth/signup']}>
+      <Route path="/auth/signup">
+        <Header />
+      </Route>
+    </MemoryRouter>
   );
 
   expect(wrapper.find('nav').exists()).toBeFalsy();

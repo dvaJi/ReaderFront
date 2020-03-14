@@ -5,23 +5,20 @@ import { MemoryRouter, Route } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
 import ActivateAccountContainer, { ACTIVATE } from './ActivateAccountContainer';
-import { GlobalStateProvider } from 'state';
 
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={[]} addTypename={false}>
-        <MemoryRouter
-          initialEntries={[
-            '/auth/activate_account?email=test@aa.com&token=t0k3n'
-          ]}
-        >
-          <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
-            <ActivateAccountContainer />
-          </Route>
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={[]} addTypename={false}>
+      <MemoryRouter
+        initialEntries={[
+          '/auth/activate_account?email=test@aa.com&token=t0k3n'
+        ]}
+      >
+        <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
+          <ActivateAccountContainer />
+        </Route>
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -48,19 +45,17 @@ it('should show a success message if account is activated', async () => {
     }
   ];
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter
-          initialEntries={[
-            '/auth/activate_account?email=test@aa.com&token=t0k3n'
-          ]}
-        >
-          <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
-            <ActivateAccountContainer />
-          </Route>
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter
+        initialEntries={[
+          '/auth/activate_account?email=test@aa.com&token=t0k3n'
+        ]}
+      >
+        <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
+          <ActivateAccountContainer />
+        </Route>
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -85,19 +80,17 @@ it('should show an error message if account can not be activated', async () => {
     }
   ];
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter
-          initialEntries={[
-            '/auth/activate_account?email=test@aa.com&token=t0k3n'
-          ]}
-        >
-          <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
-            <ActivateAccountContainer />
-          </Route>
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter
+        initialEntries={[
+          '/auth/activate_account?email=test@aa.com&token=t0k3n'
+        ]}
+      >
+        <Route path="/auth/activate_account?email=test@aa.com&token=t0k3n">
+          <ActivateAccountContainer />
+        </Route>
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
