@@ -1,18 +1,14 @@
 import { createGlobalState } from 'react-hooks-global-state';
 import cookie from 'js-cookie';
 
-const userLS = getLSItem('user');
 const initialState = {
   theme: getLSItem('theme') || 'light',
   language: 'es',
-  user: userLS
+  user: getLSItem('user'),
+  token: getLSItem('token')
 };
 
-const {
-  GlobalStateProvider,
-  setGlobalState,
-  useGlobalState
-} = createGlobalState(initialState);
+const { setGlobalState, useGlobalState } = createGlobalState(initialState);
 
 export const setTheme = theme => {
   window.localStorage.setItem('theme', theme);
@@ -64,4 +60,4 @@ function getLSItem(name) {
   }
 }
 
-export { GlobalStateProvider, useGlobalState };
+export { useGlobalState };
