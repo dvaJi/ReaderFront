@@ -80,7 +80,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.19.0",
-    "eslint-plugin-react-hooks": "^2.5.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
     "eslint-plugin-standard": "^4.0.1",
     "jest-localstorage-mock": "^2.4.0",
     "jest-styled-components": "^7.0.0",
