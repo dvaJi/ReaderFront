@@ -3,20 +3,17 @@ import { Form } from 'reactstrap';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/react-testing';
 
-import { GlobalStateProvider } from 'state';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
 import SignupContainer, { SIGNUP } from './SignupContainer';
 
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={[]} addTypename={false}>
-        <MemoryRouter>
-          <SignupContainer />
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={[]} addTypename={false}>
+      <MemoryRouter>
+        <SignupContainer />
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -52,13 +49,11 @@ it('should render without throwing an error', async () => {
   ];
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter>
-          <SignupContainer router={{ location: { pathname: 'AS' } }} />
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter>
+        <SignupContainer router={{ location: { pathname: 'AS' } }} />
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -81,13 +76,11 @@ it('should render without throwing an error', async () => {
 
 it('should render an error', async () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={[]} addTypename={false}>
-        <MemoryRouter>
-          <SignupContainer router={{ location: { pathname: 'AS' } }} />
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={[]} addTypename={false}>
+      <MemoryRouter>
+        <SignupContainer router={{ location: { pathname: 'AS' } }} />
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {

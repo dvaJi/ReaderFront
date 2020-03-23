@@ -7,7 +7,6 @@ import {
   ReaderControls,
   FETCH_CHAPTERS
 } from '@components/Read/ReaderControls';
-import { GlobalStateProvider } from 'lib/state';
 
 const releases = global.rfMocks.releases.getReleases;
 
@@ -44,17 +43,15 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ReaderControls
-          work={releases[0].work}
-          language={1}
-          chapter={releases[0]}
-          toggleComments={toggleCommentsMock}
-          showNav={true}
-        />
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <ReaderControls
+        work={releases[0].work}
+        language={1}
+        chapter={releases[0]}
+        toggleComments={toggleCommentsMock}
+        showNav={true}
+      />
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -81,17 +78,15 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ReaderControls
-          work={releases[0].work}
-          language={1}
-          chapter={releases[0]}
-          toggleComments={toggleCommentsMock}
-          showNav={false}
-        />
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <ReaderControls
+        work={releases[0].work}
+        language={1}
+        chapter={releases[0]}
+        toggleComments={toggleCommentsMock}
+        showNav={false}
+      />
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
