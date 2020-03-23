@@ -23,7 +23,7 @@ export function isValidThumb(thumb) {
 export async function storeImage(file, filepath, includeMetadata = false) {
   const { createReadStream, filename, mimetype } = await file;
   const stream = createReadStream();
-  const newFilename = slugify(filename);
+  const newFilename = slugify(filename, true);
   const imagepath = path.join(filepath, newFilename);
 
   // Check and create directories

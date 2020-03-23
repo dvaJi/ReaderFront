@@ -47,7 +47,7 @@ function DropImages({ chapter, toggleModal }) {
         hasError: f.size > 2411724
       }))
     ].sort((p1, p2) =>
-      slugify(p1.filename).localeCompare(slugify(p2.filename))
+      slugify(p1.filename, true).localeCompare(slugify(p2.filename, true))
     );
 
     setPages(newPages);

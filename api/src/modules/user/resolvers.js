@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 // App Imports
 import { SECRET_KEY, APP_URL } from './../../config/env';
 import serverConfig from '../../config/server';
-import { hasPermision } from '../../setup/utils';
+import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 import {
   sendActivateEmail,
@@ -171,7 +171,7 @@ export async function login(parentValue, { email, password }, { clientIp }) {
 
 // Get by ID
 export async function getById(parentValue, { id }, { auth }) {
-  if (hasPermision('read', auth)) {
+  if (hasPermission('read', auth)) {
     return await models.User.findOne({ where: { id } });
   } else {
     throw new Error('Operation denied.');
@@ -180,7 +180,7 @@ export async function getById(parentValue, { id }, { auth }) {
 
 // Get all
 export async function getAll(parentValue, fields, { auth }) {
-  if (hasPermision('read', auth)) {
+  if (hasPermission('read', auth)) {
     return await models.User.findAll();
   } else {
     throw new Error('Operation denied.');
@@ -189,7 +189,7 @@ export async function getAll(parentValue, fields, { auth }) {
 
 // Delete
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermision('delete', auth)) {
+  if (hasPermission('delete', auth)) {
     return await models.User.destroy({ where: { id } });
   } else {
     throw new Error('Operation denied.');

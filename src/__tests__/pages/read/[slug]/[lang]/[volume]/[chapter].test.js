@@ -8,7 +8,6 @@ import {
   ReaderContainer,
   FETCH_CHAPTER
 } from '@pages/read/[slug]/[lang]/[volume]/[chapter]';
-import { GlobalStateProvider } from 'lib/state';
 
 const releases = global.rfMocks.releases.getReleases;
 const pages = global.rfMocks.releases.getPages;
@@ -55,11 +54,9 @@ it('should render without throwing an error', async () => {
   document.body.appendChild(commentsSettings);
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ReaderContainer />
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <ReaderContainer />
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {

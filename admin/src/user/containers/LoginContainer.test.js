@@ -6,17 +6,14 @@ import { MockedProvider } from '@apollo/react-testing';
 import { MemoryRouter, Route } from 'react-router-dom';
 
 import LoginContainer, { LOGIN } from './LoginContainer';
-import { GlobalStateProvider } from 'state';
 
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={[]} addTypename={false}>
-        <MemoryRouter>
-          <LoginContainer />
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={[]} addTypename={false}>
+      <MemoryRouter>
+        <LoginContainer />
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -48,18 +45,16 @@ it('should login without throwing an error', async () => {
   ];
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter initialEntries={['/auth/login']}>
-          <Route path="/auth/login">
-            <LoginContainer
-              router={{ location: { pathname: 'AS' } }}
-              user={{ isLoading: false, error: null }}
-            />
-          </Route>
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter initialEntries={['/auth/login']}>
+        <Route path="/auth/login">
+          <LoginContainer
+            router={{ location: { pathname: 'AS' } }}
+            user={{ isLoading: false, error: null }}
+          />
+        </Route>
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {
@@ -95,16 +90,14 @@ it('should render an error if login not match', async () => {
   ];
 
   const wrapper = mountWithIntl(
-    <GlobalStateProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <MemoryRouter>
-          <LoginContainer
-            router={{ location: { pathname: 'AS' } }}
-            user={{ isLoading: false, error: null }}
-          />
-        </MemoryRouter>
-      </MockedProvider>
-    </GlobalStateProvider>
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemoryRouter>
+        <LoginContainer
+          router={{ location: { pathname: 'AS' } }}
+          user={{ isLoading: false, error: null }}
+        />
+      </MemoryRouter>
+    </MockedProvider>
   );
 
   await actions(wrapper, async () => {

@@ -5,10 +5,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import { getDefaultLanguage } from '../../shared/lang/get-language';
-import apolloClient from './setupApollo';
+import setupApolloClient from './setupApollo';
 import { GA_ID, LANGUAGES } from './config';
-import { setUser, setLanguage } from 'state';
-import { GlobalStateProvider } from './state';
+import { useGlobalState, setUser, setLanguage } from './state';
 
 import App from './App';
 
@@ -36,12 +35,12 @@ if (token && token !== 'undefined' && token !== '') {
 }
 
 function Root() {
+  const [lToken] = useGlobalState('token');
+  const apolloClient = setupApolloClient(token || lToken);
   return (
     <ApolloProvider client={apolloClient}>
       <BrowserRouter history={history}>
-        <GlobalStateProvider>
-          <App />
-        </GlobalStateProvider>
+        <App />
       </BrowserRouter>
     </ApolloProvider>
   );

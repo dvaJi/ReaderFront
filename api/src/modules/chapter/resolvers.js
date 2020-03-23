@@ -2,7 +2,7 @@ import uuidv1 from 'uuid/v1';
 import { Op } from 'sequelize';
 
 // App Imports
-import { includesField, hasPermision } from '../../setup/utils';
+import { includesField, hasPermission } from '../../setup/utils';
 import { languageById } from '@shared/params/global';
 import { isValidThumb } from '../../setup/images-helpers';
 import { API_URL } from '../../config/env';
@@ -149,7 +149,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermision('create', auth)) {
+  if (hasPermission('create', auth)) {
     uniqid = uuidv1();
     if (releaseDate === null) {
       releaseDate = new Date();
@@ -193,7 +193,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermision('update', auth)) {
+  if (hasPermission('update', auth)) {
     return await models.Chapter.update(
       {
         workId,
@@ -222,7 +222,7 @@ export async function updateDefaultThumbnail(
   { id, thumbnail },
   { auth }
 ) {
-  if (hasPermision('update', auth)) {
+  if (hasPermission('update', auth)) {
     return await models.Chapter.update(
       {
         thumbnail
@@ -236,7 +236,7 @@ export async function updateDefaultThumbnail(
 
 // Delete chapter
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermision('delete', auth)) {
+  if (hasPermission('delete', auth)) {
     const chapter = await models.Chapter.findOne({ where: { id } });
 
     if (!chapter) {
@@ -251,7 +251,7 @@ export async function remove(parentValue, { id }, { auth }) {
 }
 
 export async function updateStatus(_, { id, hidden }, { auth }) {
-  if (hasPermision('delete', auth)) {
+  if (hasPermission('delete', auth)) {
     return await models.Chapter.update(
       {
         hidden

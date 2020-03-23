@@ -18,7 +18,7 @@ import { normalizeChapter } from '../chapter/resolvers';
 import { createDescriptions } from '../works-description/resolvers';
 import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
-import { hasPermision } from '../../setup/utils';
+import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 
 const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
@@ -294,7 +294,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermision('create', auth)) {
+  if (hasPermission('create', auth)) {
     const uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -365,7 +365,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermision('update', auth)) {
+  if (hasPermission('update', auth)) {
     let newWork = {
       name,
       stub,
@@ -417,7 +417,7 @@ export async function update(
 
 // Delete works
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermision('delete', auth)) {
+  if (hasPermission('delete', auth)) {
     const works = await models.Works.findOne({ where: { id } });
 
     if (!works) {

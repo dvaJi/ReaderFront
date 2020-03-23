@@ -109,9 +109,10 @@ var sets = [
 var whiteSpaces = /\s+/g;
 var ampersand = /&/g;
 var nonWordsAndNumbers = /[^a-zA-Z0-9_]/g;
+var nonWordsAndNumbersDot = /[^a-zA-Z0-9._]/g;
 var replaceMultipleUnderscore = /\__+/g; // eslint-disable-line no-useless-escape
 
-var slugify = function slugify(text) {
+var slugify = function slugify(text, preserveDots = false) {
   if (text === null || text === undefined) {
     return '';
   }
@@ -126,7 +127,7 @@ var slugify = function slugify(text) {
     .toLowerCase()
     .replace(whiteSpaces, '_')
     .replace(ampersand, '-and-')
-    .replace(nonWordsAndNumbers, '')
+    .replace(preserveDots ? nonWordsAndNumbersDot : nonWordsAndNumbers, '')
     .replace(replaceMultipleUnderscore, '_')
     .replace(/^-+/, '')
     .replace(/-+$/, '');
