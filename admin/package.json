@@ -47,7 +47,7 @@
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.1",
-    "react-dropzone": "^10.2.1",
+    "react-dropzone": "^10.2.2",
     "react-ga": "^2.7.0",
     "react-helmet": "^5.2.1",
     "react-hooks-global-state": "^1.0.0",
