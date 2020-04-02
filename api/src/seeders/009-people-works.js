@@ -1,7 +1,5 @@
 'use strict';
 
-const worksParams = require('../shared/params/works');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert(
@@ -10,14 +8,14 @@ module.exports = {
         {
           workId: 1,
           peopleId: 1,
-          rol: worksParams.roles.author.id,
+          rol: 1,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
           workId: 1,
           peopleId: 1,
-          rol: worksParams.roles.artist.id,
+          rol: 2,
           createdAt: new Date(),
           updatedAt: new Date()
         }
