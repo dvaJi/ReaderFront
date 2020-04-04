@@ -73,6 +73,14 @@ To develop the admin UI run:
 npm run dev:admin
 ```
 
+### Run All Apps
+
+This is only recommended in dev environment. DO NOT USE THIS IN PRODUCTION!
+
+```
+npm run dev:all
+```
+
 ## Want to help?
 
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [contributing](https://github.com/dvaJi/ReaderFront/blob/master/CONTRIBUTING.md)

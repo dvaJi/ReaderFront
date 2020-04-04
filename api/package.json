@@ -26,7 +26,8 @@
     "start:prod": "cross-env NODE_ENV=production npm run build:prod && npm run start:server",
     "build": "babel src -s -D -d build",
     "start:server": "cross-env NODE_ENV=production node build/index.js",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "jest --coverage"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -53,14 +54,14 @@
     "@babel/runtime": "^7.9.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^25.2.4",
+    "babel-jest": "^25.2.6",
     "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-standard": "^4.0.1",
-    "jest": "^25.2.4",
+    "jest": "^25.2.6",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
