@@ -25,28 +25,36 @@ function ActivateAccount() {
   const location = useLocation();
   const history = useHistory();
 
-  useEffect(async () => {
-    setIsLoading(true);
+  useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const userActivate = {
-      email: params.get('email'),
-      activatedToken: params.get('token')
-    };
-
-    try {
-      const response = await activate({ variables: userActivate });
-      setIsLoading(false);
-      if (response.data.errors && response.data.errors.length > 0) {
-        setError(response.data.errors[0].message);
-      } else {
-        setSuccess('Account activated.');
-        history.push('/auth/login');
+    setIsLoading(true);
+    async function activateAccount() {
+      if (!params.get('email') || !params.get('token')) {
+        setError('There was some error. Please try again.');
       }
-    } catch (err) {
-      console.error(error);
-      setError('There was some error. Please try again.');
-      setIsLoading(false);
+
+      const userActivate = {
+        email: params.get('email'),
+        activatedToken: params.get('token')
+      };
+
+      try {
+        const response = await activate({ variables: userActivate });
+        setIsLoading(false);
+        if (response.data.errors && response.data.errors.length > 0) {
+          setError(response.data.errors[0].message);
+        } else {
+          setSuccess('Account activated.');
+          history.push('/auth/login');
+        }
+      } catch (err) {
+        console.error(error);
+        setError('There was some error. Please try again.');
+        setIsLoading(false);
+      }
     }
+
+    activateAccount();
   }, [activate]);
 
   return (
