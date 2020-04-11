@@ -80,7 +80,7 @@
     "express-graphql": "^0.9.0",
     "feed": "^4.1.0",
     "fs-extra": "^8.1.0",
-    "graphql": "^14.6.0",
+    "graphql": "^15.0.0",
     "graphql-date": "^1.0.3",
     "graphql-depth-limit": "^1.1.0",
     "graphql-tools": "^4.0.7",
