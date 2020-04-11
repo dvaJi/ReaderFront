@@ -39,7 +39,7 @@
     "bootstrap": "^4.4.1",
     "date-fns": "^2.11.1",
     "downshift": "^4.1.0",
-    "graphql": "^14.6.0",
+    "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
