@@ -42,7 +42,7 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "history": "^4.10.1",
-    "http-proxy-middleware": "^0.20.0",
+    "http-proxy-middleware": "^1.0.3",
     "js-cookie": "^2.2.1",
     "react": "^16.13.1",
     "react-datepicker": "^2.14.1",
