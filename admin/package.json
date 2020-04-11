@@ -35,7 +35,7 @@
     "apollo-link-context": "^1.0.19",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
-    "apollo-upload-client": "^12.1.0",
+    "apollo-upload-client": "^13.0.0",
     "bootstrap": "^4.4.1",
     "date-fns": "^2.11.1",
     "downshift": "^4.1.0",
