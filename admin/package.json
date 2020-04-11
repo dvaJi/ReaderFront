@@ -87,7 +87,7 @@
     "jsdom-global": "^3.0.2",
     "prettier": "^1.19.1",
     "react-app-rewired": "^2.1.5",
-    "symlink-webpack-plugin": "^0.2.0"
+    "symlink-webpack-plugin": "^1.0.0"
   },
   "jest": {
     "moduleNameMapper": {
