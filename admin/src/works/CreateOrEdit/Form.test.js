@@ -68,10 +68,7 @@ it('should fill the form without throwing an error', async () => {
   // Select language
   wrapper.find('button[id="add_language"]').simulate('click');
   await global.wait(0);
-  wrapper
-    .find('DropdownItem')
-    .first()
-    .simulate('click');
+  wrapper.find('DropdownItem').first().simulate('click');
 
   const textareaEnglish = wrapper.find('textarea[name="desc-0-1"]');
   textareaEnglish.simulate('change', {

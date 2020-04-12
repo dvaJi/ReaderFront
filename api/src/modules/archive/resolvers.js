@@ -184,11 +184,11 @@ async function zipPages(filename, pages, chapterPath) {
   });
 
   // Events
-  output.on('close', function() {
+  output.on('close', function () {
     size = archive.pointer();
   });
 
-  archive.on('warning', function(err) {
+  archive.on('warning', function (err) {
     if (err.code === 'ENOENT') {
       console.warn(err);
     } else {
@@ -196,7 +196,7 @@ async function zipPages(filename, pages, chapterPath) {
     }
   });
 
-  archive.on('error', function(err) {
+  archive.on('error', function (err) {
     throw err;
   });
 

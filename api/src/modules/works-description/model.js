@@ -1,7 +1,7 @@
 'use strict';
 
 // Chapters
-export default function(sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   let WorksDescription = sequelize.define('works_descriptions', {
     language: {
       type: DataTypes.INTEGER
@@ -11,7 +11,7 @@ export default function(sequelize, DataTypes) {
     }
   });
 
-  WorksDescription.associate = function(models) {
+  WorksDescription.associate = function (models) {
     WorksDescription.belongsTo(models.Works);
   };
 

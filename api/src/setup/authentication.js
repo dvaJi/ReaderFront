@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { SECRET_KEY } from '../config/env';
 
 // Authentication middleware
-export default function(request, response, next) {
+export default function (request, response, next) {
   let authToken = request.headers.authorization;
 
   if (authToken && authToken !== null) {

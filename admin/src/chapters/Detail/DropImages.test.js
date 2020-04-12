@@ -205,10 +205,7 @@ it('should upload all pages', async () => {
   const IMAGES = [global.createFile('page_01.jpg', 1234, 'image/jpeg')];
 
   await actions(wrapper, async () => {
-    wrapper
-      .find('#dropzone-pages')
-      .props()
-      .onDrop(IMAGES);
+    wrapper.find('#dropzone-pages').props().onDrop(IMAGES);
     const uploadAllButton = wrapper.find('button[id="upload-all-pages"]');
     uploadAllButton.simulate('click');
 

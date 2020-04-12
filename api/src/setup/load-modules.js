@@ -11,7 +11,7 @@ import compression from 'compression';
 import { NODE_ENV } from '../config/env';
 
 // Load express modules
-export default function(server) {
+export default function (server) {
   console.info('SETUP - Loading modules...');
 
   // Enable CORS

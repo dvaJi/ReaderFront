@@ -2,7 +2,7 @@
 import { PORT, NODE_ENV } from '../config/env';
 
 // Start server
-export default function(server) {
+export default function (server) {
   console.info('SETUP - Starting server..');
 
   server.listen(PORT, error => {

@@ -7,7 +7,7 @@ import { getAllRSS } from '../modules/chapter/resolvers';
 import { API_URL, APP_URL, REACT_APP_APP_TITLE } from '../config/env';
 
 // File upload configurations and route
-export default function(server) {
+export default function (server) {
   console.info('SETUP - Feeds...');
 
   // Thumbnail route

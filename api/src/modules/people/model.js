@@ -1,7 +1,7 @@
 'use strict';
 
 // People
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let People = sequelize.define('peoples', {
     name: {
       type: DataTypes.STRING
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  People.associate = function(models) {
+  People.associate = function (models) {
     People.hasMany(models.PeopleWorks);
   };
 
