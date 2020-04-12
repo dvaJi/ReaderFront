@@ -1,7 +1,7 @@
 'use strict';
 
 // Archives
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Archive = sequelize.define('archives', {
     filename: {
       type: DataTypes.STRING
@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Archive.associate = function(models) {
+  Archive.associate = function (models) {
     Archive.belongsTo(models.Chapter);
   };
 

@@ -179,9 +179,11 @@ function WorkMetatags({ work, workDescription }) {
           )}
         ],
         "copyrightHolder": [],
-        ${work.thumbnail_path !== '' &&
+        ${
+          work.thumbnail_path !== '' &&
           `"image": "${workThumbnail}",
-          "thumbnailUrl": "${workThumbnail}"`}
+          "thumbnailUrl": "${workThumbnail}"`
+        }
       }
   }`}
         </script>

@@ -24,15 +24,7 @@ it('should render without throwing an error', () => {
       </Nav>
     </MemoryRouter>
   );
-  wrapper
-    .find('a')
-    .first()
-    .simulate('click');
-  expect(
-    wrapper
-      .find('a')
-      .first()
-      .find('.active')
-  ).toBeTruthy();
+  wrapper.find('a').first().simulate('click');
+  expect(wrapper.find('a').first().find('.active')).toBeTruthy();
   wrapper.unmount();
 });

@@ -10,7 +10,7 @@ import authentication from './authentication';
 import schema from './schema';
 
 // Setup GraphQL
-export default function(server) {
+export default function (server) {
   console.info('SETUP - GraphQL...');
 
   server.use(authentication);

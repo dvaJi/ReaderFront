@@ -1,7 +1,7 @@
 'use strict';
 
 // Pages
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Pages = sequelize.define('pages', {
     filename: {
       type: DataTypes.STRING
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Pages.associate = function(models) {
+  Pages.associate = function (models) {
     Pages.belongsTo(models.Chapter);
   };
 

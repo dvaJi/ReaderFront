@@ -1,7 +1,7 @@
 'use strict';
 
 // Works
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Works = sequelize.define('works', {
     name: {
       type: DataTypes.STRING
@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Works.associate = function(models) {
+  Works.associate = function (models) {
     Works.hasMany(models.Chapter, { onDelete: 'cascade', hooks: true });
     Works.hasMany(models.WorksDescription, {
       onDelete: 'cascade',

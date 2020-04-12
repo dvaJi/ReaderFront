@@ -1,7 +1,7 @@
 'use strict';
 
 // Posts
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Posts = sequelize.define('posts', {
     uniqid: {
       type: DataTypes.STRING
@@ -35,7 +35,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Posts.associate = function(models) {
+  Posts.associate = function (models) {
     Posts.belongsTo(models.User);
   };
 

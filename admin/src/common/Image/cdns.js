@@ -21,10 +21,9 @@ export function photon(item, index) {
     item.crop && item.height
       ? `&crop=0px,0px,${item.width}px,${item.height}px`
       : '';
-  return `https://i${hashToNum(ele.host, index, 0, 2)}.wp.com/${ele.authority +
-    ele.path}?strip=all&quality=${quality}${
-    item.width ? '&w=' + item.width : ''
-  }${crop}`;
+  return `https://i${hashToNum(ele.host, index, 0, 2)}.wp.com/${
+    ele.authority + ele.path
+  }?strip=all&quality=${quality}${item.width ? '&w=' + item.width : ''}${crop}`;
 }
 
 export function staticaly(item) {

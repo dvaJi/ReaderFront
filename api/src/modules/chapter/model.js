@@ -1,7 +1,7 @@
 'use strict';
 
 // Chapters
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   let Chapters = sequelize.define('chapters', {
     chapter: {
       type: DataTypes.INTEGER
@@ -38,7 +38,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
 
-  Chapters.associate = function(models) {
+  Chapters.associate = function (models) {
     Chapters.belongsTo(models.Works);
     Chapters.hasMany(models.Page, { onDelete: 'cascade', hooks: true });
   };

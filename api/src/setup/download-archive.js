@@ -16,7 +16,7 @@ import { asyncForeach } from '@shared/async-foreach';
 import { getLatestPage } from '../modules/page/resolvers';
 
 // File upload configurations and route
-export default function(server) {
+export default function (server) {
   console.info('SETUP - Upload...');
 
   // Upload route

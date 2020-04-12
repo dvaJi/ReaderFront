@@ -7,7 +7,7 @@ import { getAll as getAllPeople } from '../modules/people/resolvers';
 import { getAll as getAllPosts } from '../modules/post/resolvers';
 import { APP_URL } from '../config/env';
 
-export default function(server) {
+export default function (server) {
   console.info('SETUP - Sitemap...');
 
   server.get('/sitemap.xml', async (req, res) => {
