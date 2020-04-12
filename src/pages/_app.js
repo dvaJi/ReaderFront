@@ -1,6 +1,6 @@
 import App from 'next/app';
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import nextCookie from 'next-cookies';
 import { createIntlCache } from 'react-intl';
 import { config } from '@fortawesome/fontawesome-svg-core';
