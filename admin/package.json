@@ -35,11 +35,11 @@
     "apollo-link-context": "^1.0.19",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
-    "apollo-upload-client": "^12.1.0",
+    "apollo-upload-client": "^13.0.0",
     "bootstrap": "^4.4.1",
     "date-fns": "^2.11.1",
-    "downshift": "^4.1.0",
-    "graphql": "^14.6.0",
+    "downshift": "^5.0.6",
+    "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "history": "^4.10.1",
     "http-proxy-middleware": "^0.20.0",
@@ -87,7 +87,7 @@
     "jsdom-global": "^3.0.2",
     "prettier": "^1.19.1",
     "react-app-rewired": "^2.1.5",
-    "symlink-webpack-plugin": "^0.2.0"
+    "symlink-webpack-plugin": "^1.0.0"
   },
   "jest": {
     "moduleNameMapper": {
