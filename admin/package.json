@@ -51,7 +51,7 @@
     "react-ga": "^2.7.0",
     "react-helmet": "^6.0.0",
     "react-hooks-global-state": "^1.0.0",
-    "react-intl": "^4.3.1",
+    "react-intl": "^4.4.0",
     "react-lazy-load-image-component": "^1.4.3",
     "react-lazyload": "^2.6.7",
     "react-loadable": "^5.5.0",
