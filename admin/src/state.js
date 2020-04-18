@@ -52,11 +52,12 @@ function setLSItem(name, object) {
 }
 
 function getLSItem(name) {
+  const item = window.localStorage.getItem(name);
   try {
-    const item = window.localStorage.getItem(name);
     return JSON.parse(item);
   } catch (err) {
-    return null;
+    console.error(err);
+    return item;
   }
 }
 

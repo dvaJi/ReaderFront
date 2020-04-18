@@ -2,6 +2,8 @@ import React, { memo, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
+import theme from 'styled-theming';
+import styled from 'styled-components';
 
 import { slugify } from '../../../../shared/slugify';
 import { asyncForeach } from '../../../../shared/async-foreach';
@@ -18,6 +20,20 @@ import {
   UPDATE_DEFAULT_PAGE,
   UPDATE_CHAPTER_STATUS
 } from '../mutations';
+import { background } from '../../themes';
+
+const inputBackgroundColor = theme('mode', {
+  light: background.dark.lightest,
+  dark: background.light.darkest
+});
+
+const DropImagesWrapper = styled.div`
+  background: ${inputBackgroundColor};
+  height: 100px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 10px 0;
+`;
 
 function DropImages({ chapter, toggleModal }) {
   const [error, setError] = useState(null);
@@ -254,16 +270,7 @@ function DropImages({ chapter, toggleModal }) {
           onDrop={handleOnDrop}
         >
           {({ getRootProps, getInputProps }) => (
-            <div
-              {...getRootProps()}
-              style={{
-                background: '#edf0f4',
-                height: 100,
-                textAlign: 'center',
-                borderRadius: 5,
-                margin: 10
-              }}
-            >
+            <DropImagesWrapper {...getRootProps()}>
               <input {...getInputProps()} />
               <p style={{ paddingTop: '40px' }}>
                 {f({
@@ -271,7 +278,7 @@ function DropImages({ chapter, toggleModal }) {
                   defaultMessage: 'Drop or Browse images'
                 })}
               </p>
-            </div>
+            </DropImagesWrapper>
           )}
         </Dropzone>
         <PagesList

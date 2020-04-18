@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  Button,
   CustomInput,
   FormGroup,
   Label,
-  Input,
   ButtonDropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle
 } from 'reactstrap';
+import { Input, Select, Button, Textarea } from 'common/ui';
 
 import { LANGUAGES } from '../../config';
 import { GenresWrapper } from './styles';
@@ -241,7 +240,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         <Label for="status">
           {f({ id: 'status', defaultMessage: 'Status' })}
         </Label>
-        <Input
+        <Select
           type="select"
           name="status"
           id="status"
@@ -257,7 +256,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
               })}
             </option>
           ))}
-        </Input>
+        </Select>
       </FormGroup>
       <FormGroup>
         {languagesAvailables.length > 0 && (
@@ -297,7 +296,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
               >
                 {f({ id: 'remove', defaultMessage: 'Remove' })}
               </span>
-              <Input
+              <Textarea
                 type="textarea"
                 value={desc.description}
                 onChange={HandleOnChangeDescription}
@@ -310,7 +309,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
       </FormGroup>
       <FormGroup>
         <Label for="type">{f({ id: 'type', defaultMessage: 'Type' })}</Label>
-        <Input
+        <Select
           type="select"
           name="type"
           id="type"
@@ -323,14 +322,14 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
               {type}
             </option>
           ))}
-        </Input>
+        </Select>
       </FormGroup>
 
       <FormGroup>
         <Label for="demographic">
           {f({ id: 'demographic', defaultMessage: 'Demographic' })}
         </Label>
-        <Input
+        <Select
           type="select"
           name="demographicId"
           id="demographic"
@@ -346,7 +345,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
               })}
             </option>
           ))}
-        </Input>
+        </Select>
       </FormGroup>
       <FormGroup>
         <Label>{f({ id: 'genres', defaultMessage: 'Genres' })}</Label>
@@ -427,12 +426,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         />
       )}
       <FormGroup>
-        <Button
-          id="submit_work"
-          type="button"
-          theme="secondary"
-          onClick={handleOnSubmit}
-        >
+        <Button id="submit_work" type="button" onClick={handleOnSubmit}>
           <FontAwesomeIcon className="mr-1" icon="save" />
           {f({ id: 'save', defaultMessage: 'Save' })}
         </Button>

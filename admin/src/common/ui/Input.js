@@ -66,3 +66,28 @@ export const Textarea = styled.textarea`
     outline: 0;
   }
 `;
+
+export const Select = styled.select`
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: ${inputColor};
+  background-color: ${inputBackgroundColor};
+  background-clip: padding-box;
+  border: 1px solid rgba(${inputBorderColor}, 0.4);
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  overflow: visible;
+
+  &:focus {
+    color: ${inputColor};
+    background-color: ${inputBackgroundColor};
+    border-color: rgba(${primaryColorRgba}, 0.7);
+    box-shadow: 0 0 0 0.2rem rgba(${primaryColorRgba}, 0.25);
+    outline: 0;
+  }
+`;
