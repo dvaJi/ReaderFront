@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Alert, Button, FormGroup, Label, Input } from 'reactstrap';
+import { Alert, FormGroup, Label } from 'reactstrap';
+import { Input, Select, Button } from 'common/ui';
 
 import { LANGUAGES } from '../../config';
 import { slugify } from '../../../../shared/slugify';
@@ -156,7 +157,7 @@ function ChapterForm({ chapter, onSubmit }) {
           <Label for="language">
             {f({ id: 'language', defaultMessage: 'Language' })}
           </Label>
-          <Input
+          <Select
             type="select"
             name="language"
             id="language"
@@ -172,7 +173,7 @@ function ChapterForm({ chapter, onSubmit }) {
                 })}
               </option>
             ))}
-          </Input>
+          </Select>
         </FormGroup>
       )}
       <FormGroup>
@@ -191,12 +192,7 @@ function ChapterForm({ chapter, onSubmit }) {
         />
       </FormGroup>
       <FormGroup>
-        <Button
-          id="submit_chapter"
-          type="button"
-          theme="secondary"
-          onClick={handleOnSubmit}
-        >
+        <Button id="submit_chapter" type="button" onClick={handleOnSubmit}>
           <FontAwesomeIcon icon="save" />{' '}
           {f({ id: 'save', defaultMessage: 'Save' })}
         </Button>

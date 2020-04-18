@@ -74,11 +74,16 @@ function setLSItem(name, object) {
 }
 
 function getLSItem(name) {
+  let item = cookie.get(name);
+
+  if (typeof window !== 'undefined') {
+    item = window.localStorage.getItem(name);
+  }
+
   try {
-    const item = window.localStorage.getItem(name) || cookie.get(name);
     return JSON.parse(item);
   } catch (err) {
-    return null;
+    return item;
   }
 }
 
