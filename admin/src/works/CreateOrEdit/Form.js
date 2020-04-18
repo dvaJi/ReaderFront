@@ -10,7 +10,7 @@ import {
   DropdownItem,
   DropdownToggle
 } from 'reactstrap';
-import { Input, Select, Button } from 'common/ui';
+import { Input, Select, Button, Textarea } from 'common/ui';
 
 import { LANGUAGES } from '../../config';
 import { GenresWrapper } from './styles';
@@ -296,7 +296,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
               >
                 {f({ id: 'remove', defaultMessage: 'Remove' })}
               </span>
-              <Input
+              <Textarea
                 type="textarea"
                 value={desc.description}
                 onChange={HandleOnChangeDescription}
