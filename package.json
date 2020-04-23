@@ -61,7 +61,7 @@
     "js-cookie": "^2.2.1",
     "next": "^9.3.5",
     "next-cookies": "^2.0.3",
-    "next-offline": "^5.0.0",
+    "next-offline": "^5.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
@@ -98,7 +98,7 @@
     "eslint-plugin-react-hooks": "^3.0.0",
     "husky": "^4.2.5",
     "jest": "^25.3.0",
-    "prettier": "^2.0.4",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1"
   },
   "husky": {
