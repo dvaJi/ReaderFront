@@ -61,7 +61,7 @@
     "js-cookie": "^2.2.1",
     "next": "^9.3.6",
     "next-cookies": "^2.0.3",
-    "next-offline": "^5.0.1",
+    "next-offline": "^5.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
@@ -78,7 +78,7 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.4",
-    "@babel/runtime-corejs2": "^7.9.2",
+    "@babel/runtime-corejs2": "^7.9.6",
     "@commitlint/config-conventional": "^8.3.4",
     "babel-eslint": "^10.1.0",
     "babel-plugin-graphql-tag": "^2.5.0",
