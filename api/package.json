@@ -74,7 +74,7 @@
     "compression": "^1.7.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "date-fns": "^2.12.0",
+    "date-fns": "^2.13.0",
     "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.7",
     "express-graphql": "^0.9.0",
