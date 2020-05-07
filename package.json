@@ -39,7 +39,7 @@
     "@apollo/react-hooks": "^3.1.5",
     "@apollo/react-ssr": "^3.1.5",
     "@formatjs/intl-relativetimeformat": "^4.5.14",
-    "@formatjs/intl-utils": "^2.2.4",
+    "@formatjs/intl-utils": "^2.2.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
