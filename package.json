@@ -45,7 +45,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "accepts": "^1.3.7",
-    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.9",
     "apollo-link-http": "^1.5.17",
     "bootstrap": "^4.4.1",
