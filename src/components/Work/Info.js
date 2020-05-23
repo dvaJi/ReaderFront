@@ -33,7 +33,7 @@ export const GenreBadge = styled.span`
   margin-right: 3px;
 `;
 
-function Info({ work, description }) {
+function Info({ work }) {
   const { formatMessage: f } = useIntl();
   const props = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
@@ -57,9 +57,7 @@ function Info({ work, description }) {
           })}
         </StatusBadge>
       </h4>
-      <div className="Description">
-        {description !== undefined ? description.description : ''}
-      </div>
+      <div className="Description">{work.description}</div>
       <div className="Genres">
         {work.genres.length > 0 && (
           <h4>

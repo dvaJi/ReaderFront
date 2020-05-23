@@ -3,11 +3,9 @@ import DatePicker from 'react-datepicker';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, FormGroup, Label } from 'reactstrap';
-import { Input, Select, Button } from 'common/ui';
+import { Input, Button } from 'common/ui';
 
-import { LANGUAGES } from '../../config';
 import { slugify } from '../../../../shared/slugify';
-import { languagesAvailables } from '../../../../shared/params/global';
 
 function ChapterForm({ chapter, onSubmit }) {
   const [localChapter, setLocalChapter] = useState(chapter);
@@ -26,14 +24,6 @@ function ChapterForm({ chapter, onSubmit }) {
       chapter.stub = slugify(event.target.value);
     }
 
-    setLocalChapter(chapter);
-  };
-
-  const handleOnChangeSelect = event => {
-    let chapter = { ...localChapter };
-    chapter[event.target.name] = isNaN(event.target.value)
-      ? event.target.value
-      : parseInt(event.target.value, 0);
     setLocalChapter(chapter);
   };
 
@@ -152,30 +142,6 @@ function ChapterForm({ chapter, onSubmit }) {
           onChange={handleOnChange}
         />
       </FormGroup>
-      {languagesAvailables(LANGUAGES).length > 1 && (
-        <FormGroup>
-          <Label for="language">
-            {f({ id: 'language', defaultMessage: 'Language' })}
-          </Label>
-          <Select
-            type="select"
-            name="language"
-            id="language"
-            required="required"
-            value={localChapter.language}
-            onChange={handleOnChangeSelect}
-          >
-            {languagesAvailables(LANGUAGES).map(lang => (
-              <option key={lang.id + lang.name} value={lang.id}>
-                {f({
-                  id: lang.name + '_full',
-                  defaultMessage: lang.name
-                })}
-              </option>
-            ))}
-          </Select>
-        </FormGroup>
-      )}
       <FormGroup>
         <Label for="releaseDate">
           {f({ id: 'releaseDate', defaultMessage: 'Release date' })}

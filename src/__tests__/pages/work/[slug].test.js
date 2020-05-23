@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/react-testing';
 import { actions } from 'utils/enzyme-actions';
 import * as nextRouter from 'next/router';
 
-import { WorkContainer, FETCH_WORK } from '@pages/work/[slug]';
+import { WorkContainer, FETCH_WORK } from '@pages/work/[lang]/[slug]';
 
 const chapters = global.rfMocks.releases.getReleases;
 const work = global.rfMocks.work.work;

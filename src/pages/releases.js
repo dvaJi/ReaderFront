@@ -39,6 +39,7 @@ export const FETCH_RELEASES = gql`
         name
         uniqid
         adult
+        language_name
       }
     }
   }

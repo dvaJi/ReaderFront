@@ -1,24 +1,13 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  CustomInput,
-  FormGroup,
-  Label,
-  ButtonDropdown,
-  DropdownMenu,
-  DropdownItem,
-  DropdownToggle
-} from 'reactstrap';
+import { CustomInput, FormGroup, Label } from 'reactstrap';
 import { Input, Select, Button, Textarea } from 'common/ui';
 
 import { LANGUAGES } from '../../config';
 import { GenresWrapper } from './styles';
 import { slugify } from '../../../../shared/slugify';
-import {
-  languageById,
-  languagesAvailables as toLang
-} from '../../../../shared/params/global';
+import { languagesAvailables } from '../../../../shared/params/global';
 import { get as workGet } from '../../../../shared/params/works';
 import { get as genresGet } from '../../../../shared/params/genres';
 import Staff from './Staff';
@@ -30,12 +19,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);
   const [coverPic, setCoverPic] = useState(null);
   const [isAddPersonWorkModal, setIsAddPersonWorkModal] = useState(false);
-  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const [languagesAvailables, setLanguagesAvailables] = useState(
-    toLang(LANGUAGES).filter(
-      lang => !work.works_descriptions.find(desc => desc.language === lang.id)
-    )
-  );
 
   const { formatMessage: f } = useIntl();
 
@@ -80,44 +63,6 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     setLocalWork(work);
   };
 
-  const handleSelectLanguage = lang => {
-    let work = { ...localWork };
-    work.works_descriptions = [
-      ...work.works_descriptions,
-      { language: lang.id, description: '' }
-    ];
-    const langAvailables = toLang(LANGUAGES).filter(
-      lang => !work.works_descriptions.find(desc => desc.language === lang.id)
-    );
-    setLocalWork(work);
-    setLanguagesAvailables(langAvailables);
-  };
-
-  const handleDeselectLanguage = description => {
-    let work = { ...localWork };
-    work.works_descriptions = work.works_descriptions.filter(
-      wd => wd.language !== description.language
-    );
-    const workLanguages = work.works_descriptions.map(wd => wd.language);
-    const langAvailables = toLang(LANGUAGES).filter(
-      lang => !workLanguages.includes(lang.id)
-    );
-
-    setLocalWork(work);
-    setLanguagesAvailables(langAvailables);
-  };
-
-  const HandleOnChangeDescription = event => {
-    let work = { ...localWork };
-    const nameSplit = event.target.name.split('-');
-    const description = event.target.value;
-    work.works_descriptions[parseInt(nameSplit[1], 0)] = {
-      description: description,
-      language: parseInt(nameSplit[2], 0)
-    };
-    setLocalWork(work);
-  };
-
   const handleUploadFile = async ({
     target: {
       validity,
@@ -134,20 +79,23 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     }
 
     const work = { ...localWork };
-    work.works_descriptions = JSON.stringify(work.works_descriptions);
     if (coverPic) {
       work.thumbnail = coverPic;
     } else {
       delete work.thumbnail;
     }
+    work.language = work.language || 1;
     delete work.genres;
     delete work.createdAt;
     delete work.demographic_name;
     delete work.status_name;
     delete work.staff;
-    delete work.languages;
 
-    onSubmit(ev, work);
+    if (work.name === null || work.name === '') {
+      window.alert('Name is required.');
+    } else {
+      onSubmit(ev, work);
+    }
   };
 
   const assignPerson = staff => {
@@ -259,53 +207,38 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         </Select>
       </FormGroup>
       <FormGroup>
-        {languagesAvailables.length > 0 && (
-          <ButtonDropdown
-            isOpen={langDropdownOpen}
-            toggle={() => setLangDropdownOpen(!langDropdownOpen)}
-          >
-            <DropdownToggle id="add_language" caret size="sm">
-              {f({ id: 'add_language', defaultMessage: 'Add language' })}
-            </DropdownToggle>
-            <DropdownMenu>
-              {languagesAvailables.map(lang => (
-                <DropdownItem
-                  key={'drop-' + lang.id}
-                  onClick={e => handleSelectLanguage(lang)}
-                >
-                  {f({ id: lang.name + '_full', defaultMessage: lang.name })}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          </ButtonDropdown>
-        )}
-        <br />
-        {localWork.works_descriptions.map((desc, index) => {
-          const lang = languageById(desc.language).name;
-          return (
-            <div
-              id={'textarea-' + desc.language}
-              key={'textarea-' + desc.language}
-            >
-              <Label for={'textarea-' + desc.language}>
-                {f({ id: `${lang}_full`, defaultMessage: lang })}
-              </Label>
-              <span
-                className="float-right"
-                onClick={() => handleDeselectLanguage(desc)}
-              >
-                {f({ id: 'remove', defaultMessage: 'Remove' })}
-              </span>
-              <Textarea
-                type="textarea"
-                value={desc.description}
-                onChange={HandleOnChangeDescription}
-                name={`desc-${index}-${desc.language}`}
-                id={`textarea-${desc.language}`}
-              />
-            </div>
-          );
-        })}
+        <Label for="language">
+          {f({ id: 'language', defaultMessage: 'Language' })}
+        </Label>
+        <Select
+          type="select"
+          name="language"
+          id="language"
+          required="required"
+          value={localWork.language || 1}
+          onChange={handleOnChangeSelect}
+        >
+          {languagesAvailables(LANGUAGES).map(lang => (
+            <option key={lang.id + lang.name} value={lang.id}>
+              {f({
+                id: lang.name + '_full',
+                defaultMessage: lang.name
+              })}
+            </option>
+          ))}
+        </Select>
+      </FormGroup>
+      <FormGroup>
+        <Label for="description">
+          {f({ id: `description`, defaultMessage: 'Description' })}
+        </Label>
+        <Textarea
+          type="textarea"
+          value={localWork.description}
+          onChange={handleOnChange}
+          name="description"
+          id="description"
+        />
       </FormGroup>
       <FormGroup>
         <Label for="type">{f({ id: 'type', defaultMessage: 'Type' })}</Label>

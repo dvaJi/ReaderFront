@@ -5,7 +5,6 @@ import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
 import { DISCORD_ID, APP_TITLE } from 'lib/config';
-import { subString } from '@shared/is';
 import { languages } from '@shared/params/global';
 
 import ComicSlide from '@components/ComicSlide';
@@ -69,9 +68,8 @@ export const FETCH_LATEST_WORKS = gql`
       status
       adult
       thumbnail_path
-      works_descriptions {
-        description
-      }
+      description_short
+      language_name
     }
   }
 `;
@@ -88,9 +86,8 @@ export const FETCH_RANDOM_WORK = gql`
       status
       adult
       thumbnail_path
-      works_descriptions {
-        description
-      }
+      description_short
+      language_name
     }
   }
 `;
@@ -125,18 +122,7 @@ const RandomWork = ({ language }) => {
   if (loading) return <RecommendedWorkLoading />;
   if (error) return <RecommendedWorkLoading />;
 
-  const description =
-    data.workRandom !== null
-      ? subString(data.workRandom.works_descriptions[0].description, 175)
-      : '';
-
-  return (
-    <RecommendedWork
-      isLoading={false}
-      work={data.workRandom}
-      description={description}
-    />
-  );
+  return <RecommendedWork isLoading={false} work={data.workRandom} />;
 };
 
 export function HomeContainer() {

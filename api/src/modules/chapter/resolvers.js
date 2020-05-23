@@ -138,7 +138,6 @@ export async function create(
     chapter,
     subchapter,
     volume,
-    language,
     name,
     stub,
     uniqid,
@@ -154,12 +153,18 @@ export async function create(
     if (releaseDate === null) {
       releaseDate = new Date();
     }
+
+    const work = await models.Works.findOne({
+      where: { id: workId },
+      attributes: ['language']
+    });
+
     return await models.Chapter.create({
       workId,
       chapter,
       subchapter,
       volume,
-      language,
+      language: work.language,
       name,
       stub,
       uniqid,
@@ -182,7 +187,6 @@ export async function update(
     chapter,
     subchapter,
     volume,
-    language,
     name,
     stub,
     uniqid,
@@ -200,7 +204,6 @@ export async function update(
         chapter,
         subchapter,
         volume,
-        language,
         name,
         stub,
         uniqid,

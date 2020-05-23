@@ -26,7 +26,8 @@ beforeEach(() => {
     adult: false,
     visits: 0,
     thumbnail: '',
-    works_descriptions: [],
+    language: 1,
+    description: '',
     works_genres: [],
     people_works: []
   };

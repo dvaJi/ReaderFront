@@ -20,11 +20,12 @@ export const postEmpty = {
   demographicId: 1,
   status: 1,
   statusReason: '',
+  description: '',
+  language: 1,
   adult: false,
   visits: 0,
   thumbnail: '',
   people_works: [],
-  works_descriptions: [],
   works_genres: []
 };
 
