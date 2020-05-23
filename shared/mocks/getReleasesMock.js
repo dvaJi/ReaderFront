@@ -7,6 +7,7 @@ export function getReleases(amount = 4) {
       name: 'BOB' + index,
       stub: 'bob' + index,
       uniqid: 'wqioweas' + index,
+      language_name: 'en',
       adult: is
     };
     let chapter = {

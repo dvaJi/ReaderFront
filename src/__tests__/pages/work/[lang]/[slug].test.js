@@ -26,8 +26,8 @@ const mocks = [
 it('should render without throwing an error', async () => {
   nextRouter.useRouter = jest.fn();
   nextRouter.useRouter.mockImplementation(() => ({
-    route: '/work/infection',
-    query: { slug: 'infection' }
+    route: '/work/en/infection',
+    query: { lang: 'en', slug: 'infection' }
   }));
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>

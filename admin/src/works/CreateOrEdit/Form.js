@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CustomInput, FormGroup, Label } from 'reactstrap';
+import { CustomInput, FormGroup, Label, Alert } from 'reactstrap';
 import { Input, Select, Button, Textarea } from 'common/ui';
 
 import { LANGUAGES } from '../../config';
@@ -19,6 +19,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);
   const [coverPic, setCoverPic] = useState(null);
   const [isAddPersonWorkModal, setIsAddPersonWorkModal] = useState(false);
+  const [error, setError] = useState(null);
 
   const { formatMessage: f } = useIntl();
 
@@ -92,8 +93,9 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
     delete work.staff;
 
     if (work.name === null || work.name === '') {
-      window.alert('Name is required.');
+      setError('Name is required.');
     } else {
+      setError(null);
       onSubmit(ev, work);
     }
   };
@@ -138,6 +140,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         toggleModal={() => setIsAddPersonWorkModal(!isAddPersonWorkModal)}
         onSubmit={assignPerson}
       />
+      {error && <Alert color="danger">{error}</Alert>}
       <FormGroup>
         <Label for="name">
           {f({ id: 'main_name', defaultMessage: 'Main name' })}

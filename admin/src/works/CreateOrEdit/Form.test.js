@@ -66,14 +66,14 @@ it('should fill the form without throwing an error', async () => {
 
   wrapper.find('input[name="adult"]').simulate('click');
 
-  // Select language
-  wrapper.find('button[id="add_language"]').simulate('click');
-  await global.wait(0);
-  wrapper.find('DropdownItem').first().simulate('click');
+  const selectLanguage = wrapper.find('select[name="language"]');
+  selectLanguage.simulate('change', {
+    target: { value: 1, name: 'language' }
+  });
 
-  const textareaEnglish = wrapper.find('textarea[name="desc-0-1"]');
+  const textareaEnglish = wrapper.find('textarea[name="description"]');
   textareaEnglish.simulate('change', {
-    target: { value: 'Nice manga!', name: 'desc-0-1' }
+    target: { value: 'Nice manga!', name: 'description' }
   });
 
   wrapper.find('button[id="submit_work"]').simulate('click');
@@ -112,6 +112,11 @@ it('should normalize object before submit', async () => {
   const wrapper = mountWithIntl(
     <Form work={workEmpty} onSubmit={cHandleOnSubmit} />
   );
+
+  const inputName = wrapper.find('input[name="name"]');
+  inputName.simulate('change', {
+    target: { value: 'Test work', name: 'name' }
+  });
 
   wrapper.find('button[id="submit_work"]').simulate('click');
 
