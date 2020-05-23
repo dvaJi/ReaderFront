@@ -10,9 +10,6 @@ const models = {
   People: databaseConnection.import('../modules/people/model'),
   Page: databaseConnection.import('../modules/page/model'),
   WorksGenres: databaseConnection.import('../modules/works-genre/model'),
-  WorksDescription: databaseConnection.import(
-    '../modules/works-description/model'
-  ),
   Works: databaseConnection.import('../modules/works/model'),
   Chapter: databaseConnection.import('../modules/chapter/model'),
   Post: databaseConnection.import('../modules/post/model'),

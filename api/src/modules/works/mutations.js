@@ -46,6 +46,16 @@ export const workCreate = {
       type: GraphQLString
     },
 
+    description: {
+      name: 'description',
+      type: GraphQLString
+    },
+
+    language: {
+      name: 'language',
+      type: GraphQLInt
+    },
+
     adult: {
       name: 'adult',
       type: GraphQLBoolean
@@ -59,11 +69,6 @@ export const workCreate = {
     thumbnail: {
       name: 'thumbnail',
       type: GraphQLUpload
-    },
-
-    works_descriptions: {
-      name: 'works_descriptions',
-      type: GraphQLString
     },
 
     works_genres: {
@@ -128,6 +133,16 @@ export const workUpdate = {
       type: GraphQLString
     },
 
+    description: {
+      name: 'description',
+      type: GraphQLString
+    },
+
+    language: {
+      name: 'language',
+      type: GraphQLInt
+    },
+
     thumbnail: {
       name: 'thumbnail',
       type: GraphQLUpload
@@ -145,11 +160,6 @@ export const workUpdate = {
 
     cover: {
       name: 'cover',
-      type: GraphQLString
-    },
-
-    works_descriptions: {
-      name: 'works_descriptions',
       type: GraphQLString
     },
 

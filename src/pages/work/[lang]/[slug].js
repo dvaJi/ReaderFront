@@ -24,6 +24,7 @@ export const FETCH_WORK = gql`
       uniqid
       type
       demographic_name
+      description
       status
       status_name
       adult
@@ -43,10 +44,6 @@ export const FETCH_WORK = gql`
         thumbnail
         download_href
         read_path
-      }
-      works_descriptions {
-        description
-        language
       }
       staff {
         rol
@@ -71,43 +68,38 @@ export const FETCH_WORK = gql`
 
 export function WorkContainer() {
   const router = useRouter();
-  const { slug } = router.query;
+  const { slug, lang } = router.query;
 
-  const { locale } = useIntl();
-  const language = languages[locale];
+  const language = languages[lang];
   const { loading, error, data } = useQuery(FETCH_WORK, {
     variables: { language: language.id, stub: slug }
   });
 
-  if (loading)
+  if (loading) {
     return (
       <Container>
         <WorkEmpty />
       </Container>
     );
+  }
   if (error) return <Container id="error_releases">Error :(</Container>;
-
-  const workDescription = data.work.works_descriptions.find(
-    e => e.language === language.id
-  );
 
   return (
     <Container>
-      <WorkMetatags work={data.work} workDescription={workDescription} />
+      <WorkMetatags work={data.work} />
       <div className="row">
         <div className="col-md-4">
           <Cover work={data.work} name={data.work.name} />
         </div>
-        <Info work={data.work} description={workDescription} />
+        <Info work={data.work} />
         <ChapterList work={data.work} />
       </div>
     </Container>
   );
 }
 
-function WorkMetatags({ work, workDescription }) {
+function WorkMetatags({ work }) {
   const { locale, formatMessage } = useIntl();
-  const description = workDescription ? workDescription.description : '';
   const workThumbnail = getImage(work.thumbnail_path);
   return (
     <>
@@ -117,7 +109,7 @@ function WorkMetatags({ work, workDescription }) {
         <meta property="og:title" content={work.name + ' :: ' + APP_TITLE} />
         <meta property="og:type" content="book" />
         <meta property="og:locale" content={locale}></meta>
-        <meta name="description" content={description} />
+        <meta name="description" content={work.description} />
         {work.thumbnail_path !== '' && (
           <meta property="og:image" content={workThumbnail} />
         )}
@@ -142,7 +134,7 @@ function WorkMetatags({ work, workDescription }) {
         "@type": "ComicSeries",
         "identifier": "urn:uuid:${work.uniqid}",
         "name": "${work.name}",
-        "about": "${description}",
+        "about": "${work.description}",
         "author": [
           ${work.staff
             .filter(rol => rol.rol === 1)

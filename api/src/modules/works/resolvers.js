@@ -15,7 +15,6 @@ import {
   storeImage
 } from '../../setup/images-helpers';
 import { normalizeChapter } from '../chapter/resolvers';
-import { createDescriptions } from '../works-description/resolvers';
 import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
 import { hasPermission } from '../../setup/utils';
@@ -71,12 +70,7 @@ export async function getAll(
     offset: offset,
     limit: first,
     ...where(showHidden),
-    include: [
-      descriptionJoin(language),
-      ...chapterJoin,
-      ...genresJoin,
-      ...personJoin
-    ]
+    include: [...chapterJoin, ...genresJoin, ...personJoin]
   })
     .map(el => el.get({ plain: true }))
     .then(works => works.map(work => normalizeWork(work)));
@@ -91,15 +85,9 @@ export async function getByStub(
   __,
   { fieldNodes = [] }
 ) {
-  // split queries
-  // http://localhost:3000/work/goblin_slayer: actualmente toma 2.6 segundos
   const work = await models.Works.findOne({
-    where: { stub, ...whereCond(showHidden) },
+    where: { stub, language, ...whereCond(showHidden) },
     include: [
-      {
-        model: models.WorksDescription,
-        as: 'works_descriptions'
-      },
       {
         model: models.WorksGenres
       }
@@ -113,7 +101,9 @@ export async function getByStub(
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
       ? await models.Chapter.findAll({
-          ...whereChapterWId(showHidden, language, work.id),
+          where: {
+            workId: work.id
+          },
           order: [
             ['chapter', 'DESC'],
             ['subchapter', 'DESC']
@@ -157,7 +147,6 @@ export async function getById(
   const work = await models.Works.findOne({
     where: { id: workId },
     include: [
-      descriptionJoin(language),
       {
         model: models.Chapter,
         as: 'chapters',
@@ -262,12 +251,7 @@ export async function getRandom(
     limit: 1,
     order: [[models.Sequelize.fn('RAND')]],
     where: { hidden: false },
-    include: [
-      descriptionJoin(language),
-      ...chapterJoin,
-      ...personJoin,
-      ...genresJoin
-    ]
+    include: [...chapterJoin, ...personJoin, ...genresJoin]
   });
 
   return normalizeWork(work.get({ plain: true }));
@@ -280,15 +264,15 @@ export async function create(
     name,
     stub,
     type,
-    hidden,
+    hidden = false,
     demographicId,
     status,
     statusReason,
     description,
-    adult,
+    language,
+    adult = false,
     visits,
     thumbnail,
-    works_descriptions,
     works_genres,
     people_works
   },
@@ -314,18 +298,12 @@ export async function create(
       status,
       statusReason,
       description,
+      language,
       adult,
       thumbnail: thumbnailFilename,
       visits
     }).then(async work => {
       const workdetails = await work.get();
-
-      // Add descriptions
-      workdetails.works_descriptions = await createDescriptions(
-        works_descriptions,
-        workdetails.id
-      );
-
       // Add genres
       workdetails.works_genres = await insertGenres(
         workdetails.id,
@@ -356,10 +334,10 @@ export async function update(
     status,
     statusReason,
     description,
+    language,
     adult,
     visits,
     thumbnail,
-    works_descriptions,
     works_genres,
     people_works
   },
@@ -376,6 +354,7 @@ export async function update(
       status,
       statusReason,
       description,
+      language,
       adult,
       thumbnail,
       visits
@@ -401,8 +380,6 @@ export async function update(
 
     return await models.Works.update(newWork, { where: { id } }).then(
       async () => {
-        await createDescriptions(works_descriptions, id);
-
         // Add genres
         await insertGenres(id, works_genres);
 
@@ -443,14 +420,13 @@ export async function getAggregates(
 ) {
   let agg = 0;
   await models.Works.findAll({
-    ...where(showHidden),
+    ...where(showHidden, language),
     attributes: [
       [
         Sequelize.fn(aggregate, Sequelize.col('works.' + aggregateColumn)),
         aggregate.toLowerCase()
       ]
-    ],
-    include: [descriptionJoin(language)]
+    ]
   }).then(async aggs => {
     if (aggs.length > 0) {
       agg = await aggs[0].get()[aggregate.toLowerCase()];
@@ -505,22 +481,9 @@ const whereChapterWId = (showHidden, language, workId) => {
 
 const whereCond = showHidden => (showHidden ? {} : { hidden: false });
 
-const descriptionJoin = lang =>
-  lang !== -1
-    ? {
-        model: models.WorksDescription,
-        as: 'works_descriptions',
-        where: { language: lang }
-      }
-    : {
-        model: models.WorksDescription,
-        as: 'works_descriptions'
-      };
-
 const normalizeWork = work => {
-  const description = ld.get(work, 'works_descriptions', [
-    { description: '' }
-  ])[0].description;
+  const description = work.description || '';
+  const desc_short = work.description ? `${description.substr(0, 120)}...` : '';
   return {
     ...work,
     demographic_name: demographicById(work.demographicId).name,
@@ -528,20 +491,10 @@ const normalizeWork = work => {
     thumbnail_path: isValidThumb(work.thumbnail)
       ? `/works/${work.uniqid}/${work.thumbnail}`
       : '/default-cover.png',
-    languages: ld.get(work, 'works_descriptions', []).map(wd => ({
-      id: wd.language,
-      name: languageById(wd.language).name,
-      description: wd.description,
-      description_short:
-        ld.get(wd, 'description', '').length > 120
-          ? `${ld.get(wd, 'description', '').substr(0, 120)}...`
-          : ld.get(wd, 'description', '')
-    })),
+    language: work.language,
+    language_name: ld.get(languageById(work.language), 'name', ''),
     description,
-    description_short:
-      description.length > 120
-        ? `${description.substr(0, 120)}...`
-        : description,
+    description_short: desc_short,
     genres: ld.get(work, 'works_genres', []).map(genre => ({
       id: genre.genreId,
       name: typesById(genre.genreId).name

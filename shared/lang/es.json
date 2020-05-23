@@ -121,7 +121,7 @@
   "volume": "Tomo",
   "work": "Work",
   "work.desc": "Todos los últimos y más recientes capítulos de {workName}",
-  "work_no_desc_added": "Este work no será mostrado, por favor agregue una descripción",
+  "work_no_lang_added": "Este work no será mostrado, por favor agregue un idioma",
   "work_saved": "Work guardado exitosamente.",
   "works.desc": "Lista de Proyectos de {title}",
   "works.title": "Lista de Proyectos :: {title}",

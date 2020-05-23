@@ -25,10 +25,11 @@ export const CREATE_WORK = gql`
     $demographicId: Int
     $status: Int
     $statusReason: String
+    $language: Int
+    $description: String
     $adult: Boolean
     $visits: Int
     $thumbnail: Upload
-    $works_descriptions: String
     $works_genres: JSON
     $people_works: JSON
   ) {
@@ -40,10 +41,11 @@ export const CREATE_WORK = gql`
       demographicId: $demographicId
       status: $status
       statusReason: $statusReason
+      description: $description
+      language: $language
       adult: $adult
       visits: $visits
       thumbnail: $thumbnail
-      works_descriptions: $works_descriptions
       works_genres: $works_genres
       people_works: $people_works
     ) {
@@ -62,10 +64,11 @@ export const UPDATE_WORK = gql`
     $demographicId: Int
     $status: Int
     $statusReason: String
+    $language: Int
+    $description: String
     $adult: Boolean
     $visits: Int
     $thumbnail: Upload
-    $works_descriptions: String
     $works_genres: JSON
     $people_works: JSON
   ) {
@@ -78,10 +81,11 @@ export const UPDATE_WORK = gql`
       demographicId: $demographicId
       status: $status
       statusReason: $statusReason
+      description: $description
+      language: $language
       adult: $adult
       visits: $visits
       thumbnail: $thumbnail
-      works_descriptions: $works_descriptions
       works_genres: $works_genres
       people_works: $people_works
     ) {

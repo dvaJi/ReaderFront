@@ -35,11 +35,6 @@ export const chapterCreate = {
       type: GraphQLInt
     },
 
-    language: {
-      name: 'language',
-      type: GraphQLInt
-    },
-
     name: {
       name: 'name',
       type: GraphQLString
@@ -104,11 +99,6 @@ export const chapterUpdate = {
 
     volume: {
       name: 'volume',
-      type: GraphQLInt
-    },
-
-    language: {
-      name: 'language',
       type: GraphQLInt
     },
 

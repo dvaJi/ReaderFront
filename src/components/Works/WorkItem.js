@@ -106,7 +106,10 @@ function WorkItem({ work, size }) {
     true
   );
   return (
-    <Link href="/work/[slug]" as={'/work/' + work.stub}>
+    <Link
+      href="/work/[lang]/[slug]"
+      as={`/work/${work.language_name}/${work.stub}`}
+    >
       <Card>
         <CoverWrapper size={size}>
           <Lazyload

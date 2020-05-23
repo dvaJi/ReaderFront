@@ -102,20 +102,12 @@ const WorkInfo = ({ stub }) => {
         ))}
       </div>
       <div className="media text-muted pt-3">
-        {data.work.languages.map(language => (
-          <p
-            className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
-            key={language.name}
-          >
-            <strong className="d-block text-gray-dark">
-              {f({
-                id: `${language.name}_full`,
-                defaultMessage: language.name
-              })}
-            </strong>
-            {language.description_short}
-          </p>
-        ))}
+        <p
+          className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
+          key={data.work.language_name}
+        >
+          {data.work.description}
+        </p>
       </div>
       <div>
         {data.work.genres.map(g => (

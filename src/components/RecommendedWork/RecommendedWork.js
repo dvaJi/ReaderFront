@@ -71,7 +71,7 @@ const LoadingCover = styled.div`
   justify-content: flex-end;
 `;
 
-function RecommendedWork({ work, isLoading, description }) {
+function RecommendedWork({ work, isLoading }) {
   const [isHover, setHover] = useState(false);
   const { formatMessage: f } = useIntl();
   const props = useSpring({
@@ -82,7 +82,10 @@ function RecommendedWork({ work, isLoading, description }) {
     <div className="Recommended mb-4">
       <h3>{f({ id: 'random', defaultMessage: 'Random' })}</h3>
       {!isLoading ? (
-        <Link href="/work/[slug]" as={`/work/${work.stub}`}>
+        <Link
+          href="/work/[lang]/[slug]"
+          as={`/work/${work.language_name}/${work.stub}`}
+        >
           <Serie
             cover={getImage(work.thumbnail_path, 350, 350, work.id, true)}
             onMouseEnter={() => setHover(true)}
@@ -93,7 +96,7 @@ function RecommendedWork({ work, isLoading, description }) {
                 {work.name}
               </animated.span>
               <animated.span style={props} className="desc">
-                {description}
+                {work.description_short}
               </animated.span>
             </Overlay>
           </Serie>

@@ -18,6 +18,12 @@ module.exports = function (sequelize, DataTypes) {
     hidden: {
       type: DataTypes.BOOLEAN
     },
+    language: {
+      type: DataTypes.INTEGER
+    },
+    description: {
+      type: DataTypes.STRING
+    },
     demographicId: {
       type: DataTypes.INTEGER
     },
@@ -40,10 +46,6 @@ module.exports = function (sequelize, DataTypes) {
 
   Works.associate = function (models) {
     Works.hasMany(models.Chapter, { onDelete: 'cascade', hooks: true });
-    Works.hasMany(models.WorksDescription, {
-      onDelete: 'cascade',
-      hooks: true
-    });
     Works.hasMany(models.PeopleWorks, { onDelete: 'cascade', hooks: true });
     Works.hasMany(models.WorksGenres, { onDelete: 'cascade', hooks: true });
   };

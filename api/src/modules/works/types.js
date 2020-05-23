@@ -10,7 +10,6 @@ import GraphQLDate from 'graphql-date';
 
 // App Imports
 import { ChapterType } from '../chapter/types';
-import { WorksDescriptionType } from '../works-description/types';
 import { WorksGenreType } from '../works-genre/types';
 import { PeopleWorksType } from '../people-works/types';
 
@@ -22,12 +21,12 @@ const WorkType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLInt },
     chapters: { type: new GraphQLList(ChapterType) },
-    works_descriptions: { type: new GraphQLList(WorksDescriptionType) },
     works_genres: { type: new GraphQLList(WorksGenreType) },
     genres: { type: new GraphQLList(WorksGenre) },
     people_works: { type: new GraphQLList(PeopleWorksType) },
     staff: { type: new GraphQLList(PeopleWorksType) },
-    languages: { type: new GraphQLList(WorksLanguageType) },
+    language: { type: GraphQLInt },
+    language_name: { type: GraphQLString },
     name: { type: GraphQLString },
     stub: { type: GraphQLString },
     uniqid: { type: GraphQLString },
@@ -80,18 +79,6 @@ const WorksGenre = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLInt },
     name: { type: GraphQLString }
-  })
-});
-
-const WorksLanguageType = new GraphQLObjectType({
-  name: 'worksLanguageType',
-  description: 'Works Language Type',
-
-  fields: () => ({
-    id: { type: GraphQLInt },
-    name: { type: GraphQLString },
-    description: { type: GraphQLString },
-    description_short: { type: GraphQLString }
   })
 });
 

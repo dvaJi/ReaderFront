@@ -29,6 +29,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.bulkDelete('works_descriptions', null, {});
+    return queryInterface.bulkDelete('works_genres', null, {});
   }
 };
