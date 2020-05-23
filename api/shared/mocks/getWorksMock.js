@@ -17,10 +17,9 @@ export const getWorks = [
     thumbnail_path: '/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
-    works_descriptions: [],
+    language: 1,
     description: '',
     description_short: '',
-    languages: [],
     works_genres: [{ genreId: 5 }, { genreId: 8 }, { genreId: 1 }],
     genres: [
       { id: 5, name: 'action' },
@@ -45,10 +44,9 @@ export const getWorks = [
     thumbnail_path: '/thumb_00_cover.png',
     createdAt: new Date(),
     updatedAt: new Date(),
-    works_descriptions: [],
+    language: 1,
     description: '',
     description_short: '',
-    languages: [],
     works_genres: [{ genreId: 3 }, { genreId: 6 }],
     genres: [
       { id: 3, name: 'fantasy' },
@@ -88,26 +86,9 @@ export const getWorks = [
     thumbnail_path: '/default.png',
     createdAt: new Date(),
     updatedAt: new Date(),
-    works_descriptions: [
-      { description: 'Zombis y fanservice', language: 1 },
-      { description: 'zombies and ecchi', language: 2 }
-    ],
+    language: 1,
     description: 'zombies and ecchi',
     description_short: 'zombies and...',
-    languages: [
-      {
-        id: 1,
-        name: 'es',
-        description: 'Zombis y fanservice',
-        description_short: 'some vamp...'
-      },
-      {
-        id: 2,
-        name: 'en',
-        description: 'zombies and ecchi',
-        description_short: 'some vamp...'
-      }
-    ],
     works_genres: [],
     genres: [],
     works_covers: []
@@ -130,26 +111,9 @@ export const getWork = {
   thumbnail_path: '/thumb_00_cover.png',
   createdAt: new Date(),
   updatedAt: new Date(),
-  works_descriptions: [
-    { description: 'some vampires', language: 2 },
-    { description: 'vampiros', language: 1 }
-  ],
+  language: 1,
   description: 'some vampires',
   description_short: 'some vamp...',
-  languages: [
-    {
-      id: 1,
-      name: 'es',
-      description: 'vampiros',
-      description_short: 'vampir...'
-    },
-    {
-      id: 2,
-      name: 'en',
-      description: 'some vampires',
-      description_short: 'some vamp...'
-    }
-  ],
   works_genres: [{ genreId: 1 }, { genreId: 2 }],
   genres: [
     { id: 1, name: 'action' },

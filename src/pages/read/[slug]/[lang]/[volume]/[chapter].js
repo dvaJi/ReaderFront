@@ -51,6 +51,7 @@ export const FETCH_CHAPTER = gql`
         stub
         name
         uniqid
+        language_name
       }
       pages {
         id

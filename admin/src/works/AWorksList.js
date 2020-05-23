@@ -51,8 +51,8 @@ function List() {
           <thead>
             <tr>
               <th>{f({ id: 'name', defaultMessage: 'Name' })}</th>
-              <th>{f({ id: 'type', defaultMessage: 'Type' })}</th>
               <th>{f({ id: 'language', defaultMessage: 'Language' })}</th>
+              <th>{f({ id: 'type', defaultMessage: 'Type' })}</th>
               <th style={{ textAlign: 'center' }}>
                 {f({ id: 'actions', defaultMessage: 'Actions' })}
               </th>
@@ -89,17 +89,15 @@ function WorksTable({ searchText }) {
       .filter(work =>
         work.name.toUpperCase().startsWith(searchText.toUpperCase())
       )
-      .map(({ id, stub, type, languages, name }) => (
+      .map(({ id, stub, type, language, language_name, name }) => (
         <tr key={id}>
           <td>
             <Link to={'/work/' + id + '/' + stub}>{name}</Link>
           </td>
 
-          <td>{type}</td>
-
           <td style={{ textAlign: 'center' }}>
-            {languages.length > 0 ? (
-              languages.map(desc => f({ id: `${desc.name}_full` })).join(', ')
+            {language ? (
+              f({ id: `${language_name}_full` })
             ) : (
               <span>
                 <FontAwesomeIcon
@@ -113,14 +111,16 @@ function WorksTable({ searchText }) {
                   target={'noDescWarn-' + id}
                 >
                   {f({
-                    id: 'work_no_desc_added',
+                    id: 'work_no_lang_added',
                     defaultMessage:
-                      'This work will not be displayed, please add a description'
+                      'This work will not be displayed, please add a language'
                   })}
                 </UncontrolledTooltip>
               </span>
             )}
           </td>
+
+          <td>{type}</td>
 
           <td style={{ textAlign: 'center' }}>
             <ButtonGroup size="sm">

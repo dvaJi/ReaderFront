@@ -18,15 +18,9 @@ export const FETCH_WORKS = gql`
       adult
       createdAt
       updatedAt
-      languages {
-        id
-        name
-        description
-      }
-      works_descriptions {
-        description
-        language
-      }
+      description
+      language
+      language_name
       works_genres {
         genreId
       }
@@ -50,15 +44,8 @@ export const FETCH_WORK = gql`
       adult
       thumbnail
       createdAt
-      works_descriptions {
-        description
-        language
-      }
-      languages {
-        name
-        description
-        description_short
-      }
+      description
+      language
       people_works {
         rol
         people {

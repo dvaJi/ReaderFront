@@ -12,8 +12,11 @@ var global = {
 };
 
 var languageById = function languageById(id) {
+  if (id === null) {
+    return { name: null };
+  }
   return global.languages[
-    Object.keys(global.languages).find(function(key) {
+    Object.keys(global.languages).find(function (key) {
       return global.languages[key].id === id;
     })
   ];
@@ -25,10 +28,10 @@ var languagesAvailables = function languagesAvailables() {
   var langs =
     arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return Object.keys(global.languages)
-    .map(function(key) {
+    .map(function (key) {
       return global.languages[key];
     })
-    .filter(function(lang) {
+    .filter(function (lang) {
       return langs.includes(lang.name);
     });
 };

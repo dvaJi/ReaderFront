@@ -70,7 +70,10 @@ export function ReaderControls({
               </Link>
             </ReaderControlsLogo>
             <ReaderControlsChapterInfo>
-              <Link href="/work/[slug]" as={`/work/${work.stub}`}>
+              <Link
+                href="/work/[lang]/[slug]"
+                as={`/work/${work.language_name}/${work.stub}`}
+              >
                 <ReaderControlsWork title={work.name}>
                   {work.name}
                 </ReaderControlsWork>

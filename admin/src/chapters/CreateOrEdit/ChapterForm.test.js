@@ -70,9 +70,6 @@ it('should fill the form without throwing an error', async () => {
     target: { value: '1', name: 'subchapter' }
   });
 
-  const selectLanguage = wrapper.find('select[name="language"]');
-  selectLanguage.simulate('change', { target: { value: 2, name: 'language' } });
-
   wrapper.find('button[id="submit_chapter"]').simulate('click');
   expect(wrapper).toBeTruthy();
   await wrapper.unmount();
@@ -132,14 +129,11 @@ it('should fill with the chapter given', async () => {
   const inputChapter = wrapper.find('input[name="chapter"]').instance().value;
   const inputSubchapter = wrapper.find('input[name="subchapter"]').instance()
     .value;
-  const selectLanguage = wrapper.find('select[name="language"]').instance()
-    .value;
 
   expect(inputName).toBe(releases[0].name || '');
   expect(parseInt(inputVolume, 0)).toBe(releases[0].volume);
   expect(parseInt(inputChapter, 0)).toBe(releases[0].chapter);
   expect(parseInt(inputSubchapter, 0)).toBe(releases[0].subchapter);
-  expect(parseInt(selectLanguage, 0)).toBe(releases[0].language);
 
   await wrapper.unmount();
 });

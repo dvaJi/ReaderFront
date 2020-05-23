@@ -61,7 +61,6 @@ export const CREATE_CHAPTER = gql`
     $chapter: Int
     $subchapter: Int
     $volume: Int
-    $language: Int
     $name: String
     $stub: String
     $uniqid: String
@@ -75,7 +74,6 @@ export const CREATE_CHAPTER = gql`
       chapter: $chapter
       subchapter: $subchapter
       volume: $volume
-      language: $language
       name: $name
       stub: $stub
       uniqid: $uniqid
@@ -96,7 +94,6 @@ export const UPDATE_CHAPTER = gql`
     $chapter: Int
     $subchapter: Int
     $volume: Int
-    $language: Int
     $name: String
     $stub: String
     $uniqid: String
@@ -111,7 +108,6 @@ export const UPDATE_CHAPTER = gql`
       chapter: $chapter
       subchapter: $subchapter
       volume: $volume
-      language: $language
       name: $name
       stub: $stub
       uniqid: $uniqid

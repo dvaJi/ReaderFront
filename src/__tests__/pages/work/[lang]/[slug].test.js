@@ -4,7 +4,7 @@ import { MockedProvider } from '@apollo/react-testing';
 import { actions } from 'utils/enzyme-actions';
 import * as nextRouter from 'next/router';
 
-import { WorkContainer, FETCH_WORK } from '@pages/work/[slug]';
+import { WorkContainer, FETCH_WORK } from '@pages/work/[lang]/[slug]';
 
 const chapters = global.rfMocks.releases.getReleases;
 const work = global.rfMocks.work.work;
@@ -26,8 +26,8 @@ const mocks = [
 it('should render without throwing an error', async () => {
   nextRouter.useRouter = jest.fn();
   nextRouter.useRouter.mockImplementation(() => ({
-    route: '/work/infection',
-    query: { slug: 'infection' }
+    route: '/work/en/infection',
+    query: { lang: 'en', slug: 'infection' }
   }));
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>

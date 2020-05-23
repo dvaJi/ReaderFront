@@ -25,7 +25,10 @@ export default memo(function ReleasesList({ releases }) {
             <ReleaseCategory work={lastWork} key={lastWork.stub} />
             {tempRows}
             <small className="d-block text-right mt-3">
-              <Link href="/work/[slug]" as={`/work/${lastWork.stub}`}>
+              <Link
+                href="/work/[lang]/[slug]"
+                as={`/work/${lastWork.language_name}/${lastWork.stub}`}
+              >
                 <a>
                   {f({ id: 'all_chapters', defaultMessage: 'All chapters' })}
                 </a>

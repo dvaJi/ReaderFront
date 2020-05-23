@@ -37,9 +37,6 @@ export const FETCH_WORKS = gql`
       createdAt
       updatedAt
       description_short
-      works_descriptions {
-        description
-      }
     }
   }
 `;

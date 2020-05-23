@@ -4,7 +4,6 @@ import { GraphQLObjectType } from 'graphql';
 // App Imports
 import * as user from '../../modules/user/query';
 import * as works from '../../modules/works/query';
-import * as worksDescription from '../../modules/works-description/query';
 import * as WorksGenre from '../../modules/works-genre/query';
 import * as chapter from '../../modules/chapter/query';
 import * as page from '../../modules/page/query';
@@ -20,7 +19,6 @@ const query = new GraphQLObjectType({
     ...works,
     ...chapter,
     ...page,
-    ...worksDescription,
     ...WorksGenre,
     ...people,
     ...post
