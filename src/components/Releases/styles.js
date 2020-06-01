@@ -51,6 +51,7 @@ export const ReleaseChapterBlock = styled.span`
   width: 32px;
   text-align: center;
   color: ${contentColor};
+  position: relative;
 `;
 
 export const ReleaseTitle = styled.h6`
@@ -83,4 +84,9 @@ export const ReleaseSkeletonLoading = styled.div`
   strong {
     height: 15px;
   }
+`;
+
+export const FlagWrapper = styled.div`
+  background-color: ${cardBackgroundColor};
+  position: absolute;
 `;

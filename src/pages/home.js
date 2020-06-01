@@ -1,11 +1,11 @@
 import React, { memo } from 'react';
 import { useQuery } from '@apollo/react-hooks';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
+import { useGlobalState } from 'lib/state';
 import { DISCORD_ID, APP_TITLE } from 'lib/config';
-import { languages } from '@shared/params/global';
 
 import ComicSlide from '@components/ComicSlide';
 import DiscordWidget from '@components/DiscordWidget';
@@ -15,13 +15,13 @@ import LatestWorks from '@components/LatestWorks';
 
 export const FETCH_RELEASES = gql`
   query HomeChapters(
-    $language: Int
+    $languages: [Int]
     $orderBy: String
     $first: Int
     $offset: Int
   ) {
     chapters(
-      language: $language
+      languages: $languages
       orderBy: $orderBy
       first: $first
       offset: $offset
@@ -32,6 +32,7 @@ export const FETCH_RELEASES = gql`
       subchapter
       volume
       language
+      language_name
       name
       stub
       uniqid
@@ -50,9 +51,9 @@ export const FETCH_RELEASES = gql`
 `;
 
 export const FETCH_LATEST_WORKS = gql`
-  query LatestWorks($language: Int) {
+  query LatestWorks($languages: [Int]) {
     works(
-      language: $language
+      languages: $languages
       orderBy: "DESC"
       sortBy: "id"
       first: 10
@@ -75,8 +76,8 @@ export const FETCH_LATEST_WORKS = gql`
 `;
 
 export const FETCH_RANDOM_WORK = gql`
-  query RandomWork($language: Int) {
-    workRandom(language: $language) {
+  query RandomWork($languages: [Int]) {
+    workRandom(languages: $languages) {
       id
       name
       stub
@@ -92,9 +93,9 @@ export const FETCH_RANDOM_WORK = gql`
   }
 `;
 
-const LatestReleases = ({ language }) => {
+const LatestReleases = ({ languages }) => {
   const { loading, error, data } = useQuery(FETCH_RELEASES, {
-    variables: { language, orderBy: 'DESC', first: 20, offset: 0 }
+    variables: { languages, orderBy: 'DESC', first: 20, offset: 0 }
   });
 
   if (loading) return <ComicSlide chapters={[]} isLoading={true} />;
@@ -103,9 +104,9 @@ const LatestReleases = ({ language }) => {
   return <ComicSlide chapters={data.chapters} isLoading={false} />;
 };
 
-const LatestWorksAdded = ({ language }) => {
+const LatestWorksAdded = ({ languages }) => {
   const { loading, error, data } = useQuery(FETCH_LATEST_WORKS, {
-    variables: { language }
+    variables: { languages }
   });
 
   if (loading) return <LatestWorks blocks={[]} isLoading={true} />;
@@ -114,9 +115,9 @@ const LatestWorksAdded = ({ language }) => {
   return <LatestWorks works={data.works} isLoading={false} />;
 };
 
-const RandomWork = ({ language }) => {
+const RandomWork = ({ languages }) => {
   const { loading, error, data } = useQuery(FETCH_RANDOM_WORK, {
-    variables: { language }
+    variables: { languages }
   });
 
   if (loading) return <RecommendedWorkLoading />;
@@ -126,8 +127,8 @@ const RandomWork = ({ language }) => {
 };
 
 export function HomeContainer() {
-  const { locale } = useIntl();
-  const language = languages[locale];
+  const [languagesSelected] = useGlobalState('languages_filter');
+  const languages = languagesSelected.map(l => l.value);
 
   return (
     <div className="Home">
@@ -155,14 +156,14 @@ export function HomeContainer() {
           )}
         </FormattedMessage>
       </>
-      <LatestReleases language={language.id} />
+      <LatestReleases languages={languages} />
       <div className="container mt-4">
         <div className="row">
           <div className="col-md-8">
-            <LatestWorksAdded language={language.id} />
+            <LatestWorksAdded languages={languages} />
           </div>
           <div className="col-md-4">
-            <RandomWork language={language.id} />
+            <RandomWork languages={languages} />
             <DiscordWidget discordId={DISCORD_ID} />
           </div>
         </div>

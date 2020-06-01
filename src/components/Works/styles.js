@@ -121,3 +121,9 @@ export const FilterCardComp = styled.div`
     box-shadow: 0 0 0 0.2rem rgba(${primaryColorRgba}, 0.25);
   }
 `;
+
+export const FlagWrapper = styled.div`
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 5px;
+`;

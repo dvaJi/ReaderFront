@@ -64,10 +64,10 @@ function EditWork() {
 }
 
 function WorkDetail({ onSubmit, onCreatePersonModal }) {
-  const { stub } = useParams();
+  const { workId } = useParams();
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_WORK, {
-    variables: { stub, language: -1 }
+    variables: { workId: Number(workId) }
   });
 
   if (loading)
@@ -75,9 +75,9 @@ function WorkDetail({ onSubmit, onCreatePersonModal }) {
   if (error) return <p id="error_edit_post">Error :(</p>;
   return (
     <div>
-      <MetaTagEdit workName={data.work.name} />
+      <MetaTagEdit workName={data.workById.name} />
       <WorkForm
-        work={data.work}
+        work={data.workById}
         onSubmit={onSubmit}
         onCreatePersonModal={onCreatePersonModal}
       />

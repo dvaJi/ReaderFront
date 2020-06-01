@@ -71,7 +71,7 @@ function List() {
 function WorksTable({ searchText }) {
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_WORKS, {
-    variables: { language: -1 }
+    variables: { languages: [] }
   });
   const [removeWork] = useMutation(REMOVE_WORK);
 
@@ -124,7 +124,7 @@ function WorksTable({ searchText }) {
 
           <td style={{ textAlign: 'center' }}>
             <ButtonGroup size="sm">
-              <ButtonLink size="sm" to={'/work/edit/' + stub}>
+              <ButtonLink size="sm" to={'/work/edit/' + id}>
                 {f({ id: 'edit', defaultMessage: 'Edit' })}
               </ButtonLink>
               <Button
@@ -141,7 +141,7 @@ function WorksTable({ searchText }) {
 
                     if (check) {
                       await removeWork({
-                        variables: { id: id },
+                        variables: { id },
                         refetchQueries: [
                           {
                             query: FETCH_WORKS

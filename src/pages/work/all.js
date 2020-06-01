@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
 import { forceCheck } from 'react-lazyload';
 import { Container } from 'reactstrap';
@@ -9,14 +9,14 @@ import gql from 'graphql-tag';
 import WorksList from '@components/Works/WorksList';
 import WorksListLoading from '@components/Works/WorksListLoading';
 import FilterCard from '@components/Works/FilterCard';
-import { languages } from '@shared/params/global';
+import { useGlobalState } from 'lib/state';
 import { withApollo } from 'lib/apollo';
 import { APP_TITLE } from 'lib/config';
 
 export const FETCH_WORKS = gql`
-  query PublicWorks($language: Int) {
+  query PublicWorks($languages: [Int]) {
     works(
-      language: $language
+      languages: $languages
       orderBy: "ASC"
       sortBy: "stub"
       first: 120
@@ -32,6 +32,7 @@ export const FETCH_WORKS = gql`
       demographic_name
       status
       status_name
+      language_name
       adult
       thumbnail_path
       createdAt
@@ -43,11 +44,11 @@ export const FETCH_WORKS = gql`
 
 export function WorksContainer() {
   const [textFilter, setTextFilter] = useState('');
-  const { locale } = useIntl();
-  const language = languages[locale];
+  const [languagesSelected] = useGlobalState('languages_filter');
+  const languages = languagesSelected.map(l => l.value);
 
   const { loading, error, data } = useQuery(FETCH_WORKS, {
-    variables: { language: language.id }
+    variables: { languages }
   });
 
   if (loading)

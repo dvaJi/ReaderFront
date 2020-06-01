@@ -15,15 +15,23 @@ const coreSettings = {
 };
 
 const userLS = getLSItem('user');
-const initialState = {
-  theme: getLSItem('theme'),
-  language: getLSItem('rf_language'),
+const initialState = ({ theme, language, languages_filter }) => ({
+  theme: theme || getLSItem('theme'),
+  language: language || getLSItem('rf_language'),
+  languages_filter: languages_filter || getLSItem('rf_languages_filter') || [],
   user: userLS,
   displaySettings: displaySettingsLS || displaySettings,
   coreSettings: coreSettingsLS || coreSettings
-};
+});
 
-const { setGlobalState, useGlobalState } = createGlobalState(initialState);
+let setGlobalState = null;
+let useGlobalState = null;
+
+export const initGlobalState = initState => {
+  const global = createGlobalState(initialState(initState));
+  setGlobalState = global.setGlobalState;
+  useGlobalState = global.useGlobalState;
+};
 
 export const setTheme = theme => {
   setLSItem('theme', theme);
@@ -33,6 +41,11 @@ export const setTheme = theme => {
 export const setLanguage = language => {
   setLSItem('rf_language', language);
   setGlobalState('language', language);
+};
+
+export const setLanguagesFilter = languages => {
+  setLSItem('rf_languages_filter', languages);
+  setGlobalState('languages_filter', languages);
 };
 
 export const setUser = (user, token) => {

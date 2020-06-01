@@ -25,7 +25,7 @@ const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
 // Get all works
 export async function getAll(
   parentValue,
-  { language, orderBy, first, offset, sortBy, showHidden },
+  { languages = [], orderBy, first, offset, sortBy, showHidden },
   req,
   { fieldNodes = [] }
 ) {
@@ -34,7 +34,7 @@ export async function getAll(
     ? [
         {
           model: models.Chapter,
-          ...whereChapter(showHidden, language),
+          ...whereChapter(showHidden, languages),
           as: 'chapters',
           order: [
             ['chapter', 'DESC'],
@@ -69,7 +69,7 @@ export async function getAll(
     order: [[sortBy, orderBy]],
     offset: offset,
     limit: first,
-    ...where(showHidden),
+    ...where(showHidden, languages),
     include: [...chapterJoin, ...genresJoin, ...personJoin]
   })
     .map(el => el.get({ plain: true }))
@@ -138,12 +138,7 @@ export async function getByStub(
 }
 
 // Get work by ID
-export async function getById(
-  _,
-  { workId, language },
-  __,
-  { fieldNodes = [] }
-) {
+export async function getById(_, { workId }, __, { fieldNodes = [] }) {
   const work = await models.Works.findOne({
     where: { id: workId },
     include: [
@@ -170,7 +165,7 @@ export async function getById(
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
       ? await models.Chapter.findAll({
-          ...whereChapterWId(false, language, work.id),
+          where: workId,
           order: [
             ['chapter', 'DESC'],
             ['subchapter', 'DESC']
@@ -207,7 +202,7 @@ export async function getById(
 // Get random work
 export async function getRandom(
   parentValue,
-  { language },
+  { languages },
   req,
   { fieldNodes = [] }
 ) {
@@ -216,7 +211,6 @@ export async function getRandom(
     ? [
         {
           model: models.Chapter,
-          ...whereChapter(false, language),
           as: 'chapters',
           order: [
             ['chapter', 'DESC'],
@@ -250,7 +244,7 @@ export async function getRandom(
   const work = await models.Works.findOne({
     limit: 1,
     order: [[models.Sequelize.fn('RAND')]],
-    where: { hidden: false },
+    ...where(false, languages),
     include: [...chapterJoin, ...personJoin, ...genresJoin]
   });
 
@@ -439,25 +433,25 @@ export async function getAggregates(
   return result;
 }
 
-const where = (showHidden, language) => {
-  const isAllLanguage = language === -1 || language === undefined;
+const where = (showHidden, languages) => {
+  const isAllLanguage = languages.length === 0;
   if (showHidden && isAllLanguage) {
     return {};
   }
 
-  const oLanguage = isAllLanguage ? {} : { language };
+  const oLanguage = isAllLanguage ? {} : { language: { [Op.or]: languages } };
   const sHidden = showHidden ? {} : { hidden: false };
 
   return { where: { ...sHidden, ...oLanguage } };
 };
 
-const whereChapter = (showHidden, language) => {
-  const isAllLanguage = language === -1 || language === undefined;
+const whereChapter = (showHidden, languages) => {
+  const isAllLanguage = languages.length === 0;
   if (showHidden && isAllLanguage) {
     return {};
   }
 
-  const oLanguage = isAllLanguage ? {} : { language };
+  const oLanguage = isAllLanguage ? {} : { language: { [Op.or]: languages } };
   const sHidden = showHidden
     ? {}
     : { hidden: false, releaseDate: { [Op.lt]: new Date() } };
@@ -465,34 +459,26 @@ const whereChapter = (showHidden, language) => {
   return { where: { ...sHidden, ...oLanguage } };
 };
 
-const whereChapterWId = (showHidden, language, workId) => {
-  const isAllLanguage = language === -1 || language === undefined;
-  if (showHidden && isAllLanguage) {
-    return { where: workId };
-  }
-
-  const oLanguage = isAllLanguage ? {} : { language };
-  const sHidden = showHidden
-    ? {}
-    : { hidden: false, releaseDate: { [Op.lt]: new Date() } };
-
-  return { where: { ...sHidden, ...oLanguage, workId } };
-};
-
 const whereCond = showHidden => (showHidden ? {} : { hidden: false });
 
-const normalizeWork = work => {
-  const description = work.description || '';
-  const desc_short = work.description ? `${description.substr(0, 120)}...` : '';
+export const normalizeWork = work => {
+  if (!work) {
+    return null;
+  }
+
+  const description = work?.description || '';
+  const desc_short = work?.description
+    ? `${description.substr(0, 120)}...`
+    : '';
   return {
     ...work,
-    demographic_name: demographicById(work.demographicId).name,
-    status_name: statusById(work.status).name,
-    thumbnail_path: isValidThumb(work.thumbnail)
-      ? `/works/${work.uniqid}/${work.thumbnail}`
+    demographic_name: demographicById(work?.demographicId).name,
+    status_name: statusById(work?.status).name,
+    thumbnail_path: isValidThumb(work?.thumbnail)
+      ? `/works/${work?.uniqid}/${work?.thumbnail}`
       : '/default-cover.png',
-    language: work.language,
-    language_name: ld.get(languageById(work.language), 'name', ''),
+    language: work?.language,
+    language_name: ld.get(languageById(work?.language), 'name', ''),
     description,
     description_short: desc_short,
     genres: ld.get(work, 'works_genres', []).map(genre => ({

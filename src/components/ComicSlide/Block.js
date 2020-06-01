@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { getImage } from '../Image';
+import Flag from '@components/Flag';
 
 const Image = styled.a`
   text-decoration: none;
@@ -9,6 +10,13 @@ const Image = styled.a`
   &:hover {
     text-decoration: none;
   }
+`;
+
+const FlagWrapper = styled.div`
+  position: absolute;
+  right: 5%;
+  top: 1%;
+  z-index: 2;
 `;
 
 export default function Block({ blockId, blocks, blockStyle }) {
@@ -40,21 +48,26 @@ export default function Block({ blockId, blocks, blockStyle }) {
             href="/read/[slug]/[lang]/[volume]/[chapter]"
             as={chapter.read_path}
           >
-            <Image
-              image={imageToDisplay(index, chapter)}
-              tabIndex="-1"
-              className={chapter.work.adult ? 'is-adult' : ''}
-              style={{
-                backgroundImage: `url('${imageToDisplay(index, chapter)}')`
-              }}
-            >
-              <span>
-                {chapter.work.name} - Cap. {chapter.chapter}
-                {Number(chapter.subchapter) !== 0
-                  ? '.' + chapter.subchapter
-                  : ''}
-              </span>
-            </Image>
+            <>
+              <FlagWrapper>
+                <Flag language={chapter.language_name} />
+              </FlagWrapper>
+              <Image
+                image={imageToDisplay(index, chapter)}
+                tabIndex="-1"
+                className={chapter.work.adult ? 'is-adult' : ''}
+                style={{
+                  backgroundImage: `url('${imageToDisplay(index, chapter)}')`
+                }}
+              >
+                <span>
+                  {chapter.work.name} - Cap. {chapter.chapter}
+                  {Number(chapter.subchapter) !== 0
+                    ? '.' + chapter.subchapter
+                    : ''}
+                </span>
+              </Image>
+            </>
           </Link>
         </li>
       ))}

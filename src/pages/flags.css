@@ -1,0 +1,137 @@
+.flag {
+  display: inline-block;
+  background: url(/flags-flat-24.png) no-repeat;
+  background-size: 100%;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  vertical-align: bottom;
+  opacity: 0.75;
+}
+
+.flag-_unknown {
+  background-position: 0 -0px;
+}
+.flag-bd {
+  background-position: 0 -24px;
+}
+.flag-bg {
+  background-position: 0 -48px;
+}
+.flag-br {
+  background-position: 0 -72px;
+}
+.flag-cn {
+  background-position: 0 -96px;
+}
+.flag-ct {
+  background-position: 0 -120px;
+}
+.flag-cz {
+  background-position: 0 -144px;
+}
+.flag-de {
+  background-position: 0 -168px;
+}
+.flag-dk {
+  background-position: 0 -192px;
+}
+.flag-es {
+  background-position: 0 -216px;
+}
+.flag-fi {
+  background-position: 0 -240px;
+}
+.flag-fr {
+  background-position: 0 -264px;
+}
+.flag-gb {
+  background-position: 0 -288px;
+}
+.flag-gr {
+  background-position: 0 -312px;
+}
+.flag-hk {
+  background-position: 0 -336px;
+}
+.flag-hu {
+  background-position: 0 -360px;
+}
+.flag-id {
+  background-position: 0 -384px;
+}
+.flag-il {
+  background-position: 0 -408px;
+}
+.flag-in {
+  background-position: 0 -432px;
+}
+.flag-ir {
+  background-position: 0 -456px;
+}
+.flag-it {
+  background-position: 0 -480px;
+}
+.flag-jp {
+  background-position: 0 -504px;
+}
+.flag-kr {
+  background-position: 0 -528px;
+}
+.flag-lt {
+  background-position: 0 -552px;
+}
+.flag-mm {
+  background-position: 0 -576px;
+}
+.flag-mn {
+  background-position: 0 -600px;
+}
+.flag-mx {
+  background-position: 0 -624px;
+}
+.flag-my {
+  background-position: 0 -648px;
+}
+.flag-nl {
+  background-position: 0 -672px;
+}
+.flag-no {
+  background-position: 0 -696px;
+}
+.flag-ph {
+  background-position: 0 -720px;
+}
+.flag-pl {
+  background-position: 0 -744px;
+}
+.flag-pt {
+  background-position: 0 -768px;
+}
+.flag-ro {
+  background-position: 0 -792px;
+}
+.flag-rs {
+  background-position: 0 -816px;
+}
+.flag-ru {
+  background-position: 0 -840px;
+}
+.flag-sa {
+  background-position: 0 -864px;
+}
+.flag-se {
+  background-position: 0 -888px;
+}
+.flag-th {
+  background-position: 0 -912px;
+}
+.flag-tr {
+  background-position: 0 -936px;
+}
+.flag-ua {
+  background-position: 0 -960px;
+}
+.flag-vn {
+  background-position: 0 -984px;
+}

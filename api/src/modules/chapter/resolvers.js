@@ -7,12 +7,13 @@ import { languageById } from '@shared/params/global';
 import { isValidThumb } from '../../setup/images-helpers';
 import { API_URL } from '../../config/env';
 import models from '../../setup/models';
+import { normalizeWork } from '../works/resolvers';
 
 // Get all chapters
 export async function getAll(
   _,
   {
-    language = -1,
+    languages = [],
     orderBy = 'DESC',
     first = 10,
     offset = 0,
@@ -20,7 +21,7 @@ export async function getAll(
   }
 ) {
   const chapters = await models.Chapter.findAll({
-    ...where(showHidden, language),
+    ...where(showHidden, languages),
     order: [
       ['releaseDate', orderBy],
       [models.Page, 'filename']
@@ -39,7 +40,7 @@ export async function getAll(
 // Get chapter by work
 export async function getByWork(
   _,
-  { workStub, language, showHidden },
+  { workStub, languages = [], showHidden },
   __,
   { fieldNodes = [] }
 ) {
@@ -63,7 +64,7 @@ export async function getByWork(
         order: { order: order }
       };
   const chapters = await models.Chapter.findAll({
-    ...where(showHidden, language),
+    ...where(showHidden, languages),
     include: [
       { model: models.Works, as: 'work', where: { stub: workStub } },
       ...pages.join
@@ -115,12 +116,12 @@ export async function getWithPagesByWorkStubAndChapter(
 
 // Get all chapters for RSS
 export async function getAllRSS({
-  language = -1,
+  languages = [],
   orderBy = 'DESC',
   showHidden = false
 }) {
   const chapters = await models.Chapter.findAll({
-    ...where(showHidden, language),
+    ...where(showHidden, languages),
     order: [['releaseDate', orderBy]],
     include: [{ model: models.Works, as: 'work' }],
     offset: 0,
@@ -271,13 +272,13 @@ export async function getTypes() {
   return {};
 }
 
-const where = (showHidden, language) => {
-  const isAllLanguage = language === -1 || language === undefined;
+const where = (showHidden, languages) => {
+  const isAllLanguage = languages.length === 0;
   if (showHidden && isAllLanguage) {
     return {};
   }
 
-  const oLanguage = isAllLanguage ? {} : { language };
+  const oLanguage = isAllLanguage ? {} : { language: { [Op.or]: languages } };
   const sHidden = showHidden
     ? {}
     : { hidden: false, releaseDate: { [Op.lt]: new Date() } };
@@ -294,5 +295,6 @@ export const normalizeChapter = (chapter, work) => ({
   language_name: languageById(chapter.language).name,
   read_path: `/read/${work.stub}/${languageById(chapter.language).name}/${
     chapter.volume
-  }/${chapter.chapter}.${chapter.subchapter}`
+  }/${chapter.chapter}.${chapter.subchapter}`,
+  work: normalizeWork(chapter.work)
 });

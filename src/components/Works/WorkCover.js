@@ -2,9 +2,10 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSpring } from 'react-spring';
 
-import { CardMedia, Overlay, Cover, Tag } from './styles';
+import Flag from '@components/Flag';
+import { CardMedia, Overlay, Cover, Tag, FlagWrapper } from './styles';
 
-function WorkCover({ name, cover, size, status }) {
+function WorkCover({ work, cover, size, status }) {
   const tagProps = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: {
@@ -24,7 +25,12 @@ function WorkCover({ name, cover, size, status }) {
       >
         {size === 'small' && (
           <Overlay>
-            <span className="title">{name}</span>
+            <span className="title">
+              {work.name}
+              <FlagWrapper>
+                <Flag language={work.language_name} />
+              </FlagWrapper>
+            </span>
           </Overlay>
         )}
       </Cover>

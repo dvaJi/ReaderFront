@@ -55,38 +55,40 @@ const WorkLoading = () => (
   </>
 );
 
-const WorkInfo = ({ stub }) => {
+const WorkInfo = ({ workId }) => {
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_WORK, {
-    variables: { language: -1, stub: stub }
+    variables: { workId }
   });
 
   if (loading) return <WorkLoading />;
   if (error) return <p id="error_releases">Error :(</p>;
+  const work = data.workById;
+
   return (
     <Card>
-      <MetaTagDetail work={data.work} />
+      <MetaTagDetail work={work} />
 
       <h5 className="border-bottom border-gray pb-2 mb-0">
-        {data.work.hidden && (
+        {work.hidden && (
           <span className="badge badge-danger mr-1">
             {f({ id: 'hidden', defaultMessage: 'Hidden' })}
           </span>
         )}
-        {data.work.name}
+        {work.name}
         <span className="badge badge-secondary ml-1">
           {f({
-            id: data.work.status_name,
-            defaultMessage: data.work.status_name
+            id: work.status_name,
+            defaultMessage: work.status_name
           })}
         </span>
-        <span className="badge badge-secondary ml-1">{data.work.type}</span>
+        <span className="badge badge-secondary ml-1">{work.type}</span>
         <span className="badge badge-secondary ml-1">
-          {data.work.demographic_name}
+          {work.demographic_name}
         </span>
       </h5>
       <div className="media text-muted pt-3">
-        {data.work.staff.map(staff => (
+        {work.staff.map(staff => (
           <p
             className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
             key={staff.rol + staff.people.id}
@@ -104,13 +106,13 @@ const WorkInfo = ({ stub }) => {
       <div className="media text-muted pt-3">
         <p
           className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"
-          key={data.work.language_name}
+          key={work.language_name}
         >
-          {data.work.description}
+          {work.description}
         </p>
       </div>
       <div>
-        {data.work.genres.map(g => (
+        {work.genres.map(g => (
           <span key={g.name} className="badge badge-pill badge-light">
             {f({ id: g.name, defaultMessage: g.name })}
           </span>

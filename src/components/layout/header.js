@@ -1,91 +1,59 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
+import styled from 'styled-components';
 
-import { useGlobalState, setTheme, setLanguage } from 'lib/state';
-import { APP_TITLE, DISCORD_URL, PATREON_URL, LANGUAGES } from 'lib/config';
-import { isAuthRoute, isAdminRoute, isReaderRoute } from '@shared/is';
-import { ChangeTheme, Navbar, ToggleTheme } from './styles';
+import { isReaderRoute } from '@shared/is';
+import { useGlobalState } from 'lib/state';
+import { cardColor, primaryColor } from 'lib/theme';
+import { APP_TITLE, DISCORD_URL, PATREON_URL } from 'lib/config';
+import { Navbar } from './styles';
 
 import RouteNavItem from './RouteNavItem';
-import LangNavItem from './LangNavItem';
+import AppSettings from './AppSettings';
 
-function LangNav({ language, isThemeLight }) {
-  const [lighTheme, changeTheme] = useState(isThemeLight);
-  const toggleTheme = () => {
-    changeTheme(!lighTheme);
-    setTheme(!lighTheme ? 'light' : 'dark');
-  };
-  return (
-    <Nav className="ml-auto" navbar style={{ display: 'contents' }}>
-      {LANGUAGES.length > 1 &&
-        LANGUAGES.map(lang => (
-          <LangNavItem
-            key={`nav-${lang}`}
-            cookielang={language}
-            language={lang}
-            onClick={() => setLanguage(lang)}
-          >
-            {lang.toUpperCase()}
-          </LangNavItem>
-        ))}
-      <ChangeTheme>
-        <ToggleTheme
-          type="switch"
-          id="change-theme"
-          name="switchTheme"
-          defaultChecked={lighTheme}
-          onChange={toggleTheme}
-        />
-        {lighTheme && <FontAwesomeIcon icon="sun" />}
-        {!lighTheme && <FontAwesomeIcon icon="moon" />}
-      </ChangeTheme>
-    </Nav>
-  );
-}
+const SettingsButton = styled.button`
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: 0.8em;
+  color ${cardColor};
+  transition: color 0.2s ease;
 
-function AdminNav({ language, themeSelected }) {
+  &:hover {
+    color ${primaryColor};
+  }
+`;
+
+const Separator = styled.span`
+  margin: 0 6px;
+  color: #00000096;
+  font-weight: 100;
+`;
+
+function Header({ theme }) {
   const [isCollapse, toggleCollapse] = useState(false);
-  const isThemeLight = themeSelected === 'light';
-  return (
-    <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
-      <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
-      <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
-      <LangNav isThemeLight={isThemeLight} language={language} />
-      <Collapse isOpen={isCollapse} navbar>
-        <Nav className="ml-auto" navbar>
-          <RouteNavItem to="/admincp/dashboard" exact>
-            <FormattedMessage id="dashboard" defaultMessage="Dashboard" />
-          </RouteNavItem>
-          <RouteNavItem to="/admincp/work">
-            <FormattedMessage id="projects" defaultMessage="Projects" />
-          </RouteNavItem>
-          <RouteNavItem to="/admincp/blog">
-            <FormattedMessage id="blog" defaultMessage="Blog" />
-          </RouteNavItem>
-        </Nav>
-      </Collapse>
-    </Navbar>
-  );
-}
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [themeSelected] = useGlobalState('theme');
+  const router = useRouter();
 
-function PublicNav({ language, themeSelected, hidden }) {
-  const [isCollapse, toggleCollapse] = useState(false);
-  const isThemeLight = themeSelected === 'light';
+  const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const isThemeLight = themeSelected === 'light' || theme === 'light';
+
   return (
     <Navbar
       dark={!isThemeLight}
       light={isThemeLight}
+      style={{ display: isReaderRoute(router) ? 'none' : 'flex' }}
       fixed="true"
       expand="md"
-      style={{ display: hidden ? 'none' : 'flex' }}
     >
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
-      <LangNav isThemeLight={isThemeLight} language={language} />
       <Collapse isOpen={isCollapse} navbar>
         <Nav className="ml-auto" navbar>
           <RouteNavItem href="/">
@@ -118,28 +86,18 @@ function PublicNav({ language, themeSelected, hidden }) {
           )}
         </Nav>
       </Collapse>
+      <Nav className="ml-auto" navbar style={{ display: 'contents' }}>
+        <Separator>|</Separator>
+        <SettingsButton
+          title="Reader settings"
+          id="settings-button"
+          onClick={() => toggle(!dropdownOpen)}
+        >
+          <FontAwesomeIcon icon="cog" size="lg" />
+        </SettingsButton>
+        <AppSettings isOpen={dropdownOpen} toggle={toggle} />
+      </Nav>
     </Navbar>
-  );
-}
-
-function Header({ theme }) {
-  const [themeSelected] = useGlobalState('theme');
-  const router = useRouter();
-  const { locale } = useIntl();
-  const showPublicNav = !isAuthRoute(router) && !isAdminRoute(router);
-  const showAdminNav = !isAuthRoute(router) && isAdminRoute(router);
-
-  return (
-    (showPublicNav && (
-      <PublicNav
-        themeSelected={themeSelected || theme}
-        language={locale}
-        hidden={isReaderRoute(router)}
-      />
-    )) ||
-    (showAdminNav && (
-      <AdminNav themeSelected={themeSelected || theme} language={locale} />
-    ))
   );
 }
 

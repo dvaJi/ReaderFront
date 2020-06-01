@@ -1,4 +1,4 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize, Op } from 'sequelize';
 import path from 'path';
 import uuidv1 from 'uuid/v1';
 
@@ -30,7 +30,7 @@ const BLOG_DIR = path.join(
 export async function getAll(
   parentValue,
   {
-    language = -1,
+    languages = [],
     orderBy = 'ASC',
     sortBy = 'id',
     first = 10,
@@ -39,7 +39,7 @@ export async function getAll(
   }
 ) {
   const posts = await models.Post.findAll({
-    ...where(showHidden, language),
+    ...where(showHidden, languages),
     order: [[sortBy, orderBy]],
     include: [{ model: models.User, as: 'user' }],
     offset: offset,
@@ -65,10 +65,10 @@ export async function getByStub(parentValue, { stub, showHidden }) {
 // Get posts by category
 export async function getByCategory(
   parentValue,
-  { categoryId, language, orderBy, first, offset, showHidden }
+  { categoryId, languages = [], orderBy, first, offset, showHidden }
 ) {
   return await models.Post.findAll({
-    ...whereCat(showHidden, { language }, { category: categoryId }),
+    ...whereCat(showHidden, { languages }, { category: categoryId }),
     order: [['id', orderBy]],
     include: [{ model: models.User, as: 'user' }],
     offset: offset,
@@ -207,11 +207,11 @@ export async function remove(parentValue, { id }, { auth }) {
 // Get all posts aggregates
 export async function getAggregates(
   parentValue,
-  { aggregate, aggregateColumn, language, showHidden }
+  { aggregate, aggregateColumn, languages = [], showHidden }
 ) {
   let agg = 0;
   await models.Post.findAll({
-    ...where(showHidden, language),
+    ...where(showHidden, languages),
     attributes: [
       [
         Sequelize.fn(aggregate, Sequelize.col('posts.' + aggregateColumn)),
@@ -230,23 +230,25 @@ export async function getAggregates(
   return result;
 }
 
-const where = (showHidden, language) => {
-  if (showHidden && (language === -1 || !language)) {
+const where = (showHidden, languages) => {
+  const isAllLanguage = languages.length === 0;
+  if (showHidden && isAllLanguage) {
     return {};
   }
 
   const sHidden = showHidden ? {} : { status: 1 };
-  const oLanguage = language === -1 ? {} : { language };
+  const oLanguage = isAllLanguage ? {} : { language: { [Op.or]: languages } };
   return { where: { ...sHidden, ...oLanguage } };
 };
 
-const whereCat = (showHidden, language, category) => {
-  if (showHidden && language === -1 && !category) {
+const whereCat = (showHidden, languages, category) => {
+  const isAllLanguage = languages.length === 0;
+  if (showHidden && isAllLanguage && !category) {
     return {};
   }
 
   const sHidden = showHidden ? {} : { status: 1 };
-  const oLanguage = language === -1 ? {} : { language };
+  const oLanguage = isAllLanguage ? {} : { language: { [Op.or]: languages } };
 
   return { where: { ...sHidden, ...oLanguage, ...category } };
 };

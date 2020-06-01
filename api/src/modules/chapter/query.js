@@ -19,7 +19,7 @@ import {
 export const chapters = {
   type: new GraphQLList(ChapterType),
   args: {
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     orderBy: { type: GraphQLString },
     first: { type: GraphQLInt },
     offset: { type: GraphQLInt },
@@ -33,7 +33,7 @@ export const chaptersByWork = {
   type: new GraphQLList(ChapterType),
   args: {
     workStub: { type: GraphQLString },
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     showHidden: { type: GraphQLBoolean }
   },
   resolve: getByWork

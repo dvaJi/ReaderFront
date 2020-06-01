@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
 export const FETCH_WORKS = gql`
-  query Works($language: Int) {
+  query Works($languages: [Int]) {
     works(
-      language: $language
+      languages: $languages
       orderBy: "ASC"
       sortBy: "stub"
       first: 120
@@ -29,8 +29,8 @@ export const FETCH_WORKS = gql`
 `;
 
 export const FETCH_WORK = gql`
-  query Work($language: Int, $stub: String) {
-    work(language: $language, stub: $stub, showHidden: true) {
+  query Work($workId: Int) {
+    workById(workId: $workId) {
       id
       name
       stub
@@ -75,8 +75,12 @@ export const FETCH_WORK = gql`
 `;
 
 export const FETCH_CHAPTERS = gql`
-  query ChaptersByWork($language: Int, $workStub: String) {
-    chaptersByWork(language: $language, workStub: $workStub, showHidden: true) {
+  query ChaptersByWork($languages: [Int], $workStub: String) {
+    chaptersByWork(
+      languages: $languages
+      workStub: $workStub
+      showHidden: true
+    ) {
       id
       chapter
       subchapter

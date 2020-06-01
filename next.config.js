@@ -3,6 +3,9 @@ var withOffline = require('next-offline');
 var join = require('path').join;
 
 var nextConfig = {
+  experimental: {
+    reactRefresh: true
+  },
   webpack(config, option) {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       static: join(__dirname, 'src', 'static'),
