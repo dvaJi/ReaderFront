@@ -10,6 +10,7 @@ import {
 } from './shared/mocks/getReleasesMock';
 import { getPosts } from './shared/mocks/getBlogMock';
 import { getWork, getWorks } from './shared/mocks/getWorksMock';
+import { initGlobalState } from 'lib/state';
 
 configure({ adapter: new Adapter() });
 
@@ -18,6 +19,8 @@ global.wait = ms => {
 };
 
 dotenv.config();
+
+initGlobalState({ language: 'es', theme: 'dark', languages_filter: [] });
 
 // Setup Mocks
 global.rfMocks = {

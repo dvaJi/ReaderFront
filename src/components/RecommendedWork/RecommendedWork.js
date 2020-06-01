@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
 import { getImage } from '../Image';
+import Flag from '@components/Flag';
 
 const Overlay = styled.div`
   background: rgba(31, 38, 49, 0.8);
@@ -71,6 +72,12 @@ const LoadingCover = styled.div`
   justify-content: flex-end;
 `;
 
+export const FlagWrapper = styled.div`
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 5px;
+`;
+
 function RecommendedWork({ work, isLoading }) {
   const [isHover, setHover] = useState(false);
   const { formatMessage: f } = useIntl();
@@ -94,6 +101,9 @@ function RecommendedWork({ work, isLoading }) {
             <Overlay>
               <animated.span style={props} className="title">
                 {work.name}
+                <FlagWrapper>
+                  <Flag language={work.language_name} />
+                </FlagWrapper>
               </animated.span>
               <animated.span style={props} className="desc">
                 {work.description_short}

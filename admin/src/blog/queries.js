@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 export const FETCH_ALL_POSTS_WITH_AGG = gql`
   query AllPosts($first: Int, $offset: Int) {
     posts(
-      language: -1
+      languages: []
       orderBy: "DESC"
       sortBy: "createdAt"
       first: $first
@@ -31,7 +31,7 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
     }
 
     postsAggregates(
-      language: -1
+      languages: []
       aggregate: "COUNT"
       aggregateColumn: "id"
       showHidden: true

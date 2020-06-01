@@ -12,7 +12,7 @@ export default memo(function ReleaseLoading() {
           key={'cat-' + cat}
           className="my-3 p-3 rounded shadow-sm"
         >
-          <h6 className="pb-2 mb-0 show-loading-animation"> </h6>
+          <h6 className="pb-2 mb-0 show-loading-animation">{''}</h6>
           {rows.map(r => (
             <div key={'row-' + r} className="media text-muted pt-3">
               <span className="mr-2 rounded">{''}</span>

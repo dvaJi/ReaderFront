@@ -23,7 +23,7 @@ function Detail() {
             {f({ id: 'go_back', defaultMessage: 'Go back' })}
           </ButtonLink>
         </div>
-        <WorkInfo stub={stub} />
+        <WorkInfo workId={Number(workId)} />
         <div className="m-1 mb-2">
           <ButtonLink
             color="primary"
@@ -61,7 +61,7 @@ function ChaptersTable() {
   const { stub, workId } = useParams();
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_CHAPTERS, {
-    variables: { language: -1, workStub: stub }
+    variables: { languages: [], workStub: stub }
   });
   const [removeChapter] = useMutation(REMOVE_CHAPTER);
 

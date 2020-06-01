@@ -8,14 +8,19 @@ import gql from 'graphql-tag';
 import ReleasePagination from '@components/Releases/ReleasePagination';
 import ReleasesList from '@components/Releases/ReleasesList';
 import ReleaseCardEmpty from '@components/Releases/ReleaseCardEmpty';
-import { languages } from '@shared/params/global';
+import { useGlobalState } from 'lib/state';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
 
 export const FETCH_RELEASES = gql`
-  query Chapters($language: Int, $orderBy: String, $first: Int, $offset: Int) {
+  query Chapters(
+    $languages: [Int]
+    $orderBy: String
+    $first: Int
+    $offset: Int
+  ) {
     chapters(
-      language: $language
+      languages: $languages
       orderBy: $orderBy
       first: $first
       offset: $offset
@@ -26,6 +31,7 @@ export const FETCH_RELEASES = gql`
       subchapter
       volume
       language
+      language_name
       name
       stub
       uniqid
@@ -46,9 +52,9 @@ export const FETCH_RELEASES = gql`
 `;
 const PER_PAGE = 20;
 
-const LatestReleases = ({ language, orderBy, first, offset }) => {
+const LatestReleases = ({ languages, orderBy, first, offset }) => {
   const { loading, error, data } = useQuery(FETCH_RELEASES, {
-    variables: { language, orderBy, first, offset }
+    variables: { languages, orderBy, first, offset }
   });
 
   if (loading) return <ReleaseCardEmpty />;
@@ -60,15 +66,16 @@ const LatestReleases = ({ language, orderBy, first, offset }) => {
 export function ReleasesContainer() {
   const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(0);
-  const { formatMessage: f, locale } = useIntl();
-  const language = languages[locale];
+  const { formatMessage: f } = useIntl();
+  const [languagesSelected] = useGlobalState('languages_filter');
+  const languages = languagesSelected.map(l => l.value);
 
   return (
     <Container className="Releases">
       <h2>{f({ id: 'latest_releases', defaultMessage: 'Latest Releases' })}</h2>
       <ReleasesMetatags />
       <LatestReleases
-        language={language.language}
+        languages={languages}
         orderBy={'DESC'}
         first={PER_PAGE}
         offset={offset}

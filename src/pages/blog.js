@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
 import { Container } from 'reactstrap';
 import { Helmet } from 'react-helmet';
@@ -7,14 +7,14 @@ import gql from 'graphql-tag';
 
 import PostsList from '@components/Blog/PostsList';
 import PostCardLoading from '@components/Blog/PostCardEmpty';
-import { languages } from '@shared/params/global';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
+import { useGlobalState } from 'lib/state';
 
 export const FETCH_ALL_POSTS_WITH_AGG = gql`
-  query AllPosts($language: Int, $first: Int, $offset: Int) {
+  query AllPosts($languages: [Int], $first: Int, $offset: Int) {
     posts(
-      language: $language
+      languages: $languages
       orderBy: "DESC"
       sortBy: "createdAt"
       first: $first
@@ -34,13 +34,14 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
       status
       sticky
       language
+      language_name
       thumbnail_path
       createdAt
       updatedAt
     }
 
     postsAggregates(
-      language: $language
+      languages: $languages
       aggregate: "COUNT"
       aggregateColumn: "id"
       showHidden: false
@@ -53,22 +54,22 @@ export const FETCH_ALL_POSTS_WITH_AGG = gql`
 const PER_PAGE = 9;
 
 export function BlogContainer() {
-  const { locale } = useIntl();
-  const language = languages[locale];
+  const [languagesSelected] = useGlobalState('languages_filter');
+  const languages = languagesSelected.map(l => l.value);
 
   return (
     <>
       <MetaTagList />
-      <RenderPostList language={language.id} />
+      <RenderPostList languages={languages} />
     </>
   );
 }
 
-function RenderPostList({ language }) {
+function RenderPostList({ languages }) {
   const { loading, error, data, fetchMore } = useQuery(
     FETCH_ALL_POSTS_WITH_AGG,
     {
-      variables: { first: PER_PAGE, offset: 0, language }
+      variables: { first: PER_PAGE, offset: 0, languages }
     }
   );
 

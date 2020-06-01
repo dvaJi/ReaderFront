@@ -25,7 +25,7 @@ export const works = {
     sortBy: { type: GraphQLString },
     first: { type: GraphQLInt },
     offset: { type: GraphQLInt },
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     showHidden: { type: GraphQLBoolean }
   },
   resolve: getAll
@@ -47,7 +47,7 @@ export const workById = {
   type: WorkType,
   args: {
     workId: { type: GraphQLInt },
-    language: { type: GraphQLInt }
+    languages: { type: new GraphQLList(GraphQLInt) }
   },
   resolve: getById
 };
@@ -56,7 +56,7 @@ export const workById = {
 export const workRandom = {
   type: WorkType,
   args: {
-    language: { type: GraphQLInt }
+    languages: { type: new GraphQLList(GraphQLInt) }
   },
   resolve: getRandom
 };
@@ -73,7 +73,7 @@ export const workAggregates = {
   args: {
     aggregate: { type: GraphQLString },
     aggregateColumn: { type: GraphQLString },
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     showHidden: { type: GraphQLBoolean }
   },
   resolve: getAggregates

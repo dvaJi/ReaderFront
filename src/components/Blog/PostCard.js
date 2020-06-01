@@ -11,8 +11,10 @@ import {
   CardBodyDescription,
   CardFooter,
   CardFooterWrapper,
-  CardFooterTag
+  CardFooterTag,
+  FlagWrapper
 } from './styles';
+import Flag from '@components/Flag';
 
 function PostCard({ post, children, thumbnail }) {
   const { formatMessage: f } = useIntl();
@@ -39,6 +41,9 @@ function PostCard({ post, children, thumbnail }) {
           <CardFooterTag>
             {f({ id: post.category_name, defaultMessage: post.category_name })}
           </CardFooterTag>
+          <FlagWrapper>
+            <Flag language={post.language_name} />
+          </FlagWrapper>
         </CardFooterWrapper>
       </CardFooter>
     </Card>

@@ -11,9 +11,11 @@ import Main from '../components/main';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import '../components/ComicSlide/slide.css';
+import './flags.css';
 
 import ConnectedIntl from '../lib/connectedIntl';
 import { APP_VERSION } from 'lib/config';
+import { initGlobalState } from 'lib/state';
 
 setupIcons();
 config.autoAddCss = false;
@@ -30,6 +32,7 @@ export default class MyApp extends App {
 
     const {
       rf_language: language,
+      rf_languages_filter: languages_filter,
       theme,
       token,
       user,
@@ -47,7 +50,8 @@ export default class MyApp extends App {
       locale,
       messages,
       language,
-      theme: theme || 'light',
+      languages_filter,
+      theme: theme || 'dark',
       token,
       user,
       acpUploadView,
@@ -62,6 +66,7 @@ export default class MyApp extends App {
       locale,
       messages,
       language,
+      languages_filter,
       theme
     } = this.props;
 
@@ -82,6 +87,8 @@ export default class MyApp extends App {
         }
       ];
     }
+
+    initGlobalState({ language, theme, languages_filter });
 
     return (
       <>

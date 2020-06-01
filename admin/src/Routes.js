@@ -169,7 +169,7 @@ export default (
       component={withTracker(ACPWorkCreate)}
     />
     <RoutePrivate
-      path="/work/edit/:stub"
+      path="/work/edit/:workId"
       exact
       component={withTracker(ACPWorkEdit)}
     />

@@ -8,6 +8,7 @@ import getImage from '@components/Image/function';
 import { cardBackgroundColor, cardColor } from 'lib/theme';
 
 import WorkCover from './WorkCover';
+import Flag from '@components/Flag';
 
 const Card = styled.a`
   color: ${cardColor};
@@ -116,13 +117,11 @@ function WorkItem({ work, size }) {
             height={150}
             once
             debounce={false}
-            placeholder={
-              <WorkCover name={work.name} size={size} status={status} />
-            }
+            placeholder={<WorkCover work={work} size={size} status={status} />}
           >
             <WorkCover
               cover={thumbnail}
-              name={work.name}
+              work={work}
               size={size}
               status={status}
             />
@@ -131,7 +130,9 @@ function WorkItem({ work, size }) {
 
         <CardBody size={size}>
           {size !== 'small' && (
-            <h2 className="card-body-heading">{work.name}</h2>
+            <h2 className="card-body-heading">
+              {work.name} <Flag language={work.language_name} />
+            </h2>
           )}
           <p className="card-body-description">{work.description_short}</p>
         </CardBody>

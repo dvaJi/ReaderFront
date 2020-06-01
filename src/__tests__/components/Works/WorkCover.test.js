@@ -17,7 +17,7 @@ const status = {
 
 it('renders a "normal" cover without crashing', () => {
   const wrapper = mountWithIntl(
-    <WorkCover name={work.name} size={'normal'} status={status} />
+    <WorkCover work={work} size={'normal'} status={status} />
   );
 
   expect(wrapper).toBeTruthy();
@@ -28,7 +28,7 @@ it('renders a "small" cover without crashing', () => {
   const wrapper = mountWithIntl(
     <WorkCover
       cover={work.thumbnail}
-      name={work.name}
+      work={work}
       size={'small'}
       status={status}
     />

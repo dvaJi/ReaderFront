@@ -24,8 +24,8 @@ import {
 import ReaderSettings from './ReaderSettings';
 
 export const FETCH_CHAPTERS = gql`
-  query ChaptersByWork($language: Int, $workStub: String) {
-    chaptersByWork(language: $language, workStub: $workStub) {
+  query ChaptersByWork($languages: [Int], $workStub: String) {
+    chaptersByWork(languages: $languages, workStub: $workStub) {
       id
       chapter
       subchapter
@@ -149,7 +149,7 @@ const ChaptersSelects = ({ workStub, language, chapter, work }) => {
   const router = useRouter();
 
   const { loading, error, data } = useQuery(FETCH_CHAPTERS, {
-    variables: { workStub, language }
+    variables: { workStub, languages: [language] }
   });
 
   if (loading || error) return null;

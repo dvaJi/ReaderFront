@@ -14,7 +14,7 @@ import { getAll, getByStub, getByCategory, getAggregates } from './resolvers';
 export const posts = {
   type: new GraphQLList(PostType),
   args: {
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     orderBy: { type: GraphQLString },
     sortBy: { type: GraphQLString },
     first: { type: GraphQLInt },
@@ -39,7 +39,7 @@ export const postsByCategory = {
   type: new GraphQLList(PostType),
   args: {
     categoryId: { type: GraphQLInt },
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     orderBy: { type: GraphQLString },
     first: { type: GraphQLInt },
     offset: { type: GraphQLInt },
@@ -54,7 +54,7 @@ export const postsAggregates = {
   args: {
     aggregate: { type: GraphQLString },
     aggregateColumn: { type: GraphQLString },
-    language: { type: GraphQLInt },
+    languages: { type: new GraphQLList(GraphQLInt) },
     showHidden: { type: GraphQLBoolean }
   },
   resolve: getAggregates

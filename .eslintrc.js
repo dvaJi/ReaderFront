@@ -11,7 +11,8 @@ module.exports = {
       'error',
       {
         singleQuote: true,
-        trailingComma: 'none'
+        trailingComma: 'none',
+        endOfLine: 'auto'
       }
     ],
     'jsx-a11y/anchor-is-valid': [

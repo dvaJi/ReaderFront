@@ -197,3 +197,14 @@ export const LoadingContainer = styled.div`
   text-align: center;
   opacity: 0.5;
 `;
+
+export const FlagWrapper = styled.div`
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 5px;
+  float: right;
+
+  & > span {
+    vertical-align: middle;
+  }
+`;
