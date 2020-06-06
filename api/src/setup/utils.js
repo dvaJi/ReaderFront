@@ -70,6 +70,7 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
+// eslint-disable-next-line no-unused-vars
 export const hasPermission = (mod = 'read', auth, module = 'core') => {
   // TODO: create a dynamic permission model
   if (auth.user && module === 'users') {
