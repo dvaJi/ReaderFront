@@ -70,35 +70,21 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
-export const hasPermission = (mod = 'read', auth) => {
-  switch (mod) {
-    case 'read':
-      return hasReadPermission(auth);
-    case 'create':
-      return hasCreatePermission(auth);
-    case 'update':
-      return hasUpdatePermission(auth);
-    case 'delete':
-      return hasDeletePermission(auth);
-    default:
-      return false;
+// eslint-disable-next-line no-unused-vars
+export const hasPermission = (mod = 'read', auth, module = 'core') => {
+  // TODO: create a dynamic permission model
+  if (auth.user && module === 'users') {
+    return auth.user.role === userParams.roles.admin;
   }
-};
 
-export const hasReadPermission = auth => {
-  return auth.user && auth.user.role === userParams.roles.admin;
-};
+  if (auth.user && auth.user.role) {
+    return (
+      auth.user.role === userParams.roles.admin ||
+      auth.user.role === userParams.roles.uploader
+    );
+  }
 
-export const hasCreatePermission = auth => {
-  return auth.user && auth.user.role === userParams.roles.admin;
-};
-
-export const hasUpdatePermission = auth => {
-  return auth.user && auth.user.role === userParams.roles.admin;
-};
-
-export const hasDeletePermission = auth => {
-  return auth.user && auth.user.role === userParams.roles.admin;
+  return false;
 };
 
 // Language helpers

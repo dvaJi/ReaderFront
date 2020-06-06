@@ -1,7 +1,8 @@
 var user = {
   roles: {
     admin: 'ADMIN',
-    user: 'USER'
+    user: 'USER',
+    uploader: 'UPLOADER'
   },
   gender: {
     male: {

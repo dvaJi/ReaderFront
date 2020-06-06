@@ -56,7 +56,6 @@ function getLSItem(name) {
   try {
     return JSON.parse(item);
   } catch (err) {
-    console.error(err);
     return item;
   }
 }
