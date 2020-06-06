@@ -3,7 +3,7 @@ import { GraphQLString, GraphQLInt } from 'graphql';
 
 // App Imports
 import { UserType, UserLoginType } from './types';
-import { login, create, remove, activate } from './resolvers';
+import { login, create, ban, unban, activate } from './resolvers';
 
 // Auth
 export const userLogin = {
@@ -66,8 +66,24 @@ export const userActivate = {
   resolve: activate
 };
 
-// Remove
-export const userRemove = {
+// Ban
+export const userBan = {
+  type: UserType,
+  args: {
+    id: {
+      name: 'id',
+      type: GraphQLInt
+    },
+    reason: {
+      name: 'reason',
+      type: GraphQLString
+    }
+  },
+  resolve: ban
+};
+
+// Unban
+export const userUnban = {
   type: UserType,
   args: {
     id: {
@@ -75,5 +91,5 @@ export const userRemove = {
       type: GraphQLInt
     }
   },
-  resolve: remove
+  resolve: unban
 };

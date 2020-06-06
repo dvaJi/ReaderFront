@@ -5,6 +5,7 @@ import {
   GraphQLInt,
   GraphQLBoolean
 } from 'graphql';
+import GraphQLDate from 'graphql-date';
 
 // User type
 const UserType = new GraphQLObjectType({
@@ -15,16 +16,12 @@ const UserType = new GraphQLObjectType({
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
     email: { type: GraphQLString },
-    password: { type: GraphQLString },
     role: { type: GraphQLString },
     activated: { type: GraphQLBoolean },
-    activatedToken: { type: GraphQLString },
     banned: { type: GraphQLBoolean },
     bannedReason: { type: GraphQLString },
-    newPasswordToken: { type: GraphQLString },
-    newPasswordRequested: { type: GraphQLBoolean },
     lastIp: { type: GraphQLString },
-    lastLogin: { type: GraphQLString }
+    lastLogin: { type: GraphQLDate }
   })
 });
 

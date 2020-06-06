@@ -171,7 +171,7 @@ export async function login(parentValue, { email, password }, { clientIp }) {
 
 // Get by ID
 export async function getById(parentValue, { id }, { auth }) {
-  if (hasPermission('read', auth)) {
+  if (hasPermission('read', auth, 'users')) {
     return await models.User.findOne({ where: { id } });
   } else {
     throw new Error('Operation denied.');
@@ -180,17 +180,12 @@ export async function getById(parentValue, { id }, { auth }) {
 
 // Get all
 export async function getAll(parentValue, fields, { auth }) {
-  if (hasPermission('read', auth)) {
-    return await models.User.findAll();
-  } else {
-    throw new Error('Operation denied.');
-  }
-}
-
-// Delete
-export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
-    return await models.User.destroy({ where: { id } });
+  if (hasPermission('read', auth, 'users')) {
+    return await models.User.findAll({
+      attributes: {
+        exclude: ['password', 'newPasswordToken', 'newPasswordRequested']
+      }
+    });
   } else {
     throw new Error('Operation denied.');
   }
@@ -199,4 +194,48 @@ export async function remove(parentValue, { id }, { auth }) {
 // User genders
 export async function getGenders() {
   return {};
+}
+
+// Ban user
+export async function ban(_, { id, reason }, { auth }) {
+  if (hasPermission('update', auth, 'users')) {
+    const user = await models.User.findOne({ where: { id } });
+    if (!user) {
+      throw new Error(`User does not exists`);
+    } else {
+      await models.User.update(
+        {
+          banned: true,
+          bannedReason: reason
+        },
+        { where: { id } }
+      );
+
+      return { id };
+    }
+  } else {
+    throw new Error('Operation denied.');
+  }
+}
+
+// Unban user
+export async function unban(_, { id }, { auth }) {
+  if (hasPermission('update', auth, 'users')) {
+    const user = await models.User.findOne({ where: { id } });
+    if (!user) {
+      throw new Error(`User does not exists`);
+    } else {
+      await models.User.update(
+        {
+          banned: false,
+          bannedReason: null
+        },
+        { where: { id } }
+      );
+
+      return { id };
+    }
+  } else {
+    throw new Error('Operation denied.');
+  }
 }
