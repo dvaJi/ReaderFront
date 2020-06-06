@@ -12,7 +12,8 @@ module.exports = {
       'error',
       {
         singleQuote: true,
-        trailingComma: 'none'
+        trailingComma: 'none',
+        endOfLine: 'auto'
       }
     ],
     eqeqeq: ['error', 'always'],
