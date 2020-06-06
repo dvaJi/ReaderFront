@@ -8,7 +8,7 @@ import { setUser } from 'state';
 
 const Login = Loadable({
   loader: () =>
-    import(/* webpackChunkName: "login" */ './user/containers/LoginContainer'),
+    import(/* webpackChunkName: "login" */ './auth/containers/LoginContainer'),
   loading: () => null,
   modules: ['login']
 });
@@ -16,7 +16,7 @@ const Login = Loadable({
 const Signup = Loadable({
   loader: () =>
     import(
-      /* webpackChunkName: "signup" */ './user/containers/SignupContainer'
+      /* webpackChunkName: "signup" */ './auth/containers/SignupContainer'
     ),
   loading: () => null,
   modules: ['signup']
@@ -25,7 +25,7 @@ const Signup = Loadable({
 const Activate = Loadable({
   loader: () =>
     import(
-      /* webpackChunkName: "activate" */ './user/containers/ActivateAccountContainer'
+      /* webpackChunkName: "activate" */ './auth/containers/ActivateAccountContainer'
     ),
   loading: () => null,
   modules: ['activate']
@@ -134,6 +134,12 @@ const Unauthorized = Loadable({
   modules: ['unauthorized']
 });
 
+const UsersList = Loadable({
+  loader: () => import(/* webpackChunkName: "users" */ './user/UsersList'),
+  loading: () => null,
+  modules: ['users']
+});
+
 export default (
   <Switch>
     <RoutePrivate path="/" exact component={withTracker(ACPDashboard)} />
@@ -208,6 +214,12 @@ export default (
       path="/blog/edit_post/:stub"
       exact
       component={withTracker(ACPBlogEdit)}
+    />
+    <Redirect exact from="/users" to="/users/manage" />
+    <RoutePrivate
+      path="/users/manage"
+      exact
+      component={withTracker(UsersList)}
     />
     <Route path="/401" component={withTracker(Unauthorized)} />
     <Route component={NotFound} />

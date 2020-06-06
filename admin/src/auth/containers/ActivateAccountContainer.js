@@ -4,7 +4,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Spinner } from 'reactstrap';
 import gql from 'graphql-tag';
 
-import AuthCheck from '../../auth/AuthCheck';
+import AuthCheck from '../AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 import { useMutation } from '@apollo/react-hooks';
 

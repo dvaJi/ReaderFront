@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import gql from 'graphql-tag';
 
-import AuthCheck from '../../auth/AuthCheck';
+import AuthCheck from '../AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 import { setUser } from 'state';
 
