@@ -40,7 +40,7 @@ function UsersList() {
               <th>{f({ id: 'role', defaultMessage: 'Role' })}</th>
               <th>{f({ id: 'activated', defaultMessage: 'Activated' })}</th>
               <th>{f({ id: 'banned', defaultMessage: 'Banned' })}</th>
-              <th>{f({ id: 'lastLogin', defaultMessage: 'Last Login' })}</th>
+              <th>{f({ id: 'last_login', defaultMessage: 'Last Login' })}</th>
             </tr>
           </thead>
 

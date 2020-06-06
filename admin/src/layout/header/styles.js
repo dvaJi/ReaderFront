@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 import theme from 'styled-theming';
 
-import { Navbar as NavbarBt, CustomInput, NavLink } from 'reactstrap';
+import {
+  Navbar as NavbarBt,
+  CustomInput,
+  NavLink,
+  DropdownToggle,
+  DropdownMenu
+} from 'reactstrap';
 import { cardBackgroundColor, color, background, toRgb } from '../../themes';
 
 export const langNavLinkColor = theme('mode', {
@@ -59,4 +65,35 @@ export const LangNavLink = styled(NavLink)`
   &.active {
     color: rgba(${langNavLinkColor}, 1) !important;
   }
+`;
+
+export const userButtonColor = theme('mode', {
+  light: toRgb(color.light.lighter),
+  dark: toRgb(color.dark.dark)
+});
+
+export const userIconColor = theme('mode', {
+  light: toRgb(color.light.darkest),
+  dark: toRgb(color.dark.lightest)
+});
+
+export const UserLogged = styled(DropdownToggle)`
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  margin: 4px 4px 4px 20px;
+  background-color: rgba(${userButtonColor});
+  color: rgba(${userIconColor});
+  border-radius: 50%;
+  text-align: center;
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+    background-color: rgba(${userButtonColor}, 0.5);
+  }
+`;
+
+export const UserLoggedMenu = styled(DropdownMenu)`
+  transform: translate3d(-94px, 30px, 0px);
 `;
