@@ -172,5 +172,11 @@
   "light": "Light",
   "dark": "Dark",
   "user_interface_language": "User interface language",
-  "filter_chapter_languages": "Filter chapter languages"
+  "filter_chapter_languages": "Filter chapter languages",
+  "logout": "Logout",
+  "activated": "Activated",
+  "ban": "Ban",
+  "last_login": "Last Login",
+  "role": "Role",
+  "banned": "Banned"
 }

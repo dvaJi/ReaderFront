@@ -1,20 +1,35 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
+import {
+  Collapse,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  DropdownItem,
+  Dropdown
+} from 'reactstrap';
 
 import { APP_TITLE, LANGUAGES } from '../../config';
 import { isAuthRoute } from '../../../../shared/is';
 
-import { ChangeTheme, Navbar, ToggleTheme } from './styles';
+import {
+  ChangeTheme,
+  Navbar,
+  ToggleTheme,
+  UserLogged,
+  UserLoggedMenu
+} from './styles';
 import { useGlobalState, setTheme, setLanguage } from 'state';
 import RouteNavItem from './RouteNavItem';
 import LangNavItem from './LangNavItem';
 
-function LangNav({ language, isThemeLight }) {
+function LangNav({ isThemeLight }) {
   const [lighTheme, changeTheme] = useState(isThemeLight);
+  const { locale } = useIntl();
+
   const toggleTheme = () => {
     changeTheme(!lighTheme);
     setTheme(!lighTheme ? 'light' : 'dark');
@@ -25,7 +40,7 @@ function LangNav({ language, isThemeLight }) {
         LANGUAGES.map(lang => (
           <LangNavItem
             key={`nav-${lang}`}
-            cookielang={language}
+            cookielang={locale}
             language={lang}
             onClick={() => setLanguage(lang)}
           >
@@ -47,14 +62,21 @@ function LangNav({ language, isThemeLight }) {
   );
 }
 
-function AdminNav({ language, themeSelected }) {
+function AdminNav() {
   const [isCollapse, toggleCollapse] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const history = useHistory();
+
+  const [themeSelected] = useGlobalState('theme');
+  const [user] = useGlobalState('user');
+
+  const toggleDropdown = () => setDropdownOpen(prevState => !prevState);
   const isThemeLight = themeSelected === 'light';
   return (
     <Navbar dark={!isThemeLight} light={isThemeLight} fixed="true" expand="md">
       <NavbarBrand to="/">{APP_TITLE}</NavbarBrand>
       <NavbarToggler onClick={() => toggleCollapse(!isCollapse)} />
-      <LangNav isThemeLight={isThemeLight} language={language} />
+      <LangNav isThemeLight={isThemeLight} />
       <Collapse isOpen={isCollapse} navbar>
         <Nav className="ml-auto" navbar>
           <RouteNavItem to="/" exact>
@@ -67,21 +89,37 @@ function AdminNav({ language, themeSelected }) {
             <FormattedMessage id="blog" defaultMessage="Blog" />
           </RouteNavItem>
         </Nav>
+        {user && (
+          <Dropdown
+            isOpen={dropdownOpen}
+            toggle={toggleDropdown}
+            data-toggle="dropdown"
+            aria-expanded={dropdownOpen}
+          >
+            <UserLogged tag="span">
+              <FontAwesomeIcon icon="user" />
+            </UserLogged>
+            <UserLoggedMenu>
+              <DropdownItem header>{user.name}</DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  history.push('/auth/logout');
+                }}
+              >
+                <FormattedMessage id="logout" defaultMessage="Logout" />
+              </DropdownItem>
+            </UserLoggedMenu>
+          </Dropdown>
+        )}
       </Collapse>
     </Navbar>
   );
 }
 
 function Header() {
-  const [themeSelected] = useGlobalState('theme');
   const location = useLocation();
-  const { locale } = useIntl();
 
-  return (
-    !isAuthRoute(location) && (
-      <AdminNav themeSelected={themeSelected} language={locale} />
-    )
-  );
+  return !isAuthRoute(location) && <AdminNav />;
 }
 
 export default Header;
