@@ -172,5 +172,12 @@
   "light": "Claro",
   "dark": "Oscuro",
   "user_interface_language": "Idioma de la Intefaz de Usuario",
-  "filter_chapter_languages": "Filtrar idiomas de capítulos"
+  "filter_chapter_languages": "Filtrar idiomas de capítulos",
+  "logout": "Cerrar Sesión",
+  "activated": "Activado",
+  "ban": "Suspender",
+  "unban": "Remover Suspención",
+  "last_login": "Última conexión",
+  "role": "Rol",
+  "banned": "Suspender"
 }

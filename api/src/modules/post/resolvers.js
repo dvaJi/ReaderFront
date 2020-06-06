@@ -1,6 +1,6 @@
 import { Sequelize, Op } from 'sequelize';
 import path from 'path';
-import uuidv1 from 'uuid/v1';
+import { v1 as uuidv1 } from 'uuid';
 
 // App Imports
 import {

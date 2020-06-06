@@ -24,7 +24,8 @@ import {
   faPlus,
   faRss,
   faSave,
-  faSun
+  faSun,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { faDiscord, faPatreon } from '@fortawesome/free-brands-svg-icons';
 
@@ -53,7 +54,8 @@ function setupIcons() {
     faPlus,
     faRss,
     faSave,
-    faSun
+    faSun,
+    faUser
   );
   library.add(faDiscord, faPatreon);
 }
