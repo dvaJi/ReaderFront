@@ -8,6 +8,7 @@ import PostView from '@components/Blog/PostView';
 import { subString } from '@shared/is';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
+import { logException } from 'lib/analytics';
 
 export const FIND_BY_STUB = gql`
   query PostByStub($stub: String) {
@@ -38,7 +39,10 @@ export function BlogContainer() {
 
   if (loading)
     return <div style={{ textAlign: 'center', padding: 100 }}>Loading...</div>;
-  if (error) return <p id="error_blog">Error :(</p>;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <p id="error_blog">Error :(</p>;
+  }
 
   return (
     <div className="Post">

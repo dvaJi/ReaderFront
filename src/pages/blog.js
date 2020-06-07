@@ -10,6 +10,7 @@ import PostCardLoading from '@components/Blog/PostCardEmpty';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
 import { useGlobalState } from 'lib/state';
+import { logException } from 'lib/analytics';
 
 export const FETCH_ALL_POSTS_WITH_AGG = gql`
   query AllPosts($languages: [Int], $first: Int, $offset: Int) {
@@ -79,12 +80,16 @@ function RenderPostList({ languages }) {
         <PostCardLoading />
       </Container>
     );
-  if (error)
+
+  if (error) {
+    logException(JSON.stringify(error), true);
     return (
       <Container id="error_blog">
         <PostCardLoading />
       </Container>
     );
+  }
+
   return (
     <Container className="Blog">
       <PostsList

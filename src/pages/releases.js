@@ -11,6 +11,7 @@ import ReleaseCardEmpty from '@components/Releases/ReleaseCardEmpty';
 import { useGlobalState } from 'lib/state';
 import { APP_TITLE } from 'lib/config';
 import { withApollo } from 'lib/apollo';
+import { logException } from 'lib/analytics';
 
 export const FETCH_RELEASES = gql`
   query Chapters(
@@ -58,7 +59,10 @@ const LatestReleases = ({ languages, orderBy, first, offset }) => {
   });
 
   if (loading) return <ReleaseCardEmpty />;
-  if (error) return <p id="error_releases">Error :(</p>;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <p id="error_releases">Error :(</p>;
+  }
 
   return <ReleasesList releases={data.chapters} />;
 };

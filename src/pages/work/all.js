@@ -12,6 +12,7 @@ import FilterCard from '@components/Works/FilterCard';
 import { useGlobalState } from 'lib/state';
 import { withApollo } from 'lib/apollo';
 import { APP_TITLE } from 'lib/config';
+import { logException } from 'lib/analytics';
 
 export const FETCH_WORKS = gql`
   query PublicWorks($languages: [Int]) {
@@ -57,12 +58,15 @@ export function WorksContainer() {
         <WorksListLoading />
       </Container>
     );
-  if (error)
+
+  if (error) {
+    logException(JSON.stringify(error), true);
     return (
       <Container>
-        <p id="error_releases">Error :(</p>
+        <p id="error_works">Error :(</p>
       </Container>
     );
+  }
 
   forceCheck();
 

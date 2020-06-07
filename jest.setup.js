@@ -1,5 +1,6 @@
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import ReactGA from 'react-ga';
 import dotenv from 'dotenv';
 
 import {
@@ -13,6 +14,11 @@ import { getWork, getWorks } from './shared/mocks/getWorksMock';
 import { initGlobalState } from 'lib/state';
 
 configure({ adapter: new Adapter() });
+
+// Mock react-ga
+ReactGA.initialize('foo', { testMode: true });
+ReactGA.ga('send', 'pageview', '/');
+jest.mock('react-ga');
 
 global.wait = ms => {
   return new Promise(resolve => setTimeout(() => resolve(), ms));
