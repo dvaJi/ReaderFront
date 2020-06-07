@@ -6,9 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { chapterTitle } from '@shared/lang/chapter-title';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { ANONYMIZER_DOWNLOADS } from 'lib/config';
+import { logEvent } from 'lib/analytics';
 import { ChapterRow, ChapterIsSeen, EndBadge } from './styles';
 
-function Chapter({ chapter, isEnd }) {
+function Chapter({ chapter, work, isEnd }) {
   const { formatMessage: f } = useIntl();
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
 
@@ -43,6 +44,13 @@ function Chapter({ chapter, isEnd }) {
             id: 'download_chapter',
             defaultMessage: 'Download chapter'
           })}
+          onClick={() => {
+            logEvent(
+              'Reader',
+              'Download Chapter',
+              `${work.name} [${work.language_name}] - ${chapter.chapter}.${chapter.subchapter}`
+            );
+          }}
         >
           <FontAwesomeIcon icon="download" />
         </a>

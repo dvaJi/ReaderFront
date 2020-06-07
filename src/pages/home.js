@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
 
 import { useGlobalState } from 'lib/state';
+import { logException } from 'lib/analytics';
 import { DISCORD_ID, APP_TITLE } from 'lib/config';
 
 import ComicSlide from '@components/ComicSlide';
@@ -99,7 +100,10 @@ const LatestReleases = ({ languages }) => {
   });
 
   if (loading) return <ComicSlide chapters={[]} isLoading={true} />;
-  if (error) return <ComicSlide chapters={[]} isLoading={true} />;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <ComicSlide chapters={[]} isLoading={true} />;
+  }
 
   return <ComicSlide chapters={data.chapters} isLoading={false} />;
 };
@@ -110,7 +114,10 @@ const LatestWorksAdded = ({ languages }) => {
   });
 
   if (loading) return <LatestWorks blocks={[]} isLoading={true} />;
-  if (error) return <LatestWorks blocks={[]} isLoading={true} />;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <LatestWorks blocks={[]} isLoading={true} />;
+  }
 
   return <LatestWorks works={data.works} isLoading={false} />;
 };
@@ -121,7 +128,10 @@ const RandomWork = ({ languages }) => {
   });
 
   if (loading) return <RecommendedWorkLoading />;
-  if (error) return <RecommendedWorkLoading />;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <RecommendedWorkLoading />;
+  }
 
   return <RecommendedWork isLoading={false} work={data.workRandom} />;
 };

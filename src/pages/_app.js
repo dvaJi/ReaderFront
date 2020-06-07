@@ -1,4 +1,5 @@
 import App from 'next/app';
+import Router from 'next/router';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import nextCookie from 'next-cookies';
@@ -16,6 +17,7 @@ import './flags.css';
 import ConnectedIntl from '../lib/connectedIntl';
 import { APP_VERSION } from 'lib/config';
 import { initGlobalState } from 'lib/state';
+import { initGA, logPageView } from 'lib/analytics';
 
 setupIcons();
 config.autoAddCss = false;
@@ -57,6 +59,12 @@ export default class MyApp extends App {
       acpUploadView,
       chaptersSeen
     };
+  }
+
+  componentDidMount() {
+    initGA();
+    logPageView();
+    Router.events.on('routeChangeComplete', logPageView);
   }
 
   render() {

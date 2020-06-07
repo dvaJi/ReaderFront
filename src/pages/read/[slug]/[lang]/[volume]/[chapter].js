@@ -15,6 +15,7 @@ import Comments from '@components/Read/Comments';
 import { ReaderMain } from '@components/Read/styles';
 
 import { withApollo } from 'lib/apollo';
+import { logException } from 'lib/analytics';
 import { APP_URL, APP_TITLE, APP_VERSION } from 'lib/config';
 
 export const FETCH_CHAPTER = gql`
@@ -99,7 +100,11 @@ function ReaderContent({ showNav }) {
   });
 
   if (loading) return <ReaderLoading />;
-  if (error) return 'Error';
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return 'Error';
+  }
+
   if (!data.chapterByWorkAndChapter) return 'Error';
 
   const currentChapter = data.chapterByWorkAndChapter;
