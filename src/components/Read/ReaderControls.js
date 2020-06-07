@@ -22,6 +22,7 @@ import {
   ReaderControlsChapters
 } from './styles';
 import ReaderSettings from './ReaderSettings';
+import { logEvent } from 'lib/analytics';
 
 export const FETCH_CHAPTERS = gql`
   query ChaptersByWork($languages: [Int], $workStub: String) {
@@ -105,6 +106,13 @@ export function ReaderControls({
             <a
               title="Download chapter"
               id="download-chapter"
+              onClick={() => {
+                logEvent(
+                  'Reader',
+                  'Download Chapter',
+                  `${work.name} [${work.language_name}] - ${chapter.chapter}.${chapter.subchapter}`
+                );
+              }}
               href={`${ANONYMIZER_DOWNLOADS + chapter.download_href}`}
               target="_blank"
               rel="noopener noreferrer"

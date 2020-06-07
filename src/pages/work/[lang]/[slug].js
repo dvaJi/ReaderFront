@@ -14,6 +14,7 @@ import WorkEmpty from '@components/Work/WorkEmpty';
 import { languages } from '@shared/params/global';
 import { APP_TITLE, APP_VERSION, APP_URL } from 'lib/config';
 import { withApollo } from 'lib/apollo';
+import { logException } from 'lib/analytics';
 
 export const FETCH_WORK = gql`
   query PublicWork($language: Int, $stub: String) {
@@ -82,7 +83,10 @@ export function WorkContainer() {
       </Container>
     );
   }
-  if (error) return <Container id="error_releases">Error :(</Container>;
+  if (error) {
+    logException(JSON.stringify(error), true);
+    return <Container id="error_work">Error :(</Container>;
+  }
 
   return (
     <Container>

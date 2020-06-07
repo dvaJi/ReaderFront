@@ -17,6 +17,7 @@ function ChapterList({ work }) {
             <Chapter
               key={chapter.id}
               chapter={chapter}
+              work={work}
               isEnd={workIsCompleted && chapter.id === work.chapters[0].id}
             />
           ))}
