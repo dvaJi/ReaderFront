@@ -23,6 +23,8 @@ export async function create(
 
   if (!user) {
     // User does not exists
+    const usersCount = await models.User.count();
+
     const passwordHashed = await bcrypt.hash(password, serverConfig.saltRounds);
     const lastLogin = new Date();
     const activateToken = await bcrypt.hash(
@@ -34,7 +36,7 @@ export async function create(
       name,
       email,
       password: passwordHashed,
-      activated: false,
+      activated: usersCount === 0,
       activatedToken: activateToken,
       lastLogin: lastLogin,
       banned: false,
@@ -42,12 +44,20 @@ export async function create(
       lastIp: clientIp
     });
 
-    await sendActivateEmail({
-      siteUrl: APP_URL,
-      to: newUser.email,
-      name: newUser.name,
-      token: newUser.activatedToken
-    });
+    if (usersCount > 0) {
+      await sendActivateEmail({
+        siteUrl: APP_URL,
+        to: newUser.email,
+        name: newUser.name,
+        token: newUser.activatedToken
+      });
+    } else {
+      await sendAccountIsActivatedEmail({
+        siteUrl: APP_URL,
+        to: newUser.email,
+        name: newUser.name
+      });
+    }
 
     return newUser;
   } else {
