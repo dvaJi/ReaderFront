@@ -9,6 +9,9 @@ import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ACPChaptersMetaTags';
 import { FETCH_CHAPTERS } from '../../works/query';
 import { CREATE_CHAPTER } from '../mutations';
+import { LANGUAGES } from '../../config';
+import { languagesAvailables } from '../../../../shared/params/global';
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const chapterEmpty = {
@@ -17,7 +20,7 @@ export const chapterEmpty = {
   chapter: 0,
   subchapter: 0,
   volume: 0,
-  language: 1,
+  language: languagesAvailables(LANGUAGES)[0].id,
   name: '',
   stub: '',
   uniqid: '',

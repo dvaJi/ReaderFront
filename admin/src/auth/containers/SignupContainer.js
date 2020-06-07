@@ -44,7 +44,7 @@ function Signup() {
       const { data } = await signup({ variables: user });
       if (data.errors && data.errors.length > 0) {
         setError(data.errors[0].message);
-      } else if (data.userLogin.token !== '') {
+      } else if (data.userSignup.id !== 0) {
         setError(null);
         setSuccess(
           f({
@@ -52,7 +52,7 @@ function Signup() {
             defaultMessage: 'Signed up successfully.'
           })
         );
-        history.push('/login');
+        history.push('/auth/login');
       }
     } catch (err) {
       setError(

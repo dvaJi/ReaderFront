@@ -11,6 +11,7 @@ import {
   sendActivateEmail,
   sendAccountIsActivatedEmail
 } from '../../setup/email';
+import { roles } from '@shared/params/user';
 
 // Create
 export async function create(
@@ -35,6 +36,7 @@ export async function create(
     const newUser = await models.User.create({
       name,
       email,
+      role: usersCount === 0 ? roles.admin : roles.user,
       password: passwordHashed,
       activated: usersCount === 0,
       activatedToken: activateToken,

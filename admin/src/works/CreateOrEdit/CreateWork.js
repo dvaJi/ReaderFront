@@ -10,6 +10,8 @@ import { Card, ButtonLink, Container } from 'common/ui';
 import { MetaTagCreate } from '../ACPWorksMetaTags';
 import { FETCH_WORKS } from '../query';
 import { CREATE_WORK } from '../mutation';
+import { languagesAvailables } from '../../../../shared/params/global';
+import { LANGUAGES } from '../../config';
 
 export const postEmpty = {
   id: 0,
@@ -21,7 +23,7 @@ export const postEmpty = {
   status: 1,
   statusReason: '',
   description: '',
-  language: 1,
+  language: languagesAvailables(LANGUAGES)[0].id,
   adult: false,
   visits: 0,
   thumbnail: '',

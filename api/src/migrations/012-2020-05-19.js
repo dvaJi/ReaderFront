@@ -18,6 +18,7 @@ module.exports = {
         },
         { transaction }
       );
+      await queryInterface.dropTable('works_descriptions');
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();

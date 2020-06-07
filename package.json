@@ -23,6 +23,8 @@
     "dev:all": "concurrently \"npm:dev\" \"npm:dev:api\" \"npm:dev:admin\"",
     "build": "next build",
     "build:admin": "cd ./admin && npm run build",
+    "build:api": "cd ./api && npm run build",
+    "build:all": "npm run build && npm run build:api && npm run build:admin",
     "test": "jest --watchAll --verbose",
     "test:ci": "jest --coverage",
     "test:admin": "cd ./admin && npm run test:ci",

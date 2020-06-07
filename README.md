@@ -21,7 +21,11 @@ readerfront/
 ├── src        # Frontend NextJS
 ```
 
-Installation steps:
+### Production Installation steps:
+
+Please follow [PRODUCTION](https://github.com/dvaJi/ReaderFront/blob/master/PRODUCTION.md) instructions.
+
+### Development Installation steps:
 
 1. **Install MariaDB**: See [the MariaDB documentation](https://downloads.mariadb.org/) for instructions on installing it with your OS.
 2. **Install the dependencies**: Because it's pretty tedious to install the dependencies for each project individually we've created a script that goes through and runs `npm install` for project for you:
