@@ -67,7 +67,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-ga": "^3.0.0",
-    "react-helmet": "^6.0.0",
+    "react-helmet": "^6.1.0",
     "react-hooks-global-state": "^1.0.0",
     "react-intl": "^4.6.9",
     "react-lazy-load-image-component": "^1.4.3",
