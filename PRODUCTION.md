@@ -136,4 +136,4 @@ sudo systemctl reload nginx
 
 # Create admin account
 
-To create the admin account go to `https://admin.mydomain.com/auth/signup` and the account will be automatically activated. Then you can login `https://admin.ravens-scans.com/auth/login`.
+To create the admin account go to `https://admin.mydomain.com/auth/signup` and the account will be automatically activated. Then you can login `https://admin.mydomain.com/auth/login`.

@@ -75,12 +75,8 @@ export const FETCH_WORK = gql`
 `;
 
 export const FETCH_CHAPTERS = gql`
-  query ChaptersByWork($languages: [Int], $workStub: String) {
-    chaptersByWork(
-      languages: $languages
-      workStub: $workStub
-      showHidden: true
-    ) {
+  query ChaptersByWork($workId: Int) {
+    chaptersByWorkId(workId: $workId) {
       id
       chapter
       subchapter

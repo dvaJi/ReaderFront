@@ -23,7 +23,7 @@
     "db:seed": "./node_modules/.bin/sequelize db:seed:all",
     "db:drop": "./node_modules/.bin/sequelize db:drop",
     "start": "cross-env NODE_ENV=development nodemon src/index.js --exec babel-node",
-    "start:prod": "cross-env NODE_ENV=production npm run build:prod && npm run start:server",
+    "start:prod": "cross-env NODE_ENV=production npm run build && npm run start:server",
     "build": "babel src -s -D -d build",
     "start:server": "cross-env NODE_ENV=production node build/index.js",
     "test": "jest",

@@ -75,6 +75,36 @@ export async function getByWork(
   return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
 }
 
+// Get chapter by work id
+export async function getByWorkId(_, { workId }, __, { fieldNodes = [] }) {
+  const order = [
+    ['chapter', 'DESC'],
+    ['subchapter', 'DESC']
+  ];
+  const includePages = includesField(fieldNodes, ['pages']);
+  const pages = includePages
+    ? {
+        join: [
+          {
+            model: models.Page,
+            as: 'pages'
+          }
+        ],
+        order: { order: [...order, [models.Page, 'filename']] }
+      }
+    : {
+        join: [],
+        order: { order: order }
+      };
+  const chapters = await models.Chapter.findAll({
+    where: { workId },
+    include: [{ model: models.Works, as: 'work' }, ...pages.join],
+    order
+  }).map(el => el.get({ plain: true }));
+
+  return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
+}
+
 // Get chapter by id
 export async function getById(parentValue, { id, showHidden }) {
   const where = showHidden

@@ -61,7 +61,7 @@ function ChaptersTable() {
   const { stub, workId } = useParams();
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_CHAPTERS, {
-    variables: { languages: [], workStub: stub }
+    variables: { workId: Number(workId) }
   });
   const [removeChapter] = useMutation(REMOVE_CHAPTER);
 
@@ -75,8 +75,8 @@ function ChaptersTable() {
     );
   if (error) return <p id="error_releases">Error :(</p>;
   const chapterBaseUrl = '/work/' + workId + '/' + stub + '/chapter/';
-  return data.chaptersByWork.length > 0 ? (
-    data.chaptersByWork
+  return data.chaptersByWorkId.length > 0 ? (
+    data.chaptersByWorkId
       .sort((ch1, ch2) => ch2.chapter - ch1.chapter)
       .map(({ id, name, chapter, subchapter, volume, createdAt }) => (
         <tr key={id}>

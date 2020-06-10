@@ -11,6 +11,7 @@ import { ChapterType } from './types';
 import {
   getAll,
   getByWork,
+  getByWorkId,
   getById,
   getWithPagesByWorkStubAndChapter
 } from './resolvers';
@@ -37,6 +38,15 @@ export const chaptersByWork = {
     showHidden: { type: GraphQLBoolean }
   },
   resolve: getByWork
+};
+
+// Chapter By Work Id
+export const chaptersByWorkId = {
+  type: new GraphQLList(ChapterType),
+  args: {
+    workId: { type: GraphQLInt }
+  },
+  resolve: getByWorkId
 };
 
 // Chapter By ID
