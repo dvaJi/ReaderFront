@@ -13,19 +13,19 @@ export default function (server) {
   // Thumbnail route
   server.get('/feed/:feed/:lang', async (request, response) => {
     const reqLang = request.params.lang;
-    let language = -1;
+    let languages = [];
     if (isNaN(parseInt(reqLang, 0))) {
       var languageFound = languages.find(ln => ln.name === reqLang);
       if (languageFound) {
-        language = languageFound.id;
+        languages = [languageFound.id];
       }
     } else {
-      language = reqLang;
+      languages = [reqLang];
     }
 
     const feed = request.params.feed;
     let chapters = await getAllRSS({
-      language,
+      languages,
       orderBy: 'DESC'
     });
 
