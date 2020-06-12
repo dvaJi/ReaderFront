@@ -2,7 +2,7 @@ import { Feed } from 'feed';
 import compareDesc from 'date-fns/compareDesc';
 
 // App Imports
-import { languages } from './utils';
+import { languages as allLanguages } from './utils';
 import { getAllRSS } from '../modules/chapter/resolvers';
 import { API_URL, APP_URL, REACT_APP_APP_TITLE } from '../config/env';
 
@@ -15,7 +15,7 @@ export default function (server) {
     const reqLang = request.params.lang;
     let languages = [];
     if (isNaN(parseInt(reqLang, 0))) {
-      var languageFound = languages.find(ln => ln.name === reqLang);
+      const languageFound = allLanguages.find(ln => ln.name === reqLang);
       if (languageFound) {
         languages = [languageFound.id];
       }
@@ -102,7 +102,7 @@ function generateChapterTitle(chapter, lang) {
 }
 
 function generateChapterUrl(chapter, frontendBaseUrl) {
-  const lang = languages.find(ln => ln.id === chapter.language);
+  const lang = allLanguages.find(ln => ln.id === chapter.language);
   return (
     frontendBaseUrl +
     '/read/' +
