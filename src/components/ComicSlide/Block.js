@@ -44,30 +44,28 @@ export default function Block({ blockId, blocks, blockStyle }) {
     >
       {blocks.map((chapter, index) => (
         <li key={index}>
+          <FlagWrapper>
+            <Flag language={chapter.language_name} />
+          </FlagWrapper>
           <Link
             href="/read/[slug]/[lang]/[volume]/[chapter]"
             as={chapter.read_path}
           >
-            <>
-              <FlagWrapper>
-                <Flag language={chapter.language_name} />
-              </FlagWrapper>
-              <Image
-                image={imageToDisplay(index, chapter)}
-                tabIndex="-1"
-                className={chapter.work.adult ? 'is-adult' : ''}
-                style={{
-                  backgroundImage: `url('${imageToDisplay(index, chapter)}')`
-                }}
-              >
-                <span>
-                  {chapter.work.name} - Cap. {chapter.chapter}
-                  {Number(chapter.subchapter) !== 0
-                    ? '.' + chapter.subchapter
-                    : ''}
-                </span>
-              </Image>
-            </>
+            <Image
+              image={imageToDisplay(index, chapter)}
+              tabIndex="-1"
+              className={chapter.work.adult ? 'is-adult' : ''}
+              style={{
+                backgroundImage: `url('${imageToDisplay(index, chapter)}')`
+              }}
+            >
+              <span>
+                {chapter.work.name} - Cap. {chapter.chapter}
+                {Number(chapter.subchapter) !== 0
+                  ? '.' + chapter.subchapter
+                  : ''}
+              </span>
+            </Image>
           </Link>
         </li>
       ))}
