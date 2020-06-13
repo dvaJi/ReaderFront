@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ModalBody } from 'reactstrap';
 
 import { useGlobalState, setDisplaySettings } from 'lib/state';
-import { Button, Container } from '../ui';
+import { Button, Container, Modal, ModalHeader, ModalFooter } from '../ui';
 
 function ReaderSettings({ isOpen, toggle }) {
   const [displaySettings] = useGlobalState('displaySettings');
