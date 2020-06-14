@@ -34,6 +34,7 @@ const ChapterType = new GraphQLObjectType({
     thumbnail: { type: GraphQLString },
     thumbnail_path: { type: GraphQLString },
     releaseDate: { type: GraphQLDate },
+    releaseDate_formatted: { type: GraphQLString },
     download_href: { type: GraphQLString },
     read_path: { type: GraphQLString },
     createdAt: { type: GraphQLDate },

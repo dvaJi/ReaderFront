@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import formatDate from 'date-fns/format';
 import { FormattedMessage } from 'react-intl';
 
 import {
@@ -34,7 +33,6 @@ const chapterTitle = ({ name, chapter, subchapter, volume }) => (
 );
 
 export default function ReleaseItem({ release, url }) {
-  const releaseDate = new Date(release.releaseDate);
   return (
     <Link href="/read/[slug]/[lang]/[volume]/[chapter]" as={url}>
       <ReleaseRow>
@@ -46,7 +44,7 @@ export default function ReleaseItem({ release, url }) {
           </ReleaseChapterBlock>
           <ReleaseContent className="media-body pb-3 mb-0 small lh-125">
             <strong className="d-block">{chapterTitle(release)}</strong>
-            {formatDate(releaseDate, 'dd/MM/yyyy')}
+            {release.releaseDate_formatted}
           </ReleaseContent>
         </div>
       </ReleaseRow>

@@ -123,6 +123,7 @@ function ReaderContent({ showNav }) {
       <>
         <Helmet defer={false}>
           <meta charSet="utf-8" />
+          <meta name="language" content={lang} />
           <meta property="og:image" content={chapterThumb} />
           <meta property="og:type" content="article" />
           <meta
@@ -150,13 +151,10 @@ function ReaderContent({ showNav }) {
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "item": "${APP_TITLE}" },
-                { "@type": "ListItem", "position": 2, "item": "${currentChapter.work.name}" },
-                {
-                  "@type": "ListItem",
-                  "position": 3,
-                  "item": "${chapterTitle}"
-                }
+                { "@type": "ListItem", "position": 1, "item": { "@id": "${APP_URL}", "name": "${APP_TITLE}" } },
+                { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}/work/all", "name": "Works" } },
+                { "@type": "ListItem", "position": 3, "item": { "@id": "${APP_URL}/work/${currentChapter.work.stub}", "name": "${currentChapter.work.name}" } },
+                { "@type": "ListItem", "position": 4, "item": { "@id": "${APP_URL}${router.asPath}", "name": "${chapterTitle}" } }
               ]
             },
             "provider": "ReaderFront v${APP_VERSION}",

@@ -2,6 +2,10 @@ require('dotenv').config();
 var withOffline = require('next-offline');
 var join = require('path').join;
 
+var withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+});
+
 var nextConfig = {
   experimental: {
     reactRefresh: true
@@ -35,4 +39,4 @@ var nextConfig = {
   }
 };
 
-module.exports = withOffline(nextConfig);
+module.exports = withBundleAnalyzer(withOffline(nextConfig));

@@ -1,5 +1,6 @@
 import { v1 as uuidv1 } from 'uuid';
 import { Op } from 'sequelize';
+import formatDate from 'date-fns/format';
 
 // App Imports
 import { includesField, hasPermission } from '../../setup/utils';
@@ -318,6 +319,10 @@ const where = (showHidden, languages) => {
 
 export const normalizeChapter = (chapter, work) => ({
   ...chapter,
+  releaseDate_formatted: formatDate(
+    new Date(chapter.releaseDate),
+    'dd/MM/yyyy'
+  ),
   download_href: `${API_URL}/download/${chapter.id}`,
   thumbnail_path: isValidThumb(chapter.thumbnail)
     ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`

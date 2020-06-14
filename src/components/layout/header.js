@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +14,8 @@ import { APP_TITLE, DISCORD_URL, PATREON_URL } from 'lib/config';
 import { Navbar } from './styles';
 
 import RouteNavItem from './RouteNavItem';
-import AppSettings from './AppSettings';
+
+const AppSettings = dynamic(() => import('./AppSettings'));
 
 const SettingsButton = styled.button`
   border: 0;

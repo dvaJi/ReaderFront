@@ -19,7 +19,7 @@ const MultiSelectBox = styled.div`
   }
 `;
 
-const MultiSelect = ({
+export const MultiSelect = ({
   focusSearchOnOpen = true,
   hasSelectAll = true,
   shouldToggleOnHover = false,
@@ -74,5 +74,3 @@ const MultiSelect = ({
     </MultiSelectBox>
   );
 };
-
-export default MultiSelect;

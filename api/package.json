@@ -76,7 +76,7 @@
     "cors": "^2.8.5",
     "date-fns": "^2.14.0",
     "dotenv": "^8.2.0",
-    "express": "^5.0.0-alpha.7",
+    "express": "^5.0.0-alpha.8",
     "express-graphql": "^0.9.0",
     "feed": "^4.2.0",
     "fs-extra": "^9.0.1",
@@ -84,7 +84,7 @@
     "graphql-date": "^1.0.3",
     "graphql-depth-limit": "^1.1.0",
     "graphql-tools": "^6.0.9",
-    "graphql-type-json": "^0.3.1",
+    "graphql-type-json": "^0.3.2",
     "graphql-upload": "^11.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
@@ -93,10 +93,10 @@
     "mysql2": "^2.1.0",
     "nodemailer": "^6.4.8",
     "nodemailer-sendgrid-transport": "^0.2.0",
-    "sequelize": "^5.21.12",
+    "sequelize": "^5.21.13",
     "sequelize-cli": "^5.5.1",
-    "sharp": "^0.25.3",
-    "sitemap": "^6.1.5",
+    "sharp": "^0.25.4",
+    "sitemap": "4.1.1",
     "uuid": "^8.1.0"
   }
 }

@@ -103,12 +103,15 @@ export function WorkContainer() {
 }
 
 function WorkMetatags({ work }) {
+  const router = useRouter();
   const { locale, formatMessage } = useIntl();
+  const { lang } = router.query;
   const workThumbnail = getImage(work.thumbnail_path);
   return (
     <>
       <Helmet>
         <meta charSet="utf-8" />
+        <meta name="language" content={lang} />
         <title>{work.name + ' :: ' + APP_TITLE}</title>
         <meta property="og:title" content={work.name + ' :: ' + APP_TITLE} />
         <meta property="og:type" content="book" />
@@ -129,8 +132,11 @@ function WorkMetatags({ work }) {
       "breadcrumb": {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "item": "${APP_TITLE}" },
-          { "@type": "ListItem", "position": 2, "item": "${work.name}" }
+          { "@type": "ListItem", "position": 1, "item": { "@id": "${APP_URL}", "name": "${APP_TITLE}" } },
+          { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}/work/all", "name": "Works" } },
+          { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}${
+            router.asPath
+          }", "name": "${work.name}" } }
         ]
       },
       "provider": "ReaderFront v${APP_VERSION}",
@@ -138,7 +144,7 @@ function WorkMetatags({ work }) {
         "@type": "ComicSeries",
         "identifier": "urn:uuid:${work.uniqid}",
         "name": "${work.name}",
-        "about": "${work.description}",
+        "about": "${JSON.stringify(work.description)}",
         "author": [
           ${work.staff
             .filter(rol => rol.rol === 1)

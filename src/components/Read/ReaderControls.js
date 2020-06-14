@@ -1,28 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/react-hooks';
-import { UncontrolledTooltip } from 'reactstrap';
 import { useIntl } from 'react-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gql from 'graphql-tag';
 
-import { APP_TITLE, ANONYMIZER_DOWNLOADS } from 'lib/config';
+import { APP_TITLE } from 'lib/config';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { chapterTitle } from '@shared/lang/chapter-title';
 import {
   ReaderControlsContainer,
   ReaderControlsWrapper,
   ReaderControlsInfo,
-  ReaderControlsActions,
   ReaderControlsLogo,
   ReaderControlsChapterInfo,
   ReaderControlsWork,
   ReaderControlsChapters
 } from './styles';
 import ReaderSettings from './ReaderSettings';
-import { logEvent } from 'lib/analytics';
+
+const ReaderControlsActions = dynamic(() => import('./ReaderControlsActions'));
 
 export const FETCH_CHAPTERS = gql`
   query ChaptersByWork($languages: [Int], $workStub: String) {
@@ -47,7 +46,6 @@ export function ReaderControls({
   toggleComments,
   showNav
 }) {
-  const { formatMessage: f } = useIntl();
   const [showSettings, toggleShowSettings] = useState(false);
   const { setIsSeen } = useChapterSeen(chapter.id);
 
@@ -89,52 +87,12 @@ export function ReaderControls({
               </ReaderControlsChapters>
             </ReaderControlsChapterInfo>
           </ReaderControlsInfo>
-          <ReaderControlsActions>
-            <button
-              title="Show Comments"
-              id="show-comments"
-              onClick={() => toggleComments(true)}
-            >
-              <FontAwesomeIcon icon="comments" size="lg" />
-            </button>
-            <UncontrolledTooltip placement="bottom" target="show-comments">
-              {f({
-                id: 'show_comments',
-                defaultMessage: 'Show Comments'
-              })}
-            </UncontrolledTooltip>
-            <a
-              title="Download chapter"
-              id="download-chapter"
-              onClick={() => {
-                logEvent(
-                  'Reader',
-                  'Download Chapter',
-                  `${work.name} [${work.language_name}] - ${chapter.chapter}.${chapter.subchapter}`
-                );
-              }}
-              href={`${ANONYMIZER_DOWNLOADS + chapter.download_href}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FontAwesomeIcon icon="download" size="lg" />
-            </a>
-            <UncontrolledTooltip placement="bottom" target="download-chapter">
-              {f({
-                id: 'download_chapter',
-                defaultMessage: 'Download Chapter'
-              })}
-            </UncontrolledTooltip>
-            <button
-              title="Reader settings"
-              id="settings-button"
-              onClick={() => toggleShowSettings(!showSettings)}
-            >
-              <FontAwesomeIcon icon="cog" size="lg" />
-            </button>
-            <UncontrolledTooltip placement="bottom" target="settings-button">
-              {f({ id: 'reader_settings', defaultMessage: 'Reader Settings' })}
-            </UncontrolledTooltip>
+          <ReaderControlsActions
+            work={work}
+            chapter={chapter}
+            toggleComments={toggleComments}
+            toggleShowSettings={toggleShowSettings}
+          >
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />
           </ReaderControlsActions>
         </ReaderControlsWrapper>
