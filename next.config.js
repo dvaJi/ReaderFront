@@ -1,10 +1,20 @@
 require('dotenv').config();
+var withPlugins = require('next-compose-plugins');
 var withOffline = require('next-offline');
 var join = require('path').join;
 
 var withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true'
 });
+
+var withTM = require('next-transpile-modules')([
+  '@formatjs/intl-relativetimeformat',
+  '@formatjs/intl-utils',
+  'react-intl',
+  'intl-format-cache',
+  'intl-messageformat-parser',
+  'intl-messageformat'
+]);
 
 var nextConfig = {
   experimental: {
@@ -39,4 +49,7 @@ var nextConfig = {
   }
 };
 
-module.exports = withBundleAnalyzer(withOffline(nextConfig));
+module.exports = withPlugins(
+  [withBundleAnalyzer, withOffline, withTM],
+  nextConfig
+);

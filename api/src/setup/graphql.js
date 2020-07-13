@@ -1,5 +1,5 @@
 // Imports
-import graphqlHTTP from 'express-graphql';
+import { graphqlHTTP } from 'express-graphql';
 import depthLimit from 'graphql-depth-limit';
 import { graphqlUploadExpress } from 'graphql-upload';
 
