@@ -2,14 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as config from 'lib/config';
 
-const SHORTNAME = config.DISQUS_SHORTNAME;
-const WEBSITE_URL = config.APP_URL;
-
 function renderDisqus() {
   if (window.DISQUS === undefined) {
     var script = document.createElement('script');
     script.async = true;
-    script.src = 'https://' + SHORTNAME + '.disqus.com/embed.js';
+    script.src = 'https://' + config.DISQUS_SHORTNAME + '.disqus.com/embed.js';
     document.getElementsByTagName('head')[0].appendChild(script);
   } else {
     window.DISQUS.reset({ reload: true });
@@ -40,14 +37,18 @@ class DisqusThread extends React.Component {
   }
 
   render() {
-    let { id, title, path, ...other } = this.props;
+    let { id, title, path, ...props } = this.props;
 
-    window.disqus_shortname = SHORTNAME;
+    if (!config.DISQUS_SHORTNAME) {
+      return null;
+    }
+
+    window.disqus_shortname = config.DISQUS_SHORTNAME;
     window.disqus_identifier = id;
     window.disqus_title = title;
-    window.disqus_url = WEBSITE_URL + '/' + path;
+    window.disqus_url = config.APP_URL + '/' + path;
 
-    return <div {...other} id="disqus_thread" />;
+    return <div {...props} id="disqus_thread" />;
   }
 }
 

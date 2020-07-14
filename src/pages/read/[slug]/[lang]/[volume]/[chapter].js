@@ -217,7 +217,6 @@ function ReaderContent({ showNav }) {
         work={currentChapter.work}
         chapter={currentChapter}
         language={language.id}
-        toggleComments={toggleComments}
         showNav={showNav}
       />
       <ImagesList
@@ -229,8 +228,6 @@ function ReaderContent({ showNav }) {
         id={disqusConfig.id}
         title={disqusConfig.title}
         path={disqusConfig.path}
-        isOpen={showComments}
-        toggle={toggleComments}
       />
     </>
   );

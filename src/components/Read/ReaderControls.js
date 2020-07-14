@@ -39,13 +39,7 @@ export const FETCH_CHAPTERS = gql`
   }
 `;
 
-export function ReaderControls({
-  work,
-  language,
-  chapter,
-  toggleComments,
-  showNav
-}) {
+export function ReaderControls({ work, language, chapter, showNav }) {
   const [showSettings, toggleShowSettings] = useState(false);
   const { setIsSeen } = useChapterSeen(chapter.id);
 
@@ -90,7 +84,6 @@ export function ReaderControls({
           <ReaderControlsActions
             work={work}
             chapter={chapter}
-            toggleComments={toggleComments}
             toggleShowSettings={toggleShowSettings}
           >
             <ReaderSettings isOpen={showSettings} toggle={toggleShowSettings} />

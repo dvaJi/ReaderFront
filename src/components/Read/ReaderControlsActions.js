@@ -9,26 +9,12 @@ import { logEvent } from 'lib/analytics';
 export default function ReaderControlsActions({
   work,
   chapter,
-  toggleComments,
   toggleShowSettings,
   children
 }) {
   const { formatMessage: f } = useIntl();
   return (
     <Wrapper>
-      <button
-        title="Show Comments"
-        id="show-comments"
-        onClick={() => toggleComments(true)}
-      >
-        <FontAwesomeIcon icon="comments" size="lg" />
-      </button>
-      <UncontrolledTooltip placement="bottom" target="show-comments">
-        {f({
-          id: 'show_comments',
-          defaultMessage: 'Show Comments'
-        })}
-      </UncontrolledTooltip>
       <a
         title="Download chapter"
         id="download-chapter"
