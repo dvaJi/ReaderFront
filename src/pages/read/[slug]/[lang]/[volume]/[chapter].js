@@ -84,7 +84,6 @@ export function ReaderContainer() {
 }
 
 function ReaderContent({ showNav }) {
-  const [showComments, toggleComments] = useState(false);
   const { formatMessage: f } = useIntl();
   const router = useRouter();
   const { slug, lang, volume, chapter: chaptersub } = router.query;
