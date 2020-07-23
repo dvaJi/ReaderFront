@@ -83,7 +83,7 @@
     "graphql": "^15.3.0",
     "graphql-date": "^1.0.3",
     "graphql-depth-limit": "^1.1.0",
-    "graphql-tools": "^6.0.12",
+    "graphql-tools": "^6.0.15",
     "graphql-type-json": "^0.3.2",
     "graphql-upload": "^11.0.0",
     "jsonwebtoken": "^8.5.1",
