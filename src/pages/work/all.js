@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
@@ -44,13 +45,19 @@ export const FETCH_WORKS = gql`
 `;
 
 export function WorksContainer() {
-  const [textFilter, setTextFilter] = useState('');
+  const { query, push } = useRouter();
+  const [textFilter, setText] = useState(query.q ? query.q : '');
   const [languagesSelected] = useGlobalState('languages_filter');
   const languages = languagesSelected.map(l => l.value);
 
   const { loading, error, data } = useQuery(FETCH_WORKS, {
     variables: { languages }
   });
+
+  const setTextFilter = text => {
+    push({ query: { q: text } });
+    setText(text);
+  };
 
   if (loading)
     return (
