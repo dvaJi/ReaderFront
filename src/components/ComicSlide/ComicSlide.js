@@ -1,10 +1,10 @@
-import React, { useMemo, useState, useRef } from 'react';
+import React, { useMemo, useState, useRef, memo } from 'react';
 import NextButton from './NextButton';
 import Block from './Block';
 
 import { SlideWrapper } from './styles';
 
-export default function ComicSlide({ chapters, isLoading }) {
+function ComicSlide({ chapters, isLoading }) {
   const blocks = useMemo(() => createBlocks(chapters), [chapters]);
   const [carrouselStyle, setCarrouselStyle] = useState({
     opacity: '1',
@@ -20,7 +20,7 @@ export default function ComicSlide({ chapters, isLoading }) {
       slideWidth += slideRef.current.childNodes[index].clientWidth;
     }
     let clientWidth = window.innerWidth || document.documentElement.clientWidth,
-      pixelsToMove = clientWidth > 1280 ? clientWidth / 3 : clientWidth / 2,
+      pixelsToMove = clientWidth > 1280 ? clientWidth / 3 : clientWidth / 1.5,
       marginLeft = clientWidth <= 602 ? 20.5 : 41.5,
       finalSlideWidth = Math.round(slideWidth - blocks.length * marginLeft);
 
@@ -96,3 +96,5 @@ const generateRandomBlock = previousBlock => {
   const nextIndex = numbers.length - 1 === index ? 0 : index + 1;
   return numbers[nextIndex];
 };
+
+export default memo(ComicSlide);

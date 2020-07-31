@@ -14,7 +14,6 @@ const borderWrapper = theme('mode', {
 
 export const SlideWrapper = styled.div`
   position: relative;
-  min-width: 1004px;
   background: ${backgroundWrapper};
   border-top: 1px solid ${borderWrapper};
   border-bottom: 1px solid ${borderWrapper};

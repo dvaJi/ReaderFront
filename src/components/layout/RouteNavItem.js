@@ -50,7 +50,7 @@ const Linka = styled.a`
   }
 `;
 
-export default ({ target, children, ...props }) => (
+const RouteNavItem = ({ target, children, ...props }) => (
   <Item>
     {target ? (
       <Linka {...props} target={target}>
@@ -63,3 +63,5 @@ export default ({ target, children, ...props }) => (
     )}
   </Item>
 );
+
+export default RouteNavItem;
