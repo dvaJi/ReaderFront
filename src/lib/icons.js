@@ -6,6 +6,7 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons/faAngleLeft';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons/faAngleRight';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons/faArrowRight';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons/faArrowUp';
 import { faFlag } from '@fortawesome/free-solid-svg-icons/faFlag';
 import { faWindowMaximize } from '@fortawesome/free-solid-svg-icons/faWindowMaximize';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons/faDatabase';
@@ -36,6 +37,7 @@ function setupIcons() {
     faAngleRight,
     faArrowLeft,
     faArrowRight,
+    faArrowUp,
     faFlag,
     faWindowMaximize,
     faDatabase,

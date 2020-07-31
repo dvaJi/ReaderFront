@@ -10,6 +10,7 @@ import { languages } from '@shared/params/global';
 import { getImage } from '@components/Image';
 import ReaderControls from '@components/Read/ReaderControls';
 import ReaderLoading from '@components/Read/ReaderLoading';
+import BottomActions from '@components/Read/BottomActions';
 import ImagesList from '@components/Read/ImagesList';
 import Comments from '@components/Read/Comments';
 import { ReaderMain } from '@components/Read/styles';
@@ -223,6 +224,7 @@ function ReaderContent({ showNav }) {
         pages={currentChapter.pages}
         chapter={currentChapter}
       />
+      <BottomActions chapter={currentChapter} />
       <Comments
         id={disqusConfig.id}
         title={disqusConfig.title}

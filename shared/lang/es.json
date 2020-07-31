@@ -179,5 +179,7 @@
   "unban": "Remover Suspención",
   "last_login": "Última conexión",
   "role": "Rol",
-  "banned": "Suspender"
+  "banned": "Suspender",
+  "top_of_page": "Subir",
+  "back": "Volver"
 }

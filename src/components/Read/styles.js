@@ -204,3 +204,20 @@ export const ReaderMain = styled.div`
   min-width: 100%;
   background-color: #212121;
 `;
+
+export const BottomActionsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  & > div > button {
+    margin-right: 10px;
+  }
+
+  & > button > svg:not(.arrow-right),
+  & > div > button > svg {
+    margin-right: 5px;
+  }
+  .arrow-right {
+    margin-left: 5px;
+  }
+`;

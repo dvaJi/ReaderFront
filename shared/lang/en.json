@@ -178,5 +178,7 @@
   "ban": "Ban",
   "last_login": "Last Login",
   "role": "Role",
-  "banned": "Banned"
+  "banned": "Banned",
+  "top_of_page": "Top of Page",
+  "back": "Back"
 }
