@@ -10,10 +10,12 @@ import {
   Container,
   ButtonLink,
   Input,
+  Select,
   Table,
   Button,
   ButtonGroup
 } from 'common/ui';
+import { LANGUAGES } from '../config';
 import { MetaTagList } from './ACPWorksMetaTags';
 import { FETCH_WORKS } from './query';
 import { REMOVE_WORK } from './mutation';
@@ -21,6 +23,7 @@ import { REMOVE_WORK } from './mutation';
 function List() {
   const { formatMessage: f } = useIntl();
   const [searchText, setText] = useState('');
+  const [languages, setLanguages] = useState('all');
 
   return (
     <Container>
@@ -45,6 +48,29 @@ function List() {
             onChange={e => setText(e.target.value)}
             style={{ width: 250 }}
           />
+          <Select
+            type="select"
+            name="select"
+            id="exampleSelect"
+            style={{ width: 100, float: 'right', marginRight: 10 }}
+            onChange={e => setLanguages(e.target.value)}
+            value={languages}
+          >
+            <option value="all">
+              {f({
+                id: `all`,
+                defaultMessage: 'All'
+              })}
+            </option>
+            {LANGUAGES.map(lang => (
+              <option value={lang}>
+                {f({
+                  id: `${lang}_full`,
+                  defaultMessage: lang
+                })}
+              </option>
+            ))}
+          </Select>
         </div>
 
         <Table bordered hover>
@@ -60,7 +86,7 @@ function List() {
           </thead>
 
           <tbody>
-            <WorksTable searchText={searchText} />
+            <WorksTable searchText={searchText} languages={languages} />
           </tbody>
         </Table>
       </div>
@@ -68,7 +94,7 @@ function List() {
   );
 }
 
-function WorksTable({ searchText }) {
+function WorksTable({ searchText, languages }) {
   const { formatMessage: f } = useIntl();
   const { loading, error, data } = useQuery(FETCH_WORKS, {
     variables: { languages: [] }
@@ -86,8 +112,10 @@ function WorksTable({ searchText }) {
   if (error) return <p id="error_releases">Error :(</p>;
   return data.works.length > 0 ? (
     data.works
-      .filter(work =>
-        work.name.toUpperCase().startsWith(searchText.toUpperCase())
+      .filter(
+        work =>
+          work.name.toUpperCase().startsWith(searchText.toUpperCase()) &&
+          (languages === 'all' || work.language_name === languages)
       )
       .map(({ id, stub, type, language, language_name, name }) => (
         <tr key={id}>
