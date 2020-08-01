@@ -1,7 +1,14 @@
 import React, { memo } from 'react';
+
 import { CounterCard } from './CounterCard';
+import { useGlobalState } from 'state';
 
 function Dashboard() {
+  const [user] = useGlobalState('user');
+  let role = null;
+  if (user) {
+    role = user.role;
+  }
   return (
     <div className="container">
       <div className="row" style={{ marginTop: '50px' }}>
@@ -32,6 +39,17 @@ function Dashboard() {
             to={'/blog/add_post'}
           />
         </div>
+        {role && (
+          <div className="col-md-6 col-sm-6 col-xl-3">
+            <CounterCard
+              color="#50a6ff"
+              title="Ir a mantenedor de usuarios"
+              total="Administrar Usuarios"
+              icon="user"
+              to={'/users/manage'}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
