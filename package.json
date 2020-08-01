@@ -104,7 +104,7 @@
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
-    "jest": "^26.2.1",
+    "jest": "^26.2.2",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^4.0.2",
     "prettier": "^2.0.5",
