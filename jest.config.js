@@ -20,7 +20,7 @@ module.exports = {
     '!**src/__mocks__/**',
     '!**src/__tests__/**',
     '!**coverage/**',
-    '!(server|jest.config|next.config).js',
+    '!(server|jest.config|next.config|commitlint.config|.versionrc|.prettierrc|.eslintrc).js',
     '!**src/pages/(_app|_document).js'
   ],
   coverageThreshold: {
