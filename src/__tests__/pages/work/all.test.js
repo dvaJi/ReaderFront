@@ -5,6 +5,8 @@ import { MockedProvider } from '@apollo/react-testing';
 
 import { WorksContainer, FETCH_WORKS } from '@pages/work/all';
 
+import * as nextRouter from 'next/router';
+
 const works = global.rfMocks.work.works;
 
 const mocks = [
@@ -22,6 +24,14 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
+  nextRouter.useRouter = jest.fn();
+  nextRouter.useRouter.mockImplementation(() => ({
+    route: 'work/all',
+    query: {
+      q: ''
+    }
+  }));
+
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <WorksContainer />
