@@ -17,9 +17,6 @@ var withTM = require('next-transpile-modules')([
 ]);
 
 var nextConfig = {
-  experimental: {
-    reactRefresh: true
-  },
   webpack(config, option) {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       static: join(__dirname, 'src', 'static'),
@@ -45,6 +42,7 @@ var nextConfig = {
     REACT_APP_ANONYMIZER_DOWNLOADS: process.env.REACT_APP_ANONYMIZER_DOWNLOADS,
     REACT_APP_CDNS: process.env.REACT_APP_CDNS,
     REACT_APP_LANGUAGES: process.env.REACT_APP_LANGUAGES,
+    REACT_APP_S3_ENDPOINT: process.env.REACT_APP_S3_ENDPOINT,
     GENERATE_SOURCEMAP: process.env.GENERATE_SOURCEMAP
   }
 };

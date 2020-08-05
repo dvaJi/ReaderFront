@@ -11,6 +11,12 @@ module.exports = function (sequelize, DataTypes) {
     },
     lastDownload: {
       type: DataTypes.DATE
+    },
+    count: {
+      type: DataTypes.INTEGER
+    },
+    exist: {
+      type: DataTypes.BOOLEAN
     }
   });
 

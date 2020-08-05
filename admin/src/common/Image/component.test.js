@@ -15,15 +15,18 @@ jest.mock('../../../../shared/hash', () => {
 const filename = '/image/my.jpg';
 const readerPath = config.READER_PATH;
 const idProd = config.IS_PROD;
+const s3Endpoint = config.S3_ENDPOINT;
 
 beforeAll(() => {
   config.IS_PROD = true;
   config.READER_PATH = 'https://img.myawesome.reader';
+  config.S3_ENDPOINT = null;
 });
 
 afterAll(() => {
   config.IS_PROD = idProd;
   config.READER_PATH = readerPath;
+  config.S3_ENDPOINT = s3Endpoint;
 });
 
 it('should render without throwing an error', () => {
@@ -140,5 +143,16 @@ it('should render a img not using a cdn', () => {
   expect(wrapper).toBeTruthy();
   const img = wrapper.find('img');
   expect(img.prop('src')).toBe(config.READER_PATH + filename);
+  wrapper.unmount();
+});
+
+it('should use S3 endpoint', () => {
+  config.S3_ENDPOINT = 'https://mybucket.s3.aws.com';
+  const wrapper = mount(
+    <Image src={filename} alt="My image" height={200} width={200} />
+  );
+  expect(wrapper).toBeTruthy();
+  const img = wrapper.find('img');
+  expect(img.prop('src')).toBe(config.S3_ENDPOINT + filename);
   wrapper.unmount();
 });

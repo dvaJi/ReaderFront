@@ -34,7 +34,7 @@ export default function (server) {
 
       // Check if archive is updated
       if (archiveDetail.updatedAt > lastPageDetail.updatedAt) {
-        await updateLastDownload(archiveDetail.id);
+        await updateLastDownload(archiveDetail.id, archiveDetail.count);
         const archivePath = await getArchivePath(archiveDetail);
         return response.download(archivePath);
       } else {

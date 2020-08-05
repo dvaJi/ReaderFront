@@ -15,16 +15,11 @@ import {
 } from '../../setup/utils';
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
+import { useS3, deleteFile } from '../../setup/s3-upload';
 
-const BLOG_DIR = path.join(
-  __dirname,
-  '..',
-  '..',
-  '..',
-  'public',
-  'images',
-  'blog'
-);
+const PUBLIC_PATH = path.join(__dirname, '..', '..', '..', 'public');
+
+const BLOG_DIR = path.join('images', 'blog');
 
 // Get posts
 export async function getAll(
@@ -99,8 +94,12 @@ export async function create(
 
     let thumbnailFilename = null;
     if (thumbnail) {
-      const coverPath = path.join(BLOG_DIR, uniqid);
-      const { filename } = await storeImage(thumbnail, coverPath);
+      const postPath = path.join(BLOG_DIR, uniqid);
+      const { filename } = await storeImage({
+        file: thumbnail,
+        basePath: PUBLIC_PATH,
+        filepath: postPath
+      });
       thumbnailFilename = filename;
     }
 
@@ -158,17 +157,32 @@ export async function update(
       const postDetail = await post.get();
 
       // Store new cover
-      const coverPath = path.join(BLOG_DIR, postDetail.uniqid);
-      const { filename } = await storeImage(thumbnail, coverPath);
+      const postPath = path.join(BLOG_DIR, postDetail.uniqid);
+      const { filename } = await storeImage({
+        file: thumbnail,
+        basePath: PUBLIC_PATH,
+        filepath: postPath
+      });
+
       newPost.thumbnail = filename;
 
       // Delete old cover
       const oldCoverPath = path.join(
+        PUBLIC_PATH,
         BLOG_DIR,
         postDetail.uniqid,
         postDetail.thumbnail
       );
-      await deleteImage(oldCoverPath);
+      try {
+        await deleteImage(oldCoverPath);
+        if (useS3) {
+          await deleteFile(
+            path.join(BLOG_DIR, postDetail.uniqid, postDetail.thumbnail)
+          );
+        }
+      } catch (err) {
+        //
+      }
     }
 
     await models.Post.update(newPost, { where: { id } });
@@ -191,6 +205,7 @@ export async function remove(parentValue, { id }, { auth }) {
       const postDetail = await post.get();
       if (postDetail.thumbnail) {
         const directory = path.join(
+          PUBLIC_PATH,
           BLOG_DIR,
           postDetail.uniqid,
           postDetail.thumbnail

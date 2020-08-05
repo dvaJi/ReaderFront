@@ -19,8 +19,10 @@ import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
+import { useS3, deleteFile } from '../../setup/s3-upload';
 
-const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
+const PUBLIC_PATH = path.join(__dirname, '..', '..', '..', 'public');
+const WORKS_PATH = path.join('works');
 
 // Get all works
 export async function getAll(
@@ -278,7 +280,11 @@ export async function create(
     let thumbnailFilename = null;
     if (thumbnail) {
       const coverPath = path.join(WORKS_PATH, uniqid);
-      const { filename } = await storeImage(thumbnail, coverPath);
+      const { filename } = await storeImage({
+        file: thumbnail,
+        basePath: PUBLIC_PATH,
+        filepath: coverPath
+      });
       thumbnailFilename = filename;
     }
 
@@ -360,16 +366,31 @@ export async function update(
 
       // Store new cover
       const coverPath = path.join(WORKS_PATH, oldWorkDetail.uniqid);
-      const { filename } = await storeImage(thumbnail, coverPath);
+      const { filename } = await storeImage({
+        file: thumbnail,
+        basePath: PUBLIC_PATH,
+        filepath: coverPath
+      });
       newWork.thumbnail = filename;
 
       // Delete old cover
       const oldCoverPath = path.join(
+        PUBLIC_PATH,
         WORKS_PATH,
         oldWorkDetail.uniqid,
         oldWorkDetail.thumbnail
       );
-      await deleteImage(oldCoverPath);
+
+      try {
+        await deleteImage(oldCoverPath);
+        if (useS3) {
+          await deleteFile(
+            path.join(WORKS_PATH, oldWorkDetail.uniqid, oldWorkDetail.thumbnail)
+          );
+        }
+      } catch (err) {
+        //
+      }
     }
 
     return await models.Works.update(newWork, { where: { id } }).then(

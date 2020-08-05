@@ -4,8 +4,9 @@ import path from 'path';
 import { hasPermission } from '../../setup/utils';
 import { deleteImage, storeImage } from '../../setup/images-helpers';
 import models from '../../setup/models';
+import { useS3, deleteFile } from '../../setup/s3-upload';
 
-const WORKS_PATH = path.join(__dirname, '..', '..', '..', 'public', 'works');
+const PUBLIC_PATH = path.join(__dirname, '..', '..', '..', 'public');
 
 // Get pages by chapter
 export async function getByChapter(parentValue, { chapterId }) {
@@ -28,17 +29,20 @@ export async function create(_, { chapterId, file, size }, { auth }) {
     });
     const chapterDetails = chapter.get();
 
-    const coverPath = path.join(
-      WORKS_PATH,
+    const filepath = path.join(
+      'works',
       chapterDetails.work.uniqid,
       chapterDetails.uniqid
     );
 
-    const { filename, mimetype, width, height } = await storeImage(
+    const includeMetadata = true;
+
+    const { filename, mimetype, width, height, url } = await storeImage({
       file,
-      coverPath,
-      true
-    );
+      basePath: PUBLIC_PATH,
+      filepath,
+      includeMetadata
+    });
 
     return await models.Page.create({
       chapterId,
@@ -46,7 +50,8 @@ export async function create(_, { chapterId, file, size }, { auth }) {
       height,
       width,
       size,
-      mime: mimetype
+      mime: mimetype,
+      url
     });
   } else {
     throw new Error('Operation denied.');
@@ -103,7 +108,22 @@ export async function remove(parentValue, { id }, { auth }) {
         chapterDetails.work.uniqid,
         chapterDetails.uniqid
       );
-      await deleteImage(path.join(pageDir, pageDetails.filename));
+      try {
+        await deleteImage(path.join(pageDir, pageDetails.filename));
+
+        if (useS3) {
+          await deleteFile(
+            path.join(
+              'works',
+              chapterDetails.work.uniqid,
+              chapterDetails.uniqid,
+              pageDetails.filename
+            )
+          );
+        }
+      } catch (err) {
+        //
+      }
 
       return await models.Page.destroy({ where: { id } });
     }
