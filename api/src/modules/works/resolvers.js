@@ -142,22 +142,7 @@ export async function getByStub(
 // Get work by ID
 export async function getById(_, { workId }, __, { fieldNodes = [] }) {
   const work = await models.Works.findOne({
-    where: { id: workId },
-    include: [
-      {
-        model: models.Chapter,
-        as: 'chapters',
-        include: [{ model: models.Page, as: 'pages' }]
-      },
-      {
-        model: models.WorksGenres
-      },
-      {
-        model: models.PeopleWorks,
-        as: 'people_works',
-        include: [{ model: models.People }]
-      }
-    ]
+    where: { id: workId }
   });
 
   if (!work) {

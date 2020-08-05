@@ -77,29 +77,13 @@ export async function getByWork(
 }
 
 // Get chapter by work id
-export async function getByWorkId(_, { workId }, __, { fieldNodes = [] }) {
+export async function getByWorkId(_, { workId }) {
   const order = [
     ['chapter', 'DESC'],
     ['subchapter', 'DESC']
   ];
-  const includePages = includesField(fieldNodes, ['pages']);
-  const pages = includePages
-    ? {
-        join: [
-          {
-            model: models.Page,
-            as: 'pages'
-          }
-        ],
-        order: { order: [...order, [models.Page, 'filename']] }
-      }
-    : {
-        join: [],
-        order: { order: order }
-      };
   const chapters = await models.Chapter.findAll({
     where: { workId },
-    include: [{ model: models.Works, as: 'work' }, ...pages.join],
     order
   }).map(el => el.get({ plain: true }));
 
@@ -324,12 +308,15 @@ export const normalizeChapter = (chapter, work) => ({
     'dd/MM/yyyy'
   ),
   download_href: `${API_URL}/download/${chapter.id}`,
-  thumbnail_path: isValidThumb(chapter.thumbnail)
-    ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
-    : '/default-cover.png',
+  thumbnail_path:
+    isValidThumb(chapter.thumbnail) && work
+      ? `/works/${work.uniqid}/${chapter.uniqid}/${chapter.thumbnail}`
+      : '/default-cover.png',
   language_name: languageById(chapter.language).name,
-  read_path: `/read/${work.stub}/${languageById(chapter.language).name}/${
-    chapter.volume
-  }/${chapter.chapter}.${chapter.subchapter}`,
+  read_path: work
+    ? `/read/${work.stub}/${languageById(chapter.language).name}/${
+        chapter.volume
+      }/${chapter.chapter}.${chapter.subchapter}`
+    : null,
   work: normalizeWork(chapter.work)
 });
