@@ -6,11 +6,9 @@ import {
   move,
   remove,
   unlink,
-  createWriteStream,
-  createReadStream
+  createWriteStream
 } from 'fs-extra';
 import { slugify } from '@shared/slugify';
-import { FileUpload } from 'graphql-upload';
 
 import { API_URL } from '../config/env';
 import { uploadFile, useS3 } from './s3-upload';
