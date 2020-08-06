@@ -83,7 +83,7 @@
   },
   "devDependencies": {
     "@apollo/react-testing": "^3.1.4",
-    "@babel/runtime-corejs2": "^7.11.1",
+    "@babel/runtime-corejs2": "^7.11.2",
     "@commitlint/config-conventional": "^9.1.1",
     "@next/bundle-analyzer": "^9.5.1",
     "babel-eslint": "^10.1.0",
