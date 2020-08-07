@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
 import theme from 'styled-theming';
 import styled from 'styled-components';
+import { Alert } from 'reactstrap';
 
 import { slugify } from '../../../../shared/slugify';
 import { asyncForeach } from '../../../../shared/async-foreach';
@@ -190,6 +191,7 @@ function DropImages({ chapter, toggleModal }) {
         pagesUploaded.push(page.filename);
       });
 
+      // Update default page
       if (
         (chapter.thumbnail === '' || chapter.thumbnail === null) &&
         pages.length > 0
@@ -198,8 +200,12 @@ function DropImages({ chapter, toggleModal }) {
         await handleSetDefaultPage(pages[index]);
       }
 
-      await handlePublishChapter();
+      // update chapter status
+      await updateChapterStatus({
+        variables: { id: chapter.id, hidden: false }
+      });
 
+      // Show modal with chapter url
       toggleModal(true);
     }
   };
@@ -237,19 +243,20 @@ function DropImages({ chapter, toggleModal }) {
     setPages([]);
   };
 
-  const handlePublishChapter = async () => {
-    await updateChapterStatus({ variables: { id: chapter.id, hidden: false } });
-  };
-
   const handleSetDefaultPage = async file => {
-    setDefaultPage(file.filename);
-    try {
-      await updateDefaultPage({
+    return new Promise((resolve, reject) => {
+      updateDefaultPage({
         variables: { id: chapter.id, thumbnail: file.filename }
-      });
-    } catch (err) {
-      setDefaultPage(null);
-    }
+      })
+        .then(() => {
+          setDefaultPage(file.filename);
+          resolve(file.filename);
+        })
+        .catch(err => {
+          setDefaultPage(null);
+          reject(err);
+        });
+    });
   };
 
   return (
@@ -262,7 +269,7 @@ function DropImages({ chapter, toggleModal }) {
         actualView={pageView}
         pages={pages}
       />
-      {error}
+      {error && <Alert color="danger">{error}</Alert>}
       <Card>
         <Dropzone
           id="dropzone-pages"
