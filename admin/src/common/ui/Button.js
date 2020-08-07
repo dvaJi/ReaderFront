@@ -46,7 +46,7 @@ export const Button = styled.button`
   border-radius: ${buttonBorderRadius};
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  ${props => props.disabled && 'pointer-events: none; opacity: 0.7'}
+  ${props => props.disabled && 'pointer-events: none; opacity: 0.7;'}
 
   &:focus {
     outline: 0;

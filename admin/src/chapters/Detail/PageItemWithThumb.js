@@ -23,10 +23,16 @@ const CardOverlay = styled.div`
   color: #fff;
   height: 70px;
   transition: all 0.2s ease;
-  background: ${props =>
-    props.isuploaded
-      ? 'linear-gradient(to bottom,rgba(54, 151, 99, 0.95) 0%,rgba(54, 151, 99, 0) 100%)'
-      : 'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)'};
+  ${props =>
+    !props.isuploading &&
+    !props.isuploaded &&
+    `background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);`}
+  ${props =>
+    props.isuploaded &&
+    `background: linear-gradient(to bottom,rgba(54, 151, 99, 0.95) 0%,rgba(54, 151, 99, 0) 100%);`}
+  ${props =>
+    props.isuploading &&
+    `background: linear-gradient(to bottom,rgba(54, 123, 151, 0.95) 0%,rgba(54, 123, 151, 0) 100%);`}
   overflow: hidden;
   padding-top: 10px;
   text-align: center;
@@ -191,6 +197,7 @@ function PageItemWithThumb({
     <Card
       id={'page-preview-' + index}
       isuploaded={isUploaded}
+      isuploading={isUploading}
       hasError={hasError}
     >
       <CardHero thumb={_thumb}>
