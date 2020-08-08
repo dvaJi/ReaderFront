@@ -166,5 +166,6 @@
   "no_valid_chapter": "El número del capítulo debe ser mayor o igual que 0",
   "manga": "Manga",
   "webtoon": "Webtoon",
-  "end": "Fin"
+  "end": "Fin",
+  "release_date": "Fecha de lanzamiento"
 }

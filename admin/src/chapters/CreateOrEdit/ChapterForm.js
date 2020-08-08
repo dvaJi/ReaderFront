@@ -144,18 +144,20 @@ function ChapterForm({ chapter, onSubmit }) {
       </FormGroup>
       <FormGroup>
         <Label for="releaseDate">
-          {f({ id: 'releaseDate', defaultMessage: 'Release date' })}
+          {f({ id: 'release_date', defaultMessage: 'Release date' })}
         </Label>
-        <DatePicker
-          selected={new Date(localChapter.releaseDate)}
-          onChange={handleOnChangeDate}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={60}
-          dateFormat="MMMM d, yyyy h:mm aa"
-          timeCaption="time"
-          className="form-control"
-        />
+        <div>
+          <DatePicker
+            selected={new Date(localChapter.releaseDate)}
+            onChange={handleOnChangeDate}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={60}
+            dateFormat="MMMM d, yyyy h:mm aa"
+            timeCaption="time"
+            className="form-control"
+          />
+        </div>
       </FormGroup>
       <FormGroup>
         <Button id="submit_chapter" type="button" onClick={handleOnSubmit}>

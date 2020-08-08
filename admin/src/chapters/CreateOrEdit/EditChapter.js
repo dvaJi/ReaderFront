@@ -19,6 +19,8 @@ function EditChapter() {
   const { formatMessage: f } = useIntl();
   const [updateChapter] = useMutation(UPDATE_CHAPTER);
 
+  const workPath = `/work/${params.workId}/${params.stub}`;
+
   const onSubmit = async (event, chapter) => {
     event.preventDefault();
 
@@ -27,15 +29,14 @@ function EditChapter() {
       refetchQueries: [
         {
           query: FETCH_CHAPTERS,
-          variables: { language: -1, workStub: params.stub }
+          variables: { workId: Number(params.workId) }
         }
       ]
     });
 
-    history.push('/work/' + params.workId + '/' + params.stub);
+    history.push(workPath);
   };
 
-  const workPath = `/work/${params.workId}/${params.stub}`;
   return (
     <Container>
       <MetaTagEdit />

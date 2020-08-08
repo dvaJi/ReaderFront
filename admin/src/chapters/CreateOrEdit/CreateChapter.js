@@ -36,6 +36,8 @@ function CreateChapter() {
   const { formatMessage: f } = useIntl();
   const [createChapter] = useMutation(CREATE_CHAPTER);
 
+  const workPath = `/work/${params.workId}/${params.stub}`;
+
   const onSubmit = async (event, chapter) => {
     event.preventDefault();
 
@@ -44,18 +46,15 @@ function CreateChapter() {
       refetchQueries: [
         {
           query: FETCH_CHAPTERS,
-          variables: { language: -1, workStub: params.stub }
+          variables: { workId: Number(params.workId) }
         }
       ],
       ignoreResults: false
     });
 
-    history.push(
-      `/work/${params.workId}/${params.stub}/chapter/${result.data.chapterCreate.id}`
-    );
+    history.push(`${workPath}/chapter/${result.data.chapterCreate.id}`);
   };
 
-  const workPath = `/work/${params.workId}/${params.stub}`;
   return (
     <Container>
       <MetaTagCreate />
