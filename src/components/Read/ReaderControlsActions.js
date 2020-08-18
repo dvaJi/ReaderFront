@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { UncontrolledTooltip, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ButtonLink, Container, Modal, ModalHeader, ModalFooter } from '../ui';
+import { ButtonLink, Container, Modal, ModalHeader } from '../ui';
 import { ReaderControlsActions as Wrapper } from './styles';
 import { ANONYMIZER_DOWNLOADS } from 'lib/config';
 import { logEvent } from 'lib/analytics';
