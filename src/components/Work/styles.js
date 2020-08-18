@@ -1,9 +1,25 @@
 import styled from 'styled-components';
 import theme from 'styled-theming';
 
+import {
+  DropdownToggle as RDropdownToggle,
+  DropdownMenu as RDropdownMenu,
+  DropdownItem as RDropdownItem
+} from 'reactstrap';
+
 import { cardBackgroundColor, background, primaryColor } from 'lib/theme';
 
 const borderColor = theme('mode', {
+  light: background.light.dark,
+  dark: background.dark.normal
+});
+
+const menuBackground = theme('mode', {
+  light: background.light.light,
+  dark: background.dark.dark
+});
+
+const menuHoverBackground = theme('mode', {
   light: background.light.dark,
   dark: background.dark.normal
 });
@@ -18,7 +34,6 @@ export const List = styled.div`
   border-radius: 2px;
   text-align: left;
   margin: 0.5rem 0 1rem 0;
-  overflow: hidden;
   position: relative;
   padding-left: 0;
   list-style-type: none;
@@ -40,7 +55,7 @@ export const ChapterRow = styled.div`
   padding: 10px 20px 10px 2px;
   margin: 0;
   border-bottom: 1px solid ${borderColor};
-  ${props => props.isSeen && `opacity: 0.8`};
+  ${props => (props.isSeen ? `opacity: 0.8:` : '')};
 `;
 
 export const ChapterIsSeen = styled.button`
@@ -57,4 +72,23 @@ export const ChapterIsSeen = styled.button`
 export const EndBadge = styled.span`
   margin-left: 5px;
   text-transform: uppercase;
+`;
+
+export const DropdownToggle = styled(RDropdownToggle)`
+  border-radius: 10px !important;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: transparent;
+`;
+
+export const DropdownMenu = styled(RDropdownMenu)`
+  background-color: ${menuBackground};
+`;
+
+export const DropdownItem = styled(RDropdownItem)`
+  background-color: ${menuBackground};
+
+  &:active,
+  &:hover {
+    background-color: ${menuHoverBackground};
+  }
 `;

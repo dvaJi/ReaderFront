@@ -17,6 +17,9 @@ module.exports = function (sequelize, DataTypes) {
     },
     exist: {
       type: DataTypes.BOOLEAN
+    },
+    type: {
+      type: DataTypes.STRING
     }
   });
 

@@ -2,16 +2,22 @@ import { Op } from 'sequelize';
 import path from 'path';
 import { Readable } from 'stream';
 import archiver from 'archiver';
-import { createWriteStream, remove as fsRemove } from 'fs-extra';
+import PDFDocument from 'pdfkit';
+import {
+  createWriteStream,
+  createReadStream,
+  remove as fsRemove,
+  ensureDir
+} from 'fs-extra';
 
 import models from '../../setup/models';
 import { generateChapterDir } from '../../setup/utils';
-import { downloadFile } from '../../setup/s3-upload';
+import { useS3, downloadFile } from '../../setup/s3-upload';
 
 // Get Archive by chapter id
-export async function getByChapterId(chapterId) {
+export async function getByChapterId(chapterId, type) {
   return await models.Archive.findOne({
-    where: { chapterId, exist: true },
+    where: { chapterId, type },
     include: [{ model: models.Chapter, as: 'chapter' }]
   });
 }
@@ -28,15 +34,22 @@ export async function getByDate(date) {
 }
 
 // Create
-export async function create({ chapterId, filename, size, lastDownload }) {
+export async function create({
+  chapterId,
+  filename,
+  size,
+  lastDownload,
+  type
+}) {
   lastDownload = lastDownload ? lastDownload : new Date();
   return await models.Archive.create({
     chapterId,
     filename,
     size,
     lastDownload,
+    type,
     exist: true,
-    count: 0
+    count: 1
   });
 }
 
@@ -47,7 +60,8 @@ export async function update({
   filename,
   size,
   lastDownload,
-  exist
+  exist,
+  type
 }) {
   lastDownload = lastDownload ? lastDownload : new Date();
   return await models.Archive.update(
@@ -56,7 +70,8 @@ export async function update({
       filename,
       size,
       lastDownload,
-      exist
+      exist,
+      type
     },
     { where: { id } }
   );
@@ -65,14 +80,7 @@ export async function update({
 // Delete
 export async function remove(parentValue, { id }) {
   const archive = await models.Archive.findOne({
-    where: { id },
-    include: [
-      {
-        model: models.Chapter,
-        as: 'chapter',
-        include: [{ model: models.Works, as: 'work' }]
-      }
-    ]
+    where: { id }
   });
 
   if (!archive) {
@@ -105,8 +113,9 @@ export async function updateLastDownload(id, count) {
 /**
  * Create a new zip file and return an Archive
  * @param {number} chapterId
+ * @param {string} type
  */
-export async function createArchiveZip(chapterId) {
+export async function createArchiveZip(chapterId, type) {
   try {
     const chapter = await models.Chapter.findOne({
       where: { id: chapterId },
@@ -120,35 +129,42 @@ export async function createArchiveZip(chapterId) {
     const work = chapterDetail.work;
 
     let filename = '';
-    if (chapterDetail.volume !== null || chapterDetail.volume !== 0) {
+    if (chapterDetail.volume !== null && chapterDetail.volume !== 0) {
+      const { volume, chapter: chapterNum } = chapterDetail;
       // Final name: {WORK_STUB}_V{VOLUME}_C{CHAPTER}.zip
-      filename =
-        work.stub +
-        '_V' +
-        chapterDetail.volume +
-        '_C' +
-        chapterDetail.chapter +
-        '.zip';
+      filename = `${work.stub}_V${volume}_C${chapterNum}.${type}`;
     } else {
       // Final name: {WORK_STUB}_C{CHAPTER}.zip
-      filename = work.stub + '_C' + chapterDetail.chapter + '.zip';
+      filename = `${work.stub}_C${chapterDetail.chapter}.${type}`;
     }
 
     // Create ZIP
     const chapterPath = generateChapterDir(chapterDetail, work);
     const chapterFilenamePath = path.join('works', work.uniqid, chapter.uniqid);
-    const size = await zipPages(
-      filename,
-      chapterDetail.pages,
-      chapterPath,
-      chapterFilenamePath
-    );
+
+    let size = 0;
+    if (type === 'zip') {
+      size = await zipPages(
+        filename,
+        chapterDetail.pages,
+        chapterPath,
+        chapterFilenamePath
+      );
+    } else if (type === 'pdf') {
+      size = await pdfPages(
+        filename,
+        chapterDetail.pages,
+        chapterPath,
+        chapterFilenamePath
+      );
+    }
 
     const archive = {
       chapterId: chapterId,
       filename,
       size,
-      lastDownload: new Date()
+      lastDownload: new Date(),
+      type
     };
 
     return archive;
@@ -158,7 +174,7 @@ export async function createArchiveZip(chapterId) {
   }
 }
 
-export async function updateArchiveZip(archive) {
+export async function updateArchiveZip(archive, type) {
   const chapter = await models.Chapter.findOne({
     where: { id: archive.chapterId },
     include: [
@@ -172,18 +188,67 @@ export async function updateArchiveZip(archive) {
 
   const chapterPath = generateChapterDir(chapterDetail, work);
   const chapterFilenamePath = path.join('works', work.uniqid, chapter.uniqid);
-  const size = await zipPages(
-    archive.filename,
-    chapterDetail.pages,
-    chapterPath,
-    chapterFilenamePath
-  );
+
+  let size = 0;
+
+  if (type === 'zip') {
+    size = await zipPages(
+      archive.filename,
+      chapterDetail.pages,
+      chapterPath,
+      chapterFilenamePath
+    );
+  } else if (type === 'pdf') {
+    size = await pdfPages(
+      archive.filename,
+      chapterDetail.pages,
+      chapterPath,
+      chapterFilenamePath
+    );
+  }
 
   return {
     ...archive,
     size,
-    lastDownload: new Date()
+    lastDownload: new Date(),
+    type
   };
+}
+
+async function pdfPages(filename, pages, chapterPath, chapterFilenamePath) {
+  await ensureDir(chapterPath);
+
+  const pdfPath = path.join(chapterPath, filename);
+
+  const doc = new PDFDocument({ autoFirstPage: false });
+  doc.pipe(createWriteStream(pdfPath));
+
+  let size = 0;
+
+  // Get and append chapter pages
+  for (const page of pages) {
+    try {
+      let buffer = null;
+
+      if (useS3) {
+        buffer = await downloadFile(
+          path.join(chapterFilenamePath, page.filename)
+        );
+      } else {
+        const pageFile = path.join(chapterPath, page.filename);
+        buffer = createReadStream(pageFile);
+      }
+
+      doc.addPage({ size: [page.width, page.height] });
+      doc.image(buffer, 0, 0);
+    } catch (err) {
+      console.error('Error in append file', err);
+    }
+  }
+
+  doc.end();
+
+  return size;
 }
 
 /**
@@ -193,6 +258,8 @@ export async function updateArchiveZip(archive) {
  * @param {string} chapterPath
  */
 async function zipPages(filename, pages, chapterPath, chapterFilenamePath) {
+  await ensureDir(chapterPath);
+
   const zipPath = path.join(chapterPath, filename);
   let size;
   let output = createWriteStream(zipPath);
@@ -222,13 +289,18 @@ async function zipPages(filename, pages, chapterPath, chapterFilenamePath) {
   // Get and append chapter pages
   for (const page of pages) {
     try {
-      // const pageFile = path.join(chapterPath, page.filename);
-      const buffer = await downloadFile(
-        path.join(chapterFilenamePath, page.filename)
-      );
-      // const saveImageFS(chapterPath, pageFile, buffer);
+      let buffer = null;
 
-      await archive.append(bufferToStream(buffer), { name: page.filename });
+      if (useS3) {
+        buffer = await downloadFile(
+          path.join(chapterFilenamePath, page.filename)
+        );
+      } else {
+        const pageFile = path.join(chapterPath, page.filename);
+        buffer = createReadStream(pageFile);
+      }
+
+      archive.append(bufferToStream(buffer), { name: page.filename });
     } catch (err) {
       console.error('Error in append file', err);
     }

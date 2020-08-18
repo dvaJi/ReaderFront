@@ -25,6 +25,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons/faPlus';
 import { faRss } from '@fortawesome/free-solid-svg-icons/faRss';
 import { faSave } from '@fortawesome/free-solid-svg-icons/faSave';
 import { faSun } from '@fortawesome/free-solid-svg-icons/faSun';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf';
+import { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive';
 
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 import { faPatreon } from '@fortawesome/free-brands-svg-icons/faPatreon';
@@ -55,7 +57,9 @@ function setupIcons() {
     faPlus,
     faRss,
     faSave,
-    faSun
+    faSun,
+    faFilePdf,
+    faFileArchive
   );
   library.add(faDiscord, faPatreon);
 }
