@@ -4,6 +4,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 import { slugify } from '@shared/slugify';
+import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 
 // Get all peoples
 export async function getAll(
@@ -57,6 +58,8 @@ export async function create(
     const uniqid = uuidv1();
     const stub = slugify(name);
 
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.CREATE, 'staff', name);
+
     return await models.People.create({
       name,
       name_kanji,
@@ -79,6 +82,9 @@ export async function update(
 ) {
   if (hasPermission('update', auth)) {
     const stub = slugify(name);
+
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.UPDATE, 'staff', name);
+
     return await models.People.update(
       {
         name,
@@ -104,6 +110,14 @@ export async function remove(_, { id }, { auth }) {
       // People does not exists
       throw new Error('The people does not exists.');
     } else {
+      const personDetail = people.get();
+      await addRegistry(
+        auth.user.id,
+        REGISTRY_ACTIONS.DELETE,
+        'staff',
+        personDetail.name
+      );
+
       return await models.People.destroy({ where: { id } });
     }
   } else {

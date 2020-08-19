@@ -16,6 +16,7 @@ import {
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';
+import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 
 const PUBLIC_PATH = path.join(__dirname, '..', '..', '..', 'public');
 
@@ -103,6 +104,8 @@ export async function create(
       thumbnailFilename = filename;
     }
 
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.CREATE, 'post', title);
+
     return await models.Post.create({
       userId,
       uniqid,
@@ -185,6 +188,8 @@ export async function update(
       }
     }
 
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.UPDATE, 'post', title);
+
     await models.Post.update(newPost, { where: { id } });
 
     return { id };
@@ -212,6 +217,14 @@ export async function remove(parentValue, { id }, { auth }) {
         );
         await deleteImage(directory);
       }
+
+      await addRegistry(
+        auth.user.id,
+        REGISTRY_ACTIONS.DELETE,
+        'post',
+        postDetail.title
+      );
+
       return await models.Post.destroy({ where: { id } });
     }
   } else {

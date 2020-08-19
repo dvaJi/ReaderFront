@@ -20,6 +20,7 @@ import { insertStaff } from '../people-works/resolvers';
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';
+import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 
 const PUBLIC_PATH = path.join(__dirname, '..', '..', '..', 'public');
 const WORKS_PATH = path.join('works');
@@ -273,6 +274,8 @@ export async function create(
       thumbnailFilename = filename;
     }
 
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.CREATE, 'work', name);
+
     return await models.Works.create({
       name,
       stub,
@@ -378,6 +381,8 @@ export async function update(
       }
     }
 
+    await addRegistry(auth.user.id, REGISTRY_ACTIONS.UPDATE, 'work', name);
+
     return await models.Works.update(newWork, { where: { id } }).then(
       async () => {
         // Add genres
@@ -395,12 +400,22 @@ export async function update(
 // Delete works
 export async function remove(parentValue, { id }, { auth }) {
   if (hasPermission('delete', auth)) {
-    const works = await models.Works.findOne({ where: { id } });
+    const works = await models.Works.findOne({
+      where: { id },
+      attributes: ['id']
+    });
 
     if (!works) {
       // Works does not exists
       throw new Error('The works does not exists.');
     } else {
+      const workDetail = works.get();
+      await addRegistry(
+        auth.user.id,
+        REGISTRY_ACTIONS.DELETE,
+        'work',
+        workDetail.name
+      );
       return await models.Works.destroy({ where: { id } });
     }
   } else {

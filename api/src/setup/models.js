@@ -13,7 +13,8 @@ const models = {
   Works: databaseConnection.import('../modules/works/model'),
   Chapter: databaseConnection.import('../modules/chapter/model'),
   Post: databaseConnection.import('../modules/post/model'),
-  Archive: databaseConnection.import('../modules/archive/model')
+  Archive: databaseConnection.import('../modules/archive/model'),
+  Registry: databaseConnection.import('../modules/registry/model')
 };
 
 Object.keys(models).forEach(modelName => {

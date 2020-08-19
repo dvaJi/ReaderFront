@@ -9,6 +9,7 @@ import { isValidThumb } from '../../setup/images-helpers';
 import { API_URL } from '../../config/env';
 import models from '../../setup/models';
 import { normalizeWork } from '../works/resolvers';
+import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 
 // Get all chapters
 export async function getAll(
@@ -172,15 +173,24 @@ export async function create(
 
     const work = await models.Works.findOne({
       where: { id: workId },
-      attributes: ['language']
+      attributes: ['language', 'name']
     });
+
+    const workDetail = work.get();
+
+    await addRegistry(
+      auth.user.id,
+      REGISTRY_ACTIONS.CREATE,
+      'chapter',
+      `${workDetail.name} | Chapter ${chapter}.${subchapter}`
+    );
 
     return await models.Chapter.create({
       workId,
       chapter,
       subchapter,
       volume,
-      language: work.language,
+      language: workDetail.language,
       name,
       stub,
       uniqid,
@@ -205,7 +215,6 @@ export async function update(
     volume,
     name,
     stub,
-    uniqid,
     hidden,
     description,
     thumbnail,
@@ -214,15 +223,27 @@ export async function update(
   { auth }
 ) {
   if (hasPermission('update', auth)) {
+    const work = await models.Works.findOne({
+      where: { id: workId },
+      attributes: ['language', 'name']
+    });
+
+    const workDetail = work.get();
+
+    await addRegistry(
+      auth.user.id,
+      REGISTRY_ACTIONS.UPDATE,
+      'chapter',
+      `${workDetail.name} | Chapter ${chapter}.${subchapter}`
+    );
+
     return await models.Chapter.update(
       {
-        workId,
         chapter,
         subchapter,
         volume,
         name,
         stub,
-        uniqid,
         hidden,
         description,
         thumbnail,
@@ -262,6 +283,21 @@ export async function remove(parentValue, { id }, { auth }) {
       // Chapter does not exists
       throw new Error('The chapter does not exists.');
     } else {
+      const chapterDetail = chapter.get();
+      const work = await models.Works.findOne({
+        where: { id: chapterDetail.workId },
+        attributes: ['language', 'name']
+      });
+
+      const workDetail = work.get();
+
+      await addRegistry(
+        auth.user.id,
+        REGISTRY_ACTIONS.DELETE,
+        'chapter',
+        `${workDetail.name} | Chapter ${chapterDetail.chapter}.${chapterDetail.subchapter}`
+      );
+
       return await models.Chapter.destroy({ where: { id } });
     }
   } else {

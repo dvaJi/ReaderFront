@@ -12,6 +12,7 @@ import {
   sendAccountIsActivatedEmail
 } from '../../setup/email';
 import { roles } from '@shared/params/user';
+import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 
 // Create
 export async function create(
@@ -215,6 +216,13 @@ export async function ban(_, { id, reason }, { auth }) {
     if (!user) {
       throw new Error(`User does not exists`);
     } else {
+      const userDetail = user.get();
+      await addRegistry(
+        auth.user.id,
+        REGISTRY_ACTIONS.BAN,
+        'user',
+        userDetail.name
+      );
       await models.User.update(
         {
           banned: true,

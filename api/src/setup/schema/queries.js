@@ -9,6 +9,7 @@ import * as chapter from '../../modules/chapter/query';
 import * as page from '../../modules/page/query';
 import * as people from '../../modules/people/query';
 import * as post from '../../modules/post/query';
+import * as registry from '../../modules/registry/query';
 
 // Query
 const query = new GraphQLObjectType({
@@ -21,7 +22,8 @@ const query = new GraphQLObjectType({
     ...page,
     ...WorksGenre,
     ...people,
-    ...post
+    ...post,
+    ...registry
   })
 });
 
