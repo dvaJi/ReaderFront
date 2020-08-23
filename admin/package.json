@@ -35,7 +35,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-upload-client": "^13.0.0",
-    "bootstrap": "^4.5.1",
+    "bootstrap": "^4.5.2",
     "downshift": "^5.4.7",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
