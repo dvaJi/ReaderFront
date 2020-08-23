@@ -8,7 +8,7 @@ export const REGISTRY_ACTIONS = {
   BAN: 'ban'
 };
 
-export async function getRegistries(_, { first = 10, offset = 0 }, { auth }) {
+export async function getRegistries(_, { first = 50, offset = 0 }, { auth }) {
   if (hasPermission('read', auth, 'registry')) {
     const registries = await models.Registry.findAll({
       offset,

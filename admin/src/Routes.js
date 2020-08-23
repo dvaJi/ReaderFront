@@ -140,6 +140,13 @@ const UsersList = Loadable({
   modules: ['users']
 });
 
+const RegistryList = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "registries" */ './registry/RegistryList'),
+  loading: () => null,
+  modules: ['registries']
+});
+
 export default (
   <Switch>
     <RoutePrivate path="/" exact component={withTracker(ACPDashboard)} />
@@ -221,6 +228,7 @@ export default (
       exact
       component={withTracker(UsersList)}
     />
+    <RoutePrivate path="/registry" exact component={RegistryList} />
     <Route path="/401" component={withTracker(Unauthorized)} />
     <Route component={NotFound} />
   </Switch>
