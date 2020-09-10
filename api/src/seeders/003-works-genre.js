@@ -6,20 +6,20 @@ module.exports = {
       'works_genres',
       [
         {
-          workId: 2,
-          genreId: 1,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          workId: 2,
-          genreId: 3,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        },
-        {
-          workId: 2,
+          workId: 1,
           genreId: 4,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          workId: 1,
+          genreId: 19,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        },
+        {
+          workId: 1,
+          genreId: 22,
           createdAt: new Date(),
           updatedAt: new Date()
         }
