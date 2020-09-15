@@ -86,7 +86,9 @@ it('should show an error if user is not authenticated', async () => {
 
 it('should show an error if chapters is not greater than 0', async () => {
   localStorage.setItem('user', JSON.stringify(userStorage));
-  const wrapper = mount(<ChapterForm chapter={chapterEmpty} />);
+  const wrapper = mount(
+    <ChapterForm chapter={{ ...chapterEmpty, chapter: -1 }} />
+  );
   wrapper.find('button[id="submit_chapter"]').simulate('click');
 
   await global.wait(0);
