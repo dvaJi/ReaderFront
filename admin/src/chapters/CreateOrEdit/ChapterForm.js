@@ -47,7 +47,7 @@ function ChapterForm({ chapter, onSubmit }) {
       return;
     }
 
-    if (!localChapter.chapter || localChapter.chapter < 0) {
+    if (Number.isNaN(localChapter.chapter) || localChapter.chapter < 0) {
       setError(
         f({
           id: 'no_valid_chapter',
