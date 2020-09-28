@@ -22,6 +22,7 @@ export const postEmpty = {
   demographicId: 1,
   status: 1,
   statusReason: '',
+  licensed: false,
   description: '',
   language: languagesAvailables(LANGUAGES)[0].id,
   adult: false,

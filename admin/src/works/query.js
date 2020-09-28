@@ -15,6 +15,7 @@ export const FETCH_WORKS = gql`
       stub
       type
       status
+      licensed
       adult
       createdAt
       updatedAt
@@ -41,6 +42,7 @@ export const FETCH_WORK = gql`
       demographic_name
       status
       status_name
+      licensed
       adult
       thumbnail
       createdAt

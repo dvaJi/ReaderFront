@@ -25,6 +25,7 @@ export const CREATE_WORK = gql`
     $demographicId: Int
     $status: Int
     $statusReason: String
+    $licensed: Boolean
     $language: Int
     $description: String
     $adult: Boolean
@@ -41,6 +42,7 @@ export const CREATE_WORK = gql`
       demographicId: $demographicId
       status: $status
       statusReason: $statusReason
+      licensed: $licensed
       description: $description
       language: $language
       adult: $adult
@@ -64,6 +66,7 @@ export const UPDATE_WORK = gql`
     $demographicId: Int
     $status: Int
     $statusReason: String
+    $licensed: Boolean
     $language: Int
     $description: String
     $adult: Boolean
@@ -81,6 +84,7 @@ export const UPDATE_WORK = gql`
       demographicId: $demographicId
       status: $status
       statusReason: $statusReason
+      licensed: $licensed
       description: $description
       language: $language
       adult: $adult

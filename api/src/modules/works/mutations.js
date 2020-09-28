@@ -46,6 +46,11 @@ export const workCreate = {
       type: GraphQLString
     },
 
+    licensed: {
+      name: 'licensed',
+      type: GraphQLBoolean
+    },
+
     description: {
       name: 'description',
       type: GraphQLString
@@ -131,6 +136,11 @@ export const workUpdate = {
     statusReason: {
       name: 'statusReason',
       type: GraphQLString
+    },
+
+    licensed: {
+      name: 'licensed',
+      type: GraphQLBoolean
     },
 
     description: {

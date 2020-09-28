@@ -75,6 +75,11 @@ const WorkInfo = ({ workId }) => {
             {f({ id: 'hidden', defaultMessage: 'Hidden' })}
           </span>
         )}
+        {work.licensed && (
+          <span className="badge badge-warning mr-1">
+            {f({ id: 'licensed', defaultMessage: 'licensed' })}
+          </span>
+        )}
         {work.name}
         <span className="badge badge-secondary ml-1">
           {f({
