@@ -8,6 +8,20 @@ import { ChapterListStyle, Title, List, NoChapters } from './styles';
 function ChapterList({ work }) {
   const { formatMessage: f } = useIntl();
   const workIsCompleted = work.status === 2;
+
+  if (work.licensed) {
+    return (
+      <ChapterListStyle className="col-md-12">
+        <NoChapters>
+          {f({
+            id: 'license_no_chapters',
+            defaultMessage: 'Chapters were removed due this work got licensed.'
+          })}
+        </NoChapters>
+      </ChapterListStyle>
+    );
+  }
+
   return (
     <ChapterListStyle className="col-md-12">
       <Title>{f({ id: 'chapters_list', defaultMessage: 'Chapters' })}</Title>

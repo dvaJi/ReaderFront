@@ -36,6 +36,7 @@ const WorkType = new GraphQLObjectType({
     demographic_name: { type: GraphQLString },
     description: { type: GraphQLString },
     description_short: { type: GraphQLString },
+    licensed: { type: GraphQLBoolean },
     status: { type: GraphQLInt },
     status_name: { type: GraphQLString },
     statusReason: { type: GraphQLString },

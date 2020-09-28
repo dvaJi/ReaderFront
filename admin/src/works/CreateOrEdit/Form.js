@@ -321,6 +321,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
             defaultMessage: 'Adult?'
           })}
           value={localWork.adult}
+          defaultChecked={localWork.adult}
           onChange={onChangeCheckbox}
         />
         <CustomInput
@@ -332,6 +333,19 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
             defaultMessage: 'Hidden'
           })}
           value={localWork.hidden}
+          defaultChecked={localWork.hidden}
+          onChange={onChangeCheckbox}
+        />
+        <CustomInput
+          type="checkbox"
+          id="licensed"
+          name="licensed"
+          label={f({
+            id: 'licensed',
+            defaultMessage: 'licensed'
+          })}
+          value={localWork.licensed}
+          defaultChecked={localWork.licensed}
           onChange={onChangeCheckbox}
         />
       </FormGroup>

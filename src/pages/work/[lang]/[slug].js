@@ -28,6 +28,7 @@ export const FETCH_WORK = gql`
       description
       status
       status_name
+      licensed
       adult
       thumbnail_path
       createdAt
@@ -102,7 +103,7 @@ export function WorkContainer() {
   );
 }
 
-function WorkMetatags({ work }) {
+const WorkMetatags = React.memo(({ work }) => {
   const router = useRouter();
   const { locale, formatMessage } = useIntl();
   const { lang } = router.query;
@@ -214,6 +215,6 @@ function WorkMetatags({ work }) {
       </FormattedMessage>
     </>
   );
-}
+});
 
 export default withApollo(WorkContainer);

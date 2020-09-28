@@ -8,7 +8,9 @@ export function getReleases(amount = 4) {
       stub: 'bob' + index,
       uniqid: 'wqioweas' + index,
       language_name: 'en',
-      adult: is
+      adult: is,
+      licensed: false,
+      hidden: false
     };
     let chapter = {
       id: index,
@@ -36,7 +38,13 @@ export function getReleases(amount = 4) {
 }
 
 export function getRelease() {
-  let work = { name: 'Test1', stub: '', uniqid: 'wqioweas' };
+  let work = {
+    name: 'Test1',
+    stub: '',
+    uniqid: 'wqioweas',
+    licensed: false,
+    hidden: false
+  };
   return {
     id: 1,
     uniqid: 'test-1',

@@ -9,7 +9,7 @@ const mapFlag = {
   en: 'flag-gb'
 };
 
-const Flag = ({ language, show = false }) => {
+const Flag = ({ language = 'en', show = false }) => {
   const [languagesSelected] = useGlobalState('languages_filter');
   const { formatMessage: f } = useIntl();
   if (!show && (languagesSelected.length === 1 || LANGUAGES.length === 1)) {

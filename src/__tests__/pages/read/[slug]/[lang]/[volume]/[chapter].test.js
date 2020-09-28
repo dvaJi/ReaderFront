@@ -118,3 +118,50 @@ it('should render an error page', async () => {
 
   wrapper.unmount();
 });
+
+it('should render an license notice info page', async () => {
+  nextRouter.useRouter = jest.fn();
+  nextRouter.useRouter.mockImplementation(() => ({
+    route: '/read/infection/en/1/1.0',
+    query: { slug: 'infection', lang: 'en', volume: '1', chapter: '1.0' },
+    pathname: '/read/infection/en/1/1.0'
+  }));
+  const errormocks = [
+    {
+      request: {
+        query: FETCH_CHAPTER,
+        variables: {
+          workStub: 'infection',
+          language: 2,
+          volume: 1,
+          chapter: 1,
+          subchapter: 0
+        }
+      },
+      result: {
+        data: {
+          chapterByWorkAndChapter: {
+            ...releases[0],
+            pages,
+            work: { ...releases[0].work, licensed: true }
+          }
+        }
+      }
+    }
+  ];
+
+  const wrapper = mountWithIntl(
+    <MockedProvider mocks={errormocks} addTypename={false}>
+      <ReaderContainer />
+    </MockedProvider>
+  );
+
+  await actions(wrapper, async () => {
+    await global.wait(0);
+    expect(wrapper).toBeTruthy();
+
+    expect(wrapper.find('#license')).toBeTruthy();
+  });
+
+  wrapper.unmount();
+});

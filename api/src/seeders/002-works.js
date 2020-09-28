@@ -14,6 +14,7 @@ module.exports = {
           language: 2,
           description: `A romantic comedy about a girl who's smitten with her dirt-poor senpai. One day, she musters the courage to ask him if they can go home together. Follow them on their very special kind of afterschool "dates"!`,
           demographicId: 4,
+          licensed: false,
           status: 1,
           statusReason: null,
           adult: false,

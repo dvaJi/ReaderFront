@@ -27,6 +27,9 @@ module.exports = function (sequelize, DataTypes) {
     demographicId: {
       type: DataTypes.INTEGER
     },
+    licensed: {
+      type: DataTypes.BOOLEAN
+    },
     status: {
       type: DataTypes.INTEGER
     },

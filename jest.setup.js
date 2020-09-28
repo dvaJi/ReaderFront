@@ -28,6 +28,13 @@ dotenv.config();
 
 initGlobalState({ language: 'es', theme: 'dark', languages_filter: [] });
 
+jest.mock('next/dynamic', () => () => {
+  const DynamicComponent = () => null;
+  DynamicComponent.displayName = 'LoadableComponent';
+  DynamicComponent.preload = jest.fn();
+  return DynamicComponent;
+});
+
 // Setup Mocks
 global.rfMocks = {
   releases: {
