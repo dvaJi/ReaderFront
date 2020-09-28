@@ -130,7 +130,7 @@ function ReaderContent({ showNav }) {
 
   const currentChapter = data.chapterByWorkAndChapter;
 
-  const chapterTitle = genChapterTitle({ chapter: currentChapter, f });
+  const chapterTitle = genChapterTitle({ chapter: currentChapter, f, lang });
 
   const disqusConfig = {
     id: `${currentChapter.work.uniqid}-${currentChapter.uniqid}`,
@@ -218,7 +218,7 @@ const ReaderMetatags = React.memo(({ currentChapter, chapterTitle }) => {
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "item": { "@id": "${APP_URL}", "name": "${APP_TITLE}" } },
         { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}/work/all", "name": "Works" } },
-        { "@type": "ListItem", "position": 3, "item": { "@id": "${APP_URL}/work/${currentChapter.work.stub}", "name": "${currentChapter.work.name}" } },
+        { "@type": "ListItem", "position": 3, "item": { "@id": "${APP_URL}/work/${lang}/${currentChapter.work.stub}", "name": "${currentChapter.work.name}" } },
         { "@type": "ListItem", "position": 4, "item": { "@id": "${APP_URL}${router.asPath}", "name": "${chapterTitle}" } }
       ]
     },
@@ -248,7 +248,7 @@ const ReaderMetatags = React.memo(({ currentChapter, chapterTitle }) => {
         </script>
       </Helmet>
       <FormattedMessage
-        id="reader.title"
+        id={`reader.title_${lang}`}
         defaultMessage="{workName} :: Chapter {chapter} :: {appTitle}"
         values={{
           workName: currentChapter.work.name,
