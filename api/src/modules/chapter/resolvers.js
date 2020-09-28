@@ -10,6 +10,7 @@ import { API_URL } from '../../config/env';
 import models from '../../setup/models';
 import { normalizeWork } from '../works/resolvers';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
+import { remove as removePage } from '../page/resolvers';
 
 // Get all chapters
 export async function getAll(
@@ -297,6 +298,16 @@ export async function remove(parentValue, { id }, { auth }) {
         'chapter',
         `${workDetail.name} | Chapter ${chapterDetail.chapter}.${chapterDetail.subchapter}`
       );
+
+      // Delete all pages
+      const pages = await models.Page.findAll({
+        where: { chapterId: id },
+        attributes: ['id']
+      }).map(el => el.get({ plain: true }));
+
+      for (const page of pages) {
+        await removePage(undefined, { id: page.id }, { auth });
+      }
 
       return await models.Chapter.destroy({ where: { id } });
     }

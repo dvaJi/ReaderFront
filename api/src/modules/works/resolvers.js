@@ -14,7 +14,10 @@ import {
   deleteImage,
   storeImage
 } from '../../setup/images-helpers';
-import { normalizeChapter } from '../chapter/resolvers';
+import {
+  normalizeChapter,
+  remove as removeChapter
+} from '../chapter/resolvers';
 import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
 import { hasPermission } from '../../setup/utils';
@@ -416,6 +419,16 @@ export async function remove(parentValue, { id }, { auth }) {
         'work',
         workDetail.name
       );
+
+      const chapters = await models.Chapter.findAll({
+        where: { workId: id },
+        attributes: ['id']
+      }).map(el => el.get({ plain: true }));
+
+      for (const chapter of chapters) {
+        await removeChapter(undefined, { id: chapter.id }, { auth });
+      }
+
       return await models.Works.destroy({ where: { id } });
     }
   } else {

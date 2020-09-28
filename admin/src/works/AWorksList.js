@@ -172,7 +172,8 @@ function WorksTable({ searchText, languages }) {
                         variables: { id },
                         refetchQueries: [
                           {
-                            query: FETCH_WORKS
+                            query: FETCH_WORKS,
+                            variables: { languages: [] }
                           }
                         ]
                       });

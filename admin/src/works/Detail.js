@@ -116,13 +116,12 @@ function ChaptersTable() {
 
                     if (check) {
                       await removeChapter({
-                        variables: { id: id },
+                        variables: { id },
                         refetchQueries: [
                           {
                             query: FETCH_CHAPTERS,
                             variables: {
-                              language: -1,
-                              workStub: stub
+                              workId: Number(workId)
                             }
                           }
                         ]
