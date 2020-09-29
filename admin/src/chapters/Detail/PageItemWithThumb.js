@@ -118,7 +118,7 @@ const Card = styled.div`
 
 const CardHero = styled.div`
   background-image: url('${props => props.thumb}');
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;

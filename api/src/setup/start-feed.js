@@ -76,11 +76,11 @@ async function generateFeed(chapters) {
 }
 
 const translation = {
-  '1': {
+  1: {
     chapter: 'Capítulo ',
     volume: 'Tomo'
   },
-  '2': {
+  2: {
     chapter: 'Chapter ',
     volume: 'Volume'
   }

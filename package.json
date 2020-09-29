@@ -35,6 +35,8 @@
     "db:drop": "cd ./api && npm run db:drop",
     "release": "standard-version",
     "lint": "eslint src",
+    "lint:admin": "cd ./admin && npm run lint",
+    "lint:api": "cd ./api && npm run lint",
     "prettier": "pretty-quick --staged",
     "analyze": "cross-env ANALYZE=true NODE_ENV=production npm run build"
   },
@@ -113,7 +115,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run prettier && npm run lint"
+      "pre-commit": "npm run prettier && npm run lint && npm run lint:admin && npm run lint:api"
     }
   }
 }
