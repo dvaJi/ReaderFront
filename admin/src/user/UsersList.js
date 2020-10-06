@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ModalBody } from 'reactstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
 // App Imports
-import { Container, Input, Table, Button, FormGroup, Label } from 'common/ui';
+import {
+  Container,
+  Input,
+  Table,
+  Button,
+  FormGroup,
+  Label,
+  Modal,
+  ModalFooter,
+  ModalHeader
+} from 'common/ui';
 import { USERS_LIST } from './query';
 import { BAN_USER, UNBAN_USER } from './mutation';
 

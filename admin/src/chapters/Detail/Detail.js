@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
 import { useParams } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ButtonLink, Container } from 'common/ui';
+import { ButtonLink, Container, Modal, ModalHeader } from 'common/ui';
 import { MetaTagDetail } from '../ACPChaptersMetaTags';
 import DropImages from './DropImages';
 import ChapterInfo from './ChapterInfo';

@@ -1,9 +1,18 @@
 import React, { memo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/react-hooks';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { ModalBody } from 'reactstrap';
 
-import { Button, Input, Textarea, Label, FormGroup } from 'common/ui';
+import {
+  Button,
+  Input,
+  Textarea,
+  Label,
+  FormGroup,
+  Modal,
+  ModalFooter,
+  ModalHeader
+} from 'common/ui';
 import { CREATE_PERSON } from './mutation';
 
 function CreatePersonModal({ isOpen, toggleModal }) {

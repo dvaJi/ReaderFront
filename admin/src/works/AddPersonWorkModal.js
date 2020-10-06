@@ -2,18 +2,11 @@ import React, { memo, useState } from 'react';
 import Downshift from 'downshift';
 import { useIntl } from 'react-intl';
 import { useQuery } from '@apollo/react-hooks';
-import {
-  Input,
-  Label,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from 'reactstrap';
+import { Input, Label, ModalBody } from 'reactstrap';
 
 // App Imports
 import { AutocompleteList } from './CreateOrEdit/styles';
-import { Button, FormGroup } from 'common/ui';
+import { Button, FormGroup, Modal, ModalFooter, ModalHeader } from 'common/ui';
 import { SEARCH_PEOPLE } from './query';
 import worksParams from '../../../shared/params/works';
 
