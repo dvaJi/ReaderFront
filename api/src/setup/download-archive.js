@@ -4,13 +4,15 @@ import subDays from 'date-fns/subDays';
 import {
   getByChapterId as getArchiveByChapterId,
   getByDate,
-  createArchiveZip,
-  updateArchiveZip,
+  createArchiveFS,
+  updateArchiveFS,
   update as updateArchive,
   create as createArchive,
   getArchivePath,
   updateLastDownload,
-  remove as removeArchive
+  remove as removeArchive,
+  generateFilename,
+  getAllPagesbyChapter
 } from '../modules/archive/resolvers';
 import { asyncForeach } from '@shared/async-foreach';
 import { getLatestPage } from '../modules/page/resolvers';
@@ -41,10 +43,18 @@ export default function (server) {
 
     if (!archive) {
       // First creation
-      const newArchive = await createArchiveZip(idChapter, type);
-      await createArchive(newArchive);
-      const archivePath = await getArchivePath(newArchive);
-      return response.download(archivePath);
+      const chapterDetail = await getAllPagesbyChapter(idChapter);
+      const filename = generateFilename(chapterDetail, type);
+      await createArchive({
+        chapterId: idChapter,
+        filename,
+        size: 0,
+        exist: false,
+        type
+      });
+      const newArchive = await createArchiveFS(idChapter, type);
+      await updateArchive(newArchive);
+      return response.download(getArchivePath(newArchive));
     }
 
     const archiveDetail = archive.get();
@@ -61,14 +71,14 @@ export default function (server) {
         return response.download(archivePath);
       } else {
         // The archive is outdated, update it with latest pages from the chapter
-        const archiveUpdated = await updateArchiveZip(archiveDetail, type);
+        const archiveUpdated = await updateArchiveFS(archiveDetail, type);
         await updateArchive(archiveUpdated);
         const archivePath = await getArchivePath(archiveUpdated);
         return response.download(archivePath);
       }
     } else {
       // The archive does not longer exist
-      const newArchive = await createArchiveZip(idChapter, type);
+      const newArchive = await createArchiveFS(idChapter, type);
       await updateArchive(newArchive);
       const archivePath = await getArchivePath(newArchive);
       return response.download(archivePath);

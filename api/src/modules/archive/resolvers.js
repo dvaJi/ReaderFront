@@ -39,6 +39,7 @@ export async function create({
   filename,
   size,
   lastDownload,
+  exist = true,
   type
 }) {
   lastDownload = lastDownload ? lastDownload : new Date();
@@ -48,7 +49,7 @@ export async function create({
     size,
     lastDownload,
     type,
-    exist: true,
+    exist,
     count: 1
   });
 }
@@ -110,37 +111,51 @@ export async function updateLastDownload(id, count) {
   );
 }
 
+export async function generateFilename(chapterDetail, type) {
+  const work = chapterDetail.work;
+  let filename = '';
+  if (chapterDetail.volume !== null && chapterDetail.volume !== 0) {
+    const { volume, chapter: chapterNum } = chapterDetail;
+    // Final name: {WORK_STUB}_V{VOLUME}_C{CHAPTER}.zip
+    filename = `${work.stub}_V${volume}_C${chapterNum}.${type}`;
+  } else {
+    // Final name: {WORK_STUB}_C{CHAPTER}.zip
+    filename = `${work.stub}_C${chapterDetail.chapter}.${type}`;
+  }
+
+  return filename;
+}
+
+export async function getAllPagesbyChapter(chapterId) {
+  const chapter = await models.Chapter.findOne({
+    where: { id: chapterId },
+    include: [
+      { model: models.Works, as: 'work' },
+      { model: models.Page, as: 'pages' }
+    ],
+    order: [[models.Page, 'filename']]
+  });
+  return await chapter.get();
+}
+
 /**
- * Create a new zip file and return an Archive
+ * Create a new zip or pdf file and return a Archive db model.
  * @param {number} chapterId
  * @param {string} type
+ * @param {Chapter} chapterDetail
  */
-export async function createArchiveZip(chapterId, type) {
+export async function createArchiveFS(chapterId, type, chapterDetail) {
   try {
-    const chapter = await models.Chapter.findOne({
-      where: { id: chapterId },
-      include: [
-        { model: models.Works, as: 'work' },
-        { model: models.Page, as: 'pages' }
-      ],
-      order: [[models.Page, 'filename']]
-    });
-    const chapterDetail = await chapter.get();
     const work = chapterDetail.work;
-
-    let filename = '';
-    if (chapterDetail.volume !== null && chapterDetail.volume !== 0) {
-      const { volume, chapter: chapterNum } = chapterDetail;
-      // Final name: {WORK_STUB}_V{VOLUME}_C{CHAPTER}.zip
-      filename = `${work.stub}_V${volume}_C${chapterNum}.${type}`;
-    } else {
-      // Final name: {WORK_STUB}_C{CHAPTER}.zip
-      filename = `${work.stub}_C${chapterDetail.chapter}.${type}`;
-    }
+    const filename = generateFilename(chapterDetail, type);
 
     // Create ZIP
     const chapterPath = generateChapterDir(chapterDetail, work);
-    const chapterFilenamePath = path.join('works', work.uniqid, chapter.uniqid);
+    const chapterFilenamePath = path.join(
+      'works',
+      work.uniqid,
+      chapterDetail.uniqid
+    );
 
     let size = 0;
     if (type === 'zip') {
@@ -164,7 +179,8 @@ export async function createArchiveZip(chapterId, type) {
       filename,
       size,
       lastDownload: new Date(),
-      type
+      type,
+      exist: true
     };
 
     return archive;
@@ -174,7 +190,7 @@ export async function createArchiveZip(chapterId, type) {
   }
 }
 
-export async function updateArchiveZip(archive, type) {
+export async function updateArchiveFS(archive, type) {
   const chapter = await models.Chapter.findOne({
     where: { id: archive.chapterId },
     include: [
