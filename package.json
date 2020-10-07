@@ -45,7 +45,7 @@
     "@apollo/react-ssr": "^3.1.5",
     "@formatjs/intl-relativetimeformat": "^2.8.2",
     "@formatjs/intl-utils": "^0.6.1",
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
