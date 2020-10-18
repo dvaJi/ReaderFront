@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 
 import AuthCheck from '../AuthCheck';
 import AuthContainer from '../components/AuthContainer';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 
 export const ACTIVATE = gql`
   mutation UserActivate($email: String, $activatedToken: String) {

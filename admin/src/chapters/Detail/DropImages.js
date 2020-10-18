@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
 import theme from 'styled-theming';

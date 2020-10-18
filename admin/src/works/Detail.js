@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // App Imports
@@ -76,9 +76,8 @@ function ChaptersTable() {
   if (error) return <p id="error_releases">Error :(</p>;
   const chapterBaseUrl = '/work/' + workId + '/' + stub + '/chapter/';
   return data.chaptersByWorkId.length > 0 ? (
-    data.chaptersByWorkId
-      .sort((ch1, ch2) => ch2.chapter - ch1.chapter)
-      .map(({ id, name, chapter, subchapter, volume, createdAt }) => (
+    data.chaptersByWorkId.map(
+      ({ id, name, chapter, subchapter, volume, createdAt }) => (
         <tr key={id}>
           <td>{volume}</td>
           <td>
@@ -135,7 +134,8 @@ function ChaptersTable() {
             </ButtonGroup>
           </td>
         </tr>
-      ))
+      )
+    )
   ) : (
     <tr>
       <td colSpan="6">

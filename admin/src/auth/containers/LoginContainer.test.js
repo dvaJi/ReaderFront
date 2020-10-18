@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'reactstrap';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { MemoryRouter, Route } from 'react-router-dom';
 
 import LoginContainer, { LOGIN } from './LoginContainer';
@@ -10,8 +10,10 @@ import LoginContainer, { LOGIN } from './LoginContainer';
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={[]} addTypename={false}>
-      <MemoryRouter>
-        <LoginContainer />
+      <MemoryRouter initialEntries={['/auth/login']}>
+        <Route path="/auth/login">
+          <LoginContainer />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
@@ -91,11 +93,13 @@ it('should render an error if login not match', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <LoginContainer
-          router={{ location: { pathname: 'AS' } }}
-          user={{ isLoading: false, error: null }}
-        />
+      <MemoryRouter initialEntries={['/auth/login']}>
+        <Route path="/auth/login">
+          <LoginContainer
+            router={{ location: { pathname: 'AS' } }}
+            user={{ isLoading: false, error: null }}
+          />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );

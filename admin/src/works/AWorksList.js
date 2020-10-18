@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Link } from 'react-router-dom';
 import { UncontrolledTooltip } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 
 // App Imports
 import {
@@ -63,7 +63,7 @@ function List() {
               })}
             </option>
             {LANGUAGES.map(lang => (
-              <option value={lang}>
+              <option key={lang} value={lang}>
                 {f({
                   id: `${lang}_full`,
                   defaultMessage: lang

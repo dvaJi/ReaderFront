@@ -1,9 +1,7 @@
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { createUploadLink } from 'apollo-upload-client';
-import { onError } from 'apollo-link-error';
-import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
+import { onError } from '@apollo/client/link/error';
+import { setContext } from '@apollo/client/link/context';
 
 import { READER_PATH } from './config';
 import { setUser } from 'state';

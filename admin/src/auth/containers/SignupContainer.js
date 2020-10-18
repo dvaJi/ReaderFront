@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import gql from 'graphql-tag';

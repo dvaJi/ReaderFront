@@ -2,7 +2,7 @@ import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
 import { MemoryRouter, Route } from 'react-router-dom';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
 // App imports
 import EditWork from './EditWork';
@@ -14,11 +14,11 @@ const mocks = [
   {
     request: {
       query: FETCH_WORK,
-      variables: { stub: 'infection', language: -1 }
+      variables: { workId: Number('1') }
     },
     result: {
       data: {
-        work: work
+        workById: work
       }
     }
   },
@@ -38,8 +38,8 @@ const mocks = [
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter initialEntries={['/work/edit/infection']}>
-        <Route path="/work/edit/:stub">
+      <MemoryRouter initialEntries={['/work/edit/1']}>
+        <Route path="/work/edit/:workId">
           <EditWork />
         </Route>
       </MemoryRouter>

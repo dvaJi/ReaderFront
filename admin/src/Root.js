@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import { createBrowserHistory } from 'history';
 import { BrowserRouter } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 
 import { getDefaultLanguage } from '../../shared/lang/get-language';
 import setupApolloClient from './setupApollo';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { MemoryRouter } from 'react-router-dom';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
@@ -13,7 +13,7 @@ const mocks = [
   {
     request: {
       query: FETCH_WORKS,
-      variables: { language: -1 }
+      variables: { languages: [] }
     },
     result: {
       data: {
@@ -53,7 +53,7 @@ it('should show a message when works list is empty without throwing an error', a
     {
       request: {
         query: FETCH_WORKS,
-        variables: { language: -1 }
+        variables: { languages: [] }
       },
       result: {
         data: {

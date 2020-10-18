@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { ModalBody } from 'reactstrap';
 
 import {

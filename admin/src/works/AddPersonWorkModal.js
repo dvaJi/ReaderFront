@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 import Downshift from 'downshift';
 import { useIntl } from 'react-intl';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Input, Label, ModalBody } from 'reactstrap';
 
 // App Imports

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'reactstrap';
-import { MemoryRouter } from 'react-router-dom';
-import { MockedProvider } from '@apollo/react-testing';
+import { MemoryRouter, Route } from 'react-router-dom';
+import { MockedProvider } from '@apollo/client/testing';
 
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
@@ -10,8 +10,10 @@ import SignupContainer, { SIGNUP } from './SignupContainer';
 it('should render without throwing an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={[]} addTypename={false}>
-      <MemoryRouter>
-        <SignupContainer />
+      <MemoryRouter initialEntries={['/auth/signup']}>
+        <Route path="/auth/signup">
+          <SignupContainer />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
@@ -50,8 +52,10 @@ it('should render without throwing an error', async () => {
 
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemoryRouter>
-        <SignupContainer router={{ location: { pathname: 'AS' } }} />
+      <MemoryRouter initialEntries={['/auth/signup']}>
+        <Route path="/auth/signup">
+          <SignupContainer />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
@@ -77,8 +81,10 @@ it('should render without throwing an error', async () => {
 it('should render an error', async () => {
   const wrapper = mountWithIntl(
     <MockedProvider mocks={[]} addTypename={false}>
-      <MemoryRouter>
-        <SignupContainer router={{ location: { pathname: 'AS' } }} />
+      <MemoryRouter initialEntries={['/auth/signup']}>
+        <Route path="/auth/signup">
+          <SignupContainer />
+        </Route>
       </MemoryRouter>
     </MockedProvider>
   );
