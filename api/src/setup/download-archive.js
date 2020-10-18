@@ -44,17 +44,18 @@ export default function (server) {
     if (!archive) {
       // First creation
       const chapterDetail = await getAllPagesbyChapter(idChapter);
-      const filename = generateFilename(chapterDetail, type);
-      await createArchive({
+      const filename = await generateFilename(chapterDetail, type);
+      const createdArchive = await createArchive({
         chapterId: idChapter,
         filename,
         size: 0,
         exist: false,
         type
       });
-      const newArchive = await createArchiveFS(idChapter, type);
-      await updateArchive(newArchive);
-      return response.download(getArchivePath(newArchive));
+      const newArchive = await createArchiveFS(idChapter, type, chapterDetail);
+      await updateArchive({ ...newArchive, id: createdArchive.get('id') });
+      const archivePath = await getArchivePath(newArchive);
+      return response.download(archivePath);
     }
 
     const archiveDetail = archive.get();
@@ -78,7 +79,8 @@ export default function (server) {
       }
     } else {
       // The archive does not longer exist
-      const newArchive = await createArchiveFS(idChapter, type);
+      const chapterDetail = await getAllPagesbyChapter(idChapter);
+      const newArchive = await createArchiveFS(idChapter, type, chapterDetail);
       await updateArchive(newArchive);
       const archivePath = await getArchivePath(newArchive);
       return response.download(archivePath);

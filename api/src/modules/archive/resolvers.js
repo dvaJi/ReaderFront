@@ -147,7 +147,7 @@ export async function getAllPagesbyChapter(chapterId) {
 export async function createArchiveFS(chapterId, type, chapterDetail) {
   try {
     const work = chapterDetail.work;
-    const filename = generateFilename(chapterDetail, type);
+    const filename = await generateFilename(chapterDetail, type);
 
     // Create ZIP
     const chapterPath = generateChapterDir(chapterDetail, work);
@@ -311,12 +311,13 @@ async function zipPages(filename, pages, chapterPath, chapterFilenamePath) {
         buffer = await downloadFile(
           path.join(chapterFilenamePath, page.filename)
         );
+        buffer = bufferToStream(buffer);
       } else {
         const pageFile = path.join(chapterPath, page.filename);
         buffer = createReadStream(pageFile);
       }
 
-      archive.append(bufferToStream(buffer), { name: page.filename });
+      archive.append(buffer, { name: page.filename });
     } catch (err) {
       console.error('Error in append file', err);
     }
