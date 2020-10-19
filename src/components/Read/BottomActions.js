@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { BottomActionsWrapper } from './styles';

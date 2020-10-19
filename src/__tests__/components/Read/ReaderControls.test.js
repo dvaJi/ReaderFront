@@ -1,7 +1,7 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
 import {
   ReaderControls,
@@ -16,7 +16,7 @@ const mocks = [
       query: FETCH_CHAPTERS,
       variables: {
         workStub: 'bob1',
-        language: 1
+        languages: [1]
       }
     },
     result: {

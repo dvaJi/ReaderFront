@@ -10,7 +10,7 @@ export default memo(function ReleasesList({ releases }) {
   const { formatMessage: f } = useIntl();
   let worksMap = {};
 
-  releases
+  [...releases]
     .sort((r1, r2) => r1.work.stub.localeCompare(r2.work.stub))
     .forEach(release => {
       const { work } = release;

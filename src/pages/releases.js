@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Helmet } from 'react-helmet';
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';
@@ -53,13 +53,13 @@ export const FETCH_RELEASES = gql`
 `;
 const PER_PAGE = 20;
 
-const LatestReleases = ({ languages, orderBy, first, offset }) => {
+const LatestReleases = ({ languages = [], first, offset }) => {
   const { loading, error, data } = useQuery(FETCH_RELEASES, {
-    variables: { languages, orderBy, first, offset }
+    variables: { languages, orderBy: 'DESC', first, offset }
   });
 
   if (loading) return <ReleaseCardEmpty />;
-  if (error) {
+  if (error || !data) {
     logException(JSON.stringify(error), true);
     return <p id="error_releases">Error :(</p>;
   }
@@ -78,12 +78,7 @@ export function ReleasesContainer() {
     <Container className="Releases">
       <h2>{f({ id: 'latest_releases', defaultMessage: 'Latest Releases' })}</h2>
       <ReleasesMetatags />
-      <LatestReleases
-        languages={languages}
-        orderBy={'DESC'}
-        first={PER_PAGE}
-        offset={offset}
-      />
+      <LatestReleases languages={languages} first={PER_PAGE} offset={offset} />
       <ReleasePagination
         page={page}
         onPageChange={page => {

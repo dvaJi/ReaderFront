@@ -1,13 +1,14 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import * as nextRouter from 'next/router';
 
 import {
   ReaderContainer,
   FETCH_CHAPTER
 } from '@pages/read/[slug]/[lang]/[volume]/[chapter]';
+import { FETCH_CHAPTERS } from '@components/Read/ReaderControls';
 
 const releases = global.rfMocks.releases.getReleases;
 const pages = global.rfMocks.releases.getPages;
@@ -27,6 +28,34 @@ const mocks = [
     result: {
       data: {
         chapterByWorkAndChapter: { ...releases[0], pages }
+      }
+    }
+  },
+  {
+    request: {
+      query: FETCH_CHAPTERS,
+      variables: {
+        workStub: 'bob1',
+        languages: [2]
+      }
+    },
+    result: {
+      data: {
+        chaptersByWork: releases
+      }
+    }
+  },
+  {
+    request: {
+      query: FETCH_CHAPTERS,
+      variables: {
+        workStub: 'bob1',
+        languages: [1]
+      }
+    },
+    result: {
+      data: {
+        chaptersByWork: releases
       }
     }
   }
@@ -145,6 +174,20 @@ it('should render an license notice info page', async () => {
             pages,
             work: { ...releases[0].work, licensed: true }
           }
+        }
+      }
+    },
+    {
+      request: {
+        query: FETCH_CHAPTERS,
+        variables: {
+          workStub: 'bob1',
+          languages: [2]
+        }
+      },
+      result: {
+        data: {
+          chaptersByWork: releases
         }
       }
     }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions } from 'utils/enzyme-actions';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
 import BlogContainer, { FETCH_ALL_POSTS_WITH_AGG } from '@pages/blog';
 
@@ -31,8 +31,8 @@ it('should render without throwing an error', async () => {
     </MockedProvider>
   );
 
-  await global.wait(0);
   await actions(wrapper, async () => {
+    await global.wait(0);
     expect(wrapper).toBeTruthy();
     wrapper.unmount();
   });
@@ -50,8 +50,8 @@ it('should render new items if user scroll to bottom', async () => {
   document.body.scrollTop = 140;
   window.dispatchEvent(new window.UIEvent('scroll', { detail: 0 }));
 
-  await global.wait(0);
   await actions(wrapper, async () => {
+    await global.wait(0);
     wrapper.update();
     expect(wrapper).toBeTruthy();
     wrapper.unmount();

@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { Container } from 'reactstrap';
 import { Helmet } from 'react-helmet';
 import { useRouter } from 'next/router';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useIntl, FormattedMessage } from 'react-intl';
 
 import { getImage } from '@components/Image';

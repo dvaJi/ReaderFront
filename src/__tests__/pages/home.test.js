@@ -1,21 +1,49 @@
 import React from 'react';
 import { actions } from 'utils/enzyme-actions';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
-import { HomeContainer, FETCH_RELEASES } from '@pages/home';
+import {
+  HomeContainer,
+  FETCH_RELEASES,
+  FETCH_LATEST_WORKS,
+  FETCH_RANDOM_WORK
+} from '@pages/home';
 
-const releases = global.rfMocks.releases.getReleases;
+const chapters = global.rfMocks.releases.getReleases;
+const works = global.rfMocks.work.works;
 
 const mocks = [
   {
     request: {
       query: FETCH_RELEASES,
-      variables: { language: 1, orderBy: 'DESC', first: 20, offset: 0 }
+      variables: { languages: [], orderBy: 'DESC', first: 20, offset: 0 }
     },
     result: {
       data: {
-        chapters: releases
+        chapters
+      }
+    }
+  },
+  {
+    request: {
+      query: FETCH_LATEST_WORKS,
+      variables: { languages: [] }
+    },
+    result: {
+      data: {
+        works
+      }
+    }
+  },
+  {
+    request: {
+      query: FETCH_RANDOM_WORK,
+      variables: { languages: [] }
+    },
+    result: {
+      data: {
+        workRandom: works[0]
       }
     }
   }

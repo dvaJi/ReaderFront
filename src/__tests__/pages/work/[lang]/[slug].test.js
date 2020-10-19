@@ -1,6 +1,6 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 import { actions } from 'utils/enzyme-actions';
 import * as nextRouter from 'next/router';
 

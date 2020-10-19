@@ -1,7 +1,7 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { actions } from 'utils/enzyme-actions';
-import { MockedProvider } from '@apollo/react-testing';
+import { MockedProvider } from '@apollo/client/testing';
 
 import { WorksContainer, FETCH_WORKS } from '@pages/work/all';
 
@@ -13,7 +13,7 @@ const mocks = [
   {
     request: {
       query: FETCH_WORKS,
-      variables: { language: 2 }
+      variables: { languages: [] }
     },
     result: {
       data: {
@@ -24,11 +24,15 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
+  let query = '';
   nextRouter.useRouter = jest.fn();
   nextRouter.useRouter.mockImplementation(() => ({
     route: 'work/all',
     query: {
-      q: ''
+      q: query
+    },
+    push: text => {
+      query = text;
     }
   }));
 

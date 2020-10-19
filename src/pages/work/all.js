@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { forceCheck } from 'react-lazyload';
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';

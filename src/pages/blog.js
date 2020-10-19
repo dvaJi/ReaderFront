@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Container } from 'reactstrap';
 import { Helmet } from 'react-helmet';
 import gql from 'graphql-tag';

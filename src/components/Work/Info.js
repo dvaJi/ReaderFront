@@ -56,12 +56,14 @@ function Info({ work }) {
             defaultMessage: work.status_name
           })}
         </StatusBadge>
-        <StatusBadge className="badge badge-danger">
-          {f({
-            id: 'licensed',
-            defaultMessage: 'licensed'
-          })}
-        </StatusBadge>
+        {work.licensed && (
+          <StatusBadge className="badge badge-danger">
+            {f({
+              id: 'licensed',
+              defaultMessage: 'licensed'
+            })}
+          </StatusBadge>
+        )}
       </h4>
       <div className="Description">{work.description}</div>
       <div className="Genres">

@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { FormattedMessage } from 'react-intl';
 import gql from 'graphql-tag';
 import { Helmet } from 'react-helmet';
