@@ -41,7 +41,7 @@
     "analyze": "cross-env ANALYZE=true NODE_ENV=production npm run build"
   },
   "dependencies": {
-    "@apollo/client": "^3.2.1",
+    "@apollo/client": "^3.2.5",
     "@formatjs/intl-relativetimeformat": "^2.8.2",
     "@formatjs/intl-utils": "^0.6.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
