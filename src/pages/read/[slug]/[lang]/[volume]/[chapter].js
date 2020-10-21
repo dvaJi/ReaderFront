@@ -252,7 +252,10 @@ const ReaderMetatags = React.memo(({ currentChapter, chapterTitle }) => {
         defaultMessage="{workName} :: Chapter {chapter} :: {appTitle}"
         values={{
           workName: currentChapter.work.name,
-          chapter: currentChapter.chapter,
+          chapter:
+            currentChapter.subchapter !== 0
+              ? `${currentChapter.chapter}.${currentChapter.subchapter}`
+              : currentChapter.chapter,
           appTitle: APP_TITLE
         }}
       >
