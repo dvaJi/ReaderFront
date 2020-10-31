@@ -76,7 +76,7 @@
     "react-spring": "^8.0.27",
     "reactstrap": "^8.6.0",
     "standard-version": "^9.0.0",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.2.1",
     "styled-theming": "^2.2.0"
   },
   "devDependencies": {
