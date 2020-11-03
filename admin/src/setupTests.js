@@ -1,8 +1,7 @@
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import ReactGA from 'react-ga';
 import { JSDOM } from 'jsdom';
-import 'jest-localstorage-mock';
 import {
   getPages,
   getPagesAsFiles,
@@ -13,19 +12,15 @@ import { getPosts } from '../../shared/mocks/getBlogMock';
 import { getWork, getWorks } from '../../shared/mocks/getWorksMock';
 import 'jest-styled-components';
 
+import 'mock-local-storage';
+Object.defineProperty(window, 'localStorage', { value: global.localStorage });
+
 configure({ adapter: new Adapter() });
 ReactGA.initialize('foo', { testMode: true });
 ReactGA.ga('send', 'pageview', '/series');
 jest.mock('react-ga');
 
-const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn()
-};
-
 global.scrollTo = jest.fn();
-global.localStorage = localStorageMock;
 global.XMLHttpRequest = undefined;
 global.document = new JSDOM('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
@@ -122,7 +117,7 @@ if (global.document) {
 
 // Mock useIntl hook
 jest.mock('react-intl', () => {
-  const reactIntl = require.requireActual('react-intl');
+  const reactIntl = jest.requireActual('react-intl');
   const messages = require('../../shared/lang/en.json');
   const intlProvider = new reactIntl.IntlProvider(
     {
