@@ -44,7 +44,7 @@ const Link = styled(NavLink)`
   }
 `;
 
-export default props => (
+const RouteNavItem = props => (
   <Route
     path={props.to}
     exact
@@ -57,3 +57,5 @@ export default props => (
     )}
   />
 );
+
+export default RouteNavItem;
