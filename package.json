@@ -71,12 +71,12 @@
     "react-hooks-global-state": "^1.0.1",
     "react-intl": "^5.8.8",
     "react-lazy-load-image-component": "^1.5.0",
-    "react-lazyload": "^2.6.8",
+    "react-lazyload": "^2.6.9",
     "react-markdown": "^5.0.2",
     "react-spring": "^8.0.27",
-    "reactstrap": "^8.6.0",
+    "reactstrap": "^8.7.0",
     "standard-version": "^9.0.0",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.2.1",
     "styled-theming": "^2.2.0"
   },
   "devDependencies": {

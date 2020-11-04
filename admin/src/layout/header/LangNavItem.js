@@ -3,7 +3,7 @@ import { NavItem } from 'reactstrap';
 
 import { LangNavLink } from './styles';
 
-export default props => (
+const LangNavItem = props => (
   <NavItem>
     <LangNavLink
       active={props.cookielang === props.language ? true : false}
@@ -14,3 +14,5 @@ export default props => (
     </LangNavLink>
   </NavItem>
 );
+
+export default LangNavItem;
