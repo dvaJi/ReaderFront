@@ -82,7 +82,7 @@
   "devDependencies": {
     "@babel/runtime-corejs2": "^7.12.1",
     "@commitlint/config-conventional": "^11.0.0",
-    "@next/bundle-analyzer": "^10.0.0",
+    "@next/bundle-analyzer": "^10.0.3",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.3.0",
     "babel-eslint": "^10.1.0",
     "babel-plugin-graphql-tag": "^3.1.0",
