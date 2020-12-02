@@ -71,7 +71,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-standard": "^4.0.2",
+    "eslint-plugin-standard": "^4.1.0",
     "jest-styled-components": "^7.0.3",
     "jsdom-global": "^3.0.2",
     "mock-local-storage": "^1.1.15",
