@@ -2,6 +2,7 @@ import React from 'react';
 import { actions } from 'utils/enzyme-actions';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import { MockedProvider } from '@apollo/client/testing';
+import * as nextRouter from 'next/router';
 
 import {
   HomeContainer,
@@ -50,6 +51,13 @@ const mocks = [
 ];
 
 it('should render without throwing an error', async () => {
+  nextRouter.useRouter = jest.fn();
+  nextRouter.useRouter.mockImplementation(() => ({
+    route: '/',
+    query: {},
+    pathname: '/',
+    prefetch: async () => undefined
+  }));
   const wrapper = mountWithIntl(
     <MockedProvider mocks={mocks} addTypename={false}>
       <HomeContainer />

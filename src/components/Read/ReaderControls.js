@@ -20,6 +20,7 @@ import {
   ReaderControlsChapters
 } from './styles';
 import ReaderSettings from './ReaderSettings';
+import { memo } from 'react';
 
 const ReaderControlsActions = dynamic(() => import('./ReaderControlsActions'));
 
@@ -103,7 +104,7 @@ export function ReaderControls({ work, language, chapter, showNav }) {
   );
 }
 
-const ChaptersSelects = ({ workStub, language, chapter, work }) => {
+const ChaptersSelects = memo(({ workStub, language, chapter, work }) => {
   const { formatMessage: f } = useIntl();
   const router = useRouter();
 
@@ -131,6 +132,6 @@ const ChaptersSelects = ({ workStub, language, chapter, work }) => {
       ))}
     </select>
   );
-};
+});
 
 export default ReaderControls;

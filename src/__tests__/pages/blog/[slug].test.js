@@ -28,7 +28,8 @@ it('should render the post selected', async () => {
     route: 'blog/lorem-ipsum',
     query: {
       slug: 'lorem-ipsum'
-    }
+    },
+    prefetch: async () => undefined
   }));
 
   const wrapper = mountWithIntl(
@@ -63,7 +64,8 @@ it('should render the post selected', async () => {
     route: 'blog/lorem-ipsum',
     query: {
       slug: 'lorem-ipsum'
-    }
+    },
+    prefetch: async () => undefined
   }));
 
   const wrapper = mountWithIntl(

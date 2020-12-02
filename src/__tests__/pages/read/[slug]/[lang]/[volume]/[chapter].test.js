@@ -66,7 +66,8 @@ it('should render without throwing an error', async () => {
   nextRouter.useRouter.mockImplementation(() => ({
     route: '/read/infection/en/1/1.0',
     query: { slug: 'infection', lang: 'en', volume: '1', chapter: '1.0' },
-    pathname: '/read/infection/en/1/1.0'
+    pathname: '/read/infection/en/1/1.0',
+    prefetch: async () => undefined
   }));
 
   // Append a div to test our UncontrolledTooltip
@@ -101,7 +102,8 @@ it('should render an error page', async () => {
   nextRouter.useRouter.mockImplementation(() => ({
     route: '/read/infection/en/1/1.0',
     query: { slug: 'infection', lang: 'en', volume: '1', chapter: '1.0' },
-    pathname: '/read/infection/en/1/1.0'
+    pathname: '/read/infection/en/1/1.0',
+    prefetch: async () => undefined
   }));
   const errormocks = [
     {
@@ -153,7 +155,8 @@ it('should render an license notice info page', async () => {
   nextRouter.useRouter.mockImplementation(() => ({
     route: '/read/infection/en/1/1.0',
     query: { slug: 'infection', lang: 'en', volume: '1', chapter: '1.0' },
-    pathname: '/read/infection/en/1/1.0'
+    pathname: '/read/infection/en/1/1.0',
+    prefetch: async () => undefined
   }));
   const errormocks = [
     {

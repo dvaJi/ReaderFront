@@ -25,7 +25,8 @@ it('should render Admin Nav without throwing an error', () => {
   nextRouter.useRouter.mockImplementation(() => ({
     route: '/admincp/dashboard',
     query: {},
-    pathname: '/admincp/dashboard'
+    pathname: '/admincp/dashboard',
+    prefetch: async () => undefined
   }));
 
   const wrapper = mountWithIntl(<Header />);
@@ -44,7 +45,8 @@ it('should hidden if the path is /read without throwing an error', () => {
       lang: 'es',
       volume: '2',
       chapter: '3.0'
-    }
+    },
+    prefetch: async () => undefined
   }));
   const wrapper = mountWithIntl(<Header />);
 

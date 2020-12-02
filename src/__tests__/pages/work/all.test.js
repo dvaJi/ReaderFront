@@ -33,7 +33,8 @@ it('should render without throwing an error', async () => {
     },
     push: text => {
       query = text;
-    }
+    },
+    prefetch: async () => undefined
   }));
 
   const wrapper = mountWithIntl(
