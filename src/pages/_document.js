@@ -1,4 +1,4 @@
-import Document, { Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
@@ -57,7 +57,7 @@ export default class MyDocument extends Document {
     const polyfill = `https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.~locale.${this.props.locale}`;
 
     return (
-      <html {...this.helmetHtmlAttrComponents}>
+      <Html {...this.helmetHtmlAttrComponents}>
         <Head>{this.helmetHeadComponents}</Head>
         <body {...this.helmetBodyAttrComponents}>
           <Main />
@@ -69,7 +69,7 @@ export default class MyDocument extends Document {
           />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }
