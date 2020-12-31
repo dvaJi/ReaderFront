@@ -81,7 +81,7 @@ export default function (server) {
       // The archive does not longer exist
       const chapterDetail = await getAllPagesbyChapter(idChapter);
       const newArchive = await createArchiveFS(idChapter, type, chapterDetail);
-      await updateArchive(newArchive);
+      await updateArchive({ ...newArchive, id: archiveDetail.id });
       const archivePath = await getArchivePath(newArchive);
       return response.download(archivePath);
     }
