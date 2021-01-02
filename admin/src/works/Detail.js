@@ -18,9 +18,12 @@ function Detail() {
     <Container>
       <>
         <div className="m-1">
-          <ButtonLink to={'/work/manage'}>
+          <ButtonLink to={'/work/manage'} className="mr-2">
             <FontAwesomeIcon icon="arrow-left" className="mr-1" />
             {f({ id: 'go_back', defaultMessage: 'Go back' })}
+          </ButtonLink>
+          <ButtonLink to={'/work/edit/' + workId}>
+            {f({ id: 'edit', defaultMessage: 'Edit' })}
           </ButtonLink>
         </div>
         <WorkInfo workId={Number(workId)} />
