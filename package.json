@@ -91,7 +91,7 @@
     "cross-env": "^7.0.3",
     "cross-spawn": "^7.0.3",
     "enzyme": "^3.11.0",
-    "eslint": "^7.11.0",
+    "eslint": "^7.17.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-react-app": "6.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
