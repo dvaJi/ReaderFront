@@ -12,11 +12,13 @@ const client = token =>
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) => {
-            if (message === 'Operation denied.') {
+            if (['Operation denied.', 'Session expired.'].includes(message)) {
               setUser(null);
             }
             console.error(
-              `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+              `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(
+                locations
+              )}, Path: ${path}`
             );
           });
         if (networkError) console.error(`[Network error]: ${networkError}`);

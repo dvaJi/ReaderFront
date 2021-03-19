@@ -121,7 +121,7 @@ export async function activate(
   }
 }
 
-export async function login(parentValue, { email, password }, { clientIp }) {
+export async function login(_, { email, password }, { clientIp }) {
   const user = await models.User.findOne({ where: { email } });
 
   if (!user) {

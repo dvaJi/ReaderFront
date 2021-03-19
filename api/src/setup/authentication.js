@@ -13,6 +13,8 @@ export default function (request, response, next) {
     } catch (e) {
       console.warn('Invalid token detected.');
       request.user = {};
+      response.status(403);
+      response.json({ errors: [{ message: `Session expired.` }] });
     }
   } else {
     request.user = {};
