@@ -57,27 +57,31 @@ const Card = styled.section`
   border-radius: 3px;
   box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  color: #172b4d;
+  color: #172b4d !important;
   padding: 48px;
+
+  a {
+    color: #0747a6 !important;
+  }
 `;
 
 const Footer = styled.footer`
-  color: #deebff;
+  color: #fff;
   margin: auto 0 0;
   padding-bottom: 32px;
   text-align: center;
   display: block;
 
   a {
-    color: #deebff;
+    color: #deebff !important;
   }
 
   a:hover {
-    color: #ffffff;
+    color: #ffffff !important;
   }
 
   .primary-action {
-    color: #ffffff;
+    color: #ffffff !important;
   }
 
   .fine-print {

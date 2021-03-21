@@ -1,24 +1,26 @@
 import nodemailer from 'nodemailer';
-import sgTransport from 'nodemailer-sendgrid-transport';
 
 // App imports
-import { SENDGRID_API, EMAIL } from '../config/env';
+import {
+  EMAIL_PWD,
+  EMAIL,
+  ADMIN_URL,
+  REACT_APP_APP_TITLE
+} from '../config/env';
 
-const sendgridOptions = {
-  auth: {
-    api_key: SENDGRID_API
-  }
-};
-
-const transporter = nodemailer.createTransport(sgTransport(sendgridOptions));
-
-export function sendActivateEmail({ siteUrl, to, name, token }) {
+export function sendActivateEmail({ to, name, token }) {
   if (to === null || token === null) {
     throw Error('Token or receiver are null');
   }
 
+  const transporter = nodemailer.createTransport(
+    `smtps://${encodeURIComponent(EMAIL)}:${encodeURIComponent(
+      EMAIL_PWD
+    )}@smtp.gmail.com:465`
+  );
+
   // Ex: http://localhost/auth/activate_account?email=example@example.com&token=3x4mpl3t0k3n
-  const activationUrl = `${siteUrl}/auth/activate_account?email=${to}&token=${token}`;
+  const activationUrl = `${ADMIN_URL}/auth/activate_account?email=${to}&token=${token}`;
 
   const mailOptions = {
     from: EMAIL,
@@ -27,14 +29,26 @@ export function sendActivateEmail({ siteUrl, to, name, token }) {
     html: `<h1>Hey ${name},</h1><br>We have received a request to activate your account associated with your email address.<br>To confirm this request, please click <a href="${activationUrl}">here</a><br> Or copy and paste this url in your browser: <a href="${activationUrl}">${activationUrl}</a>`
   };
 
-  transporter.sendMail(mailOptions, err => {
-    if (err) throw new Error(err);
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(true);
+      }
+    });
   });
 }
 
-export function sendAccountIsActivatedEmail({ siteUrl, to, name }) {
+export async function sendAccountIsActivatedEmail({ to, name }) {
   // Ex: http://localhost/auth/login
-  const activationUrl = `${siteUrl}/auth/login`;
+  const activationUrl = `${ADMIN_URL}/auth/login`;
+
+  const transporter = nodemailer.createTransport(
+    `smtps://${encodeURIComponent(EMAIL)}:${encodeURIComponent(
+      EMAIL_PWD
+    )}@smtp.gmail.com:465`
+  );
 
   const mailOptions = {
     from: EMAIL,
@@ -43,7 +57,42 @@ export function sendAccountIsActivatedEmail({ siteUrl, to, name }) {
     html: `<h1>Hey ${name},</h1><br>Your account is activated<br>To use your account please click <a href="${activationUrl}">here</a>`
   };
 
-  transporter.sendMail(mailOptions, err => {
-    if (err) throw new Error(err);
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(true);
+      }
+    });
+  });
+}
+
+export function passwordResetEmail({ to, name, token }) {
+  const activationUrl = `${ADMIN_URL}/auth/change_password?token=${token}`;
+
+  const transporter = nodemailer.createTransport(
+    `smtps://${encodeURIComponent(EMAIL)}:${encodeURIComponent(
+      EMAIL_PWD
+    )}@smtp.gmail.com:465`
+  );
+
+  const mailOptions = {
+    from: EMAIL,
+    to: to,
+    subject: `Password reset At ${REACT_APP_APP_TITLE}`,
+    html: `<h1>Hello ${name},</h1><br/>
+    We have just received a request to reset your password at ${REACT_APP_APP_TITLE} and we are here to help you with that!<br/> 
+    Simply click on the link to set up a new password for your account: <a href="${activationUrl}">${activationUrl}</a>`
+  };
+
+  return new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(true);
+      }
+    });
   });
 }
