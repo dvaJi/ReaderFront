@@ -226,9 +226,6 @@ export async function recoverPassword(_, { email }) {
         token: newPasswordToken
       });
     } catch (err) {
-      console.warn(
-        `Couldn't send email ${userDetail.name}: ${newPasswordToken}`
-      );
       console.error(err);
     }
   }
