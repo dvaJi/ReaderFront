@@ -3,13 +3,14 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 // App Imports
-import { SECRET_KEY, APP_URL } from './../../config/env';
+import { SECRET_KEY } from './../../config/env';
 import serverConfig from '../../config/server';
 import { hasPermission } from '../../setup/utils';
 import models from '../../setup/models';
 import {
   sendActivateEmail,
-  sendAccountIsActivatedEmail
+  sendAccountIsActivatedEmail,
+  passwordResetEmail
 } from '../../setup/email';
 import { roles } from '@shared/params/user';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
@@ -49,14 +50,12 @@ export async function create(
 
     if (usersCount > 0) {
       await sendActivateEmail({
-        siteUrl: APP_URL,
         to: newUser.email,
         name: newUser.name,
         token: newUser.activatedToken
       });
     } else {
       await sendAccountIsActivatedEmail({
-        siteUrl: APP_URL,
         to: newUser.email,
         name: newUser.name
       });
@@ -109,7 +108,6 @@ export async function activate(
     );
 
     await sendAccountIsActivatedEmail({
-      siteUrl: APP_URL,
       to: userDetails.email,
       name: userDetails.name
     });
@@ -180,6 +178,61 @@ export async function login(_, { email, password }, { clientIp }) {
       };
     }
   }
+}
+
+export async function changePassword(_, { token, newPassword }) {
+  let verifiedToken = null;
+  try {
+    verifiedToken = jwt.verify(token, SECRET_KEY);
+  } catch (err) {
+    throw new Error(`Token is not valid.`);
+  }
+  const user = await models.User.findOne({
+    where: { email: verifiedToken.email }
+  });
+
+  if (user) {
+    const userDetail = user.get();
+
+    const password = await bcrypt.hash(newPassword, serverConfig.saltRounds);
+    await models.User.update(
+      {
+        password
+      },
+      { where: { id: userDetail.id } }
+    );
+
+    return {
+      message: 'Password has been changed'
+    };
+  }
+
+  throw new Error(`You cannot perform this action.`);
+}
+
+export async function recoverPassword(_, { email }) {
+  const user = await models.User.findOne({ where: { email } });
+
+  if (user) {
+    const userDetail = user.get();
+    const newPasswordToken = jwt.sign({ email }, SECRET_KEY, {
+      expiresIn: '1d'
+    });
+
+    try {
+      await passwordResetEmail({
+        to: userDetail.email,
+        name: userDetail.name,
+        token: newPasswordToken
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return {
+    message: 'Check your email.'
+  };
 }
 
 // Get by ID

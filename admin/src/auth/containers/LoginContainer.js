@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -104,6 +104,14 @@ function Login() {
             onChange={onChange}
           />
         </FormGroup>
+        <div className="mb-4">
+          <Link to="/auth/reset_password">
+            {f({
+              id: 'forgot_password',
+              defaultMessage: 'Forgot your password?'
+            })}
+          </Link>
+        </div>
         <Button type="submit" size="lg" block disabled={isLoading}>
           {f({ id: 'login', defaultMessage: 'Login' })}
         </Button>

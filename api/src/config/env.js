@@ -19,11 +19,12 @@ export const GRAPHQL_IDE =
 
 // URL
 export const APP_URL = process.env.APP_URL;
+export const ADMIN_URL = process.env.ADMIN_URL;
 export const API_URL = process.env.API_URL;
 export const REACT_APP_APP_TITLE = process.env.REACT_APP_APP_TITLE;
 
 // Email
-export const SENDGRID_API = process.env.SENDGRID_API;
+export const EMAIL_PWD = process.env.EMAIL_PWD;
 export const EMAIL = process.env.EMAIL;
 
 // S3 upload file

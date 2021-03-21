@@ -190,5 +190,10 @@
   "back": "Volver",
   "all": "Todos",
   "licensed": "Licenciado",
-  "license_no_chapters": "Los capítulos se eliminaron debido a que este work fue licenciado, por favor apoye la traducción oficial."
+  "license_no_chapters": "Los capítulos se eliminaron debido a que este work fue licenciado, por favor apoye la traducción oficial.",
+  "reset_password_msg": "Se ha enviado un email con las instrucciones para cambiar su contraseña.",
+  "confirm_password": "Confirmar contraseña",
+  "change_password": "Cambiar Contraseña",
+  "reset_password": "Restablecer la contraseña",
+  "error_passwords_not_identical": "Las contraseñas no son idénticas"
 }

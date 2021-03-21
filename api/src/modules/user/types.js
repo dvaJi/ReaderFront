@@ -47,4 +47,13 @@ const UserGenderType = new GraphQLObjectType({
   })
 });
 
-export { UserType, UserLoginType, UserGenderType };
+const MessageType = new GraphQLObjectType({
+  name: 'messageType',
+  description: 'Message Type',
+
+  fields: () => ({
+    message: { type: GraphQLString }
+  })
+});
+
+export { UserType, UserLoginType, UserGenderType, MessageType };

@@ -189,5 +189,11 @@
   "back": "Back",
   "all": "All",
   "licensed": "Licensed",
-  "license_no_chapters": "Chapters were removed due this work got licensed, please support official translation."
+  "forgot_password": "¿Olvidaste tu contraseña?",
+  "license_no_chapters": "Chapters were removed due this work got licensed, please support official translation.",
+  "reset_password_msg": "An email has been sent with the instructions to change your password.",
+  "confirm_password": "Confirm password",
+  "change_password": "Change Password",
+  "reset_password": "Reset Password",
+  "error_passwords_not_identical": "Passwords are not identical"
 }

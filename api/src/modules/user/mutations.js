@@ -2,8 +2,16 @@
 import { GraphQLString, GraphQLInt } from 'graphql';
 
 // App Imports
-import { UserType, UserLoginType } from './types';
-import { login, create, ban, unban, activate } from './resolvers';
+import { UserType, UserLoginType, MessageType } from './types';
+import {
+  login,
+  create,
+  ban,
+  unban,
+  activate,
+  changePassword,
+  recoverPassword
+} from './resolvers';
 
 // Auth
 export const userLogin = {
@@ -92,4 +100,30 @@ export const userUnban = {
     }
   },
   resolve: unban
+};
+
+export const userRecoverPassword = {
+  type: MessageType,
+  args: {
+    email: {
+      name: 'email',
+      type: GraphQLString
+    }
+  },
+  resolve: recoverPassword
+};
+
+export const userChangePassword = {
+  type: MessageType,
+  args: {
+    token: {
+      name: 'token',
+      type: GraphQLString
+    },
+    newPassword: {
+      name: 'newPassword',
+      type: GraphQLString
+    }
+  },
+  resolve: changePassword
 };

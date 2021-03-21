@@ -31,6 +31,24 @@ const Activate = Loadable({
   modules: ['activate']
 });
 
+const RecoverPassword = Loadable({
+  loader: () =>
+    import(
+      /* webpackChunkName: "recoverPassword" */ './auth/containers/RecoverPasswordContainer'
+    ),
+  loading: () => null,
+  modules: ['recoverPassword']
+});
+
+const ChangePassword = Loadable({
+  loader: () =>
+    import(
+      /* webpackChunkName: "changePassword" */ './auth/containers/ChangePasswordContainer'
+    ),
+  loading: () => null,
+  modules: ['changePassword']
+});
+
 const ACPDashboard = Loadable({
   loader: () =>
     import(/* webpackChunkName: "dashboard" */ './dashboard/Dashboard'),
@@ -169,6 +187,16 @@ export default (
       path="/auth/request_password"
       exact
       component={withTracker(Activate)}
+    />
+    <Route
+      path="/auth/reset_password"
+      exact
+      component={withTracker(RecoverPassword)}
+    />
+    <Route
+      path="/auth/change_password"
+      exact
+      component={withTracker(ChangePassword)}
     />
     <Redirect exact from="/work" to="/work/manage" />
     <RoutePrivate
