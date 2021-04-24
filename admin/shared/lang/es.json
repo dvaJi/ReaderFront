@@ -191,6 +191,7 @@
   "all": "Todos",
   "licensed": "Licenciado",
   "license_no_chapters": "Los capítulos se eliminaron debido a que este work fue licenciado, por favor apoye la traducción oficial.",
+  "forgot_password": "¿Olvidaste tu contraseña?",
   "reset_password_msg": "Se ha enviado un email con las instrucciones para cambiar su contraseña.",
   "confirm_password": "Confirmar contraseña",
   "change_password": "Cambiar Contraseña",
