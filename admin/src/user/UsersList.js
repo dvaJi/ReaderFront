@@ -14,10 +14,11 @@ import {
   Label,
   Modal,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Select
 } from 'common/ui';
 import { USERS_LIST } from './query';
-import { BAN_USER, UNBAN_USER } from './mutation';
+import { BAN_USER, UNBAN_USER, CHANGE_ROLE } from './mutation';
 
 function UsersList() {
   const { formatMessage: f } = useIntl();
@@ -75,6 +76,7 @@ function UsersTable({ searchText }) {
   const toggleBan = () => {
     setIsBanOpen(!isBanOpen);
   };
+  const [changeRole] = useMutation(CHANGE_ROLE);
   const [banUser] = useMutation(BAN_USER);
   const [unbanUser] = useMutation(UNBAN_USER);
 
@@ -91,14 +93,15 @@ function UsersTable({ searchText }) {
     <>
       <Modal isOpen={isBanOpen} toggle={toggleBan}>
         <ModalHeader toggle={toggleBan}>
-          {f({ id: 'create_person', defaultMessage: 'Create Person' })}
+          {f({ id: 'ban', defaultMessage: 'Ban' })}
         </ModalHeader>
         <ModalBody>
           <FormGroup>
-            <Label for="selectRole">
-              {f({ id: 'select_role', defaultMessage: 'Select roles' })}
+            <Label for="banReason">
+              {f({ id: 'ban_reason', defaultMessage: 'Ban Reason' })}
             </Label>
             <Input
+              id="banReason"
               onChange={ev => setBanReason(ev.target.value)}
               value={banReason}
             />
@@ -139,7 +142,30 @@ function UsersTable({ searchText }) {
 
               <td>{email}</td>
 
-              <td>{role}</td>
+              <td>
+                {role === 'ADMIN' ? (
+                  role
+                ) : (
+                  <Select
+                    type="select"
+                    name="select"
+                    onChange={e => {
+                      changeRole({
+                        variables: { id, role: e.target.value },
+                        refetchQueries: [
+                          {
+                            query: USERS_LIST
+                          }
+                        ]
+                      });
+                    }}
+                    value={role}
+                  >
+                    <option value="UPLOADER">UPLOADER</option>
+                    <option value="USER">USER</option>
+                  </Select>
+                )}
+              </td>
 
               <td>
                 {activated

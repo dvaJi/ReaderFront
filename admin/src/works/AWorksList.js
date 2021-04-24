@@ -168,15 +168,19 @@ function WorksTable({ searchText, languages }) {
                     );
 
                     if (check) {
-                      await removeWork({
-                        variables: { id },
-                        refetchQueries: [
-                          {
-                            query: FETCH_WORKS,
-                            variables: { languages: [] }
-                          }
-                        ]
-                      });
+                      try {
+                        await removeWork({
+                          variables: { id },
+                          refetchQueries: [
+                            {
+                              query: FETCH_WORKS,
+                              variables: { languages: [] }
+                            }
+                          ]
+                        });
+                      } catch (err) {
+                        alert(err);
+                      }
                     }
                   }
                 }}

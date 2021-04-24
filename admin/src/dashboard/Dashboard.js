@@ -39,7 +39,7 @@ function Dashboard() {
             to={'/blog/add_post'}
           />
         </div>
-        {role && (
+        {role === 'ADMIN' && (
           <div className="col-md-6 col-sm-6 col-xl-3">
             <CounterCard
               color="#50a6ff"

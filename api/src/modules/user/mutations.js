@@ -10,7 +10,8 @@ import {
   unban,
   activate,
   changePassword,
-  recoverPassword
+  recoverPassword,
+  changeRole
 } from './resolvers';
 
 // Auth
@@ -126,4 +127,19 @@ export const userChangePassword = {
     }
   },
   resolve: changePassword
+};
+
+export const userChangeRole = {
+  type: MessageType,
+  args: {
+    id: {
+      name: 'id',
+      type: GraphQLInt
+    },
+    role: {
+      name: 'role',
+      type: GraphQLString
+    }
+  },
+  resolve: changeRole
 };

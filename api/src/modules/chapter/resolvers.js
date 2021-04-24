@@ -312,12 +312,16 @@ export async function remove(parentValue, { id }, { auth }) {
       return await models.Chapter.destroy({ where: { id } });
     }
   } else {
+    if (auth.user.role === 'UPLOADER') {
+      throw new Error('You cannot perform this action.');
+    }
+
     throw new Error('Operation denied.');
   }
 }
 
 export async function updateStatus(_, { id, hidden }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (hasPermission('update', auth)) {
     return await models.Chapter.update(
       {
         hidden

@@ -312,3 +312,27 @@ export async function unban(_, { id }, { auth }) {
     throw new Error('Operation denied.');
   }
 }
+
+export async function changeRole(_, { id, role }, { auth }) {
+  if (hasPermission('update', auth, 'users')) {
+    const user = await models.User.findOne({ where: { id } });
+    if (!user) {
+      throw new Error(`User does not exists`);
+    } else if (!isValidRole(role)) {
+      throw new Error(`Invalid role`);
+    } else {
+      await models.User.update(
+        {
+          role
+        },
+        { where: { id } }
+      );
+
+      return { id };
+    }
+  } else {
+    throw new Error('Operation denied.');
+  }
+}
+
+const isValidRole = value => ['UPLOADER', 'USER'].includes(value);
