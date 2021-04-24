@@ -117,17 +117,21 @@ function ChaptersTable() {
                     );
 
                     if (check) {
-                      await removeChapter({
-                        variables: { id },
-                        refetchQueries: [
-                          {
-                            query: FETCH_CHAPTERS,
-                            variables: {
-                              workId: Number(workId)
+                      try {
+                        await removeChapter({
+                          variables: { id },
+                          refetchQueries: [
+                            {
+                              query: FETCH_CHAPTERS,
+                              variables: {
+                                workId: Number(workId)
+                              }
                             }
-                          }
-                        ]
-                      });
+                          ]
+                        });
+                      } catch (err) {
+                        alert(err);
+                      }
                     }
                   }
                 }}

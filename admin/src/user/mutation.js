@@ -15,3 +15,11 @@ export const UNBAN_USER = gql`
     }
   }
 `;
+
+export const CHANGE_ROLE = gql`
+  mutation ChangeUserRole($id: Int, $role: String) {
+    userChangeRole(id: $id, role: $role) {
+      message
+    }
+  }
+`;

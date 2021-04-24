@@ -80,7 +80,7 @@ export const hasPermission = (mod = 'read', auth, module = 'core') => {
   if (auth.user && auth.user.role) {
     return (
       auth.user.role === userParams.roles.admin ||
-      auth.user.role === userParams.roles.uploader
+      (auth.user.role === userParams.roles.uploader && mod !== 'delete')
     );
   }
 

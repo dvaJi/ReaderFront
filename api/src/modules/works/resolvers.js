@@ -436,6 +436,10 @@ export async function remove(parentValue, { id }, { auth }) {
       return await models.Works.destroy({ where: { id } });
     }
   } else {
+    if (auth.user.role === 'UPLOADER') {
+      throw new Error('You cannot perform this action.');
+    }
+
     throw new Error('Operation denied.');
   }
 }
