@@ -18,7 +18,7 @@ module.exports = {
       },
       token: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       created: {
         allowNull: false,

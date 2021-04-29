@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
     'refresh_tokens',
     {
       token: {
-        type: DataTypes.STRING
+        type: DataTypes.TEXT
       },
       created: {
         type: DataTypes.DATE
