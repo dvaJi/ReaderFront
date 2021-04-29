@@ -90,7 +90,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -142,7 +142,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     let newPost = {
       userId,
       type,
@@ -200,7 +200,7 @@ export async function update(
 
 // Delete post
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const post = await models.Post.findOne({ where: { id } });
 
     if (!post) {

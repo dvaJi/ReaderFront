@@ -21,15 +21,19 @@ function EditWork() {
   const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await updateWork({
-      variables: { ...work },
-      refetchQueries: [
-        {
-          query: FETCH_WORKS,
-          variables: { language: [] }
-        }
-      ]
-    });
+    try {
+      await updateWork({
+        variables: { ...work },
+        refetchQueries: [
+          {
+            query: FETCH_WORKS,
+            variables: { language: [] }
+          }
+        ]
+      });
+    } catch (err) {
+      alert(err);
+    }
 
     history.push('/work/manage');
   };

@@ -12,7 +12,7 @@ const client = token =>
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) => {
-            if (['Operation denied.', 'Session expired.'].includes(message)) {
+            if (['Operation denied.', 'SESSION_EXPIRED'].includes(message)) {
               setUser(null);
             }
             console.error(

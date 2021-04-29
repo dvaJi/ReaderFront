@@ -183,7 +183,7 @@ function DropImages({ chapter, toggleModal }) {
       page => page.file !== undefined && !page.hasError
     );
 
-    let pagesUploaded = [];
+    const pagesUploaded = [];
     if (pagesToUpload.length > 0) {
       await asyncForeach(pagesToUpload, async (page, i) => {
         const isLast = pagesToUpload.length === i + 1;
@@ -194,6 +194,7 @@ function DropImages({ chapter, toggleModal }) {
       // Update default page
       if (
         (chapter.thumbnail === '' || chapter.thumbnail === null) &&
+        pagesUploaded.length > 0 &&
         pages.length > 0
       ) {
         const index = pages.length < 3 ? 0 : 2;
@@ -201,9 +202,13 @@ function DropImages({ chapter, toggleModal }) {
       }
 
       // update chapter status
-      await updateChapterStatus({
-        variables: { id: chapter.id, hidden: false }
-      });
+      try {
+        await updateChapterStatus({
+          variables: { id: chapter.id, hidden: false }
+        });
+      } catch (err) {
+        alert(err);
+      }
 
       // Show modal with chapter url
       toggleModal(true);
@@ -213,12 +218,15 @@ function DropImages({ chapter, toggleModal }) {
   const handleRemoveFile = async page => {
     const id = page.id;
     if (page.uploaded) {
-      await removePage({ variables: { id } });
-
-      if (page.filename === chapter.thumbnail) {
-        await updateDefaultPage({
-          variables: { id: chapter.id, thumbnail: null }
-        });
+      try {
+        await removePage({ variables: { id } });
+        if (page.filename === chapter.thumbnail) {
+          await updateDefaultPage({
+            variables: { id: chapter.id, thumbnail: null }
+          });
+        }
+      } catch (err) {
+        alert(err);
       }
     }
 
@@ -235,9 +243,13 @@ function DropImages({ chapter, toggleModal }) {
     });
 
     if (chapter.thumbnail !== null || chapter.thumbnail !== '') {
-      await updateDefaultPage({
-        variables: { id: chapter.id, thumbnail: null }
-      });
+      try {
+        await updateDefaultPage({
+          variables: { id: chapter.id, thumbnail: null }
+        });
+      } catch (err) {
+        alert(err);
+      }
     }
 
     setPages([]);

@@ -114,14 +114,18 @@ function UsersTable({ searchText }) {
           <Button
             color="primary"
             onClick={async () => {
-              await banUser({
-                variables: { id: userSelected, reason: banReason },
-                refetchQueries: [
-                  {
-                    query: USERS_LIST
-                  }
-                ]
-              });
+              try {
+                await banUser({
+                  variables: { id: userSelected, reason: banReason },
+                  refetchQueries: [
+                    {
+                      query: USERS_LIST
+                    }
+                  ]
+                });
+              } catch (err) {
+                alert(err);
+              }
               toggleBan();
             }}
           >
@@ -177,14 +181,18 @@ function UsersTable({ searchText }) {
                 <Button
                   onClick={async () => {
                     if (banned) {
-                      await unbanUser({
-                        variables: { id },
-                        refetchQueries: [
-                          {
-                            query: USERS_LIST
-                          }
-                        ]
-                      });
+                      try {
+                        await unbanUser({
+                          variables: { id },
+                          refetchQueries: [
+                            {
+                              query: USERS_LIST
+                            }
+                          ]
+                        });
+                      } catch (err) {
+                        alert(err);
+                      }
                     } else {
                       toggleBan();
                       setUserSelected(id);

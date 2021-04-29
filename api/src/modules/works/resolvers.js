@@ -264,7 +264,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     const uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -337,7 +337,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     let newWork = {
       name,
       stub,
@@ -406,7 +406,7 @@ export async function update(
 
 // Delete works
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const works = await models.Works.findOne({
       where: { id },
       attributes: ['id']

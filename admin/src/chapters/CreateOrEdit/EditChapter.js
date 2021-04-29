@@ -24,17 +24,21 @@ function EditChapter() {
   const onSubmit = async (event, chapter) => {
     event.preventDefault();
 
-    await updateChapter({
-      variables: { ...chapter },
-      refetchQueries: [
-        {
-          query: FETCH_CHAPTERS,
-          variables: { workId: Number(params.workId) }
-        }
-      ]
-    });
+    try {
+      await updateChapter({
+        variables: { ...chapter },
+        refetchQueries: [
+          {
+            query: FETCH_CHAPTERS,
+            variables: { workId: Number(params.workId) }
+          }
+        ]
+      });
 
-    history.push(workPath);
+      history.push(workPath);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

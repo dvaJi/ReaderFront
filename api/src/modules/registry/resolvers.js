@@ -9,7 +9,7 @@ export const REGISTRY_ACTIONS = {
 };
 
 export async function getRegistries(_, { first = 50, offset = 0 }, { auth }) {
-  if (hasPermission('read', auth, 'registry')) {
+  if (await hasPermission('read', auth, 'registry')) {
     const registries = await models.Registry.findAll({
       offset,
       limit: first,

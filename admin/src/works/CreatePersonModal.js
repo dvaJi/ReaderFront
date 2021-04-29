@@ -116,16 +116,21 @@ function CreatePersonModal({ isOpen, toggleModal }) {
           color="primary"
           onClick={async event => {
             event.preventDefault();
-            await createPerson({
-              variables: {
-                name: personName,
-                name_kanji: personNameKanji,
-                description,
-                twitter,
-                thumbnail
-              },
-              refetchQueries: ['SearchPeopleByName']
-            });
+            try {
+              await createPerson({
+                variables: {
+                  name: personName,
+                  name_kanji: personNameKanji,
+                  description,
+                  twitter,
+                  thumbnail
+                },
+                refetchQueries: ['SearchPeopleByName']
+              });
+            } catch (err) {
+              alert(err);
+            }
+
             onCompleted();
           }}
         >

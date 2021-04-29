@@ -4,6 +4,7 @@ import globalParams from '@shared/params/global';
 import userParams from '@shared/params/user';
 import genresParams from '@shared/params/genres';
 import blogParams from '@shared/params/blog';
+import { getLatestToken } from '../modules/user/resolvers';
 
 /**
  * Generate a path of a chapter, if filename is undefined it will return only the directory
@@ -70,9 +71,19 @@ export function includesField(fieldNodes = [], fields) {
   return isIncluded;
 }
 
-// eslint-disable-next-line no-unused-vars
-export const hasPermission = (mod = 'read', auth, module = 'core') => {
-  // TODO: create a dynamic permission model
+export const AUTH_ERROR = {
+  SESSION_EXPIRED: 'SESSION_EXPIRED',
+  OPERATION_DENIED: 'OPERATION_DENIED'
+};
+
+export const hasPermission = async (mod = 'read', auth, module = 'core') => {
+  if (mod !== 'read') {
+    const token = await getLatestToken(auth.user.id);
+    if (!token) {
+      throw new Error(AUTH_ERROR.SESSION_EXPIRED);
+    }
+  }
+
   if (auth.user && (module === 'users' || module === 'registry')) {
     return auth.user.role === userParams.roles.admin;
   }
