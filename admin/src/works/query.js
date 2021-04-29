@@ -6,7 +6,7 @@ export const FETCH_WORKS = gql`
       languages: $languages
       orderBy: "ASC"
       sortBy: "stub"
-      first: 120
+      first: 150
       offset: 0
       showHidden: true
     ) {
