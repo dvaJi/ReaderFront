@@ -1,7 +1,7 @@
 import { v1 as uuidv1 } from 'uuid';
 
 // App Imports
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import { slugify } from '@shared/slugify';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';

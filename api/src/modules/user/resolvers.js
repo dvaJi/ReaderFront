@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
 // App Imports
 import { SECRET_KEY } from './../../config/env';
 import serverConfig from '../../config/server';
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import {
   sendActivateEmail,

@@ -1,7 +1,7 @@
 import path from 'path';
 
 // App Imports
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import { deleteImage, storeImage } from '../../setup/images-helpers';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';

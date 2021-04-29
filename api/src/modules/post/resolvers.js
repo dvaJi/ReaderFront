@@ -13,7 +13,7 @@ import {
   postsStatusIdToName,
   blogCategoriesIdToName
 } from '../../setup/utils';
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';

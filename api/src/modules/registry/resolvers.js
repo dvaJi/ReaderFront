@@ -1,5 +1,5 @@
 import models from '../../setup/models';
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 
 export const REGISTRY_ACTIONS = {
   CREATE: 'create',
