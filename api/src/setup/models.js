@@ -14,7 +14,8 @@ const models = {
   Chapter: databaseConnection.import('../modules/chapter/model'),
   Post: databaseConnection.import('../modules/post/model'),
   Archive: databaseConnection.import('../modules/archive/model'),
-  Registry: databaseConnection.import('../modules/registry/model')
+  Registry: databaseConnection.import('../modules/registry/model'),
+  RefreshToken: databaseConnection.import('../modules/user/refresh-token.model')
 };
 
 Object.keys(models).forEach(modelName => {

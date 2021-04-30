@@ -1,7 +1,7 @@
 import { v1 as uuidv1 } from 'uuid';
 
 // App Imports
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import { slugify } from '@shared/slugify';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
@@ -54,7 +54,7 @@ export async function create(
   { name, name_kanji, description, twitter, thumbnail },
   { auth }
 ) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     const uniqid = uuidv1();
     const stub = slugify(name);
 
@@ -80,7 +80,7 @@ export async function update(
   { id, name, name_kanji, description, twitter, thumbnail },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     const stub = slugify(name);
 
     await addRegistry(auth.user.id, REGISTRY_ACTIONS.UPDATE, 'staff', name);
@@ -103,7 +103,7 @@ export async function update(
 
 // Delete people
 export async function remove(_, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const people = await models.People.findOne({ where: { id } });
 
     if (!people) {

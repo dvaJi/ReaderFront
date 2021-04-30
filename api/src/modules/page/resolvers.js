@@ -1,7 +1,7 @@
 import path from 'path';
 
 // App Imports
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import { deleteImage, storeImage } from '../../setup/images-helpers';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';
@@ -20,7 +20,7 @@ export async function getByChapter(parentValue, { chapterId }) {
 
 // Create page
 export async function create(_, { chapterId, file, size }, { auth }) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     const chapter = await models.Chapter.findOne({
       where: {
         id: chapterId
@@ -64,7 +64,7 @@ export async function update(
   { id, chapterId, filename, hidden, height, width, size, mime },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     return await models.Page.update(
       {
         chapterId,
@@ -84,7 +84,7 @@ export async function update(
 
 // Delete page
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const page = await models.Page.findOne({ where: { id } });
     if (!page) {
       // Page does not exists

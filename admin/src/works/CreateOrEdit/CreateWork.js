@@ -41,14 +41,18 @@ function CreateWork() {
   const onSubmit = async (event, work) => {
     event.preventDefault();
 
-    await createWork({
-      variables: { ...work },
-      refetchQueries: [
-        {
-          query: FETCH_WORKS
-        }
-      ]
-    });
+    try {
+      await createWork({
+        variables: { ...work },
+        refetchQueries: [
+          {
+            query: FETCH_WORKS
+          }
+        ]
+      });
+    } catch (err) {
+      alert(err);
+    }
 
     history.push('/work/manage');
   };

@@ -51,17 +51,21 @@ function CreateOrEdit() {
             onSubmit={async (event, post) => {
               event.preventDefault();
 
-              await createPost({
-                variables: { ...post },
-                refetchQueries: [
-                  {
-                    query: FETCH_ALL_POSTS_WITH_AGG,
-                    variables: { first: 20, offset: 0 }
-                  }
-                ]
-              });
+              try {
+                await createPost({
+                  variables: { ...post },
+                  refetchQueries: [
+                    {
+                      query: FETCH_ALL_POSTS_WITH_AGG,
+                      variables: { first: 20, offset: 0 }
+                    }
+                  ]
+                });
 
-              history.push('/blog/manage');
+                history.push('/blog/manage');
+              } catch (err) {
+                alert(err);
+              }
             }}
           />
         </div>

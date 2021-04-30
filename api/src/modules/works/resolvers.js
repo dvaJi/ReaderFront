@@ -20,7 +20,7 @@ import {
 } from '../chapter/resolvers';
 import { insertGenres } from '../works-genre/resolvers';
 import { insertStaff } from '../people-works/resolvers';
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import { useS3, deleteFile } from '../../setup/s3-upload';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
@@ -264,7 +264,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     const uniqid = uuidv1();
 
     let thumbnailFilename = null;
@@ -337,7 +337,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     let newWork = {
       name,
       stub,
@@ -406,7 +406,7 @@ export async function update(
 
 // Delete works
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const works = await models.Works.findOne({
       where: { id },
       attributes: ['id']

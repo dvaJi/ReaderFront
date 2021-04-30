@@ -41,18 +41,22 @@ function CreateChapter() {
   const onSubmit = async (event, chapter) => {
     event.preventDefault();
 
-    const result = await createChapter({
-      variables: { ...chapter },
-      refetchQueries: [
-        {
-          query: FETCH_CHAPTERS,
-          variables: { workId: Number(params.workId) }
-        }
-      ],
-      ignoreResults: false
-    });
+    try {
+      const result = await createChapter({
+        variables: { ...chapter },
+        refetchQueries: [
+          {
+            query: FETCH_CHAPTERS,
+            variables: { workId: Number(params.workId) }
+          }
+        ],
+        ignoreResults: false
+      });
 
-    history.push(`${workPath}/chapter/${result.data.chapterCreate.id}`);
+      history.push(`${workPath}/chapter/${result.data.chapterCreate.id}`);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (

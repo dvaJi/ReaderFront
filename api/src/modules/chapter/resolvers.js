@@ -166,7 +166,7 @@ export async function create(
   },
   { auth }
 ) {
-  if (hasPermission('create', auth)) {
+  if (await hasPermission('create', auth)) {
     uniqid = uuidv1();
     if (releaseDate === null) {
       releaseDate = new Date();
@@ -223,7 +223,7 @@ export async function update(
   },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     const work = await models.Works.findOne({
       where: { id: workId },
       attributes: ['language', 'name']
@@ -263,7 +263,7 @@ export async function updateDefaultThumbnail(
   { id, thumbnail },
   { auth }
 ) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     return await models.Chapter.update(
       {
         thumbnail
@@ -277,7 +277,7 @@ export async function updateDefaultThumbnail(
 
 // Delete chapter
 export async function remove(parentValue, { id }, { auth }) {
-  if (hasPermission('delete', auth)) {
+  if (await hasPermission('delete', auth)) {
     const chapter = await models.Chapter.findOne({ where: { id } });
 
     if (!chapter) {
@@ -321,7 +321,7 @@ export async function remove(parentValue, { id }, { auth }) {
 }
 
 export async function updateStatus(_, { id, hidden }, { auth }) {
-  if (hasPermission('update', auth)) {
+  if (await hasPermission('update', auth)) {
     return await models.Chapter.update(
       {
         hidden

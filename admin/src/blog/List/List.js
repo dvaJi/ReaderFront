@@ -74,18 +74,22 @@ function PostsTable() {
                     );
 
                     if (check) {
-                      await removePost({
-                        variables: { id: id },
-                        refetchQueries: [
-                          {
-                            query: FETCH_ALL_POSTS_WITH_AGG,
-                            variables: {
-                              first: PER_PAGE,
-                              offset: offset
+                      try {
+                        await removePost({
+                          variables: { id: id },
+                          refetchQueries: [
+                            {
+                              query: FETCH_ALL_POSTS_WITH_AGG,
+                              variables: {
+                                first: PER_PAGE,
+                                offset: offset
+                              }
                             }
-                          }
-                        ]
-                      });
+                          ]
+                        });
+                      } catch (err) {
+                        alert(err);
+                      }
                     }
                   }
                 }}

@@ -1,11 +1,12 @@
 // Imports
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Op } from 'sequelize';
 
 // App Imports
 import { SECRET_KEY } from './../../config/env';
 import serverConfig from '../../config/server';
-import { hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
 import models from '../../setup/models';
 import {
   sendActivateEmail,
@@ -172,9 +173,20 @@ export async function login(_, { email, password }, { clientIp }) {
         role: userDetails.role
       };
 
+      const token = jwt.sign(userDetailsToken, SECRET_KEY, {
+        expiresIn: '60d'
+      });
+
+      await models.RefreshToken.create({
+        userId: userDetails.id,
+        token,
+        created: new Date(),
+        createdByIp: clientIp
+      });
+
       return {
         user: userDetails,
-        token: jwt.sign(userDetailsToken, SECRET_KEY, { expiresIn: '60d' })
+        token
       };
     }
   }
@@ -237,7 +249,7 @@ export async function recoverPassword(_, { email }) {
 
 // Get by ID
 export async function getById(parentValue, { id }, { auth }) {
-  if (hasPermission('read', auth, 'users')) {
+  if (await hasPermission('read', auth, 'users')) {
     return await models.User.findOne({ where: { id } });
   } else {
     throw new Error('Operation denied.');
@@ -246,7 +258,7 @@ export async function getById(parentValue, { id }, { auth }) {
 
 // Get all
 export async function getAll(parentValue, fields, { auth }) {
-  if (hasPermission('read', auth, 'users')) {
+  if (await hasPermission('read', auth, 'users')) {
     return await models.User.findAll({
       attributes: {
         exclude: ['password', 'newPasswordToken', 'newPasswordRequested']
@@ -264,7 +276,7 @@ export async function getGenders() {
 
 // Ban user
 export async function ban(_, { id, reason }, { auth }) {
-  if (hasPermission('update', auth, 'users')) {
+  if (await hasPermission('update', auth, 'users')) {
     const user = await models.User.findOne({ where: { id } });
     if (!user) {
       throw new Error(`User does not exists`);
@@ -284,6 +296,8 @@ export async function ban(_, { id, reason }, { auth }) {
         { where: { id } }
       );
 
+      await revokeToken({ auth, userId: userDetail.id });
+
       return { id };
     }
   } else {
@@ -293,7 +307,7 @@ export async function ban(_, { id, reason }, { auth }) {
 
 // Unban user
 export async function unban(_, { id }, { auth }) {
-  if (hasPermission('update', auth, 'users')) {
+  if (await hasPermission('update', auth, 'users')) {
     const user = await models.User.findOne({ where: { id } });
     if (!user) {
       throw new Error(`User does not exists`);
@@ -305,6 +319,7 @@ export async function unban(_, { id }, { auth }) {
         },
         { where: { id } }
       );
+      await revokeToken({ auth, userId: id });
 
       return { id };
     }
@@ -314,7 +329,7 @@ export async function unban(_, { id }, { auth }) {
 }
 
 export async function changeRole(_, { id, role }, { auth }) {
-  if (hasPermission('update', auth, 'users')) {
+  if (await hasPermission('update', auth, 'users')) {
     const user = await models.User.findOne({ where: { id } });
     if (!user) {
       throw new Error(`User does not exists`);
@@ -327,12 +342,35 @@ export async function changeRole(_, { id, role }, { auth }) {
         },
         { where: { id } }
       );
+      await revokeToken({ auth, userId: id });
 
       return { id };
     }
   } else {
     throw new Error('Operation denied.');
   }
+}
+
+export async function getLatestToken(userId) {
+  return await models.RefreshToken.findOne({
+    where: { [Op.and]: { userId, revoked: { [Op.is]: null } } }
+  });
+}
+
+export async function revokeToken({ auth, userId }) {
+  if (await hasPermission('update', auth, 'users')) {
+    await models.RefreshToken.update(
+      {
+        revoked: new Date(),
+        revokedBy: auth.user.id
+      },
+      { where: { [Op.and]: { userId, revoked: { [Op.is]: null } } } }
+    );
+
+    return true;
+  }
+
+  return false;
 }
 
 const isValidRole = value => ['UPLOADER', 'USER'].includes(value);

@@ -1,7 +1,7 @@
 import path from 'path';
 
 import globalParams from '@shared/params/global';
-import userParams from '@shared/params/user';
+
 import genresParams from '@shared/params/genres';
 import blogParams from '@shared/params/blog';
 
@@ -69,23 +69,6 @@ export function includesField(fieldNodes = [], fields) {
 
   return isIncluded;
 }
-
-// eslint-disable-next-line no-unused-vars
-export const hasPermission = (mod = 'read', auth, module = 'core') => {
-  // TODO: create a dynamic permission model
-  if (auth.user && (module === 'users' || module === 'registry')) {
-    return auth.user.role === userParams.roles.admin;
-  }
-
-  if (auth.user && auth.user.role) {
-    return (
-      auth.user.role === userParams.roles.admin ||
-      (auth.user.role === userParams.roles.uploader && mod !== 'delete')
-    );
-  }
-
-  return false;
-};
 
 // Language helpers
 export const languages = Object.keys(globalParams.languages).map(
