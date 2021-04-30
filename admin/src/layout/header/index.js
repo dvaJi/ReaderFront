@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 
 import { FormattedMessage, useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -101,6 +101,9 @@ function AdminNav() {
             </UserLogged>
             <UserLoggedMenu>
               <DropdownItem header>{user.name}</DropdownItem>
+              <DropdownItem>
+                <Link to="/me/edit">Edit Profile</Link>
+              </DropdownItem>
               <DropdownItem
                 onClick={() => {
                   history.push('/auth/logout');

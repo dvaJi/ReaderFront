@@ -23,3 +23,11 @@ export const CHANGE_ROLE = gql`
     }
   }
 `;
+
+export const UPDATE_PROFILE = gql`
+  mutation ChangeUserRole($username: String, $password: String) {
+    userUpdateProfile(username: $username, password: $password) {
+      message
+    }
+  }
+`;

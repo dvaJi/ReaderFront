@@ -158,6 +158,13 @@ const UsersList = Loadable({
   modules: ['users']
 });
 
+const EditProfile = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: "editprofile" */ './user/EditProfile'),
+  loading: () => null,
+  modules: ['editprofile']
+});
+
 const RegistryList = Loadable({
   loader: () =>
     import(/* webpackChunkName: "registries" */ './registry/RegistryList'),
@@ -256,6 +263,7 @@ export default (
       exact
       component={withTracker(UsersList)}
     />
+    <RoutePrivate path="/me/edit" exact component={withTracker(EditProfile)} />
     <RoutePrivate path="/registry" exact component={RegistryList} />
     <Route path="/401" component={withTracker(Unauthorized)} />
     <Route component={NotFound} />

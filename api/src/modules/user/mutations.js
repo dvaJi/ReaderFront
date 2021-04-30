@@ -11,7 +11,8 @@ import {
   activate,
   changePassword,
   recoverPassword,
-  changeRole
+  changeRole,
+  updateProfile
 } from './resolvers';
 
 // Auth
@@ -142,4 +143,13 @@ export const userChangeRole = {
     }
   },
   resolve: changeRole
+};
+
+export const userUpdateProfile = {
+  type: MessageType,
+  args: {
+    username: { name: 'username', type: GraphQLString },
+    password: { name: 'password', type: GraphQLString }
+  },
+  resolve: updateProfile
 };

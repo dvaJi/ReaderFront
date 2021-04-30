@@ -274,6 +274,53 @@ export async function getGenders() {
   return {};
 }
 
+export async function updateProfile(_, newValues, { auth }) {
+  if (auth && auth.user && auth.user.id) {
+    const user = await models.User.findOne({ where: { id: auth.user.id } });
+    if (!user) {
+      throw new Error(`User does not exists`);
+    }
+
+    const userDetails = user.get();
+
+    const passwordEquals = await bcrypt.compare(
+      newValues.password,
+      userDetails.password
+    );
+    let passwordHashed = '';
+    if (newValues.password) {
+      passwordHashed = await bcrypt.hash(
+        newValues.password,
+        serverConfig.saltRounds
+      );
+    }
+
+    const newUserInfo = Object.keys(newValues).reduce((obj, key) => {
+      if (newValues[key]) {
+        if (!passwordEquals && key === 'password') {
+          obj[key] = passwordHashed;
+        } else {
+          obj[key] = newValues[key];
+        }
+      }
+
+      return obj;
+    }, {});
+
+    await models.User.update(
+      {
+        ...newUserInfo
+      },
+      { where: { id: userDetails.id } }
+    );
+    await revokeToken({ auth, userId: userDetails.id });
+
+    return { id: userDetails.id };
+  } else {
+    throw new Error('Operation denied.');
+  }
+}
+
 // Ban user
 export async function ban(_, { id, reason }, { auth }) {
   if (await hasPermission('update', auth, 'users')) {
