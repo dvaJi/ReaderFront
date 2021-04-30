@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 
 // App imports
 import {
+  USE_EMAIL,
   EMAIL_PWD,
   EMAIL,
   ADMIN_URL,
@@ -9,6 +10,9 @@ import {
 } from '../config/env';
 
 export function sendActivateEmail({ to, name, token }) {
+  if (!USE_EMAIL) {
+    return;
+  }
   if (to === null || token === null) {
     throw Error('Token or receiver are null');
   }
@@ -41,6 +45,9 @@ export function sendActivateEmail({ to, name, token }) {
 }
 
 export async function sendAccountIsActivatedEmail({ to, name }) {
+  if (!USE_EMAIL) {
+    return;
+  }
   // Ex: http://localhost/auth/login
   const activationUrl = `${ADMIN_URL}/auth/login`;
 
@@ -69,6 +76,9 @@ export async function sendAccountIsActivatedEmail({ to, name }) {
 }
 
 export function passwordResetEmail({ to, name, token }) {
+  if (!USE_EMAIL) {
+    return;
+  }
   const activationUrl = `${ADMIN_URL}/auth/change_password?token=${token}`;
 
   const transporter = nodemailer.createTransport(

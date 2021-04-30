@@ -46,7 +46,8 @@ function CreateWork() {
         variables: { ...work },
         refetchQueries: [
           {
-            query: FETCH_WORKS
+            query: FETCH_WORKS,
+            variables: { languages: [] }
           }
         ]
       });

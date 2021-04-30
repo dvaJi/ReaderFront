@@ -26,6 +26,7 @@ export const REACT_APP_APP_TITLE = process.env.REACT_APP_APP_TITLE;
 // Email
 export const EMAIL_PWD = process.env.EMAIL_PWD;
 export const EMAIL = process.env.EMAIL;
+export const USE_EMAIL = EMAIL_PWD && EMAIL;
 
 // S3 upload file
 export const S3_ENDPOINT = process.env.S3_ENDPOINT;

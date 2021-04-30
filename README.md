@@ -40,10 +40,9 @@ When you first download the code and want to run it locally you have to migrate 
 
 ```sh
 npm run db:migrate
-npm run db:seed
 ```
 
-There's a shortcut for dropping, migrating and seeding the database too:
+If you want to include the sample data (it include admin users):
 
 ```sh
 npm run setup:db

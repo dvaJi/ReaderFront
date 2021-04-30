@@ -3,7 +3,8 @@ import { Op } from 'sequelize';
 import formatDate from 'date-fns/format';
 
 // App Imports
-import { includesField, hasPermission } from '../../setup/utils';
+import { hasPermission } from '../../setup/auth-utils';
+import { includesField } from '../../setup/utils';
 import { languageById } from '@shared/params/global';
 import { isValidThumb } from '../../setup/images-helpers';
 import { API_URL } from '../../config/env';
