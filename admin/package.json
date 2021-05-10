@@ -75,7 +75,7 @@
     "jest-styled-components": "^7.0.4",
     "jsdom-global": "^3.0.2",
     "mock-local-storage": "^1.1.17",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "react-app-rewired": "^2.1.8",
     "symlink-webpack-plugin": "^1.1.0"
   },
