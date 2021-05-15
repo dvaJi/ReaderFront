@@ -1,6 +1,6 @@
 name: API pipeline
 
-on: [push, pull_request]
+on: [push]
 
 env:
   CI: true
@@ -39,10 +39,10 @@ jobs:
       - run: yarn build:ui
 
       - name: Run lint
-        run: yarn lint:admin
+        run: yarn lint:api
 
       - name: Run build
-        run: yarn build:admin
+        run: yarn build:api
 
       - name: Run tests
-        run: yarn test:admin -- --maxWorkers=2
+        run: yarn test:api -- --maxWorkers=2

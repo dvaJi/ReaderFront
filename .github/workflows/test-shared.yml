@@ -1,6 +1,6 @@
 name: Shared pipeline
 
-on: [push, pull_request]
+on: [push]
 
 env:
   CI: true

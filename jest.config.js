@@ -10,7 +10,6 @@ const packages = readdirSync(basePath).filter(name =>
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-
   moduleNameMapper: {
     '^.+\\.(css|less|scss)$': 'babel-jest',
     // automatically generated list of our packages from packages directory.
