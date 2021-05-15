@@ -34,6 +34,9 @@ jobs:
       - name: Install npm dependencies
         run: yarn install
 
+      - run: yarn build:shared
+      - run: yarn build:ui
+
       - name: Run lint
         run: yarn lint:admin
 
