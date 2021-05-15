@@ -1,34 +1,32 @@
+const path = require('path');
+const { lstatSync, readdirSync } = require('fs');
+
+// get listing of packages in mono repo
+const basePath = path.resolve(__dirname, 'packages');
+const packages = readdirSync(basePath).filter(name =>
+  lstatSync(path.join(basePath, name)).isDirectory()
+);
+
 module.exports = {
-  setupFiles: ['<rootDir>/jest.setup.js'],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+
   moduleNameMapper: {
-    '^utils(.*)$': '<rootDir>/src/utils$1',
-    '^lib(.*)$': '<rootDir>/src/lib$1',
-    '^@shared(.*)$': '<rootDir>/shared$1',
-    '^@hooks(.*)$': '<rootDir>/src/hooks$1',
-    '^@pages(.*)$': '<rootDir>/src/pages$1',
-    '^@components(.*)$': '<rootDir>/src/components$1'
+    '^.+\\.(css|less|scss)$': 'babel-jest',
+    // automatically generated list of our packages from packages directory.
+    // will tell jest where to find source code for @readerfront/ packages, it points to the src instead of dist.
+    ...packages.reduce(
+      (acc, name) => ({
+        ...acc,
+        [`@readerfront/${name}(.*)$`]: `<rootDir>/packages/./${name}/src/$1`
+      }),
+      {}
+    )
   },
-  testPathIgnorePatterns: [
-    '<rootDir>/.next/',
-    '<rootDir>/node_modules/',
-    '<rootDir>/src/__tests__/mocks/'
-  ],
-  modulePathIgnorePatterns: ['<rootDir>/admin/*', '<rootDir>/api/*'],
-  collectCoverageFrom: [
-    'src/**/*.{js,jsx}',
-    '!**/node_modules/**',
-    '!**src/__mocks__/**',
-    '!**src/__tests__/**',
-    '!**coverage/**',
-    '!(server|jest.config|next.config|commitlint.config|.versionrc|.prettierrc|.eslintrc).js',
-    '!**src/pages/(_app|_document).js'
-  ],
-  coverageThreshold: {
-    global: {
-      branches: 60,
-      functions: 60,
-      lines: 60,
-      statements: 60
-    }
-  }
+  modulePathIgnorePatterns: [
+    ...packages.reduce(
+      (acc, name) => [...acc, `<rootDir>/packages/${name}/build`],
+      []
+    )
+  ]
 };

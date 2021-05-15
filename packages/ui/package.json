@@ -1,0 +1,30 @@
+{
+  "name": "@readerfront/ui",
+  "version": "1.0.0",
+  "author": "dvaJi",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:ci": "jest --coverage",
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "@types/react": "*",
+    "@readerfront/shared": "*",
+    "react": "*",
+    "reactstrap": "*",
+    "styled-components": "*",
+    "styled-theming": "*"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^3.10.8",
+    "@types/styled-components": "^5.1.9",
+    "@types/styled-theming": "^2.2.5",
+    "@types/jest": "^26.0.23",
+    "jest": "26.6.0",
+    "ts-jest": "^26.5.6",
+    "enzyme": "^3.11.0"
+  }
+}

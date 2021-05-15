@@ -1,4 +1,0 @@
-- [] Badges
-- [] Modal
-- [] Tooltip
-- [] Pagination

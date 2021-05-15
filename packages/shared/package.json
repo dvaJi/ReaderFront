@@ -1,0 +1,18 @@
+{
+  "name": "@readerfront/shared",
+  "version": "1.0.0",
+  "source": "src/index.ts",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc -w",
+    "test": "jest",
+    "test:ci": "jest --coverage"
+  },
+  "author": "dvaJi",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.13.0",
+    "typescript": "^4.2.4"
+  }
+}
