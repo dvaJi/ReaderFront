@@ -70,7 +70,7 @@
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-hooks-global-state": "^1.0.1",
-    "react-intl": "^5.8.8",
+    "react-intl": "^5.17.6",
     "react-lazy-load-image-component": "^1.5.1",
     "react-lazyload": "^2.6.9",
     "react-markdown": "^6.0.1",
