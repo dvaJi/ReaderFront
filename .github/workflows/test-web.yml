@@ -1,6 +1,11 @@
 name: Web pipeline
 
-on: [push]
+on:
+  push:
+    paths:
+      - "packages/web/**"
+      - "packages/shared/**"
+      - "packages/ui/**"
 
 env:
   CI: true

@@ -1,6 +1,10 @@
 name: UI pipeline
 
-on: [push]
+on:
+  push:
+    paths:
+      - "packages/ui/**"
+      - "packages/shared/**"
 
 env:
   CI: true

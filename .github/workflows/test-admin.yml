@@ -1,6 +1,11 @@
 name: Admin pipeline
 
-on: [push]
+on:
+  push:
+    paths:
+      - "packages/admin/**"
+      - "packages/shared/**"
+      - "packages/ui/**"
 
 env:
   CI: true
