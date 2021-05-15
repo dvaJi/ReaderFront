@@ -129,8 +129,9 @@ it('should fill with the chapter given', async () => {
   const inputName = wrapper.find('input[name="name"]').instance().value;
   const inputVolume = wrapper.find('input[name="volume"]').instance().value;
   const inputChapter = wrapper.find('input[name="chapter"]').instance().value;
-  const inputSubchapter = wrapper.find('input[name="subchapter"]').instance()
-    .value;
+  const inputSubchapter = wrapper
+    .find('input[name="subchapter"]')
+    .instance().value;
 
   expect(inputName).toBe(releases[0].name || '');
   expect(parseInt(inputVolume, 0)).toBe(releases[0].volume);

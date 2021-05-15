@@ -5,7 +5,10 @@ import ld from 'lodash';
 
 // App Imports
 import { includesField } from '../../setup/utils';
-import { typesById, demographicById } from '@readerfront/shared/build/params/genres';
+import {
+  typesById,
+  demographicById
+} from '@readerfront/shared/build/params/genres';
 import { languageById } from '@readerfront/shared/build/params/global';
 import { statusById, rolesById } from '@readerfront/shared/build/params/works';
 
