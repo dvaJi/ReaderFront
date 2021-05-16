@@ -1,14 +1,27 @@
 {
   "name": "readerfront",
   "private": "true",
-  "version": "1.0.0",
+  "version": "4.3.0",
+  "license": "MIT",
+  "author": "dvaJi",
+  "keywords": [
+    "react",
+    "styled-components",
+    "standard-version",
+    "manga",
+    "manga-reader",
+    "manga-cms",
+    "progressive-web-app"
+  ],
   "bugs": {
     "url": "https://github.com/dvaJi/ReaderFront/issues"
   },
   "scripts": {
     "bootstrap": "yarn install && lerna bootstrap",
-    "start:all": "lerna run start --parallel",
+    "start:all": "lerna run dev --parallel --scope @readerfront/web --scope @readerfront/admin --scope @readerfront/api",
+    "build:all": "lerna run build",
     "start:web": "yarn workspace @readerfront/web run dev",
+    "prod:web": "yarn workspace @readerfront/web run start",
     "test:web": "yarn workspace @readerfront/web run test:ci",
     "lint:web": "yarn workspace @readerfront/web run lint",
     "build:web": "yarn workspace @readerfront/web run build",
@@ -17,18 +30,20 @@
     "lint:admin": "yarn workspace @readerfront/admin run lint",
     "build:admin": "yarn workspace @readerfront/admin run build",
     "start:api": "yarn workspace @readerfront/api run start",
+    "prod:api": "yarn workspace @readerfront/api run start:prod",
     "test:api": "yarn workspace @readerfront/api run test:ci",
     "lint:api": "yarn workspace @readerfront/api run lint",
     "build:api": "yarn workspace @readerfront/api run build",
     "test:shared": "yarn workspace @readerfront/shared run test:ci",
     "build:shared": "yarn workspace @readerfront/shared run build",
     "test:ui": "yarn workspace @readerfront/ui run test:ci",
-    "build:ui": "yarn workspace @readerfront/ui run build"
+    "build:ui": "yarn workspace @readerfront/ui run build",
+    "db:migrate": "yarn workspace @readerfront/api run db:migrate",
+    "setup:db": "yarn workspace @readerfront/api run setup:db"
   },
   "workspaces": [
     "packages/*"
   ],
-  "license": "MIT",
   "devDependencies": {
     "lerna": "^4.0.0"
   }

@@ -43,10 +43,9 @@ REACT_APP_READER_PATH=https://api.mydomain.com
 
 # 3. Install the dependencies
 
-Because it's pretty tedious to install the dependencies for each project individually we've created a script that goes through and runs `npm install` for project for you:
 
 ```sh
-node shared/install-dependencies.js
+yarn install
 ```
 
 # 4. Build Projects
@@ -54,7 +53,7 @@ node shared/install-dependencies.js
 Build project run:
 
 ```sh
-npm run build:all
+yarn build:all
 ```
 
 # 4. Migrate database
@@ -62,7 +61,7 @@ npm run build:all
 To migrate database and create the schema run:
 
 ```sh
-npm run db:migrate
+yarn db:migrate
 ```
 
 # 5. Daemonize Applications
@@ -72,7 +71,7 @@ PM2 is a process manager for Node.js applications. PM2 makes it possible to daem
 Use npm to install the latest version of PM2 on your server:
 
 ```sh
-npm install pm2@latest -g
+yarn global add pm2
 ```
 
 The `-g` option tells npm to install the module globally, so that it’s available system-wide.
@@ -80,8 +79,7 @@ The `-g` option tells npm to install the module globally, so that it’s availab
 ## Daemonize `api`:
 
 ```sh
-cd api/
-pm2 start index.js --name "readerfront-api"
+pm2 start yarn --name "readerfront-api" -- prod:api
 ```
 
 Check that the API is running at `http://YOUR_SERVER_IP:8000/`
@@ -89,8 +87,7 @@ Check that the API is running at `http://YOUR_SERVER_IP:8000/`
 ## Daemonize `web`:
 
 ```sh
-cd ../
-pm2 start npm --name "readerfront-web" -- start
+pm2 start yarn --name "readerfront-web" -- prod:web
 ```
 
 Check that the API is running at `http://YOUR_SERVER_IP:3000/`

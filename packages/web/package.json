@@ -1,39 +1,15 @@
 {
   "name": "@readerfront/web",
   "version": "4.3.0",
-  "keywords": [
-    "react",
-    "styled-components",
-    "standard-version",
-    "manga",
-    "manga-reader",
-    "manga-cms",
-    "progressive-web-app"
-  ],
-  "author": "dvaJi",
   "scripts": {
     "start": "cross-env NODE_ENV=production node --icu-data-dir=node_modules/full-icu server.js",
     "dev": "node --icu-data-dir=node_modules/full-icu server.js",
-    "dev:admin": "cd ./admin && npm run start",
-    "dev:api": "cd ./api && npm run start",
-    "dev:all": "concurrently \"npm:dev\" \"npm:dev:api\" \"npm:dev:admin\"",
     "build": "next build",
-    "build:admin": "cd ./admin && npm run build",
-    "build:api": "cd ./api && npm run build",
-    "build:all": "npm run build && npm run build:api && npm run build:admin",
     "test": "jest --watchAll --verbose",
     "test:ci": "jest --coverage",
-    "test:admin": "cd ./admin && npm run test:ci",
-    "test:api": "cd ./api && npm run test:ci",
-    "setup:db": "cd ./api && npm run setup:db",
-    "db:migrate": "cd ./api && npm run db:migrate",
-    "db:seed": "cd ./api && npm run db:seed",
-    "db:drop": "cd ./api && npm run db:drop",
     "lint": "eslint src",
-    "lint:admin": "cd ./admin && npm run lint",
-    "lint:api": "cd ./api && npm run lint",
     "prettier": "pretty-quick --staged",
-    "analyze": "cross-env ANALYZE=true NODE_ENV=production npm run build"
+    "analyze": "cross-env ANALYZE=true NODE_ENV=production yarn build"
   },
   "dependencies": {
     "@apollo/client": "^3.3.16",
