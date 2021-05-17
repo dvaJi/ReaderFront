@@ -14,12 +14,17 @@
 
 ```sh
 readerfront/
-├── admin      # Administration control panel
-├── api        # API server
-├── public     # Public files used on the frontend
-├── shared     # Shared JavaScript code
-├── src        # Frontend NextJS
+├── packages/
+  ├── admin      # Administration control panel
+  ├── api        # API server
+  ├── shared     # Shared JavaScript code
+  ├── ui         # Shared React components
+  ├── web        # Frontend NextJS
 ```
+
+### Requirements:
+  - Node JS 14
+  - yarn
 
 ### Production Installation steps:
 
@@ -28,10 +33,10 @@ Please follow [PRODUCTION](https://github.com/dvaJi/ReaderFront/blob/master/PROD
 ### Development Installation steps:
 
 1. **Install MariaDB**: See [the MariaDB documentation](https://downloads.mariadb.org/) for instructions on installing it with your OS.
-2. **Install the dependencies**: Because it's pretty tedious to install the dependencies for each project individually we've created a script that goes through and runs `npm install` for project for you:
+2. **Install the dependencies**:
 
 ```sh
-node shared/install-dependencies.js
+yarn install
 ```
 
 ### Migrating the database
@@ -39,25 +44,25 @@ node shared/install-dependencies.js
 When you first download the code and want to run it locally you have to migrate the database and seed it with test data. First, start mariadb, then, run these commands:
 
 ```sh
-npm run db:migrate
+yarn db:migrate
 ```
 
-If you want to include the sample data (it include admin users):
+If you want to imoplement the sample data (includes admin users):
 
 ```sh
-npm run setup:db
+yarn setup:db
 ```
 
 ## Running the app locally
 
-Depending on what you're trying to work on you'll need to start different servers. Generally, all servers run in development mode by doing `npm run dev:<projectname>`, e.g. `npm run dev:api` to start the API, but first you have to check the secrets, every project contains a `.env.example` file with the necessary values.
+Depending on what you're trying to work on you'll need to start different servers. Generally, all servers run in development mode by doing `yarn start:<projectname>`, e.g. `yarn start:api` to start the API, but first you have to check the secrets, every project contains a `.env.example` file with the necessary values.
 
 ### Develop the API
 
 To develop the API run:
 
 ```
-npm run dev:api
+yarn start:api
 ```
 
 ### Develop the web UI
@@ -65,7 +70,7 @@ npm run dev:api
 To develop the web UI run:
 
 ```
-npm run dev
+yarn start:web
 ```
 
 ### Develop the admin UI
@@ -73,7 +78,7 @@ npm run dev
 To develop the admin UI run:
 
 ```
-npm run dev:admin
+yarn start:admin
 ```
 
 ### Run All Apps
@@ -81,7 +86,7 @@ npm run dev:admin
 This is only recommended in dev environment. DO NOT USE THIS IN PRODUCTION!
 
 ```
-npm run dev:all
+yarn start:all
 ```
 
 ## Want to help?

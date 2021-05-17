@@ -1,0 +1,115 @@
+{
+  "name": "@readerfront/admin",
+  "version": "4.3.0",
+  "author": "dvaJi",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "dev": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --no-cache",
+    "test:ci": "react-app-rewired test",
+    "test:debug": "react-app-rewired --inspect-brk test --runInBand",
+    "lint": "eslint ./src"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.16",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@readerfront/ui": "*",
+    "@readerfront/shared": "*",
+    "apollo-upload-client": "^14.1.3",
+    "bootstrap": "^4.6.0",
+    "downshift": "^6.1.3",
+    "graphql": "^15.5.0",
+    "graphql-tag": "^2.12.4",
+    "history": "^5.0.0",
+    "http-proxy-middleware": "^2.0.0",
+    "js-cookie": "^2.2.1",
+    "react": "^17.0.2",
+    "react-datepicker": "^3.8.0",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^11.3.2",
+    "react-ga": "^3.3.0",
+    "react-helmet": "^6.1.0",
+    "react-hooks-global-state": "^1.0.1",
+    "react-intl": "^5.8.8",
+    "react-lazy-load-image-component": "^1.5.1",
+    "react-lazyload": "^2.6.9",
+    "react-loadable": "^5.5.0",
+    "react-markdown": "^6.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-rte": "^0.16.3",
+    "react-scripts": "^4.0.3",
+    "react-spring": "^9.1.2",
+    "react-transition-group": "^4.4.1",
+    "reactstrap": "^8.9.0",
+    "styled-components": "^5.3.0",
+    "styled-theming": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/react-intl": "^3.0.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
+    "babel-eslint": "^10.1.0",
+    "customize-cra": "^1.0.0",
+    "enzyme": "^3.11.0",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.7.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "jest-styled-components": "^7.0.4",
+    "jsdom-global": "^3.0.2",
+    "mock-local-storage": "^1.1.17",
+    "prettier": "^2.2.1",
+    "react-app-rewired": "^2.1.8",
+    "symlink-webpack-plugin": "^1.1.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^utils(.*)$": "<rootDir>/src/utils$1",
+      "^lib(.*)$": "<rootDir>/src/lib$1",
+      "^@hooks(.*)$": "<rootDir>/src/hooks$1",
+      "^@pages(.*)$": "<rootDir>/src/pages$1",
+      "^@components(.*)$": "<rootDir>/src/components$1"
+    },
+    "transformIgnorePatterns": ["/node_modules/(?!@readerfront/ui).+\\.js$", "/node_modules/(?!@readerfront/shared).+\\.js$"],
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/index.js",
+      "!<rootDir>/src/Routes.js",
+      "!<rootDir>/src/registerServiceWorker.js",
+      "!<rootDir>/src/common/WithTracker.js",
+      "!<rootDir>/src/(state|themes|config|setupApollo|setupProxy|setupIcons|Root|App).js",
+      "!<rootDir>/src/auth/(AuthCheck|RoutePrivate).js",
+      "!<rootDir>/src/utils/mocks/*.{js}",
+      "!<rootDir>/src/utils/(helpers|common).js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
+      }
+    },
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text"
+    ]
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

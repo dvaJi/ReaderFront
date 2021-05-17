@@ -1,0 +1,13 @@
+*.jsbundle
+*.tsbuildinfo
+.DS_Store
+.history
+.jest
+.vscode
+build
+coverage
+dist
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
