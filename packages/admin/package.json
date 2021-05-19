@@ -79,7 +79,10 @@
       "^@pages(.*)$": "<rootDir>/src/pages$1",
       "^@components(.*)$": "<rootDir>/src/components$1"
     },
-    "transformIgnorePatterns": ["/node_modules/(?!@readerfront/ui).+\\.js$", "/node_modules/(?!@readerfront/shared).+\\.js$"],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@readerfront/ui).+\\.js$",
+      "/node_modules/(?!@readerfront/shared).+\\.js$"
+    ],
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.{js,jsx}",
       "!<rootDir>/node_modules/",
