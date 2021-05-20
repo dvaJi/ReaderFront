@@ -33,6 +33,13 @@ jobs:
         with:
           node-version: "14"
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
       - run: node --version
       - run: yarn --version
 
