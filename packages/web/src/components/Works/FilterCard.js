@@ -2,13 +2,20 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { forceCheck } from 'react-lazyload';
 
-import { Input } from '@readerfront/ui';
+import { Input, Select } from '@readerfront/ui';
+import { FilterCardWrapper } from './styles';
 
-function FilterCard({ filterText, onFilterTextChange }) {
+function FilterCard({
+  filterText,
+  onFilterTextChange,
+  onChangeStatus,
+  selectedStatus,
+  statusList = []
+}) {
   const { formatMessage: f } = useIntl();
 
   return (
-    <div style={{ marginBottom: 35 }}>
+    <FilterCardWrapper>
       <Input
         type="text"
         name="work-search"
@@ -23,7 +30,18 @@ function FilterCard({ filterText, onFilterTextChange }) {
           forceCheck();
         }}
       />
-    </div>
+      <Select
+        value={selectedStatus}
+        onChange={e => onChangeStatus(e.target.value)}
+      >
+        <option value="">All</option>
+        {statusList.map(st => (
+          <option key={st} value={st}>
+            {f({ id: st, defaultMessage: st })}
+          </option>
+        ))}
+      </Select>
+    </FilterCardWrapper>
   );
 }
 

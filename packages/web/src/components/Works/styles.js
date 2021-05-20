@@ -128,3 +128,17 @@ export const FlagWrapper = styled.div`
   display: inline-block;
   margin-left: 5px;
 `;
+
+export const FilterCardWrapper = styled.div`
+  display: flex;
+  margin-bottom: 35px;
+
+  input {
+    flex: 4;
+  }
+
+  select {
+    margin-left: 5px;
+    flex: 1;
+  }
+`;
