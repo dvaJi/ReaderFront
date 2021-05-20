@@ -47,6 +47,7 @@ export const FETCH_WORKS = gql`
 export function WorksContainer() {
   const { query, push } = useRouter();
   const [textFilter, setText] = useState(query.q ? query.q : '');
+  const [selectedStatus, setStatusSelected] = useState('');
   const [languagesSelected] = useGlobalState('languages_filter');
   const languages = languagesSelected.map(l => l.value);
 
@@ -80,8 +81,18 @@ export function WorksContainer() {
   return (
     <Container>
       <WorksMetatags />
-      <FilterCard filter={textFilter} onFilterTextChange={setTextFilter} />
-      <WorksList works={data.works} filterText={textFilter} />
+      <FilterCard
+        filter={textFilter}
+        onFilterTextChange={setTextFilter}
+        onChangeStatus={setStatusSelected}
+        selectedStatus={selectedStatus}
+        statusList={[...new Set(data.works.map(w => w.status_name))]}
+      />
+      <WorksList
+        works={data.works}
+        filterText={textFilter}
+        selectedStatus={selectedStatus}
+      />
     </Container>
   );
 }

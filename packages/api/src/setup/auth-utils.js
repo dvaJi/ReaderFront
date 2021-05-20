@@ -1,4 +1,4 @@
-import userParams from '@readerfront/shared/build/params/user';
+import * as userParams from '@readerfront/shared/build/params/user';
 import { getLatestToken } from '../modules/user/resolvers';
 
 export const AUTH_ERROR = {
