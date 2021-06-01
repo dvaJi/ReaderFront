@@ -61,7 +61,7 @@ it('should filter works', async () => {
   await actions(wrapper, async () => {
     await global.wait(0);
 
-    expect(wrapper.find('#works-list > *').length).toBe(3);
+    expect(wrapper.find('#works-list > .row > *').length).toBe(3);
 
     wrapper
       .find('input[id="work-search"]')
@@ -69,6 +69,6 @@ it('should filter works', async () => {
 
     await global.wait(0);
 
-    expect(wrapper.find('#works-list > *').length).toBe(1);
+    expect(wrapper.find('#works-list > .row > *').length).toBe(1);
   });
 });

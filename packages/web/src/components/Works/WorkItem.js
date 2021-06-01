@@ -1,105 +1,119 @@
 import React, { memo } from 'react';
 import Link from 'next/link';
-import Lazyload from 'react-lazyload';
+import theme from 'styled-theming';
 import styled from 'styled-components';
 
-import { statusById } from '@readerfront/shared/build/params/works';
 import getImage from '@components/Image/function';
-
-import WorkCover from './WorkCover';
 import Flag from '@components/Flag';
 
 import { theme as rfTheme } from '@readerfront/ui';
-const { cardBackgroundColor, cardColor } = rfTheme;
+const { background, toRgb } = rfTheme;
 
-const Card = styled.a`
-  color: ${cardColor};
-  background-color: ${cardBackgroundColor};
-  border-radius: 2px;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  display: inline-block;
-  margin-bottom: 65px;
-  margin-right: 1.5%;
-  margin-left: 1.5%;
-  transform: translateY(10px);
-  transition-property: all;
-  transition-duration: 250ms;
+const shadowColor = theme('mode', {
+  light: toRgb(background.light.darkest),
+  dark: toRgb(background.dark.lighter)
+});
+
+const ListItem = styled.div`
   position: relative;
-  width: 47%;
-  white-space: normal;
-  vertical-align: top;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  border-radius: 0.25rem;
+`;
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
+const Media = styled.div`
+  position: relative;
+  display: block;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: inherit;
+  transition: box-shadow 0.15s linear;
 
   &:hover {
-    box-shadow: 0 40px 40px rgba(0, 0, 0, 0.16);
-    transform: translate(0, -10px);
-    transition-delay: 0s !important;
+    box-shadow: 0 0 20px rgba(${shadowColor}, 0.5);
   }
 
-  &:active {
-    box-shadow: 0 40px 40px 5px rgba(0, 0, 0, 0.36);
-    transform: translate(0, -5px);
-    transition-delay: 0s !important;
-  }
-`;
-const CardBody = styled.div`
-  float: left;
-  padding: 15px 25px 25px 20px;
-  width: ${props => (props.size === 'small' ? '100%' : '70%')};
-
-  @media (max-width: 1200px) {
-    width: 60%;
-  }
-
-  @media (max-width: 990px) {
-    width: 100%;
-  }
-
-  .card-body-heading {
-    color: #6f6f6f;
-    display: inline-block;
-    font-size: 22px;
-    margin-bottom: 15px;
-    padding-left: 15%;
-
-    @media (max-width: 990px) {
-      padding-left: 0%;
-      padding-right: 40%;
-    }
-  }
-
-  .card-body-description {
-    padding-left: 40px;
-    ${props =>
-      props.size === 'small'
-        ? 'padding-left: 0;font-size: 0.9rem;color: #8a8e94;'
-        : ''} @media (max-width: 990px) {
-      padding-left: 0;
-      font-size: 0.9rem;
-      color: #8a8e94;
-    }
+  &:after {
+    content: '';
+    display: block;
+    padding-top: 120%;
   }
 `;
 
-const CoverWrapper = styled.span`
-  ${props =>
-    props.size !== 'small' ? 'height: 212px; width: 150px; float: left;' : ''}
+const MediaContent = styled.a`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: hsla(0, 0%, 47.1%, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const MediaOverlay = styled.div`
+  position: absolute;
+  top: ${({ top }) => (top ? '0' : 'auto')};
+  left: 0;
+  right: 0;
+  bottom: ${({ bottom }) => (bottom ? '0' : 'auto')};
+  padding: 1rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  color: #fff;
+`;
+
+const Badge = styled.div`
+  padding: 0.3em 0.45em;
+  margin-right: 5px;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.51);
+
+  & > .status {
+    line-height: 2em;
+  }
+`;
+
+const ListContent = styled.div`
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: center;
+`;
+
+const ListBody = styled.div`
+  flex: 1 1 auto;
+`;
+
+const ListTitle = styled.a`
+  line-height: 1.4285714286;
+  font-weight: 500;
+  display: block;
+  color: inherit;
+  cursor: pointer;
 `;
 
 const getThumbSize = size => {
   if (size === 'small') {
-    return { height: 180, width: 345 };
+    return { height: 230, width: 190 };
   } else {
-    return { height: 220, width: 150 };
+    return { height: 370, width: 300 };
   }
 };
 
 function WorkItem({ work, size }) {
-  const status = statusById(work.status);
   const thumbSize = getThumbSize(size);
   const thumbnail = getImage(
     work.thumbnail_path,
@@ -109,37 +123,45 @@ function WorkItem({ work, size }) {
     true
   );
   return (
-    <Link
-      href="/work/[lang]/[slug]"
-      as={`/work/${work.language_name}/${work.stub}`}
-    >
-      <Card>
-        <CoverWrapper size={size}>
-          <Lazyload
-            height={150}
-            once
-            debounce={false}
-            placeholder={<WorkCover work={work} size={size} status={status} />}
+    <div className="col-6 col-md-4 col-xl-3">
+      <ListItem>
+        <Media className="media">
+          <Link
+            href="/work/[lang]/[slug]"
+            as={`/work/${work.language_name}/${work.stub}`}
           >
-            <WorkCover
-              cover={thumbnail}
-              work={work}
-              size={size}
-              status={status}
+            <MediaContent
+              className="media-content"
+              style={{
+                backgroundImage: `url('${thumbnail}')`
+              }}
             />
-          </Lazyload>
-        </CoverWrapper>
-
-        <CardBody size={size}>
-          {size !== 'small' && (
-            <h2 className="card-body-heading">
-              {work.name} <Flag language={work.language_name} />
-            </h2>
-          )}
-          <p className="card-body-description">{work.description_short}</p>
-        </CardBody>
-      </Card>
-    </Link>
+          </Link>
+          <MediaOverlay top className="justify-content-end">
+            {work.adult && (
+              <Badge className="badge text-uppercase">
+                <span className="status">+18</span>
+              </Badge>
+            )}
+          </MediaOverlay>
+          <MediaOverlay bottom className="justify-content-end">
+            <Badge className="badge text-uppercase">
+              <Flag language={work.language_name} />
+            </Badge>
+          </MediaOverlay>
+        </Media>
+        <ListContent>
+          <ListBody>
+            <Link
+              href="/work/[lang]/[slug]"
+              as={`/work/${work.language_name}/${work.stub}`}
+            >
+              <ListTitle>{work.name}</ListTitle>
+            </Link>
+          </ListBody>
+        </ListContent>
+      </ListItem>
+    </div>
   );
 }
 

@@ -57,21 +57,19 @@ export const FETCH_LATEST_WORKS = gql`
       languages: $languages
       orderBy: "DESC"
       sortBy: "id"
-      first: 10
+      first: 12
       offset: 0
       showHidden: false
     ) {
-      id
       name
       stub
       uniqid
       type
-      demographicId
-      status
+      demographic_name
+      status_name
+      language_name
       adult
       thumbnail_path
-      description_short
-      language_name
     }
   }
 `;

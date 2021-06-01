@@ -15,7 +15,7 @@ function LatestWork({ works, isLoading }) {
   return (
     <div className="LatestWorks mb-4">
       <h3>{f({ id: 'recently_added', defaultMessage: 'Recently added' })}</h3>
-      <WorksList>
+      <WorksList className="row">
         {!isLoading
           ? works.map(work => <Card key={work.id} work={work} size={'small'} />)
           : Array.from(new Array(4)).map((fk, index) => (
