@@ -9,6 +9,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { getImage } from '@components/Image';
 import Cover from '@components/Work/Cover';
 import Info from '@components/Work/Info';
+import ExtraInfo from '@components/Work/ExtraInfo';
 import ChapterList from '@components/Work/ChapterList';
 import WorkEmpty from '@components/Work/WorkEmpty';
 import { languages } from '@readerfront/shared/build/params/global';
@@ -26,7 +27,6 @@ export const FETCH_WORK = gql`
       type
       demographic_name
       description
-      status
       status_name
       licensed
       adult
@@ -38,26 +38,16 @@ export const FETCH_WORK = gql`
         chapter
         subchapter
         volume
-        language
-        language_name
         name
-        stub
-        uniqid
-        thumbnail
+        thumbnail_path
         download_href
         read_path
+        updatedAt
       }
       staff {
-        rol
         rol_name
         people {
-          id
           name
-          name_kanji
-          thumbnail
-          stub
-          uniqid
-          description
         }
       }
       genres {
@@ -93,11 +83,15 @@ export function WorkContainer() {
     <Container>
       <WorkMetatags work={data.work} />
       <div className="row">
-        <div className="col-md-4">
-          <Cover work={data.work} name={data.work.name} />
+        <div className="col-lg-4 col-md-5 col-xs-12">
+          <Cover work={data.work} />
+          <ExtraInfo work={data.work} />
         </div>
-        <Info work={data.work} />
-        <ChapterList work={data.work} />
+        <div className="col-lg-8 col-md-7 col-xs-12 text-muted">
+          <h4 className="display-5 pl-3">{data.work.name}</h4>
+          <Info work={data.work} />
+          <ChapterList work={data.work} />
+        </div>
       </div>
     </Container>
   );

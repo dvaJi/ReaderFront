@@ -60,6 +60,7 @@ export function getRelease() {
     stub: "test-1",
     thumbnail: "thumb.png",
     thumbnail_path: "/test/thumb.png",
+    read_path: '/read/infection/en/0/27.0',
     subchapter: 1,
     work: work,
   };

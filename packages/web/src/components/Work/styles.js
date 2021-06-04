@@ -25,19 +25,24 @@ const menuHoverBackground = theme('mode', {
   dark: background.dark.normal
 });
 
+const color = theme('mode', {
+  light: background.dark.darker,
+  dark: background.light.light
+});
+
 export const ChapterListStyle = styled.div`
   text-align: left;
   margin: 2rem 0 1rem 0;
 `;
 
 export const List = styled.div`
-  border: 1px solid ${borderColor};
-  border-radius: 2px;
-  text-align: left;
-  margin: 0.5rem 0 1rem 0;
-  position: relative;
-  padding-left: 0;
-  list-style-type: none;
+  background-color: ${menuBackground};
+  border: 1px solid ${menuBackground};
+  border-radius: 3px;
+`;
+
+export const ExtraListWrapper = styled.div`
+  background-color: ${menuBackground};
 `;
 
 export const NoChapters = styled.div`
@@ -68,6 +73,27 @@ export const ChapterIsSeen = styled.button`
   &:hover {
     color: ${primaryColor};
   }
+`;
+
+export const ChapterTitle = styled.p`
+  color: ${color} !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  align-self: start;
+  font-size: 0.9rem;
+  font-weight: 300;
+  letter-spacing: 0.02rem;
+  line-height: 1rem;
+  padding-right: 10px;
+`;
+
+export const ChapterNum = styled.p`
+  color: ${color} !important;
+  font-size: 24px;
+  letter-spacing: -0.3px;
+  margin: 5px 0 -5px 0;
 `;
 
 export const EndBadge = styled.span`

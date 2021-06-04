@@ -18,7 +18,7 @@
   },
   "scripts": {
     "bootstrap": "yarn install && lerna bootstrap",
-    "start:all": "lerna run dev --parallel --scope @readerfront/web --scope @readerfront/admin --scope @readerfront/api",
+    "startall": "concurrently \"npm:start:*\"",
     "build:all": "lerna run build",
     "start:web": "yarn workspace @readerfront/web run dev",
     "prod:web": "yarn workspace @readerfront/web run start",
@@ -45,6 +45,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "concurrently": "^6.2.0",
     "lerna": "^4.0.0"
   }
 }

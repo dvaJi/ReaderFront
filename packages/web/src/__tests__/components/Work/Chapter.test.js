@@ -2,17 +2,19 @@ import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
 import Chapter from '@components/Work/Chapter';
 
-const work = {
-  stub: 'infection'
-};
-
 const chapter = {
   language: 'es',
   volume: 1,
   chapter: 30,
   subchapter: 0,
   name: 'dis way',
-  download_href: '/download/infection'
+  download_href: '/download/infection',
+  read_path: '/read/infection/es/1/30.0'
+};
+
+const work = {
+  stub: 'infection',
+  chapters: [chapter]
 };
 
 it('renders without crashing', () => {
@@ -35,7 +37,8 @@ it('renders with subchapter without crashing', () => {
     chapter: 30,
     subchapter: '0',
     name: 'dis way',
-    download_href: '/download/infection'
+    download_href: '/download/infection',
+    read_path: '/read/infection/es/1/30.0'
   };
   const wrapper = mountWithIntl(
     <Chapter
@@ -56,7 +59,8 @@ it('renders without name without crashing', () => {
     chapter: 30,
     subchapter: '0',
     name: '',
-    download_href: '/download/infection'
+    download_href: '/download/infection',
+    read_path: '/read/infection/es/1/30.0'
   };
   const wrapper = mountWithIntl(
     <Chapter
@@ -84,5 +88,6 @@ it('should show a badge if the chapter is the end', () => {
   );
 
   expect(wrapper.find('#end_chapter')).toBeTruthy();
+
   wrapper.unmount();
 });

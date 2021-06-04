@@ -3,18 +3,10 @@ import styled from 'styled-components';
 import { useIntl } from 'react-intl';
 import { useSpring, animated } from 'react-spring';
 
-import { statusById } from '@readerfront/shared/build/params/works';
-
 export const InfoStyle = styled(animated.div)`
   width: 100%;
   text-align: left;
   padding: 15px 20px;
-`;
-
-export const InfoTitle = styled.h4`
-  font-size: 1em !important;
-  line-height: 0 !important;
-  font-weight: 400 !important;
 `;
 
 export const People = styled.div`
@@ -29,8 +21,14 @@ export const StatusBadge = styled.span`
   margin-left: 15px !important;
 `;
 
+const GenresWrapper = styled.div`
+  margin-top: 15px;
+`;
+
 export const GenreBadge = styled.span`
-  margin-right: 3px;
+  margin: 0 0.5rem 1rem 0;
+  padding: 0.3rem 0.5rem;
+  border-radius: 2px;
 `;
 
 function Info({ work }) {
@@ -39,42 +37,10 @@ function Info({ work }) {
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: { opacity: 0.5, transform: 'translate3d(0,20px,0)' }
   });
-  const status = statusById(work.status);
   return (
     <InfoStyle style={props} className="col-md-8 col-md-offset-1">
-      <InfoTitle className="display-4">
-        {`${work.type.toUpperCase()} - ${work.demographic_name.toUpperCase()}`}
-      </InfoTitle>
-      <h4 className="display-4">
-        {work.name}
-        <StatusBadge
-          className="badge badge-secondary"
-          style={{ background: status.background, color: status.color }}
-        >
-          {f({
-            id: work.status_name,
-            defaultMessage: work.status_name
-          })}
-        </StatusBadge>
-        {work.licensed && (
-          <StatusBadge className="badge badge-danger">
-            {f({
-              id: 'licensed',
-              defaultMessage: 'licensed'
-            })}
-          </StatusBadge>
-        )}
-      </h4>
       <div className="Description">{work.description}</div>
-      <div className="Genres">
-        {work.genres.length > 0 && (
-          <h4>
-            {f({
-              id: 'genres',
-              defaultMessage: 'Genres'
-            })}
-          </h4>
-        )}
+      <GenresWrapper>
         {work.genres.map(genre => (
           <GenreBadge
             key={genre.name}
@@ -86,10 +52,10 @@ function Info({ work }) {
             })}
           </GenreBadge>
         ))}
-      </div>
+      </GenresWrapper>
       <div className="People">
         {work.staff.map(staff => (
-          <People key={staff.rol + staff.people.id}>
+          <People key={staff.rol_name + staff.people.name}>
             <h4>
               {f({
                 id: 'people.rol.' + staff.rol_name,

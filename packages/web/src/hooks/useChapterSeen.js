@@ -6,7 +6,7 @@ const LS_KEY = 'chaptersSeen';
 export function useChapterSeen(chapterId) {
   let chaptersSeen = [];
   if (typeof window !== 'undefined') {
-    JSON.parse(window.localStorage.getItem(LS_KEY) || '[]');
+    chaptersSeen = JSON.parse(window.localStorage.getItem(LS_KEY) || '[]');
   }
   const [isSeen, setIsSeen] = useState(chaptersSeen.includes(chapterId));
 
