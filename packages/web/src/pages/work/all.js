@@ -56,6 +56,7 @@ export function WorksContainer() {
   if (loading)
     return (
       <Container>
+        <FilterCard filter={textFilter} onFilterTextChange={setTextFilter} />
         <WorksListLoading />
       </Container>
     );

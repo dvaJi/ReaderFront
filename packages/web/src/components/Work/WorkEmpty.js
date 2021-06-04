@@ -40,22 +40,68 @@ const TextTitle = styled.div`
   width: 30%;
 `;
 
-const Cover = styled.div`
-  background-color: rgba(${shimmeColor}, 0.2);
-  text-align: center;
-  margin: 20px auto;
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
+const ListItem = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  border-radius: 0.25rem;
+`;
+
+const Media = styled.div`
+  position: relative;
+  display: block;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: inherit;
+  transition: box-shadow 0.15s linear;
+
+  &:after {
+    content: '';
+    display: block;
+    padding-top: 120%;
+  }
+`;
+
+const MediaContent = styled.a`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 0;
+  border-radius: inherit;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-color: hsla(0, 0%, 47.1%, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ListContent = styled.div`
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: center;
 `;
 
 function SerieEmpty() {
   return (
     <div className="SerieEmpty shimme-serie row">
-      <div className="col-md-4">
-        <Cover className="show-loading-animation">{'\u00A0'}</Cover>
+      <div className="col-lg-4 col-md-5 col-xs-12">
+        <ListItem>
+          <Media className="media show-loading-animation">
+            <MediaContent className="media-content" />
+          </Media>
+          <ListContent />
+        </ListItem>
       </div>
-      <div className="col-md-8 col-md-offset-1">
+      <div className="col-lg-8 col-md-7 col-xs-12 text-muted">
         <Info>
           <Description>
             <h4>
@@ -80,35 +126,35 @@ function SerieEmpty() {
             <InfoText className="show-loading-animation">{'\u00A0'}</InfoText>
           </Description>
         </Info>
+        <ChapterListStyle className="col-md-12">
+          <h2>
+            <TextTitle className="show-loading-animation">{'\u00A0'}</TextTitle>
+          </h2>
+          <ChaptersList>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+            <ChapterRow>
+              <Text className="show-loading-animation">{'\u00A0'}</Text>
+            </ChapterRow>
+          </ChaptersList>
+        </ChapterListStyle>
       </div>
-      <ChapterListStyle className="col-md-12">
-        <h2>
-          <TextTitle className="show-loading-animation">{'\u00A0'}</TextTitle>
-        </h2>
-        <ChaptersList>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-          <ChapterRow>
-            <Text className="show-loading-animation">{'\u00A0'}</Text>
-          </ChapterRow>
-        </ChaptersList>
-      </ChapterListStyle>
     </div>
   );
 }

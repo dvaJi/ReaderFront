@@ -197,5 +197,7 @@
   "reset_password": "Reset Password",
   "error_passwords_not_identical": "Passwords are not identical",
   "edit_profile": "Edit Profile",
-  "username": "Username"
+  "username": "Username",
+  "yes": "Yes",
+  "No": "No"
 }

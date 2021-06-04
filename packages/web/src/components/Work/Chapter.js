@@ -3,21 +3,82 @@ import Link from 'next/link';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ButtonDropdown } from 'reactstrap';
+import styled from 'styled-components';
 
 import { chapterTitle } from '@readerfront/shared/build/lang/chapter-title';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { ANONYMIZER_DOWNLOADS } from 'lib/config';
 import { logEvent } from 'lib/analytics';
 import {
-  ChapterRow,
+  ChapterNum,
   ChapterIsSeen,
   EndBadge,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  ChapterTitle
 } from './styles';
 
-function Chapter({ chapter, work, isEnd }) {
+import { getImage } from '@components/Image';
+
+const ChapterItemThumb = styled.img`
+  height: auto;
+  width: 100%;
+  grid-column: 1;
+  grid-row: 1/4;
+  max-width: 180px;
+  transition: all 0.2s;
+  margin-left: 10px;
+`;
+
+const ChapterItem = styled.a`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 2fr;
+  padding-right: 20px;
+  cursor: pointer;
+
+  ${props => (props.isSeen ? 'opacity: 0.5;' : '')}
+
+  &:hover {
+    background-color: hsla(0, 0%, 47.1%, 0.1);
+    text-decoration: none;
+  }
+`;
+
+const ChapterItemWrapper = styled.div`
+  display: grid;
+  grid-column: 1;
+  grid-row: 1/3;
+  grid-template-columns: minmax(80px, 205px) 1fr;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  grid-gap: 10px;
+`;
+
+const ChapterItemContainer = styled.div`
+  align-items: center;
+  justify-content: flex-end;
+  display: absolute;
+`;
+
+const ChapterDownloadButton = styled.div`
+  position: absolute;
+  top: 40%;
+  right: 2%;
+`;
+
+const ChapterLastUpdate = styled.p`
+  font-weight: 700;
+  color: #6c757d !important;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  position: relative;
+  top: -10px;
+`;
+
+function Chapter({ chapter, work, isEnd, num }) {
   const [downloadDrop, setDownloadDrop] = useState(false);
   const { formatMessage: f } = useIntl();
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
@@ -26,28 +87,35 @@ function Chapter({ chapter, work, isEnd }) {
 
   const downloadHref = ANONYMIZER_DOWNLOADS + chapter.download_href;
 
+  const url = getImage(chapter.thumbnail_path, 150, 320, 1, true);
+
   return (
-    <ChapterRow className="clearfix" isSeen={isSeen}>
-      <ChapterIsSeen onClick={() => setIsSeen(!isSeen)}>
-        <FontAwesomeIcon icon={isSeen ? 'eye-slash' : 'eye'} />
-      </ChapterIsSeen>
-      <Link
-        href="/read/[slug]/[lang]/[volume]/[chapter]"
-        as={chapter.read_path}
-      >
-        <a className="Chapter">
-          {chapterTitle({ chapter, f })}
-          {isEnd && (
-            <EndBadge
-              id="end_chapter"
-              className="badge badge-pill badge-secondary"
-            >
-              {f({ id: 'end', defaultMessage: 'End' })}
-            </EndBadge>
-          )}
-        </a>
+    <div className="position-relative">
+      <Link href={chapter.read_path}>
+        <ChapterItem isSeen={isSeen}>
+          <ChapterItemWrapper>
+            <ChapterItemThumb alt="thumbnail" src={url} lazy="loaded" />
+            <ChapterNum>
+              <span>#{chapter.chapter}</span>
+              {isEnd && (
+                <EndBadge
+                  id="end_chapter"
+                  className="badge badge-pill badge-secondary"
+                >
+                  {f({ id: 'end', defaultMessage: 'End' })}
+                </EndBadge>
+              )}
+              <ChapterIsSeen onClick={() => setIsSeen(!isSeen)}>
+                <FontAwesomeIcon icon={isSeen ? 'eye-slash' : 'eye'} />
+              </ChapterIsSeen>
+            </ChapterNum>
+            <ChapterTitle>{chapterTitle({ chapter, f })}</ChapterTitle>
+            <ChapterLastUpdate>{chapter.updatedAt}</ChapterLastUpdate>
+          </ChapterItemWrapper>
+          <ChapterItemContainer />
+        </ChapterItem>
       </Link>
-      <div className="float-right">
+      <ChapterDownloadButton>
         <ButtonDropdown
           direction="left"
           isOpen={downloadDrop}
@@ -79,8 +147,8 @@ function Chapter({ chapter, work, isEnd }) {
             </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
-      </div>
-    </ChapterRow>
+      </ChapterDownloadButton>
+    </div>
   );
 }
 
