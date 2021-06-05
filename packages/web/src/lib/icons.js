@@ -27,6 +27,7 @@ import { faSave } from '@fortawesome/free-solid-svg-icons/faSave';
 import { faSun } from '@fortawesome/free-solid-svg-icons/faSun';
 import { faFilePdf } from '@fortawesome/free-solid-svg-icons/faFilePdf';
 import { faFileArchive } from '@fortawesome/free-solid-svg-icons/faFileArchive';
+import { faClock } from '@fortawesome/free-solid-svg-icons/faClock';
 
 import { faDiscord } from '@fortawesome/free-brands-svg-icons/faDiscord';
 import { faPatreon } from '@fortawesome/free-brands-svg-icons/faPatreon';
@@ -59,7 +60,8 @@ function setupIcons() {
     faSave,
     faSun,
     faFilePdf,
-    faFileArchive
+    faFileArchive,
+    faClock
   );
   library.add(faDiscord, faPatreon);
 }

@@ -31,22 +31,15 @@ export const FETCH_RELEASES = gql`
       chapter
       subchapter
       volume
-      language
       language_name
       name
       stub
-      uniqid
-      thumbnail
-      releaseDate_formatted
+      thumbnail_path
       read_path
       createdAt
       work {
-        id
-        stub
         name
-        uniqid
         adult
-        language_name
       }
     }
   }
