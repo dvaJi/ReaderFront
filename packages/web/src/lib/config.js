@@ -19,4 +19,4 @@ export const LANGUAGES = process.env.REACT_APP_LANGUAGES
   ? process.env.REACT_APP_LANGUAGES.split(',')
   : ['en'];
 export const APP_VERSION = packageJson.version;
-export const S3_ENDPOINT = 'https://reivens-images-cdn1.ams3.digitaloceanspaces.com';
+export const S3_ENDPOINT = process.env.REACT_APP_S3_ENDPOINT;

@@ -4,7 +4,7 @@ const areIntlLocalesSupported = require('intl-locales-supported').default;
 
 // Get the supported languages by looking for translations in the `lang/` dir.
 const supportedLanguages = glob
-  .sync('./shared/lang/*.json')
+  .sync('../../node_modules/@readerfront/shared/build/lang/*.json')
   .map(f => basename(f, '.json'));
 
 // Polyfill Node with `Intl` that has data for all locales.
@@ -49,22 +49,21 @@ const handle = app.getRequestHandler();
 // We need to expose React Intl's locale data on the request for the user's
 // locale. This function will also cache the scripts by lang in memory.
 const localeDataCache = new Map();
-const getLocaleDataScript = locale => {
-  const lang = locale.split('-')[0];
-  if (!localeDataCache.has(lang)) {
+const getLocaleDataScript = (locale = 'en') => {
+  if (!localeDataCache.has(locale)) {
     const localeDataFile = require.resolve(
-      `@formatjs/intl-relativetimeformat/dist/locale-data/${lang}`
+      `@formatjs/intl-relativetimeformat/dist/locale-data/${locale}`
     );
     const localeDataScript = readFileSync(localeDataFile, 'utf8');
-    localeDataCache.set(lang, localeDataScript);
+    localeDataCache.set(locale, localeDataScript);
   }
-  return localeDataCache.get(lang);
+  return localeDataCache.get(locale);
 };
 
 // We need to load and expose the translations on the request for the user's
 // locale. These will only be used in production, in dev the `defaultMessage` in
 // each message description in the source code will be used.
-const getMessages = locale => {
+const getMessages = (locale = 'en') => {
   return require(`@readerfront/shared/build/lang/${locale}.json`);
 };
 
@@ -75,6 +74,10 @@ const getLocale = alllocales => {
     locale = lo;
   } else {
     locale = lo[0];
+  }
+
+  if (locale.includes('-')) {
+    locale = locale.split('-')[0];
   }
 
   return locale;
