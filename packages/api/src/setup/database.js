@@ -5,8 +5,6 @@ import { Sequelize } from 'sequelize';
 import { NODE_ENV } from '../config/env';
 import databaseConfig from '../config/database';
 
-console.log('ELENMVVVVVVVVVVVVV',NODE_ENV)
-
 const dbConfig = databaseConfig[NODE_ENV];
 
 // Create new database connection
