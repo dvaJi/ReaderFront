@@ -139,7 +139,6 @@ export async function getAllRSS({
   orderBy = 'DESC',
   showHidden = false
 }) {
-  console.log('CURRENT DATE', new Date());
   const chapters = await models.Chapter.findAll({
     ...where(showHidden, languages),
     order: [['releaseDate', orderBy]],
