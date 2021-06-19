@@ -65,9 +65,9 @@ export const chapterCreate = {
       type: GraphQLString
     },
 
-    releaseDate: {
-      name: 'releaseDate',
-      type: GraphQLString
+    scheduled_release: {
+      name: 'scheduled_release',
+      type: GraphQLInt
     }
   },
   resolve: create

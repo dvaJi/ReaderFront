@@ -199,5 +199,6 @@
   "edit_profile": "Editar Perfil",
   "username": "Nombre de usuario",
   "yes": "Sí",
-  "No": "No"
+  "No": "No",
+  "scheduled_release": "Publicación Programada (en horas)"
 }

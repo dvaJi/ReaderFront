@@ -2,7 +2,7 @@ import React from 'react';
 import { render, hydrate } from 'react-dom';
 import Loadable from 'react-loadable';
 import Root from './Root';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 
 const application = <Root />;
 const root = document.querySelector('#root');
@@ -15,4 +15,4 @@ if (process.env.NODE_ENV === 'production') {
   render(application, root);
 }
 
-registerServiceWorker();
+unregister();

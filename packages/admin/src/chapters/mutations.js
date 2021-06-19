@@ -67,7 +67,7 @@ export const CREATE_CHAPTER = gql`
     $hidden: Boolean
     $description: String
     $thumbnail: String
-    $releaseDate: String
+    $scheduled_release: Int
   ) {
     chapterCreate(
       workId: $workId
@@ -80,7 +80,7 @@ export const CREATE_CHAPTER = gql`
       hidden: $hidden
       description: $description
       thumbnail: $thumbnail
-      releaseDate: $releaseDate
+      scheduled_release: $scheduled_release
     ) {
       id
     }

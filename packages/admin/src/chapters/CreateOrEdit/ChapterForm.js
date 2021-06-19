@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Alert, FormGroup, Label } from 'reactstrap';
@@ -9,6 +8,7 @@ import { slugify } from '@readerfront/shared';
 
 function ChapterForm({ chapter, onSubmit }) {
   const [localChapter, setLocalChapter] = useState(chapter);
+  const [releaseDelay, setReleaseDelay] = useState(0);
   const [error, setError] = useState('');
   const { formatMessage: f } = useIntl();
 
@@ -23,13 +23,6 @@ function ChapterForm({ chapter, onSubmit }) {
     if (event.target.name === 'name') {
       chapter.stub = slugify(event.target.value);
     }
-
-    setLocalChapter(chapter);
-  };
-
-  const handleOnChangeDate = value => {
-    let chapter = { ...localChapter };
-    chapter.releaseDate = value.toString();
 
     setLocalChapter(chapter);
   };
@@ -57,7 +50,7 @@ function ChapterForm({ chapter, onSubmit }) {
       );
       return;
     }
-    const chapter = { ...localChapter };
+    const chapter = { ...localChapter, scheduled_release: releaseDelay };
     const chStubNumber = chapter.chapter + '-' + chapter.subchapter + '_';
     chapter.stub = chStubNumber + (chapter.stub === null ? '' : chapter.stub);
     delete chapter.pages;
@@ -142,23 +135,26 @@ function ChapterForm({ chapter, onSubmit }) {
           onChange={handleOnChange}
         />
       </FormGroup>
-      <FormGroup>
-        <Label for="releaseDate">
-          {f({ id: 'release_date', defaultMessage: 'Release date' })}
-        </Label>
-        <div>
-          <DatePicker
-            selected={new Date(localChapter.releaseDate)}
-            onChange={handleOnChangeDate}
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={60}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            timeCaption="time"
-            className="form-control"
-          />
-        </div>
-      </FormGroup>
+      {!chapter.releaseDate && (
+        <FormGroup>
+          <Label for="scheduled_release">
+            {f({
+              id: 'scheduled_release',
+              defaultMessage: 'Scheduled Release (in hours)'
+            })}
+          </Label>
+          <div>
+            <Input
+              id="scheduled_release"
+              type="number"
+              name="release_delay"
+              autoComplete="off"
+              value={releaseDelay}
+              onChange={e => setReleaseDelay(Number(e.target.value))}
+            />
+          </div>
+        </FormGroup>
+      )}
       <FormGroup>
         <Button id="submit_chapter" type="button" onClick={handleOnSubmit}>
           <FontAwesomeIcon icon="save" />{' '}

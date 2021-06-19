@@ -111,7 +111,8 @@ export async function getByStub(
     const chapters = includeChapters
       ? await models.Chapter.findAll({
           where: {
-            workId: work.id
+            workId: work.id,
+            releaseDate: { [Op.lt]: new Date() }
           },
           order: [
             ['chapter', 'DESC'],

@@ -11,7 +11,6 @@ import { MetaTagEdit } from '../ACPChaptersMetaTags';
 import { FETCH_CHAPTER } from '../query';
 import { FETCH_CHAPTERS } from '../../works/query';
 import { UPDATE_CHAPTER } from '../mutations';
-import 'react-datepicker/dist/react-datepicker.css';
 
 const ButtonLink = buttonWithColors(Link);
 
