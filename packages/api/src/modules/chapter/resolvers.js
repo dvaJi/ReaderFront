@@ -12,6 +12,7 @@ import models from '../../setup/models';
 import { normalizeWork } from '../works/resolvers';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
 import { remove as removePage } from '../page/resolvers';
+import { addHours } from 'date-fns';
 
 // Get all chapters
 export async function getAll(
@@ -138,6 +139,7 @@ export async function getAllRSS({
   orderBy = 'DESC',
   showHidden = false
 }) {
+  console.log('CURRENT DATE', new Date());
   const chapters = await models.Chapter.findAll({
     ...where(showHidden, languages),
     order: [['releaseDate', orderBy]],
@@ -151,7 +153,7 @@ export async function getAllRSS({
 
 // Create chapter
 export async function create(
-  parentValue,
+  _,
   {
     workId,
     chapter,
@@ -163,15 +165,13 @@ export async function create(
     hidden,
     description,
     thumbnail,
-    releaseDate
+    scheduled_release = 0
   },
   { auth }
 ) {
   if (await hasPermission('create', auth)) {
     uniqid = uuidv1();
-    if (releaseDate === null) {
-      releaseDate = new Date();
-    }
+    const releaseDate = addHours(new Date(), scheduled_release);
 
     const work = await models.Works.findOne({
       where: { id: workId },

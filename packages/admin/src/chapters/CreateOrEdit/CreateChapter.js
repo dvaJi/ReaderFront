@@ -12,8 +12,6 @@ import { CREATE_CHAPTER } from '../mutations';
 import { LANGUAGES } from '../../config';
 import { languagesAvailables } from '@readerfront/shared/build/params/global';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
 const ButtonLink = buttonWithColors(Link);
 
 export const chapterEmpty = {
@@ -28,8 +26,7 @@ export const chapterEmpty = {
   uniqid: '',
   hidden: true,
   description: '',
-  thumbnail: '',
-  releaseDate: new Date()
+  thumbnail: ''
 };
 
 function CreateChapter() {

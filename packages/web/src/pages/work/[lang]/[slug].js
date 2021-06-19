@@ -42,7 +42,7 @@ export const FETCH_WORK = gql`
         thumbnail_path
         download_href
         read_path
-        updatedAt
+        releaseDate
       }
       staff {
         rol_name

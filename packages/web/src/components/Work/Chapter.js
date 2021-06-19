@@ -110,7 +110,7 @@ function Chapter({ chapter, work, isEnd, num }) {
               </ChapterIsSeen>
             </ChapterNum>
             <ChapterTitle>{chapterTitle({ chapter, f })}</ChapterTitle>
-            <ChapterLastUpdate>{chapter.updatedAt}</ChapterLastUpdate>
+            <ChapterLastUpdate>{chapter.releaseDate}</ChapterLastUpdate>
           </ChapterItemWrapper>
           <ChapterItemContainer />
         </ChapterItem>
