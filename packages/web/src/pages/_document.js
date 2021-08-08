@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript, Script } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import { Helmet } from 'react-helmet';
 
@@ -61,8 +61,8 @@ export default class MyDocument extends Document {
         <Head>{this.helmetHeadComponents}</Head>
         <body {...this.helmetBodyAttrComponents}>
           <Main />
-          <script src={polyfill} />
-          <script
+          <Script src={polyfill} />
+          <Script
             dangerouslySetInnerHTML={{
               __html: this.props.localeDataScript
             }}

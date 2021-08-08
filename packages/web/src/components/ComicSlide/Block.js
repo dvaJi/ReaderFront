@@ -50,6 +50,7 @@ export default function Block({ blockId, blocks, blockStyle }) {
           <Link
             href="/read/[slug]/[lang]/[volume]/[chapter]"
             as={chapter.read_path}
+            passHref
           >
             <Image
               image={imageToDisplay(index, chapter)}
@@ -58,6 +59,7 @@ export default function Block({ blockId, blocks, blockStyle }) {
               style={{
                 backgroundImage: `url('${imageToDisplay(index, chapter)}')`
               }}
+              alt={`${chapter.work.name} - Cap. ${chapter.chapter}.${chapter.subchapter}`}
             >
               <span>
                 {chapter.work.name} - Cap. {chapter.chapter}

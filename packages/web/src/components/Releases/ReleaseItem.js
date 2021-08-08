@@ -49,7 +49,7 @@ export default function ReleaseItem({ release }) {
     <div className="col-12 col-md-6 col-xl-3">
       <div className="rounded">
         <Media>
-          <Link href={release.read_path}>
+          <Link href={release.read_path} passHref>
             <MediaContent
               style={{
                 backgroundImage: `url('${thumbnail}')`
@@ -82,7 +82,7 @@ export default function ReleaseItem({ release }) {
         </Media>
         <ListContent>
           <ListBody>
-            <Link href={release.read_path}>
+            <Link href={release.read_path} passHref>
               <ListTitle>{release.work.name}</ListTitle>
             </Link>
           </ListBody>

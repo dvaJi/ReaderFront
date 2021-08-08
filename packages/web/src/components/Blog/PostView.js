@@ -36,7 +36,7 @@ function PostView({ post }) {
       ))}
       <Container>
         <CardView>
-          <Link href="/blog">
+          <Link href="/blog" passHref>
             <ButtonLink color="primary" size="sm">
               <FontAwesomeIcon icon="arrow-left" />
               {f({ id: 'go_back', defaultMessage: 'Back' })}

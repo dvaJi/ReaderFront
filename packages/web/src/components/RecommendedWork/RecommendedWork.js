@@ -92,6 +92,7 @@ function RecommendedWork({ work, isLoading }) {
         <Link
           href="/work/[lang]/[slug]"
           as={`/work/${work.language_name}/${work.stub}`}
+          passHref
         >
           <Serie
             cover={getImage(work.thumbnail_path, 350, 350, work.id, true)}

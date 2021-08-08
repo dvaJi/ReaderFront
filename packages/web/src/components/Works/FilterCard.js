@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { forceCheck } from 'react-lazyload';
 
 import { Input } from '@readerfront/ui';
 import { FilterCardWrapper } from './styles';
@@ -19,10 +18,7 @@ function FilterCard({ filterText, onFilterTextChange }) {
         })}
         id="work-search"
         value={filterText}
-        onChange={e => {
-          onFilterTextChange(e.target.value);
-          forceCheck();
-        }}
+        onChange={e => onFilterTextChange(e.target.value)}
       />
     </FilterCardWrapper>
   );
