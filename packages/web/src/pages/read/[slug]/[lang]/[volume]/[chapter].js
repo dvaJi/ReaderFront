@@ -181,7 +181,7 @@ function ReaderContent({ showNav }) {
   );
 }
 
-const ReaderMetatags = React.memo(({ currentChapter, chapterTitle }) => {
+const ReaderMetatags = ({ currentChapter, chapterTitle }) => {
   const router = useRouter();
   const chapterThumb = getImage(currentChapter.thumbnail_path);
 
@@ -282,6 +282,6 @@ const ReaderMetatags = React.memo(({ currentChapter, chapterTitle }) => {
       </FormattedMessage>
     </>
   );
-});
+};
 
 export default withApollo(ReaderContainer);

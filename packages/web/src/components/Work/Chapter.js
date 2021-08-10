@@ -91,7 +91,7 @@ function Chapter({ chapter, work, isEnd, num }) {
 
   return (
     <div className="position-relative">
-      <Link href={chapter.read_path}>
+      <Link href={chapter.read_path} passHref>
         <ChapterItem isSeen={isSeen}>
           <ChapterItemWrapper>
             <ChapterItemThumb alt="thumbnail" src={url} lazy="loaded" />

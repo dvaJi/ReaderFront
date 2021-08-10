@@ -1,6 +1,5 @@
 import React from 'react';
 import { mountWithIntl } from 'utils/enzyme-intl';
-import { forceCheck } from 'react-lazyload';
 import WorkItem from '@components/Works/WorkItem';
 
 const work = {
@@ -12,7 +11,6 @@ const work = {
 it('renders without crashing', () => {
   const wrapper = mountWithIntl(<WorkItem work={work} />);
 
-  forceCheck();
   expect(wrapper).toBeTruthy();
   wrapper.unmount();
 });

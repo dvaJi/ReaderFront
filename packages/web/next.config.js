@@ -46,9 +46,6 @@ var nextConfig = {
     REACT_APP_S3_ENDPOINT: process.env.REACT_APP_S3_ENDPOINT,
     GENERATE_SOURCEMAP: process.env.GENERATE_SOURCEMAP
   },
-  future: {
-    webpack5: true
-  }
 };
 
 module.exports = withPlugins(

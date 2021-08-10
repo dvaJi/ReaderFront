@@ -97,7 +97,7 @@ export function WorkContainer() {
   );
 }
 
-const WorkMetatags = React.memo(({ work }) => {
+const WorkMetatags = ({ work }) => {
   const router = useRouter();
   const { locale, formatMessage } = useIntl();
   const { lang } = router.query;
@@ -209,6 +209,6 @@ const WorkMetatags = React.memo(({ work }) => {
       </FormattedMessage>
     </>
   );
-});
+};
 
 export default withApollo(WorkContainer);

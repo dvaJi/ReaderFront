@@ -129,6 +129,7 @@ function WorkItem({ work, size }) {
           <Link
             href="/work/[lang]/[slug]"
             as={`/work/${work.language_name}/${work.stub}`}
+            passHref
           >
             <MediaContent
               className="media-content"
@@ -155,6 +156,7 @@ function WorkItem({ work, size }) {
             <Link
               href="/work/[lang]/[slug]"
               as={`/work/${work.language_name}/${work.stub}`}
+              passHref
             >
               <ListTitle>{work.name}</ListTitle>
             </Link>

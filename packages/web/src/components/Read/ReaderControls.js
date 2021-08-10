@@ -67,6 +67,7 @@ export function ReaderControls({ work, language, chapter, showNav }) {
               <Link
                 href="/work/[lang]/[slug]"
                 as={`/work/${work.language_name}/${work.stub}`}
+                passHref
               >
                 <ReaderControlsWork title={work.name}>
                   {work.name}
