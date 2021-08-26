@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.9",
-    "@types/styled-components": "^5.1.11",
+    "@types/styled-components": "^5.1.12",
     "@types/styled-theming": "^2.2.5",
     "@types/jest": "^26.0.24",
     "jest": "26.6.0",
