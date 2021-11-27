@@ -1,6 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import styled from 'styled-components';
+
+import useIntl from '@hooks/use-intl';
 
 import Card from '@components/Works/WorkItem';
 import CardLoading from '@components/Works/WorkItemEmpty';
@@ -10,7 +11,7 @@ const WorksList = styled.div`
 `;
 
 function LatestWork({ works, isLoading }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   return (
     <div className="LatestWorks mb-4">

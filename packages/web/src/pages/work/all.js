@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Helmet } from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
+import Head from "next/head";
 import { useQuery } from '@apollo/client';
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';
+
+import useIntl from '@hooks/use-intl';
 
 import WorksList from '@components/Works/WorksList';
 import WorksListLoading from '@components/Works/WorksListLoading';
@@ -79,35 +80,13 @@ export function WorksContainer() {
 }
 
 function WorksMetatags() {
+  const { f } = useIntl();
   return (
-    <>
-      <Helmet>
-        <meta charSet="utf-8" />
-      </Helmet>
-      <FormattedMessage
-        id="works.title"
-        defaultMessage="Projects List :: {title}"
-        values={{ title: APP_TITLE }}
-      >
-        {title => (
-          <Helmet>
-            <title>{title}</title>
-            <meta property="og:title" content={title} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-      <FormattedMessage
-        id="works.desc"
-        defaultMessage="Projects List for {title}"
-        values={{ title: APP_TITLE }}
-      >
-        {desc => (
-          <Helmet>
-            <meta name="description" content={desc} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-    </>
+    <Head>
+      <title>{f({ id: 'works.title', defaultMessage: 'Projects List :: {title}', values: { title: APP_TITLE } })}</title>
+      <meta property="og:title" content={f({ id: 'works.title', defaultMessage: 'Projects List :: {title}', values: { title: APP_TITLE } })} />
+      <meta name="description" content={f({ id: 'works.desc', defaultMessage: 'Projects List for {title}', values: { title: APP_TITLE } })} />
+    </Head>
   );
 }
 

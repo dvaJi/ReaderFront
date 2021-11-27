@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/client';
-import { Helmet } from 'react-helmet';
+import Head from "next/head";
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';
+
+import useIntl from '@hooks/use-intl';
 
 import ReleasePagination from '@components/Releases/ReleasePagination';
 import ReleasesList from '@components/Releases/ReleasesList';
@@ -63,9 +64,9 @@ const LatestReleases = ({ languages = [], first, offset }) => {
 export function ReleasesContainer() {
   const [page, setPage] = useState(0);
   const [offset, setOffset] = useState(0);
-  const { formatMessage: f } = useIntl();
   const [languagesSelected] = useGlobalState('languages_filter');
   const languages = languagesSelected.map(l => l.value);
+  const { f } = useIntl();
 
   return (
     <Container className="Releases">
@@ -84,37 +85,16 @@ export function ReleasesContainer() {
 }
 
 function ReleasesMetatags() {
+  const { f } = useIntl();
+
   return (
-    <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      <FormattedMessage
-        id="releases.title"
-        defaultMessage="Latest releases :: {title}"
-        values={{ title: APP_TITLE }}
-      >
-        {title => (
-          <Helmet>
-            <title>{title}</title>
-            <meta property="og:title" content={title} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-      <FormattedMessage
-        id="releases.desc"
-        defaultMessage="Latest releases by {title}"
-        values={{ title: APP_TITLE }}
-      >
-        {desc => (
-          <Helmet>
-            <meta name="description" content={desc} />
-            <meta property="og:description" content={desc} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-    </>
+    <Head>
+      <meta property="og:type" content="website" />
+      <title>{f({ id: 'releases.title', defaultMessage: 'Latest releases :: {title}', values: { title: APP_TITLE } })}</title>
+      <meta property="og:title" content={f({ id: 'releases.title', defaultMessage: 'Latest releases :: {title}', values: { title: APP_TITLE } })} />
+      <meta name="description" content={f({ id: 'releases.desc', defaultMessage: 'Latest releases by {title}', values: { title: APP_TITLE } })} />
+      <meta property="og:description" content={f({ id: 'releases.desc', defaultMessage: 'Latest releases by {title}', values: { title: APP_TITLE } })} />
+    </Head>
   );
 }
 

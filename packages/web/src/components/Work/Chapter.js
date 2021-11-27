@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ButtonDropdown } from 'reactstrap';
 import styled from 'styled-components';
+
+import useIntl from '@hooks/use-intl';
 
 import { chapterTitle } from '@readerfront/shared/build/lang/chapter-title';
 import { useChapterSeen } from '@hooks/useChapterSeen';
@@ -80,7 +81,7 @@ const ChapterLastUpdate = styled.p`
 
 function Chapter({ chapter, work, isEnd, num }) {
   const [downloadDrop, setDownloadDrop] = useState(false);
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const { isSeen, setIsSeen } = useChapterSeen(chapter.id);
 
   const toggleDropdown = () => setDownloadDrop(!downloadDrop);

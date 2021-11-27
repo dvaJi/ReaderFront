@@ -1,12 +1,13 @@
 import React, { memo } from 'react';
+import Head from "next/head";
 import { useQuery } from '@apollo/client';
-import { FormattedMessage } from 'react-intl';
 import gql from 'graphql-tag';
-import { Helmet } from 'react-helmet';
 
 import { useGlobalState } from 'lib/state';
 import { logException } from 'lib/analytics';
 import { DISCORD_ID, APP_TITLE } from 'lib/config';
+
+import useIntl from '@hooks/use-intl';
 
 import ComicSlide from '@components/ComicSlide';
 import DiscordWidget from '@components/DiscordWidget';
@@ -135,35 +136,17 @@ const RandomWork = ({ languages }) => {
 };
 
 export function HomeContainer() {
+  const { f } = useIntl();
   const [languagesSelected] = useGlobalState('languages_filter');
   const languages = languagesSelected.map(l => l.value);
 
   return (
     <div className="Home">
-      <>
-        <Helmet>
-          <meta charSet="utf-8" />
-        </Helmet>
-        <FormattedMessage
-          id="home.title"
-          defaultMessage="Home :: {title}"
-          values={{ title: APP_TITLE }}
-        >
-          {title => (
-            <Helmet>
-              <title>{title}</title>
-              <meta property="og:title" content={title} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-        <FormattedMessage id="home.desc" defaultMessage="All releases">
-          {desc => (
-            <Helmet>
-              <meta name="description" content={desc} />
-            </Helmet>
-          )}
-        </FormattedMessage>
-      </>
+      <Head>
+        <title>{f({ id: 'home.title', defaultMessage: 'Home :: {title}', values: { title: APP_TITLE } })}</title>
+        <meta property="og:title" content={f({ id: 'home.title', defaultMessage: 'Home :: {title}', values: { title: APP_TITLE } })} />
+        <meta name="description" content={f({ id: 'home.desc', defaultMessage: 'All release' })} />
+      </Head>
       <LatestReleases languages={languages} />
       <div className="container mt-4">
         <div className="row">

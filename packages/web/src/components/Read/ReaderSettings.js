@@ -1,6 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { ModalBody } from 'reactstrap';
+
+import useIntl from '@hooks/use-intl';
 
 import { useGlobalState, setDisplaySettings } from 'lib/state';
 import {
@@ -13,7 +14,7 @@ import {
 
 function ReaderSettings({ isOpen, toggle }) {
   const [displaySettings] = useGlobalState('displaySettings');
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   const readingModeRendering = readingMode => () =>
     setDisplaySettings({ ...displaySettings, readingMode });

@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
 import { Button } from 'reactstrap';
-import { useIntl } from 'react-intl';
+
+import useIntl from '@hooks/use-intl';
 
 import { Paginator } from './styles';
 
 export default memo(function ReleasePagination({ page, onPageChange }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   return (
     <Paginator>
       <Button

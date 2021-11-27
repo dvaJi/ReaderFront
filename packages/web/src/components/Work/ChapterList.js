@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { useIntl } from 'react-intl';
 import Chapter from './Chapter';
+
+import useIntl from '@hooks/use-intl';
 
 import { ChapterListStyle, Title, List, NoChapters } from './styles';
 
@@ -10,7 +11,7 @@ function padZero(num) {
 }
 
 function ChapterList({ work }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const workIsCompleted = work.status_name === 'completed';
 
   if (work.licensed) {

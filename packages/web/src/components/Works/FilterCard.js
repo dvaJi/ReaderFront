@@ -1,11 +1,11 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import useIntl from '@hooks/use-intl';
 
 import { Input } from '@readerfront/ui';
 import { FilterCardWrapper } from './styles';
 
 function FilterCard({ filterText, onFilterTextChange }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   return (
     <FilterCardWrapper>

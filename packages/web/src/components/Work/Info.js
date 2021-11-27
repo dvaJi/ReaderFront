@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { useIntl } from 'react-intl';
 import { useSpring, animated } from 'react-spring';
+
+import useIntl from '@hooks/use-intl';
 
 export const InfoStyle = styled(animated.div)`
   width: 100%;
@@ -32,7 +33,7 @@ export const GenreBadge = styled.span`
 `;
 
 function Info({ work }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const props = useSpring({
     to: { opacity: 1, transform: 'translate3d(0,0,0)' },
     from: { opacity: 0.5, transform: 'translate3d(0,20px,0)' }

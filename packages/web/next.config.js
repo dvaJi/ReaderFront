@@ -19,6 +19,16 @@ var withTM = require('next-transpile-modules')([
 ]);
 
 var nextConfig = {
+  future: {
+    webpack5: true,
+  },
+  experimental: {
+    esmExternals: true
+  },
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+  },
   webpack(config, option) {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {
       static: join(__dirname, 'src', 'static'),

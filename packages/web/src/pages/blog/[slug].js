@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Helmet } from 'react-helmet';
+import Head from "next/head";
 import gql from 'graphql-tag';
 
 import PostView from '@components/Blog/PostView';
@@ -54,15 +54,13 @@ export function BlogContainer() {
 
 const MetaTagPost = ({ post }) => {
   return (
-    <>
-      <Helmet>
-        <title>{post.title + ' :: ' + APP_TITLE}</title>
-        <meta property="og:title" content={post.title + ' :: ' + APP_TITLE} />
-        <meta property="og:type" content="website" />
-        <meta name="description" content={subString(post.content, 150)} />
-        <meta name="og:description" content={subString(post.content, 150)} />
-      </Helmet>
-    </>
+    <Head>
+      <title>{post.title + ' :: ' + APP_TITLE}</title>
+      <meta property="og:title" content={post.title + ' :: ' + APP_TITLE} />
+      <meta property="og:type" content="website" />
+      <meta name="description" content={subString(post.content, 150)} />
+      <meta name="og:description" content={subString(post.content, 150)} />
+    </Head>
   );
 };
 

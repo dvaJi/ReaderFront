@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import useIntl from '@hooks/use-intl';
 
 import {
   LastUpdate,
@@ -18,31 +19,31 @@ import { getImage } from '@components/Image';
 
 import { useDistanceDate } from '@hooks/useDistanceDate';
 
-const chapterVolume = volume =>
+const chapterVolume = (volume, f) =>
   volume !== 0 && (
-    <>
-      <FormattedMessage id="vol" defaultMessage="Vol. " /> {volume}
-    </>
+    <>{f({ id: 'vol', defaultMessage: 'Vol. ' })} {volume}</>
   );
-const chapterNumber = (chapter, subchapter) => (
+const chapterNumber = (chapter, subchapter, f) => (
   <>
-    <FormattedMessage id="chapter" defaultMessage="Chapter" /> {chapter}
+    {f({ id: 'chapter', defaultMessage: 'Chapter' })}
+    {' '}{chapter}
     {subchapter !== 0 ? '.' + subchapter : ''}
   </>
 );
 
-const chapterTitle = ({ chapter, subchapter, volume }) => {
+const chapterTitle = ({ chapter, subchapter, volume, f }) => {
   if (chapter === undefined || volume === undefined) {
     return '';
   }
   return (
     <>
-      {chapterVolume(volume)} {chapterNumber(chapter, subchapter)}
+      {chapterVolume(volume, f)} {chapterNumber(chapter, subchapter, f)}
     </>
   );
 };
 
 export default function ReleaseItem({ release }) {
+  const { f } = useIntl();
   const thumbnail = getImage(release.thumbnail_path, 600, 350, 1, true);
   const diffString = useDistanceDate(release.createdAt);
   return (
@@ -68,7 +69,7 @@ export default function ReleaseItem({ release }) {
               <Link href={release.read_path}>
                 <a tabIndex={0}>
                   <Badge className="badge text-uppercase">
-                    <span className="status">{chapterTitle(release)}</span>
+                    <span className="status">{chapterTitle({ ...release, f })}</span>
                   </Badge>
                 </a>
               </Link>

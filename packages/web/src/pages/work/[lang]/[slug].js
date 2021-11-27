@@ -1,10 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Container } from 'reactstrap';
-import { Helmet } from 'react-helmet';
+import Head from "next/head";
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import { useIntl, FormattedMessage } from 'react-intl';
+
+import useIntl from '@hooks/use-intl';
 
 import { getImage } from '@components/Image';
 import Cover from '@components/Work/Cover';
@@ -99,24 +100,23 @@ export function WorkContainer() {
 
 const WorkMetatags = ({ work }) => {
   const router = useRouter();
-  const { locale, formatMessage } = useIntl();
+  const { locale, f } = useIntl();
   const { lang } = router.query;
   const workThumbnail = getImage(work.thumbnail_path);
   return (
-    <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <meta name="language" content={lang} />
-        <title>{work.name + ' :: ' + APP_TITLE}</title>
-        <meta property="og:title" content={work.name + ' :: ' + APP_TITLE} />
-        <meta property="og:type" content="book" />
-        <meta property="og:locale" content={locale}></meta>
-        <meta name="description" content={work.description} />
-        {work.thumbnail_path !== '' && (
-          <meta property="og:image" content={workThumbnail} />
-        )}
-        <script type="application/ld+json">
-          {`{
+    <Head>
+      <meta charSet="utf-8" />
+      <meta name="language" content={lang} />
+      <title>{work.name + ' :: ' + APP_TITLE}</title>
+      <meta property="og:title" content={work.name + ' :: ' + APP_TITLE} />
+      <meta property="og:type" content="book" />
+      <meta property="og:locale" content={locale}></meta>
+      <meta name="description" content={work.description} />
+      {work.thumbnail_path !== '' && (
+        <meta property="og:image" content={workThumbnail} />
+      )}
+      <script type="application/ld+json">
+        {`{
       "@context": "http://schema.org",
       "@type": "WebPage",
       "potentialAction": {
@@ -129,8 +129,7 @@ const WorkMetatags = ({ work }) => {
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "item": { "@id": "${APP_URL}", "name": "${APP_TITLE}" } },
           { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}/work/all", "name": "Works" } },
-          { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}${
-            router.asPath
+          { "@type": "ListItem", "position": 2, "item": { "@id": "${APP_URL}${router.asPath
           }", "name": "${work.name}" } }
         ]
       },
@@ -168,46 +167,26 @@ const WorkMetatags = ({ work }) => {
         "dateModified": "${work.updatedAt}",
         "genre": [
           ${work.genres.map(
-            g =>
-              `"${formatMessage({
-                id: g.name,
-                defaultMessage: g.name
-              })}"`
-          )}
+              g =>
+                `"${f({
+                  id: g.name,
+                  defaultMessage: g.name
+                })}"`
+            )}
         ],
         "copyrightHolder": [],
-        ${
-          work.thumbnail_path !== '' &&
+        ${work.thumbnail_path !== '' &&
           `"image": "${workThumbnail}",
           "thumbnailUrl": "${workThumbnail}"`
-        }
+          }
       }
   }`}
-        </script>
-      </Helmet>
+      </script>
       {work.genres.map(g => (
-        <FormattedMessage id={g.name} key={g.name} defaultMessage={g.name}>
-          {genre => (
-            <Helmet>
-              <meta property="book:tag" content={genre} />
-            </Helmet>
-          )}
-        </FormattedMessage>
+        <meta property="book:tag" key={g.name} content={f({ id: g.name, defaultMessage: g.name })} />
       ))}
-      <FormattedMessage
-        id="cover_alt"
-        defaultMessage="Cover for {workName}"
-        values={{
-          workName: work.name
-        }}
-      >
-        {coverAlt => (
-          <Helmet>
-            <meta property="og:image:alt" content={coverAlt} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-    </>
+      <meta property="og:image:alt" content={f({ id: 'cover_alt', defaultMessage: 'Cover for {workName}', values: { workName: work.name } })} />
+    </Head>
   );
 };
 

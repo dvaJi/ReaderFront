@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { Helmet } from 'react-helmet';
-import { useIntl, FormattedMessage } from 'react-intl';
+import Head from "next/head";
 import gql from 'graphql-tag';
 
 import { chapterTitle as genChapterTitle } from '@readerfront/shared/build/lang/chapter-title';
@@ -16,6 +15,8 @@ import BottomActions from '@components/Read/BottomActions';
 import ImagesList from '@components/Read/ImagesList';
 import Comments from '@components/Read/Comments';
 import { ReaderMain } from '@components/Read/styles';
+
+import useIntl from '@hooks/use-intl';
 
 import { withApollo } from 'lib/apollo';
 import { logException } from 'lib/analytics';
@@ -89,7 +90,7 @@ export function ReaderContainer() {
 }
 
 function ReaderContent({ showNav }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const router = useRouter();
   const { slug, lang, volume, chapter: chaptersub } = router.query;
   const language = languages[lang];
@@ -184,28 +185,38 @@ function ReaderContent({ showNav }) {
 const ReaderMetatags = ({ currentChapter, chapterTitle }) => {
   const router = useRouter();
   const chapterThumb = getImage(currentChapter.thumbnail_path);
-
+  const { f } = useIntl();
   const { lang } = router.query;
 
+  const titleStr = f({
+    id: `reader.title_${lang}`, defaultMessage: '{workName} :: Chapter {chapter} :: {appTitle}', values: {
+      workName: currentChapter.work.name,
+      chapter:
+        currentChapter.subchapter !== 0
+          ? `${currentChapter.chapter}.${currentChapter.subchapter}`
+          : currentChapter.chapter,
+      appTitle: APP_TITLE
+    }
+  });
+
   return (
-    <>
-      <Helmet defer={false}>
-        <meta charSet="utf-8" />
-        <meta name="language" content={lang} />
-        <meta property="og:image" content={chapterThumb} />
-        <meta property="og:type" content="article" />
-        <meta
-          property="article:published_time"
-          content={currentChapter.createdAt}
-        />
-        <meta
-          property="article:modified_time"
-          content={currentChapter.updatedAt}
-        />
-        <meta property="article:section" content={currentChapter.work.name} />
-        <link rel="canonical" href={`${APP_URL}${currentChapter.read_path}`} />
-        <script type="application/ld+json">
-          {`{
+    <Head>
+      <meta charSet="utf-8" />
+      <meta name="language" content={lang} />
+      <meta property="og:image" content={chapterThumb} />
+      <meta property="og:type" content="article" />
+      <meta
+        property="article:published_time"
+        content={currentChapter.createdAt}
+      />
+      <meta
+        property="article:modified_time"
+        content={currentChapter.updatedAt}
+      />
+      <meta property="article:section" content={currentChapter.work.name} />
+      <link rel="canonical" href={`${APP_URL}${currentChapter.read_path}`} />
+      <script type="application/ld+json">
+        {`{
     "@context": "http://schema.org",
     "@type": "WebPage",
     "potentialAction": {
@@ -245,42 +256,16 @@ const ReaderMetatags = ({ currentChapter, chapterTitle }) => {
     }
   }
   `}
-        </script>
-      </Helmet>
-      <FormattedMessage
-        id={`reader.title_${lang}`}
-        defaultMessage="{workName} :: Chapter {chapter} :: {appTitle}"
-        values={{
-          workName: currentChapter.work.name,
-          chapter:
-            currentChapter.subchapter !== 0
-              ? `${currentChapter.chapter}.${currentChapter.subchapter}`
-              : currentChapter.chapter,
-          appTitle: APP_TITLE
-        }}
-      >
-        {title => (
-          <Helmet>
-            <title>{title}</title>
-            <meta name="description" content={title} />
-            <meta property="og:title" content={title} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-      <FormattedMessage
-        id="cover_alt"
-        defaultMessage="Cover for {workName}"
-        values={{
+      </script>
+      <title>{titleStr}</title>
+      <meta name="description" content={titleStr} />
+      <meta property="og:title" content={titleStr} />
+      <meta property="og:image:alt" content={f({
+        id: 'cover_alt', defaultMessage: 'Cover for {workName}', values: {
           workName: currentChapter.work.name
-        }}
-      >
-        {coverAlt => (
-          <Helmet>
-            <meta property="og:image:alt" content={coverAlt} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-    </>
+        }
+      })} />
+    </Head>
   );
 };
 

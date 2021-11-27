@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import Link from 'next/link';
-import { useIntl } from 'react-intl';
 import ReactMarkdown from 'react-markdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated, useTransition } from 'react-spring';
 import { Container } from 'reactstrap';
+
+import useIntl from '@hooks/use-intl';
 
 import { ButtonLink } from '@readerfront/ui';
 import { getImage } from '../Image';
@@ -13,7 +14,7 @@ import { HeroBg, HeroContainer, CardView } from './styles';
 function PostView({ post }) {
   const { title, content, thumbnail_path } = post;
   const portrait = getImage(thumbnail_path);
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const heroTransition = useTransition([portrait], {
     from: { transform: 'translate3d(0,-10px,0)', opacity: '0.2' },
     enter: { transform: 'translate3d(0,0px,0)', opacity: '1' },

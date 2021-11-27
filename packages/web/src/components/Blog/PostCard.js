@@ -1,6 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
+
+import useIntl from '@hooks/use-intl';
 
 import {
   Card,
@@ -17,7 +18,7 @@ import {
 import Flag from '@components/Flag';
 
 function PostCard({ post, children, thumbnail }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const router = useRouter();
 
   return (

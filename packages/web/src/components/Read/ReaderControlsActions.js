@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useIntl } from 'react-intl';
 import { UncontrolledTooltip, ModalBody } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import useIntl from '@hooks/use-intl';
 
 import { ButtonLink, Container, Modal, ModalHeader } from '@readerfront/ui';
 import { ReaderControlsActions as Wrapper } from './styles';
@@ -15,7 +16,7 @@ export default function ReaderControlsActions({
   children
 }) {
   const [isModalOpen, setModalOpen] = useState(false);
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   const toggleDownloadModal = () => setModalOpen(!isModalOpen);
   const downloadHref = ANONYMIZER_DOWNLOADS + chapter.download_href;

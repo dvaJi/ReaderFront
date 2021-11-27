@@ -4,10 +4,10 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
-import { useIntl } from 'react-intl';
 import gql from 'graphql-tag';
 
 import { APP_TITLE } from 'lib/config';
+import useIntl from '@hooks/use-intl';
 import { useChapterSeen } from '@hooks/useChapterSeen';
 import { chapterTitle } from '@readerfront/shared/build/lang/chapter-title';
 import {
@@ -106,7 +106,7 @@ export function ReaderControls({ work, language, chapter, showNav }) {
 }
 
 const ChaptersSelects = memo(({ workStub, language, chapter, work }) => {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
   const router = useRouter();
 
   const { loading, error, data } = useQuery(FETCH_CHAPTERS, {

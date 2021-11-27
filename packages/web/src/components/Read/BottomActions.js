@@ -1,8 +1,9 @@
 import { memo } from 'react';
-import { useIntl } from 'react-intl';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import useIntl from '@hooks/use-intl';
 
 import { BottomActionsWrapper } from './styles';
 import { Button } from '@readerfront/ui';
@@ -10,7 +11,7 @@ import { FETCH_CHAPTERS } from '@components/Read/ReaderControls';
 
 function BottomActions({ chapter }) {
   const router = useRouter();
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   const { data } = useQuery(FETCH_CHAPTERS, {
     variables: { workStub: chapter.work.stub, languages: [chapter.language] }

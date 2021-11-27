@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import Header from '@components/layout/header';
@@ -61,7 +61,7 @@ function App({ children, theme }) {
   const [language] = useGlobalState('language');
   return (
     <>
-      <Helmet defer={false}>
+      <Head>
         <meta name="generator" content={`ReaderFront v${APP_VERSION}`} />
         <link
           rel="alternate"
@@ -78,7 +78,7 @@ function App({ children, theme }) {
         {CDN === 'photon' && <link rel="preconnect" href="//i0.wp.com" />}
         {CDN === 'photon' && <link rel="preconnect" href="//i1.wp.com" />}
         {CDN === 'photon' && <link rel="preconnect" href="//i2.wp.com" />}
-      </Helmet>
+      </Head>
       <ThemeProvider theme={{ mode: themeSelected || theme }}>
         <GlobalStyle />
         <div className="App">

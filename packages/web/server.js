@@ -87,9 +87,9 @@ app.prepare().then(() => {
   createServer((req, res) => {
     const accept = accepts(req);
     const locale = getLocale(accept.language(supportedLanguages) ?? 'en');
-    req.locale = locale;
-    req.localeDataScript = getLocaleDataScript(locale);
-    req.messages = getMessages(locale);
+    // req.locale = locale;
+    // req.localeDataScript = getLocaleDataScript(locale);
+    // req.messages = getMessages(locale);
     handle(req, res);
   }).listen(port, err => {
     if (err) throw err;

@@ -1,7 +1,9 @@
 import React, { memo } from 'react';
 import styled from 'styled-components';
-import { useIntl } from 'react-intl';
+
 import { ExtraListWrapper } from '@components/Work/styles';
+
+import useIntl from '@hooks/use-intl';
 
 const List = styled.div`
   padding-left: 0;
@@ -15,7 +17,7 @@ const Item = styled.div`
 `;
 
 function Info({ work }) {
-  const { formatMessage: f } = useIntl();
+  const { f } = useIntl();
 
   return (
     <ExtraListWrapper className="mt-2">

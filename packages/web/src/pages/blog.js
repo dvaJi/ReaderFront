@@ -1,9 +1,10 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import { useQuery } from '@apollo/client';
 import { Container } from 'reactstrap';
-import { Helmet } from 'react-helmet';
+import Head from "next/head";
 import gql from 'graphql-tag';
+
+import useIntl from '@hooks/use-intl';
 
 import PostsList from '@components/Blog/PostsList';
 import PostCardLoading from '@components/Blog/PostCardEmpty';
@@ -114,27 +115,17 @@ function RenderPostList({ languages }) {
 }
 
 const MetaTagList = () => {
+  const { f } = useIntl();
+
   return (
-    <>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{'Blog :: ' + APP_TITLE}</title>
-        <meta property="og:title" content={'Blog :: ' + APP_TITLE} />
-        <meta property="og:type" content="website" />
-      </Helmet>
-      <FormattedMessage
-        id="blog.description"
-        defaultMessage="All blog posts by {title}"
-        values={{ title: APP_TITLE }}
-      >
-        {description => (
-          <Helmet>
-            <meta name="description" content={description} />
-            <meta name="og:description" content={description} />
-          </Helmet>
-        )}
-      </FormattedMessage>
-    </>
+    <Head>
+      <meta charSet="utf-8" />
+      <title>{'Blog :: ' + APP_TITLE}</title>
+      <meta property="og:title" content={'Blog :: ' + APP_TITLE} />
+      <meta property="og:type" content="website" />
+      <meta name="description" content={f({ id: 'blog.description', defaultMessage: 'All blog posts by {title}', values: { title: APP_TITLE } })} />
+      <meta name="og:description" content={f({ id: 'blog.description', defaultMessage: 'All blog posts by {title}', values: { title: APP_TITLE } })} />
+    </Head>
   );
 };
 

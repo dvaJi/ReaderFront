@@ -33,11 +33,10 @@
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-hooks-global-state": "^1.0.2",
-    "react-intl": "^5.8.8",
     "react-lazy-load-image-component": "^1.5.1",
     "react-lazyload": "^2.6.9",
     "react-loadable": "^5.5.0",
-    "react-markdown": "^7.1.0",
+    "react-markdown": "^6.0.3",
     "react-router-dom": "^5.2.0",
     "react-rte": "^0.16.3",
     "react-scripts": "^4.0.3",
@@ -48,7 +47,6 @@
     "styled-theming": "^2.2.0"
   },
   "devDependencies": {
-    "@types/react-intl": "^3.0.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.2",
     "babel-eslint": "^10.1.0",
     "customize-cra": "^1.0.0",

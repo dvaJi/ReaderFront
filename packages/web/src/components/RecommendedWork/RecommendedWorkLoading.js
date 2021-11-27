@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
-import { FormattedMessage } from 'react-intl';
 import styled from 'styled-components';
+
+import useIntl from '@hooks/use-intl';
 
 const LoadingCover = styled.div`
   background-color: white;
@@ -12,10 +13,11 @@ const LoadingCover = styled.div`
 `;
 
 function RecommendedWorkLoading() {
+  const { f } = useIntl();
   return (
     <div className="Recommended mb-4">
       <h3>
-        <FormattedMessage id="random" defaultMessage="Random" />
+        {f({ id: 'random', defaultMessage: "Random" })}
       </h3>
       <LoadingCover className="show-loading-animation" />
     </div>

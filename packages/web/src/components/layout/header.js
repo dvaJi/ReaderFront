@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-
-import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse, NavbarToggler, NavbarBrand, Nav } from 'reactstrap';
 import styled from 'styled-components';
+
+import useIntl from '@hooks/use-intl';
 
 import { isReaderRoute } from '@readerfront/shared';
 import { useGlobalState } from 'lib/state';
@@ -42,6 +42,7 @@ function Header({ theme }) {
   const [isCollapse, toggleCollapse] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [themeSelected] = useGlobalState('theme');
+  const { f } = useIntl();
   const router = useRouter();
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
@@ -62,15 +63,15 @@ function Header({ theme }) {
         <Nav className="ml-auto" navbar>
           <RouteNavItem href="/">
             <FontAwesomeIcon icon="home" />
-            <FormattedMessage id="home" defaultMessage="Home" />
+            {f({ id: "home", defaultMessage: "Home" })}
           </RouteNavItem>
           <RouteNavItem href="/releases">
             <FontAwesomeIcon icon="th-list" />
-            <FormattedMessage id="releases" defaultMessage="Releases" />
+            {f({ id: "releases", defaultMessage: "Releases" })}
           </RouteNavItem>
           <RouteNavItem href="/work/all">
             <FontAwesomeIcon icon="book" />
-            <FormattedMessage id="projects" defaultMessage="Projects" />
+            {f({ id: "projects", defaultMessage: "Projects" })}
           </RouteNavItem>
           <RouteNavItem href="/blog">
             <FontAwesomeIcon icon="rss" />

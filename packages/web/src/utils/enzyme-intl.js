@@ -1,5 +1,6 @@
-import { IntlProvider } from 'react-intl';
 import { mount, shallow } from 'enzyme';
+
+import IntlProvider from "../components/IntlProvider";
 
 const messages = require('@readerfront/shared/build/lang/en.json');
 const defaultLocale = 'en';

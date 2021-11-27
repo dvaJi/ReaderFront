@@ -1,6 +1,7 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { ModalBody } from 'reactstrap';
+
+import useIntl from '@hooks/use-intl';
 
 import { LANGUAGES } from 'lib/config';
 import {
@@ -23,7 +24,7 @@ import { languagesAvailables } from '@readerfront/shared/build/params/global';
 function AppSettings({ isOpen, toggle }) {
   const [themeSelected] = useGlobalState('theme');
   const [languagesSelected] = useGlobalState('languages_filter');
-  const { formatMessage: f, locale } = useIntl();
+  const { f, locale } = useIntl();
 
   const langsOptions = languagesAvailables(LANGUAGES).map(lang => ({
     label: f({ id: `${lang.name}_full`, defaultMessage: lang.name }),

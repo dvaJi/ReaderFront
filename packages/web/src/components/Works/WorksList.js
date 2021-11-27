@@ -1,8 +1,10 @@
 import React, { memo, useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
 import WorkItem from './WorkItem';
 
+import useIntl from '@hooks/use-intl';
+
 function WorkList({ works, filterText }) {
+  const { f } = useIntl();
   const filtered = useMemo(() => {
     const list = {
       on_going: [],
@@ -24,7 +26,7 @@ function WorkList({ works, filterText }) {
   return (
     <div id="works-list">
       <h2>
-        <FormattedMessage id="on_going" defaultMessage="On Going" />
+        {f({ id: 'on_going', value: 'On going' })}
       </h2>
       <div className="row mb-4">
         {filtered.on_going.map(work => (
@@ -36,7 +38,7 @@ function WorkList({ works, filterText }) {
         ))}
       </div>
       <h2>
-        <FormattedMessage id="completed" defaultMessage="Completed" />
+        {f({ id: 'completed', value: 'Completed' })}
       </h2>
       <div className="row mb-4">
         {filtered.completed.map(work => (
@@ -48,7 +50,7 @@ function WorkList({ works, filterText }) {
         ))}
       </div>
       <h2>
-        <FormattedMessage id="dropped" defaultMessage="Dropped" />
+        {f({ id: 'dropped', value: 'Dropped' })}
       </h2>
       <div className="row mb-4">
         {filtered.dropped.map(work => (
