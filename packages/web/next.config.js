@@ -10,12 +10,6 @@ var withBundleAnalyzer = require('@next/bundle-analyzer')({
 var withTM = require('next-transpile-modules')([
   '@readerfront/shared',
   '@readerfront/ui',
-  '@formatjs/icu-messageformat-parser',
-  '@formatjs/intl-relativetimeformat',
-  '@formatjs/intl-utils',
-  'react-intl',
-  'intl-format-cache',
-  'intl-messageformat'
 ]);
 
 var nextConfig = {
