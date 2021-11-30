@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { useGlobalState } from 'state';
+import { useGlobalState } from '../state';
 
 // Component
 const AuthCheck = () => {

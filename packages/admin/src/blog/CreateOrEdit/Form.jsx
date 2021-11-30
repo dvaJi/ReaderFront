@@ -9,7 +9,7 @@ import { LANGUAGES } from '../../config';
 import { slugify } from '@readerfront/shared';
 import { languagesAvailables } from '@readerfront/shared/build/params/global';
 import { get as blogGet } from '@readerfront/shared/build/params/blog';
-import { getImage } from 'common/Image';
+import { getImage } from '../../common/Image';
 
 function PostForm({ post, onSubmit }) {
   const [localPost, setLocalPost] = useState(post);

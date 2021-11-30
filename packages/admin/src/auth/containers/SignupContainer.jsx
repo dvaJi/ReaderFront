@@ -5,7 +5,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Alert, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import gql from 'graphql-tag';
 
-import AuthCheck from 'auth/AuthCheck';
+import AuthCheck from '../../auth/AuthCheck';
 import AuthContainer from '../components/AuthContainer';
 
 export const SIGNUP = gql`

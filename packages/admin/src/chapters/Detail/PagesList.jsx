@@ -3,7 +3,7 @@ import { ListGroup } from 'reactstrap';
 
 import { hashCode } from '@readerfront/shared';
 
-import { getImage } from 'common/Image';
+import { getImage } from '../../common/Image';
 import PageItemWithThumb from './PageItemWithThumb';
 import PageItem from './PageItem';
 

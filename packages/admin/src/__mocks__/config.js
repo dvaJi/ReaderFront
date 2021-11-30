@@ -1,0 +1,11 @@
+export const NODE_ENV = 'development';
+export const IS_PROD = false;
+export const APP_URL = 'http://localhost:8080';
+export const READER_PATH = 'http://localhost:3000';
+export const APP_PATH = '/';
+export const APP_TITLE = 'READERFRONT';
+export const GA_ID = '';
+export const CDN = '';
+export const LANGUAGES = ['en', 'es'];
+export const APP_VERSION = '0.0.1';
+export const S3_ENDPOINT = '';

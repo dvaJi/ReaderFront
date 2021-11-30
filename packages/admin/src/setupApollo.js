@@ -4,7 +4,7 @@ import { onError } from '@apollo/client/link/error';
 import { setContext } from '@apollo/client/link/context';
 
 import { READER_PATH } from './config';
-import { setUser } from 'state';
+import { setUser } from './state';
 
 const client = token =>
   new ApolloClient({
@@ -12,7 +12,13 @@ const client = token =>
       onError(({ graphQLErrors, networkError }) => {
         if (graphQLErrors)
           graphQLErrors.forEach(({ message, locations, path }) => {
-            if (['Operation denied.', 'SESSION_EXPIRED'].includes(message)) {
+            if (
+              [
+                'Operation denied.',
+                'SESSION_EXPIRED',
+                'Session expired.'
+              ].includes(message)
+            ) {
               setUser(null);
             }
             console.error(

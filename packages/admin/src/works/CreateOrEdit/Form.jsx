@@ -13,7 +13,7 @@ import { get as genresGet } from '@readerfront/shared/build/params/genres';
 import Staff from './Staff';
 
 import AddPersonWorkModal from '../AddPersonWorkModal';
-import Image from 'common/Image';
+import Image from '../../common/Image';
 
 function PostForm({ work, onCreatePersonModal, onSubmit }) {
   const [localWork, setLocalWork] = useState(work);

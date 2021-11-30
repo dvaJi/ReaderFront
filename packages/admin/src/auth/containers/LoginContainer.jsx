@@ -7,7 +7,7 @@ import gql from 'graphql-tag';
 
 import AuthCheck from '../AuthCheck';
 import AuthContainer from '../components/AuthContainer';
-import { setUser } from 'state';
+import { setUser } from '../../state';
 
 export const LOGIN = gql`
   mutation UserLogin($email: String, $password: String) {

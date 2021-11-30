@@ -3,7 +3,7 @@
     "rootDir": "src",
     "outDir": "build",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "commonjs",
+    "module": "ES6",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,

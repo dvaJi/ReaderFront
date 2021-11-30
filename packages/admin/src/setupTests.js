@@ -1,7 +1,6 @@
 import { configure } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import ReactGA from 'react-ga';
-import { JSDOM } from 'jsdom';
 import {
   getPages,
   getPagesAsFiles,
@@ -23,9 +22,11 @@ ReactGA.initialize('foo', { testMode: true });
 ReactGA.ga('send', 'pageview', '/series');
 jest.mock('react-ga');
 
+jest.mock('./config.js');
+
 global.scrollTo = jest.fn();
 global.XMLHttpRequest = undefined;
-global.document = new JSDOM('<!doctype html><html><body></body></html>');
+// global.document = new JSDOM('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 global.navigator = window.navigator;
 global.window.resizeTo = (width, height) => {

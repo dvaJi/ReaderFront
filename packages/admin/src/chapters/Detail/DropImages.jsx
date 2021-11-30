@@ -8,7 +8,7 @@ import { Alert } from 'reactstrap';
 
 import { slugify, asyncForeach } from '@readerfront/shared';
 
-import { useLocalStorage } from 'common/useLocalStorage';
+import { useLocalStorage } from '../../common/useLocalStorage';
 
 import { Card } from '@readerfront/ui';
 import PagesList from './PagesList';

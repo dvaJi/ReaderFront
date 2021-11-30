@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, buttonWithColors, Card, Input, Label } from '@readerfront/ui';
 
 import { UPDATE_PROFILE } from './mutation';
-import { useGlobalState } from 'state';
+import { useGlobalState } from '../state';
 import { Link } from 'react-router-dom';
 
 const ButtonLink = buttonWithColors(Link);

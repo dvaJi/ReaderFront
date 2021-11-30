@@ -22,7 +22,7 @@ import {
   UserLogged,
   UserLoggedMenu
 } from './styles';
-import { useGlobalState, setTheme, setLanguage } from 'state';
+import { useGlobalState, setTheme, setLanguage } from '../../state';
 import RouteNavItem from './RouteNavItem';
 import LangNavItem from './LangNavItem';
 
@@ -122,7 +122,7 @@ function AdminNav() {
 function Header() {
   const location = useLocation();
 
-  return !isAuthRoute(location) && <AdminNav />;
+  return !isAuthRoute(location || location.location) && <AdminNav />;
 }
 
 export default Header;

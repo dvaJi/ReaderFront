@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Image from 'common/Image';
+import Image from '../../common/Image';
 import { rolesById } from '@readerfront/shared/build/params/works';
 import { StaffWrapper, StaffRole, StaffDetail } from './styles';
 

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 import { CounterCard } from './CounterCard';
-import { useGlobalState } from 'state';
+import { useGlobalState } from '../state';
 
 function Dashboard() {
   const [user] = useGlobalState('user');
