@@ -5,23 +5,27 @@ import VitePluginHtmlEnv from 'vite-plugin-html-env';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  server: {
-    port: process.env.PORT || 3001,
-  },
-  build: {
-    outDir: path.resolve(__dirname, 'build'),
-    rollupOptions: {
-      plugins: [visualizer({
-        filename: './dist/report.html',
-        open: true,
-        brotliSize: true
-      })],
+export default defineConfig(({ mode }) => {
+  const isDevEnv = mode === 'development';
+
+  return {
+    server: {
+      port: process.env.PORT || 3001,
     },
-  },
-  envPrefix: 'REACT_APP_',
-  define: {
-    'process.env': process.env
-  },
-  plugins: [react(), VitePluginHtmlEnv()],
-})
+    build: {
+      outDir: path.resolve(__dirname, 'build'),
+      rollupOptions: {
+        plugins: [visualizer({
+          filename: './dist/report.html',
+          open: false,
+          brotliSize: true
+        })],
+      },
+    },
+    envPrefix: 'REACT_APP_',
+    define: {
+      'process.env': process.env
+    },
+    plugins: [isDevEnv && react(), VitePluginHtmlEnv()],
+  }
+});

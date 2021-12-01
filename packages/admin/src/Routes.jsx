@@ -1,7 +1,6 @@
 import React from 'react';
 import loadable from '@loadable/component';
 import { Route, Switch, Redirect } from 'react-router';
-import withTracker from './common/WithTracker';
 import RoutePrivate from './auth/RoutePrivate';
 
 import { setUser } from './state';
@@ -62,9 +61,9 @@ const RegistryList = loadable(() => import('./registry/RegistryList'));
 
 export default (
   <Switch>
-    <RoutePrivate path="/" exact component={withTracker(ACPDashboard)} />
-    <Route path="/auth/login" exact component={withTracker(Login)} />
-    <Route path="/auth/signup" exact component={withTracker(Signup)} />
+    <RoutePrivate path="/" exact component={ACPDashboard} />
+    <Route path="/auth/login" exact component={Login} />
+    <Route path="/auth/signup" exact component={Signup} />
     <Route
       path="/auth/logout"
       exact
@@ -73,87 +72,39 @@ export default (
         return <Redirect push to="/" />;
       }}
     />
-    <Route
-      path="/auth/activate_account"
-      exact
-      component={withTracker(Activate)}
-    />
-    <Route
-      path="/auth/request_password"
-      exact
-      component={withTracker(Activate)}
-    />
-    <Route
-      path="/auth/reset_password"
-      exact
-      component={withTracker(RecoverPassword)}
-    />
-    <Route
-      path="/auth/change_password"
-      exact
-      component={withTracker(ChangePassword)}
-    />
+    <Route path="/auth/activate_account" exact component={Activate} />
+    <Route path="/auth/request_password" exact component={Activate} />
+    <Route path="/auth/reset_password" exact component={RecoverPassword} />
+    <Route path="/auth/change_password" exact component={ChangePassword} />
     <Redirect exact from="/work" to="/work/manage" />
-    <RoutePrivate
-      path="/work/manage"
-      exact
-      component={withTracker(ACPWorkManage)}
-    />
-    <RoutePrivate
-      path="/work/add"
-      exact
-      component={withTracker(ACPWorkCreate)}
-    />
-    <RoutePrivate
-      path="/work/edit/:workId"
-      exact
-      component={withTracker(ACPWorkEdit)}
-    />
-    <RoutePrivate
-      path="/work/:workId/:stub"
-      exact
-      component={withTracker(ACPWorkDetail)}
-    />
+    <RoutePrivate path="/work/manage" exact component={ACPWorkManage} />
+    <RoutePrivate path="/work/add" exact component={ACPWorkCreate} />
+    <RoutePrivate path="/work/edit/:workId" exact component={ACPWorkEdit} />
+    <RoutePrivate path="/work/:workId/:stub" exact component={ACPWorkDetail} />
     <RoutePrivate
       path="/work/:workId/:stub/chapter/add"
       exact
-      component={withTracker(ACPChapterCreate)}
+      component={ACPChapterCreate}
     />
     <RoutePrivate
       path="/work/:workId/:stub/chapter/edit/:chapterId"
       exact
-      component={withTracker(ACPChapterEdit)}
+      component={ACPChapterEdit}
     />
     <RoutePrivate
       path="/work/:workId/:stub/chapter/:chapterId"
       exact
-      component={withTracker(ACPChapterDetail)}
+      component={ACPChapterDetail}
     />
     <Redirect exact from="/blog" to="/blog/manage" />
-    <RoutePrivate
-      path="/blog/manage"
-      exact
-      component={withTracker(ACPBlogManage)}
-    />
-    <RoutePrivate
-      path="/blog/add_post"
-      exact
-      component={withTracker(ACPBlogCreatePost)}
-    />
-    <RoutePrivate
-      path="/blog/edit_post/:stub"
-      exact
-      component={withTracker(ACPBlogEdit)}
-    />
+    <RoutePrivate path="/blog/manage" exact component={ACPBlogManage} />
+    <RoutePrivate path="/blog/add_post" exact component={ACPBlogCreatePost} />
+    <RoutePrivate path="/blog/edit_post/:stub" exact component={ACPBlogEdit} />
     <Redirect exact from="/users" to="/users/manage" />
-    <RoutePrivate
-      path="/users/manage"
-      exact
-      component={withTracker(UsersList)}
-    />
-    <RoutePrivate path="/me/edit" exact component={withTracker(EditProfile)} />
+    <RoutePrivate path="/users/manage" exact component={UsersList} />
+    <RoutePrivate path="/me/edit" exact component={EditProfile} />
     <RoutePrivate path="/registry" exact component={RegistryList} />
-    <Route path="/401" component={withTracker(Unauthorized)} />
+    <Route path="/401" component={Unauthorized} />
     <Route component={NotFound} />
   </Switch>
 );
