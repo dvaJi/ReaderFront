@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import Head from "next/head";
+import Head from 'next/head';
 import gql from 'graphql-tag';
 
 import { chapterTitle as genChapterTitle } from '@readerfront/shared/build/lang/chapter-title';
@@ -189,7 +189,9 @@ const ReaderMetatags = ({ currentChapter, chapterTitle }) => {
   const { lang } = router.query;
 
   const titleStr = f({
-    id: `reader.title_${lang}`, defaultMessage: '{workName} :: Chapter {chapter} :: {appTitle}', values: {
+    id: `reader.title_${lang}`,
+    defaultMessage: '{workName} :: Chapter {chapter} :: {appTitle}',
+    values: {
       workName: currentChapter.work.name,
       chapter:
         currentChapter.subchapter !== 0
@@ -260,11 +262,16 @@ const ReaderMetatags = ({ currentChapter, chapterTitle }) => {
       <title>{titleStr}</title>
       <meta name="description" content={titleStr} />
       <meta property="og:title" content={titleStr} />
-      <meta property="og:image:alt" content={f({
-        id: 'cover_alt', defaultMessage: 'Cover for {workName}', values: {
-          workName: currentChapter.work.name
-        }
-      })} />
+      <meta
+        property="og:image:alt"
+        content={f({
+          id: 'cover_alt',
+          defaultMessage: 'Cover for {workName}',
+          values: {
+            workName: currentChapter.work.name
+          }
+        })}
+      />
     </Head>
   );
 };

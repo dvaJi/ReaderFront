@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { Container } from 'reactstrap';
-import Head from "next/head";
+import Head from 'next/head';
 import gql from 'graphql-tag';
 
 import useIntl from '@hooks/use-intl';
@@ -123,8 +123,22 @@ const MetaTagList = () => {
       <title>{'Blog :: ' + APP_TITLE}</title>
       <meta property="og:title" content={'Blog :: ' + APP_TITLE} />
       <meta property="og:type" content="website" />
-      <meta name="description" content={f({ id: 'blog.description', defaultMessage: 'All blog posts by {title}', values: { title: APP_TITLE } })} />
-      <meta name="og:description" content={f({ id: 'blog.description', defaultMessage: 'All blog posts by {title}', values: { title: APP_TITLE } })} />
+      <meta
+        name="description"
+        content={f({
+          id: 'blog.description',
+          defaultMessage: 'All blog posts by {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
+      <meta
+        name="og:description"
+        content={f({
+          id: 'blog.description',
+          defaultMessage: 'All blog posts by {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
     </Head>
   );
 };

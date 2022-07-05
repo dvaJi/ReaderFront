@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import Head from "next/head";
+import Head from 'next/head';
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 
@@ -143,9 +143,25 @@ export function HomeContainer() {
   return (
     <div className="Home">
       <Head>
-        <title>{f({ id: 'home.title', defaultMessage: 'Home :: {title}', values: { title: APP_TITLE } })}</title>
-        <meta property="og:title" content={f({ id: 'home.title', defaultMessage: 'Home :: {title}', values: { title: APP_TITLE } })} />
-        <meta name="description" content={f({ id: 'home.desc', defaultMessage: 'All release' })} />
+        <title>
+          {f({
+            id: 'home.title',
+            defaultMessage: 'Home :: {title}',
+            values: { title: APP_TITLE }
+          })}
+        </title>
+        <meta
+          property="og:title"
+          content={f({
+            id: 'home.title',
+            defaultMessage: 'Home :: {title}',
+            values: { title: APP_TITLE }
+          })}
+        />
+        <meta
+          name="description"
+          content={f({ id: 'home.desc', defaultMessage: 'All release' })}
+        />
       </Head>
       <LatestReleases languages={languages} />
       <div className="container mt-4">

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import Head from "next/head";
+import Head from 'next/head';
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';
 
@@ -90,10 +90,37 @@ function ReleasesMetatags() {
   return (
     <Head>
       <meta property="og:type" content="website" />
-      <title>{f({ id: 'releases.title', defaultMessage: 'Latest releases :: {title}', values: { title: APP_TITLE } })}</title>
-      <meta property="og:title" content={f({ id: 'releases.title', defaultMessage: 'Latest releases :: {title}', values: { title: APP_TITLE } })} />
-      <meta name="description" content={f({ id: 'releases.desc', defaultMessage: 'Latest releases by {title}', values: { title: APP_TITLE } })} />
-      <meta property="og:description" content={f({ id: 'releases.desc', defaultMessage: 'Latest releases by {title}', values: { title: APP_TITLE } })} />
+      <title>
+        {f({
+          id: 'releases.title',
+          defaultMessage: 'Latest releases :: {title}',
+          values: { title: APP_TITLE }
+        })}
+      </title>
+      <meta
+        property="og:title"
+        content={f({
+          id: 'releases.title',
+          defaultMessage: 'Latest releases :: {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
+      <meta
+        name="description"
+        content={f({
+          id: 'releases.desc',
+          defaultMessage: 'Latest releases by {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
+      <meta
+        property="og:description"
+        content={f({
+          id: 'releases.desc',
+          defaultMessage: 'Latest releases by {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
     </Head>
   );
 }

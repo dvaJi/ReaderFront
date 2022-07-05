@@ -21,12 +21,13 @@ import { useDistanceDate } from '@hooks/useDistanceDate';
 
 const chapterVolume = (volume, f) =>
   volume !== 0 && (
-    <>{f({ id: 'vol', defaultMessage: 'Vol. ' })} {volume}</>
+    <>
+      {f({ id: 'vol', defaultMessage: 'Vol. ' })} {volume}
+    </>
   );
 const chapterNumber = (chapter, subchapter, f) => (
   <>
-    {f({ id: 'chapter', defaultMessage: 'Chapter' })}
-    {' '}{chapter}
+    {f({ id: 'chapter', defaultMessage: 'Chapter' })} {chapter}
     {subchapter !== 0 ? '.' + subchapter : ''}
   </>
 );
@@ -69,7 +70,9 @@ export default function ReleaseItem({ release }) {
               <Link href={release.read_path}>
                 <a tabIndex={0}>
                   <Badge className="badge text-uppercase">
-                    <span className="status">{chapterTitle({ ...release, f })}</span>
+                    <span className="status">
+                      {chapterTitle({ ...release, f })}
+                    </span>
                   </Badge>
                 </a>
               </Link>

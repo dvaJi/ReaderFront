@@ -1,11 +1,10 @@
-import { IntlContext } from "@hooks/intl-context";
+import { IntlContext } from '@hooks/intl-context';
 
 export default function IntlProvider({
   children,
-  locale = "en",
+  locale = 'en',
   ...contextValues
 }) {
-
   return (
     <IntlContext.Provider value={{ ...contextValues, locale }}>
       {children}

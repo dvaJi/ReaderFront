@@ -63,15 +63,15 @@ function Header({ theme }) {
         <Nav className="ml-auto" navbar>
           <RouteNavItem href="/">
             <FontAwesomeIcon icon="home" />
-            {f({ id: "home", defaultMessage: "Home" })}
+            {f({ id: 'home', defaultMessage: 'Home' })}
           </RouteNavItem>
           <RouteNavItem href="/releases">
             <FontAwesomeIcon icon="th-list" />
-            {f({ id: "releases", defaultMessage: "Releases" })}
+            {f({ id: 'releases', defaultMessage: 'Releases' })}
           </RouteNavItem>
           <RouteNavItem href="/work/all">
             <FontAwesomeIcon icon="book" />
-            {f({ id: "projects", defaultMessage: "Projects" })}
+            {f({ id: 'projects', defaultMessage: 'Projects' })}
           </RouteNavItem>
           <RouteNavItem href="/blog">
             <FontAwesomeIcon icon="rss" />

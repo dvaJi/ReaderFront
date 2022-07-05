@@ -105,7 +105,12 @@ export function ReaderControls({ work, language, chapter, showNav }) {
   );
 }
 
-const ChaptersSelects = memo(({ workStub, language, chapter, work }) => {
+const ChaptersSelects = memo(function ChapterSelect({
+  workStub,
+  language,
+  chapter,
+  work
+}) {
   const { f } = useIntl();
   const router = useRouter();
 

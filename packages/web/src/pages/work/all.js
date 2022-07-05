@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import Head from "next/head";
+import Head from 'next/head';
 import { useQuery } from '@apollo/client';
 import { Container } from 'reactstrap';
 import gql from 'graphql-tag';
@@ -83,9 +83,29 @@ function WorksMetatags() {
   const { f } = useIntl();
   return (
     <Head>
-      <title>{f({ id: 'works.title', defaultMessage: 'Projects List :: {title}', values: { title: APP_TITLE } })}</title>
-      <meta property="og:title" content={f({ id: 'works.title', defaultMessage: 'Projects List :: {title}', values: { title: APP_TITLE } })} />
-      <meta name="description" content={f({ id: 'works.desc', defaultMessage: 'Projects List for {title}', values: { title: APP_TITLE } })} />
+      <title>
+        {f({
+          id: 'works.title',
+          defaultMessage: 'Projects List :: {title}',
+          values: { title: APP_TITLE }
+        })}
+      </title>
+      <meta
+        property="og:title"
+        content={f({
+          id: 'works.title',
+          defaultMessage: 'Projects List :: {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
+      <meta
+        name="description"
+        content={f({
+          id: 'works.desc',
+          defaultMessage: 'Projects List for {title}',
+          values: { title: APP_TITLE }
+        })}
+      />
     </Head>
   );
 }

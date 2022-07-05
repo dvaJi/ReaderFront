@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
-import Head from "next/head";
+import { useRouter } from 'next/router';
+import Head from 'next/head';
 import React, { useEffect } from 'react';
 import nextCookie from 'next-cookies';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -10,7 +10,7 @@ import { initGA, logPageView } from 'lib/analytics';
 import setupIcons from 'lib/icons';
 import Main from '../components/main';
 
-import IntlProvider from "@components/IntlProvider";
+import IntlProvider from '@components/IntlProvider';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -28,16 +28,16 @@ function MyApp({
   language,
   languages_filter,
   theme,
-  lngDict,
+  lngDict
 }) {
   const router = useRouter();
   useEffect(() => {
     initGA();
     logPageView();
 
-    router.events.on("routeChangeComplete", logPageView);
+    router.events.on('routeChangeComplete', logPageView);
     return () => {
-      router.events.off("routeChangeComplete", logPageView);
+      router.events.off('routeChangeComplete', logPageView);
     };
   }, [router.events]);
 
@@ -78,7 +78,7 @@ function MyApp({
       title: 'Sitemap',
       href: `${process.env.REACT_APP_READER_PATH}/sitemap.xml`
     }
-  ]
+  ];
 
   initGlobalState({ language, theme, languages_filter });
 
@@ -90,8 +90,18 @@ function MyApp({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="generator" content={`ReaderFront v${APP_VERSION}`} />
         <meta property="og:title" content={process.env.REACT_APP_APP_TITLE} />
-        {preconnect.map(pre => <link key={pre.href} rel={pre.rel} href={pre.href} />)}
-        {feeds.map(feed => <link key={feed.href} rel={feed.rel} type={feed.type} title={feed.title} href={feed.href} />)}
+        {preconnect.map(pre => (
+          <link key={pre.href} rel={pre.rel} href={pre.href} />
+        ))}
+        {feeds.map(feed => (
+          <link
+            key={feed.href}
+            rel={feed.rel}
+            type={feed.type}
+            title={feed.title}
+            href={feed.href}
+          />
+        ))}
       </Head>
       <IntlProvider messages={lngDict} locale={locale}>
         <Main theme={theme}>
@@ -102,7 +112,7 @@ function MyApp({
   );
 }
 
-MyApp.getInitialProps = async (ctx) => {
+MyApp.getInitialProps = async ctx => {
   let pageProps = {};
 
   const {
@@ -133,6 +143,6 @@ MyApp.getInitialProps = async (ctx) => {
     acpUploadView,
     chaptersSeen
   };
-}
+};
 
 export default MyApp;

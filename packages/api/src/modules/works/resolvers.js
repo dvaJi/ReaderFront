@@ -41,37 +41,37 @@ export async function getAll(
   const includeChapters = includesField(fieldNodes, ['chapters']);
   const chapterJoin = includeChapters
     ? [
-      {
-        model: models.Chapter,
-        ...whereChapter(showHidden, languages),
-        as: 'chapters',
-        order: [
-          ['chapter', 'DESC'],
-          ['subchapter', 'DESC']
-        ],
-        include: [{ model: models.Page, as: 'pages' }]
-      }
-    ]
+        {
+          model: models.Chapter,
+          ...whereChapter(showHidden, languages),
+          as: 'chapters',
+          order: [
+            ['chapter', 'DESC'],
+            ['subchapter', 'DESC']
+          ],
+          include: [{ model: models.Page, as: 'pages' }]
+        }
+      ]
     : [];
 
   const includePerson = includesField(fieldNodes, ['people_works']);
   const personJoin = includePerson
     ? [
-      {
-        model: models.PeopleWorks,
-        as: 'people_works',
-        include: [{ model: models.People }]
-      }
-    ]
+        {
+          model: models.PeopleWorks,
+          as: 'people_works',
+          include: [{ model: models.People }]
+        }
+      ]
     : [];
 
   const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
   const genresJoin = includeGenres
     ? [
-      {
-        model: models.WorksGenres
-      }
-    ]
+        {
+          model: models.WorksGenres
+        }
+      ]
     : [];
 
   const works = await models.Works.findAll({
@@ -110,32 +110,32 @@ export async function getByStub(
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
       ? await models.Chapter.findAll({
-        where: {
-          workId: work.id,
-          releaseDate: { [Op.lt]: new Date() }
-        },
-        order: [
-          ['chapter', 'DESC'],
-          ['subchapter', 'DESC']
-        ]
-      }).map(el => el.get({ plain: true }))
+          where: {
+            workId: work.id,
+            releaseDate: { [Op.lt]: new Date() }
+          },
+          order: [
+            ['chapter', 'DESC'],
+            ['subchapter', 'DESC']
+          ]
+        }).map(el => el.get({ plain: true }))
       : [];
 
     const includePeople = includesField(fieldNodes, ['people_works']);
     const people_works = includePeople
       ? await models.PeopleWorks.findAll({
-        where: { workId: work.id },
-        include: [{ model: models.People }],
-        order: [['rol', 'ASC']]
-      })
+          where: { workId: work.id },
+          include: [{ model: models.People }],
+          order: [['rol', 'ASC']]
+        })
       : [];
 
     const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
     const works_genres = includeGenres
       ? await models.WorksGenres.findAll({
-        where: { workId: work.id },
-        order: [['genreId', 'ASC']]
-      }).map(el => el.get({ plain: true }))
+          where: { workId: work.id },
+          order: [['genreId', 'ASC']]
+        }).map(el => el.get({ plain: true }))
       : [];
 
     return normalizeWork({
@@ -160,29 +160,29 @@ export async function getById(_, { workId }, __, { fieldNodes = [] }) {
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
       ? await models.Chapter.findAll({
-        where: workId,
-        order: [
-          ['chapter', 'DESC'],
-          ['subchapter', 'DESC']
-        ]
-      }).map(el => el.get({ plain: true }))
+          where: workId,
+          order: [
+            ['chapter', 'DESC'],
+            ['subchapter', 'DESC']
+          ]
+        }).map(el => el.get({ plain: true }))
       : [];
 
     const includePeople = includesField(fieldNodes, ['people_works', 'staff']);
     const people_works = includePeople
       ? await models.PeopleWorks.findAll({
-        where: { workId: work.id },
-        include: [{ model: models.People }],
-        order: [['rol', 'ASC']]
-      })
+          where: { workId: work.id },
+          include: [{ model: models.People }],
+          order: [['rol', 'ASC']]
+        })
       : [];
 
     const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
     const works_genres = includeGenres
       ? await models.WorksGenres.findAll({
-        where: { workId: work.id },
-        order: [['genreId', 'ASC']]
-      }).map(el => el.get({ plain: true }))
+          where: { workId: work.id },
+          order: [['genreId', 'ASC']]
+        }).map(el => el.get({ plain: true }))
       : [];
 
     return normalizeWork({
@@ -204,36 +204,36 @@ export async function getRandom(
   const includeChapters = includesField(fieldNodes, ['chapters']);
   const chapterJoin = includeChapters
     ? [
-      {
-        model: models.Chapter,
-        as: 'chapters',
-        order: [
-          ['chapter', 'DESC'],
-          ['subchapter', 'DESC']
-        ],
-        include: [{ model: models.Page, as: 'pages' }]
-      }
-    ]
+        {
+          model: models.Chapter,
+          as: 'chapters',
+          order: [
+            ['chapter', 'DESC'],
+            ['subchapter', 'DESC']
+          ],
+          include: [{ model: models.Page, as: 'pages' }]
+        }
+      ]
     : [];
 
   const includePerson = includesField(fieldNodes, ['people_works']);
   const personJoin = includePerson
     ? [
-      {
-        model: models.PeopleWorks,
-        as: 'people_works',
-        include: [{ model: models.People }]
-      }
-    ]
+        {
+          model: models.PeopleWorks,
+          as: 'people_works',
+          include: [{ model: models.People }]
+        }
+      ]
     : [];
 
   const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
   const genresJoin = includeGenres
     ? [
-      {
-        model: models.WorksGenres
-      }
-    ]
+        {
+          model: models.WorksGenres
+        }
+      ]
     : [];
 
   const work = await models.Works.findOne({
@@ -374,7 +374,6 @@ export async function update(
 
       // Delete old cover
       if (oldWorkDetail.thumbnail) {
-
         const oldCoverPath = path.join(
           PUBLIC_PATH,
           WORKS_PATH,
@@ -386,7 +385,11 @@ export async function update(
           await deleteImage(oldCoverPath);
           if (useS3) {
             await deleteFile(
-              path.join(WORKS_PATH, oldWorkDetail.uniqid, oldWorkDetail.thumbnail)
+              path.join(
+                WORKS_PATH,
+                oldWorkDetail.uniqid,
+                oldWorkDetail.thumbnail
+              )
             );
           }
         } catch (err) {

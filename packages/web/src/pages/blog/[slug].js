@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import Head from "next/head";
+import Head from 'next/head';
 import gql from 'graphql-tag';
 
 import PostView from '@components/Blog/PostView';

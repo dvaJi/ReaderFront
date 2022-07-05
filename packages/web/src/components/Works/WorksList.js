@@ -25,9 +25,7 @@ function WorkList({ works, filterText }) {
 
   return (
     <div id="works-list">
-      <h2>
-        {f({ id: 'on_going', value: 'On going' })}
-      </h2>
+      <h2>{f({ id: 'on_going', value: 'On going' })}</h2>
       <div className="row mb-4">
         {filtered.on_going.map(work => (
           <WorkItem
@@ -37,9 +35,7 @@ function WorkList({ works, filterText }) {
           />
         ))}
       </div>
-      <h2>
-        {f({ id: 'completed', value: 'Completed' })}
-      </h2>
+      <h2>{f({ id: 'completed', value: 'Completed' })}</h2>
       <div className="row mb-4">
         {filtered.completed.map(work => (
           <WorkItem
@@ -49,9 +45,7 @@ function WorkList({ works, filterText }) {
           />
         ))}
       </div>
-      <h2>
-        {f({ id: 'dropped', value: 'Dropped' })}
-      </h2>
+      <h2>{f({ id: 'dropped', value: 'Dropped' })}</h2>
       <div className="row mb-4">
         {filtered.dropped.map(work => (
           <WorkItem

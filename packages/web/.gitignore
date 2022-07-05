@@ -9,7 +9,8 @@
 # production
 /build
 
-/.next
+.next
+.swc
 
 # misc
 .DS_Store

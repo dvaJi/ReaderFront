@@ -1,4 +1,0 @@
-module.exports = {
-  presets: ['next/babel'],
-  plugins: [['graphql-tag'], ['styled-components', { ssr: true }]]
-};

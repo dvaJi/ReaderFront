@@ -16,9 +16,7 @@ function RecommendedWorkLoading() {
   const { f } = useIntl();
   return (
     <div className="Recommended mb-4">
-      <h3>
-        {f({ id: 'random', defaultMessage: "Random" })}
-      </h3>
+      <h3>{f({ id: 'random', defaultMessage: 'Random' })}</h3>
       <LoadingCover className="show-loading-animation" />
     </div>
   );

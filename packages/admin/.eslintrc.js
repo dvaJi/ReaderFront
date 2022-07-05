@@ -24,7 +24,7 @@ module.exports = {
       version: 'detect'
     }
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 8,
     sourceType: 'module'

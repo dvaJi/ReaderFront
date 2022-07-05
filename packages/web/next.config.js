@@ -13,15 +13,16 @@ var withTM = require('next-transpile-modules')([
 ]);
 
 var nextConfig = {
-  future: {
-    webpack5: true,
-  },
-  experimental: {
-    esmExternals: true
+  reactStrictMode: true,
+  compiler: {
+    styledComponents: true,
   },
   i18n: {
     locales: ['en', 'es'],
     defaultLocale: 'en',
+  },
+  experimental: {
+    esmExternals: true
   },
   webpack(config, option) {
     config.resolve.alias = Object.assign({}, config.resolve.alias, {

@@ -1,6 +1,12 @@
+const nextJest = require('next/jest');
 const esModules = ['@readerfront/ui', '@readerfront/shared'].join('|');
 
-module.exports = {
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './'
+});
+
+const customJestConfig = {
   setupFiles: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '^utils(.*)$': '<rootDir>/src//utils$1',
@@ -9,6 +15,7 @@ module.exports = {
     '^@pages(.*)$': '<rootDir>/src//pages$1',
     '^@components(.*)$': '<rootDir>/src//components$1'
   },
+  testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
@@ -33,3 +40,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = createJestConfig(customJestConfig);
