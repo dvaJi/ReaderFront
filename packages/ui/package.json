@@ -19,12 +19,12 @@
     "styled-theming": "*"
   },
   "devDependencies": {
-    "@types/enzyme": "^3.10.9",
-    "@types/styled-components": "^5.1.12",
+    "@types/enzyme": "^3.10.12",
+    "@types/styled-components": "^5.1.25",
     "@types/styled-theming": "^2.2.5",
-    "@types/jest": "^27.0.3",
+    "@types/jest": "^27.5.2",
     "jest": "^27.4.2",
-    "ts-jest": "^27.0.7",
+    "ts-jest": "^27.1.5",
     "enzyme": "^3.11.0"
   }
 }
