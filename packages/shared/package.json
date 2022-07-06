@@ -13,7 +13,7 @@
   "author": "dvaJi",
   "license": "MIT",
   "devDependencies": {
-    "@babel/preset-typescript": "^7.15.0",
-    "typescript": "^4.3.5"
+    "@babel/preset-typescript": "^7.18.6",
+    "typescript": "^4.7.4"
   }
 }
