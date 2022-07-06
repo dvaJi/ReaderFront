@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['plugin:prettier/recommended', 'react-app'],
+  extends: ['plugin:prettier/recommended', "plugin:react/recommended"],
   root: true,
   env: {
     browser: true,
