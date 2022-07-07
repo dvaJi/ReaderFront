@@ -80,11 +80,9 @@ export async function getAll(
     limit: first,
     ...where(showHidden, languages),
     include: [...chapterJoin, ...genresJoin, ...personJoin]
-  })
-    .map(el => el.get({ plain: true }))
-    .then(works => works.map(work => normalizeWork(work)));
+  });
 
-  return works;
+  return works.map(work => normalizeWork(work.get({ plain: true })));
 }
 
 // Get works by stub
@@ -109,37 +107,43 @@ export async function getByStub(
   } else {
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
-      ? await models.Chapter.findAll({
-          where: {
-            workId: work.id,
-            releaseDate: { [Op.lt]: new Date() }
-          },
-          order: [
-            ['chapter', 'DESC'],
-            ['subchapter', 'DESC']
-          ]
-        }).map(el => el.get({ plain: true }))
+      ? (
+          await models.Chapter.findAll({
+            where: {
+              workId: work.id,
+              releaseDate: { [Op.lt]: new Date() }
+            },
+            order: [
+              ['chapter', 'DESC'],
+              ['subchapter', 'DESC']
+            ]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     const includePeople = includesField(fieldNodes, ['people_works']);
     const people_works = includePeople
-      ? await models.PeopleWorks.findAll({
-          where: { workId: work.id },
-          include: [{ model: models.People }],
-          order: [['rol', 'ASC']]
-        })
+      ? (
+          await models.PeopleWorks.findAll({
+            where: { workId: work.id },
+            include: [{ model: models.People }],
+            order: [['rol', 'ASC']]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
     const works_genres = includeGenres
-      ? await models.WorksGenres.findAll({
-          where: { workId: work.id },
-          order: [['genreId', 'ASC']]
-        }).map(el => el.get({ plain: true }))
+      ? (
+          await models.WorksGenres.findAll({
+            where: { workId: work.id },
+            order: [['genreId', 'ASC']]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     return normalizeWork({
-      ...work.toJSON(),
+      ...work.get({ plain: true }),
       chapters,
       people_works,
       works_genres
@@ -159,34 +163,40 @@ export async function getById(_, { workId }, __, { fieldNodes = [] }) {
   } else {
     const includeChapters = includesField(fieldNodes, ['chapters']);
     const chapters = includeChapters
-      ? await models.Chapter.findAll({
-          where: workId,
-          order: [
-            ['chapter', 'DESC'],
-            ['subchapter', 'DESC']
-          ]
-        }).map(el => el.get({ plain: true }))
+      ? (
+          await models.Chapter.findAll({
+            where: workId,
+            order: [
+              ['chapter', 'DESC'],
+              ['subchapter', 'DESC']
+            ]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     const includePeople = includesField(fieldNodes, ['people_works', 'staff']);
     const people_works = includePeople
-      ? await models.PeopleWorks.findAll({
-          where: { workId: work.id },
-          include: [{ model: models.People }],
-          order: [['rol', 'ASC']]
-        })
+      ? (
+          await models.PeopleWorks.findAll({
+            where: { workId: work.id },
+            include: [{ model: models.People }],
+            order: [['rol', 'ASC']]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     const includeGenres = includesField(fieldNodes, ['works_genres', 'genres']);
     const works_genres = includeGenres
-      ? await models.WorksGenres.findAll({
-          where: { workId: work.id },
-          order: [['genreId', 'ASC']]
-        }).map(el => el.get({ plain: true }))
+      ? (
+          await models.WorksGenres.findAll({
+            where: { workId: work.id },
+            order: [['genreId', 'ASC']]
+          })
+        ).map(el => el.get({ plain: true }))
       : [];
 
     return normalizeWork({
-      ...work.toJSON(),
+      ...work.get({ plain: true }),
       chapters,
       people_works,
       works_genres

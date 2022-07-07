@@ -1,13 +1,14 @@
 // Imports
 import { graphqlHTTP } from 'express-graphql';
 import depthLimit from 'graphql-depth-limit';
-import { graphqlUploadExpress } from 'graphql-upload';
 
 // App Imports
 import { GRAPHQL_IDE } from '../config/env';
 import serverConfig from '../config/server.json';
 import authentication from './authentication';
 import schema from './schema';
+
+import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
 
 // Setup GraphQL
 export default function (server) {

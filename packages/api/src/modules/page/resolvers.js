@@ -18,6 +18,14 @@ export async function getByChapter(parentValue, { chapterId }) {
   });
 }
 
+export async function getById(parentValue, { id }) {
+  return await models.Page.findOne({
+    where: {
+      id
+    }
+  });
+}
+
 // Create page
 export async function create(_, { chapterId, file, size }, { auth }) {
   if (await hasPermission('create', auth)) {

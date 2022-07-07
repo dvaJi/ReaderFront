@@ -40,9 +40,9 @@ export async function getAll(
     include: [{ model: models.User, as: 'user' }],
     offset: offset,
     limit: first
-  }).map(el => el.get({ plain: true }));
+  });
 
-  return posts.map(post => normalizePost(post));
+  return posts.map(post => normalizePost(post.get({ plain: true })));
 }
 
 // Get post by stub
@@ -55,7 +55,7 @@ export async function getByStub(parentValue, { stub, showHidden }) {
     include: [{ model: models.User, as: 'user' }]
   });
 
-  return normalizePost(post.toJSON());
+  return normalizePost(post.get({ plain: true }));
 }
 
 // Get posts by category

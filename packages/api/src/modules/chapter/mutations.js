@@ -149,9 +149,9 @@ export const chapterThumbUpdate = {
       type: GraphQLInt
     },
 
-    thumbnail: {
-      name: 'thumbnail',
-      type: GraphQLString
+    pageId: {
+      name: 'pageId',
+      type: GraphQLInt
     }
   },
   resolve: updateDefaultThumbnail

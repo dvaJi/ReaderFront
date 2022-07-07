@@ -50,7 +50,7 @@ function PostForm({ work, onCreatePersonModal, onSubmit }) {
         genre => genre.genreId !== genreIdSelected
       );
     } else {
-      work.works_genres.push({ genreId: genreIdSelected });
+      work.works_genres = [...work.works_genres, { genreId: genreIdSelected }];
     }
 
     setLocalWork(work);

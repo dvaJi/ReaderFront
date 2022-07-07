@@ -11,7 +11,10 @@ import { API_URL } from '../../config/env';
 import models from '../../setup/models';
 import { normalizeWork } from '../works/resolvers';
 import { addRegistry, REGISTRY_ACTIONS } from '../registry/resolvers';
-import { remove as removePage } from '../page/resolvers';
+import {
+  remove as removePage,
+  getById as getByPageId
+} from '../page/resolvers';
 import { addHours } from 'date-fns';
 
 // Get all chapters
@@ -37,9 +40,14 @@ export async function getAll(
     ],
     offset: offset,
     limit: first
-  }).map(el => el.get({ plain: true }));
+  });
 
-  return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
+  return chapters.map(chapter =>
+    normalizeChapter(
+      chapter.get({ plain: true }),
+      chapter.get({ plain: true }).work
+    )
+  );
 }
 
 // Get chapter by work
@@ -75,9 +83,14 @@ export async function getByWork(
       ...pages.join
     ],
     order
-  }).map(el => el.get({ plain: true }));
+  });
 
-  return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
+  return chapters.map(chapter =>
+    normalizeChapter(
+      chapter.get({ plain: true }),
+      chapter.get({ plain: true }).work
+    )
+  );
 }
 
 // Get chapter by work id
@@ -89,9 +102,14 @@ export async function getByWorkId(_, { workId }) {
   const chapters = await models.Chapter.findAll({
     where: { workId },
     order
-  }).map(el => el.get({ plain: true }));
+  });
 
-  return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
+  return chapters.map(chapter =>
+    normalizeChapter(
+      chapter.get({ plain: true }),
+      chapter.get({ plain: true }).work
+    )
+  );
 }
 
 // Get chapter by id
@@ -108,7 +126,10 @@ export async function getById(parentValue, { id, showHidden }) {
     order: [[models.Page, 'filename']]
   });
 
-  return normalizeChapter(chapter.toJSON(), chapter.toJSON().work);
+  return normalizeChapter(
+    chapter.get({ plain: true }),
+    chapter.get({ plain: true }).work
+  );
 }
 
 // Get chapter by work stub, chapter + subchapter + volume + language
@@ -130,7 +151,10 @@ export async function getWithPagesByWorkStubAndChapter(
     order: [[models.Page, 'filename']]
   });
 
-  return normalizeChapter(chapterObj.toJSON(), chapterObj.toJSON().work);
+  return normalizeChapter(
+    chapterObj.get({ plain: true }),
+    chapterObj.get({ plain: true }).work
+  );
 }
 
 // Get all chapters for RSS
@@ -145,9 +169,14 @@ export async function getAllRSS({
     include: [{ model: models.Works, as: 'work' }],
     offset: 0,
     limit: 25
-  }).map(el => el.get({ plain: true }));
+  });
 
-  return chapters.map(chapter => normalizeChapter(chapter, chapter.work));
+  return chapters.map(chapter =>
+    normalizeChapter(
+      chapter.get({ plain: true }),
+      chapter.get({ plain: true }).work
+    )
+  );
 }
 
 // Create chapter
@@ -260,10 +289,15 @@ export async function update(
 // Update chapter
 export async function updateDefaultThumbnail(
   parentValue,
-  { id, thumbnail },
+  { id, pageId },
   { auth }
 ) {
   if (await hasPermission('update', auth)) {
+    let thumbnail = null;
+    if (pageId) {
+      const page = await getByPageId(parentValue, { id: pageId });
+      thumbnail = page.filename;
+    }
     return await models.Chapter.update(
       {
         thumbnail

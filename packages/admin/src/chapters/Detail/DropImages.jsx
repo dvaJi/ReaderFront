@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useRef } from 'react';
 import { useMutation } from '@apollo/client';
 import { useIntl } from 'react-intl';
 import Dropzone from 'react-dropzone';
@@ -51,6 +51,9 @@ function DropImages({ chapter, toggleModal }) {
   const [removePage] = useMutation(REMOVE_PAGE);
   const [updateDefaultPage] = useMutation(UPDATE_DEFAULT_PAGE);
   const [updateChapterStatus] = useMutation(UPDATE_CHAPTER_STATUS);
+  const pagesRef = useRef(
+    chapter.pages.map(pag => ({ ...pag, uploaded: true }))
+  );
 
   const handleOnDrop = files => {
     const filenames = pages.map(p => p.filename);
@@ -69,6 +72,7 @@ function DropImages({ chapter, toggleModal }) {
     );
 
     setPages(newPages);
+    pagesRef.current = newPages;
   };
 
   const handleUploadFile = async (file, pagesUploaded = [], isLast = true) => {
@@ -79,11 +83,12 @@ function DropImages({ chapter, toggleModal }) {
         uploaded: p.uploaded || pagesUploaded.includes(p.filename)
       }));
     setIsUploading(true);
-    setPages(
-      [...actualPages, { ...file, isUploading: true, hasError: false }].sort(
-        (p1, p2) => p1.filename.localeCompare(p2.filename)
-      )
-    );
+    const newPages = [
+      ...actualPages,
+      { ...file, isUploading: true, hasError: false }
+    ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
+    setPages(newPages);
+    pagesRef.current = newPages;
 
     try {
       const newPage = {
@@ -113,12 +118,10 @@ function DropImages({ chapter, toggleModal }) {
           const newPages = [
             ...pages
               .filter(p => p.filename !== file.filename)
-              .map(p => {
-                return {
-                  ...p,
-                  uploaded: p.uploaded || pagesUploaded.includes(p.filename)
-                };
-              }),
+              .map(p => ({
+                ...p,
+                uploaded: p.uploaded || pagesUploaded.includes(p.filename)
+              })),
             {
               ...file,
               ...createData.pageCreate,
@@ -129,8 +132,8 @@ function DropImages({ chapter, toggleModal }) {
               file: undefined
             }
           ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
-
           setPages(newPages);
+          pagesRef.current = newPages;
           setIsUploading(false);
           return file;
         }
@@ -146,6 +149,7 @@ function DropImages({ chapter, toggleModal }) {
         ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
         setPages(newPages);
+        pagesRef.current = newPages;
         setError(
           f({
             id: 'unknown_error',
@@ -167,6 +171,7 @@ function DropImages({ chapter, toggleModal }) {
       ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
       setPages(newPages);
+      pagesRef.current = newPages;
       setError(
         f({
           id: 'unknown_error',
@@ -198,7 +203,7 @@ function DropImages({ chapter, toggleModal }) {
         pages.length > 0
       ) {
         const index = pages.length < 3 ? 0 : 2;
-        await handleSetDefaultPage(pages[index]);
+        await handleSetDefaultPage(pagesRef.current[index]);
       }
 
       // update chapter status
@@ -222,7 +227,7 @@ function DropImages({ chapter, toggleModal }) {
         await removePage({ variables: { id } });
         if (page.filename === chapter.thumbnail) {
           await updateDefaultPage({
-            variables: { id: chapter.id, thumbnail: null }
+            variables: { id: chapter.id, pageId: null }
           });
         }
       } catch (err) {
@@ -234,18 +239,19 @@ function DropImages({ chapter, toggleModal }) {
       ...pages.filter(p => p.filename !== page.filename)
     ].sort((p1, p2) => p1.filename.localeCompare(p2.filename));
 
-    await setPages(newPagesList);
+    setPages(newPagesList);
+    pagesRef.current = newPagesList;
   };
 
   const handleRemoveAll = async () => {
-    await asyncForeach(pages, async page => {
+    await asyncForeach(pagesRef.current, async page => {
       await handleRemoveFile(page);
     });
 
     if (chapter.thumbnail !== null || chapter.thumbnail !== '') {
       try {
         await updateDefaultPage({
-          variables: { id: chapter.id, thumbnail: null }
+          variables: { id: chapter.id, pageId: null }
         });
       } catch (err) {
         alert(err);
@@ -253,12 +259,13 @@ function DropImages({ chapter, toggleModal }) {
     }
 
     setPages([]);
+    pagesRef.current = [];
   };
 
   const handleSetDefaultPage = async file => {
     return new Promise((resolve, reject) => {
       updateDefaultPage({
-        variables: { id: chapter.id, thumbnail: file.filename }
+        variables: { id: chapter.id, pageId: file.id }
       })
         .then(() => {
           setDefaultPage(file.filename);

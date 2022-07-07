@@ -15,9 +15,12 @@ export async function getRegistries(_, { first = 50, offset = 0 }, { auth }) {
       limit: first,
       include: [{ model: models.User, as: 'user', attributes: ['name'] }],
       order: [['id', 'DESC']]
-    }).map(el => el.get({ plain: true }));
+    });
 
-    return registries.map(r => ({ ...r, username: r.user.name }));
+    return registries.map(r => ({
+      ...r.get({ plain: true }),
+      username: r.get({ plain: true }).user.name
+    }));
   } else {
     throw new Error('Operation denied.');
   }

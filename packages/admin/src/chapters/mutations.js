@@ -48,8 +48,8 @@ export const REMOVE_PAGE = gql`
 `;
 
 export const UPDATE_DEFAULT_PAGE = gql`
-  mutation ChapterThumbUpdate($id: Int, $thumbnail: String) {
-    chapterThumbUpdate(id: $id, thumbnail: $thumbnail) {
+  mutation ChapterThumbUpdate($id: Int, $pageId: Int) {
+    chapterThumbUpdate(id: $id, pageId: $pageId) {
       id
     }
   }

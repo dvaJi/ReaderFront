@@ -1,6 +1,6 @@
 // Imports
 import { GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
-import { GraphQLUpload } from 'graphql-upload';
+import GraphQLUpload from "graphql-upload/GraphQLUpload.js";
 import { GraphQLJSON } from 'graphql-type-json';
 
 // App Imports
