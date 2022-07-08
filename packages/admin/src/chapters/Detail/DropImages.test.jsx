@@ -46,7 +46,7 @@ it('should allow to set a page as default in with thumbnail view', async () => {
     {
       request: {
         query: UPDATE_DEFAULT_PAGE,
-        variables: { id: 1, thumbnail: 'page_01.jpg' }
+        variables: { id: 1, pageId: 1 }
       },
       result: {
         data: {
@@ -108,7 +108,7 @@ it('should delete all pages', async () => {
     {
       request: {
         query: UPDATE_DEFAULT_PAGE,
-        variables: { id: 1, thumbnail: null }
+        variables: { id: 1, pageId: null }
       },
       result: {
         data: {

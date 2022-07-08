@@ -8,7 +8,7 @@ import serverConfig from '../config/server.json';
 import authentication from './authentication';
 import schema from './schema';
 
-import graphqlUploadExpress from "graphql-upload/graphqlUploadExpress.js";
+import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 
 // Setup GraphQL
 export default function (server) {

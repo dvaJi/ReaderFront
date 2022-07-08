@@ -254,7 +254,9 @@ function DropImages({ chapter, toggleModal }) {
           variables: { id: chapter.id, pageId: null }
         });
       } catch (err) {
-        alert(err);
+        if (window !== undefined) {
+          alert(err);
+        }
       }
     }
 
@@ -292,7 +294,7 @@ function DropImages({ chapter, toggleModal }) {
       <Card>
         <Dropzone
           id="dropzone-pages"
-          accept="image/jpeg, image/png, image/gif"
+          accept={{ 'image/*': ['.jpeg', '.jpg', '.png'] }}
           onDrop={handleOnDrop}
         >
           {({ getRootProps, getInputProps }) => (

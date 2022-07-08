@@ -1,6 +1,6 @@
 // Imports
 import { GraphQLString, GraphQLInt, GraphQLBoolean } from 'graphql';
-import GraphQLUpload from "graphql-upload/GraphQLUpload.js";
+import GraphQLUpload from 'graphql-upload/GraphQLUpload.js';
 
 // App Imports
 import { PageType } from './types';
