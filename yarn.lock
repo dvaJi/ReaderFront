@@ -7113,10 +7113,10 @@ mock-local-storage@^1.1.23:
     core-js "^3.19.0"
     global "^4.3.2"
 
-moment-timezone@^0.5.34, moment-timezone@^0.5.4:
-  version "0.5.34"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.34.tgz#a75938f7476b88f155d3504a9343f7519d9a405c"
-  integrity sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==
+moment-timezone@^0.5.35, moment-timezone@^0.5.4:
+  version "0.5.40"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.40.tgz#c148f5149fd91dd3e29bf481abc8830ecba16b89"
+  integrity sha512-tWfmNkRYmBkPJz5mr9GVDn9vRlVZOTe6yqY92rFxiOdWXbjaR0+9LwQnZGGuNR63X456NqmEkbskte8tWL5ePg==
   dependencies:
     moment ">= 2.9.0"
 
@@ -8558,10 +8558,10 @@ retry-as-promised@^2.0.0:
     bluebird "^3.4.6"
     debug "^2.6.9"
 
-retry-as-promised@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/retry-as-promised/-/retry-as-promised-5.0.0.tgz#f4ecc25133603a2d2a7aff4a128691d7bc506d54"
-  integrity sha512-6S+5LvtTl2ggBumk04hBo/4Uf6fRJUwIgunGZ7CYEBCeufGFW1Pu6ucUf/UskHeWOIsUcLOGLFXPig5tR5V1nA==
+retry-as-promised@^7.0.3:
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/retry-as-promised/-/retry-as-promised-7.0.4.tgz#9df73adaeea08cb2948b9d34990549dc13d800a2"
+  integrity sha512-XgmCoxKWkDofwH8WddD0w85ZfqYz+ZHlr5yo+3YUCfycWawU56T5ckWXsScsj5B8tqUcIG67DxXByo3VUgiAdA==
 
 reusify@^1.0.4:
   version "1.0.4"
@@ -8839,10 +8839,10 @@ sequelize@^3.24.1:
     validator "^5.2.0"
     wkx "0.2.0"
 
-sequelize@^6.21.2:
-  version "6.21.2"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.21.2.tgz#28d3c9c376471670c651e0345ea42e0017b6f112"
-  integrity sha512-K0c6j/Y6yfucBL9XYHMVWqYGFShPsj6ZzMrQcOAjqzyE+a1XMBOoTXXjRvJS+fz6cKeh2D3ZqhYDRwN8nfvOMQ==
+sequelize@^6.28.2:
+  version "6.28.2"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.28.2.tgz#adf42c4f4532a1c41bccdd98e8344798f678d273"
+  integrity sha512-MpK2h7xXHhBcwyTDf1sM1mrDdKFTGYbmrAC+4bJAf6f9Tp2IuiNwbNPj6Q5rMGVsKnO0CiJm8PEKtyNLOY8rNg==
   dependencies:
     "@types/debug" "^4.1.7"
     "@types/validator" "^13.7.1"
@@ -8851,9 +8851,9 @@ sequelize@^6.21.2:
     inflection "^1.13.2"
     lodash "^4.17.21"
     moment "^2.29.1"
-    moment-timezone "^0.5.34"
+    moment-timezone "^0.5.35"
     pg-connection-string "^2.5.0"
-    retry-as-promised "^5.0.0"
+    retry-as-promised "^7.0.3"
     semver "^7.3.5"
     sequelize-pool "^7.1.0"
     toposort-class "^1.0.1"
